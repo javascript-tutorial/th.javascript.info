@@ -1,17 +1,16 @@
 # Hello, world!
 
-The tutorial that you're reading is about core JavaScript, which is platform-independent. Further on, you will learn Node.JS and other platforms that use it.
+สิ่งที่จะพูดต่อไปนี้เกี่ยวกับจะจาวาสคริปเพียวๆ ฉะนั้นหากต้องการความรู้เกี่ยวกับเนื้อหาเพิ่มเติมอย่าง NodeJS มีทางเลือกอื่นๆเพิ่มเติมมากมาย 
 
-But, we need a working environment to run our scripts, and, just because this book is online, the browser is a good choice. We'll keep the amount of browser-specific commands (like `alert`) to a minimum so that you don't spend time on them if you plan to concentrate on another environment like Node.JS. On the other hand, browser details are explained in detail in the [next part](/ui) of the tutorial.
+เราจะต้องมีสภาพแวดล้อมที่เอาไว้ให้สคริปเราทำงาน และ เพราะว่าหนังสือนี้ออนไลน์ เว็บเบราเซอร์เลยเป็นทางเลือกที่ดี เราได้เตรียมคำสั่งสำหรับเบราเซอร์ (อย่าง `alert`) ดังนั้น ผู้อ่านจะไม่ต้องใช้เวลาไปกับการติดตั้งสภาพแสดล้อมอื่นๆ เพื่อให้จาวาสคริปทำงานอย่าง NodeJS เนื้อหาในส่วนของเบราเซอร์จะอธิบายในรายละเอียดใบ[บทถัดไป](/ui)
 
-So first, let's see how to attach a script to a webpage. For server-side environments, you can just execute it with a command like `"node my.js"` for Node.JS.
+ก่อนอื่น เรามาดูวิธีติดสคริปให้กับหน้าเว็บกัน สำหรับสภาพแวดล้อมแบบเซิฟเวอร์หรือ NodeJS เราเพียงพิมพ์คำสั่ง `"node my.js"` เพื่อให้สคริปเราทำงาน
 
+## แท็ก "สคริป"
 
-## The "script" tag
+โปแกรมที่เขียนโดยจาวาสคริปสามารถแทรกลงใน HTML ด้วยแท็ก `<script>` เช่นนี้
 
-JavaScript programs can be inserted in any part of an HTML document with the help of the `<script>` tag.
-
-For instance:
+ตัวอย่าง:
 
 ```html run height=100
 <!DOCTYPE HTML>
@@ -35,56 +34,56 @@ For instance:
 ```
 
 ```online
-You can run the example by clicking on the "Play" button in its right-top corner.
+เราสามารถสั่งโปรแกรมทำงานได้โดยการคลิกปุ่ม "Play" อยู่มุมขวาบน
 ```
 
-The `<script>` tag contains JavaScript code which is automatically executed when the browser meets the tag.
+แท็ก `<script>` จะอุดมไปด้วยโค้ดภาษาจาวาสคริป ซึ่งจะทำงานเองโดยอัตโนมัติเมื่อเบราเซอร์พบ
 
 
-## The modern markup
+## สถานการณ์ในปัจจุบัน
 
-The `<script>` tag has a few attributes that are rarely used nowadays, but we can find them in old code:
+แท็ก `<script>` ในปัจจุบันไม่ค่อยเป็นที่นิยมแล้วในทุกวันนี้ แต่เราจะเห็นได้จากโค้ดเก่าๆ:
+มีอะทริบบิวทฺ `type` เป็น: <code>&lt;script <u>type</u>=...&gt;</code>
 
- The `type` attribute: <code>&lt;script <u>type</u>=...&gt;</code>
+  : มาตรฐาน HTML4 เดิมแท็กสคริปจะต้องมี type ระบุเอาไว้ด้วย โดยมักจะเป็น `type="text/javascript"` แต่ตอนนี้ไม่ต้องทำแบบนี้แล้ว มาตรฐานปัจจุบันได้ไปเปลี่ยนความหมายของอะทริบบิวทฺตัวนี้ไปทั้งหมด มาตรฐานตอนนี้สามารถใช้เป็นจาวาสคริปโมดูล แต่หัวข้อนี้ยากเกินไป ซึ่งเราจะเอาไว้พูดถึงทีหลัง
 
- : The old standard HTML4 required a script to have a type. Usually it was `type="text/javascript"`. It's not required anymore. Also, the modern standard totally changed the meaning of this attribute. Now it can be used for Javascript modules. But that's an advanced topic; we'll talk about modules later in another part of the tutorial. 
-
- The `language` attribute: <code>&lt;script <u>language</u>=...&gt;</code>
-  : This attribute was meant to show the language of the script. This attribute no longer makes sense, because JavaScript is the default language. No need to use it.
-
-Comments before and after scripts.
-: In really ancient books and guides, one may find comments inside `<script>`, like this:
+อะทริบบิวทฺ `language` : <code>&lt;script <u>language</u>=...&gt;</code>
+  : อะทริบบิวทฺนี้มีไว้แสดงภาษาของสคริป อะทริบบิวทฺตัวนี้ไม่มีเหตุผลต้องใช้แล้ว เพราะว่าจาวาสคริปเป็นภาษาทั่วไปที่ใช้กับเว็บอยู่แล้ว
+ The `language` attribute
+ 
+คอมเม้นท์ก่อนและหลังแท็กสคริป
+  : จะต้องเป็นคู่มือหรือหนังสือที่คร่ำครึมาก ที่จะเจอคอมเม้นท์อยู่ในแท็กสคริปอย่างนี้
 
     ```html no-beautify
     <script type="text/javascript"><!--
         ...
     //--></script>
     ```
+    
+    ทริคนี้ไม่เป็นที่นิยมแล้วในจาวาสคริปปัจจุบัน คอมเม้นท์เหล่านี้ถูกใช้เพื่อซ่อนโค้ดจาวาสคริปจากเบราเซอร์เก่าๆ ที่ไม่รู้จักแท็ก <script> ฉะนั้นเบราเซอร์สมัยปัจจุบันจะไม่เจอปัญหานี้แล้ว หากเราเจอโค้ดนี้ที่ใดก็แสดงว่าโค้ดนั้นถูกเขียนเอาไว้นานมาก
 
-    This trick isn't used in modern JavaScript. These comments were used to hide the JavaScript code from old browsers that didn't know about a `<script>` tag. Since browsers released in the last 15 years don't have this issue, this kind of comment can help you identify really old code.
+## สคริปภายนอก
 
+ถ้าเรามีโค้ดจาวาสคิรปมากมาย เราสามารถวางไว้ในไฟล์ที่แยกกันได้
 
-## External scripts
-
-If we have a lot of JavaScript code, we can put it into a separate file.
-
-The script file is attached to HTML with the `src` attribute:
+ไฟล์สคริปจะถูกระบุอยู่ในอะทริบบิวทฺ `src` 
 
 ```html
 <script src="/path/to/script.js"></script>
 ```
 
+ที่ `/path/to/script.js` เป็น absolute path ของไฟล์สคริป 
 Here `/path/to/script.js` is an absolute path to the file with the script (from the site root).
 
-It is also possible to provide a path relative to the current page. For instance, `src="script.js"` would mean a file `"script.js"` in the current folder.
+แต่เราสามารถใช้ relative path ได้หากทั้งไฟล์สคริปและไฟล์ HTML อยู่ในแฟ้มเดียวกัน ตัวอย่าง `src="script.js"` 
 
-We can give a full URL as well. For instance:
+เรายังสามารถใช้ URL ได้ด้วย ตัวอย่าง: 
 
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js"></script>
 ```
 
-To attach several scripts, use multiple tags:
+ติดหลายสคริปก็ได้ โดยใช้หลายแท็กสคริป
 
 ```html
 <script src="/js/script1.js"></script>
