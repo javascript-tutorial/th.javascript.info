@@ -1,39 +1,27 @@
-# The JavaScript Tutorial
+# จาวาสคริปฉบับภาคไทย
 
-This repository hosts the content of the Modern JavaScript Tutorial, published at [https://javascript.info](https://javascript.info).
+เรโปฯนี้ เป็นเวอร์ชั่นแปลไทยโดยมีเนื้อหาจาก Modern JavaScript Tutorial, เผยแพร่ที่เว็บนี้ [https://javascript.info](https://javascript.info). โครงการภาษาไทยนี้เป็นโครงการอาสาสมัครที่เพิ่งเริ่มต้นขึ้น หากต้องการติดตามความคืบหน้าเพิ่มเติม กรุณาติดตามผ่านเรโปฯนี้ หรือหากมีเรื่องอะไรสอบถามเพิ่มเติม หรืออาสาจะช่วย กรุณาสร้าง issue เพื่อคุยกับผมโดยตรงครับ ขอบคุณทุกท่านมากครับ
 
-## Translations
+## ภาษาอื่นๆ
 
-(In alphabetical order):
+(เรียงตามตัวอักษร):
 
-| Language | Github | Translation leads | Translated (%) | Published |
+| ฉบับ | กิตฮับ | คนแปล | แปลไปแล้วกี่เปอร์เซ็นต์ | เผยแพร่ที่ |
 |----------|--------|-------------------|-----------------|-----------|
-| Chinese | https://github.com/xitu/javascript-tutorial-zh | @leviding | ![](http://translate-hook.javascript.info/stats/zh.svg?1) | https://zh.javascript.info |
-| Japanese | https://github.com/KenjiI/javascript-tutorial-ja | @KenjiI | ![](http://translate-hook.javascript.info/stats/ja.svg?1) | https://ja.javascript.info |
-| Romanian | https://github.com/lighthousand/javascript-tutorial-ro | @lighthousand | started | - |
-| Russian | https://github.com/iliakan/javascript-tutorial-ru | @iliakan | * | https://learn.javascript.ru |
-| Turkish | https://github.com/sahinyanlik/javascript-tutorial-tr | @sahinyanlik | ![](http://translate-hook.javascript.info/stats/tr.svg?1) | - |
+| ภาษาจีน | https://github.com/xitu/javascript-tutorial-zh | @leviding | ![](http://translate-hook.javascript.info/stats/zh.svg?1) | https://zh.javascript.info |
+| ภาษาญี่ปุ่น | https://github.com/KenjiI/javascript-tutorial-ja | @KenjiI | ![](http://translate-hook.javascript.info/stats/ja.svg?1) | https://ja.javascript.info |
+| ภาษาตุรกี | https://github.com/sahinyanlik/javascript-tutorial-tr | @sahinyanlik | ![](http://translate-hook.javascript.info/stats/tr.svg?1) | - |
+| ภาษาโรมาเนีย | https://github.com/lighthousand/javascript-tutorial-ro | @lighthousand | เพิ่งเริ่ม | - |
+| ภาษารัสเซีย | https://github.com/iliakan/javascript-tutorial-ru | @iliakan | ทั้งหมด | https://learn.javascript.ru |
 
+## โครงสร้าง
 
+ทุกๆบท, ทุกๆบท และ ทุกๆแบบฝึกหัด ต่างมีแฟ้มเก็บเป็นของตัวเอง
 
-`*` – the previous version is published in Russian, need to backport/translate the new one from English.
+สมมุติแฟ้มที่มีชื่อว่า `N-url` N คือตัวเลขมีไว้เพื่อให้จัดเรียงได้สะดวก และ `url` จะเป็นชื่อเนื้อหานั้นๆ ซึ่งจะเป็นภาษาอังกฤษ
 
-If you'd like to translate it into your language, please clone the repository, change its name to `javascript-tutorial-...` (by the language) and [create an issue](https://github.com/iliakan/javascript-tutoria-en/issues/new) for me to add you to the list.
+เนื้อหาในแฟ้มจะเป็นไปตามนี้
 
-You can edit the text in any editor (markdown-like syntax). The server to run the tutorial locally and see how it looks is at <https://github.com/iliakan/javascript-tutorial-server>.  
-
-
-
-## Structure
-
-Every chapter, article or a task has its folder.
-
-The folder is named like `N-url`, where `N` is a number for the sorting purposes and `url` is the URL part with title of the material.
-
-The type of the material is defined by the file inside the folder:
-
-  - `index.md` stands for a chapter
-  - `article.md` stands for an article
-  - `task.md` stands for a task (solution must be provided in `solution.md` file aswell)
-
-Each of these files starts from the `# Main header`.
+  - `index.md` สำหรับบทต่างๆ
+  - `article.md` สำหรับบทความต่างๆ
+  - `task.md` สำหรับแบบฝึกหัดต่างๆ รวมถึงเฉลยด้วย
