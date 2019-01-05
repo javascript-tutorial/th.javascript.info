@@ -2,6 +2,8 @@
 
 เรโปฯนี้ เป็นเวอร์ชั่นแปลไทยโดยมีเนื้อหาจาก Modern JavaScript Tutorial, เผยแพร่ที่เว็บนี้ [https://javascript.info](https://javascript.info). โครงการภาษาไทยนี้เป็นโครงการอาสาสมัคร หากต้องการติดตามความคืบหน้าเพิ่มเติม กรุณาติดตามผ่านเรโปฯนี้ หรือหากมีเรื่องจะสอบถามเพิ่มเติม หรือความอาสาจะช่วยแปล กรุณาสร้าง issue เพื่อคุยกับผมโดยตรงครับ 
 
+This project I translated into Thai to give to the developer community in Thailand to receive a good learning source or reference document. There is original content from Modern JavaScript Tutorial that has published on https://javascript.info. This project is an open source under Attribution-NonCommercial-ShareAlike 4.0 license. If you want to help, Please let me know that I will be appreciated with your kind.
+
 ## ภาษาอื่นๆ
 
 (เรียงตามตัวอักษร):
