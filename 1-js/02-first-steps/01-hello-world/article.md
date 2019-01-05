@@ -92,29 +92,29 @@ Here `/path/to/script.js` is an absolute path to the file with the script (from 
 ```
 
 ```smart
-As a rule, only the simplest scripts are put into HTML. More complex ones reside in separate files.
+จำไว้เป็นกฎ เฉพาะสคริปที่ไม่ซับซ้อนจะใส่ไว้ใน HTML ส่วนที่ไม่ใช่จะอยู่ในไฟล์แยกออกไป
 
-The benefit of a separate file is that the browser will download it and then store it in its [cache](https://en.wikipedia.org/wiki/Web_cache).
+ข้อดึของการแยกไฟล์คือเบราเซอร์จะทำการโหลดไฟล์นั้นมา แล้วเก็บเป็น[แคช](https://en.wikipedia.org/wiki/Web_cache)เอาไว้
 
-After this, other pages that want the same script will take it from the cache instead of downloading it. So the file is actually downloaded only once.
+หลังจากนี้ หากหน้าอื่นๆต้องการสคริปตัวดีเหมือนกัน เบราเซอร์จะไปหยิบมาจากแคลแทนที่จะดาวน์โหลดไฟล์สคริปนั้นใหม่ 
 
-That saves traffic and makes pages faster.
+ช่วยลดเรื่อง traffic และทำให้เว็บไวขึ้นด้วย
 ```
 
-````warn header="If `src` is set, the script content is ignored."
-A single `<script>` tag can't have both the `src` attribute and the code inside.
+**warn** สำหรับแท็ก `<head>` ถ้าอะทริบบิวทฺ `src` ถูกตั้งค่าไว้แล้ว, เนื้อหาที่อยู่ภายในแท็ก `<script>` จะไม่ทำงานเลย"
+แท็ก `<script>` หนึ่งอันจะมีอะทริบบิวทฺ `src` ได้แค่อันเดียว
 
-This won't work:
+**ตัวอย่าง**
 
 ```html
 <script *!*src*/!*="file.js">
-  alert(1); // the content is ignored, because src is set
+  alert(1); // เนื้อหาที่อยู่ภายในแท็ก `<script>` จะไม่ทำงานเลย
 </script>
 ```
 
-We must choose: either it's an external `<script src="…">` or a regular `<script>` with code.
+เราต้องเลือกแท็กสคริปอย่างใดอย่างหนึ่ง: แบบสคริปภายนอก `<script src="…">` หรือแบบปกติ `<script>`.
 
-The example above can be split into two scripts to work:
+ตัวอย่างข้างล่างคือแท็กสคริสองแท็ก ที่มีทั้งแบบใช้สคริปภายนอก และแบบปกติ
 
 ```html
 <script src="file.js"></script>
@@ -124,11 +124,9 @@ The example above can be split into two scripts to work:
 ```
 ````
 
-## Summary
+## สรุป
 
-- We can use a `<script>` tag to add JavaScript code to the page.
-- The `type` and `language` attributes are not required.
-- A script in an external file can be inserted with `<script src="path/to/script.js"></script>`.
+- เราสามารถใช้แท็ก `<script>` เพิ่มโค้ดจาวาสคริปลงหน้าเว็บได้
+- `type` และ `language` อะทริบบิวทฺ ตอนนี้เลิกใช้แล้ว
+- สคริปที่เป็นไฟล์ภายนอก สามารถนำมาใช้งานผ่าน `<script src="path/to/script.js"></script>`
 
-
-There is much more to learn about browser scripts and their interaction with the web-page. But let's keep in mind that this part of the tutorial is devoted to the JavaScript language, so we shouldn't distract ourselves from it. We'll be using a browser as a way to run JavaScript, which is very convenient for online reading, but yet one of many.
