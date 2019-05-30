@@ -1,6 +1,10 @@
 # Hello, world!
 
+<<<<<<< HEAD
 สิ่งที่จะพูดต่อไปนี้เกี่ยวกับจะจาวาสคริปเพียวๆ 
+=======
+This part of the tutorial is about core JavaScript, the language itself. Later on, you'll learn about Node.js and other platforms that use it.
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
 เราจะต้องมี environments ที่เอาไว้ให้สคริปเราทำงาน และ เพราะว่าหนังสือนี้ออนไลน์ เว็บเบราเซอร์เลยเป็นทางเลือกที่ดี เราได้เตรียมคำสั่งสำหรับเบราเซอร์ (อย่าง `alert`) ดังนั้น ผู้อ่านจะไม่ต้องเสียเวลาไปกับการติดตั้ง environments อื่นๆ เพื่อให้จาวาสคริปทำงานอย่าง NodeJS เนื้อหาในส่วนของเบราเซอร์จะอธิบายในรายละเอียดใบ[บทถัดไป](/ui)
 
@@ -42,8 +46,13 @@
 
 ## สถานการณ์ในปัจจุบัน
 
+<<<<<<< HEAD
 แท็ก `<script>` ในปัจจุบันไม่ค่อยเป็นที่นิยมแล้วในทุกวันนี้ แต่เราจะเห็นได้จากโค้ดเก่าๆ:
 มีอะทริบบิวทฺ `type` เป็น: <code>&lt;script <u>type</u>=...&gt;</code>
+=======
+The `type` attribute: <code>&lt;script <u>type</u>=...&gt;</code>
+: The old HTML standard, HTML4, required a script to have a `type`. Usually it was `type="text/javascript"`. It's not required anymore. Also, the modern HTML standard, HTML5, totally changed the meaning of this attribute. Now, it can be used for JavaScript modules. But that's an advanced topic; we'll talk about modules in another part of the tutorial.
+>>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
 
   : มาตรฐาน HTML4 เดิมแท็กสคริปจะต้องมี type ระบุเอาไว้ด้วย โดยมักจะเป็น `type="text/javascript"` แต่ตอนนี้ไม่ต้องทำแบบนี้แล้ว มาตรฐานปัจจุบันได้ไปเปลี่ยนความหมายของอะทริบบิวทฺตัวนี้ไปทั้งหมด มาตรฐานตอนนี้สามารถใช้เป็นจาวาสคริปโมดูล แต่หัวข้อนี้ยากเกินไป ซึ่งเราจะเอาไว้พูดถึงทีหลัง
 
