@@ -1,69 +1,64 @@
-# The Modern JavaScript Tutorial in Thai
+# คู่มือโมเดิร์นจาวาสคริปฉบับภาษาไทย
 
-This repository hosts the translation of <https://javascript.info> in Thai.
+เรโปนี้เป็นที่เก็บโมเดิร์นจาวาสคริปฉบับภาษาไทย ท่านใดที่อยากมีส่วนร่วมในเรโปนี้ กรุณาอ่านข้อความข้างล่าง
+อย่างละเอียดเพื่อให้ทราบถึง convention คู่มือนี้ด้วยนะครับ 
+
+**อยากมีส่วนร่วมทำได้อย่างไร**
+- สามารถดูความคืบหน้าการแปลได้ที่ [Thai Translate Progress](https://github.com/javascript-tutorial/th.javascript.info/issues/1) issue.
+- เลือกบทความที่ยังไม่ถูกติ๊ก
+- คอมเม้นชื่อหัวข้อที่ต้องการแปล ลงใน [Thai Translate Progress](https://github.com/javascript-tutorial/th.javascript.info/issues/1) issue. ตัวอย่าง `An Introduction to JavaScript`.
+    - บอทจะทำการติ๊ก issue ดังกล่าว ทุกคนจะรับทราบว่ามีคนกำลังแปลหัวข้อนี้อยู่
+    - คอมเม้นควรมีแค่ชื่อหัวข้อเท่านั้น
+- ทำการ fork repo นี้, แปลและส่ง PR มาเมื่อการแปลเสร็จสิ้น
+    - จั่วหัว PR ควรใช้ชื่อเดียวกับหัวข้อบทความ ทีนี้บอทจะมอบหมายเลขให้ issue นั้นๆ
+
+คลิก <https://javascript.info/translate> เพื่อดูรายละเอียดในภาษาอื่นๆ.
 
 
-**That's how you can contribute:**
+ขออนุญาตให้ Maintainers รีวิวและแก้ไขการแปลไปตามความเหมาะสมด้วยนะครับ
 
-<<<<<<< HEAD
-- See the [Thai Translate Progress](https://github.com/javascript-tutorial/th.javascript.info/issues/1) issue.
-- Choose an unchecked article you'd like to translate.
-- Add a comment with the article title to the issue, e.g. `An Introduction to JavaScript`.
-    - Our bot will mark it in the issue, for everyone to know that you're translating it.
-    - Your comment should contain only the title.
-- Fork the repository, translate and send a PR when done.
-    - PR title should match article title, the bot will write it's number into the issue.
-=======
-See <https://javascript.info/translate> for the details.
->>>>>>> 08734734021aa128c13da2382fe8fa062677bb9f
+หาก maintainers ทิ้งโปรเจ็คต์ไปแล้ว หรือ ต้องการเป็น maintainers กรุณาเขียนคำร้องที่ [repo หลัก](https://github.com/javascript-tutorial/en.javascript.info/issues/new).
 
-Please kindly allow maintainers to review and merge or request changes in your translation.
-   
-If maintainers do not respond, or if you'd like to become a maintainer, write us at the [main repo](https://github.com/javascript-tutorial/en.javascript.info/issues/new).
-    
-**Let others know what you're translating, in message boards or chats in your language. Invite them to join!**
+**เชื้อเชิญให้คนอื่นๆทราบว่าคุณกำลังแปลอะไรอยู่ ในบอร์ดหรือแชท พาคนอื่นๆมาร่วมแปลด้วยกัน**
 
-🎉 Thank you!
+ชื่อของผู้มีส่วนร่วมและจำนวน contribution จะแสดงอยู่ในหน้า "About project" เมื่อการแปลถูกเผยแพร่เป็นที่เรียบร้อย
 
-Your name and the contribution size will appear in the "About project" page when the translation gets published.
-
-P.S. The full list of languages can be found at <https://javascript.info/translate>.
 
 ## Structure
 
-Every chapter, an article or a task resides in its own folder.
+ในแต่ละบทจะในโฟลเดอร์เป็นของตัวเอง
 
-The folder is named `N-url`, where `N` – is the number for sorting (articles are ordered), and `url` is the URL-slug on the site.
+โดยโฟลเดอร์จะใช้ชื่อ `N-url` N แทนตัวเลขเพื่อให้ง่านต่อการจัดเรียง ส่วน url แทน URL-slug บนเว็บไซต์
 
-The folder has one of files:
+ฉะนั้นในหนึ่งโฟลเดอร์จะประกอบด้วย
 
-- `index.md` for a section,
-- `article.md` for an article,
-- `task.md` for a task formulation (+`solution.md` with the solution text if any).
+- `index.md` สำหรับ section
+- `article.md` สำหรับ article
+- `task.md` 
 
-A file starts with the `# Title Header`, and then the text in Markdown-like format, editable in a simple text editor. 
+ในแต่ละไฟล์จะเริ่มต้นด้วย `# หัวเรื่อง` และ markdown format สามารถแก้ไขได้ด้วย text editor ปกติ
 
-Additional resources and examples for the article or the task, are also in the same folder.
+แหล่งข้อมูลภายนอกและตัวอย่างของ article หรือ task ก็จะอยู่ในโฟลเดอร์เดียวกัน
 
-## Translation Tips
+## ทริปการแปล
 
-Please keep line breaks and paragraphs "as is": don't add newlines and don't remove existing ones. Makes it easy to merge future changes from the English version into the translation. 
+รบกวนคงตัวแบ่งบรรทัดและย่อหน้าไว้อย่างเดิม ไม่ควรเพิ่มบรรทัดใหม่ และไม่ควรลบบรรทัดหรือย่อหน้าที่มีอยู่แล้ว เพื่อให้ง่ายต่อการ merge กับฉบับภาษาอังกฤษในอนาคต
 
-If you see that the English version can be improved – great, please send a PR to it.
+ถ้าเห็นว่าถ้อยคำในภาษาอังกฤษหรือภาษาไทยที่ต้องปรับปรุงเพิ่มเติม สามารถส่ง PR มาได้เลย
 
-### Terms
+### ข้อกำหนดเพิ่มเติม
 
-- Some specification terms are not to be translated, e.g. "Function Declaration" can be left "as is".
-- For other terms like `resolved promise`, `slash`, `regexp`, and so on - look for a glossary, hopefully there's one for your language already. If not, look for translations in manuals, such as [MDN](https://developer.mozilla.org/en-US/).
+- สำหรับคำศัพท์เฉพาะทางโปรแกรมมิ่ง ไม่ควรแปลหรือทับศัพท์ใดๆลงไป ควรละคำดังกล่าวเอาไว้ เช่น "Function Declaration" 
+- คำที่เป็น keyword ของภาษาอย่าง `resolved promise`, `slash`, `regexp` และอื่นๆ - ควรตรวจดูอภิธานศัพท์เพิ่มเติมจาก [MDN](https://developer.mozilla.org/th/) หากไม่พบกรุณาละไว้เช่นเดิม
 
 ### Text in Code Blocks
 
-- Translate comments.
-- Translate user-messages and example strings.
-- Don't translate variables, classes, identifiers.
-- Ensure that the code works after the translation :)
+- แปลเฉพาะคอมเม้นต์
+- แปลเฉพาะ user-messages และ สตริงตัวอย่าง
+- ไม่ควรแปลชื่อตัวแปร, ชื่อคลาส, ชื่อ identifiers
+- เมื่อแปลเสร็จอย่าลืมตรวจสอบว่าโค้ดทำงานได้อย่างเดิม 
 
-Example:
+ตัวอย่าง:
 
 ```js
 // Example
@@ -71,74 +66,75 @@ const text = "Hello, world";
 document.querySelector('.hello').innerHTML = text;
 ```
 
-✅ DO (translate comment):
+✅ ทำได้ (แปลคอมเม้น)
 
 ```js
-// Ejemplo
-const text = 'Hola mundo';
+// ตัวอย่าง
+const text = 'Hello, world';
 document.querySelector('.hello').innerHTML = text;
 ```
 
-❌ DON'T (translate class):
+❌ ไม่ควรทำ (แปลคลาส):
 
 ```js
-// Ejemplo
-const text = 'Hola mundo';
-// ".hello" is a class
-// DO NOT TRANSLATE
-document.querySelector('.hola').innerHTML = text;
+// ตัวอย่าง
+const text = 'Hello, world';
+// ".hello" เป็นชื่อคลาสใน HTML
+// ห้ามแปล
+document.querySelector('.สวัสดี').innerHTML = text;
 ```
 
-### External Links
+### ลิงค์ภายนอก
 
-If an external link is to Wikipedia, e.g. `https://en.wikipedia.org/wiki/JavaScript`, and a version of that article exists in your language that is of decent quality, link to that version instead.
+ในกรณีลิงค์ภายนอกเช่นวิกีพีเดีย อย่าง `https://en.wikipedia.org/wiki/JavaScript` หรือมีบทความใดๆภาษาไทยที่มีคุณภาพและน่าเชื่อถือ แนบลิงค์ไปที่บทความนั้นๆแทน
 
-Example:
+ตัวอย่าง:
+
+```md
+
+```
 
 ```md
 [JavaScript](https://en.wikipedia.org/wiki/JavaScript) is a programming language.
 ```
 
-✅ OK (en -> es):
+✅ ทำได้ (en -> th):
 
 ```md
-[JavaScript](https://es.wikipedia.org/wiki/JavaScript) es un lenguaje de programación.
+[JavaScript](https://th.wikipedia.org/wiki/JavaScript) คือภาษาโปรแกรมมิ่ง
 ```
 
-For links to MDN, a partially translated version is ok.
+จะใช้ลิงค์ไปหาบทความที่ได้รับการแปลแค่บางส่วนใน MDN ก็ได้
 
-If a linked article has no translated version, leave the link "as is".
+หากเป็นลิงค์บทความที่ยังไม่ถูกแปล ควรละไว้อย่างเดิม
 
 ### Metadata
 
-Some files, usually tasks, have YAML metadata at the top, delimited by `---`:
+มีบางไฟล์, tasks จะมี YAML metadata อยู่ข้างบน สังเกตได้จาก `---`:
 
 ```md
 importance: 5
-
 ---
-<<<<<<< HEAD
 ...
 ```
 
-Please don't translate "importance" (and other top metadata).
+ไม่ควรแปล "importance" และ metadata อื่นๆ
 
 ### Anchors
 
-Some headers have `[#anchor]` at the end, e.g.
+ในบางหัวข้อจะมี `[#anchor]` ปิดท้าย ตัวอย่าง
 
 ```md
 ## Spread operator [#spread-operator]
 ```
 
-Please don't translate or remove the `[#...]` part, it's for URL anchors.
+ไม่ควรแปลหรือลบส่วนที่เป็น `[#...]` เพราะมีไว้สำหรับ URL anchors.
 
-## Running locally
+## รันในเครื่องส่วนตัว
 
-You can run the tutorial server locally to see how the translation looks.
+คุณสามารถรัน localhost เพื่อเช็คการแปลดูได้คร่าวๆ
 
-The server and install instructions are at <https://github.com/javascript-tutorial/server>. 
-=======
-♥  
-Ilya Kantor @iliakan
->>>>>>> 5e9eca374f644ea85c7d548bbe344fd30e5fb89d
+วิธีการรันสามารถทำตามได้ที่ <https://github.com/javascript-tutorial/server>. 
+
+♥ 
+
