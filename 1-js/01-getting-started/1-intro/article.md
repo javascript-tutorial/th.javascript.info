@@ -1,121 +1,121 @@
-# An Introduction to JavaScript
+# มาทำความรู้จักจาวาสคริปต์
 
-Let's see what's so special about JavaScript, what we can achieve with it, and which other technologies play well with it.
+มาดูกันว่าจาวาสคริปต์ทำอะไรได้บ้าง มีอะไรพิเศษ และสำรวจเทคโนโลยีในโลกจาวาสคริปต์กัน
 
-## What is JavaScript?
+## จาวาสคริปต์คืออะไร
 
-*JavaScript* was initially created to *"make web pages alive"*.
+เริ่มแรกเลย *จาวาสคริปต์* ถูกสร้างขึ้นเพื่อทำให้เว็บไซต์*ดูกับราวมีชีวิต*
 
-The programs in this language are called *scripts*. They can be written right in a web page's HTML and run automatically as the page loads.
+โปรแกรมแบบนี้เรียกกันว่า *สคริปต์* โปรแกรมจะถูกเขียนลงบนไฟล์ HTML และทำงานอัตโนมัติเมื่อโหลดหน้าเว็บ
 
-Scripts are provided and executed as plain text. They don't need special preparation or compilation to run.
+สคริปต์ดังกล่าวจะทำงานได้เหมือนการแสดงข้อความทั่วไป ที่ไม่จำเป็นต้องติดตั้งโปรแกรม หรือคอมไพล์ไฟล์ดังกล่าวไว้ก่อน
 
-In this aspect, JavaScript is very different from another language called [Java](https://en.wikipedia.org/wiki/Java_(programming_language)).
+ด้วยเรื่องนี้ทำให้จาวาสคริปต์แตกต่างไปจากภาษาที่ชื่อคล้ายกันอย่าง [จาวา](https://th.wikipedia.org/wiki/ภาษาจาวา)​ (Java)
 
 ```smart header="Why <u>Java</u>Script?"
-When JavaScript was created, it initially had another name: "LiveScript". But Java was very popular at that time, so it was decided that positioning a new language as a "younger brother" of Java would help.
+ในตอนแรกจาวาสคริปต์มีชื่อว่า "LiveScript" แต่ด้วยความที่ภาษาจาวาดังมากในตอนนั้น ผู้สร้างเลยตัดสินใจเปลี่ยนชื่อภาษานี้เป็นจาวาสคริปต์ เป็นการวางตำแหน่งภาษาใหม่เป็นน้องเล็ก ที่มีพี่ใหญ่เป็นภาษาจาวา
 
-But as it evolved, JavaScript became a fully independent language with its own specification called [ECMAScript](http://en.wikipedia.org/wiki/ECMAScript), and now it has no relation to Java at all.
+จาวาสคริปต์ก็วิวัฒนาการในทางของตัวเอง ก็เติบใหญ่จนพร้อมเป็นอิสระเสียแล้ว มีผู้พัฒนาฟีเจอร์และสเปคของภาษาเรียกกันว่า "[ECMAScript](https://th.wikipedia.org/wiki/อีซีเอ็มเอสคริปต์) (เอ็กม่าสคริปต์ ชื่อไม่เป็นทางการ)"
 ```
 
-Today, JavaScript can execute not only in the browser, but also on the server, or actually on any device that has a special program called [the JavaScript engine](https://en.wikipedia.org/wiki/JavaScript_engine).
+ในทุกวันนี้จาวาสคริปต์ไม่จำเป็นต้องใช้เว็บเบราเซอร์ในการทำงานอีกแล้ว เพราะจาวาสคริปต์สามารถทำงานได้บนเซิฟเวอร์หรืออุปกรณ์อะไรก็ได้ ที่ติดตั้งโปรแกรมพิเศษที่ชื่อ [JavaScript engine (จาวาสคริปต์เอนจิน)](https://en.wikipedia.org/wiki/JavaScript_engine).
 
-The browser has an embedded engine sometimes called a "JavaScript virtual machine".
+เว็บบราวเซอร์จะฝังตัวจาวาสคริปต์เอนจินไว้อยู่แล้ว ซึ่งก็มีชื่อเฉพาะว่า "JavaScript virtual machine (จาวาสคริปต์เวอชวลมะชีน)"
 
-Different engines have different "codenames". For example:
+เอนจินต่างกัน ก็ใช้ชื่อ (codename) ต่างกันไปอีกอย่างเช่น
 
-- [V8](https://en.wikipedia.org/wiki/V8_(JavaScript_engine)) -- in Chrome and Opera.
-- [SpiderMonkey](https://en.wikipedia.org/wiki/SpiderMonkey) -- in Firefox.
-- ...There are other codenames like "Trident" and "Chakra" for different versions of IE, "ChakraCore" for Microsoft Edge, "Nitro" and "SquirrelFish" for Safari, etc.
+- [V8](https://en.wikipedia.org/wiki/V8_(JavaScript_engine)) -- ใน Chrome และ Opera.
+- [SpiderMonkey](https://en.wikipedia.org/wiki/SpiderMonkey) -- ใน Firefox.
+- นอกจากนี้ยังมีชื่ออื่นๆอย่าง Trident (ไทร'เดินทฺ) และ Chakra (จักระ) ใน IE, ChakraCore (จักระคอร์) ใน Microsoft Edge, Nitro (ไนโตร) และ SquirrelFish (สเควอ'เริลฟิช) ใน Safari
 
-The terms above are good to remember because they are used in developer articles on the internet. We'll use them too. For instance, if "a feature X is supported by V8", then it probably works in Chrome and Opera.
+การจดจำชื่อด้านบนจะมีประโยชน์ โดยเฉพาะเวลาอ่านบทความที่พัฒนาเขียนขึ้น ตัวอย่างเช่น "ฟีเจอร์บางอย่างได้รับการสนับสนุนใน V8 แล้ว" นั่นหมายถึงฟีเจอร์บางอย่างใช้ได้เฉพาะบน Chrome กับ Opera แล้ว
 
-```smart header="How do engines work?"
+```smart header="แล้วเอนจินทำงานยังไง?"
 
-Engines are complicated. But the basics are easy.
+เอนจินเป็นเรื่องซับซ้อน หากแต่หลักการนั้นเป็นเรื่องง่าย
 
-1. The engine (embedded if it's a browser) reads ("parses") the script.
-2. Then it converts ("compiles") the script to the machine language.
-3. And then the machine code runs, pretty fast.
+1. เอนจินอ่านสคริปต์
+2. เอนจินแปล (บ้างเรียกคอมไพล์) ภาษาสคริปต์เป็นภาษาเครื่อง
+3. เครื่องอ่านและทำงาน ในเวลาเพียงเสี้ยววินาที
 
-The engine applies optimizations at each step of the process. It even watches the compiled script as it runs, analyzes the data that flows through it, and applies optimizations to the machine code based on that knowledge. When it's done, scripts run quite fast.
+เอนจินจะมีการ optimize ในแต่ละขั้นตอน เช่น ตรวจสอบสคริปต์ที่แปล (คอมไพล์) แล้วขณะที่ทำงานอยู่, วิเคราะห์ข้อมูลที่นำมาใช้, แล้วปรับเปลี่ยนให้เหมาะสมกับเครื่อง เมื่อเรียบร้อย เครื่องจะทำงานตามสคริปต์อย่างรวดเร็ว
 ```
 
-## What can in-browser JavaScript do?
+## แล้วจาวาสคริปต์บนบราวเซอร์สามารถทำอะไรได้บ้าง
 
-Modern JavaScript is a "safe" programming language. It does not provide low-level access to memory or CPU, because it was initially created for browsers which do not require it.
+จาวาสคริปต์เป็นภาษาโปรแกรมมิ่งที่ "ปลอดภัย" เพราะว่าจาวาสคริปต์ไม่สามารถเข้าถึงหน่วยความจำ ควบคุมซีพียูได้ เพราะว่าจาวาสคริปต์ทำงานอยู่บนเว็บบราวเซอร์ ที่ไม่ได้ต้องการความสามารถดังกล่าวอยู่แล้ว
 
-JavaScript's capabilities greatly depend on the environment it's running in. For instance, [Node.js](https://wikipedia.org/wiki/Node.js) supports functions that allow JavaScript to read/write arbitrary files, perform network requests, etc.
+ความสามารถของจาวาสคริปต์จึงขึ้นอยู่กับ environment (เอนไว'เรินเมินทฺ) ที่จาวาสคริปต์ทำงานด้วย อย่างเช่น [Node.js](https://wikipedia.org/wiki/Node.js) ที่อนุญาตให้จาวาสคริปต์สามารถอ่านหรือเขียนไฟล์ได้, ส่ง request หา endpoint อื่นๆ, และความสามารถอื่นๆอีกมากมาย
 
-In-browser JavaScript can do everything related to webpage manipulation, interaction with the user, and the webserver.
+บนเบราเซอร์จาวาสคริปต์ก็สามารถทำทุกอย่างที่เกี่ยวข้องกับ การจัดการเว็บไซต์ การโต้ตอบผู้ใช้งาน รวมไปถึง เป็นเว็ปเซิฟเวอร์
 
-For instance, in-browser JavaScript is able to:
+ตัวอย่างเช่น
 
-- Add new HTML to the page, change the existing content, modify styles.
-- React to user actions, run on mouse clicks, pointer movements, key presses.
-- Send requests over the network to remote servers, download and upload files (so-called [AJAX](https://en.wikipedia.org/wiki/Ajax_(programming)) and [COMET](https://en.wikipedia.org/wiki/Comet_(programming)) technologies).
-- Get and set cookies, ask questions to the visitor, show messages.
-- Remember the data on the client-side ("local storage").
+- เพิ่มหรือจัดการกับ HTML, เพิ่ม แก้ไข หรือ ลบ เนื้อหาบนเว็บไซต์, เปลี่ยนรูปลักษณ์ของเว็บไซต์
+- ตอบโต้การกระทำจากผู้ใช้ ทำงานเมื่อคลิกเมาส์ จับการเคลื่อนไหวของเมาส์ หรือ การกดบนแป้นพิมพ์
+- ส่ง request ผ่านเครือข่ายไปยังเซิฟเวอร์, ดาวน์โหลด และอัพโหลดไฟล์ หรือที่เรียกว่า [AJAX](https://th.wikipedia.org/wiki/เอแจ็กซ์) (เอแจ็กซ์) และ [COMET](https://en.wikipedia.org/wiki/Comet_(programming)) (คัม'มิท) 
+- รับ และ ตั้งค่าคุกกี้ (cookies) ถามคำถามผู้ใช้งาน หรือ แสดงข้อความ
+- จำจดข้อมูลในฝั่งไคลเอ็นต์ (client-side) หรือที่เรียกว่าที่เก็บข้อมูลในตัวเครื่อง (local storage)
 
-## What CAN'T in-browser JavaScript do?
+## แล้วจาวาสคริปต์บนเบราเซอร์ทำอะไรไม่ได้บ้าง
 
-JavaScript's abilities in the browser are limited for the sake of the user's safety. The aim is to prevent an evil webpage from accessing private information or harming the user's data.
+ความสามารถของจาวาสตริป์บนเบราเซอร์ก็มีจำกัดเช่นกัน เพื่อความปลอดภัยของผู้ใช้ โดยมีจุดประสงค์ไม่ให้เว็บไม่ดีบางเว็บเข้าถึงข้อมูลส่วนตัว หรือทำการใดๆต่อข้อมูลของผู้ใช้งาน
 
-Examples of such restrictions include:
+ตัวอย่างเช่น
 
-- JavaScript on a webpage may not read/write arbitrary files on the hard disk, copy them or execute programs. It has no direct access to OS system functions.
+- จาวาสคริปต์บนเบราเซอร์ไม่สามารถอ่านหรือเขียนไฟล์ใดๆบนฮาร์ดดิสก์ คัดลอกหรือสั่งโปรแกรมอื่นๆทำงาน ไม่สามารถเข้าถึงฟังก์ชั่นของระบบปฎิบัติการ (OS) ได้
 
-    Modern browsers allow it to work with files, but the access is limited and only provided if the user does certain actions, like "dropping" a file into a browser window or selecting it via an `<input>` tag.
+    เบราเซอร์ในทุกวันนี้อนุญาตให้ทำงานกับไฟล์ได้ แต่ก็มีข้อจำกัดไว้ โดยทำได้เพียงแค่บางอย่างเท่านั้น เช่น วางไฟล์จากเครื่องบนหน้าต่างเบราเซอร์ 
 
-    There are ways to interact with camera/microphone and other devices, but they require a user's explicit permission. So a JavaScript-enabled page may not sneakily enable a web-camera, observe the surroundings and send the information to the [NSA](https://en.wikipedia.org/wiki/National_Security_Agency).
-- Different tabs/windows generally do not know about each other. Sometimes they do, for example when one window uses JavaScript to open the other one. But even in this case, JavaScript from one page may not access the other if they come from different sites (from a different domain, protocol or port).
+    นอกจากนี้ยังอนุญาตให้เข้าถึงกล้อง ไมโครโฟน และอุปกรณ์อื่นๆ แต่ต้องได้รับอนุญาตจากผู้ใช้งานก่อน 
+- หน้าต่างและแท็บต่างกันก็ไม่รู้ตัวตนของอีกฝ่าย แต่จะรู้เมื่อจาวาสคริปต์สั่งเบราเซอร์เปิดอีกแท็บหรือหน้าต่างหนึ่งมา แต่ในกรณีนี้ จาวาสคริปต์หน้าหนึ่ง จะไม่สามารถเข้าถึงอะไรก็ตามของอีกหน้าหนึ่งได้ เมื่อมาจากต่างเว็บไซต์ ต่างพอร์ต (port) ต่างโดเมน ต่างโปรโตคอล และอื่นๆ
 
-    This is called the "Same Origin Policy". To work around that, *both pages* must agree for data exchange and contain a special JavaScript code that handles it. We'll cover that in the tutorial.
-
-    This limitation is, again, for the user's safety. A page from `http://anysite.com` which a user has opened must not be able to access another browser tab with the URL `http://gmail.com` and steal information from there.
-- JavaScript can easily communicate over the net to the server where the current page came from. But its ability to receive data from other sites/domains is crippled. Though possible, it requires explicit agreement (expressed in HTTP headers) from the remote side. Once again, that's a safety limitation.
+    ในที่นี้เรียกกันว่า "Same Origin Policy" ดังนั้นใน*ทั้งสองหน้า*จะต้องยอมรับการแลกเปลี่ยนข้อมูลระหว่างกัน จาวาสคริปต์จึงมีฟีเจอร์มาเพื่อจัดการกับปัญหาข้างต้น จะมีพูดถึงเรื่องนี้กันอีกทีในภายหลังด้วย
+้ 
+    ความปลอดภัยของผู้ใช้จึงมาพร้อมกับข้อจำกัด ดังนั้นเว็บไซต์ A จะไม่สามารถขโมยข้อมูล gmail.com ที่เปิดอีกแท็บหนึ่งได้ 
+- จาวาสคริปต์สติดต่อเซิฟเวอร์ผ่านเน็ตได้สบายหากเป็นแหล่งที่มาเดียวกัน แต่ก็มีข้อจำกัด เมื่อต้องรับส่งข้อมูลระหว่างเว็บไซต์หรือโดเมนที่ต่างกัน แม้ว่าจะมีทาง แต่ก็ต้องมีข้อตกลงระหว่างทั้งสอง อย่างเช่น HTTP headers ทั้งนี้เหตุผลก็มาจากความปลอดภัยของผู้ใช้งานอีกเช่นกัน
 
 ![](limitations.png)
 
-Such limits do not exist if JavaScript is used outside of the browser, for example on a server. Modern browsers also allow plugin/extensions which may ask for extended permissions.
+ข้อจำกัดดังกล่าวมีเฉพาะบนเว็บเบราเซอร์เท่านั้น นอกจากนี้เบราเซอร์ทุกวันนี้ก็ยังอนุญาตให้ใช้ปลั๊กอิน บ้างเรียกส่วนขยาย (extensions) ซึ่งอาจขอสิทธิ์อนุญาตจากเบราเซอร์เพิ่มเติมได้
 
-## What makes JavaScript unique?
+## สิ่งที่ทำให้จาวาสคริปต์ไม่เหมือนใคร
 
-There are at least *three* great things about JavaScript:
+มีสามอย่างใหญ่ๆที่ทำให้จาวาสคริปต์ไม่เหมือนใคร
 
 ```compare
-+ Full integration with HTML/CSS.
-+ Simple things are done simply.
-+ Support by all major browsers and enabled by default.
++ ทำงานกับ HTML/CSS ได้อย่างสมบูรณ์
++ เรื่องเล็กๆเสร็จง่าย
++ เบราเซอร์ใหญ่ๆ ดังๆ สนับสนุน
 ```
-JavaScript is the only browser technology that combines these three things.
+จาวาสคริปต์เป็นเทคโนโลยีเบราเซอร์ที่รวมสามสิ่งนี้
 
-That's what makes JavaScript unique. That's why it's the most widespread tool for creating browser interfaces.
+ทำให้จาวาสคริปต์มีความไม่เหมือนใคร จึงเป็นเหตุผลที่เทคโนโลยีนี้ถูกใช้แพร่หลายที่สุด ในการสร้างส่วนต่อผสานกับเบราเซอร์
 
-While planning to learn a new technology, it's beneficial to check its perspectives. So let's move on to the modern trends affecting it,  including new languages and browser abilities.
+หากอยากเรียนรู้เทคโนโลยีใหม่ๆ จะเกิดประโยชน์เมื่อเราสำรวจโลกของเทคโนโลยีนั้นๆควบคู่กันด้วย เสร็จแล้วค่อยเดินทางสำรวจตามกระแสปัจจุบันที่ส่งผลต่อเทคโนโลยีดังกล่าว รวมถึงภาษาและความสามารถเบราเซอร์ใหม่ๆ
 
 
-## Languages "over" JavaScript
+## ภาษาที่ "นอกเหนือจาก" จาวาสคริปต์
 
-The syntax of JavaScript does not suit everyone's needs. Different people want different features.
+syntax ของจาวาสคริปต์ไม่ได้ตอบโจทย์ความต้องการได้ทุกคน ต่างคนก็ต่างต้องการฟีเจอร์ในแบบของตัวเอง
 
-That's to be expected, because projects and requirements are different for everyone.
+โจทย์จึงแตกต่างกันไปตาม project และ requirement ของแต่ละคน
 
-So recently a plethora of new languages appeared, which are *transpiled* (converted) to JavaScript before they run in the browser.
+เพียงไม่กี่ปีมานี้ ภาษาใหม่ๆจึงถือกำเนิดขึ้นจำนวนมาก ซึ่งจะแปลงเป็นจาวาสคริปต์ก่อน จะทำงานบนเบราเซอร์
 
-Modern tools make the transpilation very fast and transparent, actually allowing developers to code in another language and auto-converting it "under the hood".
+เครื่องมือในทุกวันนี้ช่วยให้การแปลเป็นอีกภาษานั้นรวดเร็วขึ้นมาก จริงๆแล้วนักพัฒนาสามารถโค้ดเป็นอีกภาษาหนึ่ง แล้วแปลเป็นอีกภาษาหนึ่งได้โดยอัตโนมัติ โดยที่ไม่ต้องทำอะไรเพิ่มเติมเลย
 
-Examples of such languages:
+ตัวอย่างภาษาเหล่านั้นได้แก่:
 
-- [CoffeeScript](http://coffeescript.org/) is a "syntactic sugar" for JavaScript. It introduces shorter syntax, allowing us to write clearer and more precise code. Usually, Ruby devs like it.
-- [TypeScript](http://www.typescriptlang.org/) is concentrated on adding "strict data typing" to simplify the development and support of complex systems. It is developed by Microsoft.
-- [Flow](http://flow.org/) also adds data typing, but in a different way. Developed by Facebook.
-- [Dart](https://www.dartlang.org/) is a standalone language that has its own engine that runs in non-browser environments (like mobile apps), but also can be transpiled to JavaScript. Developed by Google.
+- [CoffeeScript](http://coffeescript.org/) เคลมว่าเป็นภาษารับประทานง่าย (syntactic sugar) สำหรับจาวาสคริปต์ โดยมี syntax ที่สั้นกว่า ช่วยให้อ่านโค้ดเข้าใจง่ายยิ่งขึ้น เป็นที่นิยมในหมู่นักพัฒนาภาษารูบี้ (Ruby)
+- [TypeScript](http://www.typescriptlang.org/) เพิ่มความเข้มงวดเรื่องชนิดข้อมูลมากขึ้น (data typing) เพื่อลดความยุ่งยากในการพัฒนา และสนับสนุนระบบที่ซับซ้อนมากขึ้น พัฒนาโดยไมโครซอฟท์ (Microsoft)
+- [Flow](http://flow.org/) เพิ่มความเข้มงวดเรื่องชนิดข้อมูลเช่นเดิม แต่พัฒนาโดยเฟสบุ๊ค (Facebook)
+- [Dart](https://www.dartlang.org/) เป็นภาษาสแตนด์อโลน (standalone) ที่มีเอนจินของตัวเอง ทำงานบน environment ที่ไม่ใช่เบราเซอร์ (อย่างเช่น มือถือ) แต่สุดท้ายก็สามารถแปลเป็นจาวาสคริปต์อยู่ดี ถูกพัฒนาโดยกูเกิ้ล (Google)
 
-There are more. Of course, even if we use one of transpiled languages, we should also know JavaScript to really understand what we're doing.
+ยังมีภาษาอื่นๆที่ไม่ได้อยู่ในตัวอย่างนี้อีก แต่แน่นอนว่าหลายๆคนไม่ค่อยได้เขียนจาวาสคริปต์ตรงๆอีกแล้ว แต่เขียนเป็นภาษาที่แปลเป็นจาวาสคริปต์อีกทีแทน แต่รู้จักกับจาวาสคริปต์จะช่วยให้เราเข้าใจภาษาที่เราเขียนอยู่ได้ดียิ่งขึ้น
 
-## Summary
+## สรุป
 
-- JavaScript was initially created as a browser-only language, but is now used in many other environments as well.
-- Today, JavaScript has a unique position as the most widely-adopted browser language with full integration with HTML/CSS.
-- There are many languages that get "transpiled" to JavaScript and provide certain features. It is recommended to take a look at them, at least briefly, after mastering JavaScript.
+- จาวาสคริปต์ตอนแรกถูกสร้างมาให้ทำงานเฉพาะเบราเซอร์เท่านั้น ตอนนี้นอกเบราเซอร์ก็ทำงานได้เช่นกัน
+- ทุกวันนี้จาวาสคริปต์ไม่เหมือนก่อนอีกแล้ว ภาษานี้ถูกใช้อย่างแพร่หลายมาก แถมทำงานกับ HTML/CSS ได้อย่างสมบูรณ์
+- มีภาษาจะถูกแปลเป็นจาวาสคริปต์อีกที ในแต่ละภาษาก็มีฟีเจอร์ต่างกัน แนะนำอย่างยิ่งที่ศึกษาภาษาเหล่านี้เพิ่มเติม แต่หลังจากโปรจาวาสคริปต์แล้วนะ
