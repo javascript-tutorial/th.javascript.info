@@ -1,42 +1,42 @@
 
-# Manuals and specifications
+# คู่มือและข้อมูลเชิงลึก
 
-This book is a *tutorial*. It aims to help you gradually learn the language. But once you're familiar with the basics, you'll need other sources.
+คู่มือเล่มนี้เป็น *คู่มือการสอน*  โดยมีจุดมุ่งหมายเพื่อให้ผู้เรียนค่อยๆคุ้นเคยกับภาษาก่อน ดังนั้นหากผู้เรียนทราบเรื่องพื้นฐานดีอยู่แล้ว คู่มือนี้อาจไม่ตอบโจทย์มากนัก
 
-## Specification
+## ข้อกำหนด
 
-**The ECMA-262 specification** contains the most in-depth, detailed and formalized information about JavaScript. It defines the language.
+**ข้อกำหนด ECMA-262 (The ECMA-262 specification)** ประกอบด้วยข้อมูลเชิงลึก มีรายละเอียด และมีความเป็นทางการมากกว่า ข้อกำหนดดังกล่าวเป็นมาตรฐานของภาษาอย่างจาวาสคริปต์ 
 
-But being that formalized, it's difficult to understand at first. So if you need the most trustworthy source of information about the language details, the specification is the right place. But it's not for everyday use.
+แต่ด้วยทั้งข้อมูลและรายละเอียดในเขิงลึก ข้อกำหนดนี้เลยทำความเข้าใจยากมาก ดังนั้นหากต้องการข้อมูลที่น่าเชื่อถือ และอัดแน่นไปด้วยข้อมูลของภาษา ก็อยากดังกล่าวให้อ่านกำหนดนี้ แต่คงไม่ใช่อ่านทุกวัน
 
-The latest draft is at <https://tc39.es/ecma262/>.
+ตัวดราฟต์ล่าสุด <https://tc39.es/ecma262/>.
 
-To read about new bleeding-edge features, that are "almost standard", see proposals at <https://github.com/tc39/proposals>.
+จะดูฟีเจอร์ใหม่ๆ ที่กำลังจะเปิดให้ใช้งานในเดี๋ยวๆนี้ <https://github.com/tc39/proposals>.
 
-Also, if you're in developing for the browser, then there are other specs covered in the [second part](info:browser-environment) of the tutorial.
+หรือต้องการพัฒนาเว็บแอพฯบนเบราเซอร์ ก็จะมีอีกข้อกำหนดหนึ่ง จะพูดถึงอีกทีใน[ส่วนที่สอง](info:browser-environment)
 
 ## Manuals
 
-- **MDN (Mozilla) JavaScript Reference** is a manual with examples and other information. It's great to get in-depth information about individual language functions, methods etc.
+- **MDN (Mozilla) คู่มืออ้างอิงสำหรับจาวาสคริปต์** คู่มือพร้อมตัวอย่าง เป็นคู่มือที่ให้รายละเอียดเชิงลึกดีมาก ยิ่งถ้ารายเป็นฟังก์ชั่นหรือเมธอด (Method)
 
-    One can find it at <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference>.
+    เข้าชมที่ลิงต์นี้ <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference>.
 
-    Although, it's often best to use an internet search instead. Just use "MDN [term]" in the query, e.g. <https://google.com/search?q=MDN+parseInt> to search for `parseInt` function.
+    ค้นหาจากอินเตอร์เน็ตโดยพิมพ์ "MDN [ตามด้วยฟังก์ชั่นหรือเมธอดที่อยากรู้]" เช่น อยากรู้จักฟังชั่นก์ parseInt <https://google.com/search?q=MDN+parseInt> 
 
 
-- **MSDN** – Microsoft manual with a lot of information, including JavaScript (often referrerd to as JScript). If one needs something specific to Internet Explorer, better go there: <http://msdn.microsoft.com/>.
+- **MSDN** -คู่มือของไมโครซอฟท์ก็เป็นอีกทางเลือกหนึ่ง แต่หากต้องทำงานหรืออยากรู้อะไรบางอย่างเกี่ยวกับ IE มาที่คู่มือนี้จะดีกว่า <http://msdn.microsoft.com/>
 
-    Also, we can use an internet search with phrases such as "RegExp MSDN" or "RegExp MSDN jscript".
+    ค้นหาจากอินเตอร์เน็ตโดยพิมพ์ "[ตามด้วยฟังก์ชั่นหรือเมธอดที่อยากรู้] MSDN" หรือ "[ตามด้วยฟังก์ชั่นหรือเมธอดที่อยากรู้] MSDN jscript" ก็ได้
+    
+## เบราเซอร์นี้สนับสนุนฟหีเจอร์นี้ไหม
 
-## Feature support
+จาวาสคริปต์เป็นภาษาที่พัฒนาฟีเจอร์ใหม่ๆอยู่เสมอ
 
-JavaScript is a developing language, new features get added regularly.
+จึงเป็นเรื่องที่ควรรู้ว่าเบราเซอร์หรือเอนจินที่ทำงานด้วยนั้น สนับสนุนฟีเจอร์นี้ด้วยหรือไม่ โปรดดูตามลิสต์ด้านล่าง
 
-To see their support among browser-based and other engines, see:
+- <http://caniuse.com> - เว็บไซต์ที่ใช้ตรวจว่าฟีเจอร์นั้นๆ เบราเซอร์สนับสนุนหรือไม่ เช่น อยากจะรู้ว่าเบราเซอร์ไหนที่สนับสนุนฟีเจอร์เกี่ยวกับการถอดรหัส (cryptography) บ้าง <http://caniuse.com/#feat=cryptography>.
+- <https://kangax.github.io/compat-table> - ตารางสำหรับดูชุดฟีเจอร์ใหม่ๆ ได้รับการสนับสนุนจากเอนจินใดบ้างแล้ว
 
-- <http://caniuse.com> - per-feature tables of support, e.g. to see which engines support modern cryptography functions: <http://caniuse.com/#feat=cryptography>.
-- <https://kangax.github.io/compat-table> - a table with language features and engines that support those or don't support.
+แหล่งข้อมูลที่กล่าวมาล้วนมีรายละเอียด และข้อมูลที่มีประโยชน์ที่ใช้ในการพัฒนาจริงๆ
 
-All these resources are useful in real-life development, as they contain valuable information about language details, their support etc.
-
-Please remember them (or this page) for the cases when you need in-depth information about a particular feature.
+หากต้องการข้อมูลเชิงลึกต่างๆ โปรดบุ๊กมาร์คหน้าหน้านี้ โดยเราจะรออัพเดทให้ทันสมัยอยู่เสมอ
