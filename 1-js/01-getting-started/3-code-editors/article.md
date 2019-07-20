@@ -1,45 +1,45 @@
 # Code editors
 
-A code editor is the place where programmers spend most of their time.
+Code editor เป็นสิ่งที่นักพัฒนามักใช้เวลาร่วมมากที่สุด
 
-There are two main types of code editors: IDEs and lightweight editors. Many people use one tool of each type.
+โดยจะมี 2 ประเภทหลักๆ นักพัฒนาจะใช้หนึ่งในสองอย่างนี้ คือ IDE และ lightweight editor 
 
 ## IDE
 
-The term [IDE](https://en.wikipedia.org/wiki/Integrated_development_environment) (Integrated Development Environment) refers to a powerful editor with many features that usually operates on a "whole project." As the name suggests, it's not just an editor, but a full-scale "development environment."
+คำว่า [IDE](https://en.wikipedia.org/wiki/Integrated_development_environment) (Integrated Development Environment) หมายถึงเครื่องมือที่ประกอบด้วยฟีเจอร์มากมายที่ใช้จัดการงานระดับโปรเจ็คต์ IDE จึงไม่ใช่แค่ text editor ธรรมดา แต่เป็น "development environment" เต็มรูปแบบ
 
-An IDE loads the project (which can be many files), allows navigation between files, provides autocompletion based on the whole project (not just the open file), and integrates with a version management system (like [git](https://git-scm.com/)), a testing environment, and other "project-level" stuff.
+IDE โหลดโปรเจ็คต์ (ที่ประกอบด้วยไฟล์จำนวนมาก) ที่มีฟีเจอร์หลักๆคือ navigation ระหว่างไฟล์, autocompletion, บางตัวจะมี version management system อย่างกิต (git) ให้ด้วย, testing environment และฟีเจอร์ที่จัดการกับโปรเจ็คต์โดยเฉพาะ
 
-If you haven't selected an IDE yet, consider the following options:
+หากยังไม่มี IDE ในดวงใจ ลองดู IDE ด้านล่างไว้พิจารณา
 
-- [Visual Studio Code](https://code.visualstudio.com/) (cross-platform, free).
-- [WebStorm](http://www.jetbrains.com/webstorm/) (cross-platform, paid).
+- [Visual Studio Code](https://code.visualstudio.com/) (cross-platform, ฟรี).
+- [WebStorm](http://www.jetbrains.com/webstorm/) (cross-platform, เสียตัง).
 
-For Windows, there's also "Visual Studio", not to be confused with "Visual Studio Code". "Visual Studio" is a paid and mighty Windows-only editor, well-suited for the .NET platform. It's also good at JavaScript. There's also a free version [Visual Studio Community](https://www.visualstudio.com/vs/community/).
+สำหรับผู้ใช้ Windows หลายๆคนอาจมีความสับสนกับชื่อระหว่าง Visual Studio Code กับ Visual Studio ตัวหลังเป็น IDE แบบเสียตัง และดีที่สุดของ IDE สำหรับ Windows โดยเฉพาะฝั่งของ .NET และ JavaScript ก็พอใช้ได้ ยังมีเวอร์ชั่นฟรีให้ใช้ด้วย [Visual Studio Community](https://www.visualstudio.com/vs/community/).
 
-Many IDEs are paid, but have a trial period. Their cost is usually negligible compared to a qualified developer's salary, so just choose the best one for you.
+IDE ส่วนมากจะเสียตัง แต่จะมีระยะเวลาทดลองใช้ แต่ค่าใช้จ่ายส่วนนี้มักจะเล็กน้อยเมื่อเทียบกับรายได้ของนักพัฒนาต่างประเทศ เก่งๆ หรือทำงานมาหลายปี ดังนั้นเลือกที่ตัวเองชอบมากที่สุด
 
 ## Lightweight editors
 
-"Lightweight editors" are not as powerful as IDEs, but they're fast, elegant and simple.
+"Lightweight editors" ไม่ได้มีฟีเจอร์เทียบเท่า IDE แต่เร็ว สวย และใช้งานง่าย
 
-They are mainly used to open and edit a file instantly.
+ส่วนใหญ่มักจะใช้เพื่อเปิดไฟล์แก้ไขได้ทันที
 
-The main difference between a "lightweight editor" and an "IDE" is that an IDE works on a project-level, so it loads much more data on start, analyzes the project structure if needed and so on. A lightweight editor is much faster if we need only one file.
+ความแตกต่างระหว่าง IDE กับ Lightweight editors คือ IDE มักจะทำงานในระดับโปรเจ็คต์ ที่ต้องอาศัยการประมวล โหลดข้อมูลจำนวนมาก หรือวิเคราะห์โครงสร้างในโปรเจ็คต์ และอื่นๆ ส่วนแบบ lightweight จะตอบโจทย์ด้านความเร็ว หากเราต้องการแก้ไขไฟล์แค่ไฟล์เดียว
 
-In practice, lightweight editors may have a lot of plugins including directory-level syntax analyzers and autocompleters, so there's no strict border between a lightweight editor and an IDE.
+ในทางปฎิบัติ lightweight editors บางตัวอาจมีปลั๊กอินไว้ติดตั้งเพิ่มเติมด้วย เช่น ตัววิเคราะห์ directory-level syntax และ autocompleters ดังนั้นจึงไม่มีเส้นแบ่งระหว่าง IDE กับ lightweight ชัดเจนมากนัก
 
-The following options deserve your attention:
+ก็จะมีตัวเลือกดังต่อไปนี้
 
-- [Atom](https://atom.io/) (cross-platform, free).
-- [Sublime Text](http://www.sublimetext.com) (cross-platform, shareware).
-- [Notepad++](https://notepad-plus-plus.org/) (Windows, free).
-- [Vim](http://www.vim.org/) and [Emacs](https://www.gnu.org/software/emacs/) are also cool if you know how to use them.
+- [Atom](https://atom.io/) (cross-platform, ฟรี).
+- [Sublime Text](http://www.sublimetext.com) (cross-platform, ให้ทดลองใช้).
+- [Notepad++](https://notepad-plus-plus.org/) (Windows, ฟรี).
+- [Vim](http://www.vim.org/) and [Emacs](https://www.gnu.org/software/emacs/) หากใช้พวกนี้เป็น คนอื่นก็จะมีความว้าวนิดๆ
 
 ## Let's not argue
 
-The editors in the lists above are those that either I or my friends whom I consider good developers have been using for a long time and are happy with.
+รายการ editor ข้างบนเป็น editor ที่ได้รับความนิยม เป็นเพียงส่วนน้อยนิดเท่านั้น 
 
-There are other great editors in our big world. Please choose the one you like the most.
+มี editor อีกมากมายในโลกอันแสนกว้างใหญ่นี้ เลือกตัวที่เหมาะกับเรามากที่สุด
 
-The choice of an editor, like any other tool, is individual and depends on your projects, habits, and personal preferences.
+editor เป็นเพียงเครื่องมือหนึ่งเท่านั้น เหตุผลจึงขึ้นอยู่กับโปรเจ็คต์ที่ทำ นิสัย และความชอบของเราต่างหาก
