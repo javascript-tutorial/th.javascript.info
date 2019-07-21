@@ -1,64 +1,63 @@
 # Developer console
 
-Code is prone to errors. You will quite likely make errors... Oh, what am I talking about? You are *absolutely* going to make errors, at least if you're a human, not a [robot](https://en.wikipedia.org/wiki/Bender_(Futurama)).
+โค้ดที่เขียนหลายครั้งมักจะมีข้อผิดพลาด และเหล่านักพัฒนามักจะทำพลาดอยู่บ่อยๆด้วย อันที่จริงปกติมนุษย์เราก็มักจะผิดพลาดอยู่บ่อยครั้ง 
 
-But in the browser, users don't see errors by default. So, if something goes wrong in the script, we won't see what's broken and can't fix it.
+แต่ในเบราเซอร์ ผู้ใช้งานมักจะไม่เห็นข้อผิดพลาดที่เหล่านักพัฒนาซ่อนไว้ ดังนั้นหากสคริปต์ที่เราเขียนมีข้อผิดพลาด เราจะไม่รู้และแก้ไขมันได้เลย
 
-To see errors and get a lot of other useful information about scripts, "developer tools" have been embedded in browsers.
+เพื่อย้อนไปดูว่าเราพลาดอะไรไป "เครื่องมือสำหรับนักพัฒนา (developer tools)" จึงติดมากับเบราเซอร์ด้วย
 
-Most developers lean towards Chrome or Firefox for development because those browsers have the best developer tools. Other browsers also provide developer tools, sometimes with special features, but are usually playing "catch-up" to Chrome or Firefox. So most developers have a "favorite" browser and switch to others if a problem is browser-specific.
+นักพัฒนาส่วนใหญ่มักจะใช้ Chrome และ Firefox นั่นก็เพราะว่าทั้งสองตัวมี เครื่องมือสำหรับการพัฒนาที่ดีที่สุดในตลาดแล้ว ดังนั้นนักพัฒนามักเลือกใช้เบราเซอร์เพียงตัวเดียวในการพัฒนา แต่จะใช้เบราเซอร์อื่นร่วมด้วย แต่หลังจากที่ปัญหาเกิดแล้ว เช่น โค้ดที่เขียนไม่ซัพพอร์ตใน IE
 
-Developer tools are potent; they have many features. To start, we'll learn how to open them, look at errors, and run JavaScript commands.
+เครื่องมือเหล่านี้มาพร้อมฟีเจอร์ที่ตอบโจทย์การพัฒนามากมาย เราจะเริ่มไล่ดูกันไปทีละอย่าง
 
 ## Google Chrome
 
-Open the page [bug.html](bug.html).
+ลองเปิดหน้า [bug.html](bug.html).
 
-There's an error in the JavaScript code on it. It's hidden from a regular visitor's eyes, so let's open developer tools to see it.
+หากเปิด developer tools ดู จะเห็นว่ามี error ในโค้ดจาวาสคริปต์ แต่ผู้ใช้จะมองไม่เห็นสิ่งเหล่านี้ 
 
-Press `key:F12` or, if you're on Mac, then `key:Cmd+Opt+J`.
+กด `F12` บน Windows หรือ `Cmd+Opt+J` บน Macs
 
-The developer tools will open on the Console tab by default.
+developer tools จะเปิดหน้า console ขึ้นมาโดย default
 
-It looks somewhat like this:
+หน้าตาจะคล้ายๆแบบนี้
 
 ![chrome](chrome.png)
 
-The exact look of developer tools depends on your version of Chrome. It changes from time to time but should be similar.
+หน้าตาตัว developer tools จะเปลี่ยนไปตามเวอร์ชั่น ถึงหน้าตาที่เปิดออกมาจะไม่เป๊ะเว่อร์ แต่โครงหน้าจะคล้ายๆกัน
 
-- Here we can see the red-colored error message. In this case, the script contains an unknown "lalala" command.
-- On the right, there is a clickable link to the source `bug.html:12` with the line number where the error has occurred.
+- ลองมองไปที่ console จะเห็นว่ามี error อยู่ แถบและตัวอักษรสีแดงอยู่ นั่นเพราะว่าเบราเซอร์ไม่รู้จักคำสั่ง "lalala"
+- ซ้ายมือของแถบ จะเห็นว่ามีการบอกบรรทัดที่ error นี้เกิดขึ้น
 
-Below the error message, there is a blue `>` symbol. It marks a "command line" where we can type JavaScript commands. Press `key:Enter` to run them (`key:Shift+Enter` to input multi-line commands).
+ข้างล่างข้อความ error จะสังเกตเห็นว่ามีลูกศรสีน้ำเงินอยู่ ตัวมันเองแทน "command line" เราสามารถพิมพ์จาวาสคริปต์ลงไป แล้วกด `enter` เพื่อ execute คำสั่ง หรือ `shift-enter` เพื่อพิมพ์โค้ดหลายคำสั่งแทน
 
-Now we can see errors, and that's enough for a start. We'll come back to developer tools later and cover debugging more in-depth in the chapter <info:debugging-chrome>.
+ทีนี้เราก็พร้อมที่จะจัดการกับ error ตัวนี้แล้ว บทนี้เป็นแค่ออเดิร์ฟ เราจะเสิร์ฟจานหลักอีกทีในบท <info:debugging-chrome>
 
+## Firefox, Edge, และเบราเซอร์ตัวอื่นๆ
 
-## Firefox, Edge, and others
+นักพัฒนาส่วนใหญ่ใช้ `F12` เพื่อเปิดหน้า console
 
-Most other browsers use `key:F12` to open developer tools.
-
-The look & feel of them is quite similar. Once you know how to use one of these tools (you can start with Chrome), you can easily switch to another.
+developer tools มักจะคล้ายๆกันไม่ว่าจะต่างเวอร์ชั่น ต่างเบราเซอร์ หากเชี่ยวชาญเพียงหนึ่ง ก็ใช้ตัวอื่นได้สูสีกัน
 
 ## Safari
 
-Safari (Mac browser, not supported by Windows/Linux) is a little bit special here. We need to enable the "Develop menu" first.
+Safari (เบราเซอร์ของผู้ใช้ Mac) ตัวนี้มาพร้อมความไม่เหมือนใคร เพี่ะเราต้องไปเปิด "Develop menu" ก่อน
 
-Open Preferences and go to the "Advanced" pane. There's a checkbox at the bottom:
+เปิดหน้า "Preferences" ไปที่ "Advanced" และติ๊ก checkbox ด้านล่าง
 
 ![safari](safari.png)
 
-Now `key:Cmd+Opt+C` can toggle the console. Also, note that the new top menu item named "Develop" has appeared. It has many commands and options.
+ทีนี้กด `Cmd+Opt+C` หน้า console จะปรากฎขึ้น แถมเมนูด้านบน ยังปรากฎแถบ "Develop" เมื่อคลิกก็จะมีคำสั่งหลากหลายให้เลือกใช้
 
-## Multi-line input
+## พิมพ์โค้ดหลายบรรทัด
 
-Usually, when we put a line of code into the console, and then press `key:Enter`, it executes.
+อย่าลืมว่า `Enter` ในคอนโซลไม่ใช่ขึ้นบรรทัดใหม่ เพราะมันคือสั่งให้โค้ดเราทำงาน
 
-To insert multiple lines, press `key:Shift+Enter`.
+ถ้าจะเขียนโค้ดหลายบรรทัด ใช้ `Shift+Enter` แทน
 
-## Summary
+## สรุป
 
-- Developer tools allow us to see errors, run commands, examine variables, and much more.
-- They can be opened with `key:F12` for most browsers on Windows. Chrome for Mac needs `key:Cmd+Opt+J`, Safari: `key:Cmd+Opt+C` (need to enable first).
+- Developer tools ช่วยให้เห็น error, สั่งโค้ดทำงาน, ตรวจค่าตัวแปร และอื่นๆ
+- เปิดโดยกด `F12` สำหรับเบราเซอร์ส่วนใหญ่บน Windows แต่ Chrome บน Mac จะใช้ `Cmd+Opt+J` Safari จะเป็น `Cmd+Opt+C` อย่าลืมไปเปิดโหมดนักพัฒนาบน Safari ก่อน
 
-Now we have the environment ready. In the next section, we'll get down to JavaScript.
+ทีนี้ปูพื้นเรื่อง environment กันมาสักพักแล้ว พระเอกอย่างจาวาสคริปต์ก็พร้อมออกโรงแล้ว
