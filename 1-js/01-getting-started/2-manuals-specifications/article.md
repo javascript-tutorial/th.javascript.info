@@ -11,7 +11,11 @@
 
 ตัวดราฟต์ล่าสุด <https://tc39.es/ecma262/>.
 
+<<<<<<< HEAD
 จะดูฟีเจอร์ใหม่ๆ ที่กำลังจะเปิดให้ใช้งานในเดี๋ยวๆนี้ <https://github.com/tc39/proposals>.
+=======
+To read about new bleeding-edge features, including those that are "almost standard" (so-called "stage 3"), see proposals at <https://github.com/tc39/proposals>.
+>>>>>>> 4a8d8987dfc3256045e6b4a3bd8810ad3b25d1b3
 
 หรือต้องการพัฒนาเว็บแอพฯบนเบราเซอร์ ก็จะมีอีกข้อกำหนดหนึ่ง จะพูดถึงอีกทีใน[ส่วนที่สอง](info:browser-environment)
 
@@ -30,7 +34,11 @@
     
 ## เบราเซอร์นี้สนับสนุนฟหีเจอร์นี้ไหม
 
+<<<<<<< HEAD
 จาวาสคริปต์เป็นภาษาที่พัฒนาฟีเจอร์ใหม่ๆอยู่เสมอ
+=======
+## Compatibility tables
+>>>>>>> 4a8d8987dfc3256045e6b4a3bd8810ad3b25d1b3
 
 จึงเป็นเรื่องที่ควรรู้ว่าเบราเซอร์หรือเอนจินที่ทำงานด้วยนั้น สนับสนุนฟีเจอร์นี้ด้วยหรือไม่ โปรดดูตามลิสต์ด้านล่าง
 
