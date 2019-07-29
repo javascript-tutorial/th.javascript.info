@@ -49,11 +49,19 @@ Safari (เบราเซอร์ของผู้ใช้ Mac) ตัวน
 
 ทีนี้กด `Cmd+Opt+C` หน้า console จะปรากฎขึ้น แถมเมนูด้านบน ยังปรากฎแถบ "Develop" เมื่อคลิกก็จะมีคำสั่งหลากหลายให้เลือกใช้
 
+<<<<<<< HEAD
 ## พิมพ์โค้ดหลายบรรทัด
 
 อย่าลืมว่า `Enter` ในคอนโซลไม่ใช่ขึ้นบรรทัดใหม่ เพราะมันคือสั่งให้โค้ดเราทำงาน
 
 ถ้าจะเขียนโค้ดหลายบรรทัด ใช้ `Shift+Enter` แทน
+=======
+```smart header="Multi-line input"
+Usually, when we put a line of code into the console, and then press `key:Enter`, it executes.
+
+To insert multiple lines, press `key:Shift+Enter`. This way one can enter long fragments of JavaScript code.
+```
+>>>>>>> 34e9cdca3642882bd36c6733433a503a40c6da74
 
 ## สรุป
 
