@@ -24,11 +24,7 @@
     ค้นหาจากอินเตอร์เน็ตโดยพิมพ์ "MDN [ตามด้วยฟังก์ชั่นหรือเมธอดที่อยากรู้]" เช่น อยากรู้จักฟังชั่นก์ parseInt <https://google.com/search?q=MDN+parseInt> 
 
 
-<<<<<<< HEAD
-- **MSDN** -คู่มือของไมโครซอฟท์ก็เป็นอีกทางเลือกหนึ่ง แต่หากต้องทำงานหรืออยากรู้อะไรบางอย่างเกี่ยวกับ IE มาที่คู่มือนี้จะดีกว่า <http://msdn.microsoft.com/>
-=======
-- **MSDN** – Microsoft manual with a lot of information, including JavaScript (often referred to as JScript). If one needs something specific to Internet Explorer, better go there: <http://msdn.microsoft.com/>.
->>>>>>> 5cb9760abb8499bf1e99042d866c3c1db8cd61ca
+- **MSDN** -คู่มือของไมโครซอฟท์ก็เป็นอีกทางเลือกหนึ่งที่ดี รวมไปถึงจาวาสคริปต์ (พูดถึงในชื่อ JScript) แต่หากต้องทำงานหรืออยากรู้อะไรบางอย่างเกี่ยวกับ IE มาที่ลิงค์นี้จะดีกว่า <http://msdn.microsoft.com/>
 
     ค้นหาจากอินเตอร์เน็ตโดยพิมพ์ "[ตามด้วยฟังก์ชั่นหรือเมธอดที่อยากรู้] MSDN" หรือ "[ตามด้วยฟังก์ชั่นหรือเมธอดที่อยากรู้] MSDN jscript" ก็ได้
     
