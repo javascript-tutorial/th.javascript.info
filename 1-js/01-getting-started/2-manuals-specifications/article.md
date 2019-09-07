@@ -5,11 +5,7 @@
 
 ## ข้อกำหนด
 
-<<<<<<< HEAD
-**ข้อกำหนด ECMA-262 (The ECMA-262 specification)** ประกอบด้วยข้อมูลเชิงลึก มีรายละเอียด และมีความเป็นทางการมากกว่า ข้อกำหนดดังกล่าวเป็นมาตรฐานของภาษาอย่างจาวาสคริปต์ 
-=======
-[The ECMA-262 specification](https://www.ecma-international.org/publications/standards/Ecma-262.htm) contains the most in-depth, detailed and formalized information about JavaScript. It defines the language.
->>>>>>> c4d1987ebc470b30c234dbde6fac6e77b7509927
+ข้อกำหนด ECMA-262 (The ECMA-262 specification)** ประกอบด้วยข้อมูลเชิงลึก มีรายละเอียด และมีความเป็นทางการสูง ทั้งยังเป็นมาตรฐานของจาวาสคริปต์ 
 
 แต่ด้วยทั้งข้อมูลและรายละเอียดในเขิงลึก ข้อกำหนดนี้เลยทำความเข้าใจยากมาก ดังนั้นหากต้องการข้อมูลที่น่าเชื่อถือ และอัดแน่นไปด้วยข้อมูลของภาษา ก็อยากดังกล่าวให้อ่านกำหนดนี้ แต่คงไม่ใช่อ่านทุกวัน
 
