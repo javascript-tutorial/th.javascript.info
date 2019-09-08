@@ -1,8 +1,8 @@
-The HTML code:
+HTML:
 
 [html src="index.html"]
 
-For the file `alert.js` in the same folder:
+สำหรับไฟล์ `alert.js` อยู่ในโฟลเดอร์เดียวกัน:
 
 [js src="alert.js"]
 

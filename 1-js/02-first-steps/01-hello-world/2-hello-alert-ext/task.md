@@ -2,8 +2,8 @@ importance: 5
 
 ---
 
-# Show an alert with an external script
+# โชว์หน้าแจ้งเตือนด้วยสคริปต์จากภายนอก
 
-Take the solution of the previous task <info:task/hello-alert>. Modify it by extracting the script content into an external file `alert.js`, residing in the same folder.
+ใช้ความรู้จากแบบฝึกหัดที่แล้ว <info:task/hello-alert> ช่วยบอกเบราเซอร์ให้รู้ว่าที่อยู่ของไฟล์ `alert.js` อยู่ที่ใด ขอใบ้ว่าอยู่ในโฟลเดอร์เดียวกัน
 
-Open the page, ensure that the alert works.
+เปิดหน้าเว็บขึ้นมา เพื่อดูว่าสคริปต์ทำงานได้ตามที่คาดหวังไว้

@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Show an alert
+# โชว์หน้าแจ้งเตือน
 
-Create a page that shows a message "I'm JavaScript!".
+สร้างเว็บเพจที่เปิดขึ้นมาจะแสดงหน้าต่าง `alert` ว่า "I'm JavaScript!".
 
-Do it in a sandbox, or on your hard drive, doesn't matter, just ensure that it works.
+ที่นี่เป็นพื้นที่การเล่นที่ปลอดภัย ดังนั้นไม่ต้องกังวลว่าคอมพิวเตอร์จะเสียหาย
 
 [demo src="solution"]
 
