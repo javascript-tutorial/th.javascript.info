@@ -56,7 +56,13 @@
     <script type="text/javascript"><!--
         ...
     //--></script>
+<<<<<<< HEAD
 ```
+=======
+    ```
+
+    This trick isn't used in modern JavaScript. These comments hide JavaScript code from old browsers that didn't know how to process the `<script>` tag. Since browsers released in the last 15 years don't have this issue, this kind of comment can help you identify really old code.
+>>>>>>> 0e4f5e425aff4a9767546f75b378ad4a2a2493ea
 
 ในจาวาสคริปต์ทุกวันนี้เลิกใช้วิธีการแบบนี้กันแล้ว คอมเม้นเหล่านี้จะซ่อนจาวาสคริปต์จากเบราเซอร์เก่าๆ เพื่อไม่ให้เบราเซอร์เก่าๆประมวลผลสคริปต์ตรงนี้ได้ แต่จะไม่เกิดปัญหานี้กับเบราเซอร์ที่เกิดในช่วง 15 ปีมานี้แล้ว ดังนั้นโค้ดตรงนี้จะช่วยให้เรารู้ว่าสคริปต์ตรงนี้ถูกเขียนมานานมากแล้ว
 
