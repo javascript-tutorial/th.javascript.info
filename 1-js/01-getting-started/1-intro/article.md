@@ -12,8 +12,13 @@
 
 ด้วยเรื่องนี้ทำให้จาวาสคริปต์แตกต่างไปจากภาษาที่ชื่อคล้ายกันอย่าง [จาวา](https://th.wikipedia.org/wiki/ภาษาจาวา)​ (Java)
 
+<<<<<<< HEAD
 ```smart header="Why <u>Java</u>Script?"
 ในตอนแรกจาวาสคริปต์มีชื่อว่า "LiveScript" แต่ด้วยความที่ภาษาจาวาดังมากในตอนนั้น ผู้สร้างเลยตัดสินใจเปลี่ยนชื่อภาษานี้เป็นจาวาสคริปต์ เป็นการวางตำแหน่งภาษาใหม่เป็นน้องเล็ก ที่มีพี่ใหญ่เป็นภาษาจาวา
+=======
+```smart header="Why is it called <u>Java</u>Script?"
+When JavaScript was created, it initially had another name: "LiveScript". But Java was very popular at that time, so it was decided that positioning a new language as a "younger brother" of Java would help.
+>>>>>>> 70ca842bef2390bc26d13dea2b856838aa890fe0
 
 จาวาสคริปต์ก็วิวัฒนาการในทางของตัวเอง ก็เติบใหญ่จนพร้อมเป็นอิสระเสียแล้ว มีผู้พัฒนาฟีเจอร์และสเปคของภาษาเรียกกันว่า "[ECMAScript](https://th.wikipedia.org/wiki/อีซีเอ็มเอสคริปต์) (เอ็กม่าสคริปต์ ชื่อไม่เป็นทางการ)"
 ```
