@@ -52,19 +52,13 @@
 คอมเม้นก่อนหรือหลังแท็กสคริปต์
 : ในหนังสือคู่มือที่เก่าแก่เราอาาจจะเจอการคอมเม้นแบบข้างล่าง
 
-```html no-beautify
-    <script type="text/javascript"><!--
-        ...
-    //--></script>
-<<<<<<< HEAD
-```
-=======
-    ```
+  ```html no-beautify
+  <script type="text/javascript"><!--
+      ...
+  //--></script>
+  ```
 
-    This trick isn't used in modern JavaScript. These comments hide JavaScript code from old browsers that didn't know how to process the `<script>` tag. Since browsers released in the last 15 years don't have this issue, this kind of comment can help you identify really old code.
->>>>>>> ec21af8aef6930388c06ee4cd8f8f6769f9d305b
-
-ในจาวาสคริปต์ทุกวันนี้เลิกใช้วิธีการแบบนี้กันแล้ว คอมเม้นเหล่านี้จะซ่อนจาวาสคริปต์จากเบราเซอร์เก่าๆ เพื่อไม่ให้เบราเซอร์เก่าๆประมวลผลสคริปต์ตรงนี้ได้ แต่จะไม่เกิดปัญหานี้กับเบราเซอร์ที่เกิดในช่วง 15 ปีมานี้แล้ว ดังนั้นโค้ดตรงนี้จะช่วยให้เรารู้ว่าสคริปต์ตรงนี้ถูกเขียนมานานมากแล้ว
+ในโมเดิร์นจาวาสคริปต์ (ตั้งแต่ ES6 ขึ้นไป) เราเลิกใช้การคอมเม้นแบบนี้ไปแล้ว แต่จะพบได้ในโค้ดเก่าๆ เพราะเบราเซอร์ในสมัยนั้นไม่ทราบวิธีการประมวลแท็ก `script` รวมถึงสิ่งที่อยู่ภายในแท็กนี้
 
 ## สคริปต์ภายนอก
 
