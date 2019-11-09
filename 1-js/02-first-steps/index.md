@@ -1,3 +1,3 @@
-# JavaScript Fundamentals
+# พื้นฐานจาวาสคริปต์
 
-Let's learn the fundamentals of script building.
+มาเริ่มเรียนรู้การเขียนจาวาสคริปต์กัน
