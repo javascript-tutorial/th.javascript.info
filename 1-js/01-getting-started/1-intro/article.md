@@ -38,7 +38,11 @@
 2. เอนจินแปล (บ้างเรียกคอมไพล์) ภาษาสคริปต์เป็นภาษาเครื่อง
 3. เครื่องอ่านและทำงาน ในเวลาเพียงเสี้ยววินาที
 
+<<<<<<< HEAD
 เอนจินจะมีการ optimize ในแต่ละขั้นตอน เช่น ตรวจสอบสคริปต์ที่แปล (คอมไพล์) แล้วขณะที่ทำงานอยู่, วิเคราะห์ข้อมูลที่นำมาใช้, แล้วปรับเปลี่ยนให้เหมาะสมกับเครื่อง เมื่อเรียบร้อย เครื่องจะทำงานตามสคริปต์อย่างรวดเร็ว
+=======
+The engine applies optimizations at each step of the process. It even watches the compiled script as it runs, analyzes the data that flows through it, and further optimizes the machine code based on that knowledge.
+>>>>>>> 2b5ac971c1bd8abe7b17cdcf724afd84799b6cbd
 ```
 
 ## แล้วจาวาสคริปต์บนบราวเซอร์สามารถทำอะไรได้บ้าง
