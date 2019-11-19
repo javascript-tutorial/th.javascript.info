@@ -1,67 +1,67 @@
-# The modern mode, "use strict"
+# โหมดใหม่ "use strict"
 
-For a long time, JavaScript evolved without compatibility issues. New features were added to the language while old functionality didn't change.
+เป็นเวลานานแล้วที่จาวาสคริปต์ออกฟีเจอร์ใหม่ๆโดยไม่มีปัญหาเรื่องความเข้ากันได้ (Compatibility) ถึงจะมีฟีเจอร์ใหม่ๆ แต่ฟีเจอร์เดิมๆก็ยังคงทำงานได้อยู่นั่นเอง
 
-That had the benefit of never breaking existing code. But the downside was that any mistake or an imperfect decision made by JavaScript's creators got stuck in the language forever.
+ข้อดีก็คือโค้ดของเรากับโค้ดเมื่อสิบปีที่แล้วก็สามารถทำงานร่วมกันได้ แต่มันมีข้อเสียเพราะตัวผู้สร้างภาษาเอง ก็ดันไปสร้างบาปกำเนิดกับจาวาสคริปต์ด้วย โดยไม่รู้ตัว ดังนั้นเมื่อการหักกับฟีเจอร์เก่าๆแล้ว บาปกำเนิดของจาวาสคริปต์ จึงกลายเป็นคำสาป ชำระล้างไม่ได้ไปตลอดกาล
 
-This was the case until 2009 when ECMAScript 5 (ES5) appeared. It added new features to the language and modified some of the existing ones. To keep the old code working, most such modifications are off by default. You need to explicitly enable them with a special directive: `"use strict"`.
+จนเวลาล่วงเลยมาถึงปี 2009 มาตรฐานภาษาชุดใหม่เปิดตัว มันคือ ECMAScript5 ที่เพิ่มทั้งฟีเจอร์ใหม่ รวมถึงไปโมฟีเจอร์เก่าๆบางตัวด้วย ผลก็คือ `แหก` นั่นเอง แต่ทางผู้สร้างมาตรฐานชุดนี้ตระหนักในเรื่องนี้ดี เพื่อให้โค้ดเก่าๆทำงานได้ พวกเขาจึงได้ปิดฟีเจอร์โมภาษานี้ไป แต่เราสามารถเปิดตัวโมนี้ได้ผ่านคำสั่ง `"use strict"`
 
 ## "use strict"
 
-The directive looks like a string: `"use strict"` or `'use strict'`. When it is located at the top of a script, the whole script works the "modern" way.
+ตัวคำสั่งหน้าตาเหมือนสตริง `"use strict"` หรือ `'use strict'` แต่คำสั่นี้จะต้องอยู่บนสุดของสคริปต์คือบรรทัดที่หนึ่ง ทีนี้สคริปต์ทั้งหมดของเราก็ทำงานแบบ "สมัยใหม่ (modern)"
 
-For example:
+ดั่งตัวอย่าง:
 
 ```js
 "use strict";
 
-// this code works the modern way
+// โค้ดที่เขียนต่อจากนี้จะทำงานแบบจาวาสคริปต์สมัยใหม่
 ...
 ```
 
-We will learn functions (a way to group commands) soon. Looking ahead, let's note that `"use strict"` can be put at the beginning of the function body instead of the whole script. Doing that enables strict mode in that function only. But usually, people use it for the whole script.
+เราจะเรียนรู้เรื่องฟังก์ชั่น (วิธีการจัดกลุ่มคำสั่ง) ในไม่ช้า แต่อยากบอก `"use strict"` สามารถวางไว้ที่บรรทัดเริ่มต้นของฟังก์ชั่นได้ แทนที่จะเป็นทั้งไฟล์ ตามแบบนี้ก็เพื่อจะใช้โหมด `"use strict"` แค่ในฟังก์ชั่นนี้เท่านั้น แต่ปกติแล้ว นิยมวางไว้บรรทัดแรกมากกว่า
 
 
-````warn header="Ensure that \"use strict\" is at the top"
-Please make sure that `"use strict"` is at the top of your scripts, otherwise strict mode may not be enabled.
+````warn header="อย่าลืมว่า \"use strict\" ต้องอยู่บรรทัดแรกเสมอ"
+อย่าลืมว่า `"use strict"` ต้องอยู่บรรทัดแรกของไฟล์สคริปต์เสมอ ไม่อย่างนั้นโหมดนี้จะไม่ทำงาน
 
-Strict mode isn't enabled here:
+เช่นตัวอย่างด้านล่าง
 
 ```js no-strict
 alert("some code");
-// "use strict" below is ignored--it must be at the top
+// ตัวเอนจินจะไม่สนใจ "use strict" ด้านล่าง โหมดนี้จึงไม่ได้ถูกทำงาน
 
 "use strict";
 
-// strict mode is not activated
+// strict mode จะไม่ทำงาน
 ```
 
-Only comments may appear above `"use strict"`.
+หากมีคอมเม้นอยู่เหนือ "use strict" ตัวของ "use strict" ก็จะทำปกติ
 ````
 
-```warn header="There's no way to cancel `use strict`"
-There is no directive like `"no use strict"` that reverts the engine to old behavior.
+```warn header="ไม่มีทางยกเลิกโหมด `use strict` ได้"
+มันไม่มีคำสั่งอย่าง "no use strict" เพื่อได้เอนจินกลับไปทำงานในโหมดเดิมได้
 
-Once we enter strict mode, there's no return.
+ดังนั้นเมื่อเราเปิดโหมด `use strict` แล้ว เราก็ไม่มีทางปิดมันได้
 ```
 
-## Browser console
+## คอนโซลบนเบราเซอร์
 
-For the future, when you use a browser console to test features, please note that it doesn't `use strict` by default.
+หากเราต้องการทดสอบฟีเจอร์อะไรบางอย่างบนคอนโซลของเบราเซอร์ โปรดจงคุณไว้ว่าคอนโซลบนเบราเซอร์ปิดโหมด `use strict` เอาไว้
 
-Sometimes, when `use strict` makes a difference, you'll get incorrect results.
+ดังนั้นในบางครั้งระหว่างโหมด `use strict` กับที่ไม่ใช่ ก็จะได้ผลลัพธ์ที่แตกต่างกัน
 
-You can try to press `key:Shift+Enter` to input multiple lines, and put `use strict` on top, like this:
+เราสามารถลองดูได้โดยกดปุ่ม `key:Shift+Enter` เพื่อป้อนข้อความหลายบรรทัด และอย่าลืมใส่ `use strict` ไว้บนสุดทุกครั้ง, แบบนี้:
 
 ```js
 'use strict'; <Shift+Enter for a newline>
-//  ...your code
-<Enter to run>
+//  ...โค้ดของเรา
+<กด Enter เพื่อให้โค้ดทำงาน>
 ```
 
-It works in most browsers, namely Firefox and Chrome.
+ฟีเจอร์นี้รับรองบนเบราเซอร์ส่วนใหญ่แล้วอย่าง Chrome และ Firefox
 
-If it doesn't, the most reliable way to ensure `use strict` would be to input the code into console like this:
+หากไม่แน่ใจว่า เบราเซอร์ที่เราใช้นั้นสามารถใช้โหมดนี้ได้หรือเปล่า โค้ดข้างล่างคือโค้ดที่เอาไว้ตรวจสอบว่า เบราเซฮร์ดังกล่าวสามารถใช้โหมดนี้ได้
 
 ```js
 (function() {
@@ -71,15 +71,15 @@ If it doesn't, the most reliable way to ensure `use strict` would be to input th
 })()
 ```
 
-## Always "use strict"
+## เปิดโหมด "use strict" ไว้เสมอ
 
-We have yet to cover the differences between strict mode and the "default" mode.
+อันที่จริงเราก็ยังไม่ได้บอกข้อแตกต่างของโหมด "use strict" กับโหมดปกติไว้เลย
 
-In the next chapters, as we learn language features, we'll note the differences between the strict and default modes. Luckily, there aren't many and they actually make our lives better.
+ในบทถัดไป เราจะมาเรียนรู้ฟีเจอร์ของภาษานี้กัน เราจะได้เห็นความแตกต่างระหว่างสองโหมดบ้างต้น ความโชคดีอย่างแรกคือความแตกต่างมีเพียงเล็กน้อย ซึ่งง่ายต่อการจำจด อย่างที่สองคือมันจะทำให้ชีวิตของเราง่ายขึ้นในพริบตา
 
-For now, it's enough to know about it in general:
+สำหรับตอนนี้แค่นี้ก็พอเพียงแล้ว
 
-1. The `"use strict"` directive switches the engine to the "modern" mode, changing the behavior of some built-in features. We'll see the details later in the tutorial.
-2. Strict mode is enabled by placing `"use strict"` at the top of a script or function. Several language features, like "classes" and "modules", enable strict mode automatically.
-3. Strict mode is supported by all modern browsers.
-4. We recommended always starting scripts with `"use strict"`. All examples in this tutorial assume strict mode unless (very rarely) specified otherwise.
+1. คำสั่ง `"use strict"` เป็นคำสั่งสำหรับเอนจินยุค ES5 ซึ่งเอาไว้สลับโหมดระหว่างโหมดปกติกับโหมด `"use strict"` เราจะมาพูดถึงรายละเอียดกันอีกทีในบทถัดไป
+2. เปิด strict โหมดง่ายๆเพียงแค่ใส่ `"use strict"` ไว้บนสุดของสคริปต์หรือฟังชั่นก์ เมื่อเอนจินอ่านเจอมันจะเปิดโหมดนี้โดยอัตโนมัติ
+3. โมเดิร์นเบราเซอร์ รองรับโหมด strict ทั้งหมดแล้ว
+4. แนะนำว่าควรเปิด strict โหมดไว้เสมอ
