@@ -42,7 +42,11 @@ alert("some code");
 ```warn header="ไม่มีทางยกเลิกโหมด `use strict` ได้"
 มันไม่มีคำสั่งอย่าง "no use strict" เพื่อได้เอนจินกลับไปทำงานในโหมดเดิมได้
 
+<<<<<<< HEAD
 ดังนั้นเมื่อเราเปิดโหมด `use strict` แล้ว เราก็ไม่มีทางปิดมันได้
+=======
+Once we enter strict mode, there's no going back.
+>>>>>>> 47d186598add3a0ea759615596a12e277ce8fb5a
 ```
 
 ## คอนโซลบนเบราเซอร์
