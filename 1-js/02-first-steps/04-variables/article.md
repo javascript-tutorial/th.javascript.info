@@ -1,61 +1,61 @@
-# Variables
+# ตัวแปร
 
-Most of the time, a JavaScript application needs to work with information. Here are two examples:
-1. An online shop -- the information might include goods being sold and a shopping cart.
-2. A chat application -- the information might include users, messages, and much more.
+โดยปกติแล้วแอพพลิชั่นที่พัฒนาด้วยจาวาสคริปต์ มักจะต้องทำงานร่วมกับข้อมูลมากมาย
+1. แอพฯร้านค้าออนไลน์ -- ข้อมูลที่ว่าก็คือ สินค้าที่ขาย ตะกร้าสินค้า และอื่นๆ
+2. แอพฯแชท -- ข้อมูลที่ว่าก็คือ ผู้ใช้ ข้อความ และอื่นๆ
 
-Variables are used to store this information.
+ตัวแปรจึงมีหน้าที่คอยเก็บข้อมูลในแอพฯ
 
-## A variable
+## ตัวแปรหนึ่งๆ
 
-A [variable](https://en.wikipedia.org/wiki/Variable_(computer_science)) is a "named storage" for data. We can use variables to store goodies, visitors, and other data.
+[ตัวแปร](https://th.wikipedia.org/wiki/ตัวแปร_(วิทยาการคอมพิวเตอร์)) คือ "หน่วยเก็บข้อมูลที่ระบุชื่อ​ (named storage)" ที่เราสามารถใช้เก็บช้อมูลสินค้า ผู้เข้าชม และข้อมูลอื่นๆได้
 
-To create a variable in JavaScript, use the `let` keyword.
+เพื่อสร้างตัวแปรในจาวาสคริปต์ เราจะใช้คีย์เวิร์ดว่า `let`
 
-The statement below creates (in other words: *declares*) a variable with the name "message":
+โดยที่คำสั่งด้านล่างหมายถึงการสร้าง (บางทีจะเรียกว่า: *ประกาศ*) ตัวแปรโดยตั้งชื่อให้ว่า "message":
 
 ```js
 let message;
 ```
 
-Now, we can put some data into it by using the assignment operator `=`:
+ทีนี้ เราสามารถเก็บข้อมูลลงไปในตัวแปรนี้ได้โดยใช้ assignment operator อย่าง `=`:
 
 ```js
 let message;
 
 *!*
-message = 'Hello'; // store the string
+message = 'Hello'; // เก็บข้อมูลที่เป็นสตริงไว้
 */!*
 ```
 
-The string is now saved into the memory area associated with the variable. We can access it using the variable name:
+สตริงตัวนี้จะถูกบันทึกลงในหน่วยความจำที่เกี่ยวข้องกับตัวแปรที่เราสร้างไว้ เราจึงสามารถเข้าถึงค่าที่เก็บไว้โดยใช้ชื่อตัวแปร
 
 ```js run
 let message;
 message = 'Hello!';
 
 *!*
-alert(message); // shows the variable content
+alert(message); // ดูว่า "message" เก็บอะไรไว้
 */!*
 ```
 
-To be concise, we can combine the variable declaration and assignment into a single line:
+เพื่อให้โค้ดดูกระชับขึ้น เราได้รวมบรรทัดที่สร้างตัวแปร กับ กำหนดค่าให้ตัวแปร ไว้บรรทัดเดียวกัน
 
 ```js run
-let message = 'Hello!'; // define the variable and assign the value
+let message = 'Hello!'; // ทั้งสร้างตัวแปร และ กำหนดค่าให้ตัวแปร ไปพร้อมกัน
 
 alert(message); // Hello!
 ```
 
-We can also declare multiple variables in one line:
+เราสามารถสร้างตัวแปร และ กำหนดค่าให้ตัวแปร พร้อมกันหลายๆตัวได้ ดังนี้
 
 ```js no-beautify
 let user = 'John', age = 25, message = 'Hello';
 ```
 
-That might seem shorter, but we don't recommend it. For the sake of better readability, please use a single line per variable.
+โค้ดด้านบนที่ดูทั้งสั้นและกระชับ แต่เราไม่แนะนำให้ทำแบบนี้ ทางที่ดีเราควรจะสร้างและกำหนดค่าตัวแปรต่อบรรทัด เพื่อให้ง่ายต่อการอ่านโค้ด
 
-The multiline variant is a bit longer, but easier to read:
+ตัวแปรหลายบรรทัดแบบนี้จะยาวขึ้นหน่อย แต่มันก็ช่วยให้อ่านง่ายขึ้น:
 
 ```js
 let user = 'John';
@@ -63,14 +63,14 @@ let age = 25;
 let message = 'Hello';
 ```
 
-Some people also define multiple variables in this multiline style:
+บางคนก็เขียนในรูปแบบนี้
 ```js no-beautify
 let user = 'John',
   age = 25,
   message = 'Hello';
 ```
 
-...Or even in the "comma-first" style:
+...หรือกระทั่งเขียนแบบ "ใข้ลูกน้ำเปิดบรรทัด"
 
 ```js no-beautify
 let user = 'John'
@@ -78,26 +78,26 @@ let user = 'John'
   , message = 'Hello';
 ```
 
-Technically, all these variants do the same thing. So, it's a matter of personal taste and aesthetics.
+ในทางเทคนิคแล้ว ตัวอย่างทั้งหมดทำในสิ่งเดียวกัน คือสร้างและกำหนดค่าตัวแปรหลายตัว การเขียนแบบด้านบนจึงเป็นเรื่องของรสนิยม และสุนทรียส่วนตัว
 
 
-````smart header="`var` instead of `let`"
-In older scripts, you may also find another keyword: `var` instead of `let`:
+````smart header="`var` แทนด้วย `let`"
+ในโค้ดที่เขียนไว้นานแล้ว เราจะเจอการสร้างตัวแปรด้วย `var` แทนที่จะเป็น `let`:
 
 ```js
 *!*var*/!* message = 'Hello';
 ```
 
-The `var` keyword is *almost* the same as `let`. It also declares a variable, but in a slightly different, "old-school" way.
+การใช้ `var` *แทบจะ* เหมือน `let` ทุกประการ 
 
-There are subtle differences between `let` and `var`, but they do not matter for us yet. We'll cover them in detail in the chapter <info:var>.
+ระหว่าง `let` กับ `var` มีความแตกต่างกันเล็กน้อย โดยเรายังจะไม่ลงลึกในส่วนนี้ แต่จะลงลึกในบท  <info:var> แทน
 ````
 
-## A real-life analogy
+## เปรียบเทียบกับชีวิตจริง
 
-We can easily grasp the concept of a "variable" if we imagine it as a "box" for data, with a uniquely-named sticker on it.
+ให้เราจินตนาการว่า "ตัวแปร" ก็เหมือน "กล่อง" แต่แทนที่จะบรรจุของอยู่ภายใน มันดันเป็นกล่องที่บรรจุข้อมูลแทน แถมยังมีสติกเกอร์ชื่อกล่องติดไว้อีกด้วย
 
-For instance, the variable `message` can be imagined as a box labeled `"message"` with the value `"Hello!"` in it:
+ตัวอย่างเช่นตัวแปร `message` ก็คือกล่องที่มีสติกเกอร์ชื่อติดไว้ว่า `message` พร้อมกับบรรจุข้อมูล `"Hello!"` อยู่ภายใน
 
 ![](variable.svg)
 
