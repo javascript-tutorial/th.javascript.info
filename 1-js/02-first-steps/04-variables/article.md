@@ -101,24 +101,24 @@ let user = 'John'
 
 ![](variable.svg)
 
-We can put any value in the box.
+เราสามารถใส่ค่าอะไรก็ได้ลงไปในกล่อง
 
-We can also change it as many times as we want:
+เรายังสามารถเปลี่ยนมันเป็นก็ได้ทุกเมื่อที่เราต้องการ
 ```js run
 let message;
 
 message = 'Hello!';
 
-message = 'World!'; // value changed
+message = 'World!'; // เปลี่ยนค่า
 
 alert(message);
 ```
 
-When the value is changed, the old data is removed from the variable:
+เมื่อค่าเปลี่ยน ข้อมูลเก่าจะถูกลบจากตัวแปรทันที:
 
 ![](variable-change.svg)
 
-We can also declare two variables and copy data from one into the other.
+เรายังสามารถสร้างตัวแปร และคัดลอกข้อมูลจากอีกตัวแปรหนึ่ง ให้อีกตัวแปรหนึ่งได้ด้วย
 
 ```js run
 let hello = 'Hello world!';
@@ -126,79 +126,79 @@ let hello = 'Hello world!';
 let message;
 
 *!*
-// copy 'Hello world' from hello into message
+// คัดลอก 'Hello world' จากตัวแปร hello มาให้ตัวแปร message
 message = hello;
 */!*
 
-// now two variables hold the same data
+// ทีนี้ตัวแปรสองตัวจะมีค่าเดียวกัน
 alert(hello); // Hello world!
 alert(message); // Hello world!
 ```
 
-```smart header="Functional languages"
-It's interesting to note that there exist [functional](https://en.wikipedia.org/wiki/Functional_programming) programming languages, like [Scala](http://www.scala-lang.org/) or [Erlang](http://www.erlang.org/) that forbid changing variable values.
+```smart header="ภาษาเชิงฟังชั่นก์"
+เป็นที่น่าสังเกตว่าในบางภาษาโปรแกรมมิ่งที่จัดว่าเป็นภาษา[เชิงฟังชั่นก์](https://en.wikipedia.org/wiki/Functional_programming) อย่าง [Scala](http://www.scala-lang.org/) หรือ [Erlang](http://www.erlang.org/) ห้ามเปลี่ยนแปลงค่าในตัวแปร
 
-In such languages, once the value is stored "in the box", it's there forever. If we need to store something else, the language forces us to create a new box (declare a new variable). We can't reuse the old one.
+ในภาษาประเภทนี้เมื่ออะไรก็ตามถูกเก็บไว้ในกล่อง สิ่งๆนั้นจะต้องอยู่ในกล่องตลอดกาล ถ้าเราต้องการเก็บค่าอื่นๆ เราจะต้องสร้างตัวแปรขึ้นมาใหม่แทน โดยตัวภาษาจะบังคับให้เราทำกล่องใบใหม่ขึ้นมา เราไม่สามารถใช้กล่องเก่าซ้ำได้
 
-Though it may seem a little odd at first sight, these languages are quite capable of serious development. More than that, there are areas like parallel computations where this limitation confers certain benefits. Studying such a language (even if you're not planning to use it soon) is recommended to broaden the mind.
+แม้ว่ามันอาจจะดูแปลกๆเล็กน้อย แต่ข้อจำกัดเหล่านี้กลับมีประโยชน์ในบางอย่างในด้านการพัฒนาแอพฯอย่างมาก โดยเฉพาะการทำงานได้มากกว่าสองอย่างในเวลาเดียวกัน เราแนะนำการศึกษาภาษาจำพวกเชิงฟังก์ชั่น เพื่อเปิดมุมมองให้กว้างขึ้น
 ```
 
-## Variable naming [#variable-naming]
+## การตั้งชื่อตัวแปร [#variable-naming]
 
-There are two limitations on variable names in JavaScript:
+มีข้อยกเว้นในการตั้งชื่อตัวแปรอยู่ 2 ข้อด้วยกัน
 
-1. The name must contain only letters, digits, or the symbols `$` and `_`.
-2. The first character must not be a digit.
+1. ชื่อควรประกอบด้วย ข้อความ, ตัวเลข หรือเครื่องหมาย `$` และ `_`
+2. ชื่อตัวแปรห้ามขึ้นต้นด้วยตัวเลข
 
-Examples of valid names:
+ตัวอย่างการตั้งชื่อ:
 
 ```js
 let userName;
 let test123;
 ```
 
-When the name contains multiple words, [camelCase](https://en.wikipedia.org/wiki/CamelCase) is commonly used. That is: words go one after another, each word except first starting with a capital letter: `myVeryLongName`.
+หากชื่อประกอบด้วยคำมากกว่าหนึ่งคำ เราจะใช้การแบ่งคำแบบ [camelCase](https://en.wikipedia.org/wiki/CamelCase) นั่นก็คือ: คำแรกจะขึ้นต้นด้วยตัวเล็ก คำต่อๆมาก็จะขึ้นต้นด้วยตัวใหญ่ `myVeryLongName`
 
-What's interesting -- the dollar sign `'$'` and the underscore `'_'` can also be used in names. They are regular symbols, just like letters, without any special meaning.
+สิ่งที่น่าสนใจก็คือ -- สัญลักษณ์ดอลล่าร์ `'$'` และ underscore `'_'` สามารถนำมาตั้งชื่อตัวแปรได้ด้วย สัญลักษณ์เหล่านี้เป็นเพียงสัญลักษณ์ธรรมดา เหมือนตัวอักษรไม่ได้มีความหมายพิเศษอะไร
 
-These names are valid:
+สามารถตั้งชื่อแบบนี้ได้
 
 ```js run untrusted
-let $ = 1; // declared a variable with the name "$"
-let _ = 2; // and now a variable with the name "_"
+let $ = 1; // ตั้งชื่อตัวแปรด้วย "$"
+let _ = 2; // ทีนี้ก็ตั้งด้วย "_"
 
 alert($ + _); // 3
 ```
 
-Examples of incorrect variable names:
+ตัวอย่างชื่อตัวแปรที่ไม่สามารถตั้งได้
 
 ```js no-beautify
-let 1a; // cannot start with a digit
+let 1a; // ห้ามขึ้นต้นด้วยตัวเลข
 
-let my-name; // hyphens '-' aren't allowed in the name
+let my-name; // hyphens '-' ห้ามมีในชื่อ
 ```
 
-```smart header="Case matters"
-Variables named `apple` and `AppLE` are two different variables.
+```smart header="พิมพ์เล็กพิมพ์ใหญ่นั้นสำคัญ"
+ตัวแปรชื่อ `apple` กับตัวแปรชื่อ `AppLE` เป็นคนละตัวแปรกัน
 ```
 
-````smart header="Non-Latin letters are allowed, but not recommended"
-It is possible to use any language, including cyrillic letters or even hieroglyphs, like this:
+````smart header="สามารถตั้งชื่อตัวแปรที่ไม่ใช่ตัวอักษรละตินได้ แต่ไม่แนะนำ"
+สามารถตั้งชื่อตัวแปรเป็นภาษาอะไรก็ได้ แม้กระทั่ง อักษรซีริลลิก (cyrillic) หรือ อักษรอียิปต์โบราณ (hieroglyphs) แบบนี้
 
 ```js
 let имя = '...';
 let 我 = '...';
 ```
 
-Technically, there is no error here, such names are allowed, but there is an international tradition to use English in variable names. Even if we're writing a small script, it may have a long life ahead. People from other countries may need to read it some time.
+ในทางเทคนิค เราสามารถทำได้โดยที่ไม่มีข้อผิดพลาดเกิดขึ้น เราสามารถตั้งชื่อตัวแปรแบบนี้ได้ แต่ในทางสากลนิยมจะใช้ภาษาอังดฤษเป็นชื่อตัวแปร แม้ว่าจะเราเขียนเพียงสคริปต์เล็กๆ แต่ก็มีโอกาสที่ต่างชาติจะมาอ่านโค้ดของเราได้ทุกเมื่อ
 ````
 
-````warn header="Reserved names"
-There is a [list of reserved words](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar#Keywords), which cannot be used as variable names because they are used by the language itself.
+````warn header="ชื่อที่ถูกสงวน"
+นี่คือ[รายชื่อคำที่ถูกสงวนไว้](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar#Keywords) คำเหล่านี้ไม่สามารถนำมาตั้งชื่อตัวแปรได้ เพราะถูกสงวนไว้ให้ตัวภาษาใช้
 
-For example: `let`, `class`, `return`, and `function` are reserved.
+ตัวอย่างเช่น: `let`, `class`, `return`, และ `function` ทั้งหมดเป็นคำสงวน
 
-The code below gives a syntax error:
+หากเรานำคำสงวนไปตั้งชื่อตัวแปรก็จะเกิดข้อผิดพลาดขึ้น
 
 ```js run no-beautify
 let let = 5; // can't name a variable "let", error!
