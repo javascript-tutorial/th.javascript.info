@@ -1,5 +1,5 @@
-We generally use upper case for constants that are "hard-coded". Or, in other words, when the value is known prior to execution and directly written into the code.
+โดยปกติเราใช้ตัวพิมพ์ใหญ่สำหรับตัวแปรที่เก็บค่าคงที่ที่เป็น "ฮาร์ดโค้ด"
 
-In this code, `birthday` is exactly like that. So we could use the upper case for it.
+ในโค้ดนี้ตัวแปร `birthday` เก็บค่าวันเกิดเอาไว้ ซึ่งพิจารณาได้ว่าเป็น "ฮาร์ดโค้ด" เราเลยใช้ชื่อตัวแปรเป็นตัวพิมพ์ใหญ่
 
-In contrast, `age` is evaluated in run-time. Today we have one age, a year after we'll have another one. It is constant in a sense that it does not change through the code execution. But it is a bit "less of a constant" than `birthday`: it is calculated, so we should keep the lower case for it.
+แต่ตัวแปร `age` จะมีค่าก็ต่อเมื่อโค้ดนี้ทำงาน โดยปีนี้เราจะได้อายุค่าหนึ่ง ปีหน้าก็เป็นอีกค่าหนึ่ง เนื่องจากตัวแปร `age` จะมีค่าหลังจากถูกคำนวณแล้ว ในแง่ความเป็นค่าคงที่แล้ว จึงมีความเป็นค่าคงที่น้อยกว่าตัวแปร `birthday`   

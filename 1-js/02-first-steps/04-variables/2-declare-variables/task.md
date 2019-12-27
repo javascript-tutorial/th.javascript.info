@@ -2,7 +2,7 @@ importance: 3
 
 ---
 
-# Giving the right name
+# จงมอบนามที่ถูกต้อง
 
-1. Create a variable with the name of our planet. How would you name such a variable?
-2. Create a variable to store the name of a current visitor to a website. How would you name that variable?
+1. จะตั้งชื่อตัวแปรที่เก็บค่า "Earth" ไว้ว่าอะไรดี
+2. จะตั้งชื่อตัวแปรที่เก็บชื่อผู้เยี่ยมชมเว็บไซต์ตอนนี้ว่าอะไรดี

@@ -1,21 +1,21 @@
-## The variable for our planet
+## ชื่อตัวแปรที่เก็บค่าดาวโลกไว้
 
-That's simple:
+ก็ง่ายมาก
 
 ```js
 let ourPlanetName = "Earth";
 ```
 
-Note, we could use a shorter name `planet`, but it might be not obvious what planet it refers to. It's nice to be more verbose. At least until the variable isNotTooLong.
+จำไว้ว่า ที่จริงเราควรใช้ชื่อที่สั้นอย่าง `planet` แต่ตัวแปรนี้ก็ยังคลุมเครือว่าดาวเคราะห์อะไร มันจะดีขึ้นเมื่อเราใช้คำมากขึ้น หากการใช้คำมากขึ้น ไม่ได้ทำให้ชื่อตัวแปรยาวเกินไป
 
-## The name of the current visitor
+## ชื่อตัวแปรที่เก็บชื่อผู้เยี่ยมชมเว็บไซต์ปัจจุบัน
 
 ```js
 let currentUserName = "John";
 ```
 
-Again, we could shorten that to `userName` if we know for sure that the user is current.
+ที่จริงเราจะควรใช้ชื่อที่สั้นกว่านี้ อย่างเช่น `userName` หากเรารู้แน่นอนว่านี่คือผู้ใช้คนปัจจุบัน
 
-Modern editors and autocomplete make long variable names easy to write. Don't save on them. A name with 3 words in it is fine.
+ใน editors ใหม่ๆ จะมาพร้อมกับฟีเจอร์ autocomplete ที่ไม่ต้องเสียเวลาพิมพ์ชื่อตัวแปรยาวๆ
 
-And if your editor does not have proper autocompletion, get [a new one](/code-editors).
+และหาก editors ที่คุณใช้ดูยังไม่มีฟีเจอร์นี้ เราขอแนะนำให้[หามาใช้สักตัว](/code-editors)

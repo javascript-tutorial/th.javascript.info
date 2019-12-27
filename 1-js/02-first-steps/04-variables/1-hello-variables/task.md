@@ -2,9 +2,9 @@ importance: 2
 
 ---
 
-# Working with variables
+# เล่นกับตัวแปร
 
-1. Declare two variables: `admin` and `name`.
-2. Assign the value `"John"` to `name`.
-3. Copy the value from `name` to `admin`.
-4. Show the value of `admin` using `alert` (must output "John").
+1. สร้างตัวแปรมาสองตัวชื่อ `admin` และ `name`
+2. กำหนดค่าให้ตัวแปรทั้งสองคือ `"John"` ไปที่ `name`
+3. คัดลอกค่าจาก `name` ไปที่ `admin`
+4. แสดงค่าที่เก็บใน `admin` โดยใช้ `alert` (ผลลัพธ์จะต้องออกมาเป็น "John")
