@@ -201,24 +201,24 @@ let 我 = '...';
 หากเรานำคำสงวนไปตั้งชื่อตัวแปรก็จะเกิดข้อผิดพลาดขึ้น
 
 ```js run no-beautify
-let let = 5; // can't name a variable "let", error!
-let return = 5; // also can't name it "return", error!
+let let = 5; // ไม่สามารถตั้งชื่อตัวแปรว่า "let" ได้
+let return = 5; // ไม่สามารถตั้งชื่อตัวแปรว่า "return" ได้
 ```
 ````
 
-````warn header="An assignment without `use strict`"
+````warn header="การกำหนดค่าตัวแปรเมื่อไม่มี "use strict""
 
-Normally, we need to define a variable before using it. But in the old times, it was technically possible to create a variable by a mere assignment of the value without using `let`. This still works now if we don't put `use strict` in our scripts to maintain compatibility with old scripts.
+ในทางเทคนิคเราสามารถสร้างตัวแปรโดยไม่จำเป็นต้องใช้คีย์เวิร์คอย่าง `let` ได้ โค้ดส่วนนี้สามาถทำงานได้ ถ้าเราไม่ใส่ `"use strict"` ลงไป
 
 ```js run no-strict
-// note: no "use strict" in this example
+// อย่าลืมว่า: ไม่มี "use strict" ในตัวอย่างนี้
 
-num = 5; // the variable "num" is created if it didn't exist
+num = 5; // ตัวแปรชื่อ "num" ถูกสร้าง
 
 alert(num); // 5
 ```
 
-This is a bad practice and would cause an error in strict mode:
+แต่ด้านบนเป็นแนวทางปฎิบัติที่ไม่ดี เพราะโค้ดจะเกิดข้อผิดพลาดทันที เมื่อไปอยู่ในโหมด "use strict"
 
 ```js
 "use strict";
@@ -229,15 +229,15 @@ num = 5; // error: num is not defined
 ```
 ````
 
-## Constants
+## ค่าคงที่
 
-To declare a constant (unchanging) variable, use `const` instead of `let`:
+ค่าคงที่คือตัวแปรชนิดหนึ่งที่ไม่สามารถเปลี่ยนแปลงข้อมูลภายหลังได้ เราจะใช้คีย์เวิร์ค `const`
 
 ```js
 const myBirthday = '18.04.1982';
 ```
 
-Variables declared using `const` are called "constants". They cannot be reassigned. An attempt to do so would cause an error:
+ตัวแปรที่สร้างโดยใช้คีย์เวิร์ค `const` จะเรียกว่า "ค่าคงที่ (constants)" ค่าคงที่ไม่สามารถกำหนดค่าใหม่ได้ หากเรามีกำหนดค่าใหม่ให้ตัวแปรดังกล่าวจะทำให้เกิดข้อผิดพลาดขึ้นได้
 
 ```js run
 const myBirthday = '18.04.1982';
@@ -245,16 +245,15 @@ const myBirthday = '18.04.1982';
 myBirthday = '01.01.2001'; // error, can't reassign the constant!
 ```
 
-When a programmer is sure that a variable will never change, they can declare it with `const` to guarantee and clearly communicate that fact to everyone.
+เมื่อโปรแกรมเมอร์แน่ใจแล้วว่าตัวแปรที่สร้างจะไม่มีวันเปลี่ยนค่าแน่นอน พวกเขาจะใช้ `const` แทน และช่วยให้โปรแกรมเมอร์คนอื่นๆเข้าใจโค้ดที่เขียนด้วย
 
+### ชื่อของค่าคงที่มักใช้ตัวพิมพ์ใหญ่
 
-### Uppercase constants
+วิธีปฎิบัติที่ใช้กันทั่วไปคือ ตัวแปรที่เป็นค่าคงที่ จะเป็นค่าที่ยากต่อการจดจำ
 
-There is a widespread practice to use constants as aliases for difficult-to-remember values that are known prior to execution.
+ค่าคงที่เราจะใช้ตัวพิมพ์ใหญ่และตามด้วย underscore แบ่งระหว่างคำ
 
-Such constants are named using capital letters and underscores.
-
-For instance, let's make constants for colors in so-called "web" (hexadecimal) format:
+ตัวอย่าง สร้างค่าคงที่สำหรับเก็บสีที่ใช้ในเว็บ (ในรูปแบบเลขฐานสิบหก)
 
 ```js run
 const COLOR_RED = "#F00";
@@ -262,69 +261,70 @@ const COLOR_GREEN = "#0F0";
 const COLOR_BLUE = "#00F";
 const COLOR_ORANGE = "#FF7F00";
 
-// ...when we need to pick a color
+// ...เมื่อเราจะเลือกสี
 let color = COLOR_ORANGE;
 alert(color); // #FF7F00
 ```
 
-Benefits:
+ประโยชน์:
 
-- `COLOR_ORANGE` is much easier to remember than `"#FF7F00"`.
-- It is much easier to mistype `"#FF7F00"` than `COLOR_ORANGE`.
-- When reading the code, `COLOR_ORANGE` is much more meaningful than `#FF7F00`.
+- `COLOR_ORANGE` จำง่ายกว่า `"#FF7F00"`
+- มีโอกาสพิมพ์ `"#FF7F00"` ผิด แทนที่จะเป็น `COLOR_ORANGE`
+- เวลาคนอื่นอ่านโค้ด `COLOR_ORANGE` จะสื่อความหมายมากกว่า `#FF7F00`.
 
-When should we use capitals for a constant and when should we name it normally? Let's make that clear.
+ค่าคงค่าแบบไหนควรจะตั้งชื่อเป็นตัวพิมพ์ใหญ่ และแบบไหนควรจะใช้ชื่อแบบปกติ (camelCase) เราจะมาช่วยให้กระจ่างกัน
 
-Being a "constant" just means that a variable's value never changes. But there are constants that are known prior to execution (like a hexadecimal value for red) and there are constants that are *calculated* in run-time, during the execution, but do not change after their initial assignment.
+การเป็น "ค่าคงที่" หมายถึงค่าที่เก็บอยู่ในตัวแปร จะต้องไม่มีการเปลี่ยนแปลง มีค่าคงที่ที่เป็นค่าตายตัวไม่เปลี่ยนแปลง (อย่างสีแบบเลขฐานสิบหก) และ มีค่าคงที่ที่จะถูก*คำนวณ*ตอนโปรแกรมทำงาน ซึ่งค่าจะเปลี่ยนแปลงหลังจากโปรแกรมทำงาน ไม่ได้เปลี่ยนค่าเริ่มต้น
 
-For instance:
+ตัวอย่างเช่น
+
 ```js
-const pageLoadTime = /* time taken by a webpage to load */;
+const pageLoadTime = /* กำหนดเวลาโหลดหน้าเว็บ */;
 ```
 
-The value of `pageLoadTime` is not known prior to the page load, so it's named normally. But it's still a constant because it doesn't change after assignment.
+เราไม่รู้ว่าค่าของ `pageLoadTime` เป็นเท่าไหร่ จนกว่าเว็บจะถึงเวลาโหลดเว็บจริงๆ ดังนั้นชื่อตัวแปรนี้เลยตั้งแบบปกติ(camelCase) แต่ตัวแปรนี้ยังถือเป็นค่าคงที่ เพราะมันถูกกำหนดค่าใหม่เลย
 
-In other words, capital-named constants are only used as aliases for "hard-coded" values.  
+อีกนัยหนึ่ง การใช้ตัวพิมพ์ใหญ่เป็นชื่อของค่าคงที่จะใช้ในค่าที่เราเรียกกันว่า "hard-coded"
 
-## Name things right
+## ตั้งชื่อให้ถูก
 
-Talking about variables, there's one more extremely important thing.
+พูดถึงตัวแปร มีข้อสำคัญสำหรับการตั้งชื่อตัวแปร
 
-A variable name should have a clean, obvious meaning, describing the data that it stores.
+ชื่อตัวแปรควรจะมีความหมายที่ชัดเจน และอธิบายค่าที่ตัวแปรนี้เก็บไว้
 
-Variable naming is one of the most important and complex skills in programming. A quick glance at variable names can reveal which code was written by a beginner versus an experienced developer.
+การตั้งชื่อตัวแปรเป็นทักษะที่สำคัญที่สุดอย่างหนึ่งในการเขียนโปรแกรม การตั้งชื่อตัวแปรสามารถบอกได้เลยว่า โค้ดนี้ถูกเขียนมาจากผู้เริ่มต้น หรือผู้มีประสบการณ์แล้ว
 
-In a real project, most of the time is spent modifying and extending an existing code base rather than writing something completely separate from scratch. When we return to some code after doing something else for a while, it's much easier to find information that is well-labeled. Or, in other words, when the variables have good names.
+ในโปรเจคจริง เราจะใช้เวลาส่วนใหญ่ไปกับการปรับแต่งและเพิ่มเติมโค้ดที่มีอยู่แล้ว มากกว่าจะไปเขียนอะไรใหม่เริ่มจากศูนย์เลย ฉะนั้นหากเราห่างจากโค้ดเดิมๆไปนานๆ แล้วกลับมาเขียนใหม่ การตั้งชื่อที่ดีมีผลช่วยให้เราหย่อนระยะเวลาในการไล่โค้ดของเราเอง
 
-Please spend time thinking about the right name for a variable before declaring it. Doing so will repay you handsomely.
+ใช้เวลาคิดสักครู่หนึ่งเกี่ยวกับการตั้งชื่อตัวแปร การทำเช่นนี้จะตอบแทนเราอย่างงาม
 
-Some good-to-follow rules are:
+กฎที่ควรปฎิบัติตาม
 
-- Use human-readable names like `userName` or `shoppingCart`.
-- Stay away from abbreviations or short names like `a`, `b`, `c`, unless you really know what you're doing.
-- Make names maximally descriptive and concise. Examples of bad names are `data` and `value`. Such names say nothing. It's only okay to use them if the context of the code makes it exceptionally obvious which data or value the variable is referencing.
-- Agree on terms within your team and in your own mind. If a site visitor is called a "user" then we should name related variables `currentUser` or `newUser` instead of `currentVisitor` or `newManInTown`.
+- ใช้ชื่อที่มนุษย์อ่านแล้วเข้าใจอย่าง `userName` หรือ `shoppingCart`
+- หลีกเลี่ยงการใช้ชื่อย่ออย่าง `a`, `b`, `c`, เว้นแต่เรารู้จริงๆว่าตัวแปรนี้ทำอะไร
+- ตั้งชื่อให้เป็นคำอธิบายที่สั้นและกระชับมากที่สุด ชื่อที่ไม่ดีอย่าง `data` และ `value` ชื่อแบบนี้ไม่ได้สื่ออะไรเลย ดังนั้นควรทำให้ชื่อตัวแปรเหล่านี้ชัดเจน เหมาะสมกับบริบทนั้นๆ หรือค่าที่ตัวแปรนั้นอ้างอิงอยู่
+- ทำข้อตกลงกับทีม ถ้าผู้เยี่ยมชมเว็บไซต์จะเรียกว่า "user" เราควรตั้งชื่อตัวแปรที่เกี่ยวข้องว่า `currentUser` หรือ `newUser` แทนที่จะเป็น `currentVisitor`
 
-Sounds simple? Indeed it is, but creating descriptive and concise variable names in practice is not. Go for it.
+ฟังดูง่ายไหม? อันที่จริงก็ใช่ แต่ในทางปฎิบัติแล้วการตั้งชื่อแปรที่สั้น กระชับ พร้อมทั้งอธิบายค่าที่เก็บในตัวแปรได้อย่างรัดกุม ไม่ใช่เรื่องที่ง่ายเลย
 
-```smart header="Reuse or create?"
-And the last note. There are some lazy programmers who, instead of declaring new variables, tend to reuse existing ones.
+```smart header="ใช้ซ้ำหรือสร้างใหม่ไปเลย"
+ก่อนจะจากกัน มีโปรแกรมเมอร์ขี้เกียจบางคน แทนที่จะสร้างตัวแปรใหม่ กลับใช้ตัวแปรเดิมซ้ำๆ
 
-As a result, their variables are like boxes into which people throw different things without changing their stickers. What's inside the box now? Who knows? We need to come closer and check.
+ผลก็คือ ตัวแปรนั้นจะเหมือนกล่องสาธารณะที่แต่ละคนนำไปใช้ และเอาสิ่งใหม่เข้าไปแทนสิ่งเดิม ทีนี้เราก็จะไม่รู้ว่ากล่องนี้เก็บอะไรไว้
 
-Such programmers save a little bit on variable declaration but lose ten times more on debugging.
+การปฎิบัติเช่นนี้ช่วยประหยัดเวลาเพียงเล็กน้อย เพื่อจะได้ไม่ต้องสร้างตัวแปรใหม่ แต่จะเสียเวลาเป็นสิบเท่าจากการหาบั๊ก
 
-An extra variable is good, not evil.
+การสร้างตัวแปรเพิ่มนั้น ไม่ได้เลวร้ายเลย
 
-Modern JavaScript minifiers and browsers optimize code well enough, so it won't create performance issues. Using different variables for different values can even help the engine optimize your code.
+การใช้ตัวแปรที่มากขึ้น เพื่อรับรองค่าที่หลากหลายในโมเดิร์นจาวาสคริปต์จะช่วยกำจัดสิ่งที่ไม่จำเป็นออกไป (minifiers) และเบราเซอร์ก็ช่วยปรับปรุง (optimize) โค้ดของเราส่วนหนึ่งให้ดีพอ ดังนั้นมันจะไม่สร้างปัญหาเรื่อง performance
 ```
 
-## Summary
+## สรุป
 
-We can declare variables to store data by using the `var`, `let`, or `const` keywords.
+เราสร้างตัวแปรเพื่อใช้เก็บค่าหรือข้อมูล โดยใช้คีย์เวิร์คอย่าง `var`, `let`, หรือ `const`
 
-- `let` -- is a modern variable declaration.
-- `var` -- is an old-school variable declaration. Normally we don't use it at all, but we'll cover subtle differences from `let` in the chapter <info:var>, just in case you need them.
-- `const` -- is like `let`, but the value of the variable can't be changed.
+- `let` -- การสร้างตัวแปรแบบใหม่
+- `var` -- การสร้างตัวแปรแบบเก่า ตอนนี้เราจะไม่ใช้มันแล้ว แต่เราจะพูดถึงความแตกต่างกันระหว่างของเก่ากับของใหม่กันในบท <info:var>
+- `const` -- เหมือน `let` แต่ค่าที่เก็บอยู่ในตัวแปรนี้ไม่สามารถเปลี่ยนแปลงได้
 
-Variables should be named in a way that allows us to easily understand what's inside them.
+ควรตั้งชื่อตัวแปรในทางที่ช่วยให้เราเข้าใจสิ่งที่เก็บอยู่ภายใน
