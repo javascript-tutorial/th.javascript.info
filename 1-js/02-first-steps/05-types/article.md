@@ -1,89 +1,89 @@
-# Data types
+# ชนิดของข้อมูล
 
-A variable in JavaScript can contain any data. A variable can at one moment be a string and at another be a number:
+ตัวแปรในจาวาสคริปต์สามารถเก็บข้อมูลใดๆก็ได้ เช่น ตัวแปรหนึ่งเก็บข้อมูลที่เป็นสตริง (String) อีกตัวเก็บข้อมูลที่เป็นตัวเลข (Number)
 
 ```js
-// no error
+// ไม่มี error
 let message = "hello";
 message = 123456;
 ```
 
-Programming languages that allow such things are called "dynamically typed", meaning that there are data types, but variables are not bound to any of them.
+โปรแกรมมิ่งภาษาใดที่อนุญาตให้เราเปลี่ยนชนิดของข้อมูลได้ โดยที่ไม่ error เราจะเรียกภาษานั้นว่าเป็น "dynamically typed" หมายความว่า ตัวแปรจะเก็บข้อมูลเป็นอะไรก็ได้ และไม่ได้ผูกกับชนิดของข้อมูลชนิดใดชนิดหนึ่ง
 
-There are eight basic data types in JavaScript. Here, we'll cover them in general and in the next chapters we'll talk about each of them in detail.
+ในจาวาสคริปต์ข้อมูลสามารถจำแนกออกได้เป็น 8 ชนิด ในบทนี้จะพูดแต่เรื่องพื้นฐานเท่านั้น โดยจะลงรายละเอียดในบทถัดไป
 
-## Number
+## ตัวเลข (Number)
 
 ```js
 let n = 123;
 n = 12.345;
 ```
 
-The *number* type represents both integer and floating point numbers.
+ตัวแปรชนิด *number* คือตัวเลขนั่นเอง สามารถเป็นได้ทั้งจำนวนเต็ม (Integer) และทศนิยม (Floating Point)
 
-There are many operations for numbers, e.g. multiplication `*`, division `/`, addition `+`, subtraction `-`, and so on.
+เราสามารถนำตัวเลข 2 ตัวมาทำการบวก (addition) ด้วยเครื่องหมาย `+` ลบ (subtraction) `-` คูณ (multiplication) `*` หรือหาร (division) `/` และอื่นๆ
 
-Besides regular numbers, there are so-called "special numeric values" which also belong to this data type: `Infinity`, `-Infinity` and `NaN`.
+นอกจากตัวเลขปกติแล้ว ในจาวาสคริปต์ ยังมีจำนวนพิเศษอีก ได้แก่ `Infinity`, `-Infinity` และ `NaN`
 
-- `Infinity` represents the mathematical [Infinity](https://en.wikipedia.org/wiki/Infinity) ∞. It is a special value that's greater than any number.
+- `Infinity` คือ [อนันต์](https://th.wikipedia.org/wiki/อนันต์)(∞) ในทางคณิตศาสตร์ เป็นค่าพิเศษที่มีค่ามากกว่าตัวเลขใดๆก็คาม
 
-    We can get it as a result of division by zero:
+    เราจะได้ค่านี้ก็ต่อเมื่อ เราหารตัวเลขอะไรก็ตามด้วยศูนย์
 
     ```js run
     alert( 1 / 0 ); // Infinity
     ```
 
-    Or just reference it directly:
+    หรือจะพิมพ์ไปตรงๆเลยก็ได้
 
     ```js run
     alert( Infinity ); // Infinity
     ```
-- `NaN` represents a computational error. It is a result of an incorrect or an undefined mathematical operation, for instance:
+- `NaN` คือ ค่าที่เกิดขึ้นจากข้อผิดพลาดทางการคำนวณ เป็นผลมาจากการดำเนินการทางคณิตศาสตร์ที่ไม่ถูกต้อง ตัวอย่างเช่น
 
     ```js run
-    alert( "not a number" / 2 ); // NaN, such division is erroneous
+    alert( "not a number" / 2 ); // NaN, สตริงหารตัวเลขไม่ได้
     ```
 
-    `NaN` is sticky. Any further operation on `NaN` returns `NaN`:
+    `NaN` เป็นค่าที่ติดหนึบ เพราะไม่ว่าเราจะทำอะไรกับค่า `NaN` มันก็จะเป็น `NaN` เสมอ
 
     ```js run
     alert( "not a number" / 2 + 5 ); // NaN
     ```
 
-    So, if there's a `NaN` somewhere in a mathematical expression, it propagates to the whole result.
+    ดังนั้น หากเกิด `NaN` ขึ้นมาในโค้ดของเรา มันก็อาจจะลามไปที่อื่นในโค้ดของเราด้วย
 
-```smart header="Mathematical operations are safe"
-Doing maths is "safe" in JavaScript. We can do anything: divide by zero, treat non-numeric strings as numbers, etc.
+```smart header="การดำเนินการทางคณิตศาสตร์นั้นปลอดภัย"
+การกระทำใดๆที่เกี่ยวกับตัวเลขนั้นปลอดภัย ต่อไปเราจะ หารอะไรด้วยศูนย์ เอาข้อมูลชนิดอื่นมาบวกตัวเลข และอื่นๆ
 
-The script will never stop with a fatal error ("die"). At worst, we'll get `NaN` as the result.
+สคริปต์ของเราจะไม่หยุดทำงาน (fatal error) หรือตาย อย่างแย่ที่สุดก็คือ ได้ผลลัพธ์เป็น `NaN`
 ```
 
-Special numeric values formally belong to the "number" type. Of course they are not numbers in the common sense of this word.
+จำนวนพิเศษเหล่านั้นจัดอยู่ในข้อมูลชนิด `number` แต่เป็นจำนวนทางโปรแกรมมิ่ง ที่ขัดกับหลักสามัญสำนึกของเรา
 
-We'll see more about working with numbers in the chapter <info:number>.
+หากต้องการทราบรายละเอียดเกี่ยวกับตัวเลขที่เยอะขึ้น ให้คลิกที่บทนี้ <info:number>.
 
-## BigInt
+## จำนวนเต็มที่เยอะมากๆ (BigInt)
 
-In JavaScript, the "number" type cannot represent integer values larger than <code>2<sup>53</sup></code> (or less than <code>-2<sup>53</sup></code> for negatives), that's a technical limitation caused by their internal representation. That's about 16 decimal digits, so for most purposes the limitation isn't a problem, but sometimes we need really big numbers, e.g. for cryptography or microsecond-precision timestamps.
+ในจาวาสคริปต์ ข้อมูลชนิด `number` ไม่สามารถแสดงจำนวนเต็มที่มีค่าเกินกว่า <code>2<sup>53</sup></code> (หรือน้อยกว่า <code>-2<sup>53</sup></code> สำหรับจำนวนเต็มลบ) นับเป็นหนึ่งในข้อจำกัดทางเทคนิคของภาษา การแสดงตัวเลขได้เพียง 16 หลักสามารถใช้แทนจำนวนในชีวิตประจำวันได้โดยส่วนใหญ่อยู่แล้ว ข้อจำกัดนี้จึงไม่ใช่ปัญหา แต่บางครั้งเราก็ต้องการเก็บข้อมูลที่มีตัวเลขจำนวนมาก เช่น สำหรับการเข้ารหัส (cryptography) หรือ การประทับเวลาในระดับไมโครวินาที เป็นต้น
 
-`BigInt` type was recently added to the language to represent integers of arbitrary length.
+ข้อมูลชนิด `BigInt` เพิ่งจะถูกเพิ่มเข้ามาในจาวาสคริปต์ไม่นานนี้ เพื่อให้ตัวแปรสามารถเก็บข้อมูล เป็นตัวเลขทีมีความยาวเกิน 16 หลักได้
 
-A `BigInt` is created by appending `n` to the end of an integer literal:
+เราจะสร้างข้อมูลชนิด `BigInt` ได้ด้วยการเติม `n` ไว้ข้างหลังเลขจำนวนเต็ม
 
 ```js
 // the "n" at the end means it's a BigInt
 const bigInt = 1234567890123456789012345678901234567890n;
 ```
 
-As `BigInt` numbers are rarely needed, we devoted them a separate chapter <info:bigint>.
+จำนวน `BigInt` จะใช้เฉพาะจุดประสงค์เฉพาะจริงๆ เราจะพูดถึงรายละเอียดในบท <info:bigint>.
 
-```smart header="Compatability issues"
-Right now `BigInt` is supported in Firefox and Chrome, but not in Safari/IE/Edge.
+```smart header="ปัญหาเรื่องความเข้ากันได้ (compatability)"
+ในตอนนี้ `BigInt` สามารถใช้ได้เฉพาะ Firefox และ Chrome เท่านั้น
 ```
 
-## String
+## สตริง (String)
 
-A string in JavaScript must be surrounded by quotes.
+สตริงในจาวาสคริปต์จะต้องล้อมรอบด้วยเครื่องหมาย quotes
 
 ```js
 let str = "Hello";
@@ -91,95 +91,95 @@ let str2 = 'Single quotes are ok too';
 let phrase = `can embed another ${str}`;
 ```
 
-In JavaScript, there are 3 types of quotes.
+ในจาวาสคริปต์ เรามีสตริงทั้งหมด 3 ประเภท
 
-1. Double quotes: `"Hello"`.
-2. Single quotes: `'Hello'`.
-3. Backticks: <code>&#96;Hello&#96;</code>.
+1. แบบ Double quotes: `"Hello"`.
+2. แบบ Single quotes: `'Hello'`.
+3. แบบ Backticks: <code>&#96;Hello&#96;</code>.
 
-Double and single quotes are "simple" quotes. There's practically no difference between them in JavaScript.
+Double และ single quotes เป็นสตริงที่ไม่มีอะไรซับซ้อน และไม่มีความแตกต่างระหว่างกัน
 
-Backticks are "extended functionality" quotes. They allow us to embed variables and expressions into a string by wrapping them in `${…}`, for example:
+Backticks จะพิเศษออกไป เพราะมีความสามารถ ในการฝังตัวแปรหรือนิพจน์ (expression) ลงในสตริงได้ด้วยการล้อมรอบด้วย `${…}` ดั่งตัวอย่าง
 
 ```js run
 let name = "John";
 
-// embed a variable
+// ฝังตัวแปร
 alert( `Hello, *!*${name}*/!*!` ); // Hello, John!
 
-// embed an expression
-alert( `the result is *!*${1 + 2}*/!*` ); // the result is 3
+// ฝังนิพจน์ (expression)
+alert( `the result is *!*${1 + 2}*/!*` ); // จะได้ผลลัพธ์เป็น 3
 ```
 
-The expression inside `${…}` is evaluated and the result becomes a part of the string. We can put anything in there: a variable like `name` or an arithmetical expression like `1 + 2` or something more complex.
+ตัว `${…}` จะหาค่าตัวนิพจน์ (expression) ที่อยู่ภายใน และผลลัพธ์จาการดำเนินการ จะกลายเป็นส่วนหนึ่งของสตริง เราจะใส่อะไรลงไปภายใน `${…}` ก็ได้ทั้ง ตัวแปร นิพจน์ (expression) หรืออะไรที่ซับซ้อนกว่านี้
 
-Please note that this can only be done in backticks. Other quotes don't have this embedding functionality!
+โปรดอย่าลืมว่าความสามารถนี้มีเฉพาะ Backticks เท่านั้น เครื่องหมาย quotes อื่นๆ ไม่มีความสามารถนี้
 ```js run
-alert( "the result is ${1 + 2}" ); // the result is ${1 + 2} (double quotes do nothing)
+alert( "the result is ${1 + 2}" ); // ผลลัพธ์ก็คือ ${1 + 2} (double quote ไม่ได้มีผลอะไร)
 ```
 
-We'll cover strings more thoroughly in the chapter <info:string>.
+รายละเอียดเกี่ยวกับสตริงเชิงลึกสามารถคลิกดูที่บทนี้ได้เลย<info:string>.
 
-```smart header="There is no *character* type."
-In some languages, there is a special "character" type for a single character. For example, in the C language and in Java it is called "char".
+```smart header="ไม่มีข้อมูลชนิด *อักขระ (character)*"
+ในบางภาษาโปรแกรมม่ิง จะมีข้อมูลชนิดอักขระ (character) คือเก็บตัวอักษรจำนวน 1 ตัว ตัวอย่างเช่น ภาษาซีหรือจาวา
 
-In JavaScript, there is no such type. There's only one type: `string`. A string may consist of only one character or many of them.
+ในจาวาสคริปต์จะไม่มีข้อมูลชนิดดังกล่าว มีเพียงสตริงอย่างเดียว จะมีตัวอักษรเพียงตัวเดียวหรือหลายตัว ก็เป็นสตริงทั้งหมด
 ```
 
-## Boolean (logical type)
+## บูลีน (Boolean - logical type)
 
-The boolean type has only two values: `true` and `false`.
+ข้อมูลชนิดบูลีนมีค่าเพียงสองแบบคือ `true` และ `false`
 
-This type is commonly used to store yes/no values: `true` means "yes, correct", and `false` means "no, incorrect".
+โดยปกติค่าบูลีน จะเหมือนกับเก็บค่า ใช่/ไม่ใช่ เอาไว้ `true` หมายถึง ใช่ และ `false` หมายถึง ไม่ใช่
 
 For instance:
 
 ```js
-let nameFieldChecked = true; // yes, name field is checked
-let ageFieldChecked = false; // no, age field is not checked
+let nameFieldChecked = true; // ใช่ ช่องชื่อถูกติ๊ก
+let ageFieldChecked = false; // ไมใช่ ช่องอายุไม่ได้ถูกติ๊ก 
 ```
 
-Boolean values also come as a result of comparisons:
+ค่าบูลีนสามารถเกิดจาก ผลลัพธ์ของการเปรียบเทียบกัน เช่นในตัวอย่าง
 
 ```js run
 let isGreater = 4 > 1;
 
-alert( isGreater ); // true (the comparison result is "yes")
+alert( isGreater ); // true (หมายถึงว่าใช่ 4 มากกว่า 1)
 ```
 
-We'll cover booleans more deeply in the chapter <info:logical-operators>.
+รายละเอียดเกี่ยวกับบูลีนเชิงลึกสามารถดูได้ที่บทนี้ <info:logical-operators>.
 
-## The "null" value
+## ค่า "null"
 
-The special `null` value does not belong to any of the types described above.
+ค่า "null" เป็นค่าชนิดพิเศษ ที่ไม่ได้อยู่ในข้อมูลชนิดใดๆเลย
 
-It forms a separate type of its own which contains only the `null` value:
+ค่า "null" เป็นชนิดข้อมูลที่แยกออกมาตะหาก ซึ่งมีเพียงค่าเดียวนั่นคือ `null`
 
 ```js
 let age = null;
 ```
 
-In JavaScript, `null` is not a "reference to a non-existing object" or a "null pointer" like in some other languages.
+ในจาวาสคริปต์ค่า `null` ไม่ได้หมายถึง "การอ้างถึงออบเจ็กต์ที่ไม่มีอยู่" หรือ "ตัวที่ชี้ดันไม่มีค่า (null pointer)" เหมือนภาษาโปรแกรมมิ่งบางภาษา
 
-It's just a special value which represents "nothing", "empty" or "value unknown".
+เป็นเพียงค่าพิเศษที่แสดงถึง ความว่างเปล่า ไม่มีค่า หรือ ไม่ทราบค่า
 
-The code above states that `age` is unknown or empty for some reason.
+อย่างโค้ดด้านบน เป็นการสื่อว่ายังไม่ทราบอายุ หรือเป็นค่าว่าง ด้วยเหตุผลบางประการ
 
-## The "undefined" value
+## ค่า "undefined"
 
-The special value `undefined` also stands apart. It makes a type of its own, just like `null`.
+ค่า undefined ก็เป็นชนิดข้อมูลอีกประเภท ไม่เหมือนกับ `null`
 
-The meaning of `undefined` is "value is not assigned".
+ความหมายของ `undefined` คือ "ค่ายังไม่ได้ถูกกำหนด"
 
-If a variable is declared, but not assigned, then its value is `undefined`:
+หากเราสร้างตัวแปรขึ้นมา แต่ไม่ได้กำหนดค่าให้ตัวแปร ค่าที่ได้จะเป็น `undefined`:
 
 ```js run
 let x;
 
-alert(x); // shows "undefined"
+alert(x); // "undefined"
 ```
 
-Technically, it is possible to assign `undefined` to any variable:
+ในทางเทคนิค เราสามารถกำหนดค่า `undefined` ให้ตัวแปรได้เลย
 
 ```js run
 let x = 123;
@@ -189,28 +189,28 @@ x = undefined;
 alert(x); // "undefined"
 ```
 
-...But we don't recommend doing that. Normally, we use `null` to assign an "empty" or "unknown" value to a variable, and we use `undefined` for checks like seeing if a variable has been assigned.
+แต่ไม่แนะนำให้ทำ โดยปกติจะใช้ `null` เพื่อแทนค่าว่าง ส่วน `undefined` จะใช้เพื่อดูว่าตัวแปรนั้นมีค่าหรือยังมากกว่า
 
-## Objects and Symbols
+## ออบเจ็กต์ (Objects) และซิมโบล (Symbols)
 
-The `object` type is special.
+ข้อมูลชนิด `object` ก็เป็นชนิดพิเศษ
 
-All other types are called "primitive" because their values can contain only a single thing (be it a string or a number or whatever). In contrast, objects are used to store collections of data and more complex entities. We'll deal with them later in the chapter <info:object> after we learn more about primitives.
+เพราะประเภทอื่นๆ ทั้งหมดจะเรียกว่า "primitive" เพราะ ค่ามีได้เพียงค่าเดียว ต่างกับออบเจ็กต์ที่สามารถเก็บค่าได้หลายค่า 
 
-The `symbol` type is used to create unique identifiers for objects. We mention it here for completeness, but we'll study it after objects.
+ซิมโบลใช้เมื่อเราต้องการตัวระบุเอกลักษณ์ ในบทนี้จะเกรื่นไว้คร่าวๆเท่านั้น และจะพูดถึงอีกทีหลังจบเรื่องออบเจ็กต์แล้ว
 
-## The typeof operator [#type-typeof]
+## typeof operator [#type-typeof]
 
-The `typeof` operator returns the type of the argument. It's useful when we want to process values of different types differently or just want to do a quick check.
+ตัวโอเปอเรเตอร์ `typeof` จะส่งคืนชนิดของข้อมูลนั้นๆออกมา โอเปอเรเตอร์ตัวนี้มีประโยชน์อย่างมาก เมื่อเราต้องประมวลผลชนิดข้อมูลที่ต่างกัน หรือ เช็คชนิดของชนิดข้อมูลนั้นๆ
 
-It supports two forms of syntax:
+สามารถเขียนได้ทั้งสองรูปแบบดังนี้
 
-1. As an operator: `typeof x`.
-2. As a function: `typeof(x)`.
+1. เขียนแบบโอเปอเรเตอร์ `typeof x`
+2. เขียนแบบฟังชั่นก์ `typeof(x)`
 
-In other words, it works with parentheses or without them. The result is the same.
+ทั้งสองแบบได้ผลลัพธ์แบบเดียวกัน
 
-The call to `typeof x` returns a string with the type name:
+การเรียก `typeof x` จะส่งคืนค่าสตริงที่เป็นชนิดของข้อมูลนั้นๆออกมา
 
 ```js
 typeof undefined // "undefined"
@@ -238,29 +238,29 @@ typeof alert // "function"  (3)
 */!*
 ```
 
-The last three lines may need additional explanation:
+คำอธิบายเพิ่มเติมเกี่ยวกับสามบรรทัดสุดท้าย
 
-1. `Math` is a built-in object that provides mathematical operations. We will learn it in the chapter <info:number>. Here, it serves just as an example of an object.
-2. The result of `typeof null` is `"object"`. That's wrong. It is an officially recognized error in `typeof`, kept for compatibility. Of course, `null` is not an object. It is a special value with a separate type of its own. So, again, this is an error in the language.
-3. The result of `typeof alert` is `"function"`, because `alert` is a function. We'll study functions in the next chapters where we'll also see that there's no special "function" type in JavaScript. Functions belong to the object type. But `typeof` treats them differently, returning `"function"`. That's not quite correct, but very convenient in practice.
+1. `Math` เป็นออบเจ็กต์ที่ built-in มาโดยตัวภาษา ที่มีโอเปอเตอร์ทางคณิตศาสตร์อยู่ข้างใน อ่านเพิ่มเติมได้ที่ <info:number> ในนี้ได้ใส่ตัวอย่างสำหรับออบเจ็กต์ตัวนี้ไว้แล้ว
+2. ผลลัพธ์ของ `typeof null` ได้ `"object"` เป็นผลลัพธ์ที่ผิด ซึ่งเป็นข้อผิดพลาดจากตัวโอเปอเรเตอร์ `typeof` เอง เพราะค่า `null` ไม่ใช่ออบเจ็กต์ เป็นชนิดพิเศษที่แยกออกมาตะหาก และอีกเช่นกันนี่เป็นข้อผิดพลาดทางภาษา 
+3. ผลลัพธ์ของ `typeof alert` คือ `"function"` เพราะว่า `alert` เป็นฟังชั่นก์ ซึ่งจะพูดในบทถัดไป แต่จากที่กล่าวมาในบทนี้ จะสังเกตว่าไม่มีข้อมูลชนิดฟังชั่นก์ เพราะฟังชั่นก์เป็นส่วนหนึ่งของข้อมูลชนิดออบเจ็กต์ แต่ตัว `typeof` ปฎิบัติกับบรรดาฟังชั่นก์ต่างไปสักหน่อย โดยการส่งคืนสตริงว่า `"function"` ออกมา ผลลัพธ์มันผิด แต่กลับสะดวกมากทีเดียวเวลาทำงานจริง
 
-## Summary
+## สรุป
 
-There are 8 basic data types in JavaScript.
+มีข้อมูลอยู่ 8 ชนิดในจาวาสคริปต์
 
-- `number` for numbers of any kind: integer or floating-point, integers are limited by ±2<sup>53</sup>.
-- `bigint` is for integer numbers of arbitrary length.
-- `string` for strings. A string may have one or more characters, there's no separate single-character type.
-- `boolean` for `true`/`false`.
-- `null` for unknown values -- a standalone type that has a single value `null`.
-- `undefined` for unassigned values -- a standalone type that has a single value `undefined`.
-- `object` for more complex data structures.
-- `symbol` for unique identifiers.
+- `number` คือตัวเลขอะไรก็ตาม ไม่ว่าจะเป็น จำนวนเต็ม หรือ ทศนิยม โดยที่จำนวนเต็มจะจำกัดอยู่แค่ ±2<sup>53</sup>
+- `bigint` คือตัวเลขที่เป็นจำนวนเต็ม และจะมีกี่หลักก็ได้
+- `string` คือสตริงหรือข้อความ จะมีอักขระกี่ตัวก็ได้ โดยไม่แยกระหว่างอักขระตัวเดียวกับ ชุดอักขระเหมือนภาษาอื่น
+- `boolean` คือค่า `true` และ `false`
+- `null` คือค่าว่าง เป็นทั้งค่า และ ชนิดของข้อมูล
+- `undefined` คือค่าที่ยังไม่ถูกกำหนด เป็นทั้งค่า และ ชนิดของข้อมูล
+- `object` สำหรับ เก็บข้อมูลมากกว่าหนึ่งค่า มีความซับซ้อนในเรื่องโครงสร้างข้อมูล
+- `symbol` สำหรับ เป็นตัวระบุเอกลักษณ์
 
-The `typeof` operator allows us to see which type is stored in a variable.
+ตัว `typeof` สามารถช่วยเราดูข้อมูลเก็บอยู่ในตัวแปร เป็นข้อมูลชนิดใด
 
-- Two forms: `typeof x` or `typeof(x)`.
-- Returns a string with the name of the type, like `"string"`.
-- For `null` returns `"object"` -- this is an error in the language, it's not actually an object.
+- เขียนได้แบบสอง `typeof x` หรือ `typeof(x)`
+- ส่งคืนเป็นสตริง บอกชนิดของข้อมูลออกมา อย่าง `"string"`.
+- แต่กับ `null` จะส่งค่าเป็น `"object"` -- เป็นข้อผิดพลาดทางภาษา เพราะมันไม่ใช่ออบเจ็กต์
 
-In the next chapters, we'll concentrate on primitive values and once we're familiar with them, we'll move on to objects.
+ในบทหน้า เราจะเน้นไปที่ข้อมูลประเภท "primitive" พอคุ้นเคยแล้ว จะไปเน้นที่ออบเจ็กต์กันต่อ

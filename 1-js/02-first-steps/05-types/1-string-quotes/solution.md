@@ -1,5 +1,5 @@
 
-Backticks embed the expression inside `${...}` into the string.
+Backtick สามารถใส่นิพจน์ (expression) ใดๆก็ได้ลงไปใน `${...}`
 
 ```js run
 let name = "Ilya";
