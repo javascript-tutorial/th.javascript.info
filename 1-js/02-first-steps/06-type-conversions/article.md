@@ -1,54 +1,54 @@
-# Type Conversions
+# การแปลงชนิดของข้อมูล
 
-Most of the time, operators and functions automatically convert the values given to them to the right type.
+ในจาวาสคริปต์มีหลายครั้งที่ ฟังชั่นก์และตัวดำเนินการ (operators) จะแปลงข้อมูลจากชนิดหนึ่ง เป็นอีกชนิดโดยอัตโนมัติ
 
-For example, `alert` automatically converts any value to a string to show it. Mathematical operations convert values to numbers.
+ตัวอย่างเช่น `alert` จะแปลงค่าชนิดใดๆก็ตาม ให้เป็นสตริง และ ตัวดำเนินการทางคณิตศาสตร์ (Mathematical operations) ก็จะแปลงค่าชนิดใดๆก็ตามเป็นตัวเลข
 
 There are also cases when we need to explicitly convert a value to the expected type.
 
-```smart header="Not talking about objects yet"
-In this chapter, we won't cover objects. Instead, we'll study primitives first. Later, after we learn about objects, we'll see how object conversion works in the chapter <info:object-toprimitive>.
+```smart header="เรายังไม่พูดถึงออบเจ็กต์"
+ในบทนี้ เราพูดแค่ชนิดของข้อมูลแบบ primitives ก่อน เมื่อเราผ่านการเรียนออบเจ็กต์มาแล้ว เราจะค่อยพูดถึงการแปลงออบเจ็กต์ เป็นข้อมูลชนิดอื่นๆต่อไป <info:object-toprimitive>
 ```
 
-## String Conversion
+## การแปลงเป็นสตริง
 
-String conversion happens when we need the string form of a value.
+การแปลงสตริงสามารถทำได้ง่ายๆ เราสามารถแปลงข้อมูลชนิดใดๆ เป็นสตริงก็ได้
 
-For example, `alert(value)` does it to show the value.
+ตัวอย่างเช่น `alert(value)` จะแสดงค่าที่เก็บอยู่ในตัวแปร `value` ออกมาเป็นสตริง
 
-We can also call the `String(value)` function to convert a value to a string:
+เรายังสามารถใช้ `String(value)` ซึ่งเป็นฟังชั่นก์ที่จะแปลงข้อมูลชนิดใดๆก็ตามให้เป็นสตริง
 
 ```js run
 let value = true;
-alert(typeof value); // boolean
+alert(typeof value); // บูลีน
 
 *!*
-value = String(value); // now value is a string "true"
-alert(typeof value); // string
+value = String(value); // ทีนี้เป็นสตริง "true" แล้ว
+alert(typeof value); // จะได้ว่าสตริง
 */!*
 ```
 
-String conversion is mostly obvious. A `false` becomes `"false"`, `null` becomes `"null"`, etc.
+เมื่อข้อมูลชนิดใดๆ ถูกแปลงเป็นสตริงแล้ว เราสังเกตเห็นได้อย่างชัดเจน ว่าค่าจะรายล้อมด้วยเครื่องหมาย `quotes` เช่น `false` เป็น `"false"`, `null` เป็น `"null"` เป็นต้น
 
-## Numeric Conversion
+## การแปลงเป็นตัวเลข
 
-Numeric conversion happens in mathematical functions and expressions automatically.
+ฟังชั่นก์หรือนิพจน์ (expressions) ทางคณิตศาสตร์ จะแปลงข้อมูลชนิดใดๆ เป็นตัวเลขโดยอัตโนมัติ 
 
-For example, when division `/` is applied to non-numbers:
+ตัวอย่างเช่น, การหาร `/` เราสามารถหารข้อมูลที่ไม่ใช่ตัวเลขได้ด้วย
 
 ```js run
-alert( "6" / "2" ); // 3, strings are converted to numbers
+alert( "6" / "2" ); // 3, สตริงจะถูกแปลงเป็นตัวเลข
 ```
 
-We can use the `Number(value)` function to explicitly convert a `value` to a number:
+เรายังสามาถใช้ `Number(value)` ซึ่งเป็นฟังชั่นก์ที่จะแปลงข้อมูลชนิดใดๆก็ตามให้เป็นตัวเลข
 
 ```js run
 let str = "123";
-alert(typeof str); // string
+alert(typeof str); // ได้สตริง
 
-let num = Number(str); // becomes a number 123
+let num = Number(str); // กลายเป็นตัวเลข 123
 
-alert(typeof num); // number
+alert(typeof num); // ได้ตัวเลข
 ```
 
 Explicit conversion is usually required when we read a value from a string-based source like a text form but expect a number to be entered.
