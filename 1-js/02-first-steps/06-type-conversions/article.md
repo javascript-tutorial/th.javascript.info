@@ -51,50 +51,50 @@ let num = Number(str); // กลายเป็นตัวเลข 123
 alert(typeof num); // ได้ตัวเลข
 ```
 
-Explicit conversion is usually required when we read a value from a string-based source like a text form but expect a number to be entered.
+การแปลงชนิดของข้อมูลเป็นตัวเลข จะใช้บ่อยครั้งกับสตริงที่ภายในเป็นตัวเลข โดยเราต้องการนำตัวเลขเหล่านี้ไปประมวลผลต่อ
 
-If the string is not a valid number, the result of such a conversion is `NaN`. For instance:
+หากสตริงใดๆ ไม่สามารถแปลงเป็นตัวเลขได้ เราจะได้ค่า `NaN` มาแทน ตัวอย่างเช่น
 
 ```js run
 let age = Number("an arbitrary string instead of a number");
 
-alert(age); // NaN, conversion failed
+alert(age); // NaN เป็นผลลัพธ์เมื่อแปลงเป็นตัวเลขไม่ได้
 ```
 
-Numeric conversion rules:
+กฎการแปลงเป็นตัวเลข:
 
-| Value |  Becomes... |
+| ค่า |  ได้เป็น... |
 |-------|-------------|
 |`undefined`|`NaN`|
 |`null`|`0`|
-|<code>true&nbsp;and&nbsp;false</code> | `1` and `0` |
-| `string` | Whitespaces from the start and end are removed. If the remaining string is empty, the result is `0`. Otherwise, the number is "read" from the string. An error gives `NaN`. |
+|<code>true&nbsp;and&nbsp;false</code> | `1` และ `0` |
+| `string` | Whitespaces ทั้งหน้าและหลังโดนเอาออก หากเป็นสตริงว่างค่าที่ได้จะเป็น `0` หากเป็นตัวเลข ก็จะได้ตัวเลข หากสตริงมีอักขระอื่นๆ นอกเหนือจากตัวเลข ค่าที่ได้จะเป็น `NaN` เกิดจากข้อผิดพลาดที่ไม่สามารถแปลงเป็นตัวเลขได้ |
 
-Examples:
+ตัวอย่างเช่น:
 
 ```js run
 alert( Number("   123   ") ); // 123
-alert( Number("123z") );      // NaN (error reading a number at "z")
+alert( Number("123z") );      // NaN (เกิดข้อผิดพลาดจากตัว "z")
 alert( Number(true) );        // 1
 alert( Number(false) );       // 0
 ```
 
-Please note that `null` and `undefined` behave differently here: `null` becomes zero while `undefined` becomes `NaN`.
+จำไว้ว่า หากเราแปลงค่า `null` และ `undefined` เป็นตัวเลข ค่า `null` จะกลายเป็น `0` ส่วน `undefined` จะเป็น `NaN`
 
-Most mathematical operators also perform such conversion, we'll see that in the next chapter.
+ตัวดำเนินการทางคณิตศาสตร์ (mathematical operators) ส่วนใหญ่จะแปลงค่าที่ผ่านเข้ามา เป็นตัวเลขด้วย ตัวอย่างจะมีในบทถัดไป
 
-## Boolean Conversion
+## การแปลงเป็นบูลีน
 
-Boolean conversion is the simplest one.
+การแปลงเป็นบูลีนเป็นวิธีที่ง่ายที่สุดในจาวาสคริปต์
 
-It happens in logical operations (later we'll meet condition tests and other similar things) but can also be performed explicitly with a call to `Boolean(value)`.
+การแปลงเป็นบูลีน จะเกิดขึ้นจาก ตัวดำเนินการทางตรรกะ (logical operations) แต่ก็สามารถแปลงได้ตรงๆผ่านฟังชั่นก์ `Boolean(value)`
 
-The conversion rule:
+กฎของการแปลงบูลีน:
 
-- Values that are intuitively "empty", like `0`, an empty string, `null`, `undefined`, and `NaN`, become `false`.
-- Other values become `true`.
+- ค่าที่ถูกจัดว่าเป็นค่าว่างในทางโปรแกรมมิ่ง จะกลายเป็น `false` เช่น `0`, สตริงว่าง, `null`, `undefined`, และ `NaN`
+- ที่เหลือจะกลายเป็น `true`
 
-For instance:
+ตัวอย่างเช่น
 
 ```js run
 alert( Boolean(1) ); // true
