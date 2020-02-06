@@ -109,30 +109,30 @@ Some languages (namely PHP) treat `"0"` as `false`. But in JavaScript, a non-emp
 
 ```js run
 alert( Boolean("0") ); // true
-alert( Boolean(" ") ); // spaces, also true (any non-empty string is true)
+alert( Boolean(" ") ); // มี spaces จะแปลงได้ true ยกเว้นสตริงว่างเท่านั้น
 ```
 ````
 
-## Summary
+## สรุป
 
-The three most widely used type conversions are to string, to number, and to boolean.
+การแปลงชนิดของข้อมูลที่มักจะได้ใช้บ่อยๆ คือ แปลงเป็นสตริง แปลงเป็นตัวเลข และ แปลงเป็นบูลีน
 
-**`String Conversion`** -- Occurs when we output something. Can be performed with `String(value)`. The conversion to string is usually obvious for primitive values.
+**`การแปลงเป็นสตริง`** -- เกิดจากการส่งข้อมูลออกมา หรือจะแปลงตรงๆโดยใช้ฟังชั่นก์ `String(value)` ก็ได้
 
-**`Numeric Conversion`** -- Occurs in math operations. Can be performed with `Number(value)`.
+**`Numeric Conversion`** -- เกิดจากตัวดำเนินการทางคณิตศาสตร์ หรือจะแปลงตรงๆโดยใช้ฟังชั่นก์ `Number(value)` ก็ได้
 
-The conversion follows the rules:
+กฎของการแปลงเป็นตัวเลขจะเป็นไปตามนี้
 
-| Value |  Becomes... |
+| ค่า | แปลงเป็น |
 |-------|-------------|
 |`undefined`|`NaN`|
 |`null`|`0`|
 |<code>true&nbsp;/&nbsp;false</code> | `1 / 0` |
-| `string` | The string is read "as is", whitespaces from both sides are ignored. An empty string becomes `0`. An error gives `NaN`. |
+| `string` | Whitespaces ทั้งหน้าและหลังโดนเอาออก หากเป็นสตริงว่างค่าที่ได้จะเป็น `0` หากเป็นตัวเลข ก็จะได้ตัวเลข หากสตริงมีอักขระอื่นๆ นอกเหนือจากตัวเลข ค่าที่ได้จะเป็น `NaN` เกิดจากข้อผิดพลาดที่ไม่สามารถแปลงเป็นตัวเลขได้  |
 
-**`Boolean Conversion`** -- Occurs in logical operations. Can be performed with `Boolean(value)`.
+**`การแปลงเป็นบูลีน`** -- เกิดจากตัวดำเนินการทางตรรกะ หรือจะแปลงตรงๆโดยใช้ฟังชั่นก์ `Boolean(value)` ก็ได้
 
-Follows the rules:
+กฎของการแปลงเป็นบูลีนจะเป็นไปตามนี้
 
 | Value |  Becomes... |
 |-------|-------------|
@@ -140,9 +140,9 @@ Follows the rules:
 |any other value| `true` |
 
 
-Most of these rules are easy to understand and memorize. The notable exceptions where people usually make mistakes are:
+กฎการแปลงจะตรงไปตรงมา ทำให้ง่ายต่อการจดจำ แต่ก็ยังมีข้อยกเว้น ที่มักจะทำให้มือใหม่ผิดพลาดอยู่บ่อยๆอย่าง
 
-- `undefined` is `NaN` as a number, not `0`.
-- `"0"` and space-only strings like `"   "` are true as a boolean.
+- `undefined` เมื่อแปลงเป็นตัวเลขจะเป็น `NaN` ไม่ใช่ `0`
+- `"0"` และ สตริงที่มี spaces `"   "` เมื่อแปลงเป็นบูลีนจะเป็น `true`
 
-Objects aren't covered here. We'll return to them later in the chapter <info:object-toprimitive> that is devoted exclusively to objects after we learn more basic things about JavaScript.
+ออบเจ็กต์จะยังไม่มีบทในตอนนี้ โดยจะยกไปพูดในบท <info:object-toprimitive> ซึ่งจะพูดถึงออบเจ็กต์ล้วนๆ หลังจากเราเรียนพื้นฐานกันหมดแล้ว
