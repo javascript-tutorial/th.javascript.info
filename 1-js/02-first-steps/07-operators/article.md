@@ -41,7 +41,7 @@ let s = "my" + "string";
 alert(s); // mystring
 ```
 
-หากตัวถูกดำเนินการตั้งต้นเป็นสตริง ไปบวกกับข้อมูลชนิดอื่นๆ ตัวนั้นก็จะถูกรวมเป็นสตริงเดียวกัน
+หากตัวถูกดำเนินการใดๆเป็นสตริง ไปบวกกับข้อมูลชนิดอื่นๆ ตัวนั้นก็จะถูกรวมเป็นสตริงเดียวกัน
 
 ตัวอย่างเช่น:
 
@@ -50,34 +50,34 @@ alert( '1' + 2 ); // "12"
 alert( 2 + '1' ); // "21"
 ```
 
-See, it doesn't matter whether the first operand is a string or the second one. The rule is simple: if either operand is a string, the other one is converted into a string as well.
+ไม่สำคัญว่าสตริงจะอยู่หน้า หรือหลังของเครื่องหมาย แต่เมื่อสตริงไปบวกกับอะไรก็ตาม ก็จะถูกรวมเข้ามาเป็นสตริงหมด
 
-However, note that operations run from left to right. If there are two numbers followed by a string, the numbers will be added before being converted to a string:
+อ่อแต่อย่าลืมว่า การดำเนินการในทางโปรแกรมมิ่ง ก็เหมือนกับคณิตศาสตร์ คือ ทำงานจากซ้ายไปขวาเสมอ หากมีตัวเลขบวกกันอยู่ทางซ้าย แล้วตัวที่สามเป็นสตริง ตัวเลขทั้งสองตัวจะบวกกันก่อน จากนั้นผลลัพธ์จะไปรวมกับสตริงตัวสุดท้ายอีกที
 
 
 ```js run
-alert(2 + 2 + '1' ); // "41" and not "221"
+alert(2 + 2 + '1' ); // ได้ "41" ไม่ใช่ "221"
 ```
 
-String concatenation and conversion is a special feature of the binary plus `+`. Other arithmetic operators work only with numbers and always convert their operands to numbers.
+การต่อสตริงเป็นฟีเจอร์เฉพาะกับเครื่องหมาย `+` เท่านั้น เครื่องหมายอื่นๆ จะทำงานได้กับตัวเลขอย่างเดียว
 
-For instance, subtraction and division:
+ตัวอย่างเช่น การลบ และ การหาร
 
 ```js run
 alert( 2 - '1' ); // 1
 alert( '6' / '2' ); // 3
 ```
 
-## Numeric conversion, unary +
+## แปลงข้อมูลเป็นตัวเลขด้วยเครื่องหมายบวก
 
-The plus `+` exists in two forms: the binary form that we used above and the unary form.
+เครื่องหมาย `+` เราสามารถใช้ได้สองแบบ แบบคู่ (binary) ตามตัวอย่างด้านบน และ แบบเดี่ยว (unary)
 
-The unary plus or, in other words, the plus operator `+` applied to a single value, doesn't do anything to numbers. But if the operand is not a number, the unary plus converts it into a number.
+บวกแบบเดี่ยว (unary) หากเราเพิ่มเครื่องหมายบวก ไว้ข้างหน้าตัวแปร จะเป็นการแปลงข้อมูลที่ไม่ใช่ตัวเลข ให้เป็นตัวเลข
 
-For example:
+ตัวอย่างเช่น
 
 ```js run
-// No effect on numbers
+// แปลงตัวเลข ก็จะได้ตัวเลขเหมือนเดิม
 let x = 1;
 alert( +x ); // 1
 
@@ -85,23 +85,23 @@ let y = -2;
 alert( +y ); // -2
 
 *!*
-// Converts non-numbers
+// แปลงจากข้อมูลที่ไม่ใช่ตัวเลข
 alert( +true ); // 1
 alert( +"" );   // 0
 */!*
 ```
 
-It actually does the same thing as `Number(...)`, but is shorter.
+จริงๆแล้ว ก็เหมือนกับใช้ฟังชั่นก์ `Number(...)` แต่สั้นกว่า
 
-The need to convert strings to numbers arises very often. For example, if we are getting values from HTML form fields, they are usually strings. What if we want to sum them?
+ในงานจริวเรามักจะเปลี่ยนสตริงเป็นตัวเลขอยู่บ่อยๆเหมือนกัน เช่น เรากำลังรับค่าที่กรอกในแท็ก `form` เพราะค่าที่อยู่ในแท็กนี้มักจะเป็นสตริงเสมอ เพราะหากเราจับบวกเลย
 
-The binary plus would add them as strings:
+มันจะก็กลายเป็นการนำสตริงมาต่อกันแทน
 
 ```js run
 let apples = "2";
 let oranges = "3";
 
-alert( apples + oranges ); // "23", the binary plus concatenates strings
+alert( apples + oranges ); // ได้ "23" ซึ่งเกิดจากการต่อสตริง 
 ```
 
 If we want to treat them as numbers, we need to convert and then sum them:
