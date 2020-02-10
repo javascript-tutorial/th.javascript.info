@@ -1,15 +1,15 @@
-# Operators
+# ตัวดำเนินการ (operator)
 
-We know many operators from school. They are things like addition `+`, multiplication `*`, subtraction `-`, and so on.
+ตัวดำเนินการในโลกโปรแกรมมิ่ง เราเคยได้เรียนกันมาแล้วสมัยโรงเรียน นั่นก็คือ การบวก `+` การลบ `-` การคูณ `*` การหาร `/` และ ตัวอื่นๆ
 
-In this chapter, we'll concentrate on aspects of operators that are not covered by school arithmetic.
+โดยในบทนี้ เราจะพูดถึง
 
-## Terms: "unary", "binary", "operand"
+## คำว่า:  "เดี่ยว (unary)", "คู่ (binary)", "ตัวถูกดำเนินการ (operand)"
 
-Before we move on, let's grasp some common terminology.
+ก่อนที่เราจะเข้าเรื่อง ขออธิบายศัพท์เหล่านี้เพิ่มเติมอีกนิด
 
-- *An operand* -- is what operators are applied to. For instance, in the multiplication of `5 * 2` there are two operands: the left operand is `5` and the right operand is `2`. Sometimes, people call these "arguments" instead of "operands".
-- An operator is *unary* if it has a single operand. For example, the unary negation `-` reverses the sign of a number:
+- *ตัวถูกดำเนินการ* (operand) -- หมายถึง ตัวเลขหรือตัวแปรในสมการใด ๆ ที่ถูกดำเนินการ ด้วยตัวดำเนินการ (operator) หรือ "เครื่องหมายทางคณิตศาสตร์" ตัวอย่างเช่น `5 * 2` มีตัวถูกดำเนินการ 2 ตัว ด้านซ้ายคือ `5` และด้านขวาคือ `2` บางคนก็เรียกว่าอาร์กิวเม้นท์ (arguments) แทนตัวถูกดำเนินการ (operands)
+- ตัวดำเนินการ (operator) เดี่ยว *unary* หมายถึง การมีตัวถูกดำเนินการ (operand) เพียงแค่ตัวเดียว อย่างเช่น การเติมเครื่องหมายลบไว้ที่ข้างหน้าตัวแปร (negation) เพื่อกลับค่าบวก ให้เป็นค่าลบ
 
     ```js run
     let x = 1;
@@ -17,33 +17,33 @@ Before we move on, let's grasp some common terminology.
     *!*
     x = -x;
     */!*
-    alert( x ); // -1, unary negation was applied
+    alert( x ); // -1
     ```
-- An operator is *binary* if it has two operands. The same minus exists in binary form as well:
+- ตัวดำเนินการ (operator) คู่ *binary* หมายถึง การมีตัวถูกดำเนินการ (operand) สองตัวนั่นเอง อย่างเช่น การลบกันของแปรสองตัว
 
     ```js run no-beautify
     let x = 1, y = 3;
-    alert( y - x ); // 2, binary minus subtracts values
+    alert( y - x ); // ได้ 2 เกิดจากการลบกันของตัวแปรสองตัว
     ```
 
-    Formally, in the examples above we have two different operators that share the same symbol: the negation operator, a unary operator that reverses the sign, and the subtraction operator, a binary operator that subtracts one number from another.
+    ตามสองตัวอย่างด้านบน เราได้เห็นการดำเนินการสองแบบ ที่ใช้เครื่องหมายลบร่วมกัน การลบแบบเดี่ยว จะกลับค่าจากบวกเป็นลบ จากลบเป็นบวก การลบแบบคู่ จะลบค่าตัวหน้าด้วยค่าตัวหลัง
 
-## String concatenation, binary +
+## การต่อสตริง (String concatenation) ต้องใช้บวกแบบมีตัวดำเนินการสองตัว (binary) 
 
-Now, let's see special features of JavaScript operators that are beyond school arithmetics.
+ทีนี้ มาลองดูฟีเจอร์ของจาวาสคริปต์ ที่ไม่มีสอนในวิชาคณิตศาสตร์ที่โรงเรียนกันบ้าง
 
-Usually, the plus operator `+` sums numbers.
+โดยปกติแล้ว เราจะเห็นแต่การใช้เครื่องหมายบวก `+` กับตัวเลข
 
-But, if the binary `+` is applied to strings, it merges (concatenates) them:
+แต่ หากเราใช้เครื่องหมายบวกกับสตริง มันจะเป็นการต่อสตริงสองชุดไว้ด้วยกัน
 
 ```js
 let s = "my" + "string";
 alert(s); // mystring
 ```
 
-Note that if one of the operands is a string, the other one is converted to a string too.
+หากตัวถูกดำเนินการตั้งต้นเป็นสตริง ไปบวกกับข้อมูลชนิดอื่นๆ ตัวนั้นก็จะถูกรวมเป็นสตริงเดียวกัน
 
-For example:
+ตัวอย่างเช่น:
 
 ```js run
 alert( '1' + 2 ); // "12"
