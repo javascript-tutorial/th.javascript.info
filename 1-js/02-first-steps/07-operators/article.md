@@ -104,51 +104,51 @@ let oranges = "3";
 alert( apples + oranges ); // ได้ "23" ซึ่งเกิดจากการต่อสตริง 
 ```
 
-If we want to treat them as numbers, we need to convert and then sum them:
+หากเราต้องการให้สตริงเป้นตัวเลข เราต้องแปลงเป็นตัวเลขก่อนแล้วค่อยจับมาบวกกัน
 
 ```js run
 let apples = "2";
 let oranges = "3";
 
 *!*
-// both values converted to numbers before the binary plus
+// ทั้งสองตัวแปรถูกแปรเป็นตัวเลขก่อน แล้วบวกกัน
 alert( +apples + +oranges ); // 5
 */!*
 
-// the longer variant
+// หรือจะใช้เป็นฟังชั่นก์เพื่อป้องกันความสับสน
 // alert( Number(apples) + Number(oranges) ); // 5
 ```
 
-From a mathematician's standpoint, the abundance of pluses may seem strange. But from a programmer's standpoint, there's nothing special: unary pluses are applied first, they convert strings to numbers, and then the binary plus sums them up.
+สำหรับมุมมองของนักคณิตศาสตร์ การที่มีเครื่องหมายบวกเยอะ อาจจะดูแปลกๆ แต่จากมุมมองของโปรแกรมเมอร์ ก็แค่แปลงเป็นตัวเลขก่อน จากนั้นก็นำตัวเลขทั้งสองตัวมาบวกกัน
 
-Why are unary pluses applied to values before the binary ones? As we're going to see, that's because of their *higher precedence*.
+แล้วทำไมเครื่องหมายบวกหน้าตัวแปรถึงดำเนินการก่อน เครื่องหมายบวกอีกตัว นั่นก็เพราะว่าเครื่องหมายบวกหน้าตัวแปรมีวรรณะสูงกว่า *(higher precedence)*
 
-## Operator precedence
+## ศักดิ์ของโอเปอเรเตอร์แต่ละตัว (Operator precedence)
 
-If an expression has more than one operator, the execution order is defined by their *precedence*, or, in other words, the default priority order of operators.
+หากนิพนธ์ (expression) มีตัวดำเนินการมากกว่าหนึ่งตัว ลำดับการทำงานก่อน-หลังจะถูกนิยามจากวรรณะ *(precedence)* ของโอเปอเรเตอร์แต่ละตัว หรือ ตัวดำเนินการที่มีวรรณะสูงกว่าตัวอื่นๆ จะถูกดำเนินการก่อน
 
-From school, we all know that the multiplication in the expression `1 + 2 * 2` should be calculated before the addition. That's exactly the precedence thing. The multiplication is said to have *a higher precedence* than the addition.
+ทบทวนความรู้คณิตศาสตร์สมัยเรียน สมมุติว่ามีนิพจน์อย่าง `1 + 2 * 2` ตัวคูณจะดำเนินการก่อน จากนั่นถึงค่อยบวก นี่คือความต่างวรรณะในแต่ละเครื่องหมาย โดยคูณมีวรรณะสูงกว่าบวกนั่นเอง
 
-Parentheses override any precedence, so if we're not satisfied with the default order, we can use them to change it. For example, write `(1 + 2) * 2`.
+การใช้วงเล็บสามารถแทนที่ความต่างทางวรรณะตรงนี้ได้ หากเราต้องการให้บวกก่อนแล้วค่อยคูณ เราก็จะเขียนเป็น `(1 + 2) * 2` แทน
 
-There are many operators in JavaScript. Every operator has a corresponding precedence number. The one with the larger number executes first. If the precedence is the same, the execution order is from left to right.
+ตัวดำเนินการในจาวาสคริปต์มีหมายเลข บ่งบอกความสูงวรรณะของตัวเองไว้อยู่แล้ว หากมีตัวเลขที่สูง วรรณะก็จะสูง หากต่างวรรณะกัน การดำเนินการจะเริ่มจากตัววรรณะสูงก่อนเสมอ หากศํกดิ์เท่ากัน ดำเนินการจะเริ่มจากซ้ายไปขวาเหมือนปกติ
 
-Here's an extract from the [precedence table](https://developer.mozilla.org/en/JavaScript/Reference/operators/operator_precedence) (you don't need to remember this, but note that unary operators are higher than corresponding binary ones):
+ตารางด้านล่างอ้างอิงมาจาก [ตารางวรรณะ](https://developer.mozilla.org/en/JavaScript/Reference/operators/operator_precedence) (ตารางนี้ไม่จำเป็นต้องจำ แต่จำแค่ว่า ตัวดำเนินการแบบเดี่ยว (unary operators) มีวรรณะสูงกว่า แบบคุ่เสมอ (binary operators)):
 
-| Precedence | Name | Sign |
+| หมายเลขวรรณะ | ชื่อ | หน้าตาเครื่องหมาย |
 |------------|------|------|
 | ... | ... | ... |
-| 16 | unary plus | `+` |
-| 16 | unary negation | `-` |
-| 14 | multiplication | `*` |
-| 14 | division | `/` |
-| 13 | addition | `+` |
-| 13 | subtraction | `-` |
+| 16 | บวกแบบเดี่ยว (unary plus) | `+` |
+| 16 | บวกแบบคู่ (unary negation) | `-` |
+| 14 | การคูณ (multiplication) | `*` |
+| 14 | การหาร (division) | `/` |
+| 13 | การบวก (addition) | `+` |
+| 13 | การลบ (subtraction) | `-` |
 | ... | ... | ... |
-| 3 | assignment | `=` |
+| 3 | เท่ากับ หรือ คือ (assignment) | `=` |
 | ... | ... | ... |
 
-As we can see, the "unary plus" has a priority of `16` which is higher than the `13` of "addition" (binary plus). That's why, in the expression `"+apples + +oranges"`, unary pluses work before the addition.
+เราจะเห็นว่าบรรดาบวกแบบเดี่ยวมีหมายเลขวรรณะเป็น 16 ซึ่งสูงกว่าบวกแบบคู่ซึ่งมีแค่ 13 นี่จึงเป็นเหตุผลว่าทำไม `"+apples + +oranges" จึงแปลงเป็นตัวเลขก่อนบวก
 
 ## Assignment
 
