@@ -144,7 +144,6 @@ alert( +apples + +oranges ); // 5
 | 14 | การหาร (division) | `/` |
 | 13 | การบวก (addition) | `+` |
 | 13 | การลบ (subtraction) | `-` |
-| ... | ... | ... |
 | 3 | เท่ากับ หรือ คือ (assignment) | `=` |
 | ... | ... | ... |
 
