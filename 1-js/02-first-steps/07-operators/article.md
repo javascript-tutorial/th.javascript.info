@@ -149,11 +149,11 @@ alert( +apples + +oranges ); // 5
 
 เราจะเห็นว่าบรรดาบวกแบบเดี่ยวมีหมายเลขวรรณะเป็น 16 ซึ่งสูงกว่าบวกแบบคู่ซึ่งมีแค่ 13 นี่จึงเป็นเหตุผลว่าทำไม `"+apples + +oranges" จึงแปลงเป็นตัวเลขก่อนบวก
 
-## Assignment
+## การกำหนดค่า (Assignment)
 
-Let's note that an assignment `=` is also an operator. It is listed in the precedence table with the very low priority of `3`.
+การกำหนดค่า (assignment) หรือเครื่องหมาย `=` ก็เป็นตัวดำเนินการเช่นเดียวกัน แถมยังมีชื่อในตารางวรรณะด้านบนด้วย โดยมีหมายเลขวรรณะอยู่ที่ `3`
 
-That's why, when we assign a variable, like `x = 2 * 2 + 1`, the calculations are done first and then the `=` is evaluated, storing the result in `x`.
+นี่เป็นเหตุผลว่าทำไม เวลาเราประกาศตัวแปรแบบ `x = 2 * 2 + 1` จะคำนวณด้านขวาให้เสร็จก่อน แล้วค่อยนำผลลัพธ์สุดท้าย มาเก็บไว้ใน `x`
 
 ```js
 let x = 2 * 2 + 1;
@@ -161,7 +161,7 @@ let x = 2 * 2 + 1;
 alert( x ); // 5
 ```
 
-It is possible to chain assignments:
+สามารถกำหนดค่า (assignment) ต่อเนื่องกันได้ด้วย
 
 ```js run
 let a, b, c;
@@ -175,14 +175,14 @@ alert( b ); // 4
 alert( c ); // 4
 ```
 
-Chained assignments evaluate from right to left. First, the rightmost expression `2 + 2` is evaluated and then assigned to the variables on the left: `c`, `b` and `a`. At the end, all the variables share a single value.
+กำหนดค่าแบบต่อเนื่องกัน จะเริ่มมจากขวาไปซ้าย โดยขวาสุด `2 + 2` จะบวกกันก่อน จากนั้นก็จะเก็บผลลัพธ์ไว้ในตัวแปรทางซ้าย `c`, `b` และ `a` ตามลำดับ สุดท้ายทุกๆตัวแปรจะเก็บค่าที่เหมือนกัน
 
-````smart header="The assignment operator `\"=\"` returns a value"
-An operator always returns a value. That's obvious for most of them like addition `+` or multiplication `*`. But the assignment operator follows this rule too.
+````smart header="ตัวกำหนดค่า `\"=\"` (assignment operator) จะคืนค่ามาเสมอ"
+ตามปกติแล้วตัวดำเนินการจะคืนค่าสุดท้ายมาเสมอ เห็นได้ชัดจาก การบวก `+` หรือ การคูณ `*` ดังนั้นตัวกำหนดค่า (assignment operator) ก็เป็นไปตามกฎนี้ด้วย
 
-The call `x = value` writes the `value` into `x` *and then returns it*.
+การเรียก `x = value` คือ การเขียน `value` ไปเก็บใน `x` *and then returns it*.
 
-Here's a demo that uses an assignment as part of a more complex expression:
+ด้านล่างคือตัวอย่างการใช้ตัวกำหนดค่า (assignment) เป็นส่วนหนึ่งนิพจน์ (expression) ที่ซับซ้อน
 
 ```js run
 let a = 1;
@@ -196,7 +196,7 @@ alert( a ); // 3
 alert( c ); // 0
 ```
 
-In the example above, the result of expression `(a = b + 1)` is the value which was assigned to `a` (that is `3`). It is then used for further evaluations.
+จากตัวอย่างด้านบน ผลลัพธ์จากนิพจน์ (expression) อย่าง `(a = b + 1)` เป็นค่าที่สุดท้ายจะถูกเก็บ (assigned) ไปที่ `a` (นั่นก็คือ `3`) จากนั่นก็เป็น `3 - 3` ผลลัพธ์สุดท้ายก็จะเก็บไว้ใน `c` ต่อไป
 
 Funny code, isn't it? We should understand how it works, because sometimes we see it in JavaScript libraries, but shouldn't write anything like that ourselves. Such tricks definitely don't make code clearer or readable.
 ````
