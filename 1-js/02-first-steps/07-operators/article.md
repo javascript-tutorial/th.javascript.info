@@ -147,7 +147,11 @@ alert( +apples + +oranges ); // 5
 | 3 | เท่ากับ หรือ คือ (assignment) | `=` |
 | ... | ... | ... |
 
+<<<<<<< HEAD
 เราจะเห็นว่าบรรดาบวกแบบเดี่ยวมีหมายเลขวรรณะเป็น 16 ซึ่งสูงกว่าบวกแบบคู่ซึ่งมีแค่ 13 นี่จึงเป็นเหตุผลว่าทำไม `"+apples + +oranges" จึงแปลงเป็นตัวเลขก่อนบวก
+=======
+As we can see, the "unary plus" has a priority of `17` which is higher than the `13` of "addition" (binary plus). That's why, in the expression `"+apples + +oranges"`, unary pluses work before the addition.
+>>>>>>> 405150f1f286db19a3c1ed913fa3e905fcefbe46
 
 ## การกำหนดค่า (Assignment)
 
