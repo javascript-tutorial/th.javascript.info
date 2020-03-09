@@ -136,8 +136,13 @@ alert('Hello');
 alert('World');
 ```
 
+<<<<<<< HEAD
 ```smart header="ใช้คีย์ลัด!"
 ใน editor ส่วนใหญ่สามารถใช้คีย์ลัดเพื่อคอมเม้นต์โค้ดออกได้ ด้วยการกด `key:Ctrl+/` สำหรับคอมเม้นต์บรรทัดเดียว และ `key:Ctrl+Shift+/` สำหรับคอมเม้นต์หลายบรรทัด สำหรับ Mac จะเปลี่ยนจากปุ่ม `key:Ctrl` ไปใช้ปุ่ม `key:Cmd` แทน
+=======
+```smart header="Use hotkeys!"
+In most editors, a line of code can be commented out by pressing the `key:Ctrl+/` hotkey for a single-line comment and something like `key:Ctrl+Shift+/` -- for multiline comments (select a piece of code and press the hotkey). For Mac, try `key:Cmd` instead of `key:Ctrl` and `key:Option` instead of `key:Shift`.
+>>>>>>> fcfef6a07842ed56144e04a80c3a24de049a952a
 ```
 
 ````warn header="คอมเม้นต์ซ้อนคอมเม้นต์ไม่ได้"
