@@ -198,30 +198,30 @@ alert( c ); // 0
 
 จากตัวอย่างด้านบน ผลลัพธ์จากนิพจน์ (expression) อย่าง `(a = b + 1)` เป็นค่าที่สุดท้ายจะถูกเก็บ (assigned) ไปที่ `a` (นั่นก็คือ `3`) จากนั่นก็เป็น `3 - 3` ผลลัพธ์สุดท้ายก็จะเก็บไว้ใน `c` ต่อไป
 
-Funny code, isn't it? We should understand how it works, because sometimes we see it in JavaScript libraries, but shouldn't write anything like that ourselves. Such tricks definitely don't make code clearer or readable.
+เริ่มสนุกแล้วใช่ไหมละ เราต้องทำความเข้าใจกับโค้ด เพราะว่าเราจะได้มีโอกาสเห็นโค้ดแบบนี้ตามไลบรารี่ (libraries) แต่อย่าได้ลองเขียนโค้ดแบบนี้ด้วยตัวเอง การเขียนแบบนี้ไม่ได้ช่วยให้โค้ดสะอาดขึ้นหรืออ่านง่ายขึ้นเลย
 ````
 
-## Remainder %
+## เศษเหลือ %
 
-The remainder operator `%`, despite its appearance, is not related to percents.
+การหาเศษเหลือจะใช้สัญลักษณ์ `%` ลัญลักษณ์เปอร์เซ็นต์นี้ ไม่มีอะไรเกี่ยวกับเปอร์เซ็นต์ที่เราใช้ในชีวิตประจำวัน
 
-The result of `a % b` is the remainder of the integer division of `a` by `b`.
+ผลลัพธ์ของ `a % b` คือ เศษเหลือของจากการหารจำนวนเต็ม `a` ด้วย `b`
 
-For instance:
+ตัวอย่างเช่น:
 
 ```js run
-alert( 5 % 2 ); // 1 is a remainder of 5 divided by 2
-alert( 8 % 3 ); // 2 is a remainder of 8 divided by 3
-alert( 6 % 3 ); // 0 is a remainder of 6 divided by 3
+alert( 5 % 2 ); // 1 คือ เศษเหลือของ 5 หารด้วย 2
+alert( 8 % 3 ); // 2 คือ เศษเหลือของ 8 หารด้วย 3
+alert( 6 % 3 ); // 0 คือ เศษเหลือของ 6 หารด้วย 3
 ```
 
-## Exponentiation **
+## ยกกำลัง **
 
-The exponentiation operator `**` is a recent addition to the language.
+การยกกำลังจะใช้สัญลักษณ์ `**` เป็นฟีเจอร์ที่เพิ่งมีในจาวาสคริปต์ได้ไม่นาน
 
-For a natural number `b`, the result of `a ** b` is `a` multiplied by itself `b` times.
+หาก `b` แทนจำนวนธรรมชาติใดๆ  ผลลัพธ์ของ `a ** b` ก็คือ `a` คูณกับตัวเองเป็นจำนวน b ครั้ว
 
-For instance:
+ตัวอย่างเช่น:
 
 ```js run
 alert( 2 ** 2 ); // 4  (2 * 2)
@@ -229,35 +229,35 @@ alert( 2 ** 3 ); // 8  (2 * 2 * 2)
 alert( 2 ** 4 ); // 16 (2 * 2 * 2 * 2)
 ```
 
-The operator works for non-integer numbers as well.
+เราสามารถยกกำลัง ตัวเลขที่ไม่ใช่จำนวนเต็มได้ด้วย
 
-For instance:
+ตัวอย่างเช่น:
 
 ```js run
-alert( 4 ** (1/2) ); // 2 (power of 1/2 is the same as a square root, that's maths)
-alert( 8 ** (1/3) ); // 2 (power of 1/3 is the same as a cubic root)
+alert( 4 ** (1/2) ); // 2 (กำลังของ 1/2 ก็คือ square root)
+alert( 8 ** (1/3) ); // 2 (กำลังของ 1/3 ก็คือ cubic root)
 ```
 
-## Increment/decrement
+## การเพิ่ม/การลด
 
 <!-- Can't use -- in title, because built-in parse turns it into – -->
 
-Increasing or decreasing a number by one is among the most common numerical operations.
+การเพิ่ม หรือ การลด ตัวเลขทีละหนึ่ง เป็นการดำเนินการทางตวัเลขที่พบบ่อยที่สุดในโปรแกรมมิ่ง
 
-So, there are special operators for it:
+จนต้องมีสัญลักษณ์พิเศษขึ้นมา สำหรับการดำเนินการนี้โดยเฉพาะ:
 
-- **Increment** `++` increases a variable by 1:
+- **Increment** จะใช้ `++` การเพิ่มค่าในตัวแปรทีละ 1:
 
     ```js run no-beautify
     let counter = 2;
-    counter++;        // works the same as counter = counter + 1, but is shorter
+    counter++;        // ทำงานเหมือนกับ counter = counter + 1 แต่สั้นกว่า
     alert( counter ); // 3
     ```
-- **Decrement** `--` decreases a variable by 1:
+- **Decrement** จะใช้ `--` การลดค่าในตัวแปรทีละ 1:
 
     ```js run no-beautify
     let counter = 2;
-    counter--;        // works the same as counter = counter - 1, but is shorter
+    counter--;        // ทำงานเหมือนกับ counter = counter - 1 แต่สั้นกว่า
     alert( counter ); // 1
     ```
 
