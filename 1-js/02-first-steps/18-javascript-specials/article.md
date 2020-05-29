@@ -81,9 +81,10 @@ let x = 5;
 x = "John";
 ```
 
-There are 7 data types:
+There are 8 data types:
 
 - `number` for both floating-point and integer numbers,
+- `bigint` for integer numbers of arbitrary length,
 - `string` for strings,
 - `boolean` for logical values: `true/false`,
 - `null` -- a type with a single value `null`, meaning "empty" or "does not exist",
@@ -151,6 +152,9 @@ Conditional
 Logical operators
 : Logical AND `&&` and OR `||` perform short-circuit evaluation and then return the value where it stopped (not necessary `true`/`false`). Logical NOT `!` converts the operand to boolean type and returns the inverse value.
 
+Nullish coalescing operator
+: The `??` operator provides a way to choose a defined value from a list of variables. The result of `a ?? b` is `a` unless it's `null/undefined`, then `b`.
+
 Comparisons
 : Equality check `==` for values of different types converts them to a number (except `null` and `undefined` that equal each other and nothing else), so these are equal:
 
@@ -170,7 +174,7 @@ Comparisons
 Other operators
 : There are few others, like a comma operator.
 
-More in: <info:operators>, <info:comparison>, <info:logical-operators>.
+More in: <info:operators>, <info:comparison>, <info:logical-operators>, <info:nullish-coalescing-operator>.
 
 ## Loops
 
@@ -212,6 +216,7 @@ let age = prompt('Your age?', 18);
 switch (age) {
   case 18:
     alert("Won't work"); // the result of prompt is a string, not a number
+    break;
 
   case "18":
     alert("This works!");
