@@ -1,8 +1,16 @@
+<<<<<<< HEAD:1-js/02-first-steps/07-operators/article.md
 # ตัวดำเนินการ (operator)
+=======
+# Basic operators, maths
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74:1-js/02-first-steps/08-operators/article.md
 
 ตัวดำเนินการในโลกโปรแกรมมิ่ง เราเคยได้เรียนกันมาแล้วสมัยโรงเรียน นั่นก็คือ การบวก `+` การลบ `-` การคูณ `*` การหาร `/` และ ตัวอื่นๆ
 
+<<<<<<< HEAD:1-js/02-first-steps/07-operators/article.md
 โดยในบทนี้ เราจะพูดถึง
+=======
+In this chapter, we’ll start with simple operators, then concentrate on JavaScript-specific aspects, not covered by school arithmetic.
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74:1-js/02-first-steps/08-operators/article.md
 
 ## คำว่า:  "เดี่ยว (unary)", "คู่ (binary)", "ตัวถูกดำเนินการ (operand)"
 
@@ -28,9 +36,61 @@
 
     ตามสองตัวอย่างด้านบน เราได้เห็นการดำเนินการสองแบบ ที่ใช้เครื่องหมายลบร่วมกัน การลบแบบเดี่ยว จะกลับค่าจากบวกเป็นลบ จากลบเป็นบวก การลบแบบคู่ จะลบค่าตัวหน้าด้วยค่าตัวหลัง
 
+<<<<<<< HEAD:1-js/02-first-steps/07-operators/article.md
 ## การต่อสตริง (String concatenation) ต้องใช้บวกแบบมีตัวดำเนินการสองตัว (binary) 
 
 ทีนี้ มาลองดูฟีเจอร์ของจาวาสคริปต์ ที่ไม่มีสอนในวิชาคณิตศาสตร์ที่โรงเรียนกันบ้าง
+=======
+## Maths
+
+The following math operations are supported:
+
+- Addition `+`,
+- Subtraction `-`,
+- Multiplication `*`,
+- Division `/`,
+- Remainder `%`,
+- Exponentiation `**`.
+
+The first four are straightforward, while `%` and `**` need a few words about them.
+
+### Remainder %
+
+The remainder operator `%`, despite its appearance, is not related to percents.
+
+The result of `a % b` is the [remainder](https://en.wikipedia.org/wiki/Remainder) of the integer division of `a` by `b`.
+
+For instance:
+
+```js run
+alert( 5 % 2 ); // 1, a remainder of 5 divided by 2
+alert( 8 % 3 ); // 2, a remainder of 8 divided by 3
+```
+
+### Exponentiation **
+
+The exponentiation operator `a ** b` multiplies `a` by itself `b` times.
+
+For instance:
+
+```js run
+alert( 2 ** 2 ); // 4  (2 multiplied by itself 2 times)
+alert( 2 ** 3 ); // 8  (2 * 2 * 2, 3 times)
+alert( 2 ** 4 ); // 16 (2 * 2 * 2 * 2, 4 times)
+```
+
+Mathematically, the exponentiation is defined for non-integer numbers as well. For example, a square root is an exponentiation by `1/2`:
+
+```js run
+alert( 4 ** (1/2) ); // 2 (power of 1/2 is the same as a square root)
+alert( 8 ** (1/3) ); // 2 (power of 1/3 is the same as a cubic root)
+```
+
+
+## String concatenation with binary +
+
+Let's meet features of JavaScript operators that are beyond school arithmetics.
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74:1-js/02-first-steps/08-operators/article.md
 
 โดยปกติแล้ว เราจะเห็นแต่การใช้เครื่องหมายบวก `+` กับตัวเลข
 
@@ -41,7 +101,11 @@ let s = "my" + "string";
 alert(s); // mystring
 ```
 
+<<<<<<< HEAD:1-js/02-first-steps/07-operators/article.md
 หากตัวถูกดำเนินการใดๆเป็นสตริง ไปบวกกับข้อมูลชนิดอื่นๆ ตัวนั้นก็จะถูกรวมเป็นสตริงเดียวกัน
+=======
+Note that if any of the operands is a string, then the other one is converted to a string too.
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74:1-js/02-first-steps/08-operators/article.md
 
 ตัวอย่างเช่น:
 
@@ -50,22 +114,35 @@ alert( '1' + 2 ); // "12"
 alert( 2 + '1' ); // "21"
 ```
 
+<<<<<<< HEAD:1-js/02-first-steps/07-operators/article.md
 ไม่สำคัญว่าสตริงจะอยู่หน้า หรือหลังของเครื่องหมาย แต่เมื่อสตริงไปบวกกับอะไรก็ตาม ก็จะถูกรวมเข้ามาเป็นสตริงหมด
 
 อ่อแต่อย่าลืมว่า การดำเนินการในทางโปรแกรมมิ่ง ก็เหมือนกับคณิตศาสตร์ คือ ทำงานจากซ้ายไปขวาเสมอ หากมีตัวเลขบวกกันอยู่ทางซ้าย แล้วตัวที่สามเป็นสตริง ตัวเลขทั้งสองตัวจะบวกกันก่อน จากนั้นผลลัพธ์จะไปรวมกับสตริงตัวสุดท้ายอีกที
+=======
+See, it doesn't matter whether the first operand is a string or the second one.
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74:1-js/02-first-steps/08-operators/article.md
 
+Here's a more complex example:
 
 ```js run
 alert(2 + 2 + '1' ); // ได้ "41" ไม่ใช่ "221"
 ```
 
+<<<<<<< HEAD:1-js/02-first-steps/07-operators/article.md
 การต่อสตริงเป็นฟีเจอร์เฉพาะกับเครื่องหมาย `+` เท่านั้น เครื่องหมายอื่นๆ จะทำงานได้กับตัวเลขอย่างเดียว
 
 ตัวอย่างเช่น การลบ และ การหาร
+=======
+Here, operators work one after another. The first `+` sums two numbers, so it returns `4`, then the next `+` adds the string `1` to it, so it's like `4 + '1' = 41`.
+
+The binary `+` is the only operator that supports strings in such a way. Other arithmetic operators work only with numbers and always convert their operands to numbers.
+
+Here's the demo for subtraction and division:
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74:1-js/02-first-steps/08-operators/article.md
 
 ```js run
-alert( 2 - '1' ); // 1
-alert( '6' / '2' ); // 3
+alert( 6 - '2' ); // 4, converts '2' to a number
+alert( '6' / '2' ); // 3, converts both operands to numbers
 ```
 
 ## แปลงข้อมูลเป็นตัวเลขด้วยเครื่องหมายบวก
@@ -138,6 +215,7 @@ alert( +apples + +oranges ); // 5
 | หมายเลขวรรณะ | ชื่อ | หน้าตาเครื่องหมาย |
 |------------|------|------|
 | ... | ... | ... |
+<<<<<<< HEAD:1-js/02-first-steps/07-operators/article.md
 | 16 | บวกแบบเดี่ยว (unary plus) | `+` |
 | 16 | บวกแบบคู่ (unary negation) | `-` |
 | 14 | การคูณ (multiplication) | `*` |
@@ -145,6 +223,17 @@ alert( +apples + +oranges ); // 5
 | 13 | การบวก (addition) | `+` |
 | 13 | การลบ (subtraction) | `-` |
 | 3 | เท่ากับ หรือ คือ (assignment) | `=` |
+=======
+| 17 | unary plus | `+` |
+| 17 | unary negation | `-` |
+| 16 | exponentiation | `**` |
+| 15 | multiplication | `*` |
+| 15 | division | `/` |
+| 13 | addition | `+` |
+| 13 | subtraction | `-` |
+| ... | ... | ... |
+| 3 | assignment | `=` |
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74:1-js/02-first-steps/08-operators/article.md
 | ... | ... | ... |
 
 เราจะเห็นว่าบรรดาบวกแบบเดี่ยวมีหมายเลขวรรณะเป็น 16 ซึ่งสูงกว่าบวกแบบคู่ซึ่งมีแค่ 13 นี่จึงเป็นเหตุผลว่าทำไม `"+apples + +oranges" จึงแปลงเป็นตัวเลขก่อนบวก
@@ -161,6 +250,7 @@ let x = 2 * 2 + 1;
 alert( x ); // 5
 ```
 
+<<<<<<< HEAD:1-js/02-first-steps/07-operators/article.md
 สามารถกำหนดค่า (assignment) ต่อเนื่องกันได้ด้วย
 
 ```js run
@@ -179,6 +269,13 @@ alert( c ); // 4
 
 ````smart header="ตัวกำหนดค่า `\"=\"` (assignment operator) จะคืนค่ามาเสมอ"
 ตามปกติแล้วตัวดำเนินการจะคืนค่าสุดท้ายมาเสมอ เห็นได้ชัดจาก การบวก `+` หรือ การคูณ `*` ดังนั้นตัวกำหนดค่า (assignment operator) ก็เป็นไปตามกฎนี้ด้วย
+=======
+### Assignment = returns a value
+
+The fact of `=` being an operator, not a "magical" language construct has an interesting implication.
+
+Most operators in JavaScript return a value. That's obvious for `+` and `-`, but also true for `=`.
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74:1-js/02-first-steps/08-operators/article.md
 
 การเรียก `x = value` คือ การเขียน `value` ไปเก็บใน `x` *and then returns it*.
 
@@ -198,6 +295,7 @@ alert( c ); // 0
 
 จากตัวอย่างด้านบน ผลลัพธ์จากนิพจน์ (expression) อย่าง `(a = b + 1)` เป็นค่าที่สุดท้ายจะถูกเก็บ (assigned) ไปที่ `a` (นั่นก็คือ `3`) จากนั่นก็เป็น `3 - 3` ผลลัพธ์สุดท้ายก็จะเก็บไว้ใน `c` ต่อไป
 
+<<<<<<< HEAD:1-js/02-first-steps/07-operators/article.md
 เริ่มสนุกแล้วใช่ไหมละ เราต้องทำความเข้าใจกับโค้ด เพราะว่าเราจะได้มีโอกาสเห็นโค้ดแบบนี้ตามไลบรารี่ (libraries) แต่อย่าได้ลองเขียนโค้ดแบบนี้ด้วยตัวเอง การเขียนแบบนี้ไม่ได้ช่วยให้โค้ดสะอาดขึ้นหรืออ่านง่ายขึ้นเลย
 ````
 
@@ -222,13 +320,62 @@ alert( 6 % 3 ); // 0 คือ เศษเหลือของ 6 หารด�
 หาก `b` แทนจำนวนธรรมชาติใดๆ  ผลลัพธ์ของ `a ** b` ก็คือ `a` คูณกับตัวเองเป็นจำนวน b ครั้ว
 
 ตัวอย่างเช่น:
+=======
+Funny code, isn't it? We should understand how it works, because sometimes we see it in JavaScript libraries.
+
+Although, please don't write the code like that. Such tricks definitely don't make code clearer or readable.
+
+### Chaining assignments
+
+Another interesting feature is the ability to chain assignments:
 
 ```js run
-alert( 2 ** 2 ); // 4  (2 * 2)
-alert( 2 ** 3 ); // 8  (2 * 2 * 2)
-alert( 2 ** 4 ); // 16 (2 * 2 * 2 * 2)
+let a, b, c;
+
+*!*
+a = b = c = 2 + 2;
+*/!*
+
+alert( a ); // 4
+alert( b ); // 4
+alert( c ); // 4
 ```
 
+Chained assignments evaluate from right to left. First, the rightmost expression `2 + 2` is evaluated and then assigned to the variables on the left: `c`, `b` and `a`. At the end, all the variables share a single value.
+
+Once again, for the purposes of readability it's better to split such code into few lines:
+
+```js
+c = 2 + 2;
+b = c;
+a = c;
+```
+That's easier to read, especially when eye-scanning the code fast.
+
+## Modify-in-place
+
+We often need to apply an operator to a variable and store the new result in that same variable.
+
+For example:
+
+```js
+let n = 2;
+n = n + 5;
+n = n * 2;
+```
+
+This notation can be shortened using the operators `+=` and `*=`:
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74:1-js/02-first-steps/08-operators/article.md
+
+```js run
+let n = 2;
+n += 5; // now n = 7 (same as n = n + 5)
+n *= 2; // now n = 14 (same as n = n * 2)
+
+alert( n ); // 14
+```
+
+<<<<<<< HEAD:1-js/02-first-steps/07-operators/article.md
 เราสามารถยกกำลัง ตัวเลขที่ไม่ใช่จำนวนเต็มได้ด้วย
 
 ตัวอย่างเช่น:
@@ -236,11 +383,23 @@ alert( 2 ** 4 ); // 16 (2 * 2 * 2 * 2)
 ```js run
 alert( 4 ** (1/2) ); // 2 (กำลังของ 1/2 ก็คือ square root)
 alert( 8 ** (1/3) ); // 2 (กำลังของ 1/3 ก็คือ cubic root)
+=======
+Short "modify-and-assign" operators exist for all arithmetical and bitwise operators: `/=`, `-=`, etc.
+
+Such operators have the same precedence as a normal assignment, so they run after most other calculations:
+
+```js run
+let n = 2;
+
+n *= 3 + 5;
+
+alert( n ); // 16  (right part evaluated first, same as n *= 8)
+>>>>>>> 69e44506c3e9dac74c282be37b55ba7ff122ae74:1-js/02-first-steps/08-operators/article.md
 ```
 
 ## การเพิ่ม/การลด
 
-<!-- Can't use -- in title, because built-in parse turns it into – -->
+<!-- Can't use -- in title, because the built-in parser turns it into a 'long dash' – -->
 
 การเพิ่ม หรือ การลด ตัวเลขทีละหนึ่ง เป็นการดำเนินการทางตวัเลขที่พบบ่อยที่สุดในโปรแกรมมิ่ง
 
@@ -367,41 +526,7 @@ The list of operators:
 - RIGHT SHIFT ( `>>` )
 - ZERO-FILL RIGHT SHIFT ( `>>>` )
 
-These operators are used very rarely. To understand them, we need to delve into low-level number representation and it would not be optimal to do that right now, especially since we won't need them any time soon. If you're curious, you can read the [Bitwise Operators](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators) article on MDN. It would be more practical to do that when a real need arises.
-
-## Modify-in-place
-
-We often need to apply an operator to a variable and store the new result in that same variable.
-
-For example:
-
-```js
-let n = 2;
-n = n + 5;
-n = n * 2;
-```
-
-This notation can be shortened using the operators `+=` and `*=`:
-
-```js run
-let n = 2;
-n += 5; // now n = 7 (same as n = n + 5)
-n *= 2; // now n = 14 (same as n = n * 2)
-
-alert( n ); // 14
-```
-
-Short "modify-and-assign" operators exist for all arithmetical and bitwise operators: `/=`, `-=`, etc.
-
-Such operators have the same precedence as a normal assignment, so they run after most other calculations:
-
-```js run
-let n = 2;
-
-n *= 3 + 5;
-
-alert( n ); // 16  (right part evaluated first, same as n *= 8)
-```
+These operators are used very rarely, when we need to fiddle with numbers on the very lowest (bitwise) level. We won't need these operators any time soon, as web development has little use of them, but in some special areas, such as cryptography, they are useful. You can read the [Bitwise Operators](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators) article on MDN when a need arises.
 
 ## Comma
 
