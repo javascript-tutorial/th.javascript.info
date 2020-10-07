@@ -43,15 +43,10 @@
 
 แท็ก `<script>` ในปัจจุบันหาพบได้ยากแล้ว โดยมากจะพบในโค้ดที่เขียนมานานมากแล้ว
 
-<<<<<<< HEAD
-คุณลักษณะประเภท `type`: <code>&lt;script <u>type</u>=...&gt;</code>
-: มาตรฐาน HTML เก่าตั้งแต่เวอร์ชั่น 4 ลงมา จำเป็นต้องมีการระบุ `type` ภายในแท็ก `script` ด้วยเช่น `type="text/javascript"` แต่ไม่จำเป็นแล้วในปัจจุบัน ทั้งตามมาตรฐานปัจจุบันยังเปลี่ยนความหมายคุณลักษณะ `type` ไปโดยสิ้นเชิง โดยใช้เพื่อระบุโมดูลจาวาสคริปต์แทน เราจะมาพูดถึงประเด็นนี้ในหัวข้อที่ยากกว่านี้อีกที
-=======
-The `type` attribute: <code>&lt;script <u>type</u>=...&gt;</code>
-: The old HTML standard, HTML4, required a script to have a `type`. Usually it was `type="text/javascript"`. It's not required anymore. Also, the modern HTML standard totally changed the meaning of this attribute. Now, it can be used for JavaScript modules. But that's an advanced topic, we'll talk about modules in another part of the tutorial.
->>>>>>> 181cc781ab6c55fe8c43887a0c060db7f93fb0ca
+attribute `type`: <code>&lt;script <u>type</u>=...&gt;</code>
+: มาตรฐาน HTML เก่าตั้งแต่เวอร์ชั่น 4 ลงมา จำเป็นต้องมีการระบุ `type` ภายในแท็ก `script` ด้วยเช่น `type="text/javascript"` แต่ไม่จำเป็นแล้วในปัจจุบัน ทั้งตามมาตรฐานปัจจุบันยังเปลี่ยนความหมาย attribute `type` ไปโดยสิ้นเชิง โดยใช้เพื่อระบุโมดูลจาวาสคริปต์แทน แต่เรื่องโมดูลเป็นเรื่อง advanced เราจะมาพูดถึงโมดูลนี้อีกทีในภายหลัง
 
-คุณลักษณะประเภท `language`: <code>&lt;script <u>language</u>=...&gt;</code>
+attribute `language`: <code>&lt;script <u>language</u>=...&gt;</code>
 : คุณลักษณะดังกล่าวมีไว้เพื่อแสดงให้เบราเซอร์ดูว่าภาษาสคริปต์ที่เขียนคือภาษาอะไร แต่ในปัจจุบันไม่จำเป็นต้องระบุแล้ว เพราะจาวาสคริปต์เป็นภาษาเริ่มต้นเสมอ
 
 คอมเม้นก่อนหรือหลังแท็กสคริปต์
