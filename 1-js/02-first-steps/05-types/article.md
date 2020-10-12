@@ -1,6 +1,14 @@
 # ชนิดของข้อมูล
 
+<<<<<<< HEAD
 ตัวแปรในจาวาสคริปต์สามารถเก็บข้อมูลใดๆก็ได้ เช่น ตัวแปรหนึ่งเก็บข้อมูลที่เป็นสตริง (String) อีกตัวเก็บข้อมูลที่เป็นตัวเลข (Number)
+=======
+A value in JavaScript is always of a certain type. For example, a string or a number.
+
+There are eight basic data types in JavaScript. Here, we'll cover them in general and in the next chapters we'll talk about each of them in detail.
+
+We can put any type in a variable. For example, a variable can at one moment be a string and then store a number:
+>>>>>>> 0599d07b3c13ee25f583fc091cead3c17a7e7779
 
 ```js
 // ไม่มี error
@@ -8,9 +16,13 @@ let message = "hello";
 message = 123456;
 ```
 
+<<<<<<< HEAD
 โปรแกรมมิ่งภาษาใดที่อนุญาตให้เราเปลี่ยนชนิดของข้อมูลได้ โดยที่ไม่ error เราจะเรียกภาษานั้นว่าเป็น "dynamically typed" หมายความว่า ตัวแปรจะเก็บข้อมูลเป็นอะไรก็ได้ และไม่ได้ผูกกับชนิดของข้อมูลชนิดใดชนิดหนึ่ง
 
 ในจาวาสคริปต์ข้อมูลสามารถจำแนกออกได้เป็น 8 ชนิด ในบทนี้จะพูดแต่เรื่องพื้นฐานเท่านั้น โดยจะลงรายละเอียดในบทถัดไป
+=======
+Programming languages that allow such things, such as JavaScript, are called "dynamically typed", meaning that there exist data types, but variables are not bound to any of them.
+>>>>>>> 0599d07b3c13ee25f583fc091cead3c17a7e7779
 
 ## ตัวเลข (Number)
 
@@ -64,17 +76,28 @@ n = 12.345;
 
 ## จำนวนเต็มที่เยอะมากๆ (BigInt)
 
+<<<<<<< HEAD
 ในจาวาสคริปต์ ข้อมูลชนิด `number` ไม่สามารถแสดงจำนวนเต็มที่มีค่าเกินกว่า <code>2<sup>53</sup></code> (หรือน้อยกว่า <code>-2<sup>53</sup></code> สำหรับจำนวนเต็มลบ) นับเป็นหนึ่งในข้อจำกัดทางเทคนิคของภาษา การแสดงตัวเลขได้เพียง 16 หลักสามารถใช้แทนจำนวนในชีวิตประจำวันได้โดยส่วนใหญ่อยู่แล้ว ข้อจำกัดนี้จึงไม่ใช่ปัญหา แต่บางครั้งเราก็ต้องการเก็บข้อมูลที่มีตัวเลขจำนวนมาก เช่น สำหรับการเข้ารหัส (cryptography) หรือ การประทับเวลาในระดับไมโครวินาที เป็นต้น
+=======
+In JavaScript, the "number" type cannot represent integer values larger than <code>(2<sup>53</sup>-1)</code> (that's `9007199254740991`), or less than <code>-(2<sup>53</sup>-1)</code> for negatives. It's a technical limitation caused by their internal representation.
+
+For most purposes that's quite enough, but sometimes we need really big numbers, e.g. for cryptography or microsecond-precision timestamps.
+>>>>>>> 0599d07b3c13ee25f583fc091cead3c17a7e7779
 
 ข้อมูลชนิด `BigInt` เพิ่งจะถูกเพิ่มเข้ามาในจาวาสคริปต์ไม่นานนี้ เพื่อให้ตัวแปรสามารถเก็บข้อมูล เป็นตัวเลขทีมีความยาวเกิน 16 หลักได้
 
+<<<<<<< HEAD
 เราจะสร้างข้อมูลชนิด `BigInt` ได้ด้วยการเติม `n` ไว้ข้างหลังเลขจำนวนเต็ม
+=======
+A `BigInt` value is created by appending `n` to the end of an integer:
+>>>>>>> 0599d07b3c13ee25f583fc091cead3c17a7e7779
 
 ```js
 // the "n" at the end means it's a BigInt
 const bigInt = 1234567890123456789012345678901234567890n;
 ```
 
+<<<<<<< HEAD
 จำนวน `BigInt` จะใช้เฉพาะจุดประสงค์เฉพาะจริงๆ เราจะพูดถึงรายละเอียดในบท <info:bigint>.
 
 ```smart header="ปัญหาเรื่องความเข้ากันได้ (compatability)"
@@ -82,6 +105,18 @@ const bigInt = 1234567890123456789012345678901234567890n;
 ```
 
 ## สตริง (String)
+=======
+As `BigInt` numbers are rarely needed, we don't cover them here, but devoted them a separate chapter <info:bigint>. Read it when you need such big numbers.
+
+
+```smart header="Compatibility issues"
+Right now, `BigInt` is supported in Firefox/Chrome/Edge/Safari, but not in IE.
+```
+
+You can check [*MDN* BigInt compatibility table](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt#Browser_compatibility) to know which versions of a browser are supported.
+
+## String
+>>>>>>> 0599d07b3c13ee25f583fc091cead3c17a7e7779
 
 สตริงในจาวาสคริปต์จะต้องล้อมรอบด้วยเครื่องหมาย quotes
 
@@ -123,7 +158,11 @@ alert( "the result is ${1 + 2}" ); // ผลลัพธ์ก็คือ ${1 +
 ```smart header="ไม่มีข้อมูลชนิด *อักขระ (character)*"
 ในบางภาษาโปรแกรมม่ิง จะมีข้อมูลชนิดอักขระ (character) คือเก็บตัวอักษรจำนวน 1 ตัว ตัวอย่างเช่น ภาษาซีหรือจาวา
 
+<<<<<<< HEAD
 ในจาวาสคริปต์จะไม่มีข้อมูลชนิดดังกล่าว มีเพียงสตริงอย่างเดียว จะมีตัวอักษรเพียงตัวเดียวหรือหลายตัว ก็เป็นสตริงทั้งหมด
+=======
+In JavaScript, there is no such type. There's only one type: `string`. A string may consist of zero characters (be empty), one character or many of them.
+>>>>>>> 0599d07b3c13ee25f583fc091cead3c17a7e7779
 ```
 
 ## บูลีน (Boolean - logical type)
@@ -163,7 +202,11 @@ let age = null;
 
 เป็นเพียงค่าพิเศษที่แสดงถึง ความว่างเปล่า ไม่มีค่า หรือ ไม่ทราบค่า
 
+<<<<<<< HEAD
 อย่างโค้ดด้านบน เป็นการสื่อว่ายังไม่ทราบอายุ หรือเป็นค่าว่าง ด้วยเหตุผลบางประการ
+=======
+The code above states that `age` is unknown.
+>>>>>>> 0599d07b3c13ee25f583fc091cead3c17a7e7779
 
 ## ค่า "undefined"
 
@@ -174,30 +217,50 @@ let age = null;
 หากเราสร้างตัวแปรขึ้นมา แต่ไม่ได้กำหนดค่าให้ตัวแปร ค่าที่ได้จะเป็น `undefined`:
 
 ```js run
-let x;
+let age;
 
+<<<<<<< HEAD
 alert(x); // "undefined"
 ```
 
 ในทางเทคนิค เราสามารถกำหนดค่า `undefined` ให้ตัวแปรได้เลย
-
-```js run
-let x = 123;
-
-x = undefined;
-
-alert(x); // "undefined"
+=======
+alert(age); // shows "undefined"
 ```
 
+Technically, it is possible to explicitly assign `undefined` to a variable:
+>>>>>>> 0599d07b3c13ee25f583fc091cead3c17a7e7779
+
+```js run
+let age = 100;
+
+// change the value to undefined
+age = undefined;
+
+alert(age); // "undefined"
+```
+
+<<<<<<< HEAD
 แต่ไม่แนะนำให้ทำ โดยปกติจะใช้ `null` เพื่อแทนค่าว่าง ส่วน `undefined` จะใช้เพื่อดูว่าตัวแปรนั้นมีค่าหรือยังมากกว่า
+=======
+...But we don't recommend doing that. Normally, one uses `null` to assign an "empty" or "unknown" value to a variable, while `undefined` is reserved as a default initial value for unassigned things.
+>>>>>>> 0599d07b3c13ee25f583fc091cead3c17a7e7779
 
 ## ออบเจ็กต์ (Objects) และซิมโบล (Symbols)
 
 ข้อมูลชนิด `object` ก็เป็นชนิดพิเศษ
 
+<<<<<<< HEAD
 เพราะประเภทอื่นๆ ทั้งหมดจะเรียกว่า "primitive" เพราะ ค่ามีได้เพียงค่าเดียว ต่างกับออบเจ็กต์ที่สามารถเก็บค่าได้หลายค่า 
 
 ซิมโบลใช้เมื่อเราต้องการตัวระบุเอกลักษณ์ ในบทนี้จะเกรื่นไว้คร่าวๆเท่านั้น และจะพูดถึงอีกทีหลังจบเรื่องออบเจ็กต์แล้ว
+=======
+All other types are called "primitive" because their values can contain only a single thing (be it a string or a number or whatever). In contrast, objects are used to store collections of data and more complex entities.
+
+Being that important, objects deserve a special treatment. We'll deal with them later in the chapter <info:object>, after we learn more about primitives.
+
+The `symbol` type is used to create unique identifiers for objects. We have to mention it here for the sake of completeness, but also postpone the details till we know objects.
+>>>>>>> 0599d07b3c13ee25f583fc091cead3c17a7e7779
 
 ## typeof operator [#type-typeof]
 
@@ -240,14 +303,21 @@ typeof alert // "function"  (3)
 
 คำอธิบายเพิ่มเติมเกี่ยวกับสามบรรทัดสุดท้าย
 
+<<<<<<< HEAD
 1. `Math` เป็นออบเจ็กต์ที่ built-in มาโดยตัวภาษา ที่มีโอเปอเตอร์ทางคณิตศาสตร์อยู่ข้างใน อ่านเพิ่มเติมได้ที่ <info:number> ในนี้ได้ใส่ตัวอย่างสำหรับออบเจ็กต์ตัวนี้ไว้แล้ว
 2. ผลลัพธ์ของ `typeof null` ได้ `"object"` เป็นผลลัพธ์ที่ผิด ซึ่งเป็นข้อผิดพลาดจากตัวโอเปอเรเตอร์ `typeof` เอง เพราะค่า `null` ไม่ใช่ออบเจ็กต์ เป็นชนิดพิเศษที่แยกออกมาตะหาก และอีกเช่นกันนี่เป็นข้อผิดพลาดทางภาษา 
 3. ผลลัพธ์ของ `typeof alert` คือ `"function"` เพราะว่า `alert` เป็นฟังชั่นก์ ซึ่งจะพูดในบทถัดไป แต่จากที่กล่าวมาในบทนี้ จะสังเกตว่าไม่มีข้อมูลชนิดฟังชั่นก์ เพราะฟังชั่นก์เป็นส่วนหนึ่งของข้อมูลชนิดออบเจ็กต์ แต่ตัว `typeof` ปฎิบัติกับบรรดาฟังชั่นก์ต่างไปสักหน่อย โดยการส่งคืนสตริงว่า `"function"` ออกมา ผลลัพธ์มันผิด แต่กลับสะดวกมากทีเดียวเวลาทำงานจริง
+=======
+1. `Math` is a built-in object that provides mathematical operations. We will learn it in the chapter <info:number>. Here, it serves just as an example of an object.
+2. The result of `typeof null` is `"object"`. That's an officially recognized error in `typeof` behavior, coming from the early days of JavaScript and kept for compatibility. Definitely, `null` is not an object. It is a special value with a separate type of its own.
+3. The result of `typeof alert` is `"function"`, because `alert` is a function. We'll study functions in the next chapters where we'll also see that there's no special "function" type in JavaScript. Functions belong to the object type. But `typeof` treats them differently, returning `"function"`. That also comes from the early days of JavaScript. Technically, such behavior isn't correct, but can be convenient in practice.
+>>>>>>> 0599d07b3c13ee25f583fc091cead3c17a7e7779
 
 ## สรุป
 
 มีข้อมูลอยู่ 8 ชนิดในจาวาสคริปต์
 
+<<<<<<< HEAD
 - `number` คือตัวเลขอะไรก็ตาม ไม่ว่าจะเป็น จำนวนเต็ม หรือ ทศนิยม โดยที่จำนวนเต็มจะจำกัดอยู่แค่ ±2<sup>53</sup>
 - `bigint` คือตัวเลขที่เป็นจำนวนเต็ม และจะมีกี่หลักก็ได้
 - `string` คือสตริงหรือข้อความ จะมีอักขระกี่ตัวก็ได้ โดยไม่แยกระหว่างอักขระตัวเดียวกับ ชุดอักขระเหมือนภาษาอื่น
@@ -256,6 +326,16 @@ typeof alert // "function"  (3)
 - `undefined` คือค่าที่ยังไม่ถูกกำหนด เป็นทั้งค่า และ ชนิดของข้อมูล
 - `object` สำหรับ เก็บข้อมูลมากกว่าหนึ่งค่า มีความซับซ้อนในเรื่องโครงสร้างข้อมูล
 - `symbol` สำหรับ เป็นตัวระบุเอกลักษณ์
+=======
+- `number` for numbers of any kind: integer or floating-point, integers are limited by <code>±(2<sup>53</sup>-1)</code>.
+- `bigint` is for integer numbers of arbitrary length.
+- `string` for strings. A string may have zero or more characters, there's no separate single-character type.
+- `boolean` for `true`/`false`.
+- `null` for unknown values -- a standalone type that has a single value `null`.
+- `undefined` for unassigned values -- a standalone type that has a single value `undefined`.
+- `object` for more complex data structures.
+- `symbol` for unique identifiers.
+>>>>>>> 0599d07b3c13ee25f583fc091cead3c17a7e7779
 
 ตัว `typeof` สามารถช่วยเราดูข้อมูลเก็บอยู่ในตัวแปร เป็นข้อมูลชนิดใด
 

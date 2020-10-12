@@ -43,8 +43,13 @@
 
 แท็ก `<script>` ในปัจจุบันหาพบได้ยากแล้ว โดยมากจะพบในโค้ดที่เขียนมานานมากแล้ว
 
+<<<<<<< HEAD
 คุณลักษณะประเภท `type`: <code>&lt;script <u>type</u>=...&gt;</code>
 : มาตรฐาน HTML เก่าตั้งแต่เวอร์ชั่น 4 ลงมา จำเป็นต้องมีการระบุ `type` ภายในแท็ก `script` ด้วยเช่น `type="text/javascript"` แต่ไม่จำเป็นแล้วในปัจจุบัน ทั้งตามมาตรฐานปัจจุบันยังเปลี่ยนความหมายคุณลักษณะ `type` ไปโดยสิ้นเชิง โดยใช้เพื่อระบุโมดูลจาวาสคริปต์แทน เราจะมาพูดถึงประเด็นนี้ในหัวข้อที่ยากกว่านี้อีกที
+=======
+The `type` attribute: <code>&lt;script <u>type</u>=...&gt;</code>
+: The old HTML standard, HTML4, required a script to have a `type`. Usually it was `type="text/javascript"`. It's not required anymore. Also, the modern HTML standard totally changed the meaning of this attribute. Now, it can be used for JavaScript modules. But that's an advanced topic, we'll talk about modules in another part of the tutorial.
+>>>>>>> 0599d07b3c13ee25f583fc091cead3c17a7e7779
 
 คุณลักษณะประเภท `language`: <code>&lt;script <u>language</u>=...&gt;</code>
 : คุณลักษณะดังกล่าวมีไว้เพื่อแสดงให้เบราเซอร์ดูว่าภาษาสคริปต์ที่เขียนคือภาษาอะไร แต่ในปัจจุบันไม่จำเป็นต้องระบุแล้ว เพราะจาวาสคริปต์เป็นภาษาเริ่มต้นเสมอ
@@ -75,7 +80,7 @@
 หรือจะใช้เป็น URL ก็ได้ดังตัวอย่างด้านล่าง
 
 ```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.js"></script>
 ```
 
 แนบสคริปต์แบบหลายไฟล์ดังตัวอย่างด้านล่าง

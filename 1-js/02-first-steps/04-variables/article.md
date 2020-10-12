@@ -80,9 +80,14 @@ let user = 'John'
 
 ในทางเทคนิคแล้ว ตัวอย่างทั้งหมดทำในสิ่งเดียวกัน คือสร้างและกำหนดค่าตัวแปรหลายตัว การเขียนแบบด้านบนจึงเป็นเรื่องของรสนิยม และสุนทรียส่วนตัว
 
+<<<<<<< HEAD
 
 ````smart header="`var` แทนด้วย `let`"
 ในโค้ดที่เขียนไว้นานแล้ว เราจะเจอการสร้างตัวแปรด้วย `var` แทนที่จะเป็น `let`:
+=======
+````smart header="`var` instead of `let`"
+In older scripts, you may also find another keyword: `var` instead of `let`:
+>>>>>>> 0599d07b3c13ee25f583fc091cead3c17a7e7779
 
 ```js
 *!*var*/!* message = 'Hello';
@@ -135,8 +140,27 @@ alert(hello); // Hello world!
 alert(message); // Hello world!
 ```
 
+<<<<<<< HEAD
 ```smart header="ภาษาเชิงฟังชั่นก์"
 เป็นที่น่าสังเกตว่าในบางภาษาโปรแกรมมิ่งที่จัดว่าเป็นภาษา[เชิงฟังชั่นก์](https://en.wikipedia.org/wiki/Functional_programming) อย่าง [Scala](http://www.scala-lang.org/) หรือ [Erlang](http://www.erlang.org/) ห้ามเปลี่ยนแปลงค่าในตัวแปร
+=======
+````warn header="Declaring twice triggers an error"
+A variable should be declared only once.
+
+A repeated declaration of the same variable is an error:
+
+```js run
+let message = "This";
+
+// repeated 'let' leads to an error
+let message = "That"; // SyntaxError: 'message' has already been declared
+```
+So, we should declare a variable once and then refer to it without `let`.
+````
+
+```smart header="Functional languages"
+It's interesting to note that there exist [functional](https://en.wikipedia.org/wiki/Functional_programming) programming languages, like [Scala](http://www.scala-lang.org/) or [Erlang](http://www.erlang.org/) that forbid changing variable values.
+>>>>>>> 0599d07b3c13ee25f583fc091cead3c17a7e7779
 
 ในภาษาประเภทนี้เมื่ออะไรก็ตามถูกเก็บไว้ในกล่อง สิ่งๆนั้นจะต้องอยู่ในกล่องตลอดกาล ถ้าเราต้องการเก็บค่าอื่นๆ เราจะต้องสร้างตัวแปรขึ้นมาใหม่แทน โดยตัวภาษาจะบังคับให้เราทำกล่องใบใหม่ขึ้นมา เราไม่สามารถใช้กล่องเก่าซ้ำได้
 
@@ -190,7 +214,11 @@ let имя = '...';
 let 我 = '...';
 ```
 
+<<<<<<< HEAD
 ในทางเทคนิค เราสามารถทำได้โดยที่ไม่มีข้อผิดพลาดเกิดขึ้น เราสามารถตั้งชื่อตัวแปรแบบนี้ได้ แต่ในทางสากลนิยมจะใช้ภาษาอังดฤษเป็นชื่อตัวแปร แม้ว่าจะเราเขียนเพียงสคริปต์เล็กๆ แต่ก็มีโอกาสที่ต่างชาติจะมาอ่านโค้ดของเราได้ทุกเมื่อ
+=======
+Technically, there is no error here. Such names are allowed, but there is an international convention to use English in variable names. Even if we're writing a small script, it may have a long life ahead. People from other countries may need to read it some time.
+>>>>>>> 0599d07b3c13ee25f583fc091cead3c17a7e7779
 ````
 
 ````warn header="ชื่อที่ถูกสงวน"

@@ -19,8 +19,12 @@
 ...
 ```
 
+<<<<<<< HEAD
 เราจะเรียนรู้เรื่องฟังก์ชั่น (วิธีการจัดกลุ่มคำสั่ง) ในไม่ช้า แต่อยากบอก `"use strict"` สามารถวางไว้ที่บรรทัดเริ่มต้นของฟังก์ชั่นได้ แทนที่จะเป็นทั้งไฟล์ ตามแบบนี้ก็เพื่อจะใช้โหมด `"use strict"` แค่ในฟังก์ชั่นนี้เท่านั้น แต่ปกติแล้ว นิยมวางไว้บรรทัดแรกมากกว่า
 
+=======
+Quite soon we're going to learn functions (a way to group commands), so let's note in advance that `"use strict"` can be put at the beginning of a function. Doing that enables strict mode in that function only. But usually people use it for the whole script.
+>>>>>>> 0599d07b3c13ee25f583fc091cead3c17a7e7779
 
 ````warn header="อย่าลืมว่า \"use strict\" ต้องอยู่บรรทัดแรกเสมอ"
 อย่าลืมว่า `"use strict"` ต้องอยู่บรรทัดแรกของไฟล์สคริปต์เสมอ ไม่อย่างนั้นโหมดนี้จะไม่ทำงาน
@@ -47,11 +51,21 @@ alert("some code");
 
 ## คอนโซลบนเบราเซอร์
 
+<<<<<<< HEAD
 หากเราต้องการทดสอบฟีเจอร์อะไรบางอย่างบนคอนโซลของเบราเซอร์ โปรดจงคุณไว้ว่าคอนโซลบนเบราเซอร์ปิดโหมด `use strict` เอาไว้
+=======
+When you use a [developer console](info:devtools) to run code, please note that it doesn't `use strict` by default.
+>>>>>>> 0599d07b3c13ee25f583fc091cead3c17a7e7779
 
 ดังนั้นในบางครั้งระหว่างโหมด `use strict` กับที่ไม่ใช่ ก็จะได้ผลลัพธ์ที่แตกต่างกัน
 
+<<<<<<< HEAD
 เราสามารถลองดูได้โดยกดปุ่ม `key:Shift+Enter` เพื่อป้อนข้อความหลายบรรทัด และอย่าลืมใส่ `use strict` ไว้บนสุดทุกครั้ง, แบบนี้:
+=======
+So, how to actually `use strict` in the console?
+
+First, you can try to press `key:Shift+Enter` to input multiple lines, and put `use strict` on top, like this:
+>>>>>>> 0599d07b3c13ee25f583fc091cead3c17a7e7779
 
 ```js
 'use strict'; <Shift+Enter for a newline>
@@ -61,16 +75,21 @@ alert("some code");
 
 ฟีเจอร์นี้รับรองบนเบราเซอร์ส่วนใหญ่แล้วอย่าง Chrome และ Firefox
 
+<<<<<<< HEAD
 หากไม่แน่ใจว่า เบราเซอร์ที่เราใช้นั้นสามารถใช้โหมดนี้ได้หรือเปล่า โค้ดข้างล่างคือโค้ดที่เอาไว้ตรวจสอบว่า เบราเซฮร์ดังกล่าวสามารถใช้โหมดนี้ได้
+=======
+If it doesn't, e.g. in an old browser, there's an ugly, but reliable way to ensure `use strict`. Put it inside this kind of wrapper:
+>>>>>>> 0599d07b3c13ee25f583fc091cead3c17a7e7779
 
 ```js
 (function() {
   'use strict';
 
-  // ...your code...
+  // ...your code here...
 })()
 ```
 
+<<<<<<< HEAD
 ## เปิดโหมด "use strict" ไว้เสมอ
 
 อันที่จริงเราก็ยังไม่ได้บอกข้อแตกต่างของโหมด "use strict" กับโหมดปกติไว้เลย
@@ -83,3 +102,20 @@ alert("some code");
 2. เปิด strict โหมดง่ายๆเพียงแค่ใส่ `"use strict"` ไว้บนสุดของสคริปต์หรือฟังชั่นก์ เมื่อเอนจินอ่านเจอมันจะเปิดโหมดนี้โดยอัตโนมัติ
 3. โมเดิร์นเบราเซอร์ รองรับโหมด strict ทั้งหมดแล้ว
 4. แนะนำว่าควรเปิด strict โหมดไว้เสมอ
+=======
+## Should we "use strict"?
+
+The question may sound obvious, but it's not so.
+
+One could recommend to start scripts with `"use strict"`... But you know what's cool?
+
+Modern JavaScript supports "classes" and "modules" - advanced language structures (we'll surely get to them), that enable `use strict` automatically. So we don't need to add the `"use strict"` directive, if we use them.
+
+**So, for now `"use strict";` is a welcome guest at the top of your scripts. Later, when your code is all in classes and modules, you may omit it.**
+
+As of now, we've got to know about `use strict` in general.
+
+In the next chapters, as we learn language features, we'll see the differences between the strict and old modes. Luckily, there aren't many and they actually make our lives better.
+
+All examples in this tutorial assume strict mode unless (very rarely) specified otherwise.
+>>>>>>> 0599d07b3c13ee25f583fc091cead3c17a7e7779
