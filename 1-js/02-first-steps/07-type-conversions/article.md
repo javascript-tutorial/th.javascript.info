@@ -6,15 +6,10 @@
 
 There are also cases when we need to explicitly convert a value to the expected type.
 
-<<<<<<< HEAD:1-js/02-first-steps/06-type-conversions/article.md
-```smart header="เรายังไม่พูดถึงออบเจ็กต์"
-ในบทนี้ เราพูดแค่ชนิดของข้อมูลแบบ primitives ก่อน เมื่อเราผ่านการเรียนออบเจ็กต์มาแล้ว เราจะค่อยพูดถึงการแปลงออบเจ็กต์ เป็นข้อมูลชนิดอื่นๆต่อไป <info:object-toprimitive>
-=======
-```smart header="Not talking about objects yet"
-In this chapter, we won't cover objects. For now we'll just be talking about primitives.
+```smart header="ยังไม่พูดถึง object"
+ในบทเรียนนี้ เรายังไม่ได้แตะเรื่อง object ตอนนี้จะพูดถึงแค่ primitives ก่อน
 
-Later, after we learn about objects, in the chapter <info:object-toprimitive> we'll see how objects fit in.
->>>>>>> 181cc781ab6c55fe8c43887a0c060db7f93fb0ca:1-js/02-first-steps/07-type-conversions/article.md
+เราจะเรียนเรื่อง object <info:object-toprimitive> เราจะได้เข้าใจมากขึ้น
 ```
 
 ## การแปลงเป็นสตริง
