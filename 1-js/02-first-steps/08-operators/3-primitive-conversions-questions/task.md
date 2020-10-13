@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# Type conversions
+# การแปลงชนิดข้อมูล
 
-What are results of these expressions?
+มาเดาผลลัพธ์จาก expression เหล่านี้กัน
 
 ```js no-beautify
 "" + 1 + 0
@@ -24,4 +24,4 @@ undefined + 1
 " \t \n" - 2
 ```
 
-Think well, write down and then compare with the answer.
+คิดให้ดีๆ เขียนลงในกระดาษแล้วลองเทียบกับเฉลยดูสิ
