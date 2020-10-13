@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# The postfix and prefix forms
+# postfix และ prefix forms
 
-What are the final values of all variables `a`, `b`, `c` and `d` after the code below?
+อะไรคือผลลัพธ์สุดท้ายของตัสแปร `a`, `b`, `c` และ `d` จากโค้ดด้านล่าง
 
 ```js
 let a = 1, b = 1;
