@@ -1,6 +1,6 @@
-The reason is that prompt returns user input as a string.
+เหตุผลคือพรอมต์จะส่งค่าอะไรที่ผู้ใช้กรอกมาเป็นสตริง
 
-So variables have values `"1"` and `"2"` respectively.
+ดังนั้น ตัวแปรทั้งสองจึงมีค่า `"1"` และ `"2"` ตามลำดับ
 
 ```js run
 let a = "1"; // prompt("First number?", 1);
@@ -8,10 +8,9 @@ let b = "2"; // prompt("Second number?", 2);
 
 alert(a + b); // 12
 ```
+เราควรที่จะแปลงสตริงให้เป็นตัวเลขเสียก่อนด้วยเติม `+` ไปข้างหน้ส หรือใช้ `Number()` แทนได้
 
-What we should do is to convert strings to numbers before `+`. For example, using `Number()` or prepending them with `+`.
-
-For example, right before `prompt`:
+ตัวอย่างใส่ก่อน `prompt`
 
 ```js run
 let a = +prompt("First number?", 1);
@@ -20,7 +19,7 @@ let b = +prompt("Second number?", 2);
 alert(a + b); // 3
 ```
 
-Or in the `alert`:
+หรือจะเป็นใน `alert`:
 
 ```js run
 let a = prompt("First number?", 1);
@@ -29,4 +28,4 @@ let b = prompt("Second number?", 2);
 alert(+a + +b); // 3
 ```
 
-Using both unary and binary `+` in the latest code. Looks funny, doesn't it?
+การใช้ทั้ง unary และ binary `+` ในโค้ดบรรทัดล่างสุด ดูตลกดีไหม?

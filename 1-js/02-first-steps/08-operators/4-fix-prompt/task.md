@@ -2,13 +2,13 @@ importance: 5
 
 ---
 
-# Fix the addition
+# ช่วยแก้ให้บวกถูกที
 
-Here's a code that asks the user for two numbers and shows their sum.
+นี่คือโค้ด ที่จะให้ผู้ใช้กรอกตัวเลขสองตัว แล้วจะโชว์ผลลัพธ์ของเลขทั้งสอง
 
-It works incorrectly. The output in the example below is `12` (for default prompt values).
+โค้ดชุดนี้ทำงานไม่ถูก ผลลัพธ์ดันเป็น `12`
 
-Why? Fix it. The result should be `3`.
+ทำไมล่ะ? ช่วยแก้ที ผลลัพธ์ควรจะเป็น `3` นะ
 
 ```js run
 let a = prompt("First number?", 1);
