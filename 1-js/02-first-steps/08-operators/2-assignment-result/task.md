@@ -2,9 +2,9 @@ importance: 3
 
 ---
 
-# Assignment result
+# กำหนดค่าแล้วได้อะไร
 
-What are the values of `a` and `x` after the code below?
+อะไรคืือค่าของ `a` และ `x` จากโค้ดด้านล่าง?
 
 ```js
 let a = 2;

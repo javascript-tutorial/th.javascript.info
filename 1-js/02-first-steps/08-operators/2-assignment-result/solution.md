@@ -1,5 +1,5 @@
-The answer is:
+คำตอบคือ:
 
-- `a = 4` (multiplied by 2)
-- `x = 5` (calculated as 1 + 4)
+- `a = 4` (คูณด้วย 2)
+- `x = 5` (เหมือนกับ 1 + 4)
 
