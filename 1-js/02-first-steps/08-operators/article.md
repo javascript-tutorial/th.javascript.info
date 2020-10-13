@@ -323,21 +323,21 @@ alert( n ); // 16  (ด้านขวาจะทำงานก่อน 3 + 5
     ```
 
 ```warn
-Increment/decrement can only be applied to variables. Trying to use it on a value like `5++` will give an error.
+การเพิ่ม การลด จะใช้ได้กับตัวแปรเท่านั้น หากไม่เชื่อลอง `5++` ดูก็ได้ จะได้ error มาแทนผลลัพธ์
 ```
 
-The operators `++` and `--` can be placed either before or after a variable.
+ตัวดำเนินการ `++` และ `--` สามารถใส่ไว้ข้างหน้าตัวแปร หรือข้างหลังตัวแปรก็ได้
 
-- When the operator goes after the variable, it is in "postfix form": `counter++`.
-- The "prefix form" is when the operator goes before the variable: `++counter`.
+- ตัวดำเนินการอยู่ข้างหลังแบบนี้ เรียกว่า "postfix form": `counter++`.
+- ตัวดำเนินการอยู่ข้างหน้าแบบนี้ เรียกว่า "prefix form": `++counter`.
 
-Both of these statements do the same thing: increase `counter` by `1`.
+ทั้งสอง statements ทำเหมือนกัน ก็คือบวกตัวแปร `counter` ด้วย `1`
 
-Is there any difference? Yes, but we can only see it if we use the returned value of `++/--`.
+แล้วมีความแตกต่างอะไรไหม? ที แต่เราจะเห็นได้เฉพาะเวลาที่ค่าส่งกลับมาจาก `++/--` แล้ว 
 
-Let's clarify. As we know, all operators return a value. Increment/decrement is no exception. The prefix form returns the new value while the postfix form returns the old value (prior to increment/decrement).
+ช่วยให้กระจ่างอีกที อย่างที่เรารู้ ตัวดำเนินการทุกอย่างล้วนคืนค่ากลับ กาเพิ่ม การลดก็ไม่มีข้อยกเว้น โดยแบบ prefix form จะส่งค่าใหม่กลับมา แต่ postfix form จะส่งค่าเก่ากลับมา (ก่อนจะเพิ่มหรือลดไปหนึ่ง)
 
-To see the difference, here's an example:
+จะเห็นความแตกต่าง ได้จากตัวอย่าง:
 
 ```js run
 let counter = 1;
@@ -346,13 +346,13 @@ let a = ++counter; // (*)
 alert(a); // *!*2*/!*
 ```
 
-In the line `(*)`, the *prefix* form `++counter` increments `counter` and returns the new value, `2`. So, the `alert` shows `2`.
+ในบรรทัด `(*)`, *prefix* form `++counter` เพิ่ม `counter` ไปหนึ่ง และส่งค่าใหม่กลับ `2` ดังนั้น `alert` ก็เลยโชว์ `2`.
 
-Now, let's use the postfix form:
+ทีนี้มาดูแบบ postfix form:
 
 ```js run
 let counter = 1;
-let a = counter++; // (*) changed ++counter to counter++
+let a = counter++; // (*) เปลี่ยนจาก ++counter เป็น counter++
 
 alert(a); // *!*1*/!*
 ```
