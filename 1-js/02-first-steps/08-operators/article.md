@@ -357,53 +357,54 @@ let a = counter++; // (*) เปลี่ยนจาก ++counter เป็น 
 alert(a); // *!*1*/!*
 ```
 
-In the line `(*)`, the *postfix* form `counter++` also increments `counter` but returns the *old* value (prior to increment). So, the `alert` shows `1`.
+ในบรรทัดที่เรากำกับ `(*)` ไว้ แบบ *postfix* `counter++` โดยเพิ่มค่าให้ตัวแปน `counter` ทีละหนึ่ง แต่มันส่งค่าเก่ากลับมาก่อนค่อยบวก ดังนั้น `alert` จึงแสดงเลข `1`
 
-To summarize:
+มาสรุปกัน
 
-- If the result of increment/decrement is not used, there is no difference in which form to use:
+- หากผลลัพธ์์จากการเพิ่มหรือการลดไม่ถูกใช้ เราจะไม่เห็นความแตกต่างนี้เลย:
 
     ```js run
     let counter = 0;
     counter++;
     ++counter;
-    alert( counter ); // 2, the lines above did the same
+    alert( counter ); // 2, ทั้งสองบรรทัดเพิ่มค่าให้ตัวแปรทีละหนึ่งเช่นกัน
     ```
-- If we'd like to increase a value *and* immediately use the result of the operator, we need the prefix form:
+
+- หากเราต้องการใช้ค่าจากการเพิ่มในทันที ให้ใช้แบบ prefix:
 
     ```js run
     let counter = 0;
     alert( ++counter ); // 1
     ```
-- If we'd like to increment a value but use its previous value, we need the postfix form:
+- หากเราต้องการใช้ค่าก่อนหน้านี้ แล้วเพิ่มค่าทีหลัง ให้ใช้แบบ postfix:
 
     ```js run
     let counter = 0;
     alert( counter++ ); // 0
     ```
 
-````smart header="Increment/decrement among other operators"
-The operators `++/--` can be used inside expressions as well. Their precedence is higher than most other arithmetical operations.
+````smart header="การเพิ่ม/การลด กับ operator ตัวอื่น"
+operator `++/--` สามารถใช้ใน expressions ได้ด้วย โดยมันมีศักดิ์มากกว่า บวก ลบ คูณ และหาร (หมายความว่าจะ `++ หรือ --` ก่อนจะทำอย่างอื่น)
 
-For instance:
+ตัวอย่างเช่น:
 
 ```js run
 let counter = 1;
 alert( 2 * ++counter ); // 4
 ```
 
-Compare with:
+เทียบกับ:
 
 ```js run
 let counter = 1;
-alert( 2 * counter++ ); // 2, because counter++ returns the "old" value
+alert( 2 * counter++ ); // 2, เพราะว่า counter++ ส่งค่าเก่ากลับ
 ```
 
-Though technically okay, such notation usually makes code less readable. One line does multiple things -- not good.
+ท่าแบบนี้ในทางเทคนิคก็ทำได้ การทำหลายอย่างในบรรทัดเดียว ไม่ค่อยเป็นมิตรกับการอ่านเท่าไหร่ 
 
-While reading code, a fast "vertical" eye-scan can easily miss something like `counter++` and it won't be obvious that the variable increased.
+ขณะที่นั่งอ่านโค้ด สายตาจะสแกนจากบนลงล่าง เพราะฉะนั้นง่ายมากที่จะพลาด อ่านแค่ `counter++` อ๋อบรรทัดนี้ก็แค่เพิ่มไปหนึ่งนี่นา ฉะนั้นระวังให้ดี
 
-We advise a style of "one line -- one action":
+เราจึงอยากแนะนำให้เขียนแบบข้างล่างมากกว่า:
 
 ```js run
 let counter = 1;
@@ -412,13 +413,13 @@ counter++;
 ```
 ````
 
-## Bitwise operators
+## Bitwise operators (ตัวดำเนินการแบบบิต)
 
-Bitwise operators treat arguments as 32-bit integer numbers and work on the level of their binary representation.
+Bitwise operators จะรับข้อมูลชนิดใดๆก็ตามแล้วแปลงออกมาเป็นตัวเลขแบบไบนารี
 
-These operators are not JavaScript-specific. They are supported in most programming languages.
+Bitwise operators ไม่ได้มีแค่ในจาวาสคริปต์เท่านั้น ภาษาอื่นๆก็มีตัว operator แบบนี้อยุ่ด้วย
 
-The list of operators:
+หน้าตาของ operator ประเภทนี้:
 
 - AND ( `&` )
 - OR ( `|` )
@@ -428,43 +429,44 @@ The list of operators:
 - RIGHT SHIFT ( `>>` )
 - ZERO-FILL RIGHT SHIFT ( `>>>` )
 
-These operators are used very rarely, when we need to fiddle with numbers on the very lowest (bitwise) level. We won't need these operators any time soon, as web development has little use of them, but in some special areas, such as cryptography, they are useful. You can read the [Bitwise Operators](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators#Bitwise) chapter on MDN when a need arises.
+ตามปกติเราแทบจะไม่ได้ใช้ operator เหล่านี้ เราจะได้ใช้ operator พวกนี้ ในสายที่เฉพาะมากๆอย่าง การเข้ารหัส (cryptography) หากสนใจสามารถอ่านเพิ่มเติมได้ที่ [Bitwise Operators](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators#Bitwise)
 
-## Comma
+## คอมมา (comma)
 
-The comma operator `,` is one of the rarest and most unusual operators. Sometimes, it's used to write shorter code, so we need to know it in order to understand what's going on.
+เป็นอีกหนึ่ง operator ที่แทบจะไม่ได้ใช้ เราจะใช้เมื่ืออยากให้โค้ดสั้นลง แต่เราต้องเข้าใจจริงๆว่า มันมีลำดับการทำงานยังไง
 
-The comma operator allows us to evaluate several expressions, dividing them with a comma `,`. Each of them is evaluated but only the result of the last one is returned.
+เราสามารถใช้คอมมาเพื่อดูผลลัพธ์ของ expression หลายๆตัวพร้อมๆกันได้ โดยแยก expression แต่ละตัวด้วยคอมมา แต่เรามันคืนผลลัพธ์เฉพาะตัวสุดท้ายเท่านั้น
 
-For example:
+ตัวอย่าง:
 
 ```js run
 *!*
 let a = (1 + 2, 3 + 4);
 */!*
 
-alert( a ); // 7 (the result of 3 + 4)
+alert( a ); // 7 (ผลลัพธ์จาก 3 + 4)
 ```
 
-Here, the first expression `1 + 2` is evaluated and its result is thrown away. Then, `3 + 4` is evaluated and returned as the result.
+expression แรกคือ `1 + 2` พอบวกกันเสร็จ ผลลัพธ์ก็จะถูกโยนทิ้งไป มาถึง expression ที่สอง `3 + 4` บวกกันเสร็จ ผลลัพธ์ก็จะส่งกลับมา
 
-```smart header="Comma has a very low precedence"
-Please note that the comma operator has very low precedence, lower than `=`, so parentheses are important in the example above.
+```smart header="คอมมามีศักดิ์ต่ำสุดในบรรดา operator ทั้งหมด"
 
-Without them: `a = 1 + 2, 3 + 4` evaluates `+` first, summing the numbers into `a = 3, 7`, then the assignment operator `=` assigns `a = 3`, and the rest is ignored. It's like `(a = 1 + 2), 3 + 4`.
+โปรดจำไว้ว่าเครื่องหมายคอมมามีศักดิ์ต่ำสุด ต่ำกว่า `=` ดังนั้น การล้อมด้วยวงเล็บจะทำให้ได้ผลลัพธ์เป็นตัวหลัง
+
+เมื่อไม่มีวงเล็บ `a = 1 + 2, 3 + 4` ตัวทำงานจะเริ่มจาก `+` ก่อน จะได้เป็น `a = 3, 7` ต่อด้วย `=` จะกำหนด `a = 3` และจบการทำงาน ผลลัพธ์จะเหมือน `(a = 1 + 2), 3 + 4`
 ```
 
-Why do we need an operator that throws away everything except the last expression?
+แล้วแบบนี้ ทำไมต้องจะต้องใช้คอมมาก็ในเมื่อคอมมาเอาแต่ผลลัพธ์ที่อยู่ท้ายสุด
 
-Sometimes, people use it in more complex constructs to put several actions in one line.
+แต่ก็มีหลายคนใช้คอมมา เพื่อจะทำหลาย action ในบรรทัดเดียว
 
-For example:
+ตัวอย่าง:
 
 ```js
-// three operations in one line
+// ใช้ 3 oparetor ในบรรทัดเดียว
 for (*!*a = 1, b = 3, c = a * b*/!*; a < 10; a++) {
  ...
 }
 ```
 
-Such tricks are used in many JavaScript frameworks. That's why we're mentioning them. But usually they don't improve code readability so we should think well before using them.
+ทริคแบบนี้ถูกใช้เผยแพน่ในบรรดา frameworks นั่นเป็นเหตุผลว่าทำไมถึงต้องพูดเรื่องนี้ แต่มันไม่ได้ช่วยให้โค้ดอ่านง่ายขึ้นเลย เราควรคิดดีแล้วก่อนที่จะอ่านมันลงไป
