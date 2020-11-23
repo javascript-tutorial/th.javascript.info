@@ -10,7 +10,13 @@
 
 เราสามารถเขียนจาวาสคริปต์ไปบนส่วนใดก็ได้ในไฟล์ HTML โดยใช้แท็ก `<script>`
 
+<<<<<<< HEAD
 ตัวอย่าง:
+=======
+JavaScript programs can be inserted almost anywhere into an HTML document using the `<script>` tag.
+
+For instance:
+>>>>>>> 23da191b58643387783f38e999f5b05be87d3d93
 
 ```html run height=100
 <!DOCTYPE HTML>
