@@ -6,7 +6,11 @@
 let ourPlanetName = "Earth";
 ```
 
+<<<<<<< HEAD
 จำไว้ว่า ที่จริงเราควรใช้ชื่อที่สั้นอย่าง `planet` แต่ตัวแปรนี้ก็ยังคลุมเครือว่าดาวเคราะห์อะไร มันจะดีขึ้นเมื่อเราใช้คำมากขึ้น หากการใช้คำมากขึ้น ไม่ได้ทำให้ชื่อตัวแปรยาวเกินไป
+=======
+Note, we could use a shorter name `planet`, but it might not be obvious what planet it refers to. It's nice to be more verbose. At least until the variable isNotTooLong.
+>>>>>>> 13da056653754765b50aa5a9f706f84a4a0d6293
 
 ## ชื่อตัวแปรที่เก็บชื่อผู้เยี่ยมชมเว็บไซต์ปัจจุบัน
 
