@@ -8,24 +8,20 @@
 - คอมเม้นชื่อหัวข้อที่ต้องการแปล ลงใน [Thai Translate Progress](https://github.com/javascript-tutorial/th.javascript.info/issues/1) issue. ตัวอย่าง `An Introduction to JavaScript`.
     - บอทจะทำการติ๊ก issue ดังกล่าว ทุกคนจะรับทราบว่ามีคนกำลังแปลหัวข้อนี้อยู่
     - คอมเม้นควรมีแค่ชื่อหัวข้อที่จะแปลเท่านั้น
-- ทำการ fork repo นี้, แปลและส่ง PR มาเมื่อการแปลเสร็จสิ้น
+- ทำการ fork เรโปฯนี้, แปลและส่ง PR มาเมื่อการแปลเสร็จสิ้น
     - จั่วหัว PR ควรใช้ชื่อเดียวกับหัวข้อบทความ ทีนี้บอทจะมอบหมายเลขให้ issue นั้นๆ
 
-คลิก <https://javascript.info/translate> เพื่อดูรายละเอียดในภาษาอื่นๆ.
+คลิก <https://javascript.info/translate> เพื่อดูรายละเอียดในภาษาอื่นๆ
 
 Maintainers จะรีวิวและแก้ไขการแปลไปตามความเหมาะสม
 
-หาก maintainers ไม่ตอบ หรือ ต้องการเป็น maintainers กรุณาเขียนคำร้องที่ [repo หลัก](https://github.com/javascript-tutorial/en.javascript.info/issues/new).
+หาก maintainers ไม่ตอบ หรือ ต้องการเป็น maintainers กรุณาเขียนคำร้องที่ [เรโปฯหลัก](https://github.com/javascript-tutorial/en.javascript.info/issues/new).
 
 **มาช่วยร่วมกันแปลคู่มือจาวาสคริปต์ฉบับภาษาไทย**
 
 ชื่อของผู้มีส่วนร่วมและจำนวน contribution จะแสดงอยู่ในหน้า "About project" เมื่อการแปลถูกเผยแพร่เป็นที่เรียบร้อย
 
-<<<<<<< HEAD
 ## โครงสร้าง
-=======
-**You can edit the text in any editor.** The tutorial uses enhanced "markdown" format, easy to grasp. And if you want to see how it looks on-site, there's a server to run the tutorial locally at <https://github.com/javascript-tutorial/server>.
->>>>>>> 468e3552884851fcef331fbdfd58096652964b5f
 
 ในแต่ละบทจะในโฟลเดอร์เป็นของตัวเอง
 
@@ -129,7 +125,7 @@ importance: 5
 
 ## รันในเครื่องส่วนตัว
 
-สามารถรัน localhost เพื่อตรวจสอบการแปลได้คร่าวๆ
+คุณสามารถแก้ไขข้อความผ่าน editor ใดก็ได้ คู่มือนี้จะใช้ฟอร์แมตของ `markdown` เพราะเข้าใจง่าย และหากต้องการเห็นหน้าตาเวลาออนไลน์ ทางเรามีเซิฟเวอร์ที่สามารถรันคู่มือนี้ในเครื่องตัวเองได้ผ่านลิงค์ <https://github.com/javascript-tutorial/server>
 
 วิธีการรันสามารถทำตามได้ที่ <https://github.com/javascript-tutorial/server>. 
 
@@ -144,12 +140,7 @@ importance: 5
 
 - [Markdown Navigator](https://plugins.jetbrains.com/plugin/7896-markdown-navigator/)
 
-
-
-♥ 
-
-=======
----  
 ♥  
 Ilya Kantor @iliakan
->>>>>>> 468e3552884851fcef331fbdfd58096652964b5f
+
+Prasit Tongpradit @EpicHigh
