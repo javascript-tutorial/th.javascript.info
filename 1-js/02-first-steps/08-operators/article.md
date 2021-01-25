@@ -98,7 +98,17 @@ alert( 2 + '1' ); // "21"
 
 เห็นไหม ไม่สำคัญว่าสตริงจะอยู่ด้านซ้าย หรืือด้านขวา หากมีสตริง สิ่งใดไม่ใช่สตริงจะถูกแปลงทั้งหมด
 
+<<<<<<< HEAD
 ตัวอย่างที่ยากขึ้นมาอีกหน่อย:
+=======
+Here's a more complex example:
+
+```js run
+alert(2 + 2 + '1' ); // "41" and not "221"
+```
+
+Here, operators work one after another. The first `+` sums two numbers, so it returns `4`, then the next `+` adds the string `1` to it, so it's like `4 + '1' = '41'`.
+>>>>>>> 97ef86242f9f236b13152e1baf52a55c4db8728a
 
 ```js run
 alert('1' + 2 + 2); // "122" and not "14"

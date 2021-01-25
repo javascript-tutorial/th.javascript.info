@@ -13,14 +13,23 @@
 
 หากต้องการอ่านข้อมูลฟีเจอร์ที่กำลังพัฒนา และฟีเจอร์ที่กำลังจะออกมาเป็นมาตรฐาน โปรดเข้าไปที่ลิงค์นี้ <https://github.com/tc39/proposals>.
 
+<<<<<<< HEAD
 หรือต้องการพัฒนาเว็บแอพฯบนเบราเซอร์ ก็จะมีอีกข้อกำหนดหนึ่ง จะพูดถึงอีกทีใน[ส่วนที่สอง](info:browser-environment)
+=======
+Also, if you're in developing for the browser, then there are other specifications covered in the [second part](info:browser-environment) of the tutorial.
+>>>>>>> 97ef86242f9f236b13152e1baf52a55c4db8728a
 
 ## คู่มือ
 
+<<<<<<< HEAD
 - **MDN (Mozilla) คู่มืออ้างอิงสำหรับจาวาสคริปต์** คู่มือพร้อมตัวอย่าง เป็นคู่มือที่ให้รายละเอียดเชิงลึกดีมาก ยิ่งถ้ารายเป็นฟังก์ชั่นหรือเมธอด (Method)
+=======
+- **MDN (Mozilla) JavaScript Reference** is the main manual with examples and other information. It's great to get in-depth information about individual language functions, methods etc.
+>>>>>>> 97ef86242f9f236b13152e1baf52a55c4db8728a
 
     เข้าชมที่ลิงต์นี้ <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference>.
 
+<<<<<<< HEAD
     ค้นหาจากอินเตอร์เน็ตโดยพิมพ์ "MDN [ตามด้วยฟังก์ชั่นหรือเมธอดที่อยากรู้]" เช่น อยากรู้จักฟังชั่นก์ parseInt <https://google.com/search?q=MDN+parseInt>
 
 - **MSDN** -คู่มือของไมโครซอฟท์ก็เป็นอีกทางเลือกหนึ่งที่ดี รวมไปถึงจาวาสคริปต์ (พูดถึงในชื่อ JScript) แต่หากต้องทำงานหรืออยากรู้อะไรบางอย่างเกี่ยวกับ IE มาที่ลิงค์นี้จะดีกว่า <http://msdn.microsoft.com/>
@@ -28,6 +37,9 @@
     ค้นหาจากอินเตอร์เน็ตโดยพิมพ์ "[ตามด้วยฟังก์ชั่นหรือเมธอดที่อยากรู้] MSDN" หรือ "[ตามด้วยฟังก์ชั่นหรือเมธอดที่อยากรู้] MSDN jscript" ก็ได้
 
 ## ตารางเช็คว่าเอนจินแต่ละตัวสนับสนุนฟีเจอร์ใดบ้าง
+=======
+Although, it's often best to use an internet search instead. Just use "MDN [term]" in the query, e.g. <https://google.com/search?q=MDN+parseInt> to search for `parseInt` function.
+>>>>>>> 97ef86242f9f236b13152e1baf52a55c4db8728a
 
 จึงเป็นเรื่องที่ควรรู้ว่าเบราเซอร์หรือเอนจินที่ทำงานด้วยนั้น สนับสนุนฟีเจอร์นี้ด้วยหรือไม่ โปรดดูตามลิสต์ด้านล่าง
 
