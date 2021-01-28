@@ -1,38 +1,38 @@
-# Comparisons
+# ตัวเปรียบเทียบ
 
-We know many comparison operators from maths.
+เรารู้จักโอเปอเรเตอร์ที่ใช้เปรียบเทียบมากมายจากคณิตศาสตร์
 
-In JavaScript they are written like this:
+ในจาวาสคริปต์ก็เหมือนกันพวกมันมีหน้าตาแบบนี้:
 
-- Greater/less than: <code>a &gt; b</code>, <code>a &lt; b</code>.
-- Greater/less than or equals: <code>a &gt;= b</code>, <code>a &lt;= b</code>.
-- Equals: `a == b`, please note the double equality sign `==` means the equality test, while a single one `a = b` means an assignment.
-- Not equals. In maths the notation is <code>&ne;</code>, but in JavaScript it's written as <code>a != b</code>.
+- มากกว่า/น้อยกว่า: <code>a &gt; b</code>, <code>a &lt; b</code>.
+- มากกว่า/น้อยกว่าหรือเท่ากับ: <code>a &gt;= b</code>, <code>a &lt;= b</code>.
+- เท่ากับ: `a == b`, โปรดอย่าลืมว่า `==` สองเท่ากับหมายถึงเทียบเท่า ส่วนเท่ากับเดียว `a = b` หมายถึงการกำหนดค่า
+- ไม่เท่ากับ ในคณิตจะหน้าตาแบบนี้ <code>&ne;</code> แต่ในจาวาสคริปต์จะหน้าตาแบบนี้ <code>a != b</code>.
 
-In this article we'll learn more about different types of comparisons, how JavaScript makes them, including important peculiarities.
+ในบทความนี้เราจะมาเรียนรู้ตัวเปรียบเทียบต่างๆ หน้าตาของแต่ละตัวในจาวาสคริปต์ และคุณสมบัติพิเศษที่เพิ่มเติมขึ้นมาจากคณิตศาสตร์
 
-At the end you'll find a good recipe to avoid "JavaScript quirks"-related issues.
+บทตอนท้าย เราจะพบบทเรียนสำคัญที่ช่วยให้เราหลีกเลี่ยง ความประหลาดๆในจาวาสคริปต์ได้
 
-## Boolean is the result
+## ผลลัพธ์เป็นบูลีน
 
-All comparison operators return a boolean value:
+โอเปอเตอร์ที่ใช้เปรียบเทียบจะส่งค่ากลับเป็นบูลีนเสมอ:
 
-- `true` -- means "yes", "correct" or "the truth".
-- `false` -- means "no", "wrong" or "not the truth".
+- `true` -- หมายถึง "ใช่", "ถูก" หรือ "จริง".
+- `false` -- หมายถึง "ไม่", "ผิด" or "เท็จ".
 
-For example:
+ดั่งตัวอย่าง:
 
 ```js run
-alert( 2 > 1 );  // true (correct)
-alert( 2 == 1 ); // false (wrong)
-alert( 2 != 1 ); // true (correct)
+alert( 2 > 1 );  // true (ถูก)
+alert( 2 == 1 ); // false (ผิด)
+alert( 2 != 1 ); // true (ถูก)
 ```
 
-A comparison result can be assigned to a variable, just like any value:
+เราสามารถนำตัวแปรมารับตัวผลลัพธ์ที่เกิดจากตัวเปรียบเทียบได้:
 
 ```js run
-let result = 5 > 4; // assign the result of the comparison
-alert( result ); // true
+let result = 5 > 4; // กำหนดให้ result เป็นผลลัพธ์ของ 5 มากกว่า 4
+alert( result ); // ได้ true เพราะ 5 มากกว่า 4
 ```
 
 ## String comparison
