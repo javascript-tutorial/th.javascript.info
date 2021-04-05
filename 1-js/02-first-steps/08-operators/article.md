@@ -56,17 +56,34 @@ alert( 8 % 3 ); // 2, เศษเหลือของ 8 หารด้วย 
 
 ### ยกกำลัง **
 
+<<<<<<< HEAD
 ตัวดำเนินการยกกำลัง จะใช้ดอกจันสองตัว และ `a ** b` หมายถึง `a` คูณตัวเองเป็นจำนวน `b` ครั้ง
+=======
+The exponentiation operator `a ** b` raises `a` to the power of `b`.
+
+In school maths, we write that as a<sup>b</sup>.
+>>>>>>> 7b76185892aa9798c3f058256aed44a9fb413cc3
 
 ตัวอย่างเช่น
 
 ```js run
+<<<<<<< HEAD
 alert( 2 ** 2 ); // 4  (2 คูณกัน 2 ครั้ง)
 alert( 2 ** 3 ); // 8  (2 * 2 * 2, 3 ครั้ง)
 alert( 2 ** 4 ); // 16 (2 * 2 * 2 * 2, 4 ครั้ง)
 ```
 ในทางคณิตศาสตร์ เราสามารถยกกำลังตัวเลขที่ไม่ใช่จำนวนเต็ม อย่าง การยกกำลังด้วย square root `1/2`
 Mathematically, :
+=======
+alert( 2 ** 2 ); // 2² = 4  
+alert( 2 ** 3 ); // 2³ = 8 
+alert( 2 ** 4 ); // 2⁴ = 16
+```
+
+Just like in maths, the exponentiation operator is defined for non-integer numbers as well. 
+
+For example, a square root is an exponentiation by ½:
+>>>>>>> 7b76185892aa9798c3f058256aed44a9fb413cc3
 
 ```js run
 alert( 4 ** (1/2) ); // 2 (ยกกำลังของ 1/2 เหมือน square root)
@@ -98,7 +115,17 @@ alert( 2 + '1' ); // "21"
 
 เห็นไหม ไม่สำคัญว่าสตริงจะอยู่ด้านซ้าย หรืือด้านขวา หากมีสตริง สิ่งใดไม่ใช่สตริงจะถูกแปลงทั้งหมด
 
+<<<<<<< HEAD
 ตัวอย่างที่ยากขึ้นมาอีกหน่อย:
+=======
+Here's a more complex example:
+
+```js run
+alert(2 + 2 + '1' ); // "41" and not "221"
+```
+
+Here, operators work one after another. The first `+` sums two numbers, so it returns `4`, then the next `+` adds the string `1` to it, so it's like `4 + '1' = '41'`.
+>>>>>>> 7b76185892aa9798c3f058256aed44a9fb413cc3
 
 ```js run
 alert('1' + 2 + 2); // "122" and not "14"
