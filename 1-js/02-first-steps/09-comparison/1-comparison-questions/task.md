@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# Comparisons
+# การเปรียบเทียบ
 
-What will be the result for these expressions?
+มาเดาผลลัพธ์ที่เกิดจากนิพจน์ด้านล่างกัน
 
 ```js no-beautify
 5 > 4
