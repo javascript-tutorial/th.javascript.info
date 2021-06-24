@@ -200,17 +200,17 @@ alert( undefined == 0 ); // false (3)
 - การเปรียบเทียบ `(1)` และ `(2)` คืนค่า `false` เนื่องจาก `undefined` ถูกแปลงเป็น `NaN` และ `NaN` เป็นค่าตัวเลขพิเศษที่คืนค่า `false' เมื่อไปเทียบกับอะไรก็ตาม
 - ส่วน `==` แบบ `(3)` คืนค่า `false` เนื่องจาก `undefined` เท่ากับ `null` เท่านั้น `undefined` ตัวเดียวจึงไม่เท่ากับค่าใดๆเลย
 
-### Avoid problems
+### วิธีหลีกเลี่ยงปัญหา
 
-Why did we go over these examples? Should we remember these peculiarities all the time? Well, not really. Actually, these tricky things will gradually become familiar over time, but there's a solid way to avoid problems with them:
+ทำไมเราจึงไม่ข้ามตัวอย่างด้านบน? เราควรท่องจำตัวอย่างด้านบนให้ขึ้นใจหรือไม่? ก็ ไม่ขนาดนั้นนะ ที่จริงแล้ว เมื่อเราทำงานกับ JavaScript ไปเรื่อยๆ เราจะเริ่มชินและคุ้นเคยกับตัวอย่างด้านบน แต่เราก็มีวิธีที่ช่วยหลีกเลี่ยงปัญหาด้่านบนได้อย่างหยั่งยืนเช่นกัน
 
-- Treat any comparison with `undefined/null` except the strict equality `===` with exceptional care.
-- Don't use comparisons `>= > < <=` with a variable which may be `null/undefined`, unless you're really sure of what you're doing. If a variable can have these values, check for them separately.
+- ควรเทียบความเท่ากันของค่า `undefined/null` ด้วย `===`
+- อย่าไปใช้ตัวเปรียบเทียบ `>= > < <=` กับตัวแปรที่อาจจะเป็น `undefined/null` ได้ เว้นแต่ว่าเรามั่นใจจริงๆว่ากำลังทำอะไรอยู่ หากตัวแปรเป็น `undefined/null` ให้เพิ่ม statement ขึ้นมาเพื่อตรวจสอบตะหาก
 
-## Summary
+## สรุป
 
-- Comparison operators return a boolean value.
-- Strings are compared letter-by-letter in the "dictionary" order.
-- When values of different types are compared, they get converted to numbers (with the exclusion of a strict equality check).
-- The values `null` and `undefined` equal `==` each other and do not equal any other value.
-- Be careful when using comparisons like `>` or `<` with variables that can occasionally be `null/undefined`. Checking for `null/undefined` separately is a good idea.
+- ตัวดำเนินการเปรียบเทียบจะส่งค่าที่เป็นบูลีนกลับ
+- สตริงจะถูกเปรียบเทียบทีละตัวอักษรในลำดับ "Unicode"
+- เมื่อเปรียบเทียบค่าประเภทต่างๆ ค่าเหล่านั้นจะถูกแปลงเป็นตัวเลข (ยกเว้น strict equality `===`)
+- ค่า `null` และ `undefined` จะเท่ากันหากเทียบด้วย `==` และไม่เท่ากับค่าอื่นใด
+- ระวังเมื่อใช้การเปรียบเทียบ เช่น `>` หรือ `<` กับตัวแปรอาจเป็น `null/undefined` ได้การตรวจสอบ `null/undefined` แยกกันเป็นความคิดที่ดี
