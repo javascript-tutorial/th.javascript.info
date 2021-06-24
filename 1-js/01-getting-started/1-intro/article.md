@@ -24,15 +24,9 @@
 
 เอนจินต่างกัน ก็ใช้ชื่อ (codename) ต่างกันไปอีกอย่างเช่น
 
-<<<<<<< HEAD
-- [V8](https://en.wikipedia.org/wiki/V8_(JavaScript_engine)) -- ใน Chrome และ Opera.
-- [SpiderMonkey](https://en.wikipedia.org/wiki/SpiderMonkey) -- ใน Firefox.
-- นอกจากนี้ยังมีชื่ออื่นๆอย่าง Trident (ไทร'เดินทฺ) และ Chakra (จักระ) ใน IE, ChakraCore (จักระคอร์) ใน Microsoft Edge, Nitro (ไนโตร) และ SquirrelFish (สเควอ'เริลฟิช) ใน Safari
-=======
-- [V8](https://en.wikipedia.org/wiki/V8_(JavaScript_engine)) -- in Chrome and Opera.
-- [SpiderMonkey](https://en.wikipedia.org/wiki/SpiderMonkey) -- in Firefox.
-- ...There are other codenames like "Chakra" for IE, "JavaScriptCore", "Nitro" and "SquirrelFish" for Safari, etc.
->>>>>>> fb4fc33a2234445808100ddc9f5e4dcec8b3d24c
+- [V8](https://en.wikipedia.org/wiki/V8_(JavaScript_engine)) -- ใช้ใน Chrome and Opera
+- [SpiderMonkey](https://en.wikipedia.org/wiki/SpiderMonkey) -- ใช้ใน Firefox
+- ...ยังมีโค้ดเนมอื่นๆอย่าง "Chakra" สำหรับ IE, "JavaScriptCore", "Nitro" และ "SquirrelFish" สำหรับ Safari, และอื่นๆ
 
 การจดจำชื่อด้านบนจะมีประโยชน์ โดยเฉพาะเวลาอ่านบทความที่พัฒนาเขียนขึ้น ตัวอย่างเช่น "ฟีเจอร์บางอย่างได้รับการสนับสนุนใน V8 แล้ว" นั่นหมายถึงฟีเจอร์บางอย่างใช้ได้เฉพาะบน Chrome กับ Opera แล้ว
 

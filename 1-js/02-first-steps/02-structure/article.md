@@ -46,18 +46,14 @@ alert(3 +
 + 2);
 ```
 
-<<<<<<< HEAD
-เมื่อเราสั่งคำสั่งนี้ออกไป เราจะได้ผลลัพธ์เป็น 6 แทน จาวาสคริปต์ไม่ได้แทรก semicolon เอาว่าทันทีที่เริ่มบรรทัด เพราะจาวาสคริปต์มองว่าบรรทัดใหม่จบด้วยเครื่องหมาย `+` สำหรับจาวาสคริปต์นี่แสดงว่าคำสั่งนี้ยังไม่สมบูรณ์ (incomplete expression) ดังนั้น semicolon จึงไม่จำเป็น จะคำสั่งนี้ก็ได้ผลลัพธ์ตามที่เราคาดหวัง
-=======
-The code outputs `6` because JavaScript does not insert semicolons here. It is intuitively obvious that if the line ends with a plus `"+"`, then it is an "incomplete expression", so a semicolon there would be incorrect. And in this case, that works as intended.
->>>>>>> fb4fc33a2234445808100ddc9f5e4dcec8b3d24c
+โค้ดแสดงผล `6` เนื่องจาก JavaScript ไม่ได้ใส่ `;` ที่นี่เห็นได้ชัดว่าถ้าบรรทัดลงท้ายด้วยเครื่องหมายบวก `"+"` แสดงว่าเป็น "นิพจน์ที่ไม่สมบูรณ์" ดังนั้นเครื่องหมาย semicolons จะไม่ถูกแทรกลงไป และในกรณีนี้ ผลลัพธ์ก็ถูกต้องตามที่คาดไว้
 
 **แต่ก็มีบางคำสั่งที่จาวาสคริปต์ได้ตีความผิดพลาดไป โดยจาวาสคริปต์มองว่าคำสั่งดังกล่าวจำเป็นต้องมี semicolon ด้วย;**
 
 error หาเจอได้ยาก และยังแก้ไขได้ยากอีกด้วย
 
 ````smart header="An example of an error"
-ตัวอย่างข้อผิดพลาดที่กล่าวมาดูได้จากโค้ดด้านล่าง
+หากคุณอยากรู้ตัวอย่างที่เป็นรูปธรรมของข้อผิดพลาดดังกล่าว สามารถดูได้ที่โค้ดด้านล่าง
 
 ```js run
 alert("Hello");
@@ -65,15 +61,9 @@ alert("Hello");
 [1, 2].forEach(alert);
 ```
 
-<<<<<<< HEAD
-ณ ตอนนี้ยังไม่ต้องสนใจว่า `[]` และ `forEach` หมายถึงอะไร ให้เข้าใจว่ามันจะแสดงข้อความแจ้งเตือนว่า 1 และ 2 พอ
+เราจะมาเรียน square brackets `[]` และ `forEach' ในภายหลัง สำหรับตอนนี้ เพียงจำผลลัพธ์ของการรันโค้ดจะได้ "สวัสดี" ตามด้วย "1" ตามด้วย "2"
 
-แล้วเมื่อเราลองเพิ่ม `alert` ไปบรรทัดก่อนหน้าตัว `[]` ของเรา และปล่อยไว้แบบนั้นโดยที่ไม่มี semicolon ปิดใดๆ
-=======
-No need to think about the meaning of the brackets `[]` and `forEach` yet. We'll study them later. For now, just remember the result of running the code: it shows `Hello`, then `1`, then `2`.
-
-Now let's remove the semicolon after the `alert`:
->>>>>>> fb4fc33a2234445808100ddc9f5e4dcec8b3d24c
+ตอนนี้เราลองลบเครื่องหมาย `;` หลัง "alert" ออก:
 
 ```js run no-beautify
 alert("Hello")
@@ -81,42 +71,21 @@ alert("Hello")
 [1, 2].forEach(alert);
 ```
 
-<<<<<<< HEAD
-เมื่อเราลองสั่งรันดู จะมีเพียงแต่ข้อความแรกเท่านั้นที่แจ้งเตือน จากนั่นโค้ดของเราจะ error
+เมื่อเทียบกับโค้ดด้านบน ความแตกต่างมีเพียงตัวอักษรเดียวเท่านั้น: นั่นคือ `;` ที่ท้ายบรรทัดแรกหายไป
 
-ทุกอย่างจะกลับมาทำงานได้ปกติ เพียงเติม semicolon หลังคำสั่ง `alert`:
-```js run
-alert("All fine now");
-=======
-The difference compared to the code above is only one character: the semicolon at the end of the first line is gone.
->>>>>>> fb4fc33a2234445808100ddc9f5e4dcec8b3d24c
+สมมติว่าเราเรียกใช้โค้ดชุดนี้ เฉพาะ "hello" รายการแรกเท่านั้นที่แสดง (และมีข้อผิดพลาด คุณอาจต้องเปิดคอนโซลเพื่อดู) ไม่มีตัวเลข "1" และ "2" แสดงผลออกมาด้วย
 
-If we run this code, only the first `Hello` shows (and there's an error, you may need to open the console to see it). There are no numbers any more.
+นั่นเป็นเพราะว่า JavaScript ไม่ใส่ `;` ก่อนวงเล็บเหลี่ยม `[...]` ดังนั้น โค้ดในตัวอย่างสุดท้ายจะถือเป็นคำสั่งเดียว
 
-<<<<<<< HEAD
-ทีนี้เราก็จะได้รับข้อความแจ้งเตือนสามครั้งได้แก่ "All fine now", "1" และ "2" ตามลำดับ
-
-
-error ดังกล่าวเกิดขึ้นเพราะว่าจาวาสคริปต์จะไม่ใส่ semicolon ให้ก่อน square brackets หรือก้ามปู `[]` นั่นเอง
-
-เมื่อ semicolon ไม่ได้ถูกใส่มา ดังนั้นมันจึงกลายเป็นคำสั่งเดียวกัน ข้างล่างคือสิ่งที่เอนจินเห็น
-=======
-That's because JavaScript does not assume a semicolon before square brackets `[...]`. So, the code in the last example is treated as a single statement.
-
-Here's how the engine sees it:
->>>>>>> fb4fc33a2234445808100ddc9f5e4dcec8b3d24c
+ด้านล่างคือโค้ดที่เอนจิ้นเห็น:
 
 ```js run no-beautify
 alert("Hello")[1, 2].forEach(alert);
 ```
 
-<<<<<<< HEAD
-มันควรแยกเป็นสองคำสั่งสิ ไม่ใช่คำสั่งเดียว จึงทำให้เครื่องทำงานผิดพลาด ดังนั้นสิ่งนี้จึงอาจเกิดขึ้นได้อยู่เสมอ
-=======
-Looks weird, right? Such merging in this case is just wrong. We need to put a semicolon after `alert` for the code to work correctly.
+มันดูแปลกใช่มั้ย? ในกรณีนี้ เอนจิ้นดันรวม statement ที่แยกกันเป็นคำสั่งเดียว ดัะงนั้นเราจึงจำเป็นต้องใส่ `;` หลัง "alert" เพื่อให้โค้ดทำงานได้อย่างถูกต้อง
 
-This can happen in other situations also.
->>>>>>> fb4fc33a2234445808100ddc9f5e4dcec8b3d24c
+สิ่งนี้สามารถเกิดขึ้นได้ในสถานการณ์อื่นเช่นกัน
 ````
 
 ในทางที่ดีเราจึงอยากแนะนำให้ใส่ semicolon เมื่อจบคำสั่งหนึ่งๆเสมอ แม้คำสั่งเหล่านั้นจะแยกการด้วยบรรทัดใหม่แล้วก็ตาม และกฎนี้ใช้กันอย่างกว้างขวางในชุมชนนักพัฒนา โปรดทราบอีกครั้งว่า *มันเป็นไปได้* ที่จะไม่ใส่ semicolon ลงไป แต่สำหรับมือใหม่ก็แนะนำให้ใส่ไว้จะปลอดภัยกว่า
