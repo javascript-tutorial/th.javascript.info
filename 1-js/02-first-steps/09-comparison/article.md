@@ -65,39 +65,39 @@ alert( 'Bee' > 'Be' ); // true
 2. `l` เหมือนกับ `l`
 3. `o` มากกว่า `e` การทำงานจะจบตรงนี้ หมายความว่าสตริงตัวแรกมีค่ามากกว่า
 
-```smart header="Not a real dictionary, but Unicode order"
-The comparison algorithm given above is roughly equivalent to the one used in dictionaries or phone books, but it's not exactly the same.
+```smart header="ไม่ใช่พจนานุกรมจริง แต่เป็นไปตามลำดับ Unicode"
+อัลกอริธึมจะใช้การเปรียบเทียบดั่งตัวอย่างด้านบน เหมือนกับวิธีการที่พจนานุกรมใช้เรียงตัวอักษรจาก A-Z และสมุดโทรศัพท์จาก 0-9 แต่วิธีการเรียงลำดับนั้นไม่เหมือนกัน
 
-For instance, case matters. A capital letter `"A"` is not equal to the lowercase `"a"`. Which one is greater? The lowercase `"a"`. Why? Because the lowercase character has a greater index in the internal encoding table JavaScript uses (Unicode). We'll get back to specific details and consequences of this in the chapter <info:string>.
+ตัวอย่างเช่น ตัวพิมพ์ใหญ่ `"A"` ไม่เท่ากับตัวพิมพ์เล็ก `"a"` แต่อันไหนมากกว่ากันล่ะ? คำตอบคือตัวพิมพ์เล็ก `"a"` ทำไมกันล่ะ? เนื่องจากอักขระตัวพิมพ์เล็กมีดัชนีมากกว่าในตารางการเข้ารหัสภายในที่ JavaScript ใช้ (Unicode) เราจะลงลึกเรื่องนี้อีกทีในบท <info:string>
 ```
 
-## Comparison of different types
+## เปรียบเทียบประเภทต่างๆ
 
-When comparing values of different types, JavaScript converts the values to numbers.
+เมื่อเปรียบเทียบค่าประเภทต่างๆ JavaScript จะแปลงค่านั้นๆเป็นตัวเลข
 
 For example:
 
 ```js run
-alert( '2' > 1 ); // true, string '2' becomes a number 2
-alert( '01' == 1 ); // true, string '01' becomes a number 1
+alert( '2' > 1 ); // true, สตริง '2' จะกลายเป็นเลข 2
+alert( '01' == 1 ); // true, สตริง '01' จะกลายเป็นเลข 1
 ```
 
-For boolean values, `true` becomes `1` and `false` becomes `0`.
+สำหรับค่าบูลีน `true` กลายเป็น `1` และ `false` กลายเป็น `0`
 
-For example:
+ตัวอย่างเช่น:
 
 ```js run
 alert( true == 1 ); // true
 alert( false == 0 ); // true
 ```
 
-````smart header="A funny consequence"
-It is possible that at the same time:
+````smart header="ผลลัพธ์แบบฮาๆ"
+เป็นไปได้ว่าในเวลาเดียวกัน:
 
-- Two values are equal.
-- One of them is `true` as a boolean and the other one is `false` as a boolean.
+- ค่าสองค่าเท่ากัน
+- หนึ่งในนั้นคือ `true` เป็นบูลีนและอีกอันเป็น `false` เป็นบูลีน
 
-For example:
+ตัวอย่างเช่น:
 
 ```js run
 let a = 0;
@@ -109,67 +109,67 @@ alert( Boolean(b) ); // true
 alert(a == b); // true!
 ```
 
-From JavaScript's standpoint, this result is quite normal. An equality check converts values using the numeric conversion (hence `"0"` becomes `0`), while the explicit `Boolean` conversion uses another set of rules.
+จากมุมมองของ JavaScript ผลลัพธ์นี้ไม่ได้แปลกอะไร การตรวจสอบความเท่าเทียมกันจะแปลงค่าโดยใช้การแปลงตัวเลข (ดังนั้น `"0"` จะกลายเป็น `0`) ในขณะที่การแปลง `Boolean` ตรงๆจะแปลงเป็น `true` เพราะว่าสตริง `b` ไม่ได้เป็นสตริงเปล่า ดังนั้นเมื่อนำทั้ง `a` และ `b` มาเทียบกับ จึงได้ว่า `true == true` ผลลัพธ์จึงได้ `true`
 ````
 
 ## Strict equality
 
-A regular equality check `==` has a problem. It cannot differentiate `0` from `false`:
+การตรวจสอบความเท่ากันแบบปกติ `==` มันมีปัญหา มันไม่สามารถแยกความแตกต่าง `0` กับ `false` ได้:
 
 ```js run
 alert( 0 == false ); // true
 ```
 
-The same thing happens with an empty string:
+สิ่งเดียวกันนี้เกิดขึ้นกับสตริงว่าง:
 
 ```js run
 alert( '' == false ); // true
 ```
 
-This happens because operands of different types are converted to numbers by the equality operator `==`. An empty string, just like `false`, becomes a zero.
+สิ่งนี้เกิดขึ้นเนื่องจากตัวถูกดำเนินการประเภทต่าง ๆ จะถูกแปลงเป็นตัวเลขโดยตัวดำเนินการความเท่าเทียมกัน `==` สตริงว่าง จะเหมือนกับ `false` นั่นก็คือจะกลายเป็นศูนย์
 
-What to do if we'd like to differentiate `0` from `false`?
+ทีนี้จะทำอย่างไรถ้าเราต้องการแยกความแตกต่างระหว่าง `0` กับ `false`
 
-**A strict equality operator `===` checks the equality without type conversion.**
+**ตัวดำเนินการ strict equality `===` จะตรวจสอบความเท่าเทียมกันโดยไม่ต้องแปลงค่าต่างๆเป็นตัวเลข**
 
-In other words, if `a` and `b` are of different types, then `a === b` immediately returns `false` without an attempt to convert them.
+กล่าวอีกนัยหนึ่ง หาก `a` และ `b` เป็นข้อมูลคนละประเภทกัน `a === b` จะส่งกลับค่า `false` ทันทีโดยไม่แปลงค่า
 
-Let's try it:
+มาลองดูกัน:
 
 ```js run
-alert( 0 === false ); // false, because the types are different
+alert( 0 === false ); // false, เพราะว่าข้อมูลคนละประเภทกัน อีกตัวเป็นตัวเลข อีกตัวเป็นบูลีน
 ```
 
-There is also a "strict non-equality" operator `!==` analogous to `!=`.
+นอกจากนี้ยังมีโอเปอเรเตอร์ "strict non-equality" หรือ `!==` ซึ่งคล้ายกับ `!=`
 
-The strict equality operator is a bit longer to write, but makes it obvious what's going on and leaves less room for errors.
+ตัวดำเนินการแบบ strict equality ใช้เวลาพิมพ์นานขึ้นนิดหน่อย แต่ทำให้เห็นชัดเจนว่าเกิดอะไรขึ้น และทำให้เกิดข้อผิดพลาดน้อยลง
 
-## Comparison with null and undefined
+## การเทียบ null กับ undefined
 
-There's a non-intuitive behavior when `null` or `undefined` are compared to other values.
+การเทียบ `null` หรือ `undefined` กับค่าประเภทอื่นๆจะผิดธรรมชาติ จึงต้องอาศัยการจำหลักการเพิ่มเติม
 
-For a strict equality check `===`
-: These values are different, because each of them is a different type.
+สำหรับ strict equality `===`
+: ค่าเหล่านี้แตกต่างกันเนื่องจากแต่ละค่าเป็นประเภทที่แตกต่างกัน
 
     ```js run
     alert( null === undefined ); // false
     ```
 
-For a non-strict check `==`
-: There's a special rule. These two are a "sweet couple": they equal each other (in the sense of `==`), but not any other value.
+สำหรับ non-strict `==`
+: มีกฎพิเศษ ทั้งสองตัวนี้้เป็น "คู่รักแสนหวาน": เพราะพวกมันเท่ากัน (ในความหมายของ `==`)
 
     ```js run
     alert( null == undefined ); // true
     ```
 
-For maths and other comparisons `< > <= >=`
-: `null/undefined` are converted to numbers: `null` becomes `0`, while `undefined` becomes `NaN`.
+สำหรับการเปรียบเทียบทางคณิตศาสตร์ `< > <= >=`
+: `null/undefined` ทั้งคู่จะถูกแปลงเป็นตัวเลข `null` เป็น `0`, ในขณะที่ `undefined` เป็น `NaN`.
 
-Now let's see some funny things that happen when we apply these rules. And, what's more important, how to not fall into a trap with them.
+ทีนี้มาดูเรื่องตลก ๆ ที่เกิดขึ้นเมื่อเรานำกฎด้านบนไปใช้กัน และที่สำคัญกว่านั้นคือทำอย่างไรไม่ให้ตกหลุมพรางสองตัวนี้
 
-### Strange result: null vs 0
+### ผลลัพธ์แปลกๆจาก: null vs 0
 
-Let's compare `null` with a zero:
+มาเทียบ `null` กับเลขศูนย์กันดู:
 
 ```js run
 alert( null > 0 );  // (1) false
@@ -177,15 +177,15 @@ alert( null == 0 ); // (2) false
 alert( null >= 0 ); // (3) *!*true*/!*
 ```
 
-Mathematically, that's strange. The last result states that "`null` is greater than or equal to zero", so in one of the comparisons above it must be `true`, but they are both false.
+ในทางคณิตศาสตร์ มันแปลก ที่ผลลัพธ์สุดท้ายท่ีระบุว่า "`null' มากกว่าหรือเท่ากับศูนย์" ทั้งๆที่เราลองให้ `null` มากกว่า ศูนย์ได้ `false` และ `null` เท่ากับ ศูนย์ก็ได้ `false` ในทางตรรกะศาสตร์แล้วจึงเป็นไปไม่ได้ที่ false กับ false สองตัวจะกลายเป็น true ได้
 
-The reason is that an equality check `==` and comparisons `> < >= <=` work differently. Comparisons convert `null` to a number, treating it as `0`. That's why (3) `null >= 0` is true and (1) `null > 0` is false.
+เหตุผลก็คือการตรวจสอบความเท่าเทียมกัน `==` และการเปรียบเทียบ `> < >= <=` ทำงานต่างกัน การเปรียบเทียบแปลง `null` เป็นตัวเลข โดยถือว่าเป็น `0` นั่นเป็นสาเหตุที่ statement ที่สาม `null >= 0` เป็นจริงและ statement แรก `null > 0` เป็นเท็จ
 
-On the other hand, the equality check `==` for `undefined` and `null` is defined such that, without any conversions, they equal each other and don't equal anything else. That's why (2) `null == 0` is false.
+ในทางกลับกัน การตรวจสอบความเท่าเทียมกัน `==` สำหรับ `undefined` และ `null` ถูกกำหนดให้ไม่มีการแปลงใดๆ พวกมันทั้งคู่จะเท่ากันเองและไม่เท่ากับค่าอื่นๆเลย นั่นเป็นสาเหตุที่ (2) `null == 0` เป็นเท็จ
 
-### An incomparable undefined
+### undefined เทียบกับอะไรไม่ได้เลย ยกเว้น null
 
-The value `undefined` shouldn't be compared to other values:
+โดยปกติแล้วเราจะไม่เทียบ `undefined` กับค่าใดๆ:
 
 ```js run
 alert( undefined > 0 ); // false (1)
@@ -193,12 +193,12 @@ alert( undefined < 0 ); // false (2)
 alert( undefined == 0 ); // false (3)
 ```
 
-Why does it dislike zero so much? Always false!
+แม้จะเทียบกับศูนย์ก็ยังได้ false
 
-We get these results because:
+เราได้รับผลลัพธ์เหล่านี้เนื่องจาก:
 
-- Comparisons `(1)` and `(2)` return `false` because `undefined` gets converted to `NaN` and `NaN` is a special numeric value which returns `false` for all comparisons.
-- The equality check `(3)` returns `false` because `undefined` only equals `null`, `undefined`, and no other value.
+- การเปรียบเทียบ `(1)` และ `(2)` คืนค่า `false` เนื่องจาก `undefined` ถูกแปลงเป็น `NaN` และ `NaN` เป็นค่าตัวเลขพิเศษที่คืนค่า `false' เมื่อไปเทียบกับอะไรก็ตาม
+- ส่วน `==` แบบ `(3)` คืนค่า `false` เนื่องจาก `undefined` เท่ากับ `null` เท่านั้น `undefined` ตัวเดียวจึงไม่เท่ากับค่าใดๆเลย
 
 ### Avoid problems
 
