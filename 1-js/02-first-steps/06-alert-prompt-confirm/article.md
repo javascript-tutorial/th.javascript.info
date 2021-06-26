@@ -12,7 +12,8 @@
 alert("Hello");
 ```
 
-หน้าต่างขนาดเล็กที่มีข้อความเราเรียกมันว่าหน้าต่างโมเดล *modal window* คำว่า "modal" หมายความว่าผู้เยี่ยมชมไม่สามารถโต้ตอบกับส่วนที่เหลือของหน้า หรือกดปุ่มอื่นๆใดๆได้ จนกว่าพวกเขาจะจัดการกับหน้าต่างนี้ อย่างในกรณีนี้ก็คือกด "OK"
+หน้าต่างขนาดเล็กที่มีข้อความเราเรียกมันว่าหน้าต่างโมดอล *modal window* คำว่า "modal" หมายความว่า
+ใช้ไม่สามารถโต้ตอบกับส่วนที่เหลือของหน้า หรือกดปุ่มอื่นๆใดๆได้ จนกว่าพวกเขาจะจัดการกับหน้าต่างนี้ อย่างในกรณีนี้ก็คือกด "OK"
 
 ## prompt
 
@@ -22,7 +23,7 @@ alert("Hello");
 result = prompt(title, [default]);
 ```
 
-จะแสดงหน้าต่างโมเดลพร้อมข้อความ ช่องป้อนข้อมูล (input) และปุ่ม OK/Cancel
+จะแสดงหน้าต่างโมดอลพร้อมข้อความ ช่องป้อนข้อมูล (input) และปุ่ม OK/Cancel
 
 `title`
 : พารามิเตอร์แรกคือข้อความที่จะแสดงให้ผู้เข้าชมเว็บ
@@ -64,42 +65,42 @@ let test = prompt("Test", ''); // <-- for IE
 
 ## confirm
 
-The syntax:
+ตัวอย่างวากยสัมพันธ์ (syntax):
 
 ```js
 result = confirm(question);
 ```
 
-The function `confirm` shows a modal window with a `question` and two buttons: OK and Cancel.
+ฟังชั่นก์ `confirm` จะแสดงหน้าต่างโมดอลพร้อมข้อความที่เก็บอยู่ในตัวแปร `question` และมีสองปุ่ม OK และ Cancel
 
-The result is `true` if OK is pressed and `false` otherwise.
+หากกดปุ่ม OK จะส่งค่า `true` กลับไปที่ตัวแปร `result` และส่ง `false` หากด Cancel
 
-For example:
+ตัวอย่าง:
 
 ```js run
 let isBoss = confirm("Are you the boss?");
 
-alert( isBoss ); // true if OK is pressed
+alert( isBoss ); // true หากกดปุ่ม OK
 ```
 
-## Summary
+## สรุป
 
-We covered 3 browser-specific functions to interact with visitors:
+เราครอบคลุม 3 ฟังก์ชันเฉพาะของเบราว์เซอร์เพื่อโต้ตอบกับผู้ใช้:
 
 `alert`
-: shows a message.
+: โชว์ข้อความ
 
 `prompt`
-: shows a message asking the user to input text. It returns the text or, if Cancel button or `key:Esc` is clicked, `null`.
+: แสดงข้อความขอให้ผู้ใช้ป้อนข้อความ ส่งกลับข้อความหรือหากกดปุ่มยกเลิกหรือ `key:Esc` จะส่ง `null` กลับมา
 
 `confirm`
-: shows a message and waits for the user to press "OK" or "Cancel". It returns `true` for OK and `false` for Cancel/`key:Esc`.
+: แสดงข้อความและรอให้ผู้ใช้กด "OK" หรือ "Cancel" คืนค่า `true` หากกด OK และ `false` หากกด Cancel หรือ "คีย์: Esc"
 
-All these methods are modal: they pause script execution and don't allow the visitor to interact with the rest of the page until the window has been dismissed.
+ทั้งสามเมธอดจะเปิดหน้าต่างโมดอลขึ้นมา และหยุดการทำงานของสคริปต์ทั้งหมดชั่วคราว และไม่อนุญาตให้ผู้ใช้โต้ตอบกับส่วนที่เหลือของหน้าจนกว่าหน้าต่างนี้จะถูกปิด
 
-There are two limitations shared by all the methods above:
+เมธอดทั้งสามมีข้อจำกัดสองประการ:
 
-1. The exact location of the modal window is determined by the browser. Usually, it's in the center.
-2. The exact look of the window also depends on the browser. We can't modify it.
+1. ตำแหน่งของหน้าต่างโมดอลถูกกำหนดโดยเบราว์เซอร์ ปกติจะอยู่ตรงกลาง
+2. รูปลักษณ์ของหน้าต่างนั้นขึ้นอยู่กับเบราว์เซอร์ เราไม่สามารถปรับเปลี่ยนได้
 
-That is the price for simplicity. There are other ways to show nicer windows and richer interaction with the visitor, but if "bells and whistles" do not matter much, these methods work just fine.
+เพราะว่าเป็นเมธอดที่เบราเซอร์มีมาให้ ดังนั้นจึงมีข้อจำกัดด้านการปรับเปลี่ยน มีวิธีอื่นในการแสดงหน้าต่างที่สวยงามขึ้นและการโต้ตอบกับผู้เยี่ยมชมที่สมบูรณ์ยิ่งขึ้น แต่ถ้าเรื่องความสวยงามไม่สำคัญมากนัก จะใช้เมธอดเหล่านี้ก็ได้
