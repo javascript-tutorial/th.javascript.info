@@ -1,18 +1,18 @@
-# Interaction: alert, prompt, confirm
+# การปฎิสัมพันธ์: alert, prompt, confirm
 
-As we'll be using the browser as our demo environment, let's see a couple of functions to interact with the user: `alert`, `prompt` and `confirm`.
+เนื่องจากเราใช้เบราว์เซอร์เป็นสภาพแวดล้อมการสาธิต เรามาดูฟังก์ชันกันสักสองสามอย่างเพื่อโต้ตอบกับผู้ใช้: `alert`, `prompt` และ `confirm`
 
 ## alert
 
-This one we've seen already. It shows a message and waits for the user to press "OK".
+อย่างที่เราเคยเห็นกันได้นี้แล้ว หน้าขนาดเล็กมุมบนแสดงข้อความที่รอให้ผู้ใช้กด OK
 
-For example:
+ตัวอย่าง:
 
 ```js run
 alert("Hello");
 ```
 
-The mini-window with the message is called a *modal window*. The word "modal" means that the visitor can't interact with the rest of the page, press other buttons, etc, until they have dealt with the window. In this case -- until they press "OK".
+หน้าต่างขนาดเล็กที่มีข้อความเราเรียกมันว่า *modal window* คำว่า "modal" หมายความว่าผู้เยี่ยมชมไม่สามารถโต้ตอบกับส่วนที่เหลือของหน้า หรือกดปุ่มอื่นๆใดๆได้ จนกว่าพวกเขาจะจัดการกับหน้าต่างนี้ อย่างในกรณีนี้ก็คือกด "OK"
 
 ## prompt
 
