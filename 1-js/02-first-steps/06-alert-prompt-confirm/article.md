@@ -12,33 +12,33 @@
 alert("Hello");
 ```
 
-หน้าต่างขนาดเล็กที่มีข้อความเราเรียกมันว่า *modal window* คำว่า "modal" หมายความว่าผู้เยี่ยมชมไม่สามารถโต้ตอบกับส่วนที่เหลือของหน้า หรือกดปุ่มอื่นๆใดๆได้ จนกว่าพวกเขาจะจัดการกับหน้าต่างนี้ อย่างในกรณีนี้ก็คือกด "OK"
+หน้าต่างขนาดเล็กที่มีข้อความเราเรียกมันว่าหน้าต่างโมเดล *modal window* คำว่า "modal" หมายความว่าผู้เยี่ยมชมไม่สามารถโต้ตอบกับส่วนที่เหลือของหน้า หรือกดปุ่มอื่นๆใดๆได้ จนกว่าพวกเขาจะจัดการกับหน้าต่างนี้ อย่างในกรณีนี้ก็คือกด "OK"
 
 ## prompt
 
-The function `prompt` accepts two arguments:
+ฟังก์ชัน 'prompt' รับสองอาร์กิวเมนต์:
 
 ```js no-beautify
 result = prompt(title, [default]);
 ```
 
-It shows a modal window with a text message, an input field for the visitor, and the buttons OK/Cancel.
+จะแสดงหน้าต่างโมเดลพร้อมข้อความ ช่องป้อนข้อมูล (input) และปุ่ม OK/Cancel
 
 `title`
-: The text to show the visitor.
+: พารามิเตอร์แรกคือข้อความที่จะแสดงให้ผู้เข้าชมเว็บ
 
 `default`
-: An optional second parameter, the initial value for the input field.
+: พารามิเตอร์ที่สองเป็นทางเลือก (จะใส่มาหรือไม่ใส่มาก็ได้) โดยจะใช้เป็นค่าเริ่มต้นสำหรับสำหรับช่องป้อนข้อมูล
 
-```smart header="The square brackets in syntax `[...]`"
-The square brackets around `default` in the syntax above denote that the parameter is optional, not required.
+```smart header="square brackets `[...]`"
+square brackets รอบๆ "default" ตามตัวอย่างด้านบนแสดงว่าพารามิเตอร์นี้เป็นทางเลือก
 ```
 
-The visitor can type something in the prompt input field and press OK. Then we get that text in the `result`. Or they can cancel the input by pressing Cancel or hitting the `key:Esc` key, then we get `null` as the `result`.
+ผู้เข้าชมสามารถพิมพ์บางอย่างในช่องป้อนข้อมูลพร้อมท์แล้วกด OK จากนั้นเราจะได้ข้อความนั้นจากตัวแปรชื่อ `result` หรือผู้ใช้สามารถยกเลิกการป้อนข้อมูลโดยกด Cancel หรือกดปุ่ม "คีย์: Esc" จากนั้นเราจะได้ "null" มาเก็บไว้ในตัวแปรชื่อ `result` แทน
 
-The call to `prompt` returns the text from the input field or `null` if the input was canceled.
+การเรียกฟังชั่นก์ `prompt` จะคืนข้อความจากช่องป้อนข้อมูล หรือ `null` หากช่องป้อนข้อมูลถูกยกเลิก
 
-For instance:
+ตัวอย่าง:
 
 ```js run
 let age = prompt('How old are you?', 100);
@@ -46,16 +46,16 @@ let age = prompt('How old are you?', 100);
 alert(`You are ${age} years old!`); // You are 100 years old!
 ```
 
-````warn header="In IE: always supply a `default`"
-The second parameter is optional, but if we don't supply it, Internet Explorer will insert the text `"undefined"` into the prompt.
+````warn header="ใน IE: จะใส่ค่าเริ่มต้นให้ `default` เสมอ"
+ถึงแม้พารามิเตอร์ที่สองเป็นทางเลือก แต่หากเราไม่ใส่ไว้ Internet Explorer จะใส่สตริง `"undefined"` ลงไปแทน
 
-Run this code in Internet Explorer to see:
+สามารถรันโค้ดนี้ใน IE เพื่อดูผลลัพธ์ได้
 
 ```js run
 let test = prompt("Test");
 ```
 
-So, for prompts to look good in IE, we recommend always providing the second argument:
+ดังนั้น เพื่อให้ข้อความแจ้งดูดีใน IE เราแนะนำให้ระบุอาร์กิวเมนต์ที่สองเสมอ:
 
 ```js run
 let test = prompt("Test", ''); // <-- for IE
