@@ -33,14 +33,14 @@ if (year == 2015) {
 
 ## การแปลงค่าชนิดอื่นเป็นบูลีน (Boolean conversion)
 
-The `if (…)` statement evaluates the expression in its parentheses and converts the result to a boolean.
+คำสั่ง `if (…)` จะประเมินนิพจน์ (expression) ในวงเล็บและแปลงค่าใดๆก็ตามเป็นบูลีน
 
-Let's recall the conversion rules from the chapter <info:type-conversions>:
+ทบทวนความจำได้จากบทนี้ <info:type-conversions>:
 
-- A number `0`, an empty string `""`, `null`, `undefined`, and `NaN` all become `false`. Because of that they are called "falsy" values.
-- Other values become `true`, so they are called "truthy".
+- เลข `0`, สตริงว่าง `""`, `null` `undefined` และ `NaN` จะกลายเป็น `false` เราจะเรียกค่าเหล่านี้ว่า "falsy"
+- ส่วนที่เหลือจะเป็น `true` เราจะเรียกค่าเหล่านี้ส่า "truly"
 
-So, the code under this condition would never execute:
+ดังนั้นโค้ดภายใต้เงื่อนไขนี้จะไม่ทำงาน:
 
 ```js
 if (0) { // 0 is falsy
@@ -48,7 +48,7 @@ if (0) { // 0 is falsy
 }
 ```
 
-...and inside this condition -- it always will:
+...และภายใต้เงื่อนไขนี้โค้ดจะทำงานส่วนที่อยู่ในบล็อค (วงเล็บปีกกา) ต่อไป
 
 ```js
 if (1) { // 1 is truthy
@@ -56,10 +56,10 @@ if (1) { // 1 is truthy
 }
 ```
 
-We can also pass a pre-evaluated boolean value to `if`, like this:
+นอกจากนี้เรายังสามารถส่งค่าบูลีนที่ประเมินล่วงหน้า (pre-evaluated) ไปยังคำสั่ง `if` ได้ดังนี้:
 
 ```js
-let cond = (year == 2015); // equality evaluates to true or false
+let cond = (year == 2015); // บรรทัดนี้หาก year เป็น 2015 จะเป็น `true` หากไม่จะเป็น `false` เก็บไว้ในตัวแปร
 
 if (cond) {
   ...
