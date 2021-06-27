@@ -66,11 +66,11 @@ if (cond) {
 }
 ```
 
-## The "else" clause
+## คำสั่ง "else"
 
-The `if` statement may contain an optional "else" block. It executes when the condition is falsy.
+คำสั่ง `if` อาจมีบล็อก `else` เป็นตัวเลือกขึ้นมา หากเงื่อนไขในคำสั่ง `if` เป็นเท็จ โปรแกรมจะทำงานในบล็อคของ `else` แทน
 
-For example:
+ตัวอย่าง:
 ```js run
 let year = prompt('In which year was the ECMAScript-2015 specification published?', '');
 
