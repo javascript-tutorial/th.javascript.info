@@ -1,14 +1,14 @@
-# Conditional branching: if, '?'
+# การแตกแขนงแบบมีเงื่อนไข: if, '?'
 
-Sometimes, we need to perform different actions based on different conditions.
+บางครั้ง เราจำเป็นต้องดำเนินการต่างๆ ตามเงื่อนไขที่แตกต่างกัน
 
-To do that, we can use the `if` statement and the conditional operator `?`, that's also called a "question mark" operator.
+ในการทำเช่นนั้น เราสามารถใช้คำสั่ง `if` และตัวดำเนินการแบบเงื่อนไข (conditional operator) `?` ซึ่งเรียกอีกอย่างว่าโอเปอเรเตอร์ "เครื่องหมายคำถาม (question mark)"
 
-## The "if" statement
+## คำสั่ง "if"
 
-The `if(...)` statement evaluates a condition in parentheses and, if the result is `true`, executes a block of code.
+คำสั่ง `if(...)` จะประเมินเงื่อนไขในวงเล็บและรันบล็อกของโค้ดหากผลลัพธ์เป็น `จริง`
 
-For example:
+ตัวอย่าง:
 
 ```js run
 let year = prompt('In which year was ECMAScript-2015 specification published?', '');
@@ -18,9 +18,9 @@ if (year == 2015) alert( 'You are right!' );
 */!*
 ```
 
-In the example above, the condition is a simple equality check (`year == 2015`), but it can be much more complex.
+ในตัวอย่างข้างต้น เงื่อนไขคือการตรวจความเท่ากันแบบง่ายๆ (`year == 2015`) แต่เราสามารถทำได้ซับซ้อนกว่านี้มาก
 
-If we want to execute more than one statement, we have to wrap our code block inside curly braces:
+หากเราต้องการดำเนินการมากกว่าหนึ่งคำสั่ง เราต้องล้อมบล็อคโค้ดของเราไว้ในวงเล็บปีกกา:
 
 ```js
 if (year == 2015) {
@@ -29,9 +29,9 @@ if (year == 2015) {
 }
 ```
 
-We recommend wrapping your code block with curly braces `{}` every time you use an `if` statement, even if there is only one statement to execute. Doing so improves readability.
+เราแนะนำให้ล้อมบล็อคโค้ดด้วยวงเล็บปีกกา `{}` ทุกครั้งที่ใช้คำสั่ง `if` แม้ว่าจะมีเพียงคำสั่งเดียวให้ดำเนินการก็ตาม การทำเช่นนี้จะช่วยให้โค้ดอ่านง่ายขึ้น
 
-## Boolean conversion
+## การแปลงค่าชนิดอื่นเป็นบูลีน (Boolean conversion)
 
 The `if (…)` statement evaluates the expression in its parentheses and converts the result to a boolean.
 
