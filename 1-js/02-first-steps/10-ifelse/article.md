@@ -81,11 +81,11 @@ if (year == 2015) {
 }
 ```
 
-## Several conditions: "else if"
+## มากกว่าสองเงื่อนไขใช้ "else if"
 
-Sometimes, we'd like to test several variants of a condition. The `else if` clause lets us do that.
+บางครั้ง เราต้องการทดสอบเงื่อนไขมากกว่าสอง รูปแบบประโยค `else if`
 
-For example:
+ตัวอย่าง:
 
 ```js run
 let year = prompt('In which year was the ECMAScript-2015 specification published?', '');
@@ -99,9 +99,8 @@ if (year < 2015) {
 }
 ```
 
-In the code above, JavaScript first checks `year < 2015`. If that is falsy, it goes to the next condition `year > 2015`. If that is also falsy, it shows the last `alert`.
-
-There can be more `else if` blocks. The final `else` is optional.
+ตามโค้ดด้ายบน JavaScript จะตรวจสอบ `year < 2015` ก่อน หากเป็น falsy จะเข้าสู่เงื่อนไขถัดไป `year > 2015` หากเงืื่อนไขยังเป็นเท็จ ก็จะแสดง `alert` ออกมา
+มีบล็อค `else if` ได้ตามที่ใจต้องการ ส่วนบล็อค `else` เป็นทางเลือกจะมีหรือไม่มีก็ได้
 
 ## Conditional operator '?'
 
