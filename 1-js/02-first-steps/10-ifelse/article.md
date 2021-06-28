@@ -81,7 +81,7 @@ if (year == 2015) {
 }
 ```
 
-## มากกว่าสองเงื่อนไขใช้ "else if"
+## มีมากกว่าสองเงื่อนไขใช้ "else if"
 
 บางครั้ง เราต้องการทดสอบเงื่อนไขมากกว่าสอง รูปแบบประโยค `else if`
 
@@ -102,11 +102,11 @@ if (year < 2015) {
 ตามโค้ดด้ายบน JavaScript จะตรวจสอบ `year < 2015` ก่อน หากเป็น falsy จะเข้าสู่เงื่อนไขถัดไป `year > 2015` หากเงืื่อนไขยังเป็นเท็จ ก็จะแสดง `alert` ออกมา
 มีบล็อค `else if` ได้ตามที่ใจต้องการ ส่วนบล็อค `else` เป็นทางเลือกจะมีหรือไม่มีก็ได้
 
-## Conditional operator '?'
+## ตัวดำเนินการแบบเงื่อนไข (conditional operator) "?"
 
-Sometimes, we need to assign a variable depending on a condition.
+บางครั้ง เราต้องกำหนดตัวแปรตามเงื่อนไขที่กำหนด
 
-For instance:
+ตัวอย่าง:
 
 ```js run no-beautify
 let accessAllowed;
@@ -123,40 +123,40 @@ if (age > 18) {
 alert(accessAllowed);
 ```
 
-The so-called "conditional" or "question mark" operator lets us do that in a shorter and simpler way.
+ตัวดำเนินการที่เรียกว่าแบเงื่อนไข หรือ เครื่องหมายคำถาม ช่วยให้เราเขียนโค้ดสั้นได้กว่า
 
-The operator is represented by a question mark `?`. Sometimes it's called "ternary", because the operator has three operands. It is actually the one and only operator in JavaScript which has that many.
+ตัวดำเนินการนี้จะใช้เครื่องหมายคำถาม `?` บางทีเราก็เรีนยกมันว่า "ไตรภาค (ternary)" เพราะมันมีตัวถูกดำเนินการสามตัว ตัวดำเนินการแบบเงื่อนไขเป็นตัวดำเนินการเพียงตัวเดียวใน JavaScript ที่ใช้ตัวถูกดำเนินการถึงสามตัว โดยปกติจะมีตัวถูกดำเนินการสองตัวเช่น `1 + 1` และ `true && false`
 
-The syntax is:
+วากยสัมพันธ์ (syntax):
 ```js
 let result = condition ? value1 : value2;
 ```
 
-The `condition` is evaluated: if it's truthy then `value1` is returned, otherwise -- `value2`.
+ตัวแปร `เงื่อนไข` จะถูกประเมิน: หากเป็นจริง `value1` จะถูกส่งกลับ มิฉะนั้น `value2` จะถูกส่งกลับ
 
-For example:
+ตัวอย่าง:
 
 ```js
 let accessAllowed = (age > 18) ? true : false;
 ```
 
-Technically, we can omit the parentheses around `age > 18`. The question mark operator has a low precedence, so it executes after the comparison `>`.
+ในทางเทคนิค เราจะไม่ใส่วงเล็บล้อม `age > 18` ก็ได้
 
-This example will do the same thing as the previous one:
+ตัวอย่างนี้จะทำสิ่งเดียวกันกับตัวอย่างก่อนหน้านี้:
 
 ```js
-// the comparison operator "age > 18" executes first anyway
-// (no need to wrap it into parentheses)
+// ตัวดำเนินการเปรียบเทียบ "age > 18" จะดำเนินการก่อน
+// (จึงไม่จำเป็นต้องใส่วงเล็บ)
 let accessAllowed = age > 18 ? true : false;
 ```
 
-But parentheses make the code more readable, so we recommend using them.
+แต่วงเล็บทำให้โค้ดอ่านง่ายขึ้น เราจึงแนะนำให้ใส่ทุกครั้ง
 
 ````smart
-In the example above, you can avoid using the question mark operator because the comparison itself returns `true/false`:
+ในตัวอย่างข้างต้น เราสามารถละตัวดำเนินการ ? ก็ได้ เนื่องจาก "age > 18" เป็นตัวดำเนิินการแบบเปรียบเทียบจะส่งค่ากลับมาเป็น "true/false" อยู่แล้ว:
 
 ```js
-// the same
+// ได้ผลลัพธ์เหมือนกัน
 let accessAllowed = age > 18;
 ```
 ````
