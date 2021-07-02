@@ -2,7 +2,7 @@ importance: 2
 
 ---
 
-# Show the sign
+# จงแสดงสัญญาณ
 
 ใช้ if..else เขียนโค้ดที่ได้รับตัวเลขผ่าน `prompt` แล้วแสดงใน `alert`:
 
