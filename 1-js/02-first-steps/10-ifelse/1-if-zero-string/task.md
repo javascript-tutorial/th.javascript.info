@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# if (a string with zero)
+# if (ศูนย์เป็นสตริง)
 
-Will `alert` be shown?
+หลังจากรันโค้ดนี้คิดว่า `alert` จะโชว์ขึ้นมาหรือไม่
 
 ```js
 if ("0") {
