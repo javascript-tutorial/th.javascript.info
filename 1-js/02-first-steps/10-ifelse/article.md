@@ -1,4 +1,4 @@
-# การแตกแขนงแบบมีเงื่อนไข: if, '?'
+# การตรวจสอบเงื่อนไขด้วย: if, '?'
 
 บางครั้ง เราจำเป็นต้องดำเนินการต่างๆ ตามเงื่อนไขที่แตกต่างกัน
 
@@ -200,7 +200,7 @@ if (age < 3) {
 
 ## Non-traditional use of '?'
 
-Sometimes the question mark `?` is used as a replacement for `if`:
+บางครั้งเครื่องหมายคำถาม `?` ก็ถูกใช้แทน `if`:
 
 ```js run no-beautify
 let company = prompt('Which company created JavaScript?', '');
@@ -211,15 +211,15 @@ let company = prompt('Which company created JavaScript?', '');
 */!*
 ```
 
-Depending on the condition `company == 'Netscape'`, either the first or the second expression after the `?` gets executed and shows an alert.
+ขึ้นอยู่กับเงื่อนไข `company == 'Netscape'` หากเป็นจริงข้างหลัง `?` จะทำงาน `alert('Right!')` หากเป็นเท็จข้างหลัง `:` จะทำงาน `alert('Wrong.')`
 
-We don't assign a result to a variable here. Instead, we execute different code depending on the condition.
+เราไม่ได้กำหนดผลลัพธ์ให้กับตัวแปรที่นี่ แต่เรารันโค้ดที่แตกต่างกันขึ้นอยู่กับเงื่อนไข ดังนั้นหากเรา `console.log(company)` เราก็จะได้ค่า `undefined` ออกมา
 
-**It's not recommended to use the question mark operator in this way.**
+**เราจึงไม่แนะนำให้ใช้ตัวดำเนินการเครื่องหมายคำถามในลักษณะนี้**
 
-The notation is shorter than the equivalent `if` statement, which appeals to some programmers. But it is less readable.
+ด้วยความที่ตัวดำเนินการ `?` มันสั้นกว่า `if` มาก มันจึงทำให้โปรแกรมเมอร์หลายคนใช้ `?` มากกว่า `if` แต่เราก็ขอบอกว่า `?` อ่านยากกว่า `if` อีก
 
-Here is the same code using `if` for comparison:
+นี่คือตัวอย่างที่ใช้ `if` แทน `?`
 
 ```js run no-beautify
 let company = prompt('Which company created JavaScript?', '');
@@ -233,6 +233,6 @@ if (company == 'Netscape') {
 */!*
 ```
 
-Our eyes scan the code vertically. Code blocks which span several lines are easier to understand than a long, horizontal instruction set.
+ตาของเราจะกวาดโค้ดในแนวตั้ง โค้ดที่เป็นบล็อคหลายๆบรรทัด จะช่วยให้เราอ่านโค้ดเข้าใจได้ง่ายกว่าโค้ดที่เป็นแนวนอน
 
-The purpose of the question mark operator `?` is to return one value or another depending on its condition. Please use it for exactly that. Use `if` when you need to execute different branches of code.
+วัตถุประสงค์ของตัวดำเนินการเครื่องหมายคำถาม `?` คือการคืนค่าหนึ่งค่าหรืออีกค่าหนึ่งโดยขึ้นอยู่กับเงื่อนไข ทางเราขอร้องให้ใช้ถูกวัตถุประสงค์เพื่อหลัีกเลี่ยงข้อผิดพลาดที่อาจจะเกิดกับโปรแกรมได้ และใช้ `if` เมื่อมีหลายเงื่อนไขที่ต้องตรวจสอบแทน
