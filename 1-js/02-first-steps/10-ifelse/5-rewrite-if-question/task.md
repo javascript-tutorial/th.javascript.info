@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# Rewrite 'if' into '?'
+# เขียน 'if' ให้เป็น '?'
 
-Rewrite this `if` using the conditional operator `'?'`:
+เขียน `if` นี้ใหม่โดยใช้ตัวดำเนินการตามเงื่อนไข `'?'`:
 
 ```js
 let result;
