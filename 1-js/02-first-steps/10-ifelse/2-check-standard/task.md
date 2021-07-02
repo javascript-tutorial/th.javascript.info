@@ -2,11 +2,11 @@ importance: 2
 
 ---
 
-# The name of JavaScript
+# ชื่ออันแท้จริงของ JavaScript
 
-Using the `if..else` construct, write the code which asks: 'What is the "official" name of JavaScript?'
+ใช้รูปโยค `if..else` เขียนโค้ดที่ถามว่า: 'What is the "official" name of JavaScript?'
 
-If the visitor enters "ECMAScript", then output "Right!", otherwise -- output: "You don't know? ECMAScript!"
+หากผู้เยี่ยมชมป้อน "ECMAScript" ให้ส่งออกเป็น "Right!" มิฉะนั้น -- ให้ออกเป็น: "You don't know? ECMAScript!"
 
 ![](ifelse_task2.svg)
 
