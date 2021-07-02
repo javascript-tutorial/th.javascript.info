@@ -161,11 +161,11 @@ let accessAllowed = age > 18;
 ```
 ````
 
-## Multiple '?'
+## สามารถใช้ '?' หลายตัวเพื่อกำหนดเงื่อนไขหลายแบบได้
 
-A sequence of question mark operators `?` can return a value that depends on more than one condition.
+ลำดับของตัวดำเนินการเครื่องหมายคำถาม `?` สามารถคืนค่าที่ขึ้นอยู่กับเงื่อนไขมากกว่าหนึ่งเงื่อนไขได้
 
-For instance:
+ตัวอย่าง:
 ```js run
 let age = prompt('age?', 18);
 
@@ -177,14 +177,14 @@ let message = (age < 3) ? 'Hi, baby!' :
 alert( message );
 ```
 
-It may be difficult at first to grasp what's going on. But after a closer look, we can see that it's just an ordinary sequence of tests:
+ด้วยรูปประโยคที่ซับซ้อนแบบนี้ทำให้เราไม่สามารถเข้าใจได้ว่า โค้ดเหล่านี้ทำงานยังไงกันแน่ หากเรากวาดสายตาค่อยๆไปทีละบรรทัด จะพบว่าเป็นการทดสอบเงื่อนไขธรรมดาๆเท่านั้น โดยเริ่มจาก
 
-1. The first question mark checks whether `age < 3`.
-2. If true -- it returns `'Hi, baby!'`. Otherwise, it continues to the expression after the colon '":"', checking `age < 18`.
-3. If that's true -- it returns `'Hello!'`. Otherwise, it continues to the expression after the next colon '":"', checking `age < 100`.
-4. If that's true -- it returns `'Greetings!'`. Otherwise, it continues to the expression after the last colon '":"', returning `'What an unusual age!'`.
+1. เครื่องหมายคำถามแรกตรวจสอบว่า `age < 3`
+2. ถ้าเป็นจริง มันจะส่งคืน `'Hi, baby!'` มิฉะนั้น มันจะไปเช็คเงื่อนไขข้างหลัง '":"' ต่อ โดยตรวจสอบว่าตัวแปร `age < 18'` จริงหรือไม่
+3. ถ้าเป็นจริง มันจะส่งคืน `'Hello!'`. มิฉะนั้น มันจะไปเช็คเงื่อนไขข้างหลัง '":"'ต่อ โดยตรวจสอบว่าตัวแปร  `age < 100` จริงหรือไม่
+4. ถ้าเป็นจริง มันจะส่งคืน `'Greetings!'` หากยังเป็นเท็จและเนื่องจากเป็น '":"' ตัวสุดท้าย มันจึงส่งค่าหลัง '":"'  กลับมา ในที่นี้คือ `'What an unusual age!'`
 
-Here's how this looks using `if..else`:
+ด้านล่างคือตัวอย่างหากเขียนเงื่อนไขด้านบนด้วยรูปประโยค `if..else` แทน:
 
 ```js
 if (age < 3) {
