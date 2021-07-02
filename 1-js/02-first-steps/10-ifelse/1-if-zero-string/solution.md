@@ -1,8 +1,8 @@
-**Yes, it will.**
+**ใช่ alert จะโชว์**
 
-Any string except an empty one (and `"0"` is not empty) becomes `true` in the logical context.
+สตริงใดๆ ยกเว้นสตริงว่าง (และสตริง "0" ไม่ใช่สตริงเปล่า) จะกลายเป็น "จริง" ในบริบททางตรรกะ
 
-We can run and check:
+เราสามรถเรียกใช้เพื่อตรวจสอบได้:
 
 ```js run
 if ("0") {
