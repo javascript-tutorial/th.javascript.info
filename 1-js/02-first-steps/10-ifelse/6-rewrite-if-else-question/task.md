@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Rewrite 'if..else' into '?'
+# เขียน 'if..else' ให้เป็น '?'
 
-Rewrite `if..else` using multiple ternary operators `'?'`.
+เขียน `if..else` นี้ใหม่โดยใช้ตัวดำเนินการตามเงื่อนไข `'?'`
 
-For readability, it's recommended to split the code into multiple lines.
+เพื่อให้โค้ดอ่านง่ายขึ้น ขอแนะนำให้แยกโค้ดออกเป็นหลายบรรทัด
 
 ```js
 let message;
