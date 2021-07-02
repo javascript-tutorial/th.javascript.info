@@ -4,12 +4,12 @@ importance: 2
 
 # Show the sign
 
-Using `if..else`, write the code which gets a number via `prompt` and then shows in `alert`:
+ใช้ if..else เขียนโค้ดที่ได้รับตัวเลขผ่าน `prompt` แล้วแสดงใน `alert`:
 
-- `1`, if the value is greater than zero,
-- `-1`, if less than zero,
-- `0`, if equals zero.
+- แสดง `1` ถ้าค่ามากกว่าศูนย์
+- แสดง `-1`, ถ้าค่าน้อยกว่าศูนย์
+- แสดง `0` ถ้าค่าเท่ากับศูนย์
 
-In this task we assume that the input is always a number.
+เราถือว่าอินพุตเป็นตัวเลขเสมอ
 
 [demo src="if_sign"]
