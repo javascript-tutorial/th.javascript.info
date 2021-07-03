@@ -1,6 +1,6 @@
 # ตัวดำเนินการทางตรรกะ (Logical operators)
 
-ในจาวาสคริปต์จะมีตัวดำเนินการทั้งหมด 4 ตัว: `||` (OR), `&&` (AND), `!` (NOT), `??` (Nullish Coalescing) ในบทเรียนนี้เราจะครอบคลุม 3 ตัวแรกก่อน และ `??` จะอยุ่ในบทเรียนถัดไป
+ใน JavaScript จะมีตัวดำเนินการทั้งหมด 4 ตัว: `||` (OR), `&&` (AND), `!` (NOT), `??` (Nullish Coalescing) ในบทเรียนนี้เราจะครอบคลุม 3 ตัวแรกก่อน และ `??` จะอยุ่ในบทเรียนถัดไป
 
 ถึงจะมีคำว่า "ตรรกะ" ต่อท้ายก็ตาม แต่ตัวดำเนินการเหล่านี้ใช้ได้กับค่าทุกประเภท ไม่จำเป็นต้องเป็นบูลีนเท่านั้น
 
@@ -14,9 +14,9 @@
 result = a || b;
 ```
 
-In classical programming, the logical OR is meant to manipulate boolean values only. If any of its arguments are `true`, it returns `true`, otherwise it returns `false`.
+ในภาษาโปรแกรมมิ่งเก่่าๆ "OR" มีไว้ใช้กับค่าบูลีนเท่านั้น หากอาร์กิวเมนต์ตัวใดเป็น `true` ก็จะส่งต่า `true` กลับมิฉะนั้นส่งค่า `false` กลับ
 
-In JavaScript, the operator is a little bit trickier and more powerful. But first, let's see what happens with boolean values.
+ใน JavaScript ตัวดำเนินการทางตรระกะจะซับซ้อนกว่าและมีประสิทธิภาพกว่า แต่ก่อนอื่น มาดูตัวอย่างจากบูลีนกันก่อน
 
 There are four possible logical combinations:
 
