@@ -39,7 +39,7 @@ if (1 || 0) { // works just like if( true || false )
 }
 ```
 
-ส่วนใหญ่ OR `||` มักจะใช้ในคำสั่ง `if` เพื่อทดสอบว่าตามเงื่อนไขที่กำหนด *อะไรก็ตาม* เป็น `true` หรือไม่
+ส่วนใหญ่ OR `||` มักจะใช้ในคำสั่ง `if` เพื่อทดสอบว่าตามเงื่อนไขที่กำหนด *มีอะไร* เป็น `true` หรือไม่
 
 ตัวอย่าง:
 
@@ -64,46 +64,46 @@ if (hour < 10 || hour > 18 || isWeekend) {
 }
 ```
 
-## OR "||" finds the first truthy value [#or-finds-the-first-truthy-value]
+## OR "||" หาค่า truthy ที่เจอตัวแรก [#or-finds-the-first-truthy-value]
 
-The logic described above is somewhat classical. Now, let's bring in the "extra" features of JavaScript.
+ตัวอย่างด้านบนจะอธิบายตามภาษาโปรแกรมมิ่งเก่าๆ ตอนนี้เรามีดูคุณสมบัติ "พิเศษ" ที่พบเฉพาะ JavaScript กัน
 
-The extended algorithm works as follows.
+ลำดับการทำงานเป็นดังนี้
 
-Given multiple OR'ed values:
+แต่เราขอเพิ่มตัวดำเนินการ OR ขึ้นมาอีกสักหน่อย:
 
 ```js
 result = value1 || value2 || value3;
 ```
 
-The OR `||` operator does the following:
+ตัวดำเนินการ OR `||` ทำสิ่งต่อไปนี้:
 
-- Evaluates operands from left to right.
-- For each operand, converts it to boolean. If the result is `true`, stops and returns the original value of that operand.
-- If all operands have been evaluated (i.e. all were `false`), returns the last operand.
+- ประเมินตัวถูกดำเนินการจากซ้ายไปขวา
+- ตัวถูกดำเนินการแต่ละตัวจะถูกแปลงเป็นบูลีน หากผลลัพธ์เป็น `true` การทำงานจะหยุดและส่งค่าเดิมกลับไป
+- ตัวถูกดำเนินการทุกตัวถูกประเมินหมดแล้ว (หรือก็คือทุกค่าเป็น `false`) จะส่งตัวสุดท้ายกลับไป
 
-A value is returned in its original form, without the conversion.
+ค่าที่ถูกส่งไม่มีการแปลงค่า ดังนั้นจึงเป็นค่าเดิม
 
-In other words, a chain of OR `||` returns the first truthy value or the last one if no truthy value is found.
+กล่าวอีกนัยหนึ่ง chain ของ OR `||` จะส่งกลับค่า truthy ที่เจอตัวแรก และหากไม่เจอค่าไหนที่เป็น truthy เลยก็จะส่งค่าสุดท้ายกลับไป
 
-For instance:
+ตัวอย่าง:
 
 ```js run
-alert( 1 || 0 ); // 1 (1 is truthy)
+alert( 1 || 0 ); // 1 (1 คือ truthy)
 
-alert( null || 1 ); // 1 (1 is the first truthy value)
-alert( null || 0 || 1 ); // 1 (the first truthy value)
+alert( null || 1 ); // 1 (1 คือค่า truthy ตัวแรก)
+alert( null || 0 || 1 ); // 1 (ค่า truthy ตัวแรก)
 
-alert( undefined || null || 0 ); // 0 (all falsy, returns the last value)
+alert( undefined || null || 0 ); // 0 (ทั้งหมดเป็น falsy ส่งตัวสุดท้ายกลับไป)
 ```
 
-This leads to some interesting usage compared to a "pure, classical, boolean-only OR".
+นี่คือสิ่งที่ทำให้ JavaScript แตกต่างออกไป จากภาษาโปรแกรมมิ่งเก่าๆ
 
-1. **Getting the first truthy value from a list of variables or expressions.**
+1. **หาค่า truthy ที่เจอตัวแรก**
 
-    For instance, we have `firstName`, `lastName` and `nickName` variables, all optional (i.e. can be undefined or have falsy values).
+    ตัวอย่าง เรามีตัวแปร `firstName`, `lastName` และ `nickName` ทุกตัวเป็น optional คือจะใส่มาหรือไม่ใส่ก็ได้ (หากไม่ใส่มา ค่าท่ีได้จะเป็น `undefined`)
 
-    Let's use OR `||` to choose the one that has the data and show it (or `"Anonymous"` if nothing set):
+    มาลองใช้ OR `||` เพื่อเลือกแสดงตัวแปรที่มีค่า truthy เก็บไว้ (หรือแสดงเป็น `"Anonymous"` หากไม่ได้ใส่อะไรมาเลย):
 
     ```js run
     let firstName = "";
@@ -115,7 +115,7 @@ This leads to some interesting usage compared to a "pure, classical, boolean-onl
     */!*
     ```
 
-    If all variables were falsy, `"Anonymous"` would show up.
+    หากตัวแปรทั้งหมดเป็น falsy คำว่า `"Anonymous"` จะแสดงขึ้นมา
 
 2. **Short-circuit evaluation.**
 
