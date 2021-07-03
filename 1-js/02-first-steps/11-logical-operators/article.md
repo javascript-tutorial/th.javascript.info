@@ -29,9 +29,9 @@ alert( false || false ); // false
 
 อย่างที่เราเห็น ผลลัพธ์จะได้ `true` เสมอ ยกเว้นกรณีที่ตัวถูกดำเนินการทั้งสองเป็น `false`
 
-If an operand is not a boolean, it's converted to a boolean for the evaluation.
+ถ้าตัวถูกดำเนินการไม่ใช่บูลีน จะถูกแปลงเป็นบูลีน
 
-For instance, the number `1` is treated as `true`, the number `0` as `false`:
+ตัวอย่างเช่น ตัวเลข `1` จะถือเป็น `true` ตัวเลข `0` เป็น `false`
 
 ```js run
 if (1 || 0) { // works just like if( true || false )
@@ -39,9 +39,9 @@ if (1 || 0) { // works just like if( true || false )
 }
 ```
 
-Most of the time, OR `||` is used in an `if` statement to test if *any* of the given conditions is `true`.
+ส่วนใหญ่ OR `||` มักจะใช้ในคำสั่ง `if` เพื่อทดสอบว่าตามเงื่อนไขที่กำหนด *อะไรก็ตาม* เป็น `true` หรือไม่
 
-For example:
+ตัวอย่าง:
 
 ```js run
 let hour = 9;
@@ -53,7 +53,7 @@ if (hour < 10 || hour > 18) {
 }
 ```
 
-We can pass more conditions:
+เราสามารถใส่เงื่อนไขเพิ่มเติมได้:
 
 ```js run
 let hour = 12;
