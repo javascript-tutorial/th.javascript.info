@@ -1,14 +1,14 @@
-# Logical operators
+# ตัวดำเนินการทางตรรกะ (Logical operators)
 
-There are four logical operators in JavaScript: `||` (OR), `&&` (AND), `!` (NOT), `??` (Nullish Coalescing). Here we cover the first three, the `??` operator is in the next article.
+ในจาวาสคริปต์จะมีตัวดำเนินการทั้งหมด 4 ตัว: `||` (OR), `&&` (AND), `!` (NOT), `??` (Nullish Coalescing) ในบทเรียนนี้เราจะครอบคลุม 3 ตัวแรกก่อน และ `??` จะอยุ่ในบทเรียนถัดไป
 
-Although they are called "logical", they can be applied to values of any type, not only boolean. Their result can also be of any type.
+ถึงจะมีคำว่า "ตรรกะ" ต่อท้ายก็ตาม แต่ตัวดำเนินการเหล่านี้ใช้ได้กับค่าทุกประเภท ไม่จำเป็นต้องเป็นบูลีนเท่านั้น
 
-Let's see the details.
+มาดูกันในรายละเอียด
 
 ## || (OR)
 
-The "OR" operator is represented with two vertical line symbols:
+ตัวดำเนินการ "OR" จะแสดงด้วยสัญลักษณ์เส้นแนวตั้งสองเส้น:
 
 ```js
 result = a || b;
