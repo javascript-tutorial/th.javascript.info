@@ -14,11 +14,11 @@
 result = a || b;
 ```
 
-ในภาษาโปรแกรมมิ่งเก่่าๆ "OR" มีไว้ใช้กับค่าบูลีนเท่านั้น หากอาร์กิวเมนต์ตัวใดเป็น `true` ก็จะส่งต่า `true` กลับมิฉะนั้นส่งค่า `false` กลับ
+ในภาษาโปรแกรมมิ่งเก่าๆ "OR" มีไว้ใช้กับค่าบูลีนเท่านั้น หากอาร์กิวเมนต์ตัวใดเป็น `true` ก็จะส่งต่า `true` กลับมิฉะนั้นส่งค่า `false` กลับ
 
 ใน JavaScript ตัวดำเนินการทางตรระกะจะซับซ้อนกว่าและมีประสิทธิภาพกว่า แต่ก่อนอื่น มาดูตัวอย่างจากบูลีนกันก่อน
 
-There are four possible logical combinations:
+เราสามารถนำบูลีนมามิกซ์แอนด์แมทซ์กันได้ทั้งหมด 4 ชุด:
 
 ```js run
 alert( true || true );   // true
@@ -27,7 +27,7 @@ alert( true || false );  // true
 alert( false || false ); // false
 ```
 
-As we can see, the result is always `true` except for the case when both operands are `false`.
+อย่างที่เราเห็น ผลลัพธ์จะได้ `true` เสมอ ยกเว้นกรณีที่ตัวถูกดำเนินการทั้งสองเป็น `false`
 
 If an operand is not a boolean, it's converted to a boolean for the evaluation.
 
