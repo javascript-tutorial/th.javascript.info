@@ -138,13 +138,13 @@ alert( undefined || null || 0 ); // 0 (ทั้งหมดเป็น falsy �
 
 ## && (AND)
 
-The AND operator is represented with two ampersands `&&`:
+ตัวดำเนินการ AND จะแสดงด้วยเครื่องหมาย `&&':
 
 ```js
 result = a && b;
 ```
 
-In classical programming, AND returns `true` if both operands are truthy and `false` otherwise:
+ในภาษาโปรแกรมมิ่งเก่าๆ ในการเขียนโปรแกรมแบบคลาสสิก AND ส่ง `true` กลับ หากตัวถูกดำเนินการทั้งสองเป็นจริง มิฉะนั้นจะส่ง `false` กลับ:
 
 ```js run
 alert( true && true );   // true
@@ -153,7 +153,7 @@ alert( true && false );  // false
 alert( false && false ); // false
 ```
 
-An example with `if`:
+ตัวอย่างเมื่อเป็น `if`:
 
 ```js run
 let hour = 12;
@@ -164,10 +164,10 @@ if (hour == 12 && minute == 30) {
 }
 ```
 
-Just as with OR, any value is allowed as an operand of AND:
+เช่นเดียวกับ OR ค่าใดๆ เราสามารถใช้ค่าชนิดใดๆก็ได้กับ AND:
 
 ```js run
-if (1 && 0) { // evaluated as true && false
+if (1 && 0) { // จะกลายเป็น true && false
   alert( "won't work, because the result is falsy" );
 }
 ```
