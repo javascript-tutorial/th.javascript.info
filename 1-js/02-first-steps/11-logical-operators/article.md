@@ -250,40 +250,40 @@ if (x > 0) alert( 'Greater than zero!' );
 
 ## ! (NOT)
 
-The boolean NOT operator is represented with an exclamation sign `!`.
+ตัวดำเนินการแบบ NOT ใช้สัญลักษณ์อัศเจรีย์หรือเครื่องหมายอุทาน `!`.
 
-The syntax is pretty simple:
+จะใช้ก็ง่ายกว่าตัวอื่น ดั่งประโยคด้านล่าง:
 
 ```js
 result = !value;
 ```
 
-The operator accepts a single argument and does the following:
+ตัวดำเนินการใช้อาร์กิวเมนต์ (argument) และทำงานแบบนี้:
 
-1. Converts the operand to boolean type: `true/false`.
-2. Returns the inverse value.
+1. แปลงตัวถูกดำเนินการให้เป็นบูลีน: `true/false`.
+2. ส่งกลับค่าที่ตรงข้าม
 
-For instance:
+ตัวอย่าง:
 
 ```js run
 alert( !true ); // false
 alert( !0 ); // true
 ```
 
-A double NOT `!!` is sometimes used for converting a value to boolean type:
+ใช้ NOT `!!` สองตัว ใช้เพื่อแปลงค่าใดๆก็ตามเป็นบูลีน:
 
 ```js run
 alert( !!"non-empty string" ); // true
 alert( !!null ); // false
 ```
 
-That is, the first NOT converts the value to boolean and returns the inverse, and the second NOT inverses it again. In the end, we have a plain value-to-boolean conversion.
+จบแล้ว สรุปคือแปลงค่าเป็นบูลีน และส่งค่าตรงข้ามกลับไปนั่นคือ `true` จะเป็น `false` และ `false` จะเป็น `true` เรามาแนะนำอีกนิดนึงนั่นคือฟังชั่นก์ที่แปลงค่าชนิดใดๆให้เป็นบูลีน
 
-There's a little more verbose way to do the same thing -- a built-in `Boolean` function:
+ฟังชั่นก์ `Boolean` เป็นฟังชั่นก์ที่มีมาให้พร้อมกับตัวภาษา ฟังชั่นก์นี้จะเขียนเยอะขึ้นนิดนึง
 
 ```js run
 alert( Boolean("non-empty string") ); // true
 alert( Boolean(null) ); // false
 ```
 
-The precedence of NOT `!` is the highest of all logical operators, so it always executes first, before `&&` or `||`.
+`!` จะทำงานก่อนตัวดำเนินการทางตรรกะทุกตัวก่อนเสมอทั้ง `&&` และ `||`
