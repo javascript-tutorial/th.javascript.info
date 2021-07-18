@@ -1,4 +1,4 @@
-The answer is `2`, that's the first truthy value.
+คำตอบคือ `2` เพราะว่าเป็นค่า truthy ตัวแรก
 
 ```js run
 alert( null || 2 || undefined );
