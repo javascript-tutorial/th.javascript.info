@@ -173,60 +173,60 @@ if (1 && 0) { // จะกลายเป็น true && false
 ```
 
 
-## AND "&&" finds the first falsy value
+## AND "&&" หาค่า falsy ที่เจอตัวแรก
 
-Given multiple AND'ed values:
+ลองมาใช้ AND หลายๆตัว:
 
 ```js
 result = value1 && value2 && value3;
 ```
 
-The AND `&&` operator does the following:
+ตัวดำเนินการ AND `&&` จะทำงานแบบนี้:
 
-- Evaluates operands from left to right.
-- For each operand, converts it to a boolean. If the result is `false`, stops and returns the original value of that operand.
-- If all operands have been evaluated (i.e. all were truthy), returns the last operand.
+- ประเมินค่าแต่ละตัวจากซ้ายไปขวา
+- ค่าแต่ละตัวจะถูกแปลงเป็นบูลีน หากผลลัพธ์เป็น `false` เมื่อไรมันจะหยุดทำงานและส่งค่าที่เป็น `false` กลับไป
+- หากค่าแต่ละตัวแปลงแล้วเป็น `true` ทั้งหมด มันจะส่งค่าตัวสุดท้ายกลับไป
 
-In other words, AND returns the first falsy value or the last value if none were found.
+พูดง่ายๆก็คือส่งค่า `false` ตัวแรกที่เจอ ถ้าไม่เจอก็ส่งตัวสุดท้ายไป
 
-The rules above are similar to OR. The difference is that AND returns the first *falsy* value while OR returns the first *truthy* one.
+หลักการทำงานจะเหมือนกับ OR ข้อแตกต่างคือ AND ส่งค่า `falsy` ในขณะที่ OR ส่งค่า `truthy`
 
-Examples:
+ตัวอย่าง:
 
 ```js run
-// if the first operand is truthy,
-// AND returns the second operand:
+// หากตัวแรกค่าเป็น truthy,
+// AND จะส่งตัวที่สองกลับ:
 alert( 1 && 0 ); // 0
 alert( 1 && 5 ); // 5
 
-// if the first operand is falsy,
-// AND returns it. The second operand is ignored
+// หากตัวแรกค่าเป็น falsy,
+// AND จะส่งตัวแรกกลับทันที โดยไม่สนใจตัวที่สองเลย
 alert( null && 5 ); // null
 alert( 0 && "no matter what" ); // 0
 ```
 
-We can also pass several values in a row. See how the first falsy one is returned:
+เรายังสามารถต่อ AND ไปได้เรื่อยๆ ซึ่งจะเห็นว่าค่า falsy ตัวแรกที่เจอจะถูกส่งคืน
 
 ```js run
 alert( 1 && 2 && null && 3 ); // null
 ```
 
-When all values are truthy, the last value is returned:
+หากค่าทั้งหมดดันเป็น truthy จะส่งตัวสุดท้ายกลับไปแทน:
 
 ```js run
 alert( 1 && 2 && 3 ); // 3, the last one
 ```
 
-````smart header="Precedence of AND `&&` is higher than OR `||`"
-The precedence of AND `&&` operator is higher than OR `||`.
+````smart header="AND `&&` ทำงานก่อน OR `||`"
+AND `&&` จะทำงานก่อน `||`
 
-So the code `a && b || c && d` is essentially the same as if the `&&` expressions were in parentheses: `(a && b) || (c && d)`.
+ดังนั้นโค้ด `a && b || c && d` จะเหมือนกับเราว่าเขียนแบบนี้ `(a && b) || (c && d)`
 ````
 
-````warn header="Don't replace `if` with `||` or `&&`"
-Sometimes, people use the AND `&&` operator as a "shorter way to write `if`".
+````warn header="อย่าแทนที่ `if` ด้วย `||` หรือ `&&`"
+หลายครั้งที่เห็นบางคนใช้ AND `&&` แทน `if` ไปเลยเพราะมันเขียนสั้นกว่า
 
-For instance:
+ตัวอย่างเช่น:
 
 ```js run
 let x = 1;
@@ -234,9 +234,9 @@ let x = 1;
 (x > 0) && alert( 'Greater than zero!' );
 ```
 
-The action in the right part of `&&` would execute only if the evaluation reaches it. That is, only if `(x > 0)` is true.
+`alert` จะทำงานเมื่อ เงื่อนไขด้านซ้าย `(x > 0)` เป็นจริง
 
-So we basically have an analogue for:
+เปรียบเทียบก็คือเหมือนกับว่าเราเขียน:
 
 ```js run
 let x = 1;
@@ -244,7 +244,7 @@ let x = 1;
 if (x > 0) alert( 'Greater than zero!' );
 ```
 
-Although, the variant with `&&` appears shorter, `if` is more obvious and tends to be a little bit more readable. So we recommend using every construct for its purpose: use `if` if we want `if` and use `&&` if we want AND.
+อย่างไรก็ตาม เขียนแบบ AND && จะดูสั้นกว่าเขียน `if` แต่เราสนับสนุนให้เขียน `if` มากกว่า เพื่อที่โค้ดจะได้อ่านง่ายขึ้น โดยใช้ให้ถูกวัตถุประสงค์นั่นเอง หากต้องการ กำหนดค่าให้ตัวแปร หรือ เขียนเงื่อนไขที่หลากหลายลงใน `if` เราสามารถใช้ AND && ได้ ที่เหลือใช้ `if` จะอ่านง่ายกว่า
 ````
 
 
