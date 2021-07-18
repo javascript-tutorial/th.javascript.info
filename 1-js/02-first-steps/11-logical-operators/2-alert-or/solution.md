@@ -1,13 +1,13 @@
-The answer: first `1`, then `2`.
+คำตอบคือ: `alert` แสดง `1` ก่อน ตามด้วย `2`
 
 ```js run
 alert( alert(1) || 2 || alert(3) );
 ```
 
-The call to `alert` does not return a value. Or, in other words, it returns `undefined`.
+การเรียกใช้ฟังก์ชั่น `alert` จะไม่คืนค่าอะไรออกมา หรือก็คือ มันคืน `undefined` มา
 
-1. The first OR `||` evaluates its left operand `alert(1)`. That shows the first message with `1`.
-2. The `alert` returns `undefined`, so OR goes on to the second operand searching for a truthy value.
-3. The second operand `2` is truthy, so the execution is halted, `2` is returned and then shown by the outer alert.
+1. OR `||` ตัวแรกประเมินฟังก์ชั่น `alert(1)` และแสดง `1` ออกมา
+2. ฟังชั่นก์ `alert` ส่ง `undefined` ซึ่งเป็นค่า falsy กลับดังนั้น OR จะไปประเมินตัวที่สองต่อเพื่อหาค่า truthy
+3. ตัวที่สอง `2` เป็นค่า truthy สิ้นสุดการทำงาน เลข `2` ถูกส่งกลับ และแสดงออกมาผ่านฟังชั่นก์ `alert` ตัวนอกก
 
-There will be no `3`, because the evaluation does not reach `alert(3)`.
+ไม่มีเลข `3` แสดงออกมาเพราะว่าตามการทำงานไปไม่ถึงฟังก์ชั่น `alert(3)`
