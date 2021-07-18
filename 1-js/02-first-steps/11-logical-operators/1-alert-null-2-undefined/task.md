@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# What's the result of OR?
+# ผลลัพธ์ของ OR?
 
-What is the code below going to output?
+คิดว่าอะไรจะแสดงออกมาจากฟังก์ชั่น `alert`
 
 ```js
 alert( null || 2 || undefined );
