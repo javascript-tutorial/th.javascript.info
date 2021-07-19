@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# What is the result of AND?
+# ทายผลลัพธ์ของ AND จากโค้ดต่อไปนี้?
 
-What is this code going to show?
+คิดว่าอะไรจะแสดงที่ออกมาจากฟังก์ชั่น `alert`
 
 ```js
 alert( 1 && null && 2 );
