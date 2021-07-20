@@ -2,8 +2,8 @@ importance: 3
 
 ---
 
-# Check the range outside
+# เขียน if ตรวจสอบช่วงตัวเลข
 
-Write an `if` condition to check that `age` is NOT between `14` and `90` inclusively.
+เขียนเงื่อนไขแบบ `if` เพื่อตรวจสอบว่า `age` อยู่ไม่ระหว่าง `14` และ `90`
 
-Create two variants: the first one using NOT `!`, the second one -- without it.
+สร้างสองตัวแปร: โดยตัวแรกใช้ NOT `!` และตัวที่สองไม่ใช้ NOT `!`
