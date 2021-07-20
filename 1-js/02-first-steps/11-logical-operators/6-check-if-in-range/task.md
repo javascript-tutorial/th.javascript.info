@@ -2,8 +2,6 @@ importance: 3
 
 ---
 
-# Check the range between
+# เขียน if ตรวจสอบช่วงตัวเลข
 
-Write an `if` condition to check that `age` is between `14` and `90` inclusively.
-
-"Inclusively" means that `age` can reach the edges `14` or `90`.
+เขียนเงื่อนไขแบบ `if` เพื่อตรวจสอบว่า `age` อยู่ระหว่าง `14` ถึง `90` หรือไม่
