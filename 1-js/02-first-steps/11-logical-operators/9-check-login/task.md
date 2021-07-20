@@ -2,24 +2,24 @@ importance: 3
 
 ---
 
-# Check the login
+# สร้างฟอร์มล็อคอิน
 
-Write the code which asks for a login with `prompt`.
+สร้างฟอร์มล็อคอินด้วยฟังก์ชั่น `prompt`
 
-If the visitor enters `"Admin"`, then `prompt` for a password, if the input is an empty line or `key:Esc` -- show "Canceled", if it's another string -- then show "I don't know you".
+หากผู้เยี่ยมชมป้อน `"Admin"` ให้ใช้ฟังก์ชั่น `prompt` ถามรหัสผ่าน หากป้อนสตริงว่าง หรือกด `key:Esc` ให้แสดงคำว่า "Canceled" และหากป้อนสตริงอื่นให้แสดงคำว่า "I don't know you"
 
-The password is checked as follows:
+กฎการตรวจสอบรหัสผ่านคือดังนี้:
 
-- If it equals "TheMaster", then show "Welcome!",
-- Another string -- show "Wrong password",
-- For an empty string or cancelled input, show "Canceled"
+- หากรหัสผ่านเท่ากับ "TheMaster" ให้แสดงคำว่า "Welcome!",
+- หากไม่ใช่ให้แสดงคำว่า "Wrong password",
+- หากป้อนสตริงว่าง หรือกด `key:Esc` ให้แสดงคำว่า "Canceled"
 
-The schema:
+Schema:
 
 ![](ifelse_task.svg)
 
-Please use nested `if` blocks. Mind the overall readability of the code.
+โปรดใช้บล็อค `if` ให้คำนึงถึงความอ่านง่ายของโค้ด
 
-Hint:  passing an empty input to a prompt returns an empty string `''`. Pressing `key:ESC` during a prompt returns `null`.
+คำใบ้:  หากไม่ใส่อะไรลงในช่องอินพุทมันจะกลับสตริงเปล่ากลับมา `''` หากกด `key:ESC` มันจะส่ง `null` กลับมา
 
 [demo]
