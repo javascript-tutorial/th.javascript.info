@@ -1,20 +1,20 @@
-The answer: the first and the third will execute.
+คำตอบคือ "if" ตัวแรกและตัวที่สามจะทำงาน
 
-Details:
+คำอธิบาย:
 
 ```js run
-// Runs.
-// The result of -1 || 0 = -1, truthy
+// คำสั่งนี้ทำงาน
+// ผลลัพธ์คือ -1 || 0 = -1 เป็นค่า truthy
 if (-1 || 0) alert( 'first' );
 
-// Doesn't run
-// -1 && 0 = 0, falsy
+// คำสั่งนี้ไม่ทำงาน
+// -1 && 0 = 0 เป็นค่า falsy
 if (-1 && 0) alert( 'second' );
 
-// Executes
-// Operator && has a higher precedence than ||
-// so -1 && 1 executes first, giving us the chain:
-// null || -1 && 1  ->  null || 1  ->  1
+// คำสั่งนี้ทำงาน
+// ตัวดำเนินการ && จะทำงานก่อน || เสมอ
+// ดังนั้น -1 && 1 ทำงานเสร็จ ก็จะทำงานส่วนที่เหลือต่อ
+// null || -1 && 1  จะเป็น  null || 1  จะเป็น  1
 if (null || -1 && 1) alert( 'third' );
 ```
 
