@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# The result of OR AND OR
+# ทายผลลัพธ์ของ OR AND OR จากโค้ดต่อไปนี้?
 
-What will the result be?
+คิดว่าอะไรจะแสดงที่ออกมาจากฟังก์ชั่น alert
 
 ```js
 alert( null || 2 && 3 || 4 );
