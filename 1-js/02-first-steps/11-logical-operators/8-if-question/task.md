@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# A question about "if"
+# ปัญหาจอง "if"
 
-Which of these `alert`s are going to execute?
+จากคำสั่ง "if" ทั้งสาม `alert` ตัวไหนจะทำงานบ้าง
 
-What will the results of the expressions be inside `if(...)`?
+และผลลัพธ์สุดท้ายภายใน `if(...)` จะเป็นอะไร
 
 ```js
 if (-1 || 0) alert( 'first' );
