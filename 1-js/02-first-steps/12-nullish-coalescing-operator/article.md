@@ -53,24 +53,24 @@ let firstName = null;
 let lastName = null;
 let nickName = "Supercoder";
 
-// shows the first defined value:
+// จะแสดงตัวแปรที่ถูก defined ตัวแรก
 *!*
 alert(firstName ?? lastName ?? nickName ?? "Anonymous"); // Supercoder
 */!*
 ```
 
-## Comparison with ||
+## เปรียบเทียบกับ ||
 
-The OR `||` operator can be used in the same way as `??`, as it was described in the [previous chapter](info:logical-operators#or-finds-the-first-truthy-value).
+ตัวดำเนินการ OR `||` operator สามารถใช้ทดแทน `??` ได้ ตามที่เคยอธิบายไว้ใน[บทที่แล้ว](info:logical-operators#or-finds-the-first-truthy-value).
 
-For example, in the code above we could replace `??` with `||` and still get the same result:
+ตัวอย่างจากโค้ดด้านบน เราสามารถแทนที่ `??` ด้วย `||` ได้เลย ผลลัพธ์ก็ยังเหมือนเดิม
 
 ```js run
 let firstName = null;
 let lastName = null;
 let nickName = "Supercoder";
 
-// shows the first truthy value:
+// จะแสดงค่า truthy ตัวแรก:
 *!*
 alert(firstName || lastName || nickName || "Anonymous"); // Supercoder
 */!*
