@@ -76,19 +76,19 @@ alert(firstName || lastName || nickName || "Anonymous"); // Supercoder
 */!*
 ```
 
-Historically, the OR `||` operator was there first. It exists since the beginning of JavaScript, so developers were using it for such purposes for a long time.
+เนื่องจากว่า OR `||` เกิดมาก่อน โดยมาพร้อมกับจาวาสคริปต์เลย นักพัฒนาจึงใช้ OR `||` เพื่อจุดสงประสงค์นี้เป็นเวลานาน
 
-On the other hand, the nullish coalescing operator `??` was added to JavaScript only recently, and the reason for that was that people weren't quite happy with `||`.
+ในขณะที่ตัวดำเนินการรวมเป็นโมฆะเพิ่งถูกเพิ่มเข้ามาในจาวาสคริปต์ไม่นานนี้ และหลายคนก็ยังมีข้อกังวลที่จะใช้ `??` อีกด้วย
 
-The important difference between them is that:
-- `||` returns the first *truthy* value.
-- `??` returns the first *defined* value.
+ความแตกต่างของทั้งสองตัวก็คือ:
+- `||` ส่งค่า *truthy* ตัวแรกกลับ
+- `??` ส่งค่า *defined* ตัวแรกกลับ
 
-In other words, `||` doesn't distinguish between `false`, `0`, an empty string `""` and `null/undefined`. They are all the same -- falsy values. If any of these is the first argument of `||`, then we'll get the second argument as the result.
+พูดได้ว่า `||` จะไม่แยก `false`, `0`, สตริงว่าง (""), และ `null/undefined` ทุกตัวที่กล่างมาเป็นค่า falsy เหมือนกัน หากหนึ่งในนี้อยู่เป็นตัวแรกของ `||` ตัวที่สองจะถูกส่งกลับแทน
 
-In practice though, we may want to use default value only when the variable is `null/undefined`. That is, when the value is really unknown/not set.
+ในทางปฎิบัติ เราอาจต้องการให้ใช้ค่าเร่ิมต้น หากตัวแปรเป็น `null/undefined`
 
-For example, consider this:
+ตัวอย่างลองดูตามด้านล่างนี้
 
 ```js run
 let height = 0;
@@ -97,12 +97,12 @@ alert(height || 100); // 100
 alert(height ?? 100); // 0
 ```
 
-- The `height || 100` checks `height` for being a falsy value, and it's `0`, falsy indeed.
-    - so the result of `||` is the second argument, `100`.
-- The `height ?? 100` checks `height` for being `null/undefined`, and it's not,
-    - so the result is `height` "as is", that is `0`.
+- บรรทัด `height || 100` เช็คว่า `height` เป็นค่า falsy หรือไม่ซึ่ง `0` ก็เป็น falsy อย่างแน่นอน
+    - ดังนั้นผลลัพธ์จาก `||` จึงได้ตัวที่สอง `100` กลับไป
+- บรรทัด `height ?? 100` เช็คว่า `height` เป็นค่า `null/undefined` หรือไม่ซึ่ง `0` ไม่ได้เป็น
+    - ดังนั้นผลลัพธ์ก็คือ `height` หรือก็คือ `0`
 
-In practice, the zero height is often a valid value, that shouldn't be replaced with the default. So `??` does just the right thing.
+ในทางปฎิบัติ ความสูงเป็นศูนย์ได้ ซึ่งตาม usecase นี้ มันไม่ควรถูกแทนที่ควรค่าเริ่มต้น ดังนั้นการใช้ `??` จึงถูกต้องแล้ว
 
 ## Precedence
 
