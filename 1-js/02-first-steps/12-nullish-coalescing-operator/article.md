@@ -42,11 +42,11 @@ alert(user ?? "Anonymous"); // John (user ถูก defined)
 
 นอกจากนี้เรายังสามรถใช้ลำดับของ `??` เพื่อเลือกค่าแรกจากรายการที่ไม่ได้เป็น `null` หรือ `undefined`
 
-Let's say we have a user's data in variables `firstName`, `lastName` or `nickName`. All of them may be not defined, if the user decided not to enter a value.
+สมมุติว่าเรามีข้อมูลผู้ใช้จากตัวแปรทั้งหมดสามตัวได้แก่ `firstName` `lastName` และ `nickName` ซึ่งตัวแปรทั้งหมดนี้อาจเป็น `undefined` ได้หากผู้ใช้ไม่ได้กรอกข้อมูลมา
 
-We'd like to display the user name using one of these variables, or show "Anonymous" if all of them aren't defined.
+เราต้องการแสดงว่าชื่อผู้ใช้โดยใช้หนึ่งในตัวแปรเหล่านี้ หรือแสดงเป็น "Anonymous" หากตัวแปรทั้งสามตัวไม่ได้ถูก "defined" ไว้
 
-Let's use the `??` operator for that:
+มาลองใช้ตัวดำเนินการ `??` เพื่อแก้ไขปัญหานี้ดู:
 
 ```js run
 let firstName = null;
