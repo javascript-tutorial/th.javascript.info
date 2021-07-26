@@ -1,46 +1,46 @@
-# Nullish coalescing operator '??'
+# ตัวดำเนินการรวมเป็นโมฆะ (Nullish coalescing operator) '??'
 
 [recent browser="new"]
 
-The nullish coalescing operator is written as two question marks `??`.
+ตัวดำเนินการรวมเป็นโมฆะ (Nullish coalescing operator) จะใช้สัญลักษณ์เครื่องหมายคำถามสองตัว `??`
 
-As it treats `null` and `undefined` similarly, we'll use a special term here, in this article. We'll say that an expression is "defined" when it's neither `null` nor `undefined`.
+ตัวดำเนินการนี้มีไว้จัดการกับค่า `null` และ `undefined` มาทำความเข้าใจกันสักเล็กน้อย ในบทนี้ หากตัวแปรใดไม่ได้เป็นค่า `null` หรือ `undefined` เราจะบอกว่า ตัวแปรนี้ถูก "defined" แล้ว
 
-The result of `a ?? b` is:
-- if `a` is defined, then `a`,
-- if `a` isn't defined, then `b`.
+ผลลัพธ์ของ `a ?? b` คือ:
+- หาก `a` ถูก "defined" จะคืน `a`
+- หาก `a` ไม่ถูก defined จะคืน `b`
 
-In other words, `??` returns the first argument if it's not `null/undefined`. Otherwise, the second one.
+สรุปคือ `??` จะส่งคืนตัวแรก หากตัวแรกไม่ใช่ `null` หรือ `undefined` นอกจากนั้นจะส่งตัวหลังกลับไปแทน
 
-The nullish coalescing operator isn't anything completely new. It's just a nice syntax to get the first "defined" value of the two.
+ตัวดำเนินการรวมเป็นโมฆะ (Nullish coalescing operator) ไม่ได้มีอะไรแปลกใหม่ ซึ่งใช้สำหรับหาค่าที่ถูก "defined" ตัวแรก
 
-We can rewrite `result = a ?? b` using the operators that we already know, like this:
+เราสามารถเขียนได้เป็น `result = a ?? b` หรือว่าจะควบคู่ไปกับตัวดำเนินการที่เราเคยเรียนมาก่อนหน้านี้แล้วก็ได้:
 
 ```js
 result = (a !== null && a !== undefined) ? a : b;
 ```
 
-Now it should be absolutely clear what `??` does. Let's see where it helps.
+ตอนนี้มาดูกันชัดๆว่า `??` ทำงานอย่างไร และมันช่วยอะไรเราได้
 
-The common use case for `??` is to provide a default value for a potentially undefined variable.
+กรณีการใช้งานทั่วไปสำหรับ `??` คือ ใช้กำหนดค่าเริ่มต้นสำหรับตัวแปรที่อาจจะเป็น `null` หรือ `undefined` ได้
 
-For example, here we show `user` if defined, otherwise `Anonymous`:
+ตัวอย่างด้านล่างเรากำหนดตัวแปร `user` ขึ้นมา หากตัวแปรนี้ถูก defined ก็จะแสดงค่าขึ้นมา หากไม่ใช่ก็จะแสดง `Anonymous` ขึ้นมา:
 
 ```js run
 let user;
 
-alert(user ?? "Anonymous"); // Anonymous (user not defined)
+alert(user ?? "Anonymous"); // Anonymous (user ไม่ถูกก defined)
 ```
 
-Here's the example with `user` assigned to a name:
+ตัวอย่างต่อมาคือหากตัวแปร `user` ถูก defined ไว้แล้ว
 
 ```js run
 let user = "John";
 
-alert(user ?? "Anonymous"); // John (user defined)
+alert(user ?? "Anonymous"); // John (user ถูก defined)
 ```
 
-We can also use a sequence of `??` to select the first value from a list that isn't `null/undefined`.
+นอกจากนี้เรายังสามรถใช้ลำดับของ `??` เพื่อเลือกค่าแรกจากรายการที่ไม่ได้เป็น `null` หรือ `undefined`
 
 Let's say we have a user's data in variables `firstName`, `lastName` or `nickName`. All of them may be not defined, if the user decided not to enter a value.
 
