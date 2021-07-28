@@ -24,11 +24,7 @@ let message;
 let message;
 
 *!*
-<<<<<<< HEAD
-message = 'Hello'; // เก็บข้อมูลที่เป็นสตริงไว้
-=======
-message = 'Hello'; // store the string 'Hello' in the variable named message
->>>>>>> ef8d576821ff28c69bfb7410dc79fd216b0a315b
+message = 'Hello'; // เก็บค่าสตริง 'Hello' เอาไว้ในตัวแปรที่ชื่อ message
 */!*
 ```
 
