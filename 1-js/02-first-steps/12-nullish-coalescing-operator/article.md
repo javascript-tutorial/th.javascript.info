@@ -104,66 +104,66 @@ alert(height ?? 100); // 0
 
 ในทางปฎิบัติ ความสูงเป็นศูนย์ได้ ซึ่งตาม usecase นี้ มันไม่ควรถูกแทนที่ควรค่าเริ่มต้น ดังนั้นการใช้ `??` จึงถูกต้องแล้ว
 
-## Precedence
+## ลำดับการทำงาน (Precedence)
 
-The precedence of the `??` operator is about the same as `||`, just a bit lower. It equals `5` in the [MDN table](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence#Table), while `||` is `6`.
+ลำดับการทำงานสำหรับ `??` เหมือนกับ `||` แต่ลำดับตามตารางจะแตกต่างกันเล็กน้อย หากดูจาก[MDN table](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence#Table) จะเห็นว่า `??` เท่ากับ `5`  ขณะที่ `||` เท่ากับ `6`
 
-That means that, just like `||`, the nullish coalescing operator `??` is evaluated before `=` and `?`, but after most other operations, such as `+`, `*`.
+นั่นหมายความว่ามันเหมือนกับ `||` โดย `??` จะทำงานก่อน `=` และ `?` แต่ทำงานหลังบรรดาตัวดำเนินการหลายตัวมากอาทิ้เช่น `+`, `*`
 
-So if we'd like to choose a value with `??` in an expression with other operators, consider adding parentheses:
+ดังนั้น หากเราต้องการให้ `??` ในนิพจน์ทำงานก่อนตัวดำเนินการอื่นๆ ก็อย่าลืมใส่วงเล็บให้มันสักหน่อย:
 
 ```js run
 let height = null;
 let width = null;
 
-// important: use parentheses
+// อย่าลืม: ใส่วงเล็บด้วย
 let area = (height ?? 100) * (width ?? 50);
 
 alert(area); // 5000
 ```
 
-Otherwise, if we omit parentheses, then as `*` has the higher precedence than `??`, it would execute first, leading to incorrect results.
+หากเราไม่ได้ใส่วงเล็บ จะกลายเป็นว่า `*` จะทำงานก่อน `(100 * width)` จะได้ `NaN` จากนั่นจะได้เป็น `height ?? NaN ?? 50` จากนั่นจะได้ `NaN` ออกมาเป็นผลลัพธ์ ซึ่งไม่ถูกต้อง
 
 ```js
-// without parentheses
+// ไม่มีวงเล็บ
 let area = height ?? 100 * width ?? 50;
 
-// ...works the same as this (probably not what we want):
+// จากข้างบน มันจะทำงานแบบนี้ (ซึ่งเราไม่อยากได้แบบนี้):
 let area = height ?? (100 * width) ?? 50;
 ```
 
-### Using ?? with && or ||
+### การใช้ ?? คู่กับ && หรือ ||
 
-Due to safety reasons, JavaScript forbids using `??` together with `&&` and `||` operators, unless the precedence is explicitly specified with parentheses.
+เนื่องจากมันไม่ปลอดภัยหากใช้ `??` คู่กับ `&&` หรือ `||` เราจึงแนะนำให้ใส่วงเล็บ
 
-The code below triggers a syntax error:
+โค้ดด้านล่างจะได้ syntax error:
 
 ```js run
 let x = 1 && 2 ?? 3; // Syntax error
 ```
 
-The limitation is surely debatable, it was added to the language specification with the purpose to avoid programming mistakes, when people start to switch from `||` to `??`.
+สิ่งนี้เป็นข้อจำกัดของภาษา เมื่อคนเริ่มเปลี่ยนจาก `||` มาใช้ `??` เยอะขึ้น จึงยากที่จะปลอดภัยจากข้อผิดพลาด
 
-Use explicit parentheses to work around it:
+เพื่อหลีกเลี่ยงข้อผิดพลาดให้ใส่วงเล็บไปตรงๆ ทีนี้โค้ดก็จะทำงานตามปกติแล้ว:
 
 ```js run
 *!*
-let x = (1 && 2) ?? 3; // Works
+let x = (1 && 2) ?? 3; // ทำงานได้
 */!*
 
 alert(x); // 2
 ```
 
-## Summary
+## สรุป
 
-- The nullish coalescing operator `??` provides a short way to choose the first "defined" value from a list.
+- ตัวดำเนินการรวมเป็นโมฆะ `??` เป็นวิธีที่ง่ายที่สุด สำหรับกำหนดค่า "defined" ตัวแรกจากรายการ
 
-    It's used to assign default values to variables:
+    โดยมักจะใช้เพื่อกำหนดค่าเริ่มต้นให้กับตัวแปร
 
     ```js
-    // set height=100, if height is null or undefined
+    // ตั้ง height เป็น 100 หาก height เป็น null หรือ undefined
     height = height ?? 100;
     ```
 
-- The operator `??` has a very low precedence, only a bit higher than `?` and `=`, so consider adding parentheses when using it in an expression.
-- It's forbidden to use it with `||` or `&&` without explicit parentheses.
+- ตัวดำเนินการ `??` ทำงานทีหลังตัวดำเนินการอื่นๆ ดังนั้นอย่าลืมใส่วงเล็บเข้าไปด้วย
+- ตัวภาษาห้ามใช้ `||` หรือ `&&` กับ `??` โดยไม่ใส่วงเล็บ
