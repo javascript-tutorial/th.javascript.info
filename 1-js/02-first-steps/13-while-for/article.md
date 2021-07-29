@@ -1,14 +1,14 @@
-# Loops: while and for
+# ลูบแบบ while และ for
 
-We often need to repeat actions.
+เราใช้เพื่อทำงานที่ต้องทำซ้ำๆ
 
-For example, outputting goods from a list one after another or just running the same code for each number from 1 to 10.
+ตัวอย่างเช่น เราจะเขียนโค้ดให้ปริ้นรายชื่อสินค้าออกจากรายการทีละรายการ หรือ อยากเขียนโค้ดนิดเดียวเพื่อให้ทำงานแบบเดียวกันได้
 
-*Loops* are a way to repeat the same code multiple times.
+*ลูบ* คือวิธีที่ช่วยให้เราทำงานโค้ดชุดเดียวกันซ้ำๆตามที่เราต้องการ
 
-## The "while" loop
+## ลูบ "while"
 
-The `while` loop has the following syntax:
+ลูบ `while` มีรูปประโยคดังนี้:
 
 ```js
 while (condition) {
@@ -17,38 +17,38 @@ while (condition) {
 }
 ```
 
-While the `condition` is truthy, the `code` from the loop body is executed.
+หมายความ ในขณะที่ `condition` เป็น truthy ตัว `code` ในอยู่ภายในปีกกาจะทำงานไปเรื่อยๆจนกว่า `condition` จะเป็น falsy
 
-For instance, the loop below outputs `i` while `i < 3`:
+ตัวอย่างเช่น ลูบด้านล่างจะแสดงค่าของ `i` ออกมาเรื่อยๆถ้า `i < 3` (i น้อยกว่า 3):
 
 ```js run
 let i = 0;
-while (i < 3) { // shows 0, then 1, then 2
+while (i < 3) { // แสดง 0 ตามด้วย 1 ตามด้วย 2
   alert( i );
   i++;
 }
 ```
 
-A single execution of the loop body is called *an iteration*. The loop in the example above makes three iterations.
+การงานในปีกกา 1 ครั้ง เราเรียกมันว่า *การวนซ้ำ (iteration)* และจากโค้ดด้านบนมีการวนซ้ำจำนวน 3 ครั้ง
 
-If `i++` was missing from the example above, the loop would repeat (in theory) forever. In practice, the browser provides ways to stop such loops, and in server-side JavaScript, we can kill the process.
+หากเราลบ `i++` ออกจากโค้ดตัวอย่างด้านบน, ลูบจะทำงานซ้ำๆ(ในทางทฤษฎี)ตลอดไป ฉะนั้นเว็บเบราเซอร์จึงมีวิธีการหยุดลูบประเภทนี้ไว้ด้วย และหากเป็น server-side เราสามารถทำได้โดยการ kill the process
 
-Any expression or variable can be a loop condition, not just comparisons: the condition is evaluated and converted to a boolean by `while`.
+นิพจน์ (expression) หรือตัวแปรใดๆ ก็สามารถเป็นเงื่อนไขให้กับลูบ "while" ได้ โดยเงื่อนไขที่ของลูบ "while" จะถูกแปลงเป็นค่าบูลีนทั้งหมด
 
-For instance, a shorter way to write `while (i != 0)` is `while (i)`:
+ตัวอย่างเช่น หากจะเขียน `while (i != 0)` แบบสั้นๆ เราสามารถเขียนเป็น `while (i)` ก็ได้:
 
 ```js run
 let i = 3;
 *!*
-while (i) { // when i becomes 0, the condition becomes falsy, and the loop stops
+while (i) { // เมื่อ i เป็น 0 เงื่อนไขจะเป็น falsy ลูบนี้จะหยุดการทำงาน
 */!*
   alert( i );
   i--;
 }
 ```
 
-````smart header="Curly braces are not required for a single-line body"
-If the loop body has a single statement, we can omit the curly braces `{…}`:
+````smart header="ไม่จำเป็นต้องใส่ปีกกาก็ได้ หากเขียนเพียงคำสั่งเดียว"
+หากเขียนเพียงคำสั่งเดียว เราสามารถละปีกกาได้ `{…}`:
 
 ```js run
 let i = 3;
