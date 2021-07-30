@@ -58,9 +58,9 @@ while (i) alert(i--);
 ```
 ````
 
-## The "do..while" loop
+## ลูบ "do..while"
 
-The condition check can be moved *below* the loop body using the `do..while` syntax:
+รูปประโยคของลูบ "do..while" ส่วนเงื่อนไขจะถูกย้ายไปด้านล่างดังนี้:
 
 ```js
 do {
@@ -68,9 +68,9 @@ do {
 } while (condition);
 ```
 
-The loop will first execute the body, then check the condition, and, while it's truthy, execute it again and again.
+ลูบ "do..while" จะทำงานส่วนปีกกาก่อน แล้วค่อยไปเช็คเงื่อนไข หากเงื่อนไขยังเป็น truthy อยู่ ก็จะทำงานไปเรื่อยๆจนกว่าเงื่อนไขจะเป็น falsy
 
-For example:
+ตัวอย่างเช่น:
 
 ```js run
 let i = 0;
@@ -80,7 +80,7 @@ do {
 } while (i < 3);
 ```
 
-This form of syntax should only be used when you want the body of the loop to execute **at least once** regardless of the condition being truthy. Usually, the other form is preferred: `while(…) {…}`.
+ลูบ "do..while" มักจะใช้กับการทำงานใดๆที่ต้องทำไปก่อน **อย่างน้อยหนึ่งครั้ง** โดยไม่สนใจเงื่อนไข แต่โดยปกติเราจะใช้ลูบ "while" กันเพราะลูบ "do..while" มี usecase น้อยมาก
 
 ## The "for" loop
 
