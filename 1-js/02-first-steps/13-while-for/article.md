@@ -12,8 +12,8 @@
 
 ```js
 while (condition) {
-  // code
-  // so-called "loop body"
+  // โค้ดที่เราจะให้ทำงาน
+  // จะอยู่ภายในปีกกานี้
 }
 ```
 
@@ -82,11 +82,11 @@ do {
 
 ลูบ "do..while" มักจะใช้กับการทำงานใดๆที่ต้องทำไปก่อน **อย่างน้อยหนึ่งครั้ง** โดยไม่สนใจเงื่อนไข แต่โดยปกติเราจะใช้ลูบ "while" กันเพราะลูบ "do..while" มี usecase น้อยมาก
 
-## The "for" loop
+## ลูบ "for"
 
-The `for` loop is more complex, but it's also the most commonly used loop.
+ลูบ `for` จะซับซ้อนกว่าเดิมหน่อย แต่เป็นลูบที่ทุกใช้บ่อยที่สุด
 
-It looks like this:
+หน้าตาเป็นแบบนี้:
 
 ```js
 for (begin; condition; step) {
@@ -94,10 +94,10 @@ for (begin; condition; step) {
 }
 ```
 
-Let's learn the meaning of these parts by example. The loop below runs `alert(i)` for `i` from `0` up to (but not including) `3`:
+มารู้จักกับสามส่วนหลักๆของลูบนี้จากตัวอย่างด้านล่าง จะอ่านได้ว่าเรียกใช้ฟังก์ชั่น `alert(i)` สำหรับ `i` ตั้งแต่ `0` จนถึง (แต่ไม่รวม) `3` 
 
 ```js run
-for (let i = 0; i < 3; i++) { // shows 0, then 1, then 2
+for (let i = 0; i < 3; i++) { // แสดง 0 ต่อด้วย 1 ต่อด้วย 2
   alert(i);
 }
 ```
