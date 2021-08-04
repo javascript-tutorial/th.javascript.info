@@ -253,8 +253,8 @@ for (let i = 0; i < 10; i++) {
 
 คำอธิบายคร่าวๆก็คือ หากตัวแปร `i` เป็นเลขคู่ จะเข้าคำสั่ง `continue` ทำให้ลูบปัจจุบันหยุดทำงาน และเริ่มลูบถัดไป `for` (ด้วยเลขถัดไปของเลขคู่คือเลขคี่) ด้วยเหตุนี้ `alert` จึงแสดงออกมาเฉพาะเลขคี่
 
-````smart header="The `continue` directive helps decrease nesting"
-A loop that shows odd values could look like this:
+````smart header="คำสั่ง `continue` ช่วยลดของซ้ำซ้อนของปีกกา"
+ลูปที่แสดงเลขคี่แบบไม่ใช้ `continue` อาจมีหน้าตาแบบนี้:
 
 ```js run
 for (let i = 0; i < 10; i++) {
