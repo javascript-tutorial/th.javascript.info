@@ -271,10 +271,10 @@ for (let i = 0; i < 10; i++) {
 แต่หากคิดถึง side-effect การเขียนแบบนี้ทำให้เกิดปีกกาซ้อนปีกกา (การเรียกฟังกฺชั่น `alert` ภายในปีกกา) หากโค้ดใน `if` ยาวกว่าสองสามบรรทัด อาจทำให้ความสามารถในการอ่านโดยรวมลดลง
 ````
 
-````warn header="No `break/continue` to the right side of '?'"
-Please note that syntax constructs that are not expressions cannot be used with the ternary operator `?`. In particular, directives such as `break/continue` aren't allowed there.
+````warn header="อย่าใช้ `break/continue` กับ '?'"
+โปรดจำไว้ว่า `break/continue` ไม่ใช่นิพจน์ไม่สามารถใช้กับตัวดำเนินการไตรภาค (ternary operator) `?` ได้
 
-For example, if we take this code:
+ตัวอย่างเช่น:
 
 ```js
 if (i > 5) {
@@ -284,16 +284,16 @@ if (i > 5) {
 }
 ```
 
-...and rewrite it using a question mark:
+...และเราเขียนใหม่โดยใช้ `?`:
 
 
 ```js no-beautify
-(i > 5) ? alert(i) : *!*continue*/!*; // continue isn't allowed here
+(i > 5) ? alert(i) : *!*continue*/!*; // continue ใช้กับ ? ไม่ได้
 ```
 
-...it stops working: there's a syntax error.
+...หยุดทำงาน: และเกิดข้อผิดพลาดทางไวยากรณ์ (syntax error) ทันที
 
-This is just another reason not to use the question mark operator `?` instead of `if`.
+นี่เป็นอีกเหตุผลว่าทำไมถึงไม่ใช้ `?` แทน `if`
 ````
 
 ## Labels for break/continue
