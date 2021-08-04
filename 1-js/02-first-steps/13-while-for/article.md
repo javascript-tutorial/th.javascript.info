@@ -204,13 +204,13 @@ for (;;) {
 
 โปรดจำไว้ว่าลูบ `for` ต้องมีเครื่องหมาย `;` มิฉะนั้นจะเกิดข้อผิดพลาดทางไวยากรณ์ (syntax error)
 
-## ออกจากลูบ
+## การออกจากลูบ
 
 โดยปกติ การทำงานจะออกจากลูบเมื่อเงื่อนไขเป็นเท็จ
 
 แต่เราสามารถบังคับให้การทำงานออกจากลูบได้โดยใช้คำสั่ง `break`
 
-ตัวอย่างเช่น ลูบด้านล่าง จะถามตัวเลขกับผู้ใช้ซ้ำไปซ้ำมา เพื่อนำตัวเลขแต่ละตัวที่ผู้ใช้ป้อนมารวมกัน และนำผลรวมแสดงออกทางหน้าต่างแจ้งเตือน แต่จะหยุดการทำงานทันทีที่ผู้ใช้ไม่ได้ป้อนตัวเลขใดๆเข้ามา
+ตัวอย่างเช่น ลูบด้านล่าง จะถามตัวเลขกับผู้ใช้ซ้ำไปซ้ำมา เพื่อนำตัวเลขแต่ละตัวที่ผู้ใช้ป้อนมารวมกัน แต่จะหยุดการทำงานทันทีที่ผู้ใช้ไม่ได้ป้อนตัวเลขใดๆเข้ามา
 
 ```js run
 let sum = 0;
@@ -229,29 +229,29 @@ while (true) {
 alert( 'Sum: ' + sum );
 ```
 
-The `break` directive is activated at the line `(*)` if the user enters an empty line or cancels the input. It stops the loop immediately, passing control to the first line after the loop. Namely, `alert`.
+คำสั่ง `break` ตรงบรรทัด `(*)` หากผู้ใช้ไม่ป้อนอะไรเข้ามาหรือกดยกเลิก ลูบจะหยุดการทำงานทันที และนำผลรวมแสดงออกทางหน้าต่างแจ้งเตือน
 
-The combination "infinite loop + `break` as needed" is great for situations when a loop's condition must be checked not in the beginning or end of the loop, but in the middle or even in several places of its body.
+หากเราต้องใช้ลูบที่วนไม่จำกัด (infinite loop) เราจะใช้คู่กับ `break` เสมอ เพื่อหยุดลูบเมื่อทำงานตามเงื่อนไขที่ต้องการ
 
-## Continue to the next iteration [#continue]
+## การให้ลูบถัดไปทำงาน [#continue]
 
-The `continue` directive is a "lighter version" of `break`. It doesn't stop the whole loop. Instead, it stops the current iteration and forces the loop to start a new one (if the condition allows).
+คำสั่ง `continue` เป็น `break` เวอร์ชั่นนุ่มนิ่มกว่าเพราะไม่ได้หยุดการทำงานของลูบทั้งหมด แต่แค่หยุดลูบที่ทำงานอยู่ปัจจุบัน และให้ลูบถัดไปทำงาน
 
-We can use it if we're done with the current iteration and would like to move on to the next one.
+เรามักจะใช้หากเราทำซ้ำปัจจุบันเสร็จแล้วและต้องการไปยังส่วนถัดไป
 
-The loop below uses `continue` to output only odd values:
+อย่างลูบด้านล่างใช้ `continue` เพื่อให้แสดงผลลัพธ์เฉพาะเลขคี่:
 
 ```js run no-beautify
 for (let i = 0; i < 10; i++) {
 
-  // if true, skip the remaining part of the body
+  // หากเป็นจริงจะข้ามลูบปัจจุบัน ให้ไปทำลูบถัดไปแทน
   *!*if (i % 2 == 0) continue;*/!*
 
   alert(i); // 1, then 3, 5, 7, 9
 }
 ```
 
-For even values of `i`, the `continue` directive stops executing the body and passes control to the next iteration of `for` (with the next number). So the `alert` is only called for odd values.
+คำอธิบายคร่าวๆก็คือ หากตัวแปร `i` เป็นเลขคู่ จะเข้าคำสั่ง `continue` ทำให้ลูบปัจจุบันหยุดทำงาน และเริ่มลูบถัดไป `for` (ด้วยเลขถัดไปของเลขคู่คือเลขคี่) ด้วยเหตุนี้ `alert` จึงแสดงออกมาเฉพาะเลขคี่
 
 ````smart header="The `continue` directive helps decrease nesting"
 A loop that shows odd values could look like this:
