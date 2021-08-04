@@ -253,7 +253,7 @@ for (let i = 0; i < 10; i++) {
 
 คำอธิบายคร่าวๆก็คือ หากตัวแปร `i` เป็นเลขคู่ จะเข้าคำสั่ง `continue` ทำให้ลูบปัจจุบันหยุดทำงาน และเริ่มลูบถัดไป `for` (ด้วยเลขถัดไปของเลขคู่คือเลขคี่) ด้วยเหตุนี้ `alert` จึงแสดงออกมาเฉพาะเลขคี่
 
-````smart header="คำสั่ง `continue` ช่วยลดของซ้ำซ้อนของปีกกา"
+````smart header="คำสั่ง `continue` ช่วยลดปีกกาซ้อนปีกกา"
 ลูปที่แสดงเลขคี่แบบไม่ใช้ `continue` อาจมีหน้าตาแบบนี้:
 
 ```js run
@@ -268,7 +268,7 @@ for (let i = 0; i < 10; i++) {
 
 จากมุมมองทางเทคนิค นี่เหมือนกับตัวอย่างด้านบน เราสามารถใช้บล็อก `if` แทนการใช้ `continue` ได้
 
-But as a side-effect, this created one more level of nesting (the `alert` call inside the curly braces). If the code inside of `if` is longer than a few lines, that may decrease the overall readability.
+แต่หากคิดถึง side-effect การเขียนแบบนี้ทำให้เกิดปีกกาซ้อนปีกกา (การเรียกฟังกฺชั่น `alert` ภายในปีกกา) หากโค้ดใน `if` ยาวกว่าสองสามบรรทัด อาจทำให้ความสามารถในการอ่านโดยรวมลดลง
 ````
 
 ````warn header="No `break/continue` to the right side of '?'"
