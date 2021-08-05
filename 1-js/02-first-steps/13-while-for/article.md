@@ -296,11 +296,11 @@ if (i > 5) {
 นี่เป็นอีกเหตุผลว่าทำไมถึงไม่ใช้ `?` แทน `if`
 ````
 
-## Labels for break/continue
+## ใช้ label กับ break และ continue
 
-Sometimes we need to break out from multiple nested loops at once.
+บางทีเราเขียนลูปซ้อนๆกันหลายๆลูบด้วยเกิดสับสนขึ้นมา
 
-For example, in the code below we loop over `i` and `j`, prompting for the coordinates `(i, j)` from `(0,0)` to `(2,2)`:
+ตัวอย่างเช่น ในโค้ดด้านล่าง เรามี 2 ลูบซ้อนกันที่วนรอบตัวแปรสองตัว `i` และ `j` เพื่อขอพิกัด `(i, j)` จาก `(0,0)` ถึง `(2,2)`:
 
 ```js run no-beautify
 for (let i = 0; i < 3; i++) {
@@ -309,25 +309,25 @@ for (let i = 0; i < 3; i++) {
 
     let input = prompt(`Value at coords (${i},${j})`, '');
 
-    // what if we want to exit from here to Done (below)?
+    // ถ้าเราอยากออกจากลูบนี้ ไปหา alert('Done!') ที่อยู่ข้างล่าง
   }
 }
 
 alert('Done!');
 ```
 
-We need a way to stop the process if the user cancels the input.
+เราก็ต้องหาวิธีหยุดลูบทั้งหมด เมื่อผู้ใช้ยกเลิกการป้อนข้อมูล
 
-The ordinary `break` after `input` would only break the inner loop. That's not sufficient -- labels, come to the rescue!
+การใช้คำสั่ง `break` ถัดจากบรรทัด `let input` มันจะหยุดแค่ลูบในเท่านั้น แต่ลูบนอกยังทำงานอยู่ จึงยังไม่เพียงพอ นี่จึงเป็นเหตุผลที่มี label มาช่วย
 
-A *label* is an identifier with a colon before a loop:
+*label* เป็นตัวระบุ (identifier) ที่มีโคลอนอยู่หน้าลูป:
 ```js
 labelName: for (...) {
   ...
 }
 ```
 
-The `break <labelName>` statement in the loop below breaks out to the label:
+เราใช้คำสั่ง `break <labelName>` เพื่อระบุว่าโปรแกรมควรหยุดลูบตาม *label* ด้านล่าง:
 
 ```js run no-beautify
 *!*outer:*/!* for (let i = 0; i < 3; i++) {
@@ -336,7 +336,7 @@ The `break <labelName>` statement in the loop below breaks out to the label:
 
     let input = prompt(`Value at coords (${i},${j})`, '');
 
-    // if an empty string or canceled, then break out of both loops
+    // ถ้าเป็นสตริงว่างหรือถูกยกเลิก ให้หยุดการทำงานของลูบที่มี label ชื่อ outer
     if (!input) *!*break outer*/!*; // (*)
 
     // do something with the value...
@@ -345,9 +345,9 @@ The `break <labelName>` statement in the loop below breaks out to the label:
 alert('Done!');
 ```
 
-In the code above, `break outer` looks upwards for the label named `outer` and breaks out of that loop.
+ตามโค้ดด้านบน `break outer` โปรแกรมจะหา label ชื่อ `outer` และหยุดการทำงานของลูบภายนอกตามคำสั่ง `break` เมื่อลูบภายนอกหยุดทำงาน ลูบภายในก็หยุดทำงานลงไปด้วย
 
-So the control goes straight from `(*)` to `alert('Done!')`.
+โปรแกรมทำงานคำสั่งต่อไปซึ่งก็คือ `alert('Done!')`
 
 We can also move the label onto a separate line:
 
