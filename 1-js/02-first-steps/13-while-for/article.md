@@ -358,40 +358,40 @@ for (let i = 0; i < 3; i++) { ... }
 
 คำสั่ง "continue" สามารถใช้กับ label ได้ในกรณีนี้ การเรียกใช้โค้ดจะข้ามไปยังการวนซ้ำครั้งถัดไปของลูปที่มี label กำกับ
 
-````warn header="Labels do not allow to \"jump\" anywhere"
-Labels do not allow us to jump into an arbitrary place in the code.
+````warn header="label ไม่อนุญาตให้ \"ข้าม\" การทำงานไปที่ใดก็ได้"
+label เราข้ามขั้นตอนการทำงานไปยังที่ใดๆ ในโค้ดโดยพลการ
 
-For example, it is impossible to do this:
+ตัวอย่างเช่น ทำแบบนั้น:
 ```js
-break label; // jump to the label below (doesn't work)
+break label; // จะข้ามไปหาลูบ กลายเป็นโค้ดทั้งชุดไม่ทำงาน
 
 label: for (...)
 ```
 
-A `break` directive must be inside a code block. Technically, any labelled code block will do, e.g.:
+คำสั่ง `break` ใช้ได้ภายในปีกกาเท่านั้น ในทางเทคนิคแล้ว เราสามารถแปะ label ไว้ก่อนปีกกาได้
 ```js
 label: {
   // ...
-  break label; // works
+  break label; // ทำงาน
   // ...
 }
 ```
 
-...Although, 99.9% of the time `break` is used inside loops, as we've seen in the examples above.
+...แต่กว่า 99.9% เราจะเห็นคำสั่ง `break` จะใช้ภายในปีกกาของลูบ
 
-A `continue` is only possible from inside a loop.
+และคำสั่ง `continue` จะใช้ได้กับลูบเท่านั้น
 ````
 
-## Summary
+## สรุป
 
-We covered 3 types of loops:
+ในบทเรียนเรารู้จักกับลูบ 3 แบบ:
 
-- `while` -- The condition is checked before each iteration.
-- `do..while` -- The condition is checked after each iteration.
-- `for (;;)` -- The condition is checked before each iteration, additional settings available.
+- `while` -- ตรวจสอบเงื่อนไขว่าเป็นจริงหรือไม่ ก่อนจะทำงานแต่ละครั้ง
+- `do..while` -- จะทำงานก่อน แล้วค่อยตรวจเงื่อนไข หากเป็นจริง ก็จะทำงานไปเรื่อยๆจนกว่าเงื่อนไขจะเป็นเท็จ
+- `for (;;)` -- ตรวจสอบเงื่อนก่อนจะทำงานซ้ำแต่ละครั้ง โดยสามารถกำหนดได้ว่าจะให้ทำงานกี่ครั้ง
 
-To make an "infinite" loop, usually the `while(true)` construct is used. Such a loop, just like any other, can be stopped with the `break` directive.
+การทำลูบ "infinite" จะเขียน `while(true)` และสามารถหยุดลูบแบบนี้ได้ด้วยคำสั่ง `break`
 
-If we don't want to do anything in the current iteration and would like to forward to the next one, we can use the `continue` directive.
+หากเราไม่ต้องการให้ทำซ้ำครั้งนี้ เราสามารถใช้คำสั่ง `continue` เพื่อให้ลูบทำงานถัดไปได้เลย
 
-`break/continue` support labels before the loop. A label is the only way for `break/continue` to escape a nested loop to go to an outer one.
+`break/continue` สนับสนุน labels ก่อนลูบ การใช้ label เป็นวิธีเดียวที่หยุดการทำงานของลูบซ้อนลูบได้
