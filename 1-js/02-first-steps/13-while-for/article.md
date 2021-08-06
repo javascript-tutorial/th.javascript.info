@@ -349,14 +349,14 @@ alert('Done!');
 
 โปรแกรมทำงานคำสั่งต่อไปซึ่งก็คือ `alert('Done!')`
 
-We can also move the label onto a separate line:
+เราไม่จำเป็นต้องเขียน label กับลูบบรรทัดเดียวกันก็ได้:
 
 ```js no-beautify
 outer:
 for (let i = 0; i < 3; i++) { ... }
 ```
 
-The `continue` directive can also be used with a label. In this case, code execution jumps to the next iteration of the labeled loop.
+คำสั่ง "continue" สามารถใช้กับ label ได้ในกรณีนี้ การเรียกใช้โค้ดจะข้ามไปยังการวนซ้ำครั้งถัดไปของลูปที่มี label กำกับ
 
 ````warn header="Labels do not allow to \"jump\" anywhere"
 Labels do not allow us to jump into an arbitrary place in the code.
