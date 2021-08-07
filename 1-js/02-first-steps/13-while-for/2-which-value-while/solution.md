@@ -1,30 +1,30 @@
-The task demonstrates how postfix/prefix forms can lead to different results when used in comparisons.
+วิธีนี้จะช่วยให้เห็นว่าการเติม postfix/prefix สามารถให้ผลลัพธ์ที่แตกต่างกันได้ หากใช้ในการเปรียบเทียบ
 
-1. **From 1 to 4**
+1. **จาก 1 ไป 4**
 
     ```js run
     let i = 0;
     while (++i < 5) alert( i );
     ```
 
-    The first value is `i = 1`, because `++i` first increments `i` and then returns the new value. So the first comparison is `1 < 5` and the `alert` shows `1`.
+    ต่าแรกคือ `i = 1`, การ prefix `++i` คือบวกเพิ่มทีละหนึ่งก่อนค่อยส่งค่า**ใหม่**กลับ ดังนั้นเมื่อเทียบเงื่อนไขก็จะเป็น `1 < 5` ฟังชั่นก์ `alert` จึงแสดงเลข `1`
 
-    Then follow `2, 3, 4…` -- the values show up one after another. The comparison always uses the incremented value, because `++` is before the variable.
+    จากนั้นตามด้วย `2, 3, 4…` ค่าจะแสดงเพิ่มขึ้นทีละ 1 ในขณะเดียวกัน 
 
-    Finally, `i = 4` is incremented to `5`, the comparison `while(5 < 5)` fails, and the loop stops. So `5` is not shown.
-2. **From 1 to 5**
+    จนไปถึง `i = 4` ค่าถูกเพิ่มไปที่ `5` เมื่อเทียบเปรียบจะได้ `while(5 < 5)` ซึ่งเป็นเท็จ ลูบจะหยุดทำงาน เลข `5` จึงไม่แสดงออกมา
+2. **จาก 1 ไป 5**
 
     ```js run
     let i = 0;
     while (i++ < 5) alert( i );
     ```
 
-    The first value is again `i = 1`. The postfix form of `i++` increments `i` and then returns the *old* value, so the comparison `i++ < 5` will use `i = 0` (contrary to `++i < 5`).
+    ค่าแรกคือ `i = 1` การ postfix `i++` คือบวก `i` เพิ่มทีละหนึ่งแต่กลับค่า**เก่า**กลับ ดังนั้นเมื่อเทียบเงื่อนไข `i++ < 5` ก็จะเป็น `i = 0` (ตรงข้ามกับ `++i < 5`)
 
-    But the `alert` call is separate. It's another statement which executes after the increment and the comparison. So it gets the current `i = 1`.
+    แต่ฟังชั่นก์ `alert` ถูกเรียกแยกตะหาก มันเป็นอีกคำสั่งหนึ่งซึ่งถูกเรียกหลังจากที่ตัวแปร `i` ถูกบวกค่าเพิ่มเข้าไปแล้ว จึงทำให้ตอนนี้ตัวแปร `i = 1`
 
-    Then follow `2, 3, 4…`
+    จากนั้นก็ตามด้วย `2, 3, 4…`
 
-    Let's stop on `i = 4`. The prefix form `++i` would increment it and use `5` in the comparison. But here we have the postfix form `i++`. So it increments `i` to `5`, but returns the old value. Hence the comparison is actually `while(4 < 5)` -- true, and the control goes on to `alert`.
+    มาหยุดตรงที่ตอน `i = 4` ไปก่อน เราเห็นจากข้างบนแล้วว่าการเติม prefix `++i` เพิ่มค่าให้ `i` ทีละหนึ่งซึ่งจะทำให้ใช้เลข `5` เป็นตัวเทียบเปรียบ แต่สำหรับการเติม postfix `i++` มันก็ทำงานแบบเดียวกันคือตัวแปร `i` เป็น `5` แต่มันจะส่งต่าเก่ากลับไป ดังนั้นเมื่อเปรียบเทียบจึงกลายเป็น  `while(4 < 5)` -- ซึ่งเงื่อนไขเป็นจริง ทำให่ลูบทำงานต่อ
 
-    The value `i = 5` is the last one, because on the next step `while(5 < 5)` is false.
+    จนวนกลับมาอีกรอบทีนี้ `i = 5` แล้ว เงื่อนไข `while(5 < 5)` จึงเป็นเท็จ ลูบจึงหยุดทำงาน
