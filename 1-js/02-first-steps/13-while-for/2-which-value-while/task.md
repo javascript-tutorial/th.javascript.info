@@ -2,19 +2,19 @@ importance: 4
 
 ---
 
-# Which values does the while loop show?
+# ทายกันว่าจะมีเลขอะไรออกมาบ้าง
 
-For every loop iteration, write down which value it outputs and then compare it with the solution.
+ลองหยิบกระดาศขึ้นมาหนึ่งแผ่น เขียนตัวเลขที่คิดว่าจะแสดงผลออกมาจากโค้ดด้านล่าง และตอบคำถามด้านล่าง
 
-Both loops `alert` the same values, or not?
+ทั้งสองลูบแสดงผลลัพธ์เดียวกันหรือไม่
 
-1. The prefix form `++i`:
+1. เติม prefix `++i`:
 
     ```js
     let i = 0;
     while (++i < 5) alert( i );
     ```
-2. The postfix form `i++`
+2. เติม postfix `i++`
 
     ```js
     let i = 0;
