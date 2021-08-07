@@ -1,4 +1,4 @@
-The answer: `1`.
+คำตอบก็คือ `1`.
 
 ```js run
 let i = 3;
@@ -8,18 +8,18 @@ while (i) {
 }
 ```
 
-Every loop iteration decreases `i` by `1`. The check `while(i)` stops the loop when `i = 0`.
+การวนซ้ำแต่ละครั้งค่าของตัวแปร `i` จะลดลงทีละ `1` ฉะนั้น `while (i)` จะหยุดเมื่อ `i = 0`
 
-Hence, the steps of the loop form the following sequence ("loop unrolled"):
+ดังนั้นขั้นตอนการทำงานจึงเป็นไปตามด้านล่างนี้ ("loop unrolled")
 
 ```js
 let i = 3;
 
-alert(i--); // shows 3, decreases i to 2
+alert(i--); // แสดง 3 ลด i เป็น 2
 
-alert(i--) // shows 2, decreases i to 1
+alert(i--) // แสดง 2 ลด i เป็น 1
 
-alert(i--) // shows 1, decreases i to 0
+alert(i--) // แสดง 1 ลด i เป็น 0
 
-// done, while(i) check stops the loop
+// จบการทำงาน
 ```
