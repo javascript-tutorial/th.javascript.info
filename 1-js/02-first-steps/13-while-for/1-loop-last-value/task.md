@@ -2,9 +2,9 @@ importance: 3
 
 ---
 
-# Last loop value
+# เดาเลขตัวสุดท้าย
 
-What is the last value alerted by this code? Why?
+คิดว่าเลขตัวสุดท้ายที่จะแสดงผลจากฟังชั่นก์ `alert` คือเลขอะไร
 
 ```js
 let i = 3;
