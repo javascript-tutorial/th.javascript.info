@@ -6,17 +6,17 @@
 
 ## รูปประโยต
 
-`switch` มีเพียงตัวเดียว `case` มีก็กี่ตัวก็ได้ ส่วน `default` เราจะใส่หรือไม่ใส่ก็ได้
+`switch` มีเพียงตัวเดียว `case` มีกี่ตัวก็ได้ ส่วน `default` เราจะใส่หรือไม่ใส่ก็ได้
 
 หน้าตาจะเป็นแบบนี้:
 
 ```js no-beautify
 switch(x) {
-  case 'value1':  // if (x === 'value1')
+  case 'value1':  // เทียบเท่าเขียน if (x === 'value1')
     ...
     [break]
 
-  case 'value2':  // if (x === 'value2')
+  case 'value2':  // เทียบเท่าเขียน if (x === 'value2')
     ...
     [break]
 
@@ -26,13 +26,13 @@ switch(x) {
 }
 ```
 
-- The value of `x` is checked for a strict equality to the value from the first `case` (that is, `value1`) then to the second (`value2`) and so on.
-- If the equality is found, `switch` starts to execute the code starting from the corresponding `case`, until the nearest `break` (or until the end of `switch`).
-- If no case is matched then the `default` code is executed (if it exists).
+- ค่าของคัวแปร `x` ถูกเช็คทั้งค่าและชนิดข้อมูล (strict equality) ว่าเท่ากับ  `case` ตัวแรกหรือไม่ (หรือก็คือ `value1`) หรือไม่ก็จะไปเช็คตัวที่สองต่อไป (`value2`) และตาม `case` ไปเรื่อยๆ
+- แต่แต่ให้เจอ `case` ที่เท่ากันก็ตาม คำสั่ง `switch` จะไล่เช็คตาม `case` ที่มีต่อไปเรื่อยๆจนกว่าจะเจอคำสั่ง `break` หรือ ไม่มี `case` ต่อให้ให้เช็คอีกแล้ว
+- หากไม่มี `case` ไหนตรงเลย ตัว `default` จะทำงาน (หากมี)
 
-## An example
+## ตัวอย่าง
 
-An example of `switch` (the executed code is highlighted):
+ตัวอย่างคำสั่ง `switch` (โค้ดที่ทำงานไปแล้วจะถูกไฮไลท์เอาไว้):
 
 ```js run
 let a = 2 + 2;
