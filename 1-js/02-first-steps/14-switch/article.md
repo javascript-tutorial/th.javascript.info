@@ -1,14 +1,14 @@
-# The "switch" statement
+# คำสั่ง "switch"
 
-A `switch` statement can replace multiple `if` checks.
+คำสั่ง `switch` สามารถใช้แทนการใช้ `if` หลายๆตัวได้
 
-It gives a more descriptive way to compare a value with multiple variants.
+ปกติมักจะใช้เปรียบเทียบตัวแปรที่สามารถเป็นได้หลายค่า
 
-## The syntax
+## รูปประโยต
 
-The `switch` has one or more `case` blocks and an optional default.
+`switch` มีเพียงตัวเดียว `case` มีก็กี่ตัวก็ได้ ส่วน `default` เราจะใส่หรือไม่ใส่ก็ได้
 
-It looks like this:
+หน้าตาจะเป็นแบบนี้:
 
 ```js no-beautify
 switch(x) {
