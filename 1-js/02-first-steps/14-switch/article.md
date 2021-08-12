@@ -79,7 +79,7 @@ switch (a) {
 }
 ```
 
-In the example above we'll see sequential execution of three `alert`s:
+ตามตัวอย่างด้านบน เราจะเห็นว่าโปรแกรมจะทำงานตั้งแต่ `alert( 'Exactly!' );` ไแเรื่อยๆจนจรด `default` เป็นตัวสุดท้าย เราจะเห็น `alert` ออกมา 3 ที
 
 ```js
 alert( 'Exactly!' );
