@@ -87,10 +87,10 @@ alert( 'Too big' );
 alert( "I don't know such values" );
 ```
 
-````smart header="Any expression can be a `switch/case` argument"
-Both `switch` and `case` allow arbitrary expressions.
+````smart header="นิพจน์ (expression) ใดๆก็สามารถใส่มาเป็นอาร์กิวเมนท์ของ `switch/case` ได้"
+ทั้ง `switch` และ `case` อนุญาตให้ใส่นิพจน์ (expression) ใดๆเข้ามาก็ได้
 
-For example:
+ตัวอย่างเช่น:
 
 ```js run
 let a = "1";
@@ -107,7 +107,7 @@ switch (+a) {
     alert("this doesn't run");
 }
 ```
-Here `+a` gives `1`, that's compared with `b + 1` in `case`, and the corresponding code is executed.
+การเขียน `+a` จะได้เลข `1` ต่อมาโปรแกรมจึงเริ่มเปียบเทียบจาก `case` ที่เป็น `b + 1` (หรือไม่คือ 1 เพราะว่า เป็น 0) โค้ดตั้งแต่ `case b + 1` ลงมาจึงทำงาน
 ````
 
 ## Grouping of "case"
