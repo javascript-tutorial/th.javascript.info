@@ -54,13 +54,13 @@ switch (a) {
 }
 ```
 
-Here the `switch` starts to compare `a` from the first `case` variant that is `3`. The match fails.
+ที่นี่ คำสั่ง `switch` จะเริ่มเทียบตัวแปร `a` จาก `case` ตัวแรก นั่นก็คือ `3` ซึ่งไม่ตรงเพราะ `a` ของเราคือ `4`
 
-Then `4`. That's a match, so the execution starts from `case 4` until the nearest `break`.
+ที่น่ีมากันต่อที่ `case` ถัดมา `4` ซึ่งตรงพอดี การทำงานจะเริ่มจาก `case 4` ไปเรื่อยๆจนกว่าจะเจอคำสั่ง `break`
 
-**If there is no `break` then the execution continues with the next `case` without any checks.**
+**หากเราไม่ใส่ `break` ไว้ โปรแกรมจะทำงานตาม `case` ทีละเคสไปเรื่อยๆจนถึงตัวสุดท้าย โดยที่มันจะไม่ตรวจสอบเงื่อนไขใดๆเลย**
 
-An example without `break`:
+นี่คือตัวอย่างหากเราไม่ใส่คำสั่ง `break`:
 
 ```js run
 let a = 2 + 2;
