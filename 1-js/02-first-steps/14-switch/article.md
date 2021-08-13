@@ -137,9 +137,9 @@ switch (a) {
 }
 ```
 
-Now both `3` and `5` show the same message.
+พอเราเขียนแบบนี้แล้ว ทั้ง `3` และ `5` ก็จะแสดงข้อความเดียวกัน
 
-The ability to "group" cases is a side-effect of how `switch/case` works without `break`. Here the execution of `case 3` starts from the line `(*)` and goes through `case 5`, because there's no `break`.
+การที่เราสามารถทำท่านี้ได้เพราะว่าเกิดจาก side-effect ของ `switch/case` ที่มันจะทำงานตั้งแต่ `case` ลงมาเรื่อยๆ หากเราไม่ได้ใส่ `break` เอาไว้ ที่นี่โปรแกรมเริ่มทำงานจาก `case 3` ลงมาถึง `case 5` เลย เพราะไม่มีคำสั่ง `break` มาคั่นกลาง
 
 ## Type matters
 
