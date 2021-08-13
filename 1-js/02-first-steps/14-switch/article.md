@@ -141,11 +141,11 @@ switch (a) {
 
 การที่เราสามารถทำท่านี้ได้เพราะว่าเกิดจาก side-effect ของ `switch/case` ที่มันจะทำงานตั้งแต่ `case` ลงมาเรื่อยๆ หากเราไม่ได้ใส่ `break` เอาไว้ ที่นี่โปรแกรมเริ่มทำงานจาก `case 3` ลงมาถึง `case 5` เลย เพราะไม่มีคำสั่ง `break` มาคั่นกลาง
 
-## Type matters
+## อย่าลืมเช็คชนิดของข้อมูลด้วย
 
-Let's emphasize that the equality check is always strict. The values must be of the same type to match.
+อย่าลืมว่าคำสั่ง `swtich/case` เหมือนเราใช้ `===` เทียบเพราะฉะนั้นท้ังชนิดของข้อมูลและค่าทั้งสองต้องตรงกัน
 
-For example, let's consider the code:
+ตัวอย่าง ลองดูจากโค้ดด้านล่าง
 
 ```js run
 let arg = prompt("Enter a value?");
@@ -167,6 +167,6 @@ switch (arg) {
 }
 ```
 
-1. For `0`, `1`, the first `alert` runs.
-2. For `2` the second `alert` runs.
-3. But for `3`, the result of the `prompt` is a string `"3"`, which is not strictly equal `===` to the number `3`. So we've got a dead code in `case 3`! The `default` variant will execute.
+1. สำหรับสตริง `0`, `1` ฟังชั่นก์ `alert` ตัวแรกจะทำงาน
+2. สำหรับสตริง `2` ฟังชั่นก์ `alert` ตัวที่สองจะทำงาน
+3. แต่พอเป็นเลข `3`, ผลลัพธ์ที่คืนมาจากฟังชั่นก์ `prompt` เป็นสตริง `"3"` ซึ่งหากเทียบแบบ strictly equal `===` กับเลข `3` ไม่ได้เท่ากับว่าโค้ดส่วน `case 3` ไม่มีทางทำงานเลย! ที่นี่โค้ดส่วน `default` จะทำงานแทน
