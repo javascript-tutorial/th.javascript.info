@@ -110,11 +110,11 @@ switch (+a) {
 การเขียน `+a` จะได้เลข `1` ต่อมาโปรแกรมจึงเริ่มเปียบเทียบจาก `case` ที่เป็น `b + 1` (หรือไม่คือ 1 เพราะว่า เป็น 0) โค้ดตั้งแต่ `case b + 1` ลงมาจึงทำงาน
 ````
 
-## Grouping of "case"
+## การรวม "case"
 
-Several variants of `case` which share the same code can be grouped.
+เราสามารถใช้โค้ดชุดเดียวกันกับ `case` หลายแบบได้
 
-For example, if we want the same code to run for `case 3` and `case 5`:
+ตัวอย่างเช่น เราต้องการให้โค้ดชุดเดียวกันทำงานกับ `case 3` และ `case 5`:
 
 ```js run no-beautify
 let a = 3;
