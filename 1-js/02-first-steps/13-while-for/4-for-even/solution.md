@@ -8,4 +8,4 @@ for (let i = 2; i <= 10; i++) {
 }
 ```
 
-We use the "modulo" operator `%` to get the remainder and check for the evenness here.
+เราใช้ตัวดำเนินการ "modulo" หรือ `%` เพื่อดูเศษที่เหลือจากการหาร ในทีนี้คือ สองหาร `i` เหลือเศษเป็น `0` หรือไม่ หากเป็นจริงฟังชั่นก์ `alert` จะทำงาน
