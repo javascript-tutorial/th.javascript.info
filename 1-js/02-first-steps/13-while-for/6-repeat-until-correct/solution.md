@@ -7,9 +7,9 @@ do {
 } while (num <= 100 && num);
 ```
 
-The loop `do..while` repeats while both checks are truthy:
+เราใช้ลูบ `do..while` เพื่อให้มันทำงานจนกว่าเงื่อนไขจะเป็นเท็จ
 
-1. The check for `num <= 100` -- that is, the entered value is still not greater than `100`.
-2. The check `&& num` is false when `num` is `null` or an empty string. Then the `while` loop stops too.
+1. ตรวจสอบว่า `num <= 100`
+2. ตรวจสอบอีกชั้นด้วย `&& num` หาก `num` เป็น falsy value เช่น `null` หรือสตริงเปล่า ลูบ `while` ก็จะหยุดทำงาน
 
-P.S. If `num` is `null` then `num <= 100` is `true`, so without the 2nd check the loop wouldn't stop if the user clicks CANCEL. Both checks are required.
+ปล. หากตัวแปร `num` เป็น `null` เมื่อเทียบว่า `num <= 100` จะเป็นจริง `true` ดังนั้นหากเราไม่มีการตรวจสอบ 2 ชั้น ลูบจะไม่หยุดทำงานจนกว่าผู้ใช้จะกด CANCEL เราจึงจำเป็นต้องมีการตรวจสอบชั้น 2 ด้วย
