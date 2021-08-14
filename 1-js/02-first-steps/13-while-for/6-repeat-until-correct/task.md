@@ -2,12 +2,12 @@ importance: 5
 
 ---
 
-# Repeat until the input is correct
+# มาลองเขียนลูบที่ถามผู้ใช้ไปเรื่อยๆจนกว่าจะป้อนข้อความที่ถูกต้องกัน
 
-Write a loop which prompts for a number greater than `100`. If the visitor enters another number -- ask them to input again.
+เขียนลูบที่ให้ผู้ใช้ป้อนตัวเลขมากกว่า `100` หากผู้ใช้ป้อนตัวเลขที่ต่ำกว่าก็ให้ถามผู้ใช้ไปเรื่อยๆจนกว่าจะป้อนถูก
 
-The loop must ask for a number until either the visitor enters a number greater than `100` or cancels the input/enters an empty line.
+ลูบจะต้องวนซ้ำไปเรื่อยๆจนกว่าผู้ใช้จะป้อนตัวเลขมากกว่า `100` หรือยกเลิกการป้อนข้อมูลหรือป้อนบรรทัดว่าง
 
-Here we can assume that the visitor only inputs numbers. There's no need to implement a special handling for a non-numeric input in this task.
+เราจะให้ผู้ใช้ป้อนเฉพาะตัวเลขเท่านั้น ดังนั้นไม่จำเป็นต้องเขียนแปลงชนิดของข้อมูลอื่นๆให้เป็นตัวเลข
 
 [demo]
