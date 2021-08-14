@@ -58,7 +58,7 @@ For example:
 ```js run
 function showMessage() {
 *!*
-  let message = "Hello, I'm JavaScript!"; // local variable
+  let message = "Hello, I'm JavaScript!"; // ตัวแปรภายใน
 */!*
 
   alert( message );
@@ -66,12 +66,12 @@ function showMessage() {
 
 showMessage(); // Hello, I'm JavaScript!
 
-alert( message ); // <-- Error! The variable is local to the function
+alert( message ); // <-- Error! ตัวแปรนี้เป็นตัวแปรภายในมองเห็นได้เฉพาะภายในฟังก์ชั่น showMessage เท่านั้น
 ```
 
-## Outer variables
+## ตัวแปรภายนอก (Outer variables)
 
-A function can access an outer variable as well, for example:
+ฟังก์ชั่นสามารถเข้าถึงตัวแปรภายนอกได้ ตัวอย่างเช่น
 
 ```js run no-beautify
 let *!*userName*/!* = 'John';
@@ -84,30 +84,30 @@ function showMessage() {
 showMessage(); // Hello, John
 ```
 
-The function has full access to the outer variable. It can modify it as well.
+ฟังชั่นก์เข้าถึงตัวแปรภายนอกได้อย่างเต็มรูปแบบ นั่นหมายความว่ามันสามารถแก้ไขของที่อยู่ในตัวแปรได้ด้วย
 
-For instance:
+ตัวอย่างเช่น
 
 ```js run
 let *!*userName*/!* = 'John';
 
 function showMessage() {
-  *!*userName*/!* = "Bob"; // (1) changed the outer variable
+  *!*userName*/!* = "Bob"; // (1) เป็นค่าของตัวแปรภายนอก
 
   let message = 'Hello, ' + *!*userName*/!*;
   alert(message);
 }
 
-alert( userName ); // *!*John*/!* before the function call
+alert( userName ); // *!*John*/!* ก่อนฟังก์ชั่นจะถูกเรียก ยังเป็น John อยู่
 
 showMessage();
 
-alert( userName ); // *!*Bob*/!*, the value was modified by the function
+alert( userName ); // *!*Bob*/!*, มาดูตัวแปรหลังฟังก์ชั่นถูกเรียก จะเห็นว่าเป็น Bob ไปแล้ว
 ```
 
-The outer variable is only used if there's no local one.
+ตัวแปรภายนอกจะถูกใช้ก็ต่อเมื่อไม่มีตัวแปรภายในให้ใช้
 
-If a same-named variable is declared inside the function then it *shadows* the outer one. For instance, in the code below the function uses the local `userName`. The outer one is ignored:
+หากมีกราประกาศตัวแปรภายนอกกับภายในชื่อเดียวกัน ฟังชั่นก์จะใช้ตัวแปรที่อยู่ภายในแทน ดูจากตัวอย่างด้านล่าง
 
 ```js run
 let userName = 'John';
