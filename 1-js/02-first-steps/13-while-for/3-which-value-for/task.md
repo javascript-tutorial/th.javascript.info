@@ -2,18 +2,18 @@ importance: 4
 
 ---
 
-# Which values get shown by the "for" loop?
+# ทายผลลัพธ์อะไรที่จะแสดงออกจากลูบ "for"
 
-For each loop write down which values it is going to show. Then compare with the answer.
+ลองมาเขียนผลลัพธ์ที่จะแสดงออกมาในแต่ละรอบการทำงานกัน
 
-Both loops `alert` same values or not?
+ทั้งสองลูบฟังชั่นก์ `alert` จะแสดงค่าออกมาเหมือนกันหรือไม่
 
-1. The postfix form:
+1. แบบ postfix:
 
     ```js
     for (let i = 0; i < 5; i++) alert( i );
     ```
-2. The prefix form:
+2. แบบ prefix:
 
     ```js
     for (let i = 0; i < 5; ++i) alert( i );
