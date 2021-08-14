@@ -1,18 +1,18 @@
-# Functions
+# ฟังก์ชั่น (Functions)
 
-Quite often we need to perform a similar action in many places of the script.
+บ่อยครั้งที่เราเขียนโปรแกรม จะต้องมีชุดงานหนึ่งๆที่อยากจะให้มันทำงานซ้ำๆ ในหลายๆที่ของไฟล์สคริปต์
 
-For example, we need to show a nice-looking message when a visitor logs in, logs out and maybe somewhere else.
+ตัวอย่างเช่น เราต้องการแสดงข้อความที่ดูดีเมื่อผู้ใช้ล็อคอินเข้าสู่ระบบ ออกจากระบบ หรือเข้าไปตามหน้าต่างๆ
 
-Functions are the main "building blocks" of the program. They allow the code to be called many times without repetition.
+ฟังก์ชั่นเป็น "building blocks" หลักของโปรแกรม เราสามารถเรียกใช้ได้หลายๆครั้ง
 
-We've already seen examples of built-in functions, like `alert(message)`, `prompt(message, default)` and `confirm(question)`. But we can create functions of our own as well.
+เราได้เห็นฟังก์ชั่นพวกนี้กันมาบ้างแล้วอย่างเช่น `alert(message)`, `prompt(message, default)` และ `confirm(question)` ฟังก์ชั่นเหล่านี้เป็นฟังชั่นก์ที่เบราเซอร์มีมาให้ แต่เราสามารถสร้างฟังชั่นก์ได้ด้วยตัวเองได้ด้วย
 
-## Function Declaration
+## การประกาศฟังก์ชั่น
 
-To create a function we can use a *function declaration*.
+เราสร้างฟังชั่นก์โดยใช้ *การประกาศฟังก์ชั่น*.
 
-It looks like this:
+โดยที่มันมีหน้าตาแบบนี้:
 
 ```js
 function showMessage() {
@@ -20,7 +20,7 @@ function showMessage() {
 }
 ```
 
-The `function` keyword goes first, then goes the *name of the function*, then a list of *parameters* between the parentheses (comma-separated, empty in the example above, we'll see examples later) and finally the code of the function, also named "the function body", between curly braces.
+เราเขียน `function` ก่อน ตามด้วย *ตั้งชื่อให้ฟังชั่นก์* ตามด้วย *พารามิเตอร์* ที่อยู่ระหว่างวงเล็บ (เราใช้ลูกน้ำเพื่อให้ฟังชั่นก์รับพารามิเตอร์ได้หลายตัว) และสุดท้ายปีกกาหรือ "the function body" เป็นคำสั่งที่เราอยากให้โปรแกรมทำงานเมื่อเราเรียกใช้ฟังชั่นก์นี้
 
 ```js
 function name(parameter1, parameter2, ... parameterN) {
@@ -28,9 +28,9 @@ function name(parameter1, parameter2, ... parameterN) {
 }
 ```
 
-Our new function can be called by its name: `showMessage()`.
+เราสามารถใช้ฟังก์ชั่นที่เราสร้างขึ้นมาได้โดยเรียกผ่านชื่อของมันตามด้วยวงเล็บเปิด-ปิด `showMessage()`
 
-For instance:
+ตัวอย่าง:
 
 ```js run
 function showMessage() {
@@ -43,15 +43,15 @@ showMessage();
 */!*
 ```
 
-The call `showMessage()` executes the code of the function. Here we will see the message two times.
+จากโค้ดด้านบนจะเห็นว่าเราเรียกฟังก์ชั่น `showMessage()` ทำงาน 2 ที ที่นี่เราเลยเห็น `alert` ออกมาสองครั้ง
 
-This example clearly demonstrates one of the main purposes of functions: to avoid code duplication.
+เราจะเห็นได้จากตัวอย่างด้านบนว่า วัตถุประสงค์หลักของฟังก์ชั่นคือลดความซ้ำซ้อนของโค้ดลง
 
-If we ever need to change the message or the way it is shown, it's enough to modify the code in one place: the function which outputs it.
+หากเราต้องการจะแก้ไขข้อความที่แสดง เราก็แค่ไปแก้ไขในฟังก์ชั่นตัวนั้นแทน
 
-## Local variables
+## ตัวแปรภายใน (Local variables)
 
-A variable declared inside a function is only visible inside that function.
+ตัวแปรภายใน (Local variables) คือตัวแปรที่ประกาศภายในฟังก์ชั่น จะมองเห็นได้เฉพาะในฟังก์ชั่นเท่านั้น
 
 For example:
 
