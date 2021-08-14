@@ -1,4 +1,4 @@
-**The answer: from `0` to `4` in both cases.**
+**คำตอบ: แสดงจาก `0` ถึง `4` ทั้งสองกรณี**
 
 ```js run
 for (let i = 0; i < 5; ++i) alert( i );
@@ -6,12 +6,12 @@ for (let i = 0; i < 5; ++i) alert( i );
 for (let i = 0; i < 5; i++) alert( i );
 ```
 
-That can be easily deducted from the algorithm of `for`:
+มาดูวิธีการทำงานของลูบ `for` กัน:
 
-1. Execute once `i = 0` before everything (begin).
-2. Check the condition `i < 5`
-3. If `true` -- execute the loop body `alert(i)`, and then `i++`
+1. มันทำงานเริ่มจากให้ `i = 0` ก่อน
+2. จากนั่นก็ไปตรวจสอบเงื่อนไข `i < 5`
+3. ถ้าเป็น `true` -- โค้ดที่อยู่ข้างในลูบจะทำงาน `alert(i)` และตามด้วย `i++`
 
-The increment `i++` is separated from the condition check (2). That's just another statement.
+จะเห็นว่าการเพิ่มทีละหนึ่ง `i++` ทำงานทีหลังการตรวจสอบเงื่อนไข  (2). มันเป็นอีกหนึ่งคำสั่ง
 
-The value returned by the increment is not used here, so there's no difference between `i++` and `++i`.
+ดังนั้นค่าที่คืนมาจากการเพิ่มละหนึ่งไม่ว่าแบบ `postfix` หรือ `prefix` ไม่ได้ถูกใช้ ดังนั้นจึงไม่มีความแตกต่างกันระหว่าง `i++` และ `++i`
