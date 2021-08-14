@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# Replace "for" with "while"
+# มาลองเปลี่ยนจากลูบ "for" เป็นลูบ "while" กัน
 
-Rewrite the code changing the `for` loop to `while` without altering its behavior (the output should stay same).
+มาลองเขียนโค้ดใหม่จากลูบ "for" ด้านล่างให้มาเป็นลูบ "while" กัน โดยที่ผลลัพธ์ควรเหมือนเดิม
 
 ```js run
 for (let i = 0; i < 3; i++) {
