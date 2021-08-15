@@ -114,7 +114,7 @@ let userName = 'John';
 
 function showMessage() {
 *!*
-  let userName = "Bob"; // declare a local variable
+  let userName = "Bob"; // ประกาศตัวแปรภายใน
 */!*
 
   let message = 'Hello, ' + userName; // *!*Bob*/!*
