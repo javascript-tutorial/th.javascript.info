@@ -127,22 +127,22 @@ showMessage();
 alert( userName ); // *!*John*/!*, unchanged, the function did not access the outer variable
 ```
 
-```smart header="Global variables"
-Variables declared outside of any function, such as the outer `userName` in the code above, are called *global*.
+```smart header="ตัวแปรภายนอก (Global variables)"
+ตัวแปรภายนอกคือตัวแปรที่ประกาศข้างนอกฟังก์ชั่น อย่างเช่นโค้ดจากด้านบน ตัวแปรชื่อ `userName` จะเรียกว่าตัวแปรภายนอก (Global variables)
 
-Global variables are visible from any function (unless shadowed by locals).
+ตัวแปรภายนอกทุกฟังก์ชั่นสามารถมองเห็นได้ (ยกเว้นแต่จะเป็นตัวแปรภายในที่ชื่อเดียวกันกับตัวแปรภายนอก)
 
-It's a good practice to minimize the use of global variables. Modern code has few or no globals. Most variables reside in their functions. Sometimes though, they can be useful to store project-level data.
+แนวทางปฎิบัติที่ดี เราจะพยายามลดการใช้ตัวแปรภายนอกให้น้อยที่สุด ยิ่งโค้ดใหม่ๆยิ่งมีตัวแปรภายนอกไม่กี่ตัวหรือไม่ก็ไม่มีเลย ตัวแปรส่วนใหญ่จะอยู่ภายในฟังก์ชั่น แต่ตัวแปรภายนอกก็มีประโยชน์ โดยเราใช้เก็บข้อมูลระดับโปรเจค (project-level data)
 ```
 
-## Parameters
+## พารามิเตอร์
 
-We can pass arbitrary data to functions using parameters.
+เราสามารถส่งข้อมูลใดๆเข้าไปประมวลผลในฟังก์ชั่นก็ได้โดยใช้พารามิเตอร์
 
-In the example below, the function has two parameters: `from` and `text`.
+ในจากตัวอย่างด้านล่าง ฟังก์ชั่นนี้มีสองพารามิเตอร์คือ `from` และ `text`
 
 ```js run
-function showMessage(*!*from, text*/!*) { // parameters: from, text
+function showMessage(*!*from, text*/!*) { // สองพารามิเตอร์: from และ text
   alert(from + ': ' + text);
 }
 
@@ -150,15 +150,15 @@ function showMessage(*!*from, text*/!*) { // parameters: from, text
 *!*showMessage('Ann', "What's up?");*/!* // Ann: What's up? (**)
 ```
 
-When the function is called in lines `(*)` and `(**)`, the given values are copied to local variables `from` and `text`. Then the function uses them.
+เมื่อฟังก์ชั่นถูกเรียกในบรรทัด `(*)` และ `(**)` ค่าที่ถูกกำหนดถูกคัดลอกไปยังตัวแปรภายในคือ `from` และ `text` เพื่อให้ฟังก์ชั่นเรียกใช้พารามิเตอร์เหล่านี้ได้
 
-Here's one more example: we have a variable `from` and pass it to the function. Please note: the function changes `from`, but the change is not seen outside, because a function always gets a copy of the value:
+นี่เป็นอีกหนึ่งตัวอย่าง: เรามีตัวแปร `from` ใส่ผ่านไปยังฟังก์ชั่น เราจะเห็นว่าข้างในฟังชั่นก์เราเปลี่ยนค่าตัวแปร `from` ใหม่ แต่การเปลี่ยนแปลงนี้ไม่ได้กระทบกับตัวแปร `from` ที่อยู่ภายนอก เพราะเราเปลี่ยนผ่านพารามิเตอร์ซึ่งเป็นตัวคัดลอกของ `from` ภายนอกอีกที โปรดจำไว้ว่าฟังชั่นก์จะได้รับค่าจากตัวแปรเวอร์ชั่นคัดลอกไปเสมอ
 
 ```js run
 function showMessage(from, text) {
 
 *!*
-  from = '*' + from + '*'; // make "from" look nicer
+  from = '*' + from + '*'; // เปลี่ยนให้ "from" ดูโดดเด่นขึ้นมาหน่อย
 */!*
 
   alert( from + ': ' + text );
@@ -168,7 +168,7 @@ let from = "Ann";
 
 showMessage(from, "Hello"); // *Ann*: Hello
 
-// the value of "from" is the same, the function modified a local copy
+// ต่าจาก "from" เหมือนกัน, แต่ฟังชั่นก์จะจัดการกับค่าที่ก็อปปี้เสมอ
 alert( from ); // Ann
 ```
 
@@ -182,7 +182,6 @@ In other words, to put these terms straight:
 We declare functions listing their parameters, then call them passing arguments.
 
 In the example above, one might say: "the function `showMessage` is declared with two parameters, then called with two arguments: `from` and `"Hello"`".
-
 
 ## Default values
 
@@ -348,6 +347,7 @@ function doNothing() {
 
 alert( doNothing() === undefined ); // true
 ```
+
 ````
 
 ````warn header="Never add a newline between `return` and the value"
