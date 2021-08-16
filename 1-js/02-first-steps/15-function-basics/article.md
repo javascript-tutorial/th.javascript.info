@@ -172,30 +172,30 @@ showMessage(from, "Hello"); // *Ann*: Hello
 alert( from ); // Ann
 ```
 
-When a value is passed as a function parameter, it's also called an *argument*.
+เราเรียกค่าที่เราใส่เข้าไปในฟังก์ชั่นอีกชื่อหนึ่งว่า *อาร์กิวเมนต์ (argument)*
 
-In other words, to put these terms straight:
+เพื่อให้กระจ่างมากขึ้น:
 
-- A parameter is the variable listed inside the parentheses in the function declaration (it's a declaration time term)
-- An argument is the value that is passed to the function when it is called (it's a call time term).
+- พารามิเตอร์คือตัวแปรที่อยู่ในวงเล็บตอนประกาศฟังก์ชั่น (ตอนประกาศฟังชั่นก์เราเรียกพารามิเตอร์)
+- อาร์กิวเมนต์คือค่าที่ส่งผ่านไปยังฟังก์ชั่น เมื่อฟังก์ชั่นนั้นถูกเรียกใช้ (ตอนใช้ค่าที่ใส่ไปเรียกอาร์กิวเมนต์)
 
-We declare functions listing their parameters, then call them passing arguments.
+เราประกาศฟังก์ชั่นใส่พารามิเตอร์ แล้วตอนเรียกฟังก์ชั่นเราส่งผ่านค่าอาร์กิวเมนต์
 
-In the example above, one might say: "the function `showMessage` is declared with two parameters, then called with two arguments: `from` and `"Hello"`".
+จากตัวอย่างด้านบน ฟังก์ชั่น `showMessage` ประกาศด้วยสองพารามิเตอร์ เราเรียกฟังชั่นก์นี้ส่งอาร์กิวเมนต์ไปสองตัวคือ `from` และ `"Hello"`
 
-## Default values
+## ค่าเริ่มต้น (Default values)
 
-If a function is called, but an argument is not provided, then the corresponding value becomes `undefined`.
+เมื่อฟังก์ชั่นถูกเรียก แต่เราไม่ได้ใส่อาร์กิวเมนต์มา ค่าของตัวที่ไม่ได้ใส่จะเป็น `undefined`
 
-For instance, the aforementioned function `showMessage(from, text)` can be called with a single argument:
+กลับมากันที่ฟังก์ชั่น `showMessage(from, text)` มันสามารถถูกเรียกใช้ได้ โดยใส่อาร์กิวเมนต์แค่ตัวเดียว
 
 ```js
 showMessage("Ann");
 ```
 
-That's not an error. Such a call would output `"*Ann*: undefined"`. As the value for `text` isn't passed, it becomes `undefined`.
+มันจะไม่ error ผลลัพธ์จะเป็น `"*Ann*: undefined"` จากการที่ค่า `text` ไม่ได้ถูกใส่มา จึงทำให้เป็น `undefined`
 
-We can specify the so-called "default" (to use if omitted) value for a parameter in the function declaration, using `=`:
+เราสามารถระบุค่าที่เรียกว่า "default" สำหรับพารามิเตอร์ได้ตอนประกาศฟังก์ชั่นโดยใช้  `=`:
 
 ```js run
 function showMessage(from, *!*text = "no text given"*/!*) {
@@ -205,23 +205,23 @@ function showMessage(from, *!*text = "no text given"*/!*) {
 showMessage("Ann"); // Ann: no text given
 ```
 
-Now if the `text` parameter is not passed, it will get the value `"no text given"`
+ที่นี้หากพารามิเตอร์ `text` ไม่ถูกใส่ค่ามา ค่าของมันจะเป็น `"no text given"` แทน
 
-Here `"no text given"` is a string, but it can be a more complex expression, which is only evaluated and assigned if the parameter is missing. So, this is also possible:
+`"no text given"` คือสตริง, แต่มันสามารถเป็นนิพจน์ (expression) ที่ซับซ้อนกว่านี้ก็ได้ เหมือนตอนเราประกาศตัวแปร โดยนิพจน์จะถูกประมวลผลเมืิ่อเราไม่ใส่ค่าเข้ามา ตามตัวอย่างด้านล่างดังนี้
 
 ```js run
 function showMessage(from, text = anotherFunction()) {
-  // anotherFunction() only executed if no text given
-  // its result becomes the value of text
+  // anotherFunction() จะทำงานก็ต่อเมื่อ พารามิเตอร์ `text` ไม่ถูกใส่ค่ามา
+  // สิ่งที่ฟังชั่นก์ anotherFunction() ส่งกลับมาจะเป็นค่าของ `text`
 }
 ```
 
-```smart header="Evaluation of default parameters"
-In JavaScript, a default parameter is evaluated every time the function is called without the respective parameter.
+```smart header="การประมวลผลของค่าเริ่มต้นสำหรับพารามิเตอร์"
+ในจาวาสคริปต์ ค่าเริ่มต้นสำหรับพารามิเตอร์ จะถูกประมวลผลทุกๆครั้งที่ ฟังก์ชั่นถูกเรียกโดยไม่มีค่าใส่เข้ามาในพารามิเตอร์นั้นๆ
 
-In the example above, `anotherFunction()` isn't called at all, if the `text` parameter is provided.
+จากตัวอย่างด้านบน ฟังก์ชั่น `anotherFunction()` จะไม่ถูกเรียกเลย หากพารามิเตอร์ `text` ถูกใส่ค่าเข้ามา
 
-On the other hand, it's independently called every time when `text` is missing.
+อีกทางหนึ่งคือ ฟังก์ชั่น `anotherFunction()` จะถูกเรียกทุกคร้ัง หากพารามิเตอร์ `text` ไม่ถูกใส่ค่าอะไรมาเลย
 ```
 
 ### Alternative default parameters
