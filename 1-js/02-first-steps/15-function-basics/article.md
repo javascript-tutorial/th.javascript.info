@@ -224,18 +224,18 @@ function showMessage(from, text = anotherFunction()) {
 อีกทางหนึ่งคือ ฟังก์ชั่น `anotherFunction()` จะถูกเรียกทุกคร้ัง หากพารามิเตอร์ `text` ไม่ถูกใส่ค่าอะไรมาเลย
 ```
 
-### Alternative default parameters
+### กำหนดค่าเริ่มต้นทีหลัง
 
-Sometimes it makes sense to assign default values for parameters not in the function declaration, but at a later stage.
+บางครั้งเราก็อยากกำหนดค่าเริ่มต้นสำหรับพารามิเตอร์หลังการประกาศฟังก์ชั่น
 
-We can check if the parameter is passed during the function execution, by comparing it with `undefined`:
+เราทำได้โดยเราสามารถตรวจสอบว่าพารามิเตอร์ที่ถูกส่งผ่านฟังก์ชั่น โดยเทียบกับ `undefined`
 
 ```js run
 function showMessage(text) {
   // ...
 
 *!*
-  if (text === undefined) { // if the parameter is missing
+  if (text === undefined) { // เช็คว่าพารามิเตอร์ถูกส่งเข้ามา
     text = 'empty message';
   }
 */!*
@@ -246,21 +246,21 @@ function showMessage(text) {
 showMessage(); // empty message
 ```
 
-...Or we could use the `||` operator:
+...หรือเราจะใช้ตัวดำเนินการ `||` ก็ได้
 
 ```js
 function showMessage(text) {
-  // if text is undefined or otherwise falsy, set it to 'empty'
+  // หาก `text` เป็น falsy value สตริง empty จะถูกกำหนดให้เป็นค่าของ `text`
   text = text || 'empty';
   ...
 }
 ```
 
-Modern JavaScript engines support the [nullish coalescing operator](info:nullish-coalescing-operator) `??`, it's better when most falsy values, such as `0`, should be considered "normal":
+จาวาสคริปต์ปัจจุบันนี้รับรอง [ตัวดำเนินการรวมเป็นโมฆะ (nullish coalescing operator)](info:nullish-coalescing-operator) `??` แล้ว เราใช้ตัวดำเนินการตัวนี้ดีกว่า ใช้ `||` เนื่องจากมันดัก falsy values ออกไปทั้งหมด แต่โดยมากเราก็จะ falsy values หลายตัวเป็นค่าเริ่มต้นเช่น สตริงเปล่า หรือ เลข `0` เป็นต้น
 
 ```js run
 function showCount(count) {
-  // if count is undefined or null, show "unknown"
+  // หาก count เป็น undefined หรือ null ให้แสดง "unknown"
   alert(count ?? "unknown");
 }
 
@@ -269,11 +269,11 @@ showCount(null); // unknown
 showCount(); // unknown
 ```
 
-## Returning a value
+## ส่งผลลัพธ์หรือค่ากลับ
 
-A function can return a value back into the calling code as the result.
+ฟังก์ชั่นสามารถส่งค่ากลับสู่ ตัวแปร พารามิเตอร์ อาร์กิวเมนต์ หรืออะไรก็ตามที่เรียกใช้มันได้
 
-The simplest example would be a function that sums two values:
+ตัวอย่างที่ง่ายที่สุดคือ ฟังก์ชั่นที่ส่งผลลัพธ์จากสองจำนวนบวกกัน
 
 ```js run no-beautify
 function sum(a, b) {
