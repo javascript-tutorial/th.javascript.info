@@ -284,9 +284,9 @@ let result = sum(1, 2);
 alert( result ); // 3
 ```
 
-The directive `return` can be in any place of the function. When the execution reaches it, the function stops, and the value is returned to the calling code (assigned to `result` above).
+คำสั่ง `return` สามารถใช้ตรงไหนก็ได้ภายในฟังก์ชั่น เมื่อโค้ดภายในฟังก์ชั่นทำงานทีละบรรทัดเรื่อยๆจนมาถึงบรรทัด `return` ฟังก์ชั่นจะหยุดทำงาน และค่าที่เรา `return` ถูกส่งกลับไปหาโค้ดที่เรียกมันเช่น ตัวแปร `result` ตามตัวอย่างด้านบน
 
-There may be many occurrences of `return` in a single function. For instance:
+เราสามารถใช้คำสั่ง `return` กับฟังก์ชั่นได้หลายครั้ง ตามตัวอย่างด้านล่าง
 
 ```js run
 function checkAge(age) {
@@ -310,7 +310,7 @@ if ( checkAge(age) ) {
 }
 ```
 
-It is possible to use `return` without a value. That causes the function to exit immediately.
+เราสามารถใช้คำสั่ง `return` โดยที่ไม่มีค่าได้ ทุกครั้งที่เจอคำสั่ง `return` ฟังก์ชั่นจะหยุดทำงานทันที
 
 For example:
 
@@ -327,10 +327,10 @@ function showMovie(age) {
 }
 ```
 
-In the code above, if `checkAge(age)` returns `false`, then `showMovie` won't proceed to the `alert`.
+ตามตัวอย่างโค้ดด้านบน หาก `checkAge(age)` ส่งค่า `false` กลับ `showMovie` จะไม่ทำงานที่ `alert` ต่อ
 
-````smart header="A function with an empty `return` or without it returns `undefined`"
-If a function does not return a value, it is the same as if it returns `undefined`:
+````smart header="ฟังก์ชั่นที่ `return` เปล่าๆ มันจะ returns `undefined` แทน"
+หากฟังก์ชั่นไม่ส่งคทนค่ากลับ มันจะส่ง `undefined` กลับมาแทน
 
 ```js run
 function doNothing() { /* empty */ }
@@ -338,7 +338,7 @@ function doNothing() { /* empty */ }
 alert( doNothing() === undefined ); // true
 ```
 
-An empty `return` is also the same as `return undefined`:
+หากเราไม่ใส่คำสั่ง `return` มันจะเหมือนกับเราเขียน `return undefined`:
 
 ```js run
 function doNothing() {
