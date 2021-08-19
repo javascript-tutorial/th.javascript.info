@@ -350,23 +350,23 @@ alert( doNothing() === undefined ); // true
 
 ````
 
-````warn header="Never add a newline between `return` and the value"
-For a long expression in `return`, it might be tempting to put it on a separate line, like this:
+````warn header="อย่าเว้นบรรทัดใหม่ระหว่างค่าที่จะส่งกลับไปกับคำสั่ง return"
+สำหรับนิพจน์​ (expression) ยาวๆ เราอาจจะเผลอไปเว้นบรรทัด แบบนี้:
 
 ```js
 return
  (some + long + expression + or + whatever * f(a) + f(b))
 ```
-That doesn't work, because JavaScript assumes a semicolon after `return`. That'll work the same as:
+จะทำให้บรรทัดนี้ไม่ทำงาน เพราะตาวาสคริปต์จะมองว่าเป็นแบบโค้ดข้างล่าง
 
 ```js
 return*!*;*/!*
  (some + long + expression + or + whatever * f(a) + f(b))
 ```
 
-So, it effectively becomes an empty return.
+จึงเหมือนกับเราเขียน return ออกไปเปล่าๆ
 
-If we want the returned expression to wrap across multiple lines, we should start it at the same line as `return`. Or at least put the opening parentheses there as follows:
+หากเราต้องการส่งค่าที่เป็นนิพจน์ยาวๆออกไป เราแค่ให้มันอยู่บรรทัดเดียวกับคำสั่ง `return`  หรือใส่วงเล็บเปิด-ปิดตามตัวอย่างด้านล่าง
 
 ```js
 return (
@@ -375,23 +375,23 @@ return (
   whatever * f(a) + f(b)
   )
 ```
-And it will work just as we expect it to.
+ทีนี้โค้ดก็จะทำงานตามที่เราคาดหวังแล้ว
 ````
 
-## Naming a function [#function-naming]
+## การตั้งชื่อฟังก์ชั่น [#function-naming]
 
-Functions are actions. So their name is usually a verb. It should be brief, as accurate as possible and describe what the function does, so that someone reading the code gets an indication of what the function does.
+ฟังก์ชั่นคือการทำงาน ฉะนั้นชื่อของฟังก์ชั่นมักจะขึ้นด้วยคำกริยา มันควรเป็นชื่อที่สั้น กระชับ และสื่อความหมายได้ดีว่ามันจะทำอะไร คนอื่นที่อ่านโค้ดจะได้เข้าใจที่สิ่งฟังก์ชั่นนั้นๆทำด้วย
 
-It is a widespread practice to start a function with a verbal prefix which vaguely describes the action. There must be an agreement within the team on the meaning of the prefixes.
+การตั้งชื่อฟังก์ชั่นด้วยคำกริยาบางครั้งก็ดูคลุมเครือ ไม่แน่ใจว่าจะสื่ออะไรกันแน่ ดังนั้นคนในทีมต้องมีข้อตกลงกันให้ดีว่า จะเลือกคำกริยาตัวไหนมาภาพการทำงานของฟังก์ชั่นแต่ละตัวให้ชัดเจน
 
-For instance, functions that start with `"show"` usually show something.
+ตัวอย่างเช่น ฟังก์ชั่นที่มีชื่อเริ่มต้นด้วยคำว่า`"show"` ก็หมายถึงมันจะต้องแสดงอะไรบางอย่างออกมา
 
-Function starting with...
+ชื่อของฟังก์ชั่นมักจะเริ่มต้นด้วย...
 
-- `"get…"` -- return a value,
-- `"calc…"` -- calculate something,
-- `"create…"` -- create something,
-- `"check…"` -- check something and return a boolean, etc.
+- `"get…"` -- ส่งค่าสักค่ากลับไป
+- `"calc…"` -- ทำการคำนวณบางอย่าง
+- `"create…"` -- สร้างบางอย่าง
+- `"check…"` -- เช็คเงื่อนไขบางอย่างและส่งค่าบูลีนกลับไป
 
 Examples of such names:
 
