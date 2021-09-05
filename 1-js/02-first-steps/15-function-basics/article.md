@@ -396,46 +396,46 @@ return (
 Examples of such names:
 
 ```js no-beautify
-showMessage(..)     // shows a message
-getAge(..)          // returns the age (gets it somehow)
-calcSum(..)         // calculates a sum and returns the result
-createForm(..)      // creates a form (and usually returns it)
-checkPermission(..) // checks a permission, returns true/false
+showMessage(..)     // แสดงข้อความ
+getAge(..)          // ส่งค่าอายุกลับไป
+calcSum(..)         // คำนวณผลรวมและส่งผลลัพธ์กลับ
+createForm(..)      // สร้างฟอร์ม
+checkPermission(..) // ตรวจสอบ permission ส่ง true/false กลับ
 ```
 
-With prefixes in place, a glance at a function name gives an understanding what kind of work it does and what kind of value it returns.
+เมื่อเราใช้กริยานำหน้า มันจะช่วยให้เราเข้าใจได้ทันทีเลยว่าฟังก์ชั่นนี้ทำงานอย่างไร
 
-```smart header="One function -- one action"
-A function should do exactly what is suggested by its name, no more.
+```smart header="หนึ่งฟังก์ชั่น -- หนึ่งงาน"
+หนึ่งฟังก์ชั่นควรทำงานเพียงแค่หนึ่งงานเช่นเดียวกับชื่อของมัน ไม่มากไปกว่านั้น
 
-Two independent actions usually deserve two functions, even if they are usually called together (in that case we can make a 3rd function that calls those two).
+งานสองงานที่ไม่ได้เกี่ยวข้องกันควรแยกออกเป็นสองฟังก์ชั่น และในกรณีนี้ เราก็ควรสร้างฟังก์ชั่นที่ 3 เพื่อเรียกใช้ฟังก์ชั่นทั้งสอง
 
-A few examples of breaking this rule:
+ตัวอย่างคร่าวๆหากไม่ได้ปฎิบัติตามกฎด้านบน:
 
-- `getAge` -- would be bad if it shows an `alert` with the age (should only get).
-- `createForm` -- would be bad if it modifies the document, adding a form to it (should only create it and return).
-- `checkPermission` -- would be bad if it displays the `access granted/denied` message (should only perform the check and return the result).
+- `getAge` -- จะแสดง `alert` ด้วย แทนที่มันจะทำหน้าที่ get แค่อย่างเดียว
+- `createForm` -- จะไปแก้ไขเว็บเพจ เพิ่มแบบฟอร์ม แทนที่ที่มันจะควรและส่งค่าอย่างเดียว
+- `checkPermission` -- จะแสดงข้อความ `access granted/denied` แทนที่จะทำการตรวจสอบสิทธิ์เข้าถึงและคืนผลลัพธ์กลับไป
 
-These examples assume common meanings of prefixes. You and your team are free to agree on other meanings, but usually they're not much different. In any case, you should have a firm understanding of what a prefix means, what a prefixed function can and cannot do. All same-prefixed functions should obey the rules. And the team should share the knowledge.
+ตัวอย่างเหล่านี้แค่สมมติเท่านั้น เราและทีมมีอิสระที่จะตกลงที่จะใช้คำกริยาเหล่านี้ในลักษณะอื่นๆ แต่ก็ไม่ควรฉีกออกไป โดยสรุปก็คือ เราควรมีความเข้าใจว่าฟังก์ชั่นแต่ละคนทำงานยังไงทันทีที่เห็นชื่อฟังก์ชั่น และทางทีมควรมีฉันทามติเรื่องชื่อฟังก์ชั่น
 ```
 
-```smart header="Ultrashort function names"
-Functions that are used *very often* sometimes have ultrashort names.
+```smart header="ชื่อฟังก์ชั่นสั้นเกินไป"
+โดยมากจะเกิดจากฟังก์ชั่นที่เรามักจะเรียกใช้บ่อยๆ เราไม่อยากที่จะพิมพ์เยอะ จึงทำการย่อชื่อจนเหลือนิดเดียว
 
-For example, the [jQuery](http://jquery.com) framework defines a function with `$`. The [Lodash](http://lodash.com/) library has its core function named `_`.
+ตัวอย่างเช่น, เราจะใช้ฟังก์ชั่นของ [jQuery](http://jquery.com) ได้จากเครื่องหมาย `$` ตามด้วยชื่อฟังก์ชั่นที่เราจะใช้ เข่นเดียวกันกับ [Lodash](http://lodash.com/) โดยเราจะเรียกฟังก์ชั่นด้วยเครื่องหมาย `_`
 
-These are exceptions. Generally function names should be concise and descriptive.
+บางทีเรื่องเหล่านี้ก็เป็นข้อยกเว้น โดยปกติชื่อฟังก์ชั่นที่ดีควรกระชับและสื่อความหมาย
 ```
 
-## Functions == Comments
+## ฟังก์ชั่น == คอมเม้นต์
 
-Functions should be short and do exactly one thing. If that thing is big, maybe it's worth it to split the function into a few smaller functions. Sometimes following this rule may not be that easy, but it's definitely a good thing.
+ฟังก์ชั่นควรสั้นๆและทำงานเพียงอย่างเดียว หากฟังก์ชั่นใหญ่ เราควรแบ่งออกมาเป็นฟังก์ชั่นย่อยๆจะดีกว่า การทำเรื่องนี้ให้เป็นนิสัยเป็นเรื่องยาก แต่ถ้าฝึกจนเป็นนิสัยจะมีสิ่งดีๆเกิดขึ้นแน่นอน
 
-A separate function is not only easier to test and debug -- its very existence is a great comment!
+การแยกฟังก์ชั่นใหญ่ๆ ออกมาเป็นฟังก์ชั่นเล็กๆยังช่วยให้เขียนเทสและดีบักง่ายอีกด้วย
 
-For instance, compare the two functions `showPrimes(n)` below. Each one outputs [prime numbers](https://en.wikipedia.org/wiki/Prime_number) up to `n`.
+ตัวอย่าง ลองเปรียบเทียบสองฟังก์ชั่น `showPrimes(n)` ด้านล่าง การทำงานคือแสดง [จำนวนเฉพาะ (prime numbers)](https://en.wikipedia.org/wiki/Prime_number) ออกมาเรื่อยๆจนถึงจำนวนที่ `n`
 
-The first variant uses a label:
+ฟังก์ชั่นตัวแรกใช้ label:
 
 ```js
 function showPrimes(n) {
@@ -450,7 +450,7 @@ function showPrimes(n) {
 }
 ```
 
-The second variant uses an additional function `isPrime(n)` to test for primality:
+ฟังก์ชั่นที่สองใช้ อีกหนึ่งฟังก์ชั่น `isPrime(n)` เพื่อตรวจสอบว่าจำนวนนั้นเป็นจำนวนเฉพาะหรือไม่
 
 ```js
 function showPrimes(n) {
@@ -470,13 +470,13 @@ function isPrime(n) {
 }
 ```
 
-The second variant is easier to understand, isn't it? Instead of the code piece we see a name of the action (`isPrime`). Sometimes people refer to such code as *self-describing*.
+จะเห็นว่าฟังก์ชั่นตัวที่สองเข้าใจง่ายกว่า จริงไหม? เราแทนที่โค้ดจำนวนหนึ่ง โดยการใช้ฟังก์ชั่นใหม่แทน เราจะเรียก code pattern แบบนี้ว่า *self-describing*
 
-So, functions can be created even if we don't intend to reuse them. They structure the code and make it readable.
+ดังนั้น เราจะสร้างฟังก์ชั่นขึ้นมาอีกตัวเพื่อให้โค้ดของเราดูเรียบร้อยขึ้นได้ โดยไม่จำเป็นต้องเป็นชุดโค้ดที่ใช้ซ้ำๆอย่างเดียว
 
-## Summary
+## สรุป
 
-A function declaration looks like this:
+การประกาศฟังก์ชั่นมีหน้าตาดังนี้:
 
 ```js
 function name(parameters, delimited, by, comma) {
@@ -484,18 +484,18 @@ function name(parameters, delimited, by, comma) {
 }
 ```
 
-- Values passed to a function as parameters are copied to its local variables.
-- A function may access outer variables. But it works only from inside out. The code outside of the function doesn't see its local variables.
-- A function can return a value. If it doesn't, then its result is `undefined`.
+- ส่งที่ส่งผ่านพารามิเตอร์จะถูกคัดลอกไปยังตัวแปรภายในฟังก์ชั่น
+- ฟังก์ชั่นสามารถเข้าถึงตัวแปรภายนอกได้ แต่จะทำงานจากภายในออกภายนอก โค้ดภายนอกฟังก์ชั่นจะไม่เห็นตัวแปรภายในฟังก์ชั่น
+- ฟังก์ชั่นสามารถคืนค่าได้ แต่ไม่มี จะคืน `undefined` ออกมาแทน
 
-To make the code clean and easy to understand, it's recommended to use mainly local variables and parameters in the function, not outer variables.
+เพื่อให้โค้ดเป็นระเบียบและเข้าใจง่าย ขอแนะนำให้ใช้ตัวแปรและพารามิเตอร์ภายในฟังก์ชั่น แทนตัวแปรภายนอก
 
-It is always easier to understand a function which gets parameters, works with them and returns a result than a function which gets no parameters, but modifies outer variables as a side-effect.
+ฟังก์ชั่นที่รับพารามิเตอร์เข้าไป จะคืนค่าออกมา เข้าใจง่ายกว่า ฟังก์ชั่นที่ไม่มีพารามิเตอร์ แต่อาศัยปรับเปลี่ยนตัวแปรภายนอกเอา
 
-Function naming:
+การตั้งชื่อฟังก์ชั่น:
 
-- A name should clearly describe what the function does. When we see a function call in the code, a good name instantly gives us an understanding what it does and returns.
-- A function is an action, so function names are usually verbal.
-- There exist many well-known function prefixes like `create…`, `show…`, `get…`, `check…` and so on. Use them to hint what a function does.
+- ชื่อควรอธิบายอย่างชัดเจนว่าทำอะไร
+- ฟังก์ชั่นคือการกระทำ ดังนั้นชื่อฟังก์ชั่นจะใช้ภาษาพูด
+- มีคำนำหน้าฟังก์ชั่นที่รู้จักกันดีเช่น `create…`, `show…`, `get…`, `check…` และอื่นๆ เพื่อบอกว่าฟังก์ชั่นนี้ทำอะไร
 
-Functions are the main building blocks of scripts. Now we've covered the basics, so we actually can start creating and using them. But that's only the beginning of the path. We are going to return to them many times, going more deeply into their advanced features.
+ฟังก์ชั่นเป็นส่วนสำคัญในการสร้างสคริปต์ ตอนนี้เราก็ได้เรียนพื้นฐานทั้งหมดเกี่ยวกับฟังก์ชั่นแล้ว เราสามารถเริ่มต้นเขียนฟังก์ชั่นตัวแรกของเราได้เลย เราจะวนกลับมาหาฟังก์ชั่นอีกหลายๆครั้ง ในหัวข้อที่ลึกยิ่งขึ้น และฟีเจอร์อื่นๆท่ีมีในฟังก์ชั่น
