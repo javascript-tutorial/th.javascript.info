@@ -1,6 +1,6 @@
-There are many algorithms for this task.
+สำหรับการบ้านนี้เราสามารถทำได้หลากหลายวิธี
 
-Let's use a nested loop:
+ลองมาเริ่มจากใช้ลูบซ้อนลูบก่อน:
 
 ```js
 For each i in the interval {
@@ -10,7 +10,7 @@ For each i in the interval {
 }
 ```
 
-The code using a label:
+ลองใช้ label:
 
 ```js run
 let n = 10;
@@ -19,11 +19,11 @@ nextPrime:
 for (let i = 2; i <= n; i++) { // for each i...
 
   for (let j = 2; j < i; j++) { // look for a divisor..
-    if (i % j == 0) continue nextPrime; // not a prime, go next i
+    if (i % j == 0) continue nextPrime; // หากไม่เป็นจำนวนเฉพาะ ไป i ตัวต่อไป
   }
 
-  alert( i ); // a prime
+  alert( i ); // ตรงนี้จะได้จำนวนเฉพาะ
 }
 ```
 
-There's a lot of space to optimize it. For instance, we could look for the divisors from `2` to square root of `i`. But anyway, if we want to be really efficient for large intervals, we need to change the approach and rely on advanced maths and complex algorithms like [Quadratic sieve](https://en.wikipedia.org/wiki/Quadratic_sieve), [General number field sieve](https://en.wikipedia.org/wiki/General_number_field_sieve) etc.
+มีวิธีมากมายที่ช่วยเพิ่มประสิทธิภาพให้กับโค้ดชุดนี้ เมื่อ `n` ใหญ่ขึ้น เช่น เราสามารถมองหาตัวหารจาก `2` ถึงรากที่สองของ `i` แต่อย่างไรก็ตามหาก `n` ของเราใหญ่มากๆ เราก็จำเป้นที่จะต้องใช้วิธีการที่ซับซ้อนมากขึ้น เพื่อให้โปรแกรมทำงานได้มีประสิทธิภาพสูงสุด โดยอาศัยหลักการทางคณิตศาสตร์และอัลกอรึทึ่มเข้าช่วยเช่น [Quadratic sieve](https://en.wikipedia.org/wiki/Quadratic_sieve), [General number field sieve](https://en.wikipedia.org/wiki/General_number_field_sieve) และอื่นๆ
