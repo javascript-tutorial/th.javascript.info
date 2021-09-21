@@ -2,9 +2,9 @@ importance: 4
 
 ---
 
-# Rewrite "if" into "switch"
+# ลองมาแปลงคำสั่งจาก "if" เป็น "switch"
 
-Rewrite the code below using a single `switch` statement:
+ลองเขียนโค้ดด้านล่างใหม่โดยใช้คำสั่ง `switch` กัน:
 
 ```js run
 let a = +prompt('a?', '');
