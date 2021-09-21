@@ -1,4 +1,4 @@
-The first two checks turn into two `case`. The third check is split into two cases:
+ขั้นแรกมาเปลี่ยน if ตัวสองแรกเป็น `case` กันก่อน เพราะว่า if ตัวที่สามเราต้องใช้แยกออกมาเป็นสอง `case`:
 
 ```js run
 let a = +prompt('a?', '');
@@ -21,6 +21,6 @@ switch (a) {
 }
 ```
 
-Please note: the `break` at the bottom is not required. But we put it to make the code future-proof.
+โปรดจำจงไว้: คำสั่ง `break` ที่บรรทัดล่างสุดไม่จำเป็นต้องใส่ก็ได้ แต่ทางเราเขียนไว้เผื่ออนาคต
 
-In the future, there is a chance that we'd want to add one more `case`, for example `case 4`. And if we forget to add a break before it, at the end of `case 3`, there will be an error. So that's a kind of self-insurance.
+เพราะว่าอนาคต มีโอกาสที่เราจะเพิ่ม `case` ขึ้นมาอีก ตัวอย่างเช่น `case 4` และเราลืมใส่คำสั่ง `break` ไว้ท้าย `case 3` ซึ่งจะทำให้เกิดผลลัพธ์ที่ไม่คาดหวัง ดังนั้นเพื่อรับประกันว่าโค้ดทุกอย่างยังคงทำงานอย่างถูกต้อง เราจึงใส่ไว้นั่นเอง
