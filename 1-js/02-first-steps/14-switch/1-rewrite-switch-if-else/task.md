@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# Rewrite the "switch" into an "if"
+# ลองมาแปลงคำสั่งจาก "switch" เป็น "if"
 
-Write the code using `if..else` which would correspond to the following `switch`:
+เขียนโค้ดโดยใช้ `if..else` โดยให้สอดคล้องกับ `switch` ด้านล่าง:
 
 ```js
 switch (browser) {
