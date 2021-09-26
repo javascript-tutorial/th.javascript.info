@@ -1,8 +1,8 @@
-# Function expressions
+# นิพจน์ฟังก์ชั่น (Function expressions)
 
-In JavaScript, a function is not a "magical language structure", but a special kind of value.
+ใน JavaScript ฟังก์ชันไม่ใช่ magic ทางภาษา แต่เป็นค่าชนิดพิเศษ
 
-The syntax that we used before is called a *Function Declaration*:
+ไวยากรณ์ที่เราใช้ก่อนหน้านี้เรียกว่า *Function Declaration*:
 
 ```js
 function sayHi() {
@@ -10,9 +10,9 @@ function sayHi() {
 }
 ```
 
-There is another syntax for creating a function that is called a *Function Expression*.
+มีอีกรูปแบบหนึ่งสำหรับการสร้างฟังก์ชันที่เรียกว่า *Function Expression*
 
-It looks like this:
+มันมีรูปประโยคแบบนี้:
 
 ```js
 let sayHi = function() {
@@ -20,11 +20,11 @@ let sayHi = function() {
 };
 ```
 
-Here, the function is created and assigned to the variable explicitly, like any other value. No matter how the function is defined, it's just a value stored in the variable `sayHi`.
+ในที่นี้ ฟังก์ชันจะถูกสร้างขึ้นและกำหนดเป็นค่าของตัวแปร เช่นเดียวกับค่าอื่นๆ ไม่ว่าจะกำหนดฟังก์ชันอย่างไร ก็เป็นเพียงค่าที่เก็บไว้ในตัวแปร `sayHi`
 
-The meaning of these code samples is the same: "create a function and put it into the variable `sayHi`".
+ความหมายของตัวอย่างโค้ดด้านบนคือ: "สร้างฟังก์ชันและใส่ลงในตัวแปร `sayHi`"
 
-We can even print out that value using `alert`:
+เราสามารถแสดงค่านั้นออกมาได้โดยใช้ `alert`:
 
 ```js run
 function sayHi() {
@@ -32,34 +32,34 @@ function sayHi() {
 }
 
 *!*
-alert( sayHi ); // shows the function code
+alert( sayHi ); // แสดงโค้ดฟังก์ชัน
 */!*
 ```
 
-Please note that the last line does not run the function, because there are no parentheses after `sayHi`. There are programming languages where any mention of a function name causes its execution, but JavaScript is not like that.
+บรรทัดสุดท้ายจะไม่ทำงาน เนื่องจากไม่มีวงเล็บเปิด-ปิดหลัง `sayHi` เพื่อเรียกฟังก์ชั่นนี้ทำงาน มีภาษาโปรแกรมมิ่งบางภาษาที่สามารถให้ฟังก์ชั่นทำงานได้เพียงระบุชื่อฟังก์ชั่นโดยไม่ต้องใส่วงเล็บเปิด-ปิด แต่สำหรับจาวาสคริปต์ไม่ได้เป็นแบบนั้น
 
-In JavaScript, a function is a value, so we can deal with it as a value. The code above shows its string representation, which is the source code.
+ใน JavaScript ฟังก์ชันคือค่าค่าหรึ่ง ดังนั้นเราสามารถจัดการกับมันเป็นค่าได้ โค้ดของฟังก์ชั่นทั้งหมดจะถูกแสดงออกมาด้วยค่าสตริง
 
-Surely, a function is a special value, in the sense that we can call it like `sayHi()`.
+แน่นอนว่า ฟังก์ชันเป็นค่าพิเศษ ในแง่ที่เราสามารถสั่งให้มันทำงานได้โดยการเติมวงเล็บ `sayHi()`
 
-But it's still a value. So we can work with it like with other kinds of values.
+แต่มันก็ยังคงเป็นค่าอยู่ ดังนั้นเราจึงสามารถทำงานกับมันได้เหมือนกับค่าอื่นๆ
 
-We can copy a function to another variable:
+เราสามารถคัดลอกฟังก์ชันไปยังตัวแปรอื่นได้:
 
 ```js run no-beautify
-function sayHi() {   // (1) create
+function sayHi() {   // (1) สร้างฟังก์ชั่น
   alert( "Hello" );
 }
 
-let func = sayHi;    // (2) copy
+let func = sayHi;    // (2) คัดลอกฟังก์ชั่น
 
-func(); // Hello     // (3) run the copy (it works)!
-sayHi(); // Hello    //     this still works too (why wouldn't it)
+func(); // Hello     // (3) สั่งตัวก็อปปี้ทำงาน (ทำงานได้)
+sayHi(); // Hello    //     สั่งตัวดั้งเดิมทำงาน (ทำงานได้เช่นกัน)
 ```
 
-Here's what happens above in detail:
+นี่คือสิ่งที่เกิดขึ้นจากโค้ดข้างบนโดยละเอียด:
 
-1. The Function Declaration `(1)` creates the function and puts it into the variable named `sayHi`.
+1. การประกาศฟังก์ชั่น (Function Declaration) `(1)` สร้างฟังก์ชันและใส่ลงในตัวแปรชื่อ `sayHi`
 2. Line `(2)` copies it into the variable `func`. Please note again: there are no parentheses after `sayHi`. If there were, then `func = sayHi()` would write  *the result of the call* `sayHi()` into `func`, not *the function* `sayHi` itself.
 3. Now the function can be called as both `sayHi()` and `func()`.
 
