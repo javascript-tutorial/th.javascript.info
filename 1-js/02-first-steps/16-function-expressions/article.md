@@ -128,17 +128,16 @@ function showCancel() {
   alert( "You canceled the execution." );
 }
 
-// usage: functions showOk, showCancel are passed as arguments to ask
+// การใช้งาน: ฟังก์ชั่น showOk, showCancel ถูกส่งผ่านเป็นอาร์กิวเมนต์เพื่อใช้ถาม
 ask("Do you agree?", showOk, showCancel);
 ```
 
-In practice, such functions are quite useful. The major difference between a real-life `ask` and the example above is that real-life functions use more complex ways to interact with the user than a simple `confirm`. In the browser, such function usually draws a nice-looking question window. But that's another story.
+ในทางปฏิบัติ ฟังก์ชั่นดังกล่าวมีประโยชน์มาก ความแตกต่างที่สำคัญระหว่าง "การถาม" ในชีวิตจริงกับตัวอย่างข้างต้นคือฟังก์ชันในชีวิตจริงใช้วิธีที่ซับซ้อนกว่าในการโต้ตอบกับผู้ใช้มากกว่า `confirm` ในเบราว์เซอร์ธรรมดาๆ ฟังก์ชันดังกล่าวมักจะสร้างหน้าต่างคำถามที่ดูดีกว่า
 
-**The arguments `showOk` and `showCancel` of `ask` are called *callback functions* or just *callbacks*.**
+**อาร์กิวเมนต์ `showOk` และ `showCancel` ของฟังก์ชั่น `ask` เรียกว่า *ฟังก์ชันไว้เรียกทีหลัง (Callback functions)* หรือบางทีเราก็เรียกสั้นๆแค่ *Callback***
 
-The idea is that we pass a function and expect it to be "called back" later if necessary. In our case, `showOk` becomes the callback for "yes" answer, and `showCancel` for "no" answer.
-
-We can use Function Expressions to write the same function much shorter:
+แนวคิดคือเราส่งฟังก์ชันและคาดว่าจะ "เอาไว้เรียกทีหลัง" หากจำเป็น ในกรณีของเรา `showOk` ก็คือฟังก์ชั่น Callback สำหรับคำตอบ "yes" และ `showCancel` สำหรับคำตอบ "no"
+เราสามารถgเขียนเป็น Function Expressions เพื่อให้ฟังก์ชั่นส้ันลงได้ดังนี้:
 
 ```js run no-beautify
 function ask(question, yes, no) {
@@ -155,26 +154,26 @@ ask(
 */!*
 ```
 
-Here, functions are declared right inside the `ask(...)` call. They have no name, and so are called *anonymous*. Such functions are not accessible outside of `ask` (because they are not assigned to variables), but that's just what we want here.
+ในที่นี้ ฟังก์ชั่นต่างๆ จะถูกประกาศไว้ภายใน `ask(...)` ฟังก์ชั่นเหล่านี้ไม่มีชื่อ เราจึงเรียกว่าฟังก์ชั่นเหล่านี้ว่า *anonymous* ฟังก์ชันดังกล่าวไม่สามารถเข้าถึงได้จากภายนอกฟังก์ชั่น 'ask' (เพราะไม่ได้กำหนดเข้าตัวแปร)
 
-Such code appears in our scripts very naturally, it's in the spirit of JavaScript.
+โค้ดดังกล่าวที่ปรากฏในสคริปต์เป็นเรื่องปกติสำหรับจาวาสคริปต์
 
-```smart header="A function is a value representing an \"action\""
-Regular values like strings or numbers represent the *data*.
+```smart header="ฟังก์ชั่นคือค่าที่เป็นตัวแทนของ \"การกระทำ\""
+ค่าปกติเช่นสตริงหรือตัวเลขเป็นตัวแทนของ *ข้อมูล*
 
-A function can be perceived as an *action*.
+ฟังก์ชั่นจะถูกรับรู้ว่าคือ *การกระทำ* เสมอ
 
-We can pass it between variables and run when we want.
+เราสามารถส่งต่อฟังก์ชั่นระหว่างตัวแปรและเรียกใช้ฟังก์ชั่นนั้นผ่านตัวแปรเมื่อเราต้องการได้
 ```
 
 
 ## Function Expression vs Function Declaration
 
-Let's formulate the key differences between Function Declarations and Expressions.
+มาดูความแตกต่างระหว่างการประกาศฟังก์ชั่น (Function Declaration) และ นิพจน์ฟังก์ชั่น (Function Expression)
 
-First, the syntax: how to differentiate between them in the code.
+อันดับแรก ไวยากรณ์: วิธีแยกความแตกต่างระหว่างทั้งสองในโค้ด
 
-- *Function Declaration:* a function, declared as a separate statement, in the main code flow.
+- *การประกาศฟังก์ชั่น:* ฟังก์ชันที่ประกาศเป็นคำสั่งแยกต่างหากในโฟลว์โค้ดหลัก
 
     ```js
     // Function Declaration
@@ -182,7 +181,7 @@ First, the syntax: how to differentiate between them in the code.
       return a + b;
     }
     ```
-- *Function Expression:* a function, created inside an expression or inside another syntax construct. Here, the function is created at the right side of the "assignment expression" `=`:
+- *นิพจน์ฟังก์ชั่น:* ฟังก์ชันที่สร้างขึ้นภายในนิพจน์หรือภายในโครงสร้างไวยากรณ์อื่น ในทีนี้เราเขียนฟังก์ชั่นด้านขวาของ "assignment expression" `=`:
 
     ```js
     // Function Expression
