@@ -190,23 +190,23 @@ ask(
     };
     ```
 
-The more subtle difference is *when* a function is created by the JavaScript engine.
+ความซับซ้อนจะยิ่งมากขึ้น *เมื่อ* JavaScript engine มาเกี่ยวข้องด้วย
 
-**A Function Expression is created when the execution reaches it and is usable only from that moment.**
+**นิพจน์ฟังก์ชั่นจะถูกสร้างขึ้นเมื่อการดำเนินการมาถึง และสามารถใช้ได้ในช่วงเวลานั้นเท่านั้น**
 
-Once the execution flow passes to the right side of the assignment `let sum = function…` -- here we go, the function is created and can be used (assigned, called, etc. ) from now on.
+นั่นก็คือนิพจน์ฟังก์ชั่นจะทำงานตามโฟลว์การทำงานของโปรแกรม ซึ่งจะเหมือนกับการอ่านหนังสือของคนเรา นั่นคือจากซ้ายไปขวาและบนลงล่าง `let sum = function…` นั่นหมายถึงนิพจน์ฟังก์ชั่นสามารถใช้งานได้จากบรรทัดที่เพิ่งถูกกำหนดลงมาเท่านั้น
 
-Function Declarations are different.
+ส่วนการประกาศฟังก์ชัน (Function Declarations) จะต่างออกไป
 
-**A Function Declaration can be called earlier than it is defined.**
+**การประกาศฟังก์ชันสามารถเรียกได้เร็วกว่าที่กำหนดไว้**
 
-For example, a global Function Declaration is visible in the whole script, no matter where it is.
+นั่นก็คือการประกาศฟังก์ชัน (Function Declarations) เป็น global scope ไม่ว่าเราจะประกาศฟังก์ชั่นส่วนไหนของสคริปต์ เราก็สามารถเรียกใช้ฟังก์ชั่นนั่นได้
 
-That's due to internal algorithms. When JavaScript prepares to run the script, it first looks for global Function Declarations in it and creates the functions. We can think of it as an "initialization stage".
+นั่นเป็นเพราะอัลกอริธึมของ JavaScript engine เมื่อจาวาสคริปต์เตรียมที่จะรันสคริปต์ อันดับแรกมันจะค้นหา Global Function Declarations ในสคริปต์นั้นๆ และสร้างฟังก์ชันขึ้นมาก่อน เราเรียกขั้นตอนนี้ว่า "initialization stage"
 
-And after all Function Declarations are processed, the code is executed. So it has access to these functions.
+และหลังจากประมวลผลบรรดาการประกาศฟังก์ชันทั้งหมด (Function Declarations) แล้ว โค้ดก็จะถูกดำเนินการ จึงมีการเข้าถึงฟังก์ชั่นเหล่านี้
 
-For example, this works:
+ตัวอย่างเช่น:
 
 ```js run refresh untrusted
 *!*
@@ -218,9 +218,9 @@ function sayHi(name) {
 }
 ```
 
-The Function Declaration `sayHi` is created when JavaScript is preparing to start the script and is visible everywhere in it.
+การประกาศฟังก์ชัน `sayHi` ถูกสร้างขึ้นเมื่อ JavaScript กำลังเตรียมที่จะเริ่มสคริปต์ ดังนั้นทุกส่วนในสคริปต์จึงเห็นฟังก์ชั่น `sayHi`
 
-...If it were a Function Expression, then it wouldn't work:
+...หากเป็น Function Expression มันก็จะใช้งานไม่ได้:
 
 ```js run refresh untrusted
 *!*
@@ -232,20 +232,20 @@ let sayHi = function(name) {  // (*) no magic any more
 };
 ```
 
-Function Expressions are created when the execution reaches them. That would happen only in the line `(*)`. Too late.
+นิพจน์ฟังก์ชันจะถูกสร้างขึ้นเมื่อการดำเนินการมาถึง ที่จะเกิดขึ้นเฉพาะในบรรทัด `(*)` ดังนั้นหากเราจะเรียกใช้ ควรเรียกในบรรทัดถัดไป
 
-Another special feature of Function Declarations is their block scope.
+คุณสมบัติพิเศษอีกอย่างของการประกาศฟังก์ชัน (Function Declarations) คือขอบเขตบล็อก
 
-**In strict mode, when a Function Declaration is within a code block, it's visible everywhere inside that block. But not outside of it.**
+**ใน strict mode, เมื่อการประกาศฟังก์ชันอยู่ในบล็อกโค้ด โค้ดที่อยู่ในบล็อคนั้นจะมองเห็นฟังก์ชั่นที่เพิ่งประกาศตัวนี้หมด แต่ไม่สามารถมองเห็นได้จากภายนอกบล็อค**
 
-For instance, let's imagine that we need to declare a function `welcome()` depending on the `age` variable that we get during runtime. And then we plan to use it some time later.
+ตัวอย่างเช่น สมมติว่าเราจำเป็นต้องประกาศฟังก์ชัน `welcome()` ขึ้นอยู่กับตัวแปร `age` ที่เราได้รับระหว่างรันไทม์ แล้วเราวางแผนที่จะใช้มันในภายหลัง
 
-If we use Function Declaration, it won't work as intended:
+ถ้าเราใช้ Function Declaration ก็จะไม่ทำงานตามที่ตั้งใจไว้:
 
 ```js run
 let age = prompt("What is your age?", 18);
 
-// conditionally declare a function
+// ประกาศฟังก์ชันแบบมีเงื่อนไข
 if (age < 18) {
 
   function welcome() {
@@ -260,7 +260,7 @@ if (age < 18) {
 
 }
 
-// ...use it later
+// ...ใช้ทีหลัง
 *!*
 welcome(); // Error: welcome is not defined
 */!*
