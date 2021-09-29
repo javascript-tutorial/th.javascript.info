@@ -240,7 +240,7 @@ let sayHi = function(name) {  // (*) no magic any more
 
 ตัวอย่างเช่น สมมติว่าเราจำเป็นต้องประกาศฟังก์ชัน `welcome()` ขึ้นอยู่กับตัวแปร `age` ที่เราได้รับระหว่างรันไทม์ แล้วเราวางแผนที่จะใช้มันในภายหลัง
 
-ถ้าเราใช้ Function Declaration ก็จะไม่ทำงานตามที่ตั้งใจไว้:
+ถ้าเราใช้การประกาศฟังก์ชัน Function Declaration ก็จะไม่ทำงานตามที่ตั้งใจไว้:
 
 ```js run
 let age = prompt("What is your age?", 18);
