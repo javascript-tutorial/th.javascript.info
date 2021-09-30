@@ -240,7 +240,7 @@ let sayHi = function(name) {  // (*) no magic any more
 
 ตัวอย่างเช่น สมมติว่าเราจำเป็นต้องประกาศฟังก์ชัน `welcome()` ขึ้นอยู่กับตัวแปร `age` ที่เราได้รับระหว่างรันไทม์ แล้วเราวางแผนที่จะใช้มันในภายหลัง
 
-ถ้าเราใช้การประกาศฟังก์ชัน Function Declaration ก็จะไม่ทำงานตามที่ตั้งใจไว้:
+ถ้าเราใช้การประกาศฟังก์ชัน (Function Declaration) ก็จะไม่ทำงานตามที่ตั้งใจไว้:
 
 ```js run
 let age = prompt("What is your age?", 18);
@@ -266,21 +266,21 @@ welcome(); // Error: welcome is not defined
 */!*
 ```
 
-That's because a Function Declaration is only visible inside the code block in which it resides.
+นั่นเป็นเพราะการประกาศฟังก์ชันจะมองเห็นได้เฉพาะในบล็อคโค้ดที่มันอยู่เท่านั้น
 
-Here's another example:
+นี่เป็นอีกตัวอย่างหนึ่ง:
 
 ```js run
-let age = 16; // take 16 as an example
+let age = 16; // ใช้ 16 เป็นตัวอย่าง
 
 if (age < 18) {
 *!*
   welcome();               // \   (runs)
 */!*
                            //  |
-  function welcome() {     //  |  
-    alert("Hello!");       //  |  Function Declaration is available
-  }                        //  |  everywhere in the block where it's declared
+  function welcome() {     //  |
+    alert("Hello!");       //  |  มีการประกาศฟังก์ชั่น (Function Declaration)
+  }                        //  |
                            //  |
 *!*
   welcome();               // /   (runs)
@@ -293,19 +293,19 @@ if (age < 18) {
   }
 }
 
-// Here we're out of curly braces,
-// so we can not see Function Declarations made inside of them.
+// ตั้งแต่บรรทัดนี้คือภายนอกโค้ดบล็อคที่ประกาศฟังก์ชั่น welcome เอาไว้
+// ดังนั้นเราจึงไม่สามารถใช้ฟังก์ชั่นที่ประกาศภายในบล็อคโค้ดได้
 
 *!*
 welcome(); // Error: welcome is not defined
 */!*
 ```
 
-What can we do to make `welcome` visible outside of `if`?
+เราจะทำอย่างไรเพื่อให้เรามองเห็นฟังก์ชั่น `welcone` จากภายนอก `if`
 
-The correct approach would be to use a Function Expression and assign `welcome` to the variable that is declared outside of `if` and has the proper visibility.
+วิธีที่ถูกต้องคือการใช้ Function Expression คือประกาศตัวแปร `welcome` ภายนอก แล้วกำหนดฟังก์ชั่นให้ `welcome` ใน `if` อีกที
 
-This code works as intended:
+โค้ดจะทำงานได้ตามที่ตั้งใจไว้:
 
 ```js run
 let age = prompt("What is your age?", 18);
@@ -327,7 +327,7 @@ if (age < 18) {
 }
 
 *!*
-welcome(); // ok now
+welcome(); // ตอนนี้ใช้งานได้แล้ว
 */!*
 ```
 
