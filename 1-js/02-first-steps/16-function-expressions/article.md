@@ -236,7 +236,7 @@ let sayHi = function(name) {  // (*) no magic any more
 
 คุณสมบัติพิเศษอีกอย่างของการประกาศฟังก์ชัน (Function Declarations) คือขอบเขตบล็อก
 
-**ใน strict mode, เมื่อการประกาศฟังก์ชันอยู่ในบล็อกโค้ด โค้ดที่อยู่ในบล็อคนั้นจะมองเห็นฟังก์ชั่นที่เพิ่งประกาศตัวนี้หมด แต่ไม่สามารถมองเห็นได้จากภายนอกบล็อค**
+**ใน strict mode, เมื่อการประกาศฟังก์ชันอยู่ในบล็อกโค้ด โค้ดที่อยู่ในบล็อคนั้นจะสามารถใช้งานฟังก์ชั่นประกาศแบบนี้ได้หมด แต่ไม่สามารถใช้งานได้จากภายนอกบล็อค**
 
 ตัวอย่างเช่น สมมติว่าเราจำเป็นต้องประกาศฟังก์ชัน `welcome()` ขึ้นอยู่กับตัวแปร `age` ที่เราได้รับระหว่างรันไทม์ แล้วเราวางแผนที่จะใช้มันในภายหลัง
 
@@ -266,7 +266,7 @@ welcome(); // Error: welcome is not defined
 */!*
 ```
 
-นั่นเป็นเพราะการประกาศฟังก์ชันจะมองเห็นได้เฉพาะในบล็อคโค้ดที่มันอยู่เท่านั้น
+นั่นเป็นเพราะการประกาศฟังก์ชันจะใช้งานได้เฉพาะในบล็อคโค้ดที่มันอยู่เท่านั้น
 
 นี่เป็นอีกตัวอย่างหนึ่ง:
 
@@ -301,7 +301,7 @@ welcome(); // Error: welcome is not defined
 */!*
 ```
 
-เราจะทำอย่างไรเพื่อให้เรามองเห็นฟังก์ชั่น `welcone` จากภายนอก `if`
+เราจะทำอย่างไรเพื่อให้เราใช้งานฟังก์ชั่น `welcone` ได้จากภายนอก `if`
 
 วิธีที่ถูกต้องคือการใช้ Function Expression คือประกาศตัวแปร `welcome` ภายนอก แล้วกำหนดฟังก์ชั่นให้ `welcome` ใน `if` อีกที
 
@@ -331,7 +331,7 @@ welcome(); // ตอนนี้ใช้งานได้แล้ว
 */!*
 ```
 
-Or we could simplify it even further using a question mark operator `?`:
+หรือเราอาจทำให้มันง่ายขึ้นโดยใช้ตัวดำเนินการเครื่องหมายคำถาม `?`:
 
 ```js run
 let age = prompt("What is your age?", 18);
@@ -341,27 +341,26 @@ let welcome = (age < 18) ?
   function() { alert("Greetings!"); };
 
 *!*
-welcome(); // ok now
+welcome(); // ตอนนี้ใช้งานได้แล้ว
 */!*
 ```
 
 
-```smart header="When to choose Function Declaration versus Function Expression?"
-As a rule of thumb, when we need to declare a function, the first to consider is Function Declaration syntax. It gives more freedom in how to organize our code, because we can call such functions before they are declared.
+```smart header="เมื่อใดควรเลือก การประกาศฟังก์ชั่น (Function Declaration) หรือ นิพจน์ฟังก์ชั่น (Function Expression) ดี?"
+ตามกฎทั่วไป เมื่อเราต้องการประกาศฟังก์ชัน สิ่งแรกที่ต้องพิจารณาคือ ใช้การประกาศฟังก์ชั่น (Function Declaration) มันให้อิสระมากขึ้นในการจัดระเบียบโค้ด เพราะเราสามารถเรียกใช้ฟังก์ชั่นเหล่านี้ได้ทุกเมื่อ
 
-That's also better for readability, as it's easier to look up `function f(…) {…}` in the code than `let f = function(…) {…};`. Function Declarations are more "eye-catching".
+แล้วการประกาศใช้ฟังก์ชั่นยังดีกว่าในแง่ความอ่านง่ายอีกด้วย เนื่องจากการค้นหา `function f(…) {…}` ในโค้ดง่ายกว่า `let f = function(…) {…};` การประกาศฟังก์ชันมีความ "สะดุดตา" มากกว่า
 
-...But if a Function Declaration does not suit us for some reason, or we need a conditional declaration (we've just seen an example), then Function Expression should be used.
+แต่ถ้าการประกาศฟังก์ชันไม่เหมาะกับเราด้วยเหตุผลบางอย่าง เช่นเราต้องการการประกาศแบบมีเงื่อนไข (เราเพิ่งเห็นตัวอย่างไปเมื่อกี้) ก็ควรใช้นิพจน์ฟังก์ชันแทน
 ```
 
-## Summary
+## สรุป
 
-- Functions are values. They can be assigned, copied or declared in any place of the code.
-- If the function is declared as a separate statement in the main code flow, that's called a "Function Declaration".
-- If the function is created as a part of an expression, it's called a "Function Expression".
-- Function Declarations are processed before the code block is executed. They are visible everywhere in the block.
-- Function Expressions are created when the execution flow reaches them.
+- ฟังก์ชันคือค่าที่สามารถกำหนด คัดลอก หรือประกาศในตำแหน่งใดก็ได้ในโค้ด
+- หากฟังก์ชันถูกประกาศเป็นคำสั่งแยกต่างหากในโฟลว์โค้ดหลัก ฟังก์ชันนั้นเรียกว่า การประกาศฟังก์ชัน (Function Declaration)
+- ถ้าฟังก์ชันถูกสร้างขึ้นเป็นส่วนหนึ่งของนิพจน์ จะเรียกว่า นิพจน์ฟังก์ชั่น (Function Expression)
+- การประกาศฟังก์ชันจะได้รับการประมวลผลก่อน การทำงานหลักของโปรแกรม ดังนั้นโต้ดทุกส่วนในสคริปต์จึงสามารถใช้งานฟังก์ชั่นเหล่านี้ได้
+- นิพจน์ของฟังก์ชันจะถูกสร้างขึ้นเมื่อโฟลว์การดำเนินการไปถึง
 
-In most cases when we need to declare a function, a Function Declaration is preferable, because it is visible prior to the declaration itself. That gives us more flexibility in code organization, and is usually more readable.
-
-So we should use a Function Expression only when a Function Declaration is not fit for the task. We've seen a couple of examples of that in this chapter, and will see more in the future.
+ในกรณีส่วนใหญ่เมื่อเราต้องการประกาศฟังก์ชัน การประกาศฟังก์ชันนั้นเหมาะสมกว่า เนื่องจากจะโต้ดทุกส่วนจะใช้งานฟังก์ชั่นนั้นได้ก่อนการประกาศ นั่นทำให้เรามีความยืดหยุ่นมากขึ้นในการจัดระเบียบโค้ดและอ่านง่ายขึ้น
+ดังนั้น เราควรใช้ นิพจน์ฟังก์ชั่น (Function Expression) เฉพาะเมื่อ การประกาศฟังก์ชัน (Function Declaration) ไม่เหมาะกับงานเท่านั้น เราได้เห็นสองสามตัวอย่างแล้วในบทนี้ และจะเห็นเพิ่มเติมในอนาคต
