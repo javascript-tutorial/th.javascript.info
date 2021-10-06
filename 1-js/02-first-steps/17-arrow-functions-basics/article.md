@@ -1,16 +1,16 @@
-# Arrow functions, the basics
+# Arrow functions ขั้นพื้นฐาน
 
-There's another very simple and concise syntax for creating functions, that's often better than Function Expressions.
+มีการสร้างฟังก์ชันอีกรูปแบบหนึ่งที่ประโยคเรียบง่ายและกระชับกว่านิพจน์ฟังก์ชัน
 
-It's called "arrow functions", because it looks like this:
+มันเรียกว่า "Arrow function" เพราะมีรูปประโยคดังนี้:
 
 ```js
 let func = (arg1, arg2, ..., argN) => expression
 ```
 
-...This creates a function `func` that accepts arguments `arg1..argN`, then evaluates the `expression` on the right side with their use and returns its result.
+...ด้วยรูปประโยตดังนี้จะสร้างฟังก์ชัน `func` ที่รับอาร์กิวเมนต์ `arg1..argN` จากนั้นจึงประเมิน `นิพจน์ (expression)` ทางด้านขวาและส่งคืนผลลัพธ์
 
-In other words, it's the shorter version of:
+กล่าวอีกนัยหนึ่งก็คือ เวอร์ชันที่สั้นกว่าของ
 
 ```js
 let func = function(arg1, arg2, ..., argN) {
@@ -18,12 +18,12 @@ let func = function(arg1, arg2, ..., argN) {
 };
 ```
 
-Let's see a concrete example:
+มาดูตัวอย่างที่เป็นรูปธรรมกัน:
 
 ```js run
 let sum = (a, b) => a + b;
 
-/* This arrow function is a shorter form of:
+/* Arrow function นี้เป็นรูปที่เขียนสั้นกว่าของ:
 
 let sum = function(a, b) {
   return a + b;
@@ -33,9 +33,9 @@ let sum = function(a, b) {
 alert( sum(1, 2) ); // 3
 ```
 
-As you can, see `(a, b) => a + b` means a function that accepts two arguments named `a` and `b`. Upon the execution, it evaluates the expression `a + b` and returns the result.
+อย่างที่เราเห็น `(a, b) => a + b` หมายถึงฟังก์ชันที่ยอมรับสองอาร์กิวเมนต์ชื่อ `a` และ `b` เมื่อดำเนินการ มันจะประเมินนิพจน์ `a + b` และส่งคืนผลลัพธ์
 
-- If we have only one argument, then parentheses around parameters can be omitted, making that even shorter.
+- หากเรารับอาร์กิวเมนต์เพียงตัวเดียว วงเล็บรอบพารามิเตอร์สามารถละเว้นได้ ซึ่งจะทำให้มันเขียนสั้นลงอีก
 
     For example:
 
