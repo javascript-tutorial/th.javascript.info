@@ -37,7 +37,7 @@ alert( sum(1, 2) ); // 3
 
 - หากเรารับอาร์กิวเมนต์เพียงตัวเดียว วงเล็บรอบพารามิเตอร์สามารถละเว้นได้ ซึ่งจะทำให้มันเขียนสั้นลงอีก
 
-    For example:
+    ตัวอย่างเช่น:
 
     ```js run
     *!*
@@ -48,7 +48,7 @@ alert( sum(1, 2) ); // 3
     alert( double(3) ); // 6
     ```
 
-- If there are no arguments, parentheses will be empty (but they should be present):
+- หากไม่มีอาร์กิวเมนต์ จะเขียนวงเล็บเปล่าๆ (ควรมีวงเล็บเพื่อโปรแกรมจะได้รู้ว่านี่คือฟังก์ชั่น):
 
     ```js run
     let sayHi = () => alert("Hello!");
@@ -56,9 +56,9 @@ alert( sum(1, 2) ); // 3
     sayHi();
     ```
 
-Arrow functions can be used in the same way as Function Expressions.
+Arrow functions เหมือนกันกับนิพจน์ฟังก์ชันทุกอย่าง (Function Expressions)
 
-For instance, to dynamically create a function:
+ตัวอย่างเช่น การสร้างฟังก์ชันแบบไดนามิก:
 
 ```js run
 let age = prompt("What is your age?", 18);
@@ -70,42 +70,42 @@ let welcome = (age < 18) ?
 welcome();
 ```
 
-Arrow functions may appear unfamiliar and not very readable at first, but that quickly changes as the eyes get used to the structure.
+Arrow functions อาจดูไม่คุ้นเคยและไม่ค่อยอ่านง่ายในตอนแรก แต่เมื่อเราทำงานกับมันเรื่อยๆก็จะคุ้นเคยกับพวกมันอย่างรวดเร็ว
 
-They are very convenient for simple one-line actions, when we're just too lazy to write many words.
+หากเราขี้เกียจจะเขียนหลายบรรทัด Arrow functions สะดวกมากสำหรับการเขียนฟังก์ชั่นแบบบรรทัดเดียว 
 
-## Multiline arrow functions
+## Arrow functions แบบหลายบรรทัด
 
-The examples above took arguments from the left of `=>` and evaluated the right-side expression with them.
+ตัวอย่างข้างต้นใช้อาร์กิวเมนต์จากด้านซ้ายของ `=>` และประเมินนิพจน์ที่อยู่ด้านขวา
 
-Sometimes we need something a little bit more complex, like multiple expressions or statements. It is also possible, but we should enclose them in curly braces. Then use a normal `return` within them.
+หากเราต้องการเขียนนิพจน์หรือคำสั่งหลายๆตัวใน Arrow function เราก็ทำได้เช่นกันเพียงแค่ ใส่ปีกกาเหมือนฟังก์ชั่นปกติ ดั่งตัวอย่างด้านล่าง
 
-Like this:
+แบบนี้:
 
 ```js run
-let sum = (a, b) => {  // the curly brace opens a multiline function
+let sum = (a, b) => {  // ปีกกาเปิดเพื่อเขียนนิพจน์หรือคำสั่งหลายๆตัว
   let result = a + b;
 *!*
-  return result; // if we use curly braces, then we need an explicit "return" 
+  return result; // หากเราใส่ปีกกาอย่าลืมใส่ `return` ลงไปด้วยเพื่อส่งกลับผลลัพธ์ที่ได้ ไม่งั้นฟังก์ชั่นนี้จะส่ง `undefined` แทน
 */!*
 };
 
 alert( sum(1, 2) ); // 3
 ```
 
-```smart header="More to come"
-Here we praised arrow functions for brevity. But that's not all!
+```smart header="เพิ่มเติม"
+เราอวย Arrow functions เพราะว่ามันทำให้การเขียนฟังก์ชั่นกระชับขึ้น แต่นั่นไม่ใช่เหตุผลทั้งหมด
 
-Arrow functions have other interesting features.
+Arrow functions ยังมีฟีเจอร์ที่น่าสนใจอื่นๆอีก
 
-To study them in-depth, we first need to get to know some other aspects of JavaScript, so we'll return to arrow functions later in the chapter <info:arrow-functions>.
+หากต้องการศึกษาเชิงลึก เราต้องทำความรู้จักกับจาวาสคริปต์ในด้านอื่นๆ ก่อน ดังนั้นเราค่อยจะกลับมาเจอกับ Arrow functions ใหม่ในบท <info:arrow-functions>
 
-For now, we can already use arrow functions for one-line actions and callbacks.
+ในตอนนี้ เราก็สามารถใช้ Arrow functions เขียนฟังก์ชั่นบรรทัดเดียว รวมถึง ฟังก์ชันไว้เรียกทีหลัง (Callback function) ได้แล้ว 
 ```
 
-## Summary
+## สรุป
 
-Arrow functions are handy for one-liners. They come in two flavors:
+Arrow functions สำหรับคนชอบความกระชับ สามารถเขียนได้สองแบบ:
 
-1. Without curly braces: `(...args) => expression` -- the right side is an expression: the function evaluates it and returns the result.
-2. With curly braces: `(...args) => { body }` -- brackets allow us to write multiple statements inside the function, but we need an explicit `return` to return something.
+1. ไม่มีปีกกา: `(...args) => expression` -- ด้านขวาคือนิพจน์: ฟังก์ชันจะประเมินและส่งคืนผลลัพธ์ทันที
+2. มีปีกกา: `(...args) => { body }` -- ช่วยให้เราสามารถเขียนหลายคำสั่งภายในฟังก์ชัน แต่เราจำเป็นต้องมี `return` เพื่อส่งผลลัพธ์กลับไป
