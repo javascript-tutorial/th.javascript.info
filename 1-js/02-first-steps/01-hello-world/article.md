@@ -70,7 +70,11 @@ attribute `language`: <code>&lt;script <u>language</u>=...&gt;</code>
 <script src="/path/to/script.js"></script>
 ```
 
+<<<<<<< HEAD
 ดังตัวอย่าง `/path/to/script.js` โดยจะใช้ absolute path หรือ relative path ก็ได้ โดย path จะเป็นไปตามที่อยู่ของไฟล์ HTML ตัวอย่างเช่น, `src="script.js"` หมายความว่าไฟล์ `"script.js"` อยู่ในโฟลเดอร์เดียวกันกับไฟล์ `HTML`
+=======
+Here, `/path/to/script.js` is an absolute path to the script from the site root. One can also provide a relative path from the current page. For instance, `src="script.js"`, just like `src="./script.js"`, would mean a file `"script.js"` in the current folder.
+>>>>>>> 4541b7af7584014a676da731f6e8774da5e059f6
 
 หรือจะใช้เป็น URL ก็ได้ดังตัวอย่างด้านล่าง
 
