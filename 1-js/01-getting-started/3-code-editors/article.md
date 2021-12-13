@@ -31,10 +31,17 @@ IDE ส่วนมากจะเสียตัง แต่จะมีระ
 
 ก็จะมีตัวเลือกดังต่อไปนี้
 
+<<<<<<< HEAD
 - [Atom](https://atom.io/) (cross-platform, ฟรี).
 - [Sublime Text](http://www.sublimetext.com) (cross-platform, ให้ทดลองใช้).
 - [Notepad++](https://notepad-plus-plus.org/) (Windows, ฟรี).
 - [Vim](http://www.vim.org/) and [Emacs](https://www.gnu.org/software/emacs/) IDEs สำหรับโปรแกรมเมอร์ที่แท้จริง
+=======
+- [Atom](https://atom.io/) (cross-platform, free).
+- [Sublime Text](http://www.sublimetext.com) (cross-platform, shareware).
+- [Notepad++](https://notepad-plus-plus.org/) (Windows, free).
+- [Vim](http://www.vim.org/) and [Emacs](https://www.gnu.org/software/emacs/) are also cool if you know how to use them.
+>>>>>>> c5358c59494b53efb832c81a5338e0a23b22c269
 
 ## อย่าเถียงกันเลย
 

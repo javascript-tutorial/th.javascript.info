@@ -5,10 +5,14 @@
 มันเรียกว่า "Arrow function" เพราะมีรูปประโยคดังนี้:
 
 ```js
-let func = (arg1, arg2, ..., argN) => expression
+let func = (arg1, arg2, ..., argN) => expression;
 ```
 
+<<<<<<< HEAD
 ...ด้วยรูปประโยตดังนี้จะสร้างฟังก์ชัน `func` ที่รับอาร์กิวเมนต์ `arg1..argN` จากนั้นจึงประเมิน `นิพจน์ (expression)` ทางด้านขวาและส่งคืนผลลัพธ์
+=======
+This creates a function `func` that accepts arguments `arg1..argN`, then evaluates the `expression` on the right side with their use and returns its result.
+>>>>>>> c5358c59494b53efb832c81a5338e0a23b22c269
 
 กล่าวอีกนัยหนึ่งก็คือ เวอร์ชันที่สั้นกว่าของ
 
