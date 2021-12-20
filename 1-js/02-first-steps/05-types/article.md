@@ -186,7 +186,7 @@ let age;
 alert(age); // แสดง "undefined"
 ```
 
-ในทางเทคนิค ตัวภาษาจะ assign ค่า `undefined` ให้ตัวแปรที่ไม่เก็บค่าใดอัตโนมัติ
+ในทางเทคนิค ตัวภาษาจะกำหนดค่า `undefined` ให้ตัวแปรที่ไม่มีค่าโดยอัตโนมัติ
 
 ```js run
 let age = 100;
@@ -196,6 +196,7 @@ age = undefined;
 
 alert(age); // "undefined"
 ```
+
 ...แต่เราไม่แนะนำให้ทำแบบนั้น ปกติแล้ว จะใช้ `null` assign แทนสำหรับตัวแปรที่ เป็นค่าว่าง หรือ ยังไม่รู้ ขณะที่ `undefined` คือย้อนกลับไปค่าเริ่มต้นคือ ไม่ได้ assign ค่าใดๆให้ตัวแปรนี้
 
 ## ออบเจ็กต์ (Objects) และซิมโบล (Symbols)
@@ -212,18 +213,7 @@ alert(age); // "undefined"
 
 ตัวโอเปอเรเตอร์ `typeof` จะส่งคืนชนิดของข้อมูลนั้นๆออกมา โอเปอเรเตอร์ตัวนี้มีประโยชน์อย่างมาก เมื่อเราต้องประมวลผลชนิดข้อมูลที่ต่างกัน หรือ เช็คชนิดของชนิดข้อมูลนั้นๆ
 
-<<<<<<< HEAD
-สามารถเขียนได้ทั้งสองรูปแบบดังนี้
-
-1. เขียนแบบโอเปอเรเตอร์ `typeof x`
-2. เขียนแบบฟังชั่นก์ `typeof(x)`
-
-ทั้งสองแบบได้ผลลัพธ์แบบเดียวกัน
-
-การเรียก `typeof x` จะส่งคืนค่าสตริงที่เป็นชนิดของข้อมูลนั้นๆออกมา
-=======
-A call to `typeof x` returns a string with the type name:
->>>>>>> 8d04d0d2db97276dbb2b451c30a7bd3e05d65831
+การเรียก `typeof x` จะได้สตริงที่ระบุชนิดของข้อมูลนั้นออกมา:
 
 ```js
 typeof undefined // "undefined"
@@ -253,29 +243,21 @@ typeof alert // "function"  (3)
 
 คำอธิบายเพิ่มเติมเกี่ยวกับสามบรรทัดสุดท้าย
 
-<<<<<<< HEAD
 1. `Math` เป็น built-in object (ออบเจ็กต์ที่ภาษาให้มา) ที่มีฟีเจอร์เรื่องการคำนวณ เดี๋ยวเราจะได้เรียนในบท <info:number> ทีนี้จะบอกว่ามันก็เป็น object เหมือนกันนะ
 2. ผลลัพธ์จาก `typeof null` คือ `"object"` แต่นี่เป็นข้อผิดพลาดของภาษา มาจากในตอนที่จาวาสคริปต์เกิดแรกๆ และต้องการความ compatibility แต่แน่นอนว่า `null` ไม่ใช่ object และมันควรเป็นข้อมูลชนิดพิเศษ แยกไปเป้นของตัวเองต่างหาก
-3. ผลลัพธ์จาก `typeof alert` คือ `"function"` เพราะ `alert` เป็นฟังชั่นก์ ซึ่งเราจะก็เห็นว่าไม่มีข้อมูลชนิดฟังชั่นก์อยู่ในจาวาสคริปต์ อันที่จริงฟังชั่นก์เป็นหนึ่งใน object แต่ `typeof` จะมองเป็นฟังชั่นก์ แล้ว return "function" ออกมาแทน ในทางเทคนิคแล้ว พฤติกรรมแบบนี้ถือว่าเป้นบัคของภาษา แต่บัคตัวนี้กลับทำให้ชีวิตเราง่ายขึ้น
-
-## สรุป
-=======
-1. `Math` is a built-in object that provides mathematical operations. We will learn it in the chapter <info:number>. Here, it serves just as an example of an object.
-2. The result of `typeof null` is `"object"`. That's an officially recognized error in `typeof`, coming from very early days of JavaScript and kept for compatibility. Definitely, `null` is not an object. It is a special value with a separate type of its own. The behavior of `typeof` is wrong here.
-3. The result of `typeof alert` is `"function"`, because `alert` is a function. We'll study functions in the next chapters where we'll also see that there's no special "function" type in JavaScript. Functions belong to the object type. But `typeof` treats them differently, returning `"function"`. That also comes from the early days of JavaScript. Technically, such behavior isn't correct, but can be convenient in practice.
+3. ผลลัพธ์จาก `typeof alert` คือ `"function"` เพราะ `alert` เป็นฟังชั่นก์ ซึ่งเราจะก็เห็นว่าไม่มีข้อมูลชนิดฟังชั่นก์อยู่ในจาวาสคริปต์ อันที่จริงฟังชั่นก์เป็นหนึ่งใน object แต่ `typeof` จะมองเป็นฟังชั่นก์ แล้ว return "function" ออกมาแทน ในทางเทคนิคแล้ว พฤติกรรมแบบนี้ถือว่าเป็นบัคของภาษา แต่บัคตัวนี้กลับทำให้ชีวิตเราง่ายขึ้น
 
 ```smart header="The `typeof(x)` syntax"
-You may also come across another syntax: `typeof(x)`. It's the same as `typeof x`.
+บางทีเราอาจจะไปเจอประโยตแบบนี้ `typeof(x)` โปรดจำไว้ว่ามันเหมือนกับ `typeof x`
 
-To put it clear: `typeof` is an operator, not a function. The parentheses here aren't a part of `typeof`. It's the kind of parentheses used for mathematical grouping.
+เพื่อให้ชัดเจน: `typeof` เป็นโอเปอเรเตอร์ ไม่ใช่ฟังก์ชัน วงเล็บที่นี่ไม่ได้เป็นส่วนหนึ่งของ `typeof` แต่เป็นวงเล็บประเภทหนึ่งที่ใช้สำหรับการจัดกลุ่มทางคณิตศาสตร์
 
-Usually, such parentheses contain a mathematical expression, such as `(2 + 2)`, but here they contain only one argument `(x)`. Syntactically, they allow to avoid a space between the `typeof` operator and its argument, and some people like it.
+โดยปกติ วงเล็บดังกล่าวจะใช้กับนิพจน์ทางคณิตศาสตร์ เช่น `(2 + 2)` แต่ในที่นี้มีอาร์กิวเมนต์ `(x)` เพียงหนึ่งอาร์กิวเมนต์ ในทางภาษามันอนุญาตให้มีช่องว่างระหว่างโอเปอเรเตอร์ `typeof` กับอาร์กิวเม้นต์ได้ และหลายคนชอบแบบนี้
 
-Some people prefer `typeof(x)`, although the `typeof x` syntax is much more common.
+แต่บางคนก็ชอบเขียนแบบนี้ `typeof(x)` แต่ที่เห็นบ่อยที่สุดก็คือรูปประโยคแบบ `typeof x`
 ```
 
-## Summary
->>>>>>> 8d04d0d2db97276dbb2b451c30a7bd3e05d65831
+## สรุป
 
 มีข้อมูลอยู่ 8 ชนิดในจาวาสคริปต์
 
@@ -288,16 +270,10 @@ Some people prefer `typeof(x)`, although the `typeof x` syntax is much more comm
 - `object` สำหรับ เก็บข้อมูลมากกว่าหนึ่งค่า มีความซับซ้อนในเรื่องโครงสร้างข้อมูล
 - `symbol` สำหรับ เป็นตัวระบุเอกลักษณ์ใน object
 
-ตัว `typeof` สามารถช่วยเราดูข้อมูลเก็บอยู่ในตัวแปร เป็นข้อมูลชนิดใด
+ตัว `typeof` สามารถช่วยเราดูชนิดข้อมูลเก็บอยู่ในตัวแปรได้
 
-<<<<<<< HEAD
 - เขียนได้แบบสอง `typeof x` หรือ `typeof(x)`
 - ส่งคืนเป็นสตริง บอกชนิดของข้อมูลออกมา อย่าง `"string"`.
 - แต่กับ `null` จะส่งค่าเป็น `"object"` -- เป็นข้อผิดพลาดทางภาษา เพราะมันไม่ใช่ออบเจ็กต์
-=======
-- Usually used as `typeof x`, but `typeof(x)` is also possible.
-- Returns a string with the name of the type, like `"string"`.
-- For `null` returns `"object"` -- this is an error in the language, it's not actually an object.
->>>>>>> 8d04d0d2db97276dbb2b451c30a7bd3e05d65831
 
 ในบทหน้า เราจะเน้นไปที่ข้อมูลประเภท "primitive" พอคุ้นเคยแล้ว จะไปเน้นที่ออบเจ็กต์กันต่อ

@@ -8,11 +8,7 @@
 let func = (arg1, arg2, ..., argN) => expression;
 ```
 
-<<<<<<< HEAD
-...ด้วยรูปประโยตดังนี้จะสร้างฟังก์ชัน `func` ที่รับอาร์กิวเมนต์ `arg1..argN` จากนั้นจึงประเมิน `นิพจน์ (expression)` ทางด้านขวาและส่งคืนผลลัพธ์
-=======
-This creates a function `func` that accepts arguments `arg1..argN`, then evaluates the `expression` on the right side with their use and returns its result.
->>>>>>> 8d04d0d2db97276dbb2b451c30a7bd3e05d65831
+จากตัวอย่างด้านบน คือสร้างฟังก์ชัน `func` ที่ยอมรับอาร์กิวเมนต์ `arg1..argN` จากนั้นจึงประเมิน expression ที่อยู่ทางด้านขวาแล้วส่งคืนผลลัพธ์
 
 กล่าวอีกนัยหนึ่งก็คือ เวอร์ชันที่สั้นกว่าของ
 
