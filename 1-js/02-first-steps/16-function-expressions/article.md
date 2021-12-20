@@ -12,7 +12,13 @@ function sayHi() {
 
 มีอีกรูปแบบหนึ่งสำหรับการสร้างฟังก์ชันที่เรียกว่า *Function Expression*
 
+<<<<<<< HEAD
 มันมีรูปประโยคแบบนี้:
+=======
+It allows to create a new function in the middle of any expression.
+
+For example:
+>>>>>>> 8d04d0d2db97276dbb2b451c30a7bd3e05d65831
 
 ```js
 let sayHi = function() {
@@ -20,9 +26,25 @@ let sayHi = function() {
 };
 ```
 
+<<<<<<< HEAD
 ในที่นี้ ฟังก์ชันจะถูกสร้างขึ้นและกำหนดเป็นค่าของตัวแปร เช่นเดียวกับค่าอื่นๆ ไม่ว่าจะกำหนดฟังก์ชันอย่างไร ก็เป็นเพียงค่าที่เก็บไว้ในตัวแปร `sayHi`
 
 ความหมายของตัวอย่างโค้ดด้านบนคือ: "สร้างฟังก์ชันและใส่ลงในตัวแปร `sayHi`"
+=======
+Here we can see a variable `sayHi` getting a value, the new function, created as `function() { alert("Hello"); }`.
+
+As the function creation happens in the context of the assignment expression (to the right side of `=`), this is a *Function Expression*.
+
+Please note, there's no name after the `function` keyword. Omitting a name is allowed for Function Expressions.
+
+Here we immediately assign it to the variable, so the meaning of these code samples is the same: "create a function and put it into the variable `sayHi`".
+
+In more advanced situations, that we'll come across later, a function may be created and immediately called or scheduled for a later execution, not stored anywhere, thus remaining anonymous.
+
+## Function is a value
+
+Let's reiterate: no matter how the function is created, a function is a value. Both examples above store a function is `sayHi` variable.
+>>>>>>> 8d04d0d2db97276dbb2b451c30a7bd3e05d65831
 
 เราสามารถแสดงค่านั้นออกมาได้โดยใช้ `alert`:
 
@@ -63,10 +85,14 @@ sayHi(); // Hello    //     สั่งตัวดั้งเดิมทำ�
 2. บรรทัด `(2)` คัดลอกลงในตัวแปร `func` อย่าลืมว่า: ไม่มีวงเล็บหลังหลังฟังก์ชั่น `sayHi` หากมีวงเล็บแบบนี้ `func = sayHi()` ผลลัพธ์ที่คืนกลับมาจาก `sayHi()` จะเก็บไว้ในตัวแปร `func` ไม่ใช่ตัวฟังก์ชั่น `sayHi` เอง
 3. ตอนนี้ฟังก์ชันนี้สามารถเรียกได้ทั้ง `sayHi()` และ `func()`
 
+<<<<<<< HEAD
 โปรดทราบว่าเราสามารถใช้ Function Expression เพื่อประกาศ `sayHi` ในบรรทัดแรกได้:
+=======
+We could also have used a Function Expression to declare `sayHi`, in the first line:
+>>>>>>> 8d04d0d2db97276dbb2b451c30a7bd3e05d65831
 
 ```js
-let sayHi = function() {
+let sayHi = function() { // (1) create
   alert( "Hello" );
 };
 
@@ -90,9 +116,15 @@ let sayHi = function() {
 }*!*;*/!*
 ```
 
+<<<<<<< HEAD
 คำตอบนั้นง่ายมาก:
 - เราไม่จำเป็นต้องใช้ `;` ที่ส่วนท้ายของบล็อคโค้ดเช่น `if { ... }`, `for { }`, `function f { }` เป็นต้น
 - นิพจน์ฟังก์ชัน (Function expressions) ถูกใช้ภายในคำสั่ง: `let sayHi = ...;` เป็นค่าค่าหนึ่งที่ถูกกำหนดให้กับตัวแปร ไมใช่บล็อคโค้ด เราจึงแนะนำให้ใช้เครื่องหมายอัฒภาค `;` ที่ส่วนท้ายของคำสั่ง ไม่ว่าค่าจะเป็นเท่าใด ดังนั้น semicolon ที่นี่จึงไม่เกี่ยวข้องกับนิพจน์ฟังก์ชัน เพียงแต่บอกให้โปรแกรมรู้ว่านี่คือส่วนยุติคำสั่งเพื่อขึ้นคำสั่งถัดไป
+=======
+The answer is simple: a Function Expression is created here as `function(…) {…}` inside the assignment statement: `let sayHi = …;`. The semicolon `;` is recommended at the end of the statement, it's not a part of the function syntax.
+
+The semicolon would be there for a simpler assignment, such as `let sayHi = 5;`, and it's also there for a function assignment.
+>>>>>>> 8d04d0d2db97276dbb2b451c30a7bd3e05d65831
 ````
 
 ## ฟังก์ชันไว้เรียกทีหลัง (Callback functions)

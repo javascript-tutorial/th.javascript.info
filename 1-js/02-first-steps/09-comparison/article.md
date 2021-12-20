@@ -4,10 +4,17 @@
 
 ในจาวาสคริปต์ก็เหมือนกันพวกมันมีหน้าตาแบบนี้:
 
+<<<<<<< HEAD
 - มากกว่า/น้อยกว่า: <code>a &gt; b</code>, <code>a &lt; b</code>.
 - มากกว่า/น้อยกว่าหรือเท่ากับ: <code>a &gt;= b</code>, <code>a &lt;= b</code>.
 - เท่ากับ: `a == b`, โปรดอย่าลืมว่า `==` สองเท่ากับหมายถึงเทียบเท่า ส่วนเท่ากับเดียว `a = b` หมายถึงการกำหนดค่า
 - ไม่เท่ากับ ในคณิตจะหน้าตาแบบนี้ <code>&ne;</code> แต่ในจาวาสคริปต์จะหน้าตาแบบนี้ <code>a != b</code>.
+=======
+- Greater/less than: <code>a &gt; b</code>, <code>a &lt; b</code>.
+- Greater/less than or equals: <code>a &gt;= b</code>, <code>a &lt;= b</code>.
+- Equals: `a == b`, please note the double equality sign `==` means the equality test, while a single one `a = b` means an assignment.
+- Not equals: In maths the notation is <code>&ne;</code>, but in JavaScript it's written as <code>a != b</code>.
+>>>>>>> 8d04d0d2db97276dbb2b451c30a7bd3e05d65831
 
 ในบทความนี้เราจะมาเรียนรู้ตัวเปรียบเทียบต่างๆ หน้าตาของแต่ละตัวในจาวาสคริปต์ และคุณสมบัติพิเศษที่เพิ่มเติมขึ้นมาจากคณิตศาสตร์
 
