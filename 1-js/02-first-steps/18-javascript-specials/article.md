@@ -25,27 +25,27 @@ alert("There will be an error after this message")
 [1, 2].forEach(alert)
 ```
 
-Most codestyle guides agree that we should put a semicolon after each statement.
+ดังนั้นคู่มือจาวาสคริปต์ส่วนใหญ่จึงแนะนำให้ใส่ semicolon (;) คั่นคำสั่งทุกครั้ง
 
-Semicolons are not required after code blocks `{...}` and syntax constructs with them like loops:
+เราไม่จำเป็นต้องใส่ semicolon (;) ข้างหลัง code block `{...}` หรือรูปประโยคแบบ `for...loop`:
 
 ```js
 function f() {
-  // no semicolon needed after function declaration
+  // ไม่จำเป็นต้องใส่ semicolon (;) หลังจากการประกาศฟังก์ชัน
 }
 
 for(;;) {
-  // no semicolon needed after the loop
+  // ไม่จำเป็นต้องใส่ semicolon (;) หลังลูบ
 }
 ```
 
-...But even if we can put an "extra" semicolon somewhere, that's not an error. It will be ignored.
+...แต่ถ้าเราเผลอไปใส่ ก็จะไม่มีข้อผิดพลาด และsemicolon (;) จะถูกละเลยไป จาวาสคริปต์ก็ยังทำงานของมันได้ 
 
-More in: <info:structure>.
+อ่านเพิ่มเติมได้ในบท: <info:structure>.
 
 ## Strict mode
 
-To fully enable all features of modern JavaScript, we should start scripts with `"use strict"`.
+เพื่อเปิดใช้งานฟีเจอร์ทั้งหมดของจาวาสคริปจ์สมัยใหม่อย่างสมบูรณ์ เราควรเริ่มสคริปต์ด้วย `"use strict"`
 
 ```js
 'use strict';
