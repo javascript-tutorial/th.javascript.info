@@ -1,23 +1,23 @@
-# JavaScript specials
+# จาวาสคริปต์พิเศษ
 
-This chapter briefly recaps the features of JavaScript that we've learned by now, paying special attention to subtle moments.
+ในบทนี้เราจะสรุปฟีเจอร์ของจาวาสคริปต์ ที่เราเรียนรู้กันไปจากบทที่ผ่านๆมาแบบสั้นๆ แต่จะใส่ใจรายละเอียดเล็กๆน้อยๆเป็นพิเศษ
 
-## Code structure
+## โค้ดสร้างภาษา
 
-Statements are delimited with a semicolon:
+คำสั่ง (Statements) แต่ละคำสั่งคั่นด้วย semicolon (;) เสมอ
 
 ```js run no-beautify
 alert('Hello'); alert('World');
 ```
 
-Usually, a line-break is also treated as a delimiter, so that would also work:
+และการเว้นละบรรทัดก็ถือว่าเป็นการคั่นคำสั่งอย่างหนึ่ง เราสามารถใช้ได้เช่นกัน
 
 ```js run no-beautify
 alert('Hello')
 alert('World')
 ```
 
-That's called "automatic semicolon insertion". Sometimes it doesn't work, for instance:
+โดยจาวาสคริปต์จะทำการใส่ semicolon (;) ให้เองโดยอัตโนมัติ แต่บางครั้งเราก็ไม่สามารถเว้นบรรทัดแบบนี้ได้ เช่น
 
 ```js run
 alert("There will be an error after this message")
