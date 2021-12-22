@@ -148,8 +148,8 @@ let message = "That"; // SyntaxError: 'message' has already been declared
 ดังนั้น เราควรประกาศตัวแปรเพียงครั้งเดียว และโดยที่ไม่ต้องประกาศ `let` ซ้ำอีกที
 ````
 
-```smart header="ภาษาเชิงฟังชั่นก์"
-สิ่งที่น่าสนใจสำหรับภาษาโปรแกรมมิ่งเชิง[ฟังชั่น](https://en.wikipedia.org/wiki/Functional_programming) อย่างเช่น [Scala](http://www.scala-lang.org/) หรือ [Erlang](http://www.erlang.org/) ก็คือห้ามเปลี่ยนค่าของตัวแปร
+```smart header="ภาษาเชิงฟังก์ชัน"
+สิ่งที่น่าสนใจสำหรับภาษาโปรแกรมมิ่งเชิง[ฟังก์ชัน](https://en.wikipedia.org/wiki/Functional_programming) อย่างเช่น [Scala](http://www.scala-lang.org/) หรือ [Erlang](http://www.erlang.org/) ก็คือห้ามเปลี่ยนค่าของตัวแปร
 
 ในภาษาประเภทนี้เมื่ออะไรก็ตามถูกเก็บไว้ในกล่อง สิ่งๆนั้นจะต้องอยู่ในกล่องตลอดกาล ถ้าเราต้องการเก็บค่าอื่นๆ เราจะต้องสร้างตัวแปรขึ้นมาใหม่แทน โดยตัวภาษาจะบังคับให้เราทำกล่องใบใหม่ขึ้นมา เราไม่สามารถใช้กล่องเก่าซ้ำได้
 
