@@ -53,45 +53,45 @@ for(;;) {
 ...
 ```
 
-The directive must be at the top of a script or at the beginning of a function body.
+คำสั่งต้องอยู่ที่ด้านบนสุดของสคริปต์หรือด้านบนสุดของฟังก์ชัน
 
-Without `"use strict"`, everything still works, but some features behave in the old-fashion, "compatible" way. We'd generally prefer the modern behavior.
+หากไม่ใส่ `"use strict"` โปรแกรมก็ยังคงทำงานได้ แต่เราจะใช้ได้แต่ฟีเจอร์เก่าๆ
 
-Some modern features of the language (like classes that we'll study in the future) enable strict mode implicitly.
+ฟีเจอร์ใหม่ๆ (อย่างเช่น class เราจะเขียนไปในบทถัดไป) จะเปิดใช้งานเฉพาะ Strict mode เท่สนั้น
 
-More in: <info:strict-mode>.
+ดูเพิ่มเติมได้ที่: <info:strict-mode>.
 
-## Variables
+## ตัวแปร (Variables)
 
-Can be declared using:
+สามารถประกาศได้โดยใช้:
 
 - `let`
 - `const` (constant, can't be changed)
 - `var` (old-style, will see later)
 
-A variable name can include:
-- Letters and digits, but the first character may not be a digit.
-- Characters `$` and `_` are normal, on par with letters.
-- Non-Latin alphabets and hieroglyphs are also allowed, but commonly not used.
+ชื่อตัวแปรสามารถมี:
+- ตัวอักษรและตัวเลข แต่ตัวอักษรตัวแรกต้องไม่เป็นตัวเลข
+- สามารถใช้อักขระพิเศษอย่าง `$` และ `_` ได้เทียบเท่ากับตัวอักษร.
+- อนุญาตให้ใช้ตัวอักษรที่ไม่ใช่ละตินรวมถึงอักษรอียิปต์โบราณ แต่ไม่เป็นที่นิยม
 
-Variables are dynamically typed. They can store any value:
+ตัวแปรสามารถเก็บค่าหรือค่าชนิดใดๆก็ได้
 
 ```js
 let x = 5;
 x = "John";
 ```
 
-There are 8 data types:
+มีค่าทั้งหมด 8 ชนิด:
 
-- `number` for both floating-point and integer numbers,
-- `bigint` for integer numbers of arbitrary length,
-- `string` for strings,
-- `boolean` for logical values: `true/false`,
-- `null` -- a type with a single value `null`, meaning "empty" or "does not exist",
-- `undefined` -- a type with a single value `undefined`, meaning "not assigned",
-- `object` and `symbol` -- for complex data structures and unique identifiers, we haven't learnt them yet.
+- `number` สำหรับทั้งเลขทศนิยมและจำนวนเต็ม
+- `bigint` สำหรับจำนวนเต็มหรือตัวเลขที่มีค่าเกิน `2^53 - 1`
+- `string` สำหรับสตริง
+- `boolean` สำหรับค่าทางตรรกะ: `true/false`,
+- `null` -- ชนิดที่มีค่าเดียวคือ `null` หมายถึง "ค่าว่าง" หรือ "ค่านั้นไม่มีอยู่"
+- `undefined` -- ชนิดที่มีค่าเดียวคือ `undefined` หมายถึง "ยังไม่ถูกกำหนดค่า",
+- `object` และ `symbol` -- สำหรับโครงสร้างข้อมูลที่ซับซ้อนและ unique identifiers ซึ่งเราจะได้เรียนกันในบทถัดๆไป
 
-The `typeof` operator returns the type for a value, with two exceptions:
+ตัวดำเนินการ `typeof` ส่งคืนประเภทของค่า โดยมีข้อยกเว้นสองประการ:
 ```js
 typeof null == "object" // error in the language
 typeof function(){} == "function" // functions are treated specially
