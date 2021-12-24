@@ -93,28 +93,28 @@ x = "John";
 
 ตัวดำเนินการ `typeof` ส่งคืนประเภทของค่า โดยมีข้อยกเว้นสองประการ:
 ```js
-typeof null == "object" // error in the language
-typeof function(){} == "function" // functions are treated specially
+typeof null == "object" // ได้ true เป็นบัคของภาษา
+typeof function(){} == "function" // ได้ function
 ```
 
-More in: <info:variables> and <info:types>.
+อ่านเพิ่มเติมได้ในบท: <info:variables> และ <info:types>
 
-## Interaction
+## ปฏิสัมพันธ์ (Interaction)
 
-We're using a browser as a working environment, so basic UI functions will be:
+การปฎิสัมพันธ์เกิดขึ้นบนเบราเซอร์ มีฟังก์ชันพื้นฐานดังนี้:
 
 [`prompt(question, [default])`](mdn:api/Window/prompt)
-: Ask a `question`, and return either what the visitor entered or `null` if they clicked "cancel".
+: ถามคำถาม `question` และส่งคืนสิ่งที่ผู้ใช้ป้อนหรือส่ง `null` หากผู้ใช้กด "cancel"
 
 [`confirm(question)`](mdn:api/Window/confirm)
-: Ask a `question` and suggest to choose between Ok and Cancel. The choice is returned as `true/false`.
+: ถามคำถาม `question` ให้ผู้ใช้เลือกระหว่าง Ok หรือ Cancel หากกด Ok จะส่ง `true` กลับ หากกด Cancel จะส่ง `false`
 
 [`alert(message)`](mdn:api/Window/alert)
-: Output a `message`.
+: แสดง `message`
 
-All these functions are *modal*, they pause the code execution and prevent the visitor from interacting with the page until they answer.
+ฟังก์ชั่นเหล่านี้จะเปิด *modal* ซึ่งจะหยุดการทำงานโค้ดและไม่ให้ผู้ใช้ตอบโต้กับหน้าเว็บชั่วคราว จนกว่าผู้ใช้จะตอบคำถามผ่าน *modal*
 
-For instance:
+ตัวอย่างเช่น:
 
 ```js run
 let userName = prompt("Your name?", "Alice");
@@ -124,30 +124,30 @@ alert( "Visitor: " + userName ); // Alice
 alert( "Tea wanted: " + isTeaWanted ); // true
 ```
 
-More in: <info:alert-prompt-confirm>.
+อ่านเพิ่มเติมในบท: <info:alert-prompt-confirm>.
 
-## Operators
+## ตัวดำเนินการ (Operators)
 
-JavaScript supports the following operators:
+จาวาสคริปต์มีตัวดำเนินการดังนี้:
 
-Arithmetical
-: Regular: `* + - /`, also `%` for the remainder and `**` for power of a number.
+ตัวดำเนินการทางคณิตศาสคร์
+: ได้แก่ `* + - /` รวมถึง `%` สำหรับหาเศษเหลือจากการหาร `**` สำหรับการยกกำลัง
 
-    The binary plus `+` concatenates strings. And if any of the operands is a string, the other one is converted to string too:
+    การใช้ `+` รวมสตริงสองตัวไว้ด้วยกัน และหากตัวถูกดำเนินการหนึ่งตัวเป็นสตริง ไม่ว่าจะอีกตัวจะเป็นข้อมูลชนิดใดจะถูกแปลงให้เป็นสตริงด้วย
 
     ```js run
-    alert( '1' + 2 ); // '12', string
-    alert( 1 + '2' ); // '12', string
+    alert( '1' + 2 ); // '12' เป็นสตริง
+    alert( 1 + '2' ); // '12' เป็นสตริง
     ```
 
-Assignments
-: There is a simple assignment: `a = b` and combined ones like `a *= 2`.
+การกำหนดค่า
+: รูปประโยคการกำหนดค่ามีหน้าตาแบบนี้ `a = b` หรือจะใช้คู่กับตัวดำเนินการทางคณิตศาสคร์ก็ได้อย่าง `a *= 2`
 
-Bitwise
-: Bitwise operators work with 32-bit integers at the lowest, bit-level: see the [docs](mdn:/JavaScript/Guide/Expressions_and_Operators#Bitwise) when they are needed.
+การแปลงเป็นไบนารี
+: ตัวดำเนินการแปลงเป็นไบนารีทำงานกับจำนวนเต็ม 32 บิตที่ระดับบิตต่ำสุด: โปรดดู [เอกสาร](mdn:/JavaScript/Guide/Expressions_and_Operators#Bitwise) เมื่อต้องใช้การแปลงเป็นไบนารี
 
-Conditional
-: The only operator with three parameters: `cond ? resultA : resultB`. If `cond` is truthy, returns `resultA`, otherwise `resultB`.
+เงื่อนไข
+: ตัวดำเนินการเดียวที่ใช้สามพารามิเตอร์: `cond ? resultA : resultB` หาก `cond` is truthy, returns `resultA`, otherwise `resultB`.
 
 Logical operators
 : Logical AND `&&` and OR `||` perform short-circuit evaluation and then return the value where it stopped (not necessary `true`/`false`). Logical NOT `!` converts the operand to boolean type and returns the inverse value.
