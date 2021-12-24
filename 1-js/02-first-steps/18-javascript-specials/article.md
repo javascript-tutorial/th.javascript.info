@@ -147,38 +147,38 @@ alert( "Tea wanted: " + isTeaWanted ); // true
 : ตัวดำเนินการแปลงเป็นไบนารีทำงานกับจำนวนเต็ม 32 บิตที่ระดับบิตต่ำสุด: โปรดดู [เอกสาร](mdn:/JavaScript/Guide/Expressions_and_Operators#Bitwise) เมื่อต้องใช้การแปลงเป็นไบนารี
 
 เงื่อนไข
-: ตัวดำเนินการเดียวที่ใช้สามพารามิเตอร์: `cond ? resultA : resultB` หาก `cond` is truthy, returns `resultA`, otherwise `resultB`.
+: ตัวดำเนินการเดียวที่ใช้สามพารามิเตอร์: `cond ? resultA : resultB` หาก `cond` เป็นจริงจะส่ง `resultA` กลับ หากไม่จะส่ง `resultB` กลับ
 
-Logical operators
-: Logical AND `&&` and OR `||` perform short-circuit evaluation and then return the value where it stopped (not necessary `true`/`false`). Logical NOT `!` converts the operand to boolean type and returns the inverse value.
+ตัวดำเนินการทางตรรกะ
+: ตัว AND `&&` และ OR `||` จะใช้การประเมินผลแบบสั้น (Short-circuit evaluation) ส่งค่ากลับทันทีที่ค่าเป็นไปตามเกณฑ์ (ไม่จำเป็นว่าต้องเป็น `true`/`false`) ตัว NOT `!` จะแปลงค่าที่ถูกดำเนินการเป็นบูลีน จากนั่นจะส่งค่าที่กลับข้ามกลับไป
 
-Nullish coalescing operator
-: The `??` operator provides a way to choose a defined value from a list of variables. The result of `a ?? b` is `a` unless it's `null/undefined`, then `b`.
+ตัวดำเนินการรวมเป็นโมฆะ (Nullish coalescing operator)
+: ตัวดำเนินการ `??` จัดเตรียมวิธีการเลือกค่าที่กำหนดจากรายการตัวแปร ผลลัพธ์ของ `a ?? b` คือ `a` เว้นแต่จะเป็น `null/undefined` ตามด้วย `b`
 
-Comparisons
-: Equality check `==` for values of different types converts them to a number (except `null` and `undefined` that equal each other and nothing else), so these are equal:
+การเปรียบเทียบ
+: การเปรียบเทียบจะใช้ `==` สำหรับค่าที่แตกต่างกัน จะแปลงค่าท้ังสองเป็นตัวเลข (ยกเว้น `null` และ `undefined` ที่ทั้งค่านี้จะเท่ากัน แต่จะไม่เท่ากับค่าชนิดอื่นๆ)
 
     ```js run
     alert( 0 == false ); // true
     alert( 0 == '' ); // true
     ```
 
-    Other comparisons convert to a number as well.
+    การเปรียบเทียบจะแปลงค่าจะแปลงค่าท้ังสองเป็นตัวเลข
 
-    The strict equality operator `===` doesn't do the conversion: different types always mean different values for it.
+    ตัวดำเนินการเปรียบเทียบอีกตัวอย่าง `===` จะไม่แปลงค่าทั้งสองเป็นตัวเลข: หากค่าทั้งสองมีชนิดแตกต่างกัน จะถือว่าไม่เท่ากันในทันที
 
-    Values `null` and `undefined` are special: they equal `==` each other and don't equal anything else.
+    ค่า `null` และ `undefined` เป็นค่าพิเศษ: ซึ่งหากเราเปรียบเทียบด้วย `==` ทั้งสองจะเท่ากัน แต่จะไม่เท่ากับค่าชนิดอื่นๆ
 
-    Greater/less comparisons compare strings character-by-character, other types are converted to a number.
+    การเปรียบเทียบมากน้อย เมื่อนำไปใช้กับสตริง มันจะค่อยๆจับเท่ากันไปทีละตัวอักษร ส่วนค่าชนิดอื่นๆที่ไม่ใช่สตริงจะถูกแปลงเป็นตัวเลข
 
-Other operators
-: There are few others, like a comma operator.
+ตัวดำเนินการอื่นๆ
+: มีอีกสองสามอย่าง เช่น ตัวดำเนินการจุลภาค
 
-More in: <info:operators>, <info:comparison>, <info:logical-operators>, <info:nullish-coalescing-operator>.
+สามารถดูเพิ่มเติมได้ใน: <info:operators>, <info:comparison>, <info:logical-operators>, <info:nullish-coalescing-operator>.
 
-## Loops
+## ลูป
 
-- We covered 3 types of loops:
+- เราได้พูดถึงลูป 3 ประเภท:
 
     ```js
     // 1
