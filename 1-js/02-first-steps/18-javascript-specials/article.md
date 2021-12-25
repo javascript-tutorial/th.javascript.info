@@ -1,23 +1,23 @@
-# JavaScript specials
+# จาวาสคริปต์พิเศษ
 
-This chapter briefly recaps the features of JavaScript that we've learned by now, paying special attention to subtle moments.
+ในบทนี้เราจะสรุปฟีเจอร์ของจาวาสคริปต์ ที่เราเรียนรู้กันไปจากบทที่ผ่านๆมาแบบสั้นๆ แต่จะใส่ใจรายละเอียดเล็กๆน้อยๆเป็นพิเศษ
 
-## Code structure
+## โค้ดสร้างภาษา
 
-Statements are delimited with a semicolon:
+คำสั่ง (Statements) แต่ละคำสั่งคั่นด้วย semicolon (;) เสมอ
 
 ```js run no-beautify
 alert('Hello'); alert('World');
 ```
 
-Usually, a line-break is also treated as a delimiter, so that would also work:
+และการเว้นละบรรทัดก็ถือว่าเป็นการคั่นคำสั่งอย่างหนึ่ง เราสามารถใช้ได้เช่นกัน
 
 ```js run no-beautify
 alert('Hello')
 alert('World')
 ```
 
-That's called "automatic semicolon insertion". Sometimes it doesn't work, for instance:
+โดยจาวาสคริปต์จะทำการใส่ semicolon (;) ให้เองโดยอัตโนมัติ แต่บางครั้งเราก็ไม่สามารถเว้นบรรทัดแบบนี้ได้ เช่น
 
 ```js run
 alert("There will be an error after this message")
@@ -25,27 +25,27 @@ alert("There will be an error after this message")
 [1, 2].forEach(alert)
 ```
 
-Most codestyle guides agree that we should put a semicolon after each statement.
+ดังนั้นคู่มือจาวาสคริปต์ส่วนใหญ่จึงแนะนำให้ใส่ semicolon (;) คั่นคำสั่งทุกครั้ง
 
-Semicolons are not required after code blocks `{...}` and syntax constructs with them like loops:
+เราไม่จำเป็นต้องใส่ semicolon (;) ข้างหลัง code block `{...}` หรือรูปประโยคแบบ `for...loop`:
 
 ```js
 function f() {
-  // no semicolon needed after function declaration
+  // ไม่จำเป็นต้องใส่ semicolon (;) หลังจากการประกาศฟังก์ชัน
 }
 
 for(;;) {
-  // no semicolon needed after the loop
+  // ไม่จำเป็นต้องใส่ semicolon (;) หลังลูบ
 }
 ```
 
-...But even if we can put an "extra" semicolon somewhere, that's not an error. It will be ignored.
+...แต่ถ้าเราเผลอไปใส่ ก็จะไม่มีข้อผิดพลาด และsemicolon (;) จะถูกละเลยไป จาวาสคริปต์ก็ยังทำงานของมันได้ 
 
-More in: <info:structure>.
+อ่านเพิ่มเติมได้ในบท: <info:structure>.
 
 ## Strict mode
 
-To fully enable all features of modern JavaScript, we should start scripts with `"use strict"`.
+เพื่อเปิดใช้งานฟีเจอร์ทั้งหมดของจาวาสคริปจ์สมัยใหม่อย่างสมบูรณ์ เราควรเริ่มสคริปต์ด้วย `"use strict"`
 
 ```js
 'use strict';
@@ -53,68 +53,68 @@ To fully enable all features of modern JavaScript, we should start scripts with 
 ...
 ```
 
-The directive must be at the top of a script or at the beginning of a function body.
+คำสั่งต้องอยู่ที่ด้านบนสุดของสคริปต์หรือด้านบนสุดของฟังก์ชัน
 
-Without `"use strict"`, everything still works, but some features behave in the old-fashion, "compatible" way. We'd generally prefer the modern behavior.
+หากไม่ใส่ `"use strict"` โปรแกรมก็ยังคงทำงานได้ แต่เราจะใช้ได้แต่ฟีเจอร์เก่าๆ
 
-Some modern features of the language (like classes that we'll study in the future) enable strict mode implicitly.
+ฟีเจอร์ใหม่ๆ (อย่างเช่น class เราจะเขียนไปในบทถัดไป) จะเปิดใช้งานเฉพาะ Strict mode เท่สนั้น
 
-More in: <info:strict-mode>.
+ดูเพิ่มเติมได้ที่: <info:strict-mode>.
 
-## Variables
+## ตัวแปร (Variables)
 
-Can be declared using:
+สามารถประกาศได้โดยใช้:
 
 - `let`
 - `const` (constant, can't be changed)
 - `var` (old-style, will see later)
 
-A variable name can include:
-- Letters and digits, but the first character may not be a digit.
-- Characters `$` and `_` are normal, on par with letters.
-- Non-Latin alphabets and hieroglyphs are also allowed, but commonly not used.
+ชื่อตัวแปรสามารถมี:
+- ตัวอักษรและตัวเลข แต่ตัวอักษรตัวแรกต้องไม่เป็นตัวเลข
+- สามารถใช้อักขระพิเศษอย่าง `$` และ `_` ได้เทียบเท่ากับตัวอักษร.
+- อนุญาตให้ใช้ตัวอักษรที่ไม่ใช่ละตินรวมถึงอักษรอียิปต์โบราณ แต่ไม่เป็นที่นิยม
 
-Variables are dynamically typed. They can store any value:
+ตัวแปรสามารถเก็บข้อมูลอะไรก็ได้ หรือ ข้อมูลชนิดใดๆก็ได้
 
 ```js
 let x = 5;
 x = "John";
 ```
 
-There are 8 data types:
+มีข้อมูลทั้งหมด 8 ชนิด:
 
-- `number` for both floating-point and integer numbers,
-- `bigint` for integer numbers of arbitrary length,
-- `string` for strings,
-- `boolean` for logical values: `true/false`,
-- `null` -- a type with a single value `null`, meaning "empty" or "does not exist",
-- `undefined` -- a type with a single value `undefined`, meaning "not assigned",
-- `object` and `symbol` -- for complex data structures and unique identifiers, we haven't learnt them yet.
+- `number` สำหรับทั้งเลขทศนิยมและจำนวนเต็ม
+- `bigint` สำหรับจำนวนเต็มหรือตัวเลขที่มีค่าเกิน `2^53 - 1`
+- `string` สำหรับสตริง
+- `boolean` สำหรับค่าทางตรรกะ: `true/false`,
+- `null` -- ชนิดที่มีค่าเดียวคือ `null` หมายถึง "ค่าว่าง" หรือ "ค่านั้นไม่มีอยู่"
+- `undefined` -- ชนิดที่มีค่าเดียวคือ `undefined` หมายถึง "ยังไม่ถูกกำหนดค่า",
+- `object` และ `symbol` -- สำหรับโครงสร้างข้อมูลที่ซับซ้อนและ unique identifiers ซึ่งเราจะได้เรียนกันในบทถัดๆไป
 
-The `typeof` operator returns the type for a value, with two exceptions:
+ตัวดำเนินการ `typeof` ส่งคืนประเภทของค่า โดยมีข้อยกเว้นสองประการ:
 ```js
-typeof null == "object" // error in the language
-typeof function(){} == "function" // functions are treated specially
+typeof null == "object" // ได้ true เป็นบัคของภาษา
+typeof function(){} == "function" // ได้ function
 ```
 
-More in: <info:variables> and <info:types>.
+อ่านเพิ่มเติมได้ในบท: <info:variables> และ <info:types>
 
-## Interaction
+## ปฏิสัมพันธ์ (Interaction)
 
-We're using a browser as a working environment, so basic UI functions will be:
+การปฎิสัมพันธ์เกิดขึ้นบนเบราเซอร์ มีฟังก์ชันพื้นฐานดังนี้:
 
 [`prompt(question, [default])`](mdn:api/Window/prompt)
-: Ask a `question`, and return either what the visitor entered or `null` if they clicked "cancel".
+: ถามคำถาม `question` และส่งคืนสิ่งที่ผู้ใช้ป้อนหรือส่ง `null` หากผู้ใช้กด "cancel"
 
 [`confirm(question)`](mdn:api/Window/confirm)
-: Ask a `question` and suggest to choose between Ok and Cancel. The choice is returned as `true/false`.
+: ถามคำถาม `question` ให้ผู้ใช้เลือกระหว่าง Ok หรือ Cancel หากกด Ok จะส่ง `true` กลับ หากกด Cancel จะส่ง `false`
 
 [`alert(message)`](mdn:api/Window/alert)
-: Output a `message`.
+: แสดง `message`
 
-All these functions are *modal*, they pause the code execution and prevent the visitor from interacting with the page until they answer.
+ฟังก์ชั่นเหล่านี้จะเปิด *modal* ซึ่งจะหยุดการทำงานโค้ดและไม่ให้ผู้ใช้ตอบโต้กับหน้าเว็บชั่วคราว จนกว่าผู้ใช้จะตอบคำถามผ่าน *modal*
 
-For instance:
+ตัวอย่างเช่น:
 
 ```js run
 let userName = prompt("Your name?", "Alice");
@@ -124,61 +124,61 @@ alert( "Visitor: " + userName ); // Alice
 alert( "Tea wanted: " + isTeaWanted ); // true
 ```
 
-More in: <info:alert-prompt-confirm>.
+อ่านเพิ่มเติมในบท: <info:alert-prompt-confirm>.
 
-## Operators
+## ตัวดำเนินการ (Operators)
 
-JavaScript supports the following operators:
+จาวาสคริปต์มีตัวดำเนินการดังนี้:
 
-Arithmetical
-: Regular: `* + - /`, also `%` for the remainder and `**` for power of a number.
+ตัวดำเนินการทางคณิตศาสคร์
+: ได้แก่ `* + - /` รวมถึง `%` สำหรับหาเศษเหลือจากการหาร `**` สำหรับการยกกำลัง
 
-    The binary plus `+` concatenates strings. And if any of the operands is a string, the other one is converted to string too:
+    การใช้ `+` รวมสตริงสองตัวไว้ด้วยกัน และหากตัวถูกดำเนินการหนึ่งตัวเป็นสตริง ไม่ว่าจะอีกตัวจะเป็นข้อมูลชนิดใดจะถูกแปลงให้เป็นสตริงด้วย
 
     ```js run
-    alert( '1' + 2 ); // '12', string
-    alert( 1 + '2' ); // '12', string
+    alert( '1' + 2 ); // '12' เป็นสตริง
+    alert( 1 + '2' ); // '12' เป็นสตริง
     ```
 
-Assignments
-: There is a simple assignment: `a = b` and combined ones like `a *= 2`.
+การกำหนดค่า
+: รูปประโยคการกำหนดค่ามีหน้าตาแบบนี้ `a = b` หรือจะใช้คู่กับตัวดำเนินการทางคณิตศาสคร์ก็ได้อย่าง `a *= 2`
 
-Bitwise
-: Bitwise operators work with 32-bit integers at the lowest, bit-level: see the [docs](mdn:/JavaScript/Guide/Expressions_and_Operators#Bitwise) when they are needed.
+การแปลงเป็นไบนารี
+: ตัวดำเนินการแปลงเป็นไบนารีทำงานกับจำนวนเต็ม 32 บิตที่ระดับบิตต่ำสุด: โปรดดู [เอกสาร](mdn:/JavaScript/Guide/Expressions_and_Operators#Bitwise) เมื่อต้องใช้การแปลงเป็นไบนารี
 
-Conditional
-: The only operator with three parameters: `cond ? resultA : resultB`. If `cond` is truthy, returns `resultA`, otherwise `resultB`.
+เงื่อนไข
+: ตัวดำเนินการเดียวที่ใช้สามพารามิเตอร์: `cond ? resultA : resultB` หาก `cond` เป็นจริงจะส่ง `resultA` กลับ หากไม่จะส่ง `resultB` กลับ
 
-Logical operators
-: Logical AND `&&` and OR `||` perform short-circuit evaluation and then return the value where it stopped (not necessary `true`/`false`). Logical NOT `!` converts the operand to boolean type and returns the inverse value.
+ตัวดำเนินการทางตรรกะ
+: ตัว AND `&&` และ OR `||` จะใช้การประเมินผลแบบสั้น (Short-circuit evaluation) ส่งค่ากลับทันทีที่ค่าเป็นไปตามเกณฑ์ (ไม่จำเป็นว่าต้องเป็น `true`/`false`) ตัว NOT `!` จะแปลงค่าที่ถูกดำเนินการเป็นบูลีน จากนั่นจะส่งค่าที่กลับข้ามกลับไป
 
-Nullish coalescing operator
-: The `??` operator provides a way to choose a defined value from a list of variables. The result of `a ?? b` is `a` unless it's `null/undefined`, then `b`.
+ตัวดำเนินการรวมเป็นโมฆะ (Nullish coalescing operator)
+: ตัวดำเนินการ `??` จัดเตรียมวิธีการเลือกค่าที่กำหนดจากรายการตัวแปร ผลลัพธ์ของ `a ?? b` คือ `a` เว้นแต่จะเป็น `null/undefined` ตามด้วย `b`
 
-Comparisons
-: Equality check `==` for values of different types converts them to a number (except `null` and `undefined` that equal each other and nothing else), so these are equal:
+การเปรียบเทียบ
+: การเปรียบเทียบจะใช้ `==` สำหรับค่าที่แตกต่างกัน จะแปลงค่าท้ังสองเป็นตัวเลข (ยกเว้น `null` และ `undefined` ที่ทั้งค่านี้จะเท่ากัน แต่จะไม่เท่ากับค่าชนิดอื่นๆ)
 
     ```js run
     alert( 0 == false ); // true
     alert( 0 == '' ); // true
     ```
 
-    Other comparisons convert to a number as well.
+    การเปรียบเทียบจะแปลงค่าจะแปลงค่าท้ังสองเป็นตัวเลข
 
-    The strict equality operator `===` doesn't do the conversion: different types always mean different values for it.
+    ตัวดำเนินการเปรียบเทียบอีกตัวอย่าง `===` จะไม่แปลงค่าทั้งสองเป็นตัวเลข: หากค่าทั้งสองมีชนิดแตกต่างกัน จะถือว่าไม่เท่ากันในทันที
 
-    Values `null` and `undefined` are special: they equal `==` each other and don't equal anything else.
+    ค่า `null` และ `undefined` เป็นค่าพิเศษ: ซึ่งหากเราเปรียบเทียบด้วย `==` ทั้งสองจะเท่ากัน แต่จะไม่เท่ากับค่าชนิดอื่นๆ
 
-    Greater/less comparisons compare strings character-by-character, other types are converted to a number.
+    การเปรียบเทียบมากน้อย เมื่อนำไปใช้กับสตริง มันจะค่อยๆจับเท่ากันไปทีละตัวอักษร ส่วนค่าชนิดอื่นๆที่ไม่ใช่สตริงจะถูกแปลงเป็นตัวเลข
 
-Other operators
-: There are few others, like a comma operator.
+ตัวดำเนินการอื่นๆ
+: มีอีกสองสามอย่าง เช่น ตัวดำเนินการจุลภาค
 
-More in: <info:operators>, <info:comparison>, <info:logical-operators>, <info:nullish-coalescing-operator>.
+สามารถดูเพิ่มเติมได้ใน: <info:operators>, <info:comparison>, <info:logical-operators>, <info:nullish-coalescing-operator>.
 
-## Loops
+## ลูป
 
-- We covered 3 types of loops:
+- เราได้พูดถึงลูป 3 ประเภท:
 
     ```js
     // 1
@@ -197,25 +197,25 @@ More in: <info:operators>, <info:comparison>, <info:logical-operators>, <info:nu
     }
     ```
 
-- The variable declared in `for(let...)` loop is visible only inside the loop. But we can also omit `let` and reuse an existing variable.
-- Directives `break/continue` allow to exit the whole loop/current iteration. Use labels to break nested loops.
+- ตัวแปรที่ประกาศในลูป `for(let...)` จะมองเห็นได้เฉพาะในลูปเท่านั้น แต่เรายังสามารถละเว้น `let` และใช้ตัวแปรที่มีอยู่ซ้ำได้
+- คำสั่ง `break/continue` สำหรับ `break` คือการหยุดการทำงานของลูปทันที และสำหรับ `continue` คือสั่งให้ลูบเดิมทำงานอีกคร้ัง เราใช้ labels เพื่อหยุดลูบที่ซ้อนกัน
 
-Details in: <info:while-for>.
+ดูรายละเอียดเพิ่มเติมได้ใน: <info:while-for>.
 
-Later we'll study more types of loops to deal with objects.
+โดยหลังจากบทนี้เราจะไปดูลูบที่จัดการกับ `object`
 
-## The "switch" construct
+## คำสั่ง "switch"
 
-The "switch" construct can replace multiple `if` checks. It uses `===` (strict equality) for comparisons.
+คำสั่ง "switch" สามารถใช้แทนที่ `if...else` ได้ คำสั่ง "switch" จะใช้ `===` สำหรับการเปรียบเทียบ
 
-For instance:
+ตัวอย่างเช่น:
 
 ```js run
 let age = prompt('Your age?', 18);
 
 switch (age) {
   case 18:
-    alert("Won't work"); // the result of prompt is a string, not a number
+    alert("Won't work"); // ผลลัพธ์ของ prompt เป็นสตริง ไม่ใช่ตัวเลข
     break;
 
   case "18":
@@ -227,13 +227,13 @@ switch (age) {
 }
 ```
 
-Details in: <info:switch>.
+สามารถดูรายละเอียดเพิ่มเติมได้ที่: <info:switch>
 
-## Functions
+## ฟังก์ชัน
 
-We covered three ways to create a function in JavaScript:
+เราได้กล่าวถึงสามวิธีในการสร้างฟังก์ชันในจาวาสคริปต์:
 
-1. Function Declaration: the function in the main code flow
+1. การประกาศฟังก์ชัน (Function Declaration)
 
     ```js
     function sum(a, b) {
@@ -243,7 +243,7 @@ We covered three ways to create a function in JavaScript:
     }
     ```
 
-2. Function Expression: the function in the context of an expression
+2. นิพจน์ฟังก์ชัน (Function Expression)
 
     ```js
     let sum = function(a, b) {
@@ -256,29 +256,29 @@ We covered three ways to create a function in JavaScript:
 3. Arrow functions:
 
     ```js
-    // expression at the right side
+    // นิพจน์อยู่ทางด้านขวา
     let sum = (a, b) => a + b;
 
-    // or multi-line syntax with { ... }, need return here:
+    // หรือแบบ code block { ... } แต่อย่าลืมใส่ return ด้วย ไม่งั้นจะได้ undifined กลับไปแทน
     let sum = (a, b) => {
       // ...
       return a + b;
     }
 
-    // without arguments
+    // แบบไม่มีอาร์กิวเม้นต์
     let sayHi = () => alert("Hello");
 
-    // with a single argument
+    // แบบอาร์กิวเม้นต์หนึ่งตัว
     let double = n => n * 2;
     ```
 
 
-- Functions may have local variables: those declared inside its body or its parameter list. Such variables are only visible inside the function.
-- Parameters can have default values: `function sum(a = 1, b = 2) {...}`.
-- Functions always return something. If there's no `return` statement, then the result is `undefined`.
+- ฟังก์ชันที่มีตัวแปรภายใน ตัวแปรที่ประกาศภายในฟังก์ชัน จะสามารถมองเห็นได้เฉพาะภายในฟังก์ชันเท่านั้น
+- พารามิเตอร์สามารถใส่ค่าตั้งต้นลงไปได้แบบนี้: `function sum(a = 1, b = 2) {...}`.
+- ฟังก์ชันจะส่งค่าใดๆกลับเสมอ หากไม่ใส่ `return` ที่บรรทัดสุดท้ายของฟังก์ชัน ฟังก์ชันจะส่ง `undefined` กลับไป
 
-Details: see <info:function-basics>, <info:arrow-functions-basics>.
+รายละเอียดเพิ่มเติม: สามารถดูได้ <info:function-basics>, <info:arrow-functions-basics>.
 
-## More to come
+## อื่นๆกำลังจะตามมา
 
-That was a brief list of JavaScript features. As of now we've studied only basics. Further in the tutorial you'll find more specials and advanced features of JavaScript.
+ทั้งหมดนี่เป็นการสรุปแบบย่อๆของจาวาสคริปต์ ในตอนนี้เราเรียนไปแค่พื้นฐานเท่านั้น ในบทต่อๆไปเราจะมาเรียนฟีเจอร์ขั้นสูงของจาวาสคริปต์เพิ่มเติม
