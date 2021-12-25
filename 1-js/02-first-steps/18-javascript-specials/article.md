@@ -197,25 +197,25 @@ alert( "Tea wanted: " + isTeaWanted ); // true
     }
     ```
 
-- The variable declared in `for(let...)` loop is visible only inside the loop. But we can also omit `let` and reuse an existing variable.
-- Directives `break/continue` allow to exit the whole loop/current iteration. Use labels to break nested loops.
+- ตัวแปรที่ประกาศในลูป `for(let...)` จะมองเห็นได้เฉพาะในลูปเท่านั้น แต่เรายังสามารถละเว้น `let` และใช้ตัวแปรที่มีอยู่ซ้ำได้
+- คำสั่ง `break/continue` สำหรับ `break` คือการหยุดการทำงานของลูปทันที และสำหรับ `continue` คือสั่งให้ลูบเดิมทำงานอีกคร้ัง เราใช้ labels เพื่อหยุดลูบที่ซ้อนกัน
 
-Details in: <info:while-for>.
+ดูรายละเอียดเพิ่มเติมได้ใน: <info:while-for>.
 
-Later we'll study more types of loops to deal with objects.
+โดยหลังจากบทนี้เราจะไปดูลูบที่จัดการกับ `object`
 
-## The "switch" construct
+## คำสั่ง "switch"
 
-The "switch" construct can replace multiple `if` checks. It uses `===` (strict equality) for comparisons.
+คำสั่ง "switch" สามารถใช้แทนที่ `if...else` ได้ คำสั่ง "switch" จะใช้ `===` สำหรับการเปรียบเทียบ
 
-For instance:
+ตัวอย่างเช่น:
 
 ```js run
 let age = prompt('Your age?', 18);
 
 switch (age) {
   case 18:
-    alert("Won't work"); // the result of prompt is a string, not a number
+    alert("Won't work"); // ผลลัพธ์ของ prompt เป็นสตริง ไม่ใช่ตัวเลข
     break;
 
   case "18":
@@ -227,13 +227,13 @@ switch (age) {
 }
 ```
 
-Details in: <info:switch>.
+สามารถดูรายละเอียดเพิ่มเติมได้ที่: <info:switch>
 
-## Functions
+## ฟังก์ชัน
 
-We covered three ways to create a function in JavaScript:
+เราได้กล่าวถึงสามวิธีในการสร้างฟังก์ชันในจาวาสคริปต์:
 
-1. Function Declaration: the function in the main code flow
+1. การประกาศฟังก์ชัน (Function Declaration)
 
     ```js
     function sum(a, b) {
@@ -243,7 +243,7 @@ We covered three ways to create a function in JavaScript:
     }
     ```
 
-2. Function Expression: the function in the context of an expression
+2. นิพจน์ฟังก์ชัน (Function Expression)
 
     ```js
     let sum = function(a, b) {
@@ -256,29 +256,29 @@ We covered three ways to create a function in JavaScript:
 3. Arrow functions:
 
     ```js
-    // expression at the right side
+    // นิพจน์อยู่ทางด้านขวา
     let sum = (a, b) => a + b;
 
-    // or multi-line syntax with { ... }, need return here:
+    // หรือแบบ code block { ... } แต่อย่าลืมใส่ return ด้วย ไม่งั้นจะได้ undifined กลับไปแทน
     let sum = (a, b) => {
       // ...
       return a + b;
     }
 
-    // without arguments
+    // แบบไม่มีอาร์กิวเม้นต์
     let sayHi = () => alert("Hello");
 
-    // with a single argument
+    // แบบอาร์กิวเม้นต์หนึ่งตัว
     let double = n => n * 2;
     ```
 
 
-- Functions may have local variables: those declared inside its body or its parameter list. Such variables are only visible inside the function.
-- Parameters can have default values: `function sum(a = 1, b = 2) {...}`.
-- Functions always return something. If there's no `return` statement, then the result is `undefined`.
+- ฟังก์ชันที่มีตัวแปรภายใน ตัวแปรที่ประกาศภายในฟังก์ชัน จะสามารถมองเห็นได้เฉพาะภายในฟังก์ชันเท่านั้น
+- พารามิเตอร์สามารถใส่ค่าตั้งต้นลงไปได้แบบนี้: `function sum(a = 1, b = 2) {...}`.
+- ฟังก์ชันจะส่งค่าใดๆกลับเสมอ หากไม่ใส่ `return` ที่บรรทัดสุดท้ายของฟังก์ชัน ฟังก์ชันจะส่ง `undefined` กลับไป
 
-Details: see <info:function-basics>, <info:arrow-functions-basics>.
+รายละเอียดเพิ่มเติม: สามารถดูได้ <info:function-basics>, <info:arrow-functions-basics>.
 
-## More to come
+## อื่นๆกำลังจะตามมา
 
-That was a brief list of JavaScript features. As of now we've studied only basics. Further in the tutorial you'll find more specials and advanced features of JavaScript.
+ทั้งหมดนี่เป็นการสรุปแบบย่อๆของจาวาสคริปต์ ในตอนนี้เราเรียนไปแค่พื้นฐานเท่านั้น ในบทต่อๆไปเราจะมาเรียนฟีเจอร์ขั้นสูงของจาวาสคริปต์เพิ่มเติม
