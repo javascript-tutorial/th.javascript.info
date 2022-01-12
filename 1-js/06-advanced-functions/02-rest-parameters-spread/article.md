@@ -1,20 +1,20 @@
-# Rest parameters and spread syntax
+# ทำความรู้จัก Rest parameters และ spread syntax 
 
-Many JavaScript built-in functions support an arbitrary number of arguments.
+ในภาษา JavaScript จะมี built-in ฟังก์ชั่นที่ช่วยทำงานให้เราต่าง ๆ มากมาย
 
-For instance:
+ยกตัวอย่าง:
 
-- `Math.max(arg1, arg2, ..., argN)` -- returns the greatest of the arguments.
-- `Object.assign(dest, src1, ..., srcN)` -- copies properties from `src1..N` into `dest`.
-- ...and so on.
+- `Math.max(arg1, arg2, ..., argN)` -- หาจำนวนที่มีค่ามากที่สุดในกลุ่ม.
+- `Object.assign(dest, src1, ..., srcN)` -- ก๊อบปี้ค่าของ `src1..N` ไปที่ `dest`.
+- และอื่น ๆ อีกมากมาย
 
-In this chapter we'll learn how to do the same. And also, how to pass arrays to such functions as parameters.
+ในบทนี้ เราจะมาเรียนรู้ built-in ฟังก์ชั่นอีกรูปแบบนึง ได้แก่ Rest parameters และ spread syntax
 
 ## Rest parameters `...`
 
-A function can be called with any number of arguments, no matter how it is defined.
+ฟังก์ชั่นที่สามารถรับ arguments กี่ตัวก็ได้ ไม่ว่าจะตั้งค่าแบบไหน
 
-Like here:
+ตัวอย่าง:
 ```js run
 function sum(a, b) {
   return a + b;
@@ -23,14 +23,14 @@ function sum(a, b) {
 alert( sum(1, 2, 3, 4, 5) );
 ```
 
-There will be no error because of "excessive" arguments. But of course in the result only the first two will be counted.
+ในโค้ดตัวอย่างนี้ จะไม่เกิด error จากการที่มีตัวแปรที่มากไป แต่ ฟังก์ชั่น sum จะถูกคำนวนจาก arguments แค่ 2 ตัวแรกเท่านั้น
 
-The rest of the parameters can be included in the function definition by using three dots `...` followed by the name of the array that will contain them. The dots literally mean "gather the remaining parameters into an array".
+parameters ที่เหลือสามารถเขียนเพิ่มในฟังก์ชั่นได้ผ่านการใช้จุดสามจุด `...` แล้วตามด้วยชื่อของ array นั้น โดยจุดหมายถึง การรวม parameters ที่เหลือใน array ด้วย
 
-For instance, to gather all arguments into array `args`:
+ยกตัวอย่าง การรวม arguments ทั้งหมดใน array `args`:
 
 ```js run
-function sumAll(...args) { // args is the name for the array
+function sumAll(...args) { // args คือชื่อของ array
   let sum = 0;
 
   for (let arg of args) sum += arg;
@@ -43,16 +43,16 @@ alert( sumAll(1, 2) ); // 3
 alert( sumAll(1, 2, 3) ); // 6
 ```
 
-We can choose to get the first parameters as variables, and gather only the rest.
+เราสามารถใช้ parameters ตัวแรก ๆ เป็นตัวแปร และรวม parameter ที่เหลือใน Rest parameters ได้
 
-Here the first two arguments go into variables and the rest go into `titles` array:
+ตัวอย่างการให้ 2 parameter แรกเป็นตัวแปร และรวม parameter ที่เหลือใน array ที่ชื่อว่า `titles`
 
 ```js run
 function showName(firstName, lastName, ...titles) {
   alert( firstName + ' ' + lastName ); // Julius Caesar
 
-  // the rest go into titles array
-  // i.e. titles = ["Consul", "Imperator"]
+  // parameter ที่เหลือจะถูกรวมใน titles array
+  // ตัวอย่าง titles = ["Consul", "Imperator"]
   alert( titles[0] ); // Consul
   alert( titles[1] ); // Imperator
   alert( titles.length ); // 2
@@ -61,23 +61,23 @@ function showName(firstName, lastName, ...titles) {
 showName("Julius", "Caesar", "Consul", "Imperator");
 ```
 
-````warn header="The rest parameters must be at the end"
-The rest parameters gather all remaining arguments, so the following does not make sense and causes an error:
+````warn header="The rest parameters ต้องอยู่ท้ายสุด"
+เพราะ Rest parameters จะรวม arguments ที่เหลืออยู่ทั้งหมด ดังนั้นการเขียนแบบในตัวอย่างด้านล่างจะไม่สมเหตุสมผลและ ก่อให้เกิด error:
 
 ```js
-function f(arg1, ...rest, arg2) { // arg2 after ...rest ?!
+function f(arg1, ...rest, arg2) { // arg2 หลังจาก ...rest ?!
   // error
 }
 ```
 
-The `...rest` must always be last.
+ฉะนั้น `...rest` ต้องอยู่ท้ายสุด
 ````
 
-## The "arguments" variable
+## ตัวแปร "arguments"
 
-There is also a special array-like object named `arguments` that contains all arguments by their index.
+มี object นึงที่ทำหน้าที่เหมือน array เรียกว่า `arguments` ที่ภายในจะมี argument เรียงตาม index
 
-For instance:
+ยกตัวอย่าง
 
 ```js run
 function showName() {
@@ -85,29 +85,29 @@ function showName() {
   alert( arguments[0] );
   alert( arguments[1] );
 
-  // it's iterable
+  // เราสามารถวนซ้ำกับมันได้
   // for(let arg of arguments) alert(arg);
 }
 
-// shows: 2, Julius, Caesar
+// แสดงผลเป็น: 2, Julius, Caesar
 showName("Julius", "Caesar");
 
-// shows: 1, Ilya, undefined (no second argument)
+// แสดงผลเป็น: 1, Ilya, undefined (no second argument)
 showName("Ilya");
 ```
 
-In old times, rest parameters did not exist in the language, and using `arguments` was the only way to get all arguments of the function. And it still works, we can find it in the old code.
+ในสมัยก่อนที่จะมี rest parameters การใช้ `arguments` เป็นวิธีที่จะรวมทุก ๆ arguments ของฟังก์ชั่นนั้น ๆ ซึ่งคุณอาจจะเห็นได้จากในโค้ดเก่า ๆ
 
-But the downside is that although `arguments` is both array-like and iterable, it's not an array. It does not support array methods, so we can't call `arguments.map(...)` for example.
+แต่ข้อเสียของ `arguments` คือมันมีความเป็น array และยังสามารถวนซ้ำกับมันเพื่ออ่านค่า argument แต่ละตัวได้ แต่มันก็ไม่ใช่ array เพราะมันไม่สามารถเรียกใช้ array methods ได้ เช่นเราไม่สามารถใช้ `arguments.map(...)` ได้
 
-Also, it always contains all arguments. We can't capture them partially, like we did with rest parameters.
+แม้มันจะมีทุก ๆ arguments แต่เราไม่สามารถเรียกใช้บางส่วนแบบที่ rest parameters ทำได้
 
-So when we need these features, then rest parameters are preferred.
+ดังนั้นเมื่อเราจะใช้ฟีเจอร์นี้ rest parameters จึงเหมาะสมกว่า
 
-````smart header="Arrow functions do not have `\"arguments\"`"
-If we access the `arguments` object from an arrow function, it takes them from the outer "normal" function.
+````smart header="Arrow functions จะไม่มี `\"arguments\"`"
+ถ้าเราจะเรียกใช้ object `arguments` จาก arrow function มันจะได้ผลลัพธ์เหมือนฟังก์ชั่นปกติทั่วไป
 
-Here's an example:
+ตัวอย่าง:
 
 ```js run
 function f() {
@@ -118,25 +118,25 @@ function f() {
 f(1); // 1
 ```
 
-As we remember, arrow functions don't have their own `this`. Now we know they don't have the special `arguments` object either.
+ถ้าเราจำได้ arrow functions จะไม่มี `this` เป็นของตัวเอง และตอนนี้เราก็รู้แล้วว่า arrow functions ก็ไม่มี object `arguments` เหมือนกัน
 ````
 
 
 ## Spread syntax [#spread-syntax]
 
-We've just seen how to get an array from the list of parameters.
+จากที่เราได้เห็นการดึง array จากกลุ่มของ parameters แล้ว
 
-But sometimes we need to do exactly the reverse.
+แต่ในบางครั้งเราต้องการทำสิ่งตรงกันข้าม
 
-For instance, there's a built-in function [Math.max](mdn:js/Math/max) that returns the greatest number from a list:
+อย่างเช่น built-in ฟังก์ชั่น [Math.max](mdn:js/Math/max) ที่จะหาจำนวนที่มีค่ามากที่สุดในกลุ่ม:
 
 ```js run
 alert( Math.max(3, 5, 1) ); // 5
 ```
 
-Now let's say we have an array `[3, 5, 1]`. How do we call `Math.max` with it?
+เรามี array ที่มีค่าดังนี้ `[3, 5, 1]`. เราจะเรียกใช้ `Math.max` กับมันได้อย่างไร ?
 
-Passing it "as is" won't work, because `Math.max` expects a list of numeric arguments, not a single array:
+การเรียกใช้แบบ "as is" คงจะไม่เวิร์ค เพราะ `Math.max` จะรับค่าเฉพาะ arguments ที่เป็นตัวเลข ไม่ใช่ array:
 
 ```js run
 let arr = [3, 5, 1];
@@ -146,21 +146,21 @@ alert( Math.max(arr) ); // NaN
 */!*
 ```
 
-And surely we can't manually list items in the code `Math.max(arr[0], arr[1], arr[2])`, because we may be unsure how many there are. As our script executes, there could be a lot, or there could be none. And that would get ugly.
+และเราก็ไม่สามารถเรียกใช้ตัวแปรแต่ละตัวจาก array แบบนี้ได้ในโค้ด `Math.max(arr[0], arr[1], arr[2])`, เพราะเราไม่มีทางรู้ได้เลยว่าใน array จะมีตัวแปรกี่ตัว ในการทำงานจริงคงจะไม่ได้มีแค่ตัวสองตัว หรือบางทีอาจจะไม่มีเลย นั่นแหละคือปัญหา
 
-*Spread syntax* to the rescue! It looks similar to rest parameters, also using `...`, but does quite the opposite.
+*Spread syntax* จะเข้ามาช่วยเหลือ โดยหน้าตามันจะเหมือนกับ rest parameters แถมยังใช้ `...` เหมือนกันอีก แต่การทำงานค่อนข้างแตกต่างกัน
 
-When `...arr` is used in the function call, it "expands" an iterable object `arr` into the list of arguments.
+เมื่อ `...arr` ถูกใช้ในการเรียกฟังก์ชั่นมันจะกระจาย object `arr` ออกมาเป็นกลุ่มของ arguments.
 
-For `Math.max`:
+ตัวอย่างเช่น `Math.max`:
 
 ```js run
 let arr = [3, 5, 1];
 
-alert( Math.max(...arr) ); // 5 (spread turns array into a list of arguments)
+alert( Math.max(...arr) ); // 5 (กระจาย array ออกเป็นกลุ่มของ arguments)
 ```
 
-We also can pass multiple iterables this way:
+นอกจากนี้เรายังสามารถใช้ Spread syntax ได้มากกว่าหนึ่งตัว:
 
 ```js run
 let arr1 = [1, -2, 3, 4];
@@ -169,7 +169,7 @@ let arr2 = [8, 3, -8, 1];
 alert( Math.max(...arr1, ...arr2) ); // 8
 ```
 
-We can even combine the spread syntax with normal values:
+หรือเราจะผสม Spread syntax กับตัวแปรธรรมดาก็ย่อมได้:
 
 
 ```js run
@@ -179,7 +179,7 @@ let arr2 = [8, 3, -8, 1];
 alert( Math.max(1, ...arr1, 2, ...arr2, 25) ); // 25
 ```
 
-Also, the spread syntax can be used to merge arrays:
+และ Spread syntax ยังสามารถใช้เพื่อรวม array 2 อันเข้าด้วยกัน:
 
 ```js run
 let arr = [3, 5, 1];
@@ -189,12 +189,12 @@ let arr2 = [8, 9, 15];
 let merged = [0, ...arr, 2, ...arr2];
 */!*
 
-alert(merged); // 0,3,5,1,2,8,9,15 (0, then arr, then 2, then arr2)
+alert(merged); // 0,3,5,1,2,8,9,15 (0, ต่อด้วย arr, ต่อด้วย 2, ต่อด้วย arr2)
 ```
 
-In the examples above we used an array to demonstrate the spread syntax, but any iterable will do.
+ในตัวอย่างข้างต้น เราใช้ array เพื่อสาธิตการใช้ spread syntax แต่อะไรก็ตามที่เราสามารถวนซ้ำกับมันได้ก็สามารถทำแบบนี้ได้เช่นกัน
 
-For instance, here we use the spread syntax to turn the string into array of characters:
+ยกตัวอย่าง เราสามารถใช้ spread syntax เพื่อที่จะแปลง string เป็น array of characters:
 
 ```js run
 let str = "Hello";
@@ -202,94 +202,94 @@ let str = "Hello";
 alert( [...str] ); // H,e,l,l,o
 ```
 
-The spread syntax internally uses iterators to gather elements, the same way as `for..of` does.
+หลักการทำงานของ Spread syntax คือการใช้การวนซ้ำรวม elements แบบที่ `for..of` ทำ
 
-So, for a string, `for..of` returns characters and `...str` becomes `"H","e","l","l","o"`. The list of characters is passed to array initializer `[...str]`.
+ดังนั้นสำหรับ string, `for..of` จะคืนค่ามาเป็น characters และ `...str` จะคืนค่ามาเป็น `"H","e","l","l","o"`. ในรูปแบบของ array of string `[...str]`.
 
-For this particular task we could also use `Array.from`, because it converts an iterable (like a string) into an array:
+สำหรับงานบางประเภท เราสามารถใช้ `Array.from`, เพราะมันสามารถแปลงข้อมูลใด ๆ ที่เราสามารถวนซ้ำกับมันได้ (เช่น string) ให้เป็น array ได้:
 
 ```js run
 let str = "Hello";
 
-// Array.from converts an iterable into an array
+// Array.from แปลงข้อมูลใด ๆ ที่เราสามารถวนซ้ำกับมันได้ให้เป็น array
 alert( Array.from(str) ); // H,e,l,l,o
 ```
 
-The result is the same as `[...str]`.
+ผลลัพธ์ที่ได้จะเหมือนกับ `[...str]`.
 
-But there's a subtle difference between `Array.from(obj)` and `[...obj]`:
+แต่ทั้งนี้ทั้ง ก็ยังมีความแตกต่างระหว่าง `Array.from(obj)` และ `[...obj]`:
 
-- `Array.from` operates on both array-likes and iterables.
-- The spread syntax works only with iterables.
+- `Array.from` สามารถทำงานกับข้อมูลที่เป็น array-likes และข้อมูลที่เราสามารถวนซ้ำกับมันได้
+- Spread syntax ทำงานได้กับแค่ข้อมูลที่เราสามารถวนซ้ำกับมันได้
 
-So, for the task of turning something into an array, `Array.from` tends to be more universal.
+ดังนั้น สำหรับการเปลี่ยนบางสิ่งให้กลายเป็น array, `Array.from` ดูจะเหมาะสมมากกว่า
 
 
-## Copy an array/object
+## การก๊อบปี้ array/object
 
-Remember when we talked about `Object.assign()` [in the past](info:object-copy#cloning-and-merging-object-assign)?
+จำได้มั้ยว่าเราเคยพูดถึง `Object.assign()` [in the past](info:object-copy#cloning-and-merging-object-assign)?
 
-It is possible to do the same thing with the spread syntax.
+เราสามารถทำแบบ `Object.assign()` ได้ ผ่านการใช้ spread syntax.
 
 ```js run
 let arr = [1, 2, 3];
 
 *!*
-let arrCopy = [...arr]; // spread the array into a list of parameters
-                        // then put the result into a new array
+let arrCopy = [...arr]; // กระจาย array ออกมาเป็นกลุ่มของ parameters
+                        // จากนั้นนำผลลัพธ์ไปสร้าง array ตัวใหม่
 */!*
 
-// do the arrays have the same contents?
+// แล้ว array ตัวใหม่ กับ array ตัวเดิมมีค่าเหมือนกันมั้ย ?
 alert(JSON.stringify(arr) === JSON.stringify(arrCopy)); // true
 
-// are the arrays equal?
-alert(arr === arrCopy); // false (not same reference)
+// แล้ว array 2 ตัวนั้นถูกอ้างอิงจากที่เดียวกันหรือป่าว ?
+alert(arr === arrCopy); // false (ไม่ได้ถูกอ้างอิงจากที่เดียวกัน)
 
-// modifying our initial array does not modify the copy:
+// การเปลี่ยน array ต้นแบบ จะไม่เปลี่ยนค่า array ตัวใหม่:
 arr.push(4);
 alert(arr); // 1, 2, 3, 4
 alert(arrCopy); // 1, 2, 3
 ```
 
-Note that it is possible to do the same thing to make a copy of an object:
+จำไว้ว่า มันเป็นไปได้ที่จะทำเหมือนกัน ตอนที่เราจะก๊อปปี้ object:
 
 ```js run
 let obj = { a: 1, b: 2, c: 3 };
 
 *!*
-let objCopy = { ...obj }; // spread the object into a list of parameters
-                          // then return the result in a new object
+let objCopy = { ...obj }; // กระจาย object ออกมาเป็นกลุ่มของ parameters
+                          // จากนั้นนำผลลัพธ์ไปสร้าง object ตัวใหม่
 */!*
 
-// do the objects have the same contents?
+// แล้ว object ตัวใหม่ กับ object ตัวเดิมมีค่าเหมือนกันมั้ย ?
 alert(JSON.stringify(obj) === JSON.stringify(objCopy)); // true
 
-// are the objects equal?
-alert(obj === objCopy); // false (not same reference)
+// แล้ว object 2 ตัวนั้นถูกอ้างอิงจากที่เดียวกันหรือป่าว ?
+alert(obj === objCopy); // false (ไม่ได้ถูกอ้างอิงจากที่เดียวกัน)
 
-// modifying our initial object does not modify the copy:
+// การเปลี่ยน object ต้นแบบ จะไม่เปลี่ยนค่า object ตัวใหม่:
 obj.d = 4;
 alert(JSON.stringify(obj)); // {"a":1,"b":2,"c":3,"d":4}
 alert(JSON.stringify(objCopy)); // {"a":1,"b":2,"c":3}
 ```
 
-This way of copying an object is much shorter than `let objCopy = Object.assign({}, obj)` or for an array `let arrCopy = Object.assign([], arr)` so we prefer to use it whenever we can.
+ด้วยวิธีการนี้จะทำให้การเขียนก๊อปปี้ object เขียนได้สั้นกว่า `let objCopy = Object.assign({}, obj)` หรือสำหรับ array คือ `let arrCopy = Object.assign([], arr)` ดังนั้นเราจึงใช้พยายามใช้มันบ่อย ๆ เท่าที่จะทำได้
 
 
-## Summary
+## สรุป
 
-When we see `"..."` in the code, it is either rest parameters or the spread syntax.
+เมื่อเราเห็น `"..."` ในโค้ด, มันอาจจะเป็น rest parameters หรือ spread syntax ก็ได้
 
-There's an easy way to distinguish between them:
+แต่มันก็มีวิธีง่าย ๆ ในการแยกแยะความแตกต่างระหว่างสองสิ่งนี้
 
-- When `...` is at the end of function parameters, it's "rest parameters" and gathers the rest of the list of arguments into an array.
-- When `...` occurs in a function call or alike, it's called a "spread syntax" and expands an array into a list.
+- เมื่อ `...` ปรากฏอยู่ที่ด้านท้ายของ parameters ในฟังก์ชั่น, มันคือ "rest parameters" ซึ่งจะรวม argument ที่เหลือใน array
+- เมื่อ `...` ปรากฏอยู่ ตอนที่เรียกใช้ฟังก์ชั่น, มันคือ "spread syntax" ซึ่งจะกระจาย array ออกมาเป็นกลุ่มของ parameter
 
-Use patterns:
+Patterns การใช้งาน:
 
-- Rest parameters are used to create functions that accept any number of arguments.
-- The spread syntax is used to pass an array to functions that normally require a list of many arguments.
+- Rest parameters มักใช้กับฟังก์ชั่นที่สามารถรับ arguments กี่ตัวก็ได้
+- Spread syntax จะใช้กับการเรียกใช้ array ในฟังก์ชั่น ที่ในฟังก์ชั่นนั้นอาจจะมีหลาย arguments
 
-Together they help to travel between a list and an array of parameters with ease.
+ทั้งสองอย่างนี้ช่วยให้เราทำงานกับ array ของ parameters ได้ง่ายยิ่งขึ้น
 
-All arguments of a function call are also available in "old-style" `arguments`: array-like iterable object.
+ตัว arguments ในฟังก์ชั่นยังคงสามารถเรียกใช้ผ่าน "old-style" `arguments`: array-like iterable object ได้เหมือนเดิม
