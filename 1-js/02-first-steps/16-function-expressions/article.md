@@ -34,11 +34,7 @@ let sayHi = function() {
 
 ## ฟังก์ชั่นคือค่า
 
-<<<<<<< HEAD
-ขอย้ำอีกครั้งว่า ไม่ว่าฟังก์ชั่นจะถูกสร้างขึ้นอย่างไร ฟังก์ชันก็คือค่า ทั้งสองตัวอย่างด้านบนเก็บฟังก์ชันไว้เป็นตัวแปร `sayHi`
-=======
-Let's reiterate: no matter how the function is created, a function is a value. Both examples above store a function in the `sayHi` variable.
->>>>>>> a6fdfda09570a8ce47bb0b83cd7a32a33869cfad
+ขอย้ำอีกครั้งว่า ไม่ว่าฟังก์ชันจะถูกสร้างขึ้นอย่างไร ฟังก์ชันก็คือค่า ค่าหนึ่ง ทั้งสองตัวอย่างด้านบนเก็บฟังก์ชันไว้ในตัวแปร `sayHi`
 
 เราสามารถแสดงค่านั้นออกมาได้โดยใช้ `alert`:
 
