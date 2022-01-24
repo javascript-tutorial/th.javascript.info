@@ -12,7 +12,11 @@ function sayHi() {
 
 มีอีกรูปแบบหนึ่งสำหรับการสร้างฟังก์ชันที่เรียกว่า *Function Expression*
 
+<<<<<<< HEAD
 มันอนุญาตให้สร้างฟังก์ชันใหม่ที่อยู่ตรงกลางของนิพจน์
+=======
+It allows us to create a new function in the middle of any expression.
+>>>>>>> bae0ef44d0208506f6e9b7f3421ee640ab41af2b
 
 ตัวอย่างเช่น:
 
