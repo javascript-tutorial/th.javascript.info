@@ -46,13 +46,23 @@ n = 12.345;
     alert( "not a number" / 2 ); // NaN, สตริงหารตัวเลขไม่ได้
     ```
 
+<<<<<<< HEAD
     `NaN` เป็นค่าที่ติดหนึบ เพราะไม่ว่าเราจะทำอะไรกับค่า `NaN` มันก็จะเป็น `NaN` เสมอ
+=======
+    `NaN` is sticky. Any further mathematical operation on `NaN` returns `NaN`:
+>>>>>>> 0f748275e20a81700c8514f22a7cc80c4422d09c
 
     ```js run
-    alert( "not a number" / 2 + 5 ); // NaN
+    alert( NaN + 1 ); // NaN
+    alert( 3 * NaN ); // NaN
+    alert( "not a number" / 2 - 1 ); // NaN
     ```
 
+<<<<<<< HEAD
     ดังนั้น หากเกิด `NaN` ขึ้นมาในโค้ดของเรา มันก็อาจจะลามไปที่อื่นในโค้ดของเราด้วย
+=======
+    So, if there's a `NaN` somewhere in a mathematical expression, it propagates to the whole result (there's only one exception to that: `NaN ** 0` is `1`).
+>>>>>>> 0f748275e20a81700c8514f22a7cc80c4422d09c
 
 ```smart header="การดำเนินการทางคณิตศาสตร์นั้นปลอดภัย"
 การกระทำใดๆที่เกี่ยวกับตัวเลขนั้นปลอดภัย ต่อไปเราจะ หารอะไรด้วยศูนย์ เอาข้อมูลชนิดอื่นมาบวกตัวเลข และอื่นๆ
