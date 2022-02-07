@@ -193,6 +193,7 @@ alert( +apples + +oranges ); // 5
 | หมายเลขวรรณะ | ชื่อ | หน้าตาเครื่องหมาย |
 |------------|------|------|
 | ... | ... | ... |
+<<<<<<< HEAD
 | 17 | unary plus | `+` |
 | 17 | unary ลบ | `-` |
 | 16 | ยกกำลัง | `**` |
@@ -205,10 +206,28 @@ alert( +apples + +oranges ); // 5
 | ... | ... | ... |
 
 เราจะเห็นว่าบรรดาบวกแบบเดี่ยวมีหมายเลขวรรณะเป็น 16 ซึ่งสูงกว่าบวกแบบคู่ซึ่งมีแค่ 13 นี่จึงเป็นเหตุผลว่าทำไม `"+apples + +oranges" จึงแปลงเป็นตัวเลขก่อนบวก
+=======
+| 15 | unary plus | `+` |
+| 15 | unary negation | `-` |
+| 14 | exponentiation | `**` |
+| 13 | multiplication | `*` |
+| 13 | division | `/` |
+| 12 | addition | `+` |
+| 12 | subtraction | `-` |
+| ... | ... | ... |
+| 2 | assignment | `=` |
+| ... | ... | ... |
+
+As we can see, the "unary plus" has a priority of `15` which is higher than the `13` of "addition" (binary plus). That's why, in the expression `"+apples + +oranges"`, unary pluses work before the addition.
+>>>>>>> 71da17e5960f1c76aad0d04d21f10bc65318d3f6
 
 ## การกำหนดค่า (Assignment)
 
+<<<<<<< HEAD
 การกำหนดค่า (assignment) หรือเครื่องหมาย `=` ก็เป็นตัวดำเนินการเช่นเดียวกัน แถมยังมีชื่อในตารางวรรณะด้านบนด้วย โดยมีหมายเลขวรรณะอยู่ที่ `3`
+=======
+Let's note that an assignment `=` is also an operator. It is listed in the precedence table with the very low priority of `2`.
+>>>>>>> 71da17e5960f1c76aad0d04d21f10bc65318d3f6
 
 นี่เป็นเหตุผลว่าทำไม เวลาเราประกาศตัวแปรแบบ `x = 2 * 2 + 1` จะคำนวณด้านขวาให้เสร็จก่อน แล้วค่อยนำผลลัพธ์สุดท้าย มาเก็บไว้ใน `x`
 

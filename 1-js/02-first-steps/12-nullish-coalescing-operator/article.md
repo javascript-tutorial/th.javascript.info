@@ -106,7 +106,11 @@ alert(height ?? 100); // 0
 
 ## ลำดับการทำงาน (Precedence)
 
+<<<<<<< HEAD
 ลำดับการทำงานสำหรับ `??` เหมือนกับ `||` แต่ลำดับตามตารางจะแตกต่างกันเล็กน้อย หากดูจาก[MDN table](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence#Table) จะเห็นว่า `??` เท่ากับ `5`  ขณะที่ `||` เท่ากับ `6`
+=======
+The precedence of the `??` operator is the same as `||`. They both equal `4` in the [MDN table](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence#Table).
+>>>>>>> 71da17e5960f1c76aad0d04d21f10bc65318d3f6
 
 นั่นหมายความว่ามันเหมือนกับ `||` โดย `??` จะทำงานก่อน `=` และ `?` แต่ทำงานหลังบรรดาตัวดำเนินการหลายตัวมากอาทิ้เช่น `+`, `*`
 
