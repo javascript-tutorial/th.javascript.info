@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# Sum object properties
+# หาผลรวมของ property ใน object
 
-We have an object storing salaries of our team:
+เรามี object เก็บค่าเงินเดือนของสมาชิกในทีมดังนี้:
 
 ```js
 let salaries = {
@@ -14,6 +14,6 @@ let salaries = {
 }
 ```
 
-Write the code to sum all salaries and store in the variable `sum`. Should be `390` in the example above.
+เขียนโค้ดเพื่อหาผลรวมโดยเก็บไว้ในตัวแปร `sum` โดยจากข้อมูลข้างบนต้องได้ค่า 390
 
-If `salaries` is empty, then the result must be `0`.
+ถ้า `salaries` เป็น object ว่างให้ตอบ `0`

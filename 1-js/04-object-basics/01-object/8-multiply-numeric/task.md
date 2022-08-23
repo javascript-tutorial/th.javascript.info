@@ -2,14 +2,14 @@ importance: 3
 
 ---
 
-# Multiply numeric property values by 2
+# คูณค่าของ property ทุกตัวที่มี value ป็นค่าเชิงตัวเลขด้วย 2
 
-Create a function `multiplyNumeric(obj)` that multiplies all numeric property values of `obj` by `2`.
+สร้าง function `multiplyNumeric(obj)` ที่จะทำการคูณค่าของ property ทุกตัวใน `obj` ที่มี value เป็นค่าเชิงตัวเลขด้วย `2`
 
-For instance:
+ตัวอย่างเช่น:
 
 ```js
-// before the call
+// ก่อนเรียกใช้ function
 let menu = {
   width: 200,
   height: 300,
@@ -18,7 +18,7 @@ let menu = {
 
 multiplyNumeric(menu);
 
-// after the call
+// หลังเรียกใช้ function
 menu = {
   width: 400,
   height: 600,
@@ -26,8 +26,6 @@ menu = {
 };
 ```
 
-Please note that `multiplyNumeric` does not need to return anything. It should modify the object in-place.
+โปรดทราบว่า `multiplyNumeric` ไม่จำเป็นต้องตอบกลับ แต่ทำการเปลี่ยนค่าของ object
 
-P.S. Use `typeof` to check for a number here.
-
-
+ป.ล. ใช้ `typeof` เพื่อทดสอบว่าเป็นค่าเชิงตัวเลข

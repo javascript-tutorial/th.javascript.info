@@ -1,17 +1,17 @@
 
-# Objects
+# Object
 
-As we know from the chapter <info:types>, there are eight data types in JavaScript. Seven of them are called "primitive", because their values contain only a single thing (be it a string or a number or whatever).
+ตามที่เราได้รู้จากบท <info:types> แล้วว่า JavaScript มีข้อมูลอยู่ 8 ชนิดด้วยกัน โดยจะมี 7 ชนิดที่เป็นข้อมูลแบบ "primitive" เนื่องจากเก็บค่าข้อมูลเพียงหน่วยเดียวเท่านั้น (อาจเป็นข้อความสตริงหรือตัวเลขหรืออะไรก็ตาม)
 
-In contrast, objects are used to store keyed collections of various data and more complex entities. In JavaScript, objects penetrate almost every aspect of the language. So we must understand them first before going in-depth anywhere else.
+ในทางกลับกันข้อมูลชนิดที่ 8 คือ objects เป็นชนิดของข้อมูลที่เก็บกลุ่มข้อมูลที่ประกอบด้วยข้อมูลประเภทต่างๆ และข้อมูลที่มีความซับซ้อนมากขึ้น (โดยมี key เป็นตัวอ้างอิงถึงข้อมูลแต่ละตัวใน object) ในภาษา JavaScript มีการใช้แนวคิดของ object อยู่เต็มไปหมด ดังนั้นเราต้องเข้าใจหลักการของ object ให้ดีเสียก่อนที่จะศึกษาเรื่องอื่นๆ ของ JavaScript แบบลงลึกได้
 
-An object can be created with figure brackets `{…}` with an optional list of *properties*. A property is a "key: value" pair, where `key` is a string (also called a "property name"), and `value` can be anything.
+เราสามารถสร้าง object ขึ้นมาได้ด้วยการสร้างวงเล็บปีกกา `{…}` โดยภายในวงเล็บปีกกา จะมีรายชื่อของ *property* ต่างๆ ที่อยู่ภายใน object นั้น โดย object หนึ่ง จะมี property กี่ตัวก็ได้ หรือไม่มีเลยสักตัวก็ได้  โดยโครงสร้าง property แต่ละตัวจะอยู่ในรูปคู่อันดับของ "key: value" มี `key` เป็นข้อความสตริง (เรียกว่า "property name") และ `value` จะเป็นข้อมูลประเภทใดก็ได้
 
-We can imagine an object as a cabinet with signed files. Every piece of data is stored in its file by the key. It's easy to find a file by its name or add/remove a file.
+เราอาจคิดเสียว่า object ก็เหมือนกับตู้ใส่เอกสารที่เก็บแฟ้มตู้หนึ่ง โดยที่แต่ละแฟ้มนั้นจะมีป้ายชื่อกำกับไว้ ในแต่ละแฟ้มก็จะมีข้อมูลเก็บอยู่โดยมี key กำกับไว้ เฟื่อให้ผู้ที่ต้องการใช้สามารถค้นหา หรือ เพิ่ม/ลบ แฟ้มได้โดยง่าย
 
 ![](object.svg)
 
-An empty object ("empty cabinet") can be created using one of two syntaxes:
+เราสามารถสร้าง object ว่างๆ ขึ้นมาตัวหนึ่ง ("object ว่างๆ ก็เหมือนกับตู้เอกสารที่ยังไม่มีเอกสารอะไรเก็บอยู่เลย") ได้ด้วยการประกาศ object ซึ่งมีด้วยกันสองวิธี โดยใช้ syntax แบบใดแบบหนึ่งก็ได้จาก 2 แบบนี้:
 
 ```js
 let user = new Object(); // "object constructor" syntax
@@ -20,41 +20,41 @@ let user = {};  // "object literal" syntax
 
 ![](object-user-empty.svg)
 
-Usually, the figure brackets `{...}` are used. That declaration is called an *object literal*.
+โดยทั่วไปจะใช้วิธีที่มีวงเล็บปีกกา `{...}` กันมากกว่า จะมีชื่อเรียกของการประกาศ object ด้วยวิธีนี้ว่า *object literal*
 
-## Literals and properties
+## Literal และ property
 
-We can immediately put some properties into `{...}` as "key: value" pairs:
+เราสามารถระบุ property ของ object ตอนที่เราประกาศ object นั้นเลยก็ได้ ด้วยการใส่ property เข้าไประหว่างปีกกาสองอัน `{...}` โดย property ที่ใส่จะต้องอยู่รูปแบบคู่อันดับของ "key: value":
 
 ```js
-let user = {     // an object
-  name: "John",  // by key "name" store value "John"
-  age: 30        // by key "age" store value 30
+let user = {     // object
+  name: "John",  // key ชื่อ "name" เก็บค่า "John"
+  age: 30        // key ชื่อ "age" เก็บค่า 30
 };
 ```
 
-A property has a key (also known as "name" or "identifier") before the colon `":"` and a value to the right of it.
+property แต่ละตัวจะมี key (หรือบางทีก็เรียกกันว่า "name" หรือ "identifier" ก็ได้) เขียนก่อนเครื่องหมาย colon `":"` และมี value เขียนอยู่ฝั่งขวาของเครื่องหมาย colon
 
-In the `user` object, there are two properties:
+object ชื่อ `user` ที่เราสร้างขึ้นมาประกอบไปด้วย property 2 ตัว:
 
-1. The first property has the name `"name"` and the value `"John"`.
-2. The second one has the name `"age"` and the value `30`.
+1. property ตัวแรกมี key ชื่อว่า `"name"` และมี value เป็น String ที่มีข้อความว่า `"John"`
+2. property ตัวที่สองมี key ชื่อว่า `"age"` แบะมี value เป็นเลขมีค่าเท่ากับ `30`
 
-The resulting `user` object can be imagined as a cabinet with two signed files labeled "name" and "age".
+ทำให้เราสามารถเปรียบ object ที่ชื่อ `user` ที่มี property สองตัวนี้ เสมือนกับตู้เอกสาร และที่ประกอบไปด้วยแฟ้ม 2 แฟ้มที่มีป้ายชื่อกำกับไว้ว่า "name" และ "age"
 
 ![user object](object-user.svg)
 
-We can add, remove and read files from it any time.
+เราสามารถ เพิ่ม ลบและอ่านแฟ้มในตู้นี้ได้ตลอดเวลา
 
-Property values are accessible using the dot notation:
+โดยเราเรียกใช้ value ของ property (ก็คือข้อมูลในแฟ้มเอกสาร) โดยการใช้ dot notation ดังนี้:
 
 ```js
-// get property values of the object:
+// alert ค่า value ของ property ใน object:
 alert( user.name ); // John
 alert( user.age ); // 30
 ```
 
-The value can be of any type. Let's add a boolean one:
+ข้อมูลที่เก็บในแฟ้มจะเป็นข้อมูลชนิดไหนก็ได้ ทีนี้เราจะลองเพิ่มข้อมูลชนิด boolean เข้าไป 1 ตัว:
 
 ```js
 user.isAdmin = true;
@@ -62,7 +62,7 @@ user.isAdmin = true;
 
 ![user object 2](object-user-isadmin.svg)
 
-To remove a property, we can use `delete` operator:
+ถ้าต้องการลบ property ตัวใดตัวหนึ่งออกจาก `object` เราสามารถใช้คำสั่ง delete เพื่อลบ property ตัวนั้นออกไป:
 
 ```js
 delete user.age;
@@ -70,70 +70,70 @@ delete user.age;
 
 ![user object 3](object-user-delete.svg)
 
-We can also use multiword property names, but then they must be quoted:
+เราสามารถตั้งชื่อของ property เป็นชื่อแบบ  multiword ก็คือชื่อที่มีคำหลายๆ คำที่แยกกันด้วยช่องว่างได้ แต่ทุกคำที่เป็นชื่อนั้นจะต้องอยู่ในเครื่องหมายคำพูดเดียวกัน:
 
 ```js
 let user = {
   name: "John",
   age: 30,
-  "likes birds": true  // multiword property name must be quoted
+  "likes birds": true  // ชื่อ property แบบ multiword ต้องอยู่ในเครื่องหมายคำพูด
 };
 ```
 
 ![](object-user-props.svg)
 
 
-The last property in the list may end with a comma:
+เราสามารถใส่เครื่องหมาย comma ตามหลัง property ตัวสุดท้ายก็ได้:
 ```js
 let user = {
   name: "John",
   age: 30*!*,*/!*
 }
 ```
-That is called a "trailing" or "hanging" comma. Makes it easier to add/remove/move around properties, because all lines become alike.
+เครื่องหมาย comma ที่ปิดท้าย property ตัวหลังสุดเรียกว่า "trailing" หรือ "hanging" comma ทำให้เรา เพิ่ม/ลบ/ย้ายลำดับ propperty ได้ง่ายขึ้น เนื่องจากแต่ละบรรทัดจะมีเครื่องหมาย comma ปิดท้ายเหมือนกันทุกบรรทัด
 
 ## Square brackets
 
-For multiword properties, the dot access doesn't work:
+เราไม่สามารถใช้ dot notation เรียกใช้ property แบบ multiword ได้:
 
 ```js run
-// this would give a syntax error
+// เกิด syntax error
 user.likes birds = true
 ```
 
-JavaScript doesn't understand that. It thinks that we address `user.likes`, and then gives a syntax error when comes across unexpected `birds`.
+JavaScript ไม่เข้าใจคำสั่งนี้ เนื่องจาก JavaScript จะเข้าใจไปว่าเราต้องการใช้ค่าข้อมูลจาก `user.likes` ทำให้เกิด syntax error เมื่อพบคำว่า `birds` ซึ่งเป็นข้อความที่ทำให้โปรแกรมไม่สามารถแปลภาษาต่อไปได้
 
-The dot requires the key to be a valid variable identifier. That implies: contains no spaces, doesn't start with a digit and doesn't include special characters (`$` and `_` are allowed).
+การใช้ dot notation เพื่อเข้าถึง property ต่างๆ ของ object หลังจากชื่อ objct และเครื่องหมาย dot จะต้องต่อด้วย key ของ property ที่ถูกต้องตามรูปแบบของการตั้งชื่อตัวแปร กล่าวคือ: ห้ามมีวรรค ไม่ขึ้นต้นด้วยตัวเลข และไม่มีอักขระพิเศษ (ยกเว้นเครื่องหมาย `$` กับ `_` สองตัวที่สามารถมีได้)
 
-There's an alternative "square bracket notation" that works with any string:
+ด้วยเหตุนี้ จึงมีอีกวิธีในการเข้าถึง property ของ object ก็คือใช้วงเล็บเหลี่ยม หรือ "square bracket notation" โดยวิธีนี้สามารถใช้ได้กับชื่อ property แบบ multiword:
 
 ```js run
 let user = {};
 
-// set
+// กำหนดค่า
 user["likes birds"] = true;
 
-// get
+// อ่านค่า
 alert(user["likes birds"]); // true
 
-// delete
+// ลบ
 delete user["likes birds"];
 ```
 
-Now everything is fine. Please note that the string inside the brackets is properly quoted (any type of quotes will do).
+ถึงตอนนี้เราก็สามารถเรียกใช้งาน property ทีมีชื่อเป็น multiword ได้แล้ว ต้องระวังว่า ข้อความสตริงในวงเล็บเหลี่ยมนี้จะต้องต้องอยู่ภายในระหว่างเครื่องหมายคำพูดหรือเครื่องหมายอัญประกาศ (จะใช้เครื่องหมายคำพูดแบบฟันเดี่ยว-single quoe หรือแบบฟันคู่-doule quoteก็ได้)
 
-Square brackets also provide a way to obtain the property name as the result of any expression -- as opposed to a literal string -- like from a variable as follows:
+นอกจากนี้เรายังสามารถใช้วงเล็บเหลี่ยมเพื่ออ้างถึงชื่อของ property จากผลลัพธ์ของกระบวนการอะไรสักอย่างได้ แทนที่ใส่ชื่อเป็นข้อความตัวอักษรตายตัว คล้ายๆ กับว่าเราตั้งตัวแปรตัวหนึ่งขึ้นมาเพื่ออ้างถึงชื่อของ property ดังตัวอย่างข้างล่างนี้:
 
 ```js
 let key = "likes birds";
 
-// same as user["likes birds"] = true;
+// เหมือนกันกับ user["likes birds"] = true;
 user[key] = true;
 ```
 
-Here, the variable `key` may be calculated at run-time or depend on the user input. And then we use it to access the property. That gives us a great deal of flexibility.
+ตามตัวอย่างข้างบนนี้ ตัวแปร `key` อาจถูกกำหนดค่าขึ้นมาตอน run-time หรือจะเป็นการรับค่าจาก user ใส่เข้ามาก็ได้  จากนั้นก็ใช้ค่าของตัวแปรเพื่อเข้าถึง property คุณสมบัติที่ว่ามานี้ทำให้เกิดความยึดหยุ่นในการใช้งานมากทีเดียว
 
-For instance:
+ตัวอย่างเช่น:
 
 ```js run
 let user = {
@@ -141,13 +141,13 @@ let user = {
   age: 30
 };
 
-let key = prompt("What do you want to know about the user?", "name");
+let key = prompt("คุณต้องการทราบข้อมูลใดของ user?", "name");
 
-// access by variable
-alert( user[key] ); // John (if enter "name")
+// เข้าถึงข้อมูลด้วยตัวแปร
+alert( user[key] ); // John (กรณีที่ผู้ใช้งานป้อนค่า "name")
 ```
 
-The dot notation cannot be used in a similar way:
+แต่การนำตัวแปรมาใช้แทนชื่อของ property นี้ จะใช้ในวิธีแบบ dot notation ไม่ได้:
 
 ```js run
 let user = {
@@ -159,40 +159,40 @@ let key = "name";
 alert( user.key ) // undefined
 ```
 
-### Computed properties
+### Computed property
 
-We can use square brackets in an object literal, when creating an object. That's called *computed properties*.
+ตอนที่ประกาศ object เราสามารถใช้วงเล็บเหลี่ยมใน object literal ได้ เรียกว่า *computed propertiy*
 
-For instance:
+ตัวอย่างเช่น:
 
 ```js run
-let fruit = prompt("Which fruit to buy?", "apple");
+let fruit = prompt("ซื้อผลไม้อะไรดี?", "apple");
 
 let bag = {
 *!*
-  [fruit]: 5, // the name of the property is taken from the variable fruit
+  [fruit]: 5, // ชื่อของ property จะรับมาจาก ตัวแปร fruit
 */!*
 };
 
-alert( bag.apple ); // 5 if fruit="apple"
+alert( bag.apple ); // 5 กรณีที่ fruit="apple"
 ```
 
-The meaning of a computed property is simple: `[fruit]` means that the property name should be taken from `fruit`.
+การใช้งาน computed property ในลักษณะนี้ก็เข้าใจได้ไม่ยาก: `[fruit]` หมายถึง ชื่อของ property ซึ่งชื่อนี้จะถูกตั้งตามค่าของตัวแปร `fruit` ที่รับค่าเข้ามา
 
-So, if a visitor enters `"apple"`, `bag` will become `{apple: 5}`.
+ดังนั้นเมื่อผู้เยี่ยมชมเว็บไซต์ป้อนข้อมูลว่า `"apple"` ค่าของ `bag` จะเป็น `{apple: 5}`
 
-Essentially, that works the same as:
+หลักๆ แล้ว การทำงานจะเป็นไปตามนี้:
 ```js run
 let fruit = prompt("Which fruit to buy?", "apple");
 let bag = {};
 
-// take property name from the fruit variable
+// ใช้ชื่อ property จากตั้วแปร fruit
 bag[fruit] = 5;
 ```
 
-...But looks nicer.
+...แต่ดูดีกว่า
 
-We can use more complex expressions inside square brackets:
+เราสามารถเขียนนิพจน์ที่ซับซ้อนในวงเล็บเหลี่ยมได้ด้วย:
 
 ```js
 let fruit = 'apple';
@@ -201,22 +201,22 @@ let bag = {
 };
 ```
 
-Square brackets are much more powerful than the dot notation. They allow any property names and variables. But they are also more cumbersome to write.
+เราสามารถใช้งานวิธีแบบที่มีวงเล็บเหลี่ยมได้หลายแบบกว่าวิธีการ dot notation ทำให้เราสามารถตั้งชื่อ property และชื่อตัวแปรอย่างไรก็ได้ แต่การเขียนด้วยวิธีแบบวงเล็บเหลี่ยมมีความยุ่งยากมากกว่า
 
-So most of the time, when property names are known and simple, the dot is used. And if we need something more complex, then we switch to square brackets.
+ดังนั้น หากชื่อ property เป็นชื่อตายตัวที่ทราบอยู่ก่อนแล้วและเป็นชื่อที่ไม่มีช่องว่าง เราจะใช้ dot เกือบจะทุกครั้ง แต่เมื่อไรก็ตามที่การอ้างอิงชื่อมีความซับซ้อนมากขึ้นเกินกว่าที่จะยังคงใช้แบบ dot ได้ เราก็จะเปลี่ยนมาใช้แบบวงเล็บเหลี่ยมแทน
 
 ## Property value shorthand
 
-In real code we often use existing variables as values for property names.
+ในการเขียนโค้ดจริง เรามักใช้ชื่อตัวแปรสำหรับค่าของ property เป็นชื่อเดียวกันกับชื่อของ propperty นั้น
 
-For instance:
+ตัวอย่างเช่น:
 
 ```js run
 function makeUser(name, age) {
   return {
     name: name,
     age: age,
-    // ...other properties
+    // ...property อื่นๆ
   };
 }
 
@@ -224,40 +224,40 @@ let user = makeUser("John", 30);
 alert(user.name); // John
 ```
 
-In the example above, properties have the same names as variables. The use-case of making a property from a variable is so common, that there's a special *property value shorthand* to make it shorter.
+จากตัวอย่างข้างบน จะเห็นว่าชื่อของ property เป็นชื่อเดียวกันกับชื่อของตัวแปร ลักษณะการใช้งานที่สร้าง property ขึ้นจากตัวแปรนี้พบได้ทั่วไป จนทำให้มีวิธีการเขียน property แบบย่อขึ้นมาเป็นการเฉพาะ เรียกว่า *property value shorthand*
 
-Instead of `name:name` we can just write `name`, like this:
+แทนที่จะเขียนว่า `name:name` เราสามารถเขียนแค่ `name` ตามนี้:
 
 ```js
 function makeUser(name, age) {
 *!*
   return {
-    name, // same as name: name
-    age,  // same as age: age
+    name, // เหมือนกับเขียนว่า name: name
+    age,  // เหมือนกับเขียนว่า age: age
     // ...
   };
 */!*
 }
 ```
 
-We can use both normal properties and shorthands in the same object:
+เราสามารถเขียน property แบบปรกติและแบบ shorthands ใน object เดียวกันได้:
 
 ```js
 let user = {
-  name,  // same as name:name
+  name,  // เหมือนกับเขียนว่า name:name
   age: 30
 };
 ```
 
 
-## Property names limitations
+## ข้อจำกัดการตั้งชื่อ property
 
-As we already know, a variable cannot have a name equal to one of language-reserved words like "for", "let", "return" etc.
+เราได้ทราบกันดีแล้วว่า เราไม่สามารถตั้งชื่อตัวแปรให้เหมือนกับ reserved words คำใดๆ ของภาษาได้ เช่น คำว่า "for" "let" "return" เป็นต้น
 
-But for an object property, there's no such restriction:
+แต่ข้อห้ามเหล่านี้ ไม่ได้ใช้ห้ามในการตั้งชื่อ property ของ object:
 
 ```js run
-// these properties are all right
+// สามารถตั้งชื่อ property เหล่านี้ได้
 let obj = {
   for: 1,
   let: 2,
@@ -267,107 +267,107 @@ let obj = {
 alert( obj.for + obj.let + obj.return );  // 6
 ```
 
-In short, there are no limitations on property names. They can be any strings or symbols (a special type for identifiers, to be covered later).
+โดยสรุป ไม่มีข้อจำกัดในการตั้งชื่อ property สามารถใช้เป็นข้อความสตริงหรือสัญลักษณ์ (identifier ชนิดพิเศษซึ่งจะกล่าวถึงภายหลัง) ก็ได้
 
-Other types are automatically converted to strings.
+หากใช้ข้อมูลชนิดอื่นเป็นชื่อ จะถูกแปลงเป็นข้อความสริงอัตโนมัติ
 
-For instance, a number `0` becomes a string `"0"` when used as a property key:
+ตั้วอย่างเช่น ตัวเลข `0` จะกลายเป็นข้อความสตริง `"0"` เมื่อถูกใช้เป็น key ของ property:
 
 ```js run
 let obj = {
   0: "test" // same as "0": "test"
 };
 
-// both alerts access the same property (the number 0 is converted to string "0")
+// function alert ทั้ง 2 เข้าถึง property เดียวกัน (ตัวเลข 0 ถูกแปลงเป็นข้อความสตริง "0")
 alert( obj["0"] ); // test
-alert( obj[0] ); // test (same property)
+alert( obj[0] ); // test (ได้ property เดียวกัน)
 ```
 
-There's a minor gotcha with a special property named `__proto__`. We can't set it to a non-object value:
+มีข้อห้ามเล็กน้อยกับชื่อ property กรณีพิศษ ได้แก่ชื่อ `__proto__` โดยเราไม่สามารถใส่ค่าที่ไม่เป็น object ให้กับ property ตัวนี้ได้:
 
 ```js run
 let obj = {};
-obj.__proto__ = 5; // assign a number
-alert(obj.__proto__); // [object Object] - the value is an object, didn't work as intended
+obj.__proto__ = 5; // กำหนดค่าเป็นตัวเลข
+alert(obj.__proto__); // [object Object] - ได้ค่าออกมาเป็น object ไม่ตรงกับที่ตั้งใจไว้
 ```
 
-As we see from the code, the assignment to a primitive `5` is ignored.
+จากโค้ดจะเห็นว่า กำหนดค่าให้เป็น primitive `5` แต่ไม่เป็นผลสำเร็จ
 
-We'll cover the special nature of `__proto__` in [subsequent chapters](info:prototype-inheritance), and suggest the [ways to fix](info:prototype-methods) such behavior.
+เราจะกล่าวถึงความพิเศษของ `__proto__` ในบท [subsequent chapters](info:prototype-inheritance) และ [วิธีแก้](info:prototype-methods) ปัญหานี้
 
-## Property existence test, "in" operator
+## การทดสอบ Property ด้วยตัวกำเนินการ "in"
 
-A notable feature of objects in JavaScript, compared to many other languages, is that it's possible to access any property. There will be no error if the property doesn't exist!
+คุณลักษณะหนึ่งของ object ในภาษา JavaScript ซึ่งไม่เหมือนกับในอีกหลายๆ   ภาษาที่ควรหมายเหตุไว้ได้แก่การที่สามารถเข้าถึง property ใดก็ได้ โดยที่จะไม่เกิด error ขึ้นแม้ว่า property นั้นไม่ถูกประกาศไว้ก่อนก็ตาม!
 
-Reading a non-existing property just returns `undefined`. So we can easily test whether the property exists:
+เราจะได้ค่า `undefined` เมื่ออ่านค่า property ที่ไม่มีอยู่ ดังนั้นเราสามารถทดสอบการมีอยู่ของ property ได้อย่างง่ายดังนี้:
 
 ```js run
 let user = {};
 
-alert( user.noSuchProperty === undefined ); // true means "no such property"
+alert( user.noSuchProperty === undefined ); // หากได้ค่า true หมายถึง "object user ไม่มี property ชื่อ noSuchProperty"
 ```
 
-There's also a special operator `"in"` for that.
+หรือจะเขียนโดยใช้ตัวกำเนินการ `"in"` ก็ได้
 
-The syntax is:
+ดังนี้:
 ```js
 "key" in object
 ```
 
-For instance:
+ตัวอย่างเช่น:
 
 ```js run
 let user = { name: "John", age: 30 };
 
-alert( "age" in user ); // true, user.age exists
-alert( "blabla" in user ); // false, user.blabla doesn't exist
+alert( "age" in user ); // ได้ true เพราะ object user มี age
+alert( "blabla" in user ); // ได้ false เพราะ object user ไม่มี blabla
 ```
 
-Please note that on the left side of `in` there must be a *property name*. That's usually a quoted string.
+โปรดทราบว่า ข้อมูลฝั่งซ้ายของ `in` ต้องเป็นชื่อของ property ซึ่งโดยปรกติแล้วจะเป็นข้อความสตริงอยู่ในเครื่องหมายคำพูด
 
-If we omit quotes, that means a variable, it should contain the actual name to be tested. For instance:
+หรือถ้าไม่เขียนแบบมีเครื่องหมายคำพูด ค่านั้นจะต้องเป็นตัวแปรซึ่งเก็บชื่อที่เราต้องการทดสอบ ตัวอย่างเช่น:
 
 ```js run
 let user = { age: 30 };
 
 let key = "age";
-alert( *!*key*/!* in user ); // true, property "age" exists
+alert( *!*key*/!* in user ); // ได้ true เพราะ object user มี property "age"
 ```
 
-Why does the `in` operator exist? Isn't it enough to compare against `undefined`?
+เพราะเหตุใดจึงยังต้องมีตัวดำเนินการ `in` ให้ใช้อีก การเปรียบเทียบด้วยค่า `undefined` นั้นไม่เพียงพอหรืออย่างไร?
 
-Well, most of the time the comparison with `undefined` works fine. But there's a special case when it fails, but `"in"` works correctly.
+การเทียบด้วย `undefined` นั้นจะใช้ได้ในเกือบทุกกรณี แต่มีกรณีพิเศษที่ให้ผลไม่ถูกต้องจะต้องใช้ `"in"` แทน
 
-It's when an object property exists, but stores `undefined`:
+ได้แก่ เมื่อ object มี property ที่เก็บค่าเป็น `undefined`:
 
 ```js run
 let obj = {
   test: undefined
 };
 
-alert( obj.test ); // it's undefined, so - no such property?
+alert( obj.test ); // ได้ undefined แล้วจะสรุปว่าไม่มี property test ได้หรือไม่?
 
-alert( "test" in obj ); // true, the property does exist!
+alert( "test" in obj ); // ได้ true obj มี property test!
 ```
 
-In the code above, the property `obj.test` technically exists. So the `in` operator works right.
+ในโค้ดด้านบน property `obj.test` นั้นมีอยู่จริง ซึ่งกรณีนี้ตัวดำเนินการ `in` ทำงานได้ถูกต้อง
 
-Situations like this happen very rarely, because `undefined` should not be explicitly assigned. We mostly use `null` for "unknown" or "empty" values. So the `in` operator is an exotic guest in the code.
+สถานการณ์เช่นนี้เกิดขึ้นน้อยมาก เนื่องจากค่า `undefined` นั้นไม่ควรที่จะกำหนดให้โดยตรง เราควรใช้ `null` ในการกำหนดสิ่งที่ยังไม่ทราบค่าหรือค่าว่าง ดังนั้นตัวดำเนินการ `in` จึงถูกใช้ในโค้ดน้อยมาก
 
 
-## The "for..in" loop
+## "for..in" ลูป
 
-To walk over all keys of an object, there exists a special form of the loop: `for..in`. This is a completely different thing from the `for(;;)` construct that we studied before.
+กรณีที่ต้องการวนลูปแต่ละ key ของ object เราใช้ลูปในรูปพิเศษได้แก่: `for..in` ซึ่งต่างกันกับลูปในรูปของ for ลูป `for(;;)` ที่เราได้เรียนรู้มาก่อนหน้านี้
 
-The syntax:
+syntax ดังนี้:
 
 ```js
 for (key in object) {
-  // executes the body for each key among object properties
+  // ทำทุก key ของ property ใน object
 }
 ```
 
-For instance, let's output all properties of `user`:
+ตัวอย่าง แสดงทุก property ของ `user`:
 
 ```js run
 let user = {
@@ -377,24 +377,24 @@ let user = {
 };
 
 for (let key in user) {
-  // keys
-  alert( key );  // name, age, isAdmin
-  // values for the keys
-  alert( user[key] ); // John, 30, true
+  // แสดง key
+  alert( key );  // ได้ name age และ isAdmin ตามลำดับ
+  // แสดงค่าของแต่ละ key
+  alert( user[key] ); // ได้ John 30 และ true ตามลำดับ
 }
 ```
 
-Note that all "for" constructs allow us to declare the looping variable inside the loop, like `let key` here.
+โปรดทราบว่า "for" ทุกแบบอนุญาตให้เราประกาศตัวแปรในลูปได้ จากตัวอย่างข้างบนได้แก่ `let key`
 
-Also, we could use another variable name here instead of `key`. For instance, `"for (let prop in obj)"` is also widely used.
+ดังนั้นเราจึงสามารถตั้งชื่อตัวแปรลูปเป็นอย่างอื่นนอกจาก `key` ก็ได้ เช่น `"for (let prop in obj)"` เป็นปบบที่ใช้กันอย่างกว้างขวาง
 
-### Ordered like an object
+### การเรียงลำดับของ object
 
-Are objects ordered? In other words, if we loop over an object, do we get all properties in the same order they were added? Can we rely on this?
+เมื่อทำการลูป object เราจะได้ property ตามลำดับที่เราประกาศไว้หรือไม่?
 
-The short answer is: "ordered in a special fashion": integer properties are sorted, others appear in creation order. The details follow.
+คำตอบอย่างสั้นคือ: "จะเรียงลำดับแบบพิเศษ": โดย interger property หรือ property ที่มี key เป็นค่าจำนวนเต็มจะถูกเรียงลำดับ ส่วน property ที่เหลือจะเรียงตามลำดับที่สร้าง
 
-As an example, let's consider an object with the phone codes:
+ตัวอย่าง พิจารณา object ที่เก็บค่ารหัสโทรศัพท์:
 
 ```js run
 let codes = {
@@ -407,51 +407,51 @@ let codes = {
 
 *!*
 for (let code in codes) {
-  alert(code); // 1, 41, 44, 49
+  alert(code); // จะได้ 1, 41, 44, 49 ตามลำดับ
 }
 */!*
 ```
 
-The object may be used to suggest a list of options to the user. If we're making a site mainly for German audience then we probably want `49` to be the first.
+object ด้านบนอาจถูกใช้เก็บตัวเลือกให้ user เลือก สมมติเรากำลังทำเว็บสำหรับชาวเยอรมันเป็นหลัก เราย่อมต้องการให้ `49` แสดงเป็นตัวเลือกแรก
 
-But if we run the code, we see a totally different picture:
+แต่เมื่อเรารันโค้ดเรากลับได้ผลลำดับที่แตกต่างกันกับตอนประกาศอย่างสิ้นเชิง ดังนี้:
 
-- USA (1) goes first
-- then Switzerland (41) and so on.
+- USA (1) มาก่อน
+- ตามด้วย Switzerland (41) และอื่นๆ ตามลำดับ
 
-The phone codes go in the ascending sorted order, because they are integers. So we see `1, 41, 44, 49`.
+เนื่องมาจากรหัสโทรศัพท์มีค่าเป็นจำนวนเต็มถึงถูกเรียงลำดับจากน้อยไปมาก ดังนี้ `1, 41, 44, 49`
 
 ````smart header="Integer properties? What's that?"
-The "integer property" term here means a string that can be converted to-and-from an integer without a change.
+คำว่า "integer property" ในที่นี้หมายถึงข้อความสตริงที่สามารถ แปลงเป็นและแปลงจาก จำนวนเต็มได้โดยค่าไม่เปลี่ยนไป
 
-So, "49" is an integer property name, because when it's transformed to an integer number and back, it's still the same. But "+49" and "1.2" are not:
+"49" เป็น key ชนิด integer property เพราะไม่ว่าจะแปลงไปหรือแปลงกลับก็จะได้ค่าเดิม แต่สำหรับ "+49" and "1.2" นั้นเมื่อแปลงไปมา จะไม่ได้ค่าเดิม ดังนี้:
 
 ```js run
-// Math.trunc is a built-in function that removes the decimal part
-alert( String(Math.trunc(Number("49"))) ); // "49", same, integer property
-alert( String(Math.trunc(Number("+49"))) ); // "49", not same "+49" ⇒ not integer property
-alert( String(Math.trunc(Number("1.2"))) ); // "1", not same "1.2" ⇒ not integer property
+// Math.trunc เป็น built-in function ใช้ตัดส่วนทศนิยมออก
+alert( String(Math.trunc(Number("49"))) ); // ได้ "49" เหมือนเดิม เป็น integer property
+alert( String(Math.trunc(Number("+49"))) ); // ได้ "49" ไม่เท่ากับ "+49" ⇒ ไม่เป็น integer property
+alert( String(Math.trunc(Number("1.2"))) ); // ได้ "1" ไม่เท่ากับ "1.2" ⇒ ไม่เป็น integer property
 ```
 ````
 
-...On the other hand, if the keys are non-integer, then they are listed in the creation order, for instance:
+...ในทางกลับกัน หาก key เป็นชนิด non-integer หรือก็คือไม่เป็นจำนวนเต็ม จะถูกเรียงตามลำดับของการประกาศ ตัวอย่างเช่น:
 
 ```js run
 let user = {
   name: "John",
   surname: "Smith"
 };
-user.age = 25; // add one more
+user.age = 25; // เพิ่ม property
 
 *!*
-// non-integer properties are listed in the creation order
+// key ของ property เป็น non-integer จะถูกเรียงตามลำดับการประกาศ
 */!*
 for (let prop in user) {
-  alert( prop ); // name, surname, age
+  alert( prop ); // ได้ name surname และ age ตามลำดับ
 }
 ```
 
-So, to fix the issue with the phone codes, we can "cheat" by making the codes non-integer. Adding a plus `"+"` sign before each code is enough.
+ดังนั้น เพื่อแก้ปัญหากรณีรหัสโทรศัพท์ เราสามารถ "โกง" ด้วยการทำให้ key เป็น non-integer โดยการเติมเครื่องหมายบวก `"+"` เข้าไป
 
 Like this:
 
@@ -465,38 +465,38 @@ let codes = {
 };
 
 for (let code in codes) {
-  alert( +code ); // 49, 41, 44, 1
+  alert( +code ); // ได้ 49 41 44 และ 1 เป็นลำดับตามการประกาศ
 }
 ```
 
-Now it works as intended.
+ได้โค้ดที่ทำงานตามตั้งใจแล้ว
 
-## Summary
+## สรุป
 
-Objects are associative arrays with several special features.
+Object เป็น associative array พร้อมด้วยคุณลักษณะพิเศษหลายอย่าง
 
-They store properties (key-value pairs), where:
-- Property keys must be strings or symbols (usually strings).
-- Values can be of any type.
+ใช้เก็บค่า property (ในรูปแบบคู่ของ key-value) ดังนี้:
+- key ของ property ต้องเป็น ข้อความสตริงหรือสัญลักษณ์ (ปรกติจะเป็นข้อความสตริง)
+- value เป็นค่าชนิดใดก็ได้
 
-To access a property, we can use:
-- The dot notation: `obj.property`.
-- Square brackets notation `obj["property"]`. Square brackets allow to take the key from a variable, like `obj[varWithKey]`.
+เราสามารถเข้าถึง property โดยการใช้งาน:
+- dot notation: `obj.property`.
+- วงเล็บเหลี่ยม `obj["property"]` ซึ่งยังอนุญาตให้เราแทนค่า key จากตัวแปร เช่น `obj[varWithKey]` ได้ด้วย
 
-Additional operators:
-- To delete a property: `delete obj.prop`.
-- To check if a property with the given key exists: `"key" in obj`.
-- To iterate over an object: `for (let key in obj)` loop.
+ตัวดำเนินการเพิ่มเติม:
+- ลบ property ด้วยตัวกำเนินการ delete: `delete obj.prop`.
+- ทดสอบว่ามี property ที่เราสนใจใน object หรือไม่ด้วยตัวดำเนินการ in: `"key" in obj`.
+- วนลูปด้วย property ใน object: `for (let key in obj)`
 
-What we've studied in this chapter is called a "plain object", or just `Object`.
+สิ่งที่เราได้ศึกษากันในบทนี้เรียกว่า "plain object" หรือแค่ `Object` เฉยๆ ก็ได้
 
-There are many other kinds of objects in JavaScript:
+ยังมี object อยู่อีกหลายชนิดใน JavaScript:
 
-- `Array` to store ordered data collections,
-- `Date` to store the information about the date and time,
-- `Error` to store the information about an error.
-- ...And so on.
+- `Array` สำหรับเก็บข้อมูลเป็นชุดตามลำดับ
+- `Date` สำหรับเก็บข้อมูลของวันที่และเวลา
+- `Error` สำหรับเก็บข้อมูลของ error
+- ...และอื่นๆ อีก
 
-They have their special features that we'll study later. Sometimes people say something like "Array type" or "Date type", but formally they are not types of their own, but belong to a single "object" data type. And they extend it in various ways.
+โดยแต่ละชนิดจะมีคุณลักษณะพิเศษที่เราจะศึกษากันต่อไป ในบางครั้งที่มีการพูดถึง "ข้อมูลชนิด array" "ข้อมูลชนิด date" นั้น โดยแท้จริงแล้วไม่ได้มีชนิดข้อมูลเหลานี้แต่อย่างใดแต่เป็นข้อมูลชนิดเดียวกันก็คือ object ซึ่งแต่ละแบบก็ต่อขยายคุณลักษณะเพิ่มเติมแตกต่างกันไป
 
-Objects in JavaScript are very powerful. Here we've just scratched the surface of a topic that is really huge. We'll be closely working with objects and learning more about them in further parts of the tutorial.
+Object ใน JavaScript มีประโยชน์มาก เราเพิ่งจะได้เรียนรู้หัวข้อที่มีขนาดใหญ่นี้เพียงผิวเผินเท่านั้น เราจะได้ใช้งาน object อยู่ตลอดและจะได้เรียนรู้เพิ่มเติมในส่วนอื่นๆ ของ tutorial ชุดนี้ต่อไปในภายหน้า
