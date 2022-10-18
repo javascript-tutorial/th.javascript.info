@@ -33,11 +33,7 @@ let sum = function(a, b) {
 alert( sum(1, 2) ); // 3
 ```
 
-<<<<<<< HEAD
 อย่างที่เราเห็น `(a, b) => a + b` หมายถึงฟังก์ชันที่ยอมรับสองอาร์กิวเมนต์ชื่อ `a` และ `b` เมื่อดำเนินการ มันจะประเมินนิพจน์ `a + b` และส่งคืนผลลัพธ์
-=======
-As you can see, `(a, b) => a + b` means a function that accepts two arguments named `a` and `b`. Upon the execution, it evaluates the expression `a + b` and returns the result.
->>>>>>> 29216730a877be28d0a75a459676db6e7f5c4834
 
 - หากเรารับอาร์กิวเมนต์เพียงตัวเดียว วงเล็บรอบพารามิเตอร์สามารถละเว้นได้ ซึ่งจะทำให้มันเขียนสั้นลงอีก
 
