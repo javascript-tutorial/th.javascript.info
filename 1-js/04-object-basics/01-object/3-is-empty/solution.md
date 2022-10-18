@@ -1,1 +1,1 @@
-Just loop over the object and `return false` immediately if there's at least one property.
+ทดสอบด้วยการวนลูป object แล้ว `return false` ทันทีที่พบ propperty อย่างน้อย 1 ตัว
