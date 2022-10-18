@@ -1,74 +1,74 @@
-# Debugging in the browser
+# การดีบักในเบราว์เซอร์
 
-Before writing more complex code, let's talk about debugging.
+ก่อนเขียนโค้ดซับซ้อนกว่านี้ เรามาพูดถึงเรื่องการดีบักกันก่อน
 
-[Debugging](https://en.wikipedia.org/wiki/Debugging) is the process of finding and fixing errors within a script. All modern browsers and most other environments support debugging tools -- a special UI in developer tools that makes debugging much easier. It also allows to trace the code step by step to see what exactly is going on.
+[การดีบัก (Debugging)](https://en.wikipedia.org/wiki/Debugging) เป็นกระบวนการค้นหาและแก้ไขข้อผิดพลาดภายในสคริปต์ เบราว์เซอร์สมัยใหม่ทั้งหมดและสภาพแวดล้อมอื่นๆ ส่วนใหญ่สนับสนุนเครื่องมือดีบัก ซึ่งเป็น UI พิเศษในเครื่องมือสำหรับนักพัฒนาที่ช่วยให้การดีบักง่ายขึ้นมาก นอกจากนี้ยังช่วยให้ติดตามโค้ดทีละขั้นตอนเพื่อดูว่าเกิดอะไรขึ้น
 
-We'll be using Chrome here, because it has enough features, most other browsers have a similar process.
+ตัวอย่างในบทความนี้จะใช้ Chrome เนื่องจากมีฟีเจอร์ที่เพียงพอและเป็นที่นิยมในหมู่นักพัฒนา ในเบราเซอร์อื่นก็จะมีฟีเจอร์ที่การดีบักเช่นกัน
 
-## The "Sources" panel
+## แท็ป "Sources"
 
-Your Chrome version may look a little bit different, but it still should be obvious what's there.
+ใน Chrome แต่ละเวอร์ชันหน้าตาอาจดูแตกต่างออกไปเล็กน้อย
 
-- Open the [example page](debugging/index.html) in Chrome.
-- Turn on developer tools with `key:F12` (Mac: `key:Cmd+Opt+I`).
-- Select the `Sources` panel.
+- เปิด[หน้าตัวอย่าง](debugging/index.html) ใน Chrome
+- เปิดเครื่องมือสำหรับนักพัฒนาด้วย `key:F12` (Mac: `key:Cmd+Opt+I`)
+- เลือกแท็ป `Sources`
 
-Here's what you should see if you are doing it for the first time:
+เราจะเห็นหน้าตาแบบนี้:
 
 ![](chrome-open-sources.svg)
 
-The toggler button <span class="devtools" style="background-position:-172px -98px"></span> opens the tab with files.
+ปุ่มสลับ <span class="devtools" style="background-position:-172px -98px"></span> เปิดแท็บที่มีไฟล์
 
-Let's click it and select `hello.js` in the tree view. Here's what should show up:
+คลิกเลยแล้วเลือก `hello.js` ในมุมมองต้นไม้ และเราควรจะเห็นหน้าตาแบบนี้:
 
 ![](chrome-tabs.svg)
 
-The Sources panel has 3 parts:
+แท็ป "Sources" แบ่งเป็น 3 ส่วน:
 
-1. The **File Navigator** pane lists HTML, JavaScript, CSS and other files, including images that are attached to the page. Chrome extensions may appear here too.
-2. The **Code Editor** pane shows the source code.
-3. The **JavaScript Debugging** pane is for debugging, we'll explore it soon.
+1. **File Navigator** แสดงรายการ HTML, JavaScript, CSS และไฟล์อื่นๆ รวมถึงรูปภาพที่แนบมากับเพจ ส่วนขยายของ Chrome อาจปรากฏขึ้นที่นี่เช่นกัน
+2. **Code Editor** แสดงซอร์สโค้ด
+3. **JavaScript Debugging** สำหรับการดีบัก เราจะมาทำความรู้จักกับส่วนนี้กัน
 
-Now you could click the same toggler <span class="devtools" style="background-position:-172px -122px"></span> again to hide the resources list and give the code some space.
+ตอนนี้เราสามารถคลิกปุ่มสลับเดียวกันได้ <span class="devtools" style="background-position:-172px -122px"></span> เพื่อซ่อนบางรายการและเพิ่มพื้นที่โค้ดบางส่วน
 
 ## Console
 
-If we press `key:Esc`, then a console opens below. We can type commands there and press `key:Enter` to execute.
+ถ้าเรากด `key:Esc` จากนั้นคอนโซลจะเปิดขึ้นด้านล่าง เราสามารถพิมพ์คำสั่งจาวาสคริปต์ลงไปได้และกด `key:Enter` เพื่อดำเนินการ
 
-After a statement is executed, its result is shown below.
+หลังจากดำเนินการคำสั่งแล้ว ผลลัพธ์จะแสดงอยู่ด้านล่าง
 
-For example, here `1+2` results in `3`, and `hello("debugger")` returns nothing, so the result is `undefined`:
+ตัวอย่างเช่น `1+2` ได้ผลลัพธ์เป็น `3` และ `hello("debugger")` จะไม่ส่งคืนค่าใด ในหน้าจอจะปรากฎคำว่า `undefined`:
 
 ![](chrome-sources-console.svg)
 
 ## Breakpoints
 
-Let's examine what's going on within the code of the [example page](debugging/index.html). In `hello.js`, click at line number `4`. Yes, right on the `4` digit, not on the code.
+มาลองดูว่ามีอะไรเกิดขึ้นบ้างใน[หน้าตัวอย่าง](debugging/index.html) ใน `hello.js` ให้คลิกบรรทัดที่ `4` ด้านขวาที่เป็นเลข `4` ไม่ใช่พิมพ์ `4` ลงในไปโค้ดนะ
 
-Congratulations! You've set a breakpoint. Please also click on the number for line `8`.
+ยินดีด้วย! ทีนี่เราก็เลือกบรรทัดสำหรับ Breakpoints ได้แล้ว ทีนี้ลองคลิกกับบรรทัดที่ `8` ดูสิ
 
-It should look like this (blue is where you should click):
+ยังตามทันอยู่ไหม ให้ดูภาพด้านล่าง (สีน้ำเงินคือสิ่งที่เราควรคลิก):
 
 ![](chrome-sources-breakpoint.svg)
 
-A *breakpoint* is a point of code where the debugger will automatically pause the JavaScript execution.
+*breakpoint* คือจุดของโค้ดที่โปรแกรมดีบักจะหยุดการทำงานของจาวาสคริปต์ชั่วคราวโดยอัตโนมัติ
 
-While the code is paused, we can examine current variables, execute commands in the console etc. In other words, we can debug it.
+ในขณะที่โค้ดถูกหยุดชั่วคราว เราสามารถตรวจสอบตัวแปรปัจจุบัน รันคำสั่งในคอนโซล ฯลฯ กล่าวอีกนัยหนึ่ง เราสามารถดีบักมันได้
 
-We can always find a list of breakpoints in the right panel. That's useful when we have many breakpoints in various files. It allows us to:
-- Quickly jump to the breakpoint in the code (by clicking on it in the right panel).
-- Temporarily disable the breakpoint by unchecking it.
-- Remove the breakpoint by right-clicking and selecting Remove.
-- ...And so on.
+เราสามารถทำ `breakpoint` ในแผงด้านขวาได้ตลอดเวลา มีประโยชน์เมื่อเรามี `breakpoint` หลายจุดในไฟล์ต่างๆ ช่วยให้เราสามารถ:
+- ข้ามไปที่ `breakpoint` ได้อย่างรวดเร็วในโค้ด (โดยคลิกที่มันในแผงด้านขวา)
+- ปิดใช้งานเบรกพอยต์ชั่วคราวโดย un-tick ที่ตัวเลือก
+- ลบ `breakpoint` โดยคลิกขวาและเลือกลบ
+- ...และอื่นๆ.
 
-```smart header="Conditional breakpoints"
-*Right click* on the line number allows to create a *conditional* breakpoint. It only triggers when the given expression is truthy.
+```smart header="breakpoints แบบมีเงื่อนไข"
+*คลิกขวา*ที่หมายเลขบรรทัดเพื่อสร้างเบรกพอยต์ที่มี*เงื่อนไข*จะเกิดขึ้นก็ต่อเมื่อนิพจน์ที่กำหนดเป็น truthy เท่านั้น
 
-That's handy when we need to stop only for a certain variable value or for certain function parameters.
+มีประโยชน์เมื่อเราต้องหยุดเฉพาะค่าตัวแปรบางค่าหรือพารามิเตอร์ฟังก์ชัน
 ```
 
-## Debugger command
+## คำสั่ง debugger
 
 We can also pause the code by using the `debugger` command in it, like this:
 
