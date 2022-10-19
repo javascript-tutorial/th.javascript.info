@@ -70,64 +70,64 @@
 
 ## คำสั่ง debugger
 
-We can also pause the code by using the `debugger` command in it, like this:
+เราสามารถหยุดการทำงานของโค้ดชั่วคราวได้โดยใช้คำสั่ง `debugger` ในลักษณะนี้:
 
 ```js
 function hello(name) {
   let phrase = `Hello, ${name}!`;
 
 *!*
-  debugger;  // <-- the debugger stops here
+  debugger;  // <-- คำสั่งทั้งหมดจะหยุดที่บรรทัดนี้
 */!*
 
   say(phrase);
 }
 ```
 
-That's very convenient when we are in a code editor and don't want to switch to the browser and look up the script in developer tools to set the breakpoint.
+คำสั่งนี้สะดวกมากหากเรากำลังเขียนโค้ดอยู่ และไม่ต้องการสลับไปที่หน้าเบราเซอร์เพื่อกดตั้งค่า breakpoint ไปทีละบรรทัด
 
 
-## Pause and look around
+## หยุดเพื่อสำรวจ
 
-In our example, `hello()` is called during the page load, so the easiest way to activate the debugger (after we've set the breakpoints) is to reload the page. So let's press `key:F5` (Windows, Linux) or `key:Cmd+R` (Mac).
+ตามตัวอย่างฟังชั่นก์ `hello()` ถูกเรียกใช้ระหว่างหน้านี้โหลด ให้เรากด `key:F5` (Windows, Linux) หรือ `key:Cmd+R` (Mac) เปิดใช้งาน debugger (หลังจากที่เราตั้งค่า breakpoint แล้ว) 
 
-As the breakpoint is set, the execution pauses at the 4th line:
+เมื่อตั้งค่า breakpoint เราจะเห็นว่าการทำงานของโค้ดจะหยุดที่บรรทัดที่ 4:
 
 ![](chrome-sources-debugger-pause.svg)
 
-Please open the informational dropdowns to the right (labeled with arrows). They allow you to examine the current code state:
+ให้เปิด information dropdown ทางด้านขวา (มีลูกศรกำกับอยู่) ช่วยให้เราโค้ดปัจจุบัน:
 
-1. **`Watch` -- shows current values for any expressions.**
+1. **`Watch` -- แสดงค่าปัจจุบันสำหรับนิพจน์ใดๆ**
 
-    You can click the plus `+` and input an expression. The debugger will show its value at any moment, automatically recalculating it in the process of execution.
+   เราสามารถคลิกเครื่องหมายบวก `+' และป้อนนิพจน์ใดๆลงไปก็ได้ ตัว debugger จะแสดงค่าของนิพจน์นั้นๆทันที โดยมันจะคำนวณใหม่ให้อัตโนมัติ
 
-2. **`Call Stack` -- shows the nested calls chain.**
+2. **`Call Stack` -- แสดงลำดับการทำงานก่อน-หลัง**
 
-    At the current moment the debugger is inside `hello()` call, called by a script in `index.html` (no function there, so it's called "anonymous").
+   ตอนนี้คำสั่ง `debugger` อยู่ในฟังก์ชั่น `hello()` ที่ถูกเรียกมาจาก `index.html`
 
-    If you click on a stack item (e.g. "anonymous"), the debugger jumps to the corresponding code, and all its variables can be examined as well.
-3. **`Scope` -- current variables.**
+   หากเราคลิกที่รายการสแต็ก (เช่น "anonymous") โปรแกรมดีบักจะพาเรามายังโค้ดที่เกี่ยวข้องกับรายการสแต็กนี้ และเราก็สามารถดูค่าของตัวแปรทั้งหมดในรายการนี้ได้ด้วยเช่นกัน
+3. **`Scope` -- ตัวแปรปัจจุบัน**
 
-    `Local` shows local function variables. You can also see their values highlighted right over the source.
+    `Local` แสดงค่าของตัวแปรภายในฟังก์ชั่น
 
-    `Global` has global variables (out of any functions).
+    `Global` แสดงค่าของตัวแปรภายนอกฟังก์ชั่น
 
-    There's also `this` keyword there that we didn't study yet, but we'll do that soon.
+   นอกจากนี้ยังมีคีย์เวิร์ด `this` ที่เราสามารถใช้แสดงค่าทั้งหมดของตัวแปรภายในและภายนอกได้ แต่เราจะพูดถึงมันอีกทีในบทเรียนหน้า
 
-## Tracing the execution
+## การไล่โค้ด
 
-Now it's time to *trace* the script.
+ตอนนี้ได้เวลา *ไล่โค้ด* ตามสคริปต์แล้ว
 
-There are buttons for it at the top of the right panel. Let's engage them.
+มีปุ่มที่ด้านบนของแผงด้านขวา มาลองดูกัน
 <!-- https://github.com/ChromeDevTools/devtools-frontend/blob/master/front_end/Images/src/largeIcons.svg -->
-<span class="devtools" style="background-position:-146px -168px"></span> -- "Resume": continue the execution, hotkey `key:F8`.
-: Resumes the execution. If there are no additional breakpoints, then the execution just continues and the debugger loses control.
+<span class="devtools" style="background-position:-146px -168px"></span> -- "Resume": ให้โค้ดทำงานต่อ คีย์ลัด `key:F8`
+: เมื่อเรากด "Resume" โค้ดจะทำงานต่อไป หากเราไม่ได้ตั้งค่า breakpoint ไว้ การทำงานจะไม่หยุดที่บรรทัดใดๆเลย ดังนั้นมันจะทำงานเหมือนปกติ
 
-    Here's what we can see after a click on it:
+    นี่คือสิ่งที่เราเห็นหลังจากคลิก:
 
     ![](chrome-sources-debugger-trace-1.svg)
 
-    The execution has resumed, reached another breakpoint inside `say()` and paused there. Take a look at the "Call Stack" at the right. It has increased by one more call. We're inside `say()` now.
+    การดำเนินการกลับมาทำงานต่อ จนถึงจุด breakpoint ในฟังก์ชั่น `say()` ดูที่ "Call Stack" ทางด้านขวา ตอนนี้เราอยู่ในฟังก์ชั่น `say()` แล้ว
 
 <span class="devtools" style="background-position:-200px -190px"></span> -- "Step": run the next command, hotkey `key:F9`.
 : Run the next statement. If we click it now, `alert` will be shown.
