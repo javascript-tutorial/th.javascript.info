@@ -120,7 +120,7 @@ function hello(name) {
 
 มีปุ่มที่ด้านบนของแผงด้านขวา มาลองดูกัน
 <!-- https://github.com/ChromeDevTools/devtools-frontend/blob/master/front_end/Images/src/largeIcons.svg -->
-<span class="devtools" style="background-position:-146px -168px"></span> -- "Resume": ให้โค้ดทำงานต่อ คีย์ลัด `key:F8`
+<span class="devtools" style="background-position:-146px -168px"></span> -- คำสั่ง "Resume": ให้โค้ดทำงานต่อ คีย์ลัด `key:F8`
 : เมื่อเรากด "Resume" โค้ดจะทำงานต่อไป หากเราไม่ได้ตั้งค่า breakpoint ไว้ การทำงานจะไม่หยุดที่บรรทัดใดๆเลย ดังนั้นมันจะทำงานเหมือนปกติ
 
     นี่คือสิ่งที่เราเห็นหลังจากคลิก:
@@ -129,38 +129,38 @@ function hello(name) {
 
     การดำเนินการกลับมาทำงานต่อ จนถึงจุด breakpoint ในฟังก์ชั่น `say()` ดูที่ "Call Stack" ทางด้านขวา ตอนนี้เราอยู่ในฟังก์ชั่น `say()` แล้ว
 
-<span class="devtools" style="background-position:-200px -190px"></span> -- "Step": run the next command, hotkey `key:F9`.
-: Run the next statement. If we click it now, `alert` will be shown.
+<span class="devtools" style="background-position:-200px -190px"></span> -- คำสั่ง "Step": เรียกใช้คำสั่งถัดไป คีย์ลัด `key:F9`
+: เรียกใช้คำสั่งถัดไป หากเราคลิก `alert` จะปรากฏขึ้น
 
-    Clicking this again and again will step through all script statements one by one.
+    หากเราคลิกไปเรื่อยๆ โปรแกรมจะผ่านเราท่องไปทีละคำสั่งในสคริปต์ทีละบรรทัด
 
-<span class="devtools" style="background-position:-62px -192px"></span> -- "Step over": run the next command, but *don't go into a function*, hotkey `key:F10`.
-: Similar to the previous "Step" command, but behaves differently if the next statement is a function call. That is: not a built-in, like `alert`, but a function of our own.
+<span class="devtools" style="background-position:-62px -192px"></span> -- คำสั่ง "Step over": เรียกใช้คำสั่งถัดไป แต่ *จะไม่เข้าไปใน function* คีย์ลัด `key:F10`
+: คล้ายกับคำสั่ง "Step" ก่อนหน้านี้ แต่จะทำงานแตกต่างออกไปนิดหน่อย นั่นคือหากเป็นฟังก์ชั่นที่เราสร้างเอง โปรแกรมจะพาเราเข้าไปฟังก์ชั่นนั่น ไม่ใช่ฟังก์ชั่นที่ภาษามีมาให้เช่น `alert`
 
-    The "Step" command goes into it and pauses the execution at its first line, while "Step over" executes the nested function call invisibly, skipping the function internals.
+    คำสั่ง "Step" จะเข้าสู่คำสั่งนั้นและหยุดการทำงานชั่วคราวที่บรรทัดแรก ขณะที่ "Step over" จะเรียกใช้ฟังก์ชันที่ซ้อนกันอย่างล่องหน โดยข้ามฟังก์ชันภที่ภาษามีมาให้ไป
 
-    The execution is then paused immediately after that function.
+    การดำเนินการจะหยุดชั่วคราวทันทีหลังจากฟังก์ชันนั้น
 
-    That's good if we're not interested to see what happens inside the function call.
+    หากเราไม่สนใจว่าฟังก์ชั่นนั้นทำงานอย่างไร แต่ต้องการให้โปรแกรมทำงานต่อไป ให้ใช้คำสั่ง "Step over"
 
-<span class="devtools" style="background-position:-4px -194px"></span> -- "Step into", hotkey `key:F11`.
-: That's similar to "Step", but behaves differently in case of asynchronous function calls. If you're only starting to learn JavaScript, then you can ignore the difference, as we don't have asynchronous calls yet.
+<span class="devtools" style="background-position:-4px -194px"></span> -- คำสั่ง "Step into" คีย์ลัด `key:F11`.
+: คล้ายกับคำสั่ง "Step" แต่ทำงานแตกต่างกันในกรณีที่มีการเรียกใช้ฟังก์ชันแบบ asynchronous หากเราเพิ่งเริ่มเรียนรู้ JavaScript แนะนำให้ข้ามเรื่องนี้กันไปก่อน เราจะยังไม่แตะต้องเรื่องนี้ในบทนี้
 
-    For the future, just note that "Step" command ignores async actions, such as `setTimeout` (scheduled function call), that execute later. The "Step into" goes into their code, waiting for them if necessary. See [DevTools manual](https://developers.google.com/web/updates/2018/01/devtools#async) for more details.
+    ในอนาคต อย่าลืมว่าคำสั่ง "Step" จะละเว้นฟังก์ชันแบบ asynchronous เช่น `setTimeout' (การเรียกใช้ฟังก์ชันตามกำหนดเวลา) แต่คำสั่ง "Step into" จะเข้าไปฟังก์ชันนั้น และรอจนกว่าฟังก์ชั่นนั้นจะทำงานเสร็จ ดู[คู่มือ DevTools](https://developers.google.com/web/updates/2018/01/devtools#async) สำหรับรายละเอียดเพิ่มเติม
 
-<span class="devtools" style="background-position:-32px -194px"></span> -- "Step out": continue the execution till the end of the current function, hotkey `key:Shift+F11`.
-: Continue the execution and stop it at the very last line of the current function. That's handy when we accidentally entered a nested call using <span class="devtools" style="background-position:-200px -190px"></span>, but it does not interest us, and we want to continue to its end as soon as possible.
+<span class="devtools" style="background-position:-32px -194px"></span> -- คำสั่ง "Step out": ดำเนินการต่อไปจนสิ้นสุดการทำงานฟังก์ชันปัจจุบัน คีย์ลัด `key:Shift+F11`.
+: ดำเนินการต่อไปและหยุดที่บรรทัดสุดท้ายของฟังก์ชันปัจจุบัน มีประโยชน์เมื่อเราเรียกฟังก์ชั่นที่ซ้อนกันโดยไม่ตั้งใจโดยใช้ <span class="devtools" style="background-position:-200px -190px"></span> เราไม่ได้ต้องการเข้าไปฟังก์ชั่นนี้ เราจึงต้องการออกจากฟังก์ชั่นที่นี้ให้เร็วที่สุด
 
-<span class="devtools" style="background-position:-61px -74px"></span> -- enable/disable all breakpoints.
-: That button does not move the execution. Just a mass on/off for breakpoints.
+<span class="devtools" style="background-position:-61px -74px"></span> -- เปิด/ปิด breakpoints ทั้งหมด
+: มีไว้สำหรับการเปิด/ปิด breakpoints ทั้งหมด
 
-<span class="devtools" style="background-position:-90px -146px"></span> -- enable/disable automatic pause in case of an error.
-: When enabled, and the developer tools is open, a script error automatically pauses the execution. Then we can analyze variables to see what went wrong. So if our script dies with an error, we can open debugger, enable this option and reload the page to see where it dies and what's the context at that moment.
+<span class="devtools" style="background-position:-90px -146px"></span> -- เปิด/ปิด การหยุดอัตโนมัติในกรณีที่เกิดข้อผิดพลาด (error)
+: เมื่อเปิดใช้งาน และเครื่องมือสำหรับนักพัฒนาเปิดอยู่ ข้อผิดพลาดของสคริปต์จะหยุดการทำงานชั่วคราวโดยอัตโนมัติ จากนั้นเราสามารถวิเคราะห์ตัวแปรเพื่อดูว่ามีอะไรผิดพลาด ดังนั้นหากสคริปต์เราหยุดลงเนื่องจากข้อผิดพลาด เราสามารถเปิด debugger ขึ้นมาเพื่อดูบรรทัดที่เกิดข้อผิดพลาด ตัวแปรที่มีค่าผิดพลาด และบริบทการทำงานของสคริปต์ในขณะนั้นได้
 
 ```smart header="Continue to here"
-Right click on a line of code opens the context menu with a great option called "Continue to here".
+คลิกขวาที่บรรทัดของโค้ดมันจะเปิดเมนูขึ้นมา จะเห็นว่ามีตัวเลือก "Continue to here"
 
-That's handy when we want to move multiple steps forward to the line, but we're too lazy to set a breakpoint.
+ตัวเลือกนี้มีประโยชน์หากเราขี้เกียจจะกำหนด breakpoints มาทีละบรรทัด เราสามารถใช้ตัวเลือกนี้ให้โปรแกรมพาเราไปยังบรรทัดที่เราต้องการได้ โดยไม่ต้องกำหนด breakpoints ให้กับบรรทัดนั้นๆ ก่อน
 ```
 
 ## Logging
