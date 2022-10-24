@@ -165,20 +165,20 @@ function hello(name) {
 
 ## Logging
 
-To output something to console from our code, there's `console.log` function.
+ในการส่งผลลัพธ์จากโค้ดของเราออกไปยังคอนโซล เราสามารถใช้ฟังก์ชัน `console.log`
 
-For instance, this outputs values from `0` to `4` to console:
+ตัวอย่างเช่น เราจะส่งค่าของ `i` ไปยังคอนโซล เราจะเห็นว่าคอนโซลปริ้นท์ค่า `0` ถึง `4` ออกมา:
 
 ```js run
-// open console to see
+// ลองเปิดคอนโซลดู
 for (let i = 0; i < 5; i++) {
   console.log("value,", i);
 }
 ```
 
-Regular users don't see that output, it is in the console. To see it, either open the Console panel of developer tools or press `key:Esc` while in another panel: that opens the console at the bottom.
+ผู้ใช้จะมองไม่เห็นคอนโซลเหล่านี้ หากผู้ใช้ไม่เปิดหน้าคอนโซลขึ้นมาดู เราสามาถเปิดหน้าคอนโซลได้โดยให้เปิดแผงคอนโซลของเครื่องมือสำหรับนักพัฒนาซอฟต์แวร์ หรือกด `key:Esc` ขณะที่อยู่ในแผงอื่น: ซึ่งจะเปิดคอนโซลที่ด้านล่าง
 
-If we have enough logging in our code, then we can see what's going on from the records, without the debugger.
+หากว่าเราสามารถ log ออกมาให้ถูกต้อง เราจะสามารถใช้มันเป็นเครื่องมือในการ debug ได้โดยที่ไม่ต้องอาศัย debugger เลย
 
 ## Summary
 
