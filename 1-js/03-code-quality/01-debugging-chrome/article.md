@@ -180,17 +180,17 @@ for (let i = 0; i < 5; i++) {
 
 หากว่าเราสามารถ log ออกมาให้ถูกต้อง เราจะสามารถใช้มันเป็นเครื่องมือในการ debug ได้โดยที่ไม่ต้องอาศัย debugger เลย
 
-## Summary
+## สรุป
 
-As we can see, there are three main ways to pause a script:
-1. A breakpoint.
-2. The `debugger` statements.
-3. An error (if dev tools are open and the button <span class="devtools" style="background-position:-90px -146px"></span> is "on").
+ดังที่เราเห็น มีสามวิธีหลักในการหยุดการทำงานของสคริปต์ลงชั่วคราว:
+1. ใช้ breakpoint
+2. คำสั่ง `debugger`
+3. เจอข้อผิดพลาด (error) (หากเปิดเครื่องนักพัฒนาขึ้นมา และปุ่มนี้ <span class="devtools" style="background-position:-90px -146px"></span> เปิดอยู่)
 
-When paused, we can debug - examine variables and trace the code to see where the execution goes wrong.
+เมื่อการทำงานของสคริปต์หยุดลง เราสามารถดีบักและแก้ไขมันได้
 
-There are many more options in developer tools than covered here. The full manual is at <https://developers.google.com/web/tools/chrome-devtools>.
+ยังมีฟีเจอร์ของเครื่องมือนักพัฒนาอีกมากมายที่เรายังไม่ได้พูดถึงในบทนี้ หากสนใจสามารถไปดูคู่มือฉบับเต็มได้จากลิงค์นี้ <https://developers.google.com/web/tools/chrome-devtools>
 
-The information from this chapter is enough to begin debugging, but later, especially if you do a lot of browser stuff, please go there and look through more advanced capabilities of developer tools.
+แต่ข้อมูลที่เราพูดถึงในบทนี้ก็เพียงพอที่จะใช้ในการดีบักและแก้ไขบัคในสคริปต์ที่เราเขียนเองได้แล้ว
 
-Oh, and also you can click at various places of dev tools and just see what's showing up. That's probably the fastest route to learn dev tools. Don't forget about the right click and context menus!
+อ้อ เรายังสามารถคลิกที่เครื่องมือสำหรับนักพัฒนาต่างๆเพื่อดูว่ามีอะไรให้เราใช้บ้าง นั่นอาจเป็นเส้นทางที่เร็วที่สุดในการเรียนรู้เครื่องมือสำหรับนักพัฒนา แล้วก็อย่าลืมคลิกขวาเพื่อเปิดเมนูเพิ่มเติมด้วยนะ
