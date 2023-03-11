@@ -2,9 +2,9 @@ importance: 4
 
 ---
 
-# Bad style
+# รูปแบบการเขียนที่ไม่ดี
 
-What's wrong with the code style below?
+มีอะไรไม่เหมาะสมกับรูปแบบการเขียนโค้ดด้านล่างนี้หรือเปล่า?
 
 ```js no-beautify
 function pow(x,n)
@@ -25,4 +25,4 @@ else
 }
 ```
 
-Fix it.
+แก้ให้ที
