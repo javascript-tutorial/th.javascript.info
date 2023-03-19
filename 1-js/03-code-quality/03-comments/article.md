@@ -1,30 +1,30 @@
-# Comments
+# คอมเม้นต์ (Comments)
 
-As we know from the chapter <info:structure>, comments can be single-line: starting with `//` and multiline: `/* ... */`.
+เช่นที่เราทราบจากบท <info:structure> คอมเม้นแบบบรรทัดเดียว: เริ่มต้นด้วย `//` และแบบหลายบรรทัด: `/* ... */`
 
-We normally use them to describe how and why the code works.
+เรามักจะใช้คอมเม้นเพื่ออธิบายวิธีการและเหตุผลที่โค้ดทำงานได้
 
-At first sight, commenting might be obvious, but novices in programming often use them wrongly.
+ในครั้งแรกที่เห็น การใช้คอมเม้นอาจดูเป็นเรื่องชัดเจน แต่มือใหม่ในการเขียนโปรแกรมมักใช้คอมเม้นต์ในทางที่ไม่ถูกต้อง
 
-## Bad comments
+## คอมเม้นต์ที่ไม่เป็นประโยชน์ (Bad comments)
 
-Novices tend to use comments to explain "what is going on in the code". Like this:
+มือใหม่ในการเขียนโปรแกรมมักนิยมใช้ความคิดเห็นเพื่ออธิบาย "กระบวนการที่เกิดขึ้นในโค้ด" อย่างเช่น:
 
 ```js
-// This code will do this thing (...) and that thing (...)
-// ...and who knows what else...
+// โค้ดนี้จะดำเนินการเช่นนี้ (...) และเช่นนั้น (...)
+// ...และใครจะรู้ว่ามีอะไรเพิ่มเติมอีก...
 very;
 complex;
 code;
 ```
 
-But in good code, the amount of such "explanatory" comments should be minimal. Seriously, the code should be easy to understand without them.
+แต่ในโค้ดที่มีคุณภาพ ปริมาณของคอมเม้นต์แนวนี้ควรจะน้อยลง เพราะโค้ดที่ดีควรเข้าใจง่ายโดยไม่ต้องพึ่งคอมเม้นต์
 
-There's a great rule about that: "if the code is so unclear that it requires a comment, then maybe it should be rewritten instead".
+มีหลักคิดน่าสนใจว่า "หากโค้ดเข้าใจยากจนต้องพึ่งพาคอมเม้นต์ ควรพิจารณาเขียนใหม่เพื่อความเข้าใจง่ายขึ้นแทน"
 
-### Recipe: factor out functions
+### สูตร: การสร้างฟังก์ชันแยก
 
-Sometimes it's beneficial to replace a code piece with a function, like here:
+บางครั้งการแทนที่ส่วนของโค้ดด้วยฟังก์ชันนั้นเป็นประโยชน์ เช่นตัวอย่างนี้:
 
 ```js
 function showPrimes(n) {
@@ -32,7 +32,7 @@ function showPrimes(n) {
   for (let i = 2; i < n; i++) {
 
 *!*
-    // check if i is a prime number
+    // ตรวจสอบว่า i คือจำนวนเฉพาะหรือไม่
     for (let j = 2; j < i; j++) {
       if (i % j == 0) continue nextPrime;
     }
@@ -43,7 +43,7 @@ function showPrimes(n) {
 }
 ```
 
-The better variant, with a factored out function `isPrime`:
+โดยการแยกฟังก์ชัน `isPrime` ออกมา กลายเป็นวิธีที่ดีขึ้น:
 
 
 ```js
@@ -65,21 +65,21 @@ function isPrime(n) {
 }
 ```
 
-Now we can understand the code easily. The function itself becomes the comment. Such code is called *self-descriptive*.
+เราจึงสามารถเข้าใจโค้ดได้โดยไม่ยากนัก ฟังก์ชันเองก็ตัวมันเองได้ว่าทำอะไร โค้ดประเภทนี้เรียกว่า *สามารถอธิบายตัวเองได้ (self-descriptive)*
 
-### Recipe: create functions
+### สูตร: การสร้างฟังก์ชัน
 
-And if we have a long "code sheet" like this:
+หากเรามีโค้ดที่ยาวประมาณนี้:
 
 ```js
-// here we add whiskey
+// ตรงนี้เราเติมวิสกี้
 for(let i = 0; i < 10; i++) {
   let drop = getWhiskey();
   smell(drop);
   add(drop, glass);
 }
 
-// here we add juice
+// ตรงนี้เราเติมน้ำผลไม้
 for(let t = 0; t < 3; t++) {
   let tomato = getTomato();
   examine(tomato);
@@ -90,7 +90,7 @@ for(let t = 0; t < 3; t++) {
 // ...
 ```
 
-Then it might be a better variant to refactor it into functions like:
+การปรับปรุงโค้ดให้เป็นฟังก์ชันอาจจะเป็นวิธีที่ดีกว่า เช่น:
 
 ```js
 addWhiskey(glass);
@@ -111,70 +111,70 @@ function addJuice(container) {
 }
 ```
 
-Once again, functions themselves tell what's going on. There's nothing to comment. And also the code structure is better when split. It's clear what every function does, what it takes and what it returns.
+อีกครั้ง ฟังก์ชันเองก็บอกว่าตัวมันเองจะทำอะไร ไม่มีความจำเป็นต้องใส่คอมเม้น นอกจากนี้โครงสร้างโค้ดยังดีขึ้นเมื่อถูกแยก ชัดเจนว่าฟังก์ชันแต่ละตัวทำอะไร รับอะไรและคืนค่าอะไร ซึ่งเป็นสิ่งที่เราต้องการในการเขียนโค้ดที่ดี
 
-In reality, we can't totally avoid "explanatory" comments. There are complex algorithms. And there are smart "tweaks" for purposes of optimization. But generally we should try to keep the code simple and self-descriptive.
+ในความเป็นจริง เราไม่สามารถหลีกเลี่ยงคอมเม้นได้ เช่น มีอัลกอริทึมที่ซับซ้อน และมี "การปรับปรุง (tweaks)" เพื่อเพิ่มประสิทธิภาพ แต่โดยทั่วไปเราควรพยายามเขียนให้โค้ดง่ายต่อความเข้าใจและสามารถอธิบายตัวเองได้ว่าทำอะไร
 
-## Good comments
+## คอมเม้นที่มีประโยชน์ (Good comments)
 
-So, explanatory comments are usually bad. Which comments are good?
+เราเห็นคอมเม้นที่ไม่เป็นประโยชน์มากันบ้างแล้ว ทีนี้มาดูคอมเม้นที่มีประโยชน์กัน
 
-Describe the architecture
-: Provide a high-level overview of components, how they interact, what's the control flow in various situations... In short -- the bird's eye view of the code. There's a special language [UML](http://wikipedia.org/wiki/Unified_Modeling_Language) to build high-level architecture diagrams explaining the code. Definitely worth studying.
+อธิบายโครงสร้าง (Architecture)
+: ให้ภาพรวมเกี่ยวกับองค์ประกอบต่างๆ ว่ามีการโต้ตอบกันอย่างไร และการควบคุมกระบวนการต่างๆ ที่เกิดขึ้นในสถานการณ์ต่างๆ อย่างกระชับได้ โดยทั่วไปแล้ว เราสามารถใช้ภาษา [UML](http://wikipedia.org/wiki/Unified_Modeling_Language) เพื่อสร้างแผนภาพโครงสร้าง  จะช่วยอธิบายโค้ดให้เข้าใจง่ายยิ่งขึ้น และเป็นประโยชน์อย่างมากในการเรียนรู้เกี่ยวกับโค้ด
 
-Document function parameters and usage
-: There's a special syntax [JSDoc](http://en.wikipedia.org/wiki/JSDoc) to document a function: usage, parameters, returned value.
+การเขียนเอกสารและพารามิเตอร์ของการใช้งานฟังก์ชัน
+: มีไวยากรณ์แบบพิเศษเรียกว่า [JSDoc](http://en.wikipedia.org/wiki/JSDoc) ที่ใช้ในการเขียนเอกสารให้ฟังก์ชัน: การใช้งาน พารามิเตอร์ และค่าที่ส่งกลับ (returned value)
 
-For instance:
+ตัวอย่างเช่น
 ```js
 /**
- * Returns x raised to the n-th power.
+ * ฟังก์ชันที่ใช้ในการยกกำลัง x ด้วย n
  *
- * @param {number} x The number to raise.
- * @param {number} n The power, must be a natural number.
- * @return {number} x raised to the n-th power.
+ * @param {number} x ตัวเลขที่จะนำไปยกกำลัง
+ * @param {number} n ค่าสั่งยกกำลัง ต้องเป็นจำนวนเต็มบวกเท่านั้น
+ * @return {number} ค่า x ยกกำลัง n
  */
 function pow(x, n) {
   ...
 }
 ```
 
-Such comments allow us to understand the purpose of the function and use it the right way without looking in its code.
+คอมเม้นดังกล่าวช่วยให้เราเข้าใจวัตถุประสงค์ของฟังก์ชันและใช้งานได้อย่างถูกต้องโดยไม่ต้องดูในโค้ดของฟังก์ชัน
 
-By the way, many editors like [WebStorm](https://www.jetbrains.com/webstorm/) can understand them as well and use them to provide autocomplete and some automatic code-checking.
+อย่างไรก็ตาม โปรแกรมต่างๆ เช่น [WebStorm](https://www.jetbrains.com/webstorm/) สามารถเข้าใจคำอธิบายแบบนี้ได้และนำมาใช้ในการให้คำแนะนำต่างๆ เช่น autocomplete และการตรวจสอบโค้ดอัตโนมัติว่าเราใช้งานฟังก์ชันอย่างถูกต้องหรือไม่
 
-Also, there are tools like [JSDoc 3](https://github.com/jsdoc3/jsdoc) that can generate HTML-documentation from the comments. You can read more information about JSDoc at <http://usejsdoc.org/>.
+นอกจากนี้ยังมีเครื่องมืออื่นๆ เช่น [JSDoc 3](https://github.com/jsdoc3/jsdoc) ที่สามารถสร้างเอกสาร HTML จากความคิดเห็นได้ คุณสามารถอ่านข้อมูลเพิ่มเติมเกี่ยวกับ JSDoc ได้ที่ <http://usejsdoc.org/>.
 
-Why is the task solved this way?
-: What's written is important. But what's *not* written may be even more important to understand what's going on. Why is the task solved exactly this way? The code gives no answer.
+ทำไมต้องแก้ปัญหาแบบนี้?
+: สิ่งที่เขียนเป็นสิ่งสำคัญ แต่สิ่งที่ไม่เขียนอาจจะสำคัญกว่าอีกเพื่อให้เข้าใจว่าเกิดอะไรขึ้น
 
-    If there are many ways to solve the task, why this one? Especially when it's not the most obvious one.
+    ทำไมต้องแก้ปัญหาในวิธีนี้และไม่ใช้วิธีอื่น ๆ ที่อาจจะเป็นไปได้หลายวิธี โดยเฉพาะเมื่อวิธีที่ใช้นั้นไม่ใช่วิธีที่เหมาะสมสุดๆ โค้ดไม่ให้คำตอบ
 
-    Without such comments the following situation is possible:
-    1. You (or your colleague) open the code written some time ago, and see that it's "suboptimal".
-    2. You think: "How stupid I was then, and how much smarter I'm now", and rewrite using the "more obvious and correct" variant.
-    3. ...The urge to rewrite was good. But in the process you see that the "more obvious" solution is actually lacking. You even dimly remember why, because you already tried it long ago. You revert to the correct variant, but the time was wasted.
+    การไม่มีคอมเม้นอาจทำให้เกิดสถานการณ์ต่อไปนี้ได้:
+    1. คุณ (หรือเพื่อนร่วมงานของคุณ) เปิดโค้ดที่เขียนไว้เมื่อก่อน และเห็นว่ามัน "ไม่เหมาะสม"
+    2. คุณคิด: "เมื่อก่อนฉันโง่มาก แต่ตอนนี้ฉันฉลาดขึ้นแล้ว", แล้วทำการเขียนใหม่โดยใช้วิธีที่ "ชัดเจนและถูกต้องกว่า" แต่...
+    3. ...การต้องการเขียนใหม่นั้นดี แต่ในขณะเดียวกัน คุณเห็นว่าวิธี "ชัดเจน" นั้นมีข้อจำกัด และคุณจำได้ว่าทำไมมันเป็นเช่นนั้นเพราะคุณเคยลองไปแล้ว คุณกลับไปใช้วิธีที่ถูกต้องแต่เสียเวลาไปเพิ่มเติม
 
-    Comments that explain the solution are very important. They help to continue development the right way.
+    การเขียนคอมเม้นเพื่ออธิบายวิธีการแก้ปัญหาเป็นสิ่งที่สำคัญมาก มันช่วยให้เราสามารถพัฒนาโค้ดให้ถูกต้องตามวิธีที่เหมาะสมได้
 
-Any subtle features of the code? Where they are used?
-: If the code has anything subtle and counter-intuitive, it's definitely worth commenting.
+มีคุณสมบัติละเอียดอ่อนในโค้ดหรือไม่? มันถูกใช้อย่างไรบ้าง?
+: หากโค้ดมีคสาทละเอียดอ่อนและตรงข้ามกับสิ่งที่รู้มา ควรจะเขียนคอมเม้นเพื่อช่วยให้เข้าใจได้ง่ายขึ้น ว่าแต่คุณสามารถนำคุณสมบัตินั้นไปใช้งานอย่างไรได้บ้าง ในการเขียนโค้ด มีการใช้ฟีเจอร์ที่ซับซ้อนและซ่อนเร้นอยู่บ้าง ดังนั้นการเพิ่มความชัดเจนในการใช้งานฟีเจอร์นั้นๆ จึงเป็นสิ่งที่สำคัญมากๆ
 
-## Summary
+## สรุป
 
-An important sign of a good developer is comments: their presence and even their absence.
+เคล็ดลับสำคัญของนักพัฒนาที่ดีคือการเขียนคอมเม้น: ไม่ว่ามันจะมีหรือไม่มี
 
-Good comments allow us to maintain the code well, come back to it after a delay and use it more effectively.
+เป็นเครื่องช่วยที่ดีในการบำรุงรักษาโค้ด ช่วยให้เราสามารถกลับมาใช้โค้ดได้อย่างมีประสิทธิภาพและช่วยให้เราเข้าใจโค้ดได้ง่ายขึ้น
 
-**Comment this:**
+**ควรเขียนคอมเม้นดังต่อไปนี้:**
 
-- Overall architecture, high-level view.
-- Function usage.
-- Important solutions, especially when not immediately obvious.
+- โครงสร้างโดยรวมและมุมมองระดับสูง
+- การใช้งานฟังก์ชั่น
+- วิธีการแก้ปัญหาที่สำคัญโดยเฉพาะเมื่อมีการใช้วิธีที่ไม่เหมาะสม
 
-**Avoid comments:**
+**ควรหลีกเลี่ยงเขียนคอมเม้นดังต่อไปนี้:**
 
-- That tell "how code works" and "what it does".
-- Put them in only if it's impossible to make the code so simple and self-descriptive that it doesn't require them.
+- การอธิบาย "วิธีการทำงาน" และ "สิ่งที่โค้ดทำ"
+- หากสามารถทำให้โค้ดอ่านเข้าใจได้ง่าย และเป็นระเบียบ ก็ไม่จำเป็นต้องมีคอมเม้น
 
-Comments are also used for auto-documenting tools like JSDoc3: they read them and generate HTML-docs (or docs in another format).
+คอมเม้นในโค้ดยังสามารถใช้สำหรับเครื่องมือสร้างเอกสารอัตโนมัติ เช่น JSDoc3 โดยเครื่องมือเหล่านี้อ่านคำอธิบายแล้วสร้างเอกสาร HTML หรือเอกสารอื่นๆ ตามรูปแบบที่ต้องการ
