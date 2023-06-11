@@ -4,7 +4,7 @@
 
 สิ่งนี้มีข้อดีคือไม่เคยทำให้โค้ดที่มีอยู่แล้วเสียหาย แต่ข้อเสียคือข้อผิดพลาดหรือการตัดสินใจที่ไม่รอบคอบของผู้สร้าง JavaScript จะติดอยู่ในภาษานี่ไปตลอดกาล
 
-สถานการณ์นี้ยังคงอยู่จนกระทั่งปี 2009 เมื่อ ECMAScript 5 (ES5) มากำกับดูแลสเปคของ JavaScript ทางองค์กรได้เพิ่มฟีเจอร์ใหม่เข้าไปในภาษา และแก้ไขฟีเจอร์ที่มีอยู่บางส่วน และเพื่อรักษาความทำงานของโค้ดเก่า การปรับปรุงส่วนใหญ่โดย ECMAScript จะถูกปิดโดยค่าเริ่มต้น ดังนั้นหากคุณต้องการเปิดใช้งานฟีเจอร์และการปรับปรุงใหม่ๆเข้ามา คุณจะต้องระบุในสคริปต์อย่างชัดเจนด้วยคำสั่งพิเศษ: `"use strict"`
+สถานการณ์นี้ยังคงอยู่จนกระทั่งปี 2009 เมื่อ ECMAScript 5 (ES5) มากำกับดูแลสเปคของ JavaScript ทางองค์กรได้เพิ่มฟีเจอร์ใหม่เข้าไปในภาษา และแก้ไขฟีเจอร์ที่มีอยู่บางส่วน และเพื่อรักษาความทำงานของโค้ดเก่า การปรับปรุงส่วนใหญ่โดย ECMAScript จะถูกปิดโดยค่าเริ่มต้น ดังนั้นหากเราต้องการเปิดใช้งานฟีเจอร์และการปรับปรุงใหม่ๆเข้ามา เราจะต้องระบุในสคริปต์อย่างชัดเจนด้วยคำสั่งพิเศษ: `"use strict"`
 
 ## "use strict"
 
@@ -44,31 +44,31 @@ alert("some code");
 เมื่อเราเข้าสู่โหมด "สมัยใหม่" แล้ว มันจะไม่มีทางกลับมาเป็น "สมัยเก่า" อีกต่อไป
 ```
 
-## Browser console
+## คอนโซลเบราว์เซอร์
 
-When you use a [developer console](info:devtools) to run code, please note that it doesn't `use strict` by default.
+เมื่อเราใช้ [คอนโซลนักพัฒนาซอฟต์แวร์ (developer console)](info:devtools) เพื่อรันโค้ด โปรดทราบว่ามันไม่ได้ใช้ `use strict` ตามค่าเริ่มต้น
 
-Sometimes, when `use strict` makes a difference, you'll get incorrect results.
+บางครั้ง เมื่อ `use strict` จึงทำให้เกิดผลลัพธ์ที่แตกต่างกัน เราจะได้ผลลัพธ์ที่ไม่ถูกต้อง
 
-So, how to actually `use strict` in the console?
+ดังนั้น วิธีการที่จะ `use strict` ในคอนโซลจริงๆคืออย่างไร?
 
-First, you can try to press `key:Shift+Enter` to input multiple lines, and put `use strict` on top, like this:
+แรกเริ่ม เราสามารถลองกด `key:Shift+Enter` เพื่อป้อนคำสั่งหลายบรรทัดและวาง `use strict`  ที่ด้านบน เช่น:
 
 ```js
 'use strict'; <Shift+Enter for a newline>
-//  ...your code
+//  ...โค้ดเรา
 <Enter to run>
 ```
 
-It works in most browsers, namely Firefox and Chrome.
+มันทำงานได้ในเบราว์เซอร์ส่วนใหญ่ โดยเฉพาะ Firefox และ Chrome
 
-If it doesn't, e.g. in an old browser, there's an ugly, but reliable way to ensure `use strict`. Put it inside this kind of wrapper:
+หากไม่ทำงาน เช่นในเบราว์เซอร์เก่า มีวิธีที่ไม่ค่อยสวยเท่าไหร่ แต่ทำให้เบราเซอร์เก่าเปิดใช้งานโหมดสมัยใหม่ได้ `use strict` โดยล้อมมันวางด้วยวงเล็บแบบนี้:
 
 ```js
 (function() {
   'use strict';
 
-  // ...your code here...
+  // ...โค้ดเราที่นี่...
 })()
 ```
 
