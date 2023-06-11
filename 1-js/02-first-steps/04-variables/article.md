@@ -208,40 +208,39 @@ let ผม = '...';
 ทางเทคนิค ไม่มีข้อผิดพลาด ชื่อเหล่านี้อนุญาต แต่มีข้อตกลงระหว่างประเทศที่จะใช้ภาษาอังกฤษในชื่อตัวแปร แม้ว่าเราจะเขียนสคริปต์ขนาดเล็ก มันอาจมีอายุยาวไปข้างหน้า คนจากประเทศอื่นอาจจำเป็นต้องอ่านโค้ดที่เราเขียนขึ้นมาก็ได้
 ````
 
-````warn header="Reserved names"
-There is a [list of reserved words](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar#Keywords), which cannot be used as variable names because they are used by the language itself.
+````warn header="ชื่อที่ถูกสงวนไว้"
+มี[รายชื่อคำที่ถูกสงวนไว้](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar#Keywords) ที่ไม่สามารถใช้เป็นชื่อตัวแปรได้ เนื่องจากคำเหล่านี้ถูกใช้โดยภาษาเอง
 
-For example: `let`, `class`, `return`, and `function` are reserved.
+เช่น: `let`, `class`, `return`, และ `function` ถูกสงวนไว้
 
-The code below gives a syntax error:
+โค้ดด้านล่างนี้จะให้ข้อผิดพลาดทางไวยากรณ์:
 
 ```js run no-beautify
-let let = 5; // can't name a variable "let", error!
-let return = 5; // also can't name it "return", error!
+let let = 5; // ไม่สามารถตั้งชื่อตัวแปรเป็น "let", ข้อผิดพลาด!
+let return = 5; // ไม่สามารถตั้งชื่อตัวแปรเป็น "return" ได้, ข้อผิดพลาด!
 ```
 ````
 
-````warn header="An assignment without `use strict`"
+````warn header="การกำหนดค่าโดยไม่มี `use strict`"
 
-Normally, we need to define a variable before using it. But in the old times, it was technically possible to create a variable by a mere assignment of the value without using `let`. This still works now if we don't put `use strict` in our scripts to maintain compatibility with old scripts.
+โดยปกติเราต้องกำหนดตัวแปรก่อนที่จะใช้งาน แต่ในยุคเก่าๆ มันเป็นไปได้ทางเทคนิคที่จะสร้างตัวแปรโดยการกำหนดค่าเพียงอย่างเดียวโดยไม่ใช้ `let` นี่ยังทำงานได้ตอนนี้ถ้าเราไม่ใส่ `use strict` ในสคริปต์ของเราเพื่อรักษาความสามารถในการทำงานร่วมกับสคริปต์เก่า
 
 ```js run no-strict
-// note: no "use strict" in this example
+// หมายเหตุ: ไม่มี "use strict" ในตัวอย่างนี้
 
-num = 5; // the variable "num" is created if it didn't exist
+num = 5; // ตัวแปร "num" ถูกสร้างขึ้นถ้ายังไม่มีอยู่
 
 alert(num); // 5
 ```
 
-This is a bad practice and would cause an error in strict mode:
+นี่เป็นแนวปฏิบัติที่ไม่ดีและจะทำให้เกิดข้อผิดพลาดในโหมดสมัยใหม่:
 
 ```js
 "use strict";
 
 *!*
-num = 5; // error: num is not defined
+num = 5; // ข้อผิดพลาด: num ไม่ได้ถูกกำหนด
 */!*
-```
 ````
 
 ## Constants
