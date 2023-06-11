@@ -8,85 +8,82 @@
 
 ## "use strict"
 
-ตัวคำสั่งหน้าตาเหมือนสตริง `"use strict"` หรือ `'use strict'` แต่คำสั่นี้จะต้องอยู่บนสุดของสคริปต์คือบรรทัดที่หนึ่ง ทีนี้สคริปต์ทั้งหมดของเราก็ทำงานแบบ "สมัยใหม่ (modern)"
+คำสั่งดังกล่าวนี้จะมีลักษณะเหมือนสตริง: `"use strict"` หรือ `"use strict"` เมื่อวางไว้ที่บนสุดของสคริปต์ สคริปต์ทั้งหมดจะทำงานในรูปแบบ "สมัยใหม่"
 
-ดั่งตัวอย่าง:
+ตัวอย่างเช่น:
 
 ```js
 "use strict";
 
-// โค้ดที่เขียนต่อจากนี้จะทำงานแบบจาวาสคริปต์สมัยใหม่
+// โค้ดนี้จะทำงานในแบบสมัยใหม่
 ...
 ```
 
-เราจะเรียนรู้เรื่องฟังก์ชั่น (วิธีการจัดกลุ่มคำสั่ง) ในไม่ช้า แต่อยากบอกในเบื้องต้นว่า `"use strict"` สามารถวางไว้ที่บรรทัดเริ่มต้นของฟังก์ชั่นได้ เพื่อจะใช้โหมด `"use strict"` แค่ในฟังก์ชั่นนี้เท่านั้น แต่ปกติแล้ว นิยมวางไว้บรรทัดแรกมากกว่าแต่เปิดใช้ทั้งไฟล์สคริปต์
+ไม่ช้าเราจะได้เรียนรู้เรื่องฟังก์ชัน (วิธีการจัดกลุ่มคำสั่ง) ดังนั้นโปรดจงรู้ไว้ว่า `"use strict"` สามารถวางไว้ที่หน้าของฟังก์ชันได้ การกระทำนี้เปิดโหมดสมัยใหม่สำหรับฟังก์ชันตัวนั้นเท่านั้น แต่ปกติเรามักจะวางไว้บนสุดของสคริปต์
 
+````warn header="เช็คให้แน่ใจว่า \"use strict\" อยู่บนสุดของสคริปต์เสมอ"
+โปรดทำให้แน่ใจว่า `"use strict"` อยู่ที่บนสุดของสคริปต์ มิเช่นนั้น โหมดสมัยใหม่อาจจะไม่ถูกเปิดใช้งาน
 
-````warn header="อย่าลืมว่า \"use strict\" ต้องอยู่บรรทัดแรกเสมอ"
-อย่าลืมว่า `"use strict"` ต้องอยู่บรรทัดแรกของไฟล์สคริปต์เสมอ ไม่อย่างนั้นโหมดนี้จะไม่ทำงาน
-
-เช่นตัวอย่างด้านล่าง
+โหมดสมัยใหม่ไม่ถูกเปิดใช้งานที่นี่:
 
 ```js no-strict
 alert("some code");
-// ตัวเอนจินจะไม่สนใจ "use strict" ด้านล่าง โหมดนี้จึงไม่ได้ถูกทำงาน
+// "use strict" ด้านล่างนี้จะถูกละเลย -- มันต้องอยู่ที่บนสุด
 
 "use strict";
 
-// strict mode จะไม่ทำงาน
+// โหมดสมัยใหม่จะไม่ถูกเปิดใข้งาน
 ```
 
-หากมีคอมเม้นอยู่เหนือ "use strict" ตัวของ "use strict" ก็จะทำปกติ
+เพียงแค่คอมเม้นที่อยู่เหนือ `"use strict"` เท่านั้น
 ````
 
-```warn header="ไม่มีทางยกเลิกโหมด `use strict` ได้"
-มันไม่มีคำสั่งอย่าง "no use strict" เพื่อได้เอนจินกลับไปทำงานในโหมดเดิมได้
+```warn header="ไม่มีทางปิดโหมดสมัยใหม่จากคำสั่ง `use strict` ได้"
+ไม่มีคำสั่งเช่น `"no use strict"` ที่จะคืนสภาพโหมดสมัยเก่ากลับมาได้
 
-ดังนั้นเมื่อเราเปิดโหมด `use strict` แล้ว เราก็ไม่มีทางปิดมันได้
+เมื่อเราเข้าสู่โหมด "สมัยใหม่" แล้ว มันจะไม่มีทางกลับมาเป็น "สมัยเก่า" อีกต่อไป
 ```
 
-## คอนโซลบนเบราเซอร์
+## Browser console
 
-หากเราใช้[คอนโซลนักพัฒนา](info:devtools) เพื่อรันโค้ด คอนโซลบนเบราเซอร์ปิด `use strict` เอาไว้เป็นค่าเริ่มต้น
+When you use a [developer console](info:devtools) to run code, please note that it doesn't `use strict` by default.
 
-แล้ว ถ้าอยากใช้ `use strict ในคอนโซลจะทำไงดี
+Sometimes, when `use strict` makes a difference, you'll get incorrect results.
 
-ก่อนอื่น ให้พิมพ์ `use strict` ไว้ก่อนแล้วให้กด `key:Shift+Enter` เพื่อขึ้นบรรทัดใหม่
+So, how to actually `use strict` in the console?
+
+First, you can try to press `key:Shift+Enter` to input multiple lines, and put `use strict` on top, like this:
 
 ```js
 'use strict'; <Shift+Enter for a newline>
-//  ...โค้ดของเรา
-<อย่าลืมกด Enter เพื่อให้โค้ดทำงาน>
+//  ...your code
+<Enter to run>
 ```
 
-ฟีเจอร์นี้รับรองบนเบราเซอร์ส่วนใหญ่แล้วอย่าง Chrome และ Firefox
+It works in most browsers, namely Firefox and Chrome.
 
-หากใช้ไม่ได้ นั่นแสดงว่าเรากำลังใช้งานเบราเซอร์ที่เก่าเอามากๆ ดังนั้นเพื่อให้แน่ใจได้ว่า `use strict` จะถูกใช้กับทุกคำสั่งที่เราป้อนลงในคอนโซล ลองทำตามตัวอย่างโค้ดด้านล่างดูสิ
+If it doesn't, e.g. in an old browser, there's an ugly, but reliable way to ensure `use strict`. Put it inside this kind of wrapper:
 
 ```js
 (function() {
   'use strict';
 
-  // ...ใส่โค้ดที่ต้องการตั้งแต่ตรงนี้...
+  // ...your code here...
 })()
 ```
 
-## ควรเปิด "use strict" 
+## Should we "use strict"?
 
-คำตอบก็คือควร
+The question may sound obvious, but it's not so.
 
-ดังนั้นให้เขียน `"use strict"` จนเป็นนิสัยได้เลย แต่ยังมีเกร็ดเล็กน้อยอีกนิดนึง
+One could recommend to start scripts with `"use strict"`... But you know what's cool?
 
-ใน Modern Javascript ได้สนับสนุน "classes" และ "modules" ซึ่งยังไม่สอนตอนนี้ (แต่เดี๋ยวเข้าใจแน่นอน) ที่อยากจะบอกก็คือ มันเปิด `use strict` โดยอัตโนมัติ ดังนั้นเราไม่ต้องเพิ่ม `"use strict"` ในสคริปต์เลย
+Modern JavaScript supports "classes" and "modules" - advanced language structures (we'll surely get to them), that enable `use strict` automatically. So we don't need to add the `"use strict"` directive, if we use them.
 
-จนถึงตอนนี้ เราก็รู้จักกับ `use strict` ในเบื้องต้นกันแล้ว
+**So, for now `"use strict";` is a welcome guest at the top of your scripts. Later, when your code is all in classes and modules, you may omit it.**
 
-ในบทภัดไป เราจะเรียนเกี่ยวกับฟีเจอร์ของภาษา เราจะได้เห็นความแตกต่างระหว่าง แบบใช้ `use strict` กับแบบไม่ใช้ มาดูกันว่า `use strict` ช่วยให้เราชีวิตง่ายขึ้นยังไง
+As of now, we've got to know about `use strict` in general.
 
-ทุกตัวอย่างในบทเรียนใช้ `use strict` หมด จะมีอยู่น้อยมากที่เราตั้งใจจะไม่ใช้
+In the next chapters, as we learn language features, we'll see the differences between the strict and old modes. Luckily, there aren't many and they actually make our lives better.
 
-1. คำสั่ง `"use strict"` เป็นคำสั่งสำหรับเอนจินยุค ES5 ซึ่งเอาไว้สลับโหมดระหว่างโหมดปกติกับโหมด `"use strict"` เราจะมาพูดถึงรายละเอียดกันอีกทีในบทถัดไป
-2. เปิด strict โหมดง่ายๆเพียงแค่ใส่ `"use strict"` ไว้บนสุดของสคริปต์หรือฟังก์ชัน เมื่อเอนจินอ่านเจอมันจะเปิดโหมดนี้โดยอัตโนมัติ
-3. โมเดิร์นเบราเซอร์ รองรับโหมด strict ทั้งหมดแล้ว
-4. แนะนำว่าควรเปิด strict โหมดไว้เสมอ
-
+All examples in this tutorial assume strict mode unless (very rarely) specified otherwise.
