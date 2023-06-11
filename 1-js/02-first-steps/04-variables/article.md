@@ -82,7 +82,7 @@ let user = 'จอห์น'
 จากทางเทคนิค, ทุกๆ รูปแบบนี้ทำงานเหมือนกัน ดังนั้น, มันเป็นเรื่องของรสนิยมส่วนบุคคลและความสวยงามของโค้ด
 
 ````smart header="`var` แทน `let`"
-ในสคริปต์ที่เก่ากว่า, คุณอาจจะพบคีย์เวิร์ดอื่น: `var` แทน `let`:
+ในสคริปต์ที่เก่ากว่า เราอาจจะพบคีย์เวิร์ดอื่น: `var` แทน `let`:
 
 ```js
 *!*var*/!* message = 'สวัสดี';
@@ -136,26 +136,26 @@ alert(hello); // สวัสดี โลก!
 alert(message); // สวัสดี โลก!
 ```
 
-````warn header="Declaring twice triggers an error"
-A variable should be declared only once.
+````warn header="ประกาศตัวแปรซ้ำกันจะทำให้เกิดข้อผิดพลาด"
+ตัวแปรควรถูกประกาศเพียงครั้งเดียว
 
-A repeated declaration of the same variable is an error:
+การประกาศตัวแปรเดิมซ้ำๆจะเป็นข้อผิดพลาด:
 
 ```js run
-let message = "This";
+let message = "นี้";
 
-// repeated 'let' leads to an error
-let message = "That"; // SyntaxError: 'message' has already been declared
+// 'let' ประกาศคัวแปรเดิมซ้ำจะนำไปสู่ข้อผิดพลาด
+let message = "นั่น"; // SyntaxError: 'message' ถูกประกาศแล้ว
 ```
-So, we should declare a variable once and then refer to it without `let`.
+ดังนั้น, เราควรประกาศตัวแปรครั้งเดียวแล้วจึงอ้างอิงถึงมันโดยไม่ต้องใช้ `let`.
 ````
 
-```smart header="Functional languages"
-It's interesting to note that there exist so-called [pure functional](https://en.wikipedia.org/wiki/Purely_functional_programming) programming languages, such as [Haskell](https://en.wikipedia.org/wiki/Haskell), that forbid changing variable values.
+```smart header="ภาษาการเขียนโปรแกรมแบบฟังก์ชัน"
+น่าสนใจที่จะทราบว่ามีภาษาการเขียนโปรแกรมแบบ [pure functional](https://en.wikipedia.org/wiki/Purely_functional_programming) ที่ห้ามการเปลี่ยนแปลงค่าของตัวแปร, เช่น [Haskell](https://en.wikipedia.org/wiki/Haskell)
 
-In such languages, once the value is stored "in the box", it's there forever. If we need to store something else, the language forces us to create a new box (declare a new variable). We can't reuse the old one.
+ในภาษาเหล่านี้, เมื่อค่าถูกจัดเก็บ "ในกล่อง" มันจะอยู่ที่นั่นตลอดไป ถ้าเราต้องการจัดเก็บสิ่งอื่น ภาษาจะบังคับให้เราสร้างกล่องใหม่ (ประกาศตัวแปรใหม่) เราไม่สามารถนำกล่องเก่ามาใช้ซ้ำได้
 
-Though it may seem a little odd at first sight, these languages are quite capable of serious development. More than that, there are areas like parallel computations where this limitation confers certain benefits.
+แม้ว่ามันอาจจะดูแปลก ๆ ในตอนแรก แต่ภาษาเหล่านี้สามารถพัฒนาอย่างจริงจังได้ ยิ่งไปกว่านั้น ยังมีพื้นที่อื่นๆ เช่น การคำนวณแบบขนาน (parallel computations) ซึ่งข้อจำกัดนี้ให้ประโยชน์บางประการ
 ```
 
 ## Variable naming [#variable-naming]
