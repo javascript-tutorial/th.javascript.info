@@ -158,54 +158,54 @@ let message = "นั่น"; // SyntaxError: 'message' ถูกประกา
 แม้ว่ามันอาจจะดูแปลก ๆ ในตอนแรก แต่ภาษาเหล่านี้สามารถพัฒนาอย่างจริงจังได้ ยิ่งไปกว่านั้น ยังมีพื้นที่อื่นๆ เช่น การคำนวณแบบขนาน (parallel computations) ซึ่งข้อจำกัดนี้ให้ประโยชน์บางประการ
 ```
 
-## Variable naming [#variable-naming]
+## การตั้งชื่อตัวแปร
 
-There are two limitations on variable names in JavaScript:
+ในการตั้งชื่อตัวแปรใน JavaScript มีข้อจำกัด 2 ข้อ:
 
-1. The name must contain only letters, digits, or the symbols `$` and `_`.
-2. The first character must not be a digit.
+1. ชื่อต้องประกอบด้วยตัวอักษร, ตัวเลข, หรือสัญลักษณ์ `$` และ `_` เท่านั้น
+2. ตัวอักษรตัวแรกต้องไม่เป็นตัวเลข
 
-Examples of valid names:
+ตัวอย่างของชื่อที่ถูกต้อง:
 
 ```js
 let userName;
 let test123;
 ```
 
-When the name contains multiple words, [camelCase](https://en.wikipedia.org/wiki/CamelCase) is commonly used. That is: words go one after another, each word except first starting with a capital letter: `myVeryLongName`.
+เมื่อชื่อประกอบด้วยหลายคำมักจะใช้ [camelCase](https://en.wikipedia.org/wiki/CamelCase) นั่นคือ: หากมีคำต่อกัน คำแรกที่ขึ้นจะเป็นพิมพ์เล็ก ส่วนคำที่เหลือจะเริ่มต้นด้วยพิมพ์ใหญ่: `myVeryLongName`
 
-What's interesting -- the dollar sign `'$'` and the underscore `'_'` can also be used in names. They are regular symbols, just like letters, without any special meaning.
+สิ่งที่น่าสนใจ - สัญลักษณ์ดอลลาร์ `'$'` และขีดล่าง `'_'` สามารถใช้ในชื่อได้ พวกเขาเป็นสัญลักษณ์ปกติเหมือนตัวอักษร ไม่มีความหมายพิเศษ
 
-These names are valid:
+เราสามารถตั้งชื่อแบบนี้ได้:
 
 ```js run untrusted
-let $ = 1; // declared a variable with the name "$"
-let _ = 2; // and now a variable with the name "_"
+let $ = 1; // ประกาศตัวแปรชื่อ "$"
+let _ = 2; // และตอนนี้ตัวแปรชื่อ "_"
 
 alert($ + _); // 3
 ```
 
-Examples of incorrect variable names:
+ตัวอย่างชื่อตัวแปรที่ไม่ถูกต้อง:
 
 ```js no-beautify
-let 1a; // cannot start with a digit
+let 1a; // ไม่สามารถเริ่มต้นด้วยตัวเลข
 
-let my-name; // hyphens '-' aren't allowed in the name
+let my-name; // ไม่อนุญาตให้ใช้ขีดกลาง '-' ในชื่อ
 ```
 
-```smart header="Case matters"
-Variables named `apple` and `APPLE` are two different variables.
+```smart header="ตัวพิมพ์ใหญ่และตัวพิมพ์เล็กมีความแตกต่าง"
+ตัวแปรที่ชื่อ `apple` และ `APPLE` เป็นตัวแปรคนละตัวกัน
 ```
 
-````smart header="Non-Latin letters are allowed, but not recommended"
-It is possible to use any language, including cyrillic letters, Chinese logograms and so on, like this:
+````smart header="อนุญาตให้ใช้ตัวอักษรที่ไม่ใช่ละติน แต่ไม่แนะนำ"
+เราสามารถใช้ภาษาใดๆ รวมถึงตัวอักษรซีริลลิค ตัวอักษรจีนและอื่น ๆ มาตั้งชื่อตัวแปรได้เช่น:
 
 ```js
-let имя = '...';
-let 我 = '...';
+let ชื่อ = '...';
+let ผม = '...';
 ```
 
-Technically, there is no error here. Such names are allowed, but there is an international convention to use English in variable names. Even if we're writing a small script, it may have a long life ahead. People from other countries may need to read it some time.
+ทางเทคนิค ไม่มีข้อผิดพลาด ชื่อเหล่านี้อนุญาต แต่มีข้อตกลงระหว่างประเทศที่จะใช้ภาษาอังกฤษในชื่อตัวแปร แม้ว่าเราจะเขียนสคริปต์ขนาดเล็ก มันอาจมีอายุยาวไปข้างหน้า คนจากประเทศอื่นอาจจำเป็นต้องอ่านโค้ดที่เราเขียนขึ้นมาก็ได้
 ````
 
 ````warn header="Reserved names"
