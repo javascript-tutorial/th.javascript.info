@@ -72,18 +72,18 @@ alert("some code");
 })()
 ```
 
-## Should we "use strict"?
+## ควรใช้ "use strict" หรือไม่?
 
-The question may sound obvious, but it's not so.
+คำถามนี้อาจดูชัดเจน แต่จริงๆแล้วไม่ได้เช่นนั้น
 
-One could recommend to start scripts with `"use strict"`... But you know what's cool?
+มีคำแนะนำมากมายให้เริ่มสคริปต์ด้วย `"use strict"`... แต่เรารู้อะไรน่าสนใจบ้างไหม?
 
-Modern JavaScript supports "classes" and "modules" - advanced language structures (we'll surely get to them), that enable `use strict` automatically. So we don't need to add the `"use strict"` directive, if we use them.
+JavaScript สมัยใหม่รองรับ "classes" และ "modules" - โครงสร้างภาษาขั้นสูงที่เปิดใช้งาน `use strict` โดยอัตโนมัติ ดังนั้นเราไม่จำเป็นต้องเพิ่มคำสั่ง`"use strict"` หากเราใช้โครงสร้างเหล่านี้
 
-**So, for now `"use strict";` is a welcome guest at the top of your scripts. Later, when your code is all in classes and modules, you may omit it.**
+**ดังนั้น `"use strict";` จะถูกเติมเข้ามาเอง เมื่อโค้ดเราอยู่ใน "classes" หรือ "modules"**
 
-As of now, we've got to know about `use strict` in general.
+เราได้ทราบเกี่ยวกับ `use strict` โดยทั่วไป
 
-In the next chapters, as we learn language features, we'll see the differences between the strict and old modes. Luckily, there aren't many and they actually make our lives better.
+ในบทที่จะถึงนี้ เมื่อเราเรียนรู้ฟีเจอร์ของภาษา เราจะเห็นความแตกต่างระหว่างโหมดใหม่และเก่า โชคดีที่ความแตกต่างไม่ได้มีมากจนทำให้พวกเราต้องปวดหัว
 
-All examples in this tutorial assume strict mode unless (very rarely) specified otherwise.
+ตัวอย่างทั้งหมดในบทนี้สมมุติว่าอยู่ในโหมดสมัยใหม่ ยกเว้น (เราคิดว่าน้อยมาก) ที่ระบุไว้เป็นอย่างอื่น
