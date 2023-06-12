@@ -280,25 +280,25 @@ let color = COLOR_ORANGE;
 alert(color); // #FF7F00
 ```
 
-Benefits:
+ประโยชน์:
 
-- `COLOR_ORANGE` is much easier to remember than `"#FF7F00"`.
-- It is much easier to mistype `"#FF7F00"` than `COLOR_ORANGE`.
-- When reading the code, `COLOR_ORANGE` is much more meaningful than `#FF7F00`.
+- `COLOR_ORANGE` ง่ายต่อการจำมากกว่า `"#FF7F00"`
+- เราพิมพ์เลขฐานสิบหกอย่าง `"#FF7F00"` ผิดได้ง่ายกว่า `COLOR_ORANGE`
+- เมื่ออ่านโค้ด `COLOR_ORANGE` เราจะเข้าใจว่าหมายถึงสีอะไรมากกว่า `#FF7F00`
 
-When should we use capitals for a constant and when should we name it normally? Let's make that clear.
+เมื่อไหร่เราควรใช้ตัวพิมพ์ใหญ่สำหรับค่าคงที่และเมื่อไหร่เราควรตั้งชื่อแบบปกติ? มาเคลียร์เรื่องนี้ให้ชัดเจน
 
-Being a "constant" just means that a variable's value never changes. But there are constants that are known prior to execution (like a hexadecimal value for red) and there are constants that are *calculated* in run-time, during the execution, but do not change after their initial assignment.
+การเป็น "ค่าคงที่" หมายความว่าค่าของตัวแปรไม่เปลี่ยนแปลง แต่มีค่าคงที่ที่ทราบก่อนการดำเนินการ (เช่น ค่าสีแดงแบบฐานสิบหก) และมีค่าคงที่ที่ *คำนวณ* ในเวลาทำงาน ระหว่างการดำเนินการ แต่ไม่เปลี่ยนแปลงหลังจากการกำหนดค่าเริ่มต้น
 
-For instance:
+ตัวอย่างเช่น:
 
 ```js
-const pageLoadTime = /* time taken by a webpage to load */;
+const pageLoadTime = /* เวลาที่ใช้ในการโหลดหน้าเว็บ */;
 ```
 
-The value of `pageLoadTime` is not known prior to the page load, so it's named normally. But it's still a constant because it doesn't change after assignment.
+ค่าของ `pageLoadTime` ไม่รู้ก่อนโหลดหน้าเว็บ ดังนั้นจึงตั้งชื่อเป็นปกติ แต่มันยังคงเป็นค่าคงที่เพราะมันไม่เปลี่ยนแปลงหลังจากการกำหนดค่า
 
-In other words, capital-named constants are only used as aliases for "hard-coded" values.
+กล่าวอีกนัยหนึ่ง ค่าคงที่ที่มีตัวพิมพ์ใหญ่ถูกใช้เพียงเป็นชื่อย่อสำหรับค่าที่เข้ารหัสแบบ "hard-coded" เท่านั้น
 
 ## Name things right
 
