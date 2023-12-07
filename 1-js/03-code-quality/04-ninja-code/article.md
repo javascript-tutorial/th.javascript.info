@@ -1,240 +1,233 @@
-# Ninja code
+## การเขียนโค้ดแบบนินจา
 
-
-```quote author="Confucius (Analects)"
-Learning without thought is labor lost; thought without learning is perilous.
+```quote author="ขงจื๊อ (หลุนอวี่)"
+ไร้คิดร่ำเรียน เสมือนไร้ผล หลงคิดไร้เรียน อันตรายหนา
 ```
 
-Programmer ninjas of the past used these tricks to sharpen the mind of code maintainers.
+เหล่านินจาโปรแกรมเมอร์ในอดีตใช้เทคนิคเหล่านี้เพื่อฝึกฝนจิตใจของผู้ดูแลรักษาโค้ด
 
-Code review gurus look for them in test tasks.
+ผู้เชี่ยวชาญด้านการตรวจสอบโค้ดมองหาเทคนิคเหล่านี้ในการทดสอบ
 
-Novice developers sometimes use them even better than programmer ninjas.
+นักพัฒนาซอฟต์แวร์มือใหม่บางครั้งใช้เทคนิคเหล่านี้ได้ดีกว่านินจาโปรแกรมเมอร์ด้วยซ้ำ
 
-Read them carefully and find out who you are -- a ninja, a novice, or maybe a code reviewer?
+อ่านอย่างละเอียดและค้นหาว่าคุณเป็นใคร -- นินจา, มือใหม่, หรืออาจจะเป็นผู้ตรวจสอบโค้ด?
 
-
-```warn header="Irony detected"
-Many try to follow ninja paths. Few succeed.
+```warn header="ตรวจพบความขัดแย้ง"
+หลายคนพยายามเดินตามเส้นทางของนินจา แต่มีเพียงไม่กี่คนที่ประสบความสำเร็จ
 ```
 
 
-## Brevity is the soul of wit
+## ความกระชับคือหัวใจของปัญญา
 
-Make the code as short as possible. Show how smart you are.
+เขียนโค้ดให้สั้นที่สุดเท่าที่จะเป็นไปได้ แสดงให้เห็นว่าคุณฉลาดแค่ไหน
 
-Let subtle language features guide you.
+ปล่อยให้คุณสมบัติทางภาษาที่ละเอียดอ่อนนำทางคุณ
 
-For instance, take a look at this ternary operator `'?'`:
+ตัวอย่างเช่น ลองดูตัวดำเนินการแบบไตรภาคี `'?'`:
 
 ```js
-// taken from a well-known javascript library
+// นำมาจากไลบรารี javascript ที่รู้จักกันดี
 i = i ? i < 0 ? Math.max(0, len + i) : i : 0;
 ```
 
-Cool, right? If you write like that, a developer who comes across this line and tries to understand what is the value of `i` is going to have a merry time. Then come to you, seeking for an answer.
+เจ๋งใช่มั้ย? ถ้าคุณเขียนแบบนั้น นักพัฒนาที่เจอบรรทัดนี้และพยายามทำความเข้าใจว่าค่าของ `i` คืออะไร จากนั้นก็มาหาคุณเพื่อหาคำตอบ
 
-Tell them that shorter is always better. Initiate them into the paths of ninja.
+บอกพวกเขาว่าอะไรที่สั้นๆนั้นดีกว่าเสมอ เริ่มต้นพวกเขาด้วยเส้นทางของนินจา
 
-## One-letter variables
+## ตัวแปรตัวอักษรเดียว (One-letter variables)
 
-```quote author="Laozi (Tao Te Ching)"
-The Dao hides in wordlessness. Only the Dao is well begun and well
-completed.
+```quote author="เล่าจื๊อ (เต้าเต๋อจิง)"
+เต๋าซ่อนอยู่ในความเงียบงัน มีเพียงเต๋าเท่านั้นที่เริ่มต้นและจบลงอย่างสมบูรณ์
 ```
 
-Another way to code shorter is to use single-letter variable names everywhere. Like `a`, `b` or `c`.
+อีกวิธีหนึ่งในการเขียนโค้ดให้สั้นลงคือใช้ชื่อตัวแปรตัวอักษรเดียวทุกที่ เช่น `a`, `b` หรือ `c`.
 
-A short variable disappears in the code like a real ninja in the forest. No one will be able to find it using "search" of the editor. And even if someone does, they won't be able to "decipher" what the name `a` or `b` means.
+ตัวแปรสั้นๆ จะหายไปในโค้ดเหมือนนินจาตัวจริงในป่า ไม่มีใครสามารถค้นหาได้โดยใช้ "ค้นหา" ของโปรแกรมแก้ไข และแม้ว่าใครบางคนจะทำได้ พวกเขาก็ไม่สามารถ "ถอดรหัส" ได้ว่าชื่อ `a` หรือ `b` หมายถึงอะไร
 
-...But there's an exception. A real ninja will never use `i` as the counter in a `"for"` loop. Anywhere, but not here. Look around, there are many more exotic letters. For instance, `x` or `y`.
+...แต่มีข้อยกเว้น นินจาตัวจริงจะไม่ใช้ `i` เป็นตัวนับในลูป `"for"` ที่ไหนก็ตาม แต่ไม่ใช่ที่นี่ มองไปรอบ ๆ มีตัวอักษรแปลกใหม่มากมาย ตัวอย่างเช่น `x` หรือ `y`.
 
-An exotic variable as a loop counter is especially cool if the loop body takes 1-2 pages (make it longer if you can). Then if someone looks deep inside the loop, they won't be able to quickly figure out that the variable named `x` is the loop counter.
+ตัวแปรที่แปลกใหม่เป็นตัวนับลูปจะเท่ห์เป็นพิเศษหากเนื้อหาของลูปใช้เวลา 1-2 หน้า (ทำให้ยาวขึ้นหากคุณทำได้) จากนั้นหากใครบางคนมองเข้าไปในลูปอย่างลึกซึ้ง พวกเขาจะไม่สามารถระบุได้อย่างรวดเร็วว่าตัวแปรชื่อ `x` คือตัวนับลูป
 
-## Use abbreviations
+## ใช้ตัวย่อ
 
-If the team rules forbid the use of one-letter and vague names -- shorten them, make abbreviations.
+หากกฎของทีมห้ามใช้ชื่อตัวแปรตัวอักษรเดียวและชื่อที่คลุมเครือ -- ให้ย่อชื่อพวกมัน
 
-Like this:
+เช่น:
 
 - `list` -> `lst`.
 - `userAgent` -> `ua`.
 - `browser` -> `brsr`.
-- ...etc
+- ...ฯลฯ
 
-Only the one with truly good intuition will be able to understand such names. Try to shorten everything. Only a worthy person should be able to uphold the development of your code.
+เฉพาะผู้ที่มีเซนส์ที่ดีจริงๆ เท่านั้นที่จะสามารถเข้าใจชื่อดังกล่าวได้ การพยายามย่อทุกอย่าง มีเพียงคนที่คู่ควรเท่านั้นที่ควรจะสามารถสนับสนุนการพัฒนาโค้ดของคุณได้
 
-## Soar high. Be abstract.
+## ใช้แต่ชื่อนามธรรม
 
-```quote author="Laozi (Tao Te Ching)"
-The great square is cornerless<br>
-The great vessel is last complete,<br>
-The great note is rarified sound,<br>
-The great image has no form.
+```quote author="เล่าจื๊อ (เต้าเต๋อจิง)"
+มุมมนลับเลือน จตุรัสใหญ่,<br>
+ภาชนะโล่งว่าง บรรจุความสมบูรณ์,<br>
+เสียงท่วงทำนอง ริบหรี่อันไพเราะ,<br>
+รูปโฉมไร้เงา สะท้อนความยิ่งใหญ่
 ```
 
-While choosing a name try to use the most abstract word. Like `obj`, `data`, `value`, `item`, `elem` and so on.
+ในขณะที่เลือกชื่อ พยายามใช้คำที่นามธรรมที่สุด เช่น `obj`, `data`, `value`, `item`, `elem` เป็นต้น
 
-- **The ideal name for a variable is `data`.** Use it everywhere you can. Indeed, every variable holds *data*, right?
+- **ชื่อที่เหมาะสำหรับตัวแปรคือ `data`** ใช้มันทุกที่ที่คุณทำได้ แน่นอน ทุกตัวแปรเก็บ *ข้อมูล (data)* ใช่ไหม?
 
-    ...But what to do if `data` is already taken? Try `value`, it's also universal. After all, a variable eventually gets a *value*.
+  ...แต่จะทำอย่างไรถ้า `data` ถูกนำไปใช้แล้ว? ลอง `value` มันก็เป็นสากลเช่นกัน ท้ายที่สุด ตัวแปรจะได้รับ *ค่า (value)* ในที่สุด
 
-- **Name a variable by its type: `str`, `num`...**
+- **ตั้งชื่อตัวแปรตามประเภท: `str`, `num`...**
 
-    Give them a try. A young initiate may wonder -- are such names really useful for a ninja? Indeed, they are!
+  ลองใช้ดู ผู้เริ่มต้นวัยเยาว์อาจสงสัยว่า -- ชื่อดังกล่าวเป็นประโยชน์จริงๆ สำหรับนินจาหรือไม่? แน่นอนว่าเป็น!
 
-    Sure, the variable name still means something. It says what's inside the variable: a string, a number or something else. But when an outsider tries to understand the code, they'll be surprised to see that there's actually no information at all! And will ultimately fail to alter your well-thought code.
+  แน่นอน ชื่อตัวแปรยังคงมีความหมายบางอย่าง มันบอกว่าอะไรอยู่ภายในตัวแปร: สตริง ตัวเลข หรืออย่างอื่น แต่เมื่อคนนอกพยายามทำความเข้าใจโค้ด พวกเขาจะประหลาดใจที่เห็นว่าไม่มีข้อมูลเลย! และสุดท้ายก็ไม่สามารถเปลี่ยนแปลงโค้ดที่คุณคิดมาอย่างดีได้
 
-    The value type is easy to find out by debugging. But what's the meaning of the variable? Which string/number does it store?
+  ประเภทของค่าสามารถหาได้ง่ายโดยการดีบัก แต่ความหมายของตัวแปรคืออะไร? มันเก็บสตริง/ตัวเลขอะไรไว้?
 
-    There's just no way to figure out without a good meditation!
+  ไม่มีทางที่จะรู้ได้โดยไม่ต้องทำสมาธิอย่างดี!
 
-- **...But what if there are no more such names?** Just add a number: `data1, item2, elem5`...
+- **...แต่ถ้าชื่อเหล่านั้นถูกใช้ไปแล้วล่ะ?** เพียงแค่เพิ่มตัวเลข: `data1, item2, elem5`...
 
-## Attention test
+## บททดสอบความเอาใจใส่
 
-Only a truly attentive programmer should be able to understand your code. But how to check that?
+เฉพาะโปรแกรมเมอร์ที่เอาใจใส่จริงๆ เท่านั้นที่จะสามารถเข้าใจโค้ดของคุณได้ แต่จะตรวจสอบได้อย่างไร?
 
-**One of the ways -- use similar variable names, like `date` and `data`.**
+**หนึ่งในวิธี -- ใช้ชื่อตัวแปรที่คล้ายคลึงกัน เช่น `date` และ `data`**
 
-Mix them where you can.
+ผสมพวกมันให้ทั่ว
 
-A quick read of such code becomes impossible. And when there's a typo... Ummm... We're stuck for long, time to drink tea.
+การอ่านโค้ดดังกล่าวอย่างรวดเร็วเป็นไปไม่ได้ และเมื่อมีการพิมพ์ผิด... อืม... เราก็ติดอยู่นาน ทีนี้ก็ได้เวลาจิบชา
 
 
-## Smart synonyms
+## ใช้คำพ้องความหมายฉลาดๆ
 
-```quote author="Laozi (Tao Te Ching)"
-The Tao that can be told is not the eternal Tao. The name that can be named is not the eternal name.
+```quote author="เล่าจื๊อ (เต้าเต๋อจิง)"
+เต๋าอันแท้จริงไร้ถ้อยใดบรรยาย นามอันแท้จริงไร้ชื่อใดเรียกขาน
 ```
 
-Using *similar* names for *same* things makes life more interesting and shows your creativity to the public.
+การใช้ชื่อที่ *คล้าย* กันสำหรับสิ่งที่ *เหมือน* กัน ทำให้ชีวิตน่าสนใจยิ่งขึ้นและแสดงความคิดสร้างสรรค์ของคุณต่อสาธารณะ
 
-For instance, consider function prefixes. If a function shows a message on the screen -- start it with `display…`, like `displayMessage`. And then if another function shows on the screen something else, like a user name, start it with `show…` (like `showName`).
+ตัวอย่างเช่น พิจารณาคำนำหน้าของฟังก์ชัน หากฟังก์ชันแสดงข้อความบนหน้าจอ -- ให้เริ่มต้นด้วย `display…` เช่น `displayMessage` จากนั้นหากฟังก์ชันแสดงบางอย่างบนหน้าจอ เช่น ชื่อผู้ใช้ ให้เริ่มต้นด้วย `show…` (เช่น `showName`)
 
-Insinuate that there's a subtle difference between such functions, while there is none.
+แนะนำว่ามีเพียงความแตกต่างเล็กน้อยระหว่างฟังก์ชันดังกล่าว ขณะที่ไม่มีเลย
 
-Make a pact with fellow ninjas of the team: if John starts "showing" functions with `display...` in his code, then Peter could use `render..`, and Ann -- `paint...`. Note how much more interesting and diverse the code became.
+ทำข้อตกลงกับนินจาในทีม: หากจอห์นเริ่ม "แสดง" ฟังก์ชันด้วย `display…` ในโค้ดของเขา แล้วปีเตอร์สามารถใช้ `render…` และแอน – `paint…` สังเกตว่าโค้ดนั้นน่าสนใจและหลากหลายมากขึ้น
 
-...And now the hat trick!
+...และตอนนี้กลเม็ดเด็ด!
 
-For two functions with important differences -- use the same prefix!
+สำหรับฟังก์ชันสองฟังก์ชันที่มีความแตกต่างที่สำคัญ -- ดันใช้คำนำหน้าเดียวกัน!
 
-For instance, the function `printPage(page)` will use a printer. And the function `printText(text)` will put the text on-screen. Let an unfamiliar reader think well over similarly named function `printMessage`: "Where does it put the message? To a printer or on the screen?". To make it really shine, `printMessage(message)` should output it in the new window!
+ตัวอย่างเช่น ฟังก์ชัน `printPage(หน้า)` จะใช้เครื่องพิมพ์ และฟังก์ชัน `printText(ข้อความ)` จะใส่ข้อความบนหน้าจอ ให้ผู้อ่านที่ไม่คุ้นเคยคิดทบทวนฟังก์ชันที่มีชื่อคล้ายกัน `printMessage`: "มันใส่ข้อความที่ไหน? ไปที่เครื่องพิมพ์หรือบนหน้าจอ?" เพื่อให้มันโดดเด่นจริงๆ `printMessage(ข้อความ)` ควรแสดงผลในหน้าต่างใหม่!!
 
-## Reuse names
+## ใช้ชื่อซ้ำ
 
-```quote author="Laozi (Tao Te Ching)"
-Once the whole is divided, the parts<br>
-need names.<br>
-There are already enough names.<br>
-One must know when to stop.
+```quote author="เล่าจื๊อ (เต้าเต๋อจิง)"
+เมื่อองค์รวมแยกสลาย สรรพสิ่งล้วนปรากฏนาม<br>
+นามมากมายล้นหลาม ควรหยุดยั้งเมื่อพอดี
 ```
 
-Add a new variable only when absolutely necessary.
+เพิ่มตัวแปรใหม่เฉพาะเมื่อจำเป็นเท่านั้น
 
-Instead, reuse existing names. Just write new values into them.
+แทนที่จะใช้ชื่อใหม่ ให้ใช้ชื่อที่มีอยู่เดิม เพียงแค่เขียนค่าใหม่ลงไป
 
-In a function try to use only variables passed as parameters.
+ในฟังก์ชัน พยายามใช้เฉพาะตัวแปรที่ส่งผ่านเป็นพารามิเตอร์
 
-That would make it really hard to identify what's exactly in the variable *now*. And also where it comes from. The purpose is to develop the intuition and memory of a person reading the code. A person with weak intuition would have to analyze the code line-by-line and track the changes through every code branch.
+สิ่งนั้นจะทำให้ยากต่อการระบุว่าอะไรอยู่ในตัวแปร *ตอนนี้* และมาจากไหน วัตถุประสงค์คือการพัฒนาสัญชาตญาณและความทรงจำของบุคคลที่อ่านโค้ด บุคคลที่มีสัญชาตญาณอ่อนแอจะต้องวิเคราะห์โค้ดทีละบรรทัดและติดตามการเปลี่ยนแปลงผ่านทุกสาขาของโค้ด
 
-**An advanced variant of the approach is to covertly (!) replace the value with something alike in the middle of a loop or a function.**
+**รูปแบบขั้นสูงของวิธีนี้คือการแทนที่ค่าอย่างลับๆ (!) ด้วยสิ่งที่คล้ายคลึงกันในกลางลูปหรือฟังก์ชัน**
 
-For instance:
+ตัวอย่างเช่น:
 
 ```js
 function ninjaFunction(elem) {
-  // 20 lines of code working with elem
+  // 20 บรรทัดของโค้ดที่ทำงานกับ elem
 
   elem = clone(elem);
 
-  // 20 more lines, now working with the clone of the elem!
+  // 20 บรรทัดเพิ่มเติม โดยตอนนี้ทำงานกับโคลนของ elem!
 }
 ```
 
-A fellow programmer who wants to work with `elem` in the second half of the function will be surprised... Only during the debugging, after examining the code they will find out that they're working with a clone!
+โปรแกรมเมอร์เพื่อนร่วมทีมที่ต้องการทำงานกับ `elem` ในครึ่งหลังของฟังก์ชันจะประหลาดใจ... ระหว่างการดีบักเท่านั้น หลังจากตรวจสอบโค้ดแล้ว พวกเขาจะพบว่าพวกเขากำลังทำงานกับโคลน!
 
-Seen in code regularly. Deadly effective even against an experienced ninja.
+พบเห็นในโค้ดบ่อยๆ มีประสิทธิภาพร้ายแรง แม้กระทั่งกับนินจาที่มีประสบการณ์
 
-## Underscores for fun
+## การใช้ underscore เพื่อความสนุก
 
-Put underscores `_` and `__` before variable names. Like `_name` or `__value`. It would be great if only you knew their meaning. Or, better, add them just for fun, without particular meaning at all. Or different meanings in different places.
+ใส่ underscore `_` และ `__` ก่อนชื่อตัวแปร เช่น `_name` หรือ `__value` มันจะดีมากถ้าคุณเป็นคนเดียวที่รู้ความหมายของมัน หรือดีกว่านั้น เพิ่มเข้าไปเพื่อความสนุก โดยไม่มีความหมายอะไรเลย หรือมีความหมายต่างกันในสถานที่ต่างๆ
 
-You kill two rabbits with one shot. First, the code becomes longer and less readable, and the second, a fellow developer may spend a long time trying to figure out what the underscores mean.
+คุณยิงปืนนัดเดียวได้นกสองตัว ประการแรก โค้ดจะยาวขึ้นและอ่านยากขึ้น ประการที่สอง นักพัฒนาร่วมทีมอาจใช้เวลานานในการพยายามหาว่า underscore หมายถึงอะไร
 
-A smart ninja puts underscores at one spot of code and evades them at other places. That makes the code even more fragile and increases the probability of future errors.
+นินจาที่ฉลาดจะใส่ underscore ในจุดหนึ่งของโค้ดและหลีกเลี่ยงมันในสถานที่อื่น ๆ สิ่งนั้นทำให้โค้ดเปราะบางยิ่งขึ้นและเพิ่มโอกาสของข้อผิดพลาดในอนาคต
 
-## Show your love
+**หมายเหตุ:** การใช้ underscore ในลักษณะนี้นับว่าเป็นการเขียนโค้ดที่ไม่ดี จะทำให้โค้ดอ่านยาก เข้าใจยาก และอาจนำไปสู่ข้อผิดพลาดได้ในอนาคต หลีกเลี่ยงการใช้ underscore ในลักษณะนี้และพยายามตั้งชื่อตัวแปรที่มีความหมายชัดเจน
 
-Let everyone see how magnificent your entities are! Names like `superElement`, `megaFrame` and `niceItem` will definitely enlighten a reader.
+## แสดงความรักของคุณ
 
-Indeed, from one hand, something is written: `super..`, `mega..`, `nice..` But from the other hand -- that brings no details. A reader may decide to look for a hidden meaning and meditate for an hour or two of their paid working time.
+ปล่อยให้ทุกคนได้เห็นว่าตัวแปรของคุณงดงามเพียงใด! ชื่ออย่าง `superElement`, `megaFrame` และ `niceItem` จะสร้างความกระจ่างให้กับผู้อ่านอย่างแน่นอน
+
+แน่นอน จากด้านหนึ่ง มีบางสิ่งถูกเขียนไว้ `super..`, `mega..`, `nice..` แต่จากอีกด้านหนึ่ง - มันก็ไม่ได้บอกรายละเอียดอะไรเลย ผู้อ่านอาจตัดสินใจค้นหาความหมายที่ซ่อนอยู่และทำสมาธิเป็นเวลาหนึ่งหรือสองชั่วโมงในเวลาทำงานที่ได้รับค่าตอบแทน
 
 
-## Overlap outer variables
+## ทับซ้อนตัวแปรภายนอก
 
-```quote author="Guan Yin Zi"
-When in the light, can't see anything in the darkness.<br>
-When in the darkness, can see everything in the light.
-```
-
-Use same names for variables inside and outside a function. As simple. No efforts to invent new names.
+ใช้นามเดียวกันสำหรับตัวแปรภายในและภายนอกฟังก์ชั่น ง่ายๆ ไม่ต้องเสียเวลาคิดชื่อใหม่
 
 ```js
-let *!*user*/!* = authenticateUser();
+let **user** = authenticateUser();
 
 function render() {
-  let *!*user*/!* = anotherValue();
+  let **user** = anotherValue();
   ...
-  ...many lines...
+  ...หลายบรรทัด...
   ...
-  ... // <-- a programmer wants to work with user here and...
+  ... // <-- โปรแกรมเมอร์ต้องการทำงานกับตัวแปร user ที่นี่และ...
   ...
 }
 ```
 
-A programmer who jumps inside the `render` will probably fail to notice that there's a local `user` shadowing the outer one.
+โปรแกรมเมอร์ที่เข้ามาใน `render` อาจไม่สังเกตว่ามีตัวแปร `user` ทั้งข้างนอกและข้างในฟังก์ชัน และอาจจะเข้าใจว่ามันเป็นตัวแปรเดียวกัน
 
-Then they'll try to work with `user` assuming that it's the external variable, the result of `authenticateUser()`... The trap is sprung! Hello, debugger...
-
-
-## Side-effects everywhere!
-
-There are functions that look like they don't change anything. Like `isReady()`, `checkPermission()`, `findTags()`... They are assumed to carry out calculations, find and return the data, without changing anything outside of them. In other words, without "side-effects".
-
-**A really beautiful trick is to add a "useful" action to them, besides the main task.**
-
-An expression of dazed surprise on the face of your colleague when they see a function named `is..`, `check..` or `find...` changing something -- will definitely broaden your boundaries of reason.
-
-**Another way to surprise is to return a non-standard result.**
-
-Show your original thinking! Let the call of `checkPermission` return not `true/false`, but a complex object with the results of the check.
-
-Those developers who try to write `if (checkPermission(..))`, will wonder why it doesn't work. Tell them: "Read the docs!". And give this article.
+จากนั้นพวกเขาจะพยายามทำงานกับ `ผู้ใช้` โดยคิดว่ามันเป็นตัวแปรภายนอก ผลลัพธ์ของ `authenticateUser()` ... กับดักถูกเปิดใช้งาน! สวัสดี, debugger ...
 
 
-## Powerful functions!
+## ผลข้างเคียง (Side effects) อยู่ทุกหนทุกแห่ง!
 
-```quote author="Laozi (Tao Te Ching)"
-The great Tao flows everywhere,<br>
-both to the left and to the right.
+มีฟังก์ชันบางอย่างที่ดูเหมือนจะไม่เปลี่ยนแปลงอะไรเลย เช่น `isReady()`, `checkPermission()`, `findTags()`... ฟังก์ชันเหล่านี้ถือว่ามีการคำนวณ ค้นหา และส่งคืนข้อมูล โดยไม่เปลี่ยนแปลงอะไรนอกเหนือจากนั้น กล่าวอีกนัยหนึ่งคือ ไม่มี "ผลข้างเคียง"
+
+**เทคนิคที่สวยงามอย่างแท้จริงคือการเพิ่มการทำงาน "ที่มีประโยชน์" นอกเหนือจากงานหลัก**
+
+ท่าทางตกตะลึงของเพื่อนร่วมงานของคุณเมื่อเห็นฟังก์ชันที่ชื่อ `is..`, `check..`, หรือ `find...` เปลี่ยนแปลงบางอย่าง -- แน่นอนว่าจะขยายขอบเขตของเหตุผลของคุณ
+
+**อีกวิธีหนึ่งที่น่าประหลาดใจคือการส่งคืนผลลัพธ์ที่ไม่เหมือนกันเลยทุกครั้งที่ทำงาน**
+
+แสดงความคิดริเริ่มของคุณ! ให้การเรียกใช้ `checkPermission` ไม่ใช่แค่การส่งคืน `true/false` แต่เป็นอ็อบเจ็กต์ที่ซับซ้อนพร้อมผลลัพธ์ของการตรวจสอบ
+
+นักพัฒนาซอฟต์แวร์ที่พยายามเขียน `if (checkPermission(..))` จะสงสัยว่าทำไมมันไม่ทำงาน บอกพวกเขาว่า: "อ่านเอกสารประกอบ!" และให้บทความนี้แก่พวกเขา
+
+
+## ฟังก์ชันสุดทรงพลัง
+
+```quote author="เล่าจื๊อ (เต้าเต๋อจิง)"
+มหาเต๋าไหลลื่นทั่วทุกหน
+ทั้งซ้ายขวา ไร้ขีดคั่น
 ```
 
-Don't limit the function by what's written in its name. Be broader.
+อย่าจำกัดฟังก์ชั่นโดยสิ่งที่เขียนไว้ในชื่อ ให้กว้างขึ้น
 
-For instance, a function `validateEmail(email)` could (besides checking the email for correctness) show an error message and ask to re-enter the email.
+ตัวอย่างเช่น ฟังก์ชั่น `validateEmail(email)` นอกจากจะตรวจสอบความถูกต้องของอีเมลแล้ว ยังสามารถแสดงข้อผิดพลาดและขอให้ป้อยอีเมลอีกครั้งอีก
 
-Additional actions should not be obvious from the function name. A true ninja coder will make them not obvious from the code as well.
+การกระทำเพิ่มเติมไม่ควรชัดเจนจากชื่อฟังก์ชั่น โค้ดเดอร์นินจาตัวจริงจะทำให้พวกเขามองไม่เห็นจากโค้ดเช่นกัน
 
-**Joining several actions into one protects your code from reuse.**
+**การรวมหลายการกระทำเข้าด้วยกันจะช่วยป้องกันโค้ดของคุณจากการนำกลับมาใช้ใหม่**
 
-Imagine, another developer wants only to check the email, and not output any message. Your function  `validateEmail(email)` that does both will not suit them. So they won't break your meditation by asking anything about it.
+ลองนึกภาพว่านักพัฒนาคนอื่นต้องการตรวจสอบอีเมลเท่านั้น และไม่ต้องการแสดงข้อความใด ๆ ฟังก์ชันของคุณ `validateEmail(email)` ที่ทำทั้งสองอย่างจะไม่เหมาะกับพวกเขา ดังนั้นพวกเขาจะไม่ทำลายสมาธิของคุณโดยการถามอะไรเกี่ยวกับมัน
 
-## Summary
 
-All "pieces of advice" above are from the real code... Sometimes, written by experienced developers. Maybe even more experienced than you are ;)
+## สรุป
 
-- Follow some of them, and your code will become full of surprises.
-- Follow many of them, and your code will become truly yours, no one would want to change it.
-- Follow all, and your code will become a valuable lesson for young developers looking for enlightenment.
+"คำแนะนำ" ทั้งหมดข้างต้นมาจากโค้ดจริง... บางครั้งเขียนโดยนักพัฒนาที่มีประสบการณ์ อาจจะมากประสบการณ์กว่าคุณด้วยซ้ำ ;)
+
+- ทำตามบางข้อ แล้วโค้ดของคุณจะเต็มไปด้วยความประหลาดใจ
+- ทำตามหลายข้อ แล้วโค้ดของคุณจะกลายเป็นของคุณอย่างแท้จริง ไม่มีใครอยากเปลี่ยนแปลง
+- ทำตามทั้งหมด แล้วโค้ดของคุณจะกลายเป็นบทเรียนอันทรงคุณค่าสำหรับนักพัฒนาหนุ่มสาวที่มองหาความรู้แจ้ง ซึ่งเราประชดนะ (กรุณาอย่าทำตามข้อทั้งหมดที่เราได้กล่าวมา)
