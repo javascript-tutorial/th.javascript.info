@@ -1,192 +1,193 @@
-# Automated testing with Mocha
+## ทดสอบโค้ดแบบอัตโนมัติกับ Mocha
 
-Automated testing will be used in further tasks, and it's also widely used in real projects.
+โค้ดที่เราจะเขียนต่อไปนี้ จะมีการทดสอบอัตโนมัติด้วยนะ ซึ่งเป็นเทคนิคที่ใช้กันทั่วไปในโปรเจ็กต์จริงด้วย
 
-## Why do we need tests?
+## ทำไมเราต้องทดสอบ?
 
-When we write a function, we can usually imagine what it should do: which parameters give which results.
+เวลาเขียนฟังก์ชัน เรานึกออกว่ามันควรจะทำงานยังไง ใส่อะไรเข้าไป แล้วได้อะไรออกมา
 
-During development, we can check the function by running it and comparing the outcome with the expected one. For instance, we can do it in the console.
+ตอนพัฒนา เราก็จะทดสอบโดยการรันฟังก์ชัน แล้วดูว่าผลลัพธ์เป็นอย่างที่คาดหวังไว้หรือเปล่า เช่น รันใน console อะไรแบบนั้น
 
-If something is wrong -- then we fix the code, run again, check the result -- and so on till it works.
+ถ้าอะไรผิด ก็แก้โค้ด รันใหม่ ดูผลลัพธ์... วนๆ ไปจนกว่ามันจะเวิร์ค
 
-But such manual "re-runs" are imperfect.
+แต่การ "รันซ้ำ" แบบแมนนวลเนี่ย มันไม่ค่อยเวิร์คอะดิ
 
-**When testing a code by manual re-runs, it's easy to miss something.**
+**เวลาทดสอบโค้ดแบบรันซ้ำเอง มันง่ายมากที่จะพลาดอะไรบางอย่าง**
 
-For instance, we're creating a function `f`. Wrote some code, testing: `f(1)` works, but `f(2)` doesn't work. We fix the code and now `f(2)` works. Looks complete? But we forgot to re-test `f(1)`. That may lead to an error.
+เช่น เราสร้างฟังก์ชัน `f` เขียนโค้ดเสร็จ ทดสอบ: `f(1)` ทำงาน แต่ `f(2)` ไม่ทำงาน เราแก้โค้ด แล้วตอนนี้ `f(2)` ทำงานแล้ว ดูเหมือนเสร็จแล้วใช่ไหม? แต่เราลืมทดสอบ `f(1)` อีกที อาจจะเจอ error ก็ได้
 
-That's very typical. When we develop something, we keep a lot of possible use cases in mind. But it's hard to expect a programmer to check all of them manually after every change. So it becomes easy to fix one thing and break another one.
+นี่เป็นเรื่องปกติมาก เวลาเราพัฒนาอะไร เรามักจะคิดถึงกรณีต่างๆ ที่อาจเกิดขึ้น แต่การคาดหวังให้นักเขียนโค้ดทดสอบทุกกรณีด้วยตัวเองหลังจากทุกการเปลี่ยนแปลง แต่มันเป็นไปได้ยาก ดังนั้น จึงง่ายที่จะแก้สิ่งหนึ่ง แล้วดันไปทำอีกสิ่งเสีย
 
-**Automated testing means that tests are written separately, in addition to the code. They run our functions in various ways and compare results with the expected.**
+**การทดสอบอัตโนมัติ หมายถึงการเขียนทดสอบแยกต่างหากจากโค้ด พวกมันจะรันฟังก์ชันของเราในหลายๆ กรณี แล้วเปรียบเทียบผลลัพธ์กับที่คาดหวัง**
 
 ## Behavior Driven Development (BDD)
 
-Let's start with a technique named [Behavior Driven Development](http://en.wikipedia.org/wiki/Behavior-driven_development) or, in short, BDD.
+เราจะเริ่มต้นด้วยเทคนิคที่เรียกว่า Behavior Driven Development: [http://en.wikipedia.org/wiki/Behavior-driven_development](http://en.wikipedia.org/wiki/Behavior-driven_development) หรือเรียกสั้นๆ ว่า BDD
 
-**BDD is three things in one: tests AND documentation AND examples.**
+**BDD คือสามสิ่งในหนึ่งเดียว: ทดสอบ + เอกสาร + ตัวอย่าง**
 
-To understand BDD, we'll examine a practical case of development.
+เพื่อให้เข้าใจ BDD เราจะดูตัวอย่างการพัฒนาในทางปฏิบัติ
 
-## Development of "pow": the spec
+## ปฏิบัติการสร้าง "pow": รู้จัก "spec" ก่อน
 
-Let's say we want to make a function `pow(x, n)` that raises `x` to an integer power `n`. We assume that `n≥0`.
+สมมติว่าเราอยากสร้างฟังก์ชัน `pow(x, n)` ที่เอา x ยกกำลัง n โดยที่ n ต้องเป็นเลขเต็มบวกนะ
 
-That task is just an example: there's the `**` operator in JavaScript that can do that, but here we concentrate on the development flow that can be applied to more complex tasks as well.
+ฟังดูน่าเบื่อใช่มั้ย? จริงๆ แล้วเจ้านี่มีตัว `**` ใน JavaScript ที่ทำได้อยู่แล้ว แต่เดี๋ยวก่อน! เราจะใช้ตัวอย่างนี้ฝึกฝนวิธีคิดในการสร้างฟังก์ชันที่ซับซ้อนกว่านี้ได้ด้วยนะ
 
-Before creating the code of `pow`, we can imagine what the function should do and describe it.
+ก่อนเขียนโค้ด `pow` เราต้องรู้จักมันก่อนว่ามันจะทำอะไรบ้าง และอธิบายมันออกมาเป็นคำพูด
 
-Such description is called a *specification* or, in short, a spec, and contains descriptions of use cases together with tests for them, like this:
+คำอธิบายนี้เรียกว่า *specification* หรือเรียกสั้นๆ ว่า *spec* ซึ่งจะรวมถึงวิธีการใช้งานและการทดสอบว่ามันทำงานถูกต้องหรือเปล่า
 
 ```js
 describe("pow", function() {
 
-  it("raises to n-th power", function() {
+  it("ยกกำลัง n ได้", function() {
     assert.equal(pow(2, 3), 8);
   });
 
 });
 ```
 
-A spec has three main building blocks that you can see above:
+spec จะมี 3 ส่วนหลักๆ ตามที่เห็นเลย:
 
-`describe("title", function() { ... })`
-: What functionality we're describing. In our case we're describing the function `pow`. Used to group "workers" -- the `it` blocks.
+`describe("ชื่อ", function() { ... })`
+: บอกเราว่ากำลังอธิบายอะไร ในกรณีนี้เรากำลังอธิบายฟังก์ชัน `pow` นั่นเอง เหมือนหัวข้อของกลุ่มคนงานที่กำลังจะมาทำงานในบล็อก `it`
 
-`it("use case description", function() { ... })`
-: In the title of `it` we *in a human-readable way* describe the particular use case, and the second argument is a function that tests it.
+`it("คำอธิบายการใช้งาน", function() { ... })`
+: ในหัวข้อของ `it` เราจะ *อธิบายด้วยภาษาคน* ว่าฟังก์ชันนี้ควรทำงานอย่างไรในสถานการณ์นั้นๆ และตัว argument ที่สองเป็นฟังก์ชันทดสอบ
 
-`assert.equal(value1, value2)`
-: The code inside `it` block, if the implementation is correct, should execute without errors.
+`assert.equal(ค่า1, ค่า2)`
+: โค้ดภายในบล็อก `it` ถ้าการทำงานของฟังก์ชันถูกต้อง จะต้องทำงานโดยไม่มี error
 
-    Functions `assert.*` are used to check whether `pow` works as expected. Right here we're using one of them -- `assert.equal`, it compares arguments and yields an error if they are not equal. Here it checks that the result of `pow(2, 3)` equals `8`. There are other types of comparisons and checks, that we'll add later.
+    ฟังก์ชัน `assert.*` ใช้ตรวจสอบว่า `pow` ทำงานตามที่คาดหวังหรือไม่ ในตัวอย่างนี้เราใช้ `assert.equal` เพื่อเปรียบเทียบค่าสองค่า ถ้าไม่เท่ากัน จะมี error แสดงขึ้นมา ที่นี่เราทดสอบว่าผลลัพธ์ของ `pow(2, 3)` เท่ากับ `8` หรือเปล่า นอกจากนี้ยังมีฟังก์ชันอื่นๆ สำหรับการเปรียบเทียบและตรวจสอบ อันนี้ไว้ค่อยมาดูกันทีหลัง
 
-The specification can be executed, and it will run the test specified in `it` block. We'll see that later.
+spec สามารถเรียกใช้เพื่อทดสอบฟังก์ชันของเราได้ เราจะมาดูวิธีการนั้นในตอนต่อไป!
 
-## The development flow
+## ขั้นตอนการพัฒนา
 
-The flow of development usually looks like this:
+ขั้นตอนการพัฒนาโดยทั่วไปมีหน้าตาแบบนี้:
 
-1. An initial spec is written, with tests for the most basic functionality.
-2. An initial implementation is created.
-3. To check whether it works, we run the testing framework [Mocha](http://mochajs.org/) (more details soon) that runs the spec. While the functionality is not complete, errors are displayed. We make corrections until everything works.
-4. Now we have a working initial implementation with tests.
-5. We add more use cases to the spec, probably not yet supported by the implementations. Tests start to fail.
-6. Go to 3, update the implementation till tests give no errors.
-7. Repeat steps 3-6 till the functionality is ready.
+1. เขียน spec เบื้องต้นพร้อมทดสอบสำหรับฟังก์ชันเบสิก
+2. สร้างการทำงานเบื้องต้น
+3. เพื่อตรวจสอบว่ามันทำงานหรือเปล่า เราจะรันเฟรมเวิร์คทดสอบ Mocha: [http://mochajs.org/](http://mochajs.org/) (เดี๋ยวจะอธิบายเพิ่มเติม) ซึ่งจะรัน spec ตอนนี้ฟังก์ชันยังไม่เสร็จ ก็อาจจะมี error ขึ้นมา เราก็แก้โค้ดไปเรื่อยๆ จนกว่ามันจะเวิร์ค
+4. ตอนนี้เรามีการทำงานเบื้องต้นที่ใช้ได้พร้อมกับทดสอบแล้ว
+5. เราเพิ่มกรณีการใช้งานเพิ่มเติมลงใน spec ซึ่งอาจจะยังไม่รองรับโดยการทำงานตอนนี้ ทดสอบก็จะล้มเหลวก่อน
+6. กลับไปข้อ 3 อัปเดตการทำงานจนกระทั่งทดสอบผ่าน
+7. ทำซ้ำข้อ 3-6 จนกว่าฟังก์ชันพร้อมใช้งาน
 
-So, the development is *iterative*. We write the spec, implement it, make sure tests pass, then write more tests, make sure they work etc. At the end we have both a working implementation and tests for it.
+ดังนั้นการพัฒนาเป็นแบบ *วนซ้ำ* เราเขียน spec ทำงาน ทดสอบ จนผ่าน แล้วก็เขียนทดสอบเพิ่ม ทำให้มันผ่านอีก จนสุดท้ายเราก็ได้ทั้งการทำงานที่ใช้ได้และทดสอบสำหรับมัน
 
-Let's see this development flow in our practical case.
+มาดูขั้นตอนการพัฒนานี้ในกรณีตัวอย่างของเรา
 
-The first step is already complete: we have an initial spec for `pow`. Now, before making the implementation, let's use few JavaScript libraries to run the tests, just to see that they are working (they will all fail).
+ขั้นตอนแรกเสร็จไปแล้ว: เรามี spec เบื้องต้นสำหรับ `pow` ตอนนี้ก่อนที่จะสร้างการทำงาน ลองใช้ไลบรารี่ JavaScript สักสองสามตัวเพื่อรันทดสอบดู แค่เพื่อดูว่ามันทำงาน (ก็จะล้มเหลวหมดแหละ)
 
-## The spec in action
+## ทดสอบ spec กัน!
 
-Here in the tutorial we'll be using the following JavaScript libraries for tests:
+ในบทช่วยสอนนี้ เราจะใช้ไลบรารี JavaScript สำหรับทดสอบดังต่อไปนี้:
 
-- [Mocha](http://mochajs.org/) -- the core framework: it provides common testing functions including `describe` and `it` and the main function that runs tests.
-- [Chai](http://chaijs.com) -- the library with many assertions. It allows to use a lot of different assertions, for now we need only `assert.equal`.
-- [Sinon](http://sinonjs.org/) -- a library to spy over functions, emulate built-in functions and more, we'll need it much later.
+- Mocha: [http://mochajs.org/](http://mochajs.org/) -- เฟรมเวิร์คหลัก: มันให้ฟังก์ชันการทดสอบทั่วไปรวมถึง `describe` และ `it` และฟังก์ชันหลักที่รันทดสอบ
+- Chai: [http://chaijs.com](http://chaijs.com) -- ไลบรารีที่มี assertions มากมาย มันช่วยให้ใช้ assertions ที่แตกต่างกันได้มากมาย ตอนนี้เราต้องการแค่ `assert.equal`
+- Sinon: [http://sinonjs.org/](http://sinonjs.org/) -- ไลบรารีสำหรับสอดแนมฟังก์ชัน เลียนแบบฟังก์ชันในตัวและอื่นๆ เราจะใช้มันในภายหลัง
 
-These libraries are suitable for both in-browser and server-side testing. Here we'll consider the browser variant.
+ไลบรารีเหล่านี้เหมาะสำหรับการทดสอบทั้งในเบราว์เซอร์และฝั่งเซิร์ฟเวอร์ ในที่นี้เราจะพิจารณาตัวแปรเบราว์เซอร์
 
-The full HTML page with these frameworks and `pow` spec:
+หน้า HTML เต็มรูปแบบพร้อมเฟรมเวิร์คเหล่านี้และ spec ของ `pow`:
 
 ```html src="index.html"
 ```
 
-The page can be divided into five parts:
+หน้าแบ่งออกเป็น 5 ส่วน:
 
-1. The `<head>` -- add third-party libraries and styles for tests.
-2. The `<script>` with the function to test, in our case -- with the code for `pow`.
-3. The tests -- in our case an external script `test.js` that has `describe("pow", ...)` from above.
-4. The HTML element `<div id="mocha">` will be used by Mocha to output results.
-5. The tests are started by the command `mocha.run()`.
+1. `<head>` -- เพิ่มไลบรารีของบุคคลที่สามและสไตล์สำหรับการทดสอบ
+2. `<script>` พร้อมฟังก์ชันที่จะทดสอบ ในกรณีของเรา -- พร้อมโค้ดสำหรับ `pow`
+3. ทดสอบ -- ในกรณีของเราเป็นสคริปต์ภายนอก `test.js` ที่มี `describe("pow", ...)` จากข้างบน
+4. HTML element `<div id="mocha">` จะใช้โดย Mocha เพื่อแสดงผลลัพธ์
+5. การทดสอบเริ่มต้นโดยคำสั่ง `mocha.run()`
 
-The result:
+ผลลัพธ์:
 
 [iframe height=250 src="pow-1" border=1 edit]
 
-As of now, the test fails, there's an error. That's logical: we have an empty function code in `pow`, so `pow(2,3)` returns `undefined` instead of `8`.
+ตอนนี้ การทดสอบจะล้มเหลว มีข้อผิดพลาด นั่นเป็นเรื่องปกติ: เรามีโค้ดฟังก์ชันว่างเปล่าใน `pow` ดังนั้น `pow(2,3)` จะส่งคืน `undefined` แทนที่จะเป็น `8`
 
-For the future, let's note that there are more high-level test-runners, like [karma](https://karma-runner.github.io/) and others, that make it easy to autorun many different tests.
+สำหรับอนาคต โปรดทราบว่ามีตัวเรียกใช้ทดสอบระดับสูงมากกว่านี้ เช่น karma: [https://karma-runner.github.io/](https://karma-runner.github.io/) และอื่นๆ ที่ทำให้การรันทดสอบต่างๆ โดยอัตโนมัติเป็นเรื่องง่าย
 
-## Initial implementation
+## เริ่มต้นใช้งานกันเถอะ
 
-Let's make a simple implementation of `pow`, for tests to pass:
+งั้นมาสร้างการทำงานเบื้องต้นของ `pow` เพื่อให้ทดสอบผ่านดู:
 
 ```js
 function pow(x, n) {
-  return 8; // :) we cheat!
+  return 8; // :) เราโกง!
 }
 ```
 
-Wow, now it works!
+เย้ ตอนนี้ผ่านแล้ว!
 
 [iframe height=250 src="pow-min" border=1 edit]
 
-## Improving the spec
+## ปรับปรุง spec ให้ดีขึ้น
 
-What we've done is definitely a cheat. The function does not work: an attempt to calculate `pow(3,4)` would give an incorrect result, but tests pass.
+สิ่งที่เราทำไปนั้นมันโกงชัดๆ ฟังก์ชันยังทำงานไม่ถูกต้อง: การพยายามคำนวณ `pow(3,4)` จะให้ผลลัพธ์ที่ไม่ถูกต้อง แต่ทดสอบผ่าน...
 
-...But the situation is quite typical, it happens in practice. Tests pass, but the function works wrong. Our spec is imperfect. We need to add more use cases to it.
+...แต่สถานการณ์นี้ค่อนข้างธรรมดา มันเกิดขึ้นในทางปฏิบัติ ทดสอบผ่าน แต่ฟังก์ชันทำงานผิดพลาด spec ของเรายังไม่สมบูรณ์ เราจำเป็นต้องเพิ่มกรณีการใช้งานเพิ่มเติม
 
-Let's add one more test to check that `pow(3, 4) = 81`.
+มาเพิ่มการทดสอบอีกหนึ่งข้อเพื่อตรวจสอบว่า `pow(3, 4) = 81`
 
-We can select one of two ways to organize the test here:
+เราสามารถเลือกหนึ่งในสองวิธีในการจัดระเบียบการทดสอบที่นี่:
 
-1. The first variant -- add one more `assert` into the same `it`:
+1. วิธีแรก -- เพิ่ม `assert` อีกอันลงใน `it` เดียวกัน:
 
-    ```js
-    describe("pow", function() {
+```js
+describe("pow", function() {
 
-      it("raises to n-th power", function() {
-        assert.equal(pow(2, 3), 8);
+  it("ยกกำลัง n", function() {
+    assert.equal(pow(2, 3), 8);
     *!*
-        assert.equal(pow(3, 4), 81);
+    assert.equal(pow(3, 4), 81);
     */!*
-      });
+  });
 
-    });
-    ```
-2. The second -- make two tests:
+});
+```
 
-    ```js
-    describe("pow", function() {
+2. วิธีที่สอง -- สร้างสองการทดสอบ:
 
-      it("2 raised to power 3 is 8", function() {
-        assert.equal(pow(2, 3), 8);
-      });
+```js
+describe("pow", function() {
 
-      it("3 raised to power 4 is 81", function() {
-        assert.equal(pow(3, 4), 81);
-      });
+  it("2 ยกกำลัง 3 เท่ากับ 8", function() {
+    assert.equal(pow(2, 3), 8);
+  });
 
-    });
-    ```
+  it("3 ยกกำลัง 4 เท่ากับ 81", function() {
+    assert.equal(pow(3, 4), 81);
+  });
 
-The principal difference is that when `assert` triggers an error, the `it` block immediately terminates. So, in the first variant if the first `assert` fails, then we'll never see the result of the second `assert`.
+});
+```
 
-Making tests separate is useful to get more information about what's going on, so the second variant is better.
+ความแตกต่างหลักคือ เมื่อ `assert` ทริกเกอร์ข้อผิดพลาด บล็อก `it` จะยุติทันที ดังนั้น ในวิธีแรก หาก `assert` แรกล้มเหลว เราจะไม่เห็นผลลัพธ์ของ `assert` ที่สอง
 
-And besides that, there's one more rule that's good to follow.
+การแยกการทดสอบออกจากกันนั้นมีประโยชน์ในการรับข้อมูลเพิ่มเติมเกี่ยวกับสิ่งที่เกิดขึ้น ดังนั้นวิธีที่สองจึงดีกว่า
 
-**One test checks one thing.**
+และนอกจากนั้น ยังมีกฎอีกข้อหนึ่งที่ควรปฏิบัติตาม
 
-If we look at the test and see two independent checks in it, it's better to split it into two simpler ones.
+**การทดสอบหนึ่งครั้ง ตรวจสอบสิ่งหนึ่ง**
 
-So let's continue with the second variant.
+ถ้าเราดูการทดสอบและเห็นการตรวจสอบอิสระสองข้อในนั้น ควรแยกมันออกเป็นสองข้อที่ง่ายกว่า
 
-The result:
+ดังนั้น มาต่อกันด้วยวิธีที่สอง
+
+ผลลัพธ์:
 
 [iframe height=250 src="pow-2" edit border="1"]
 
-As we could expect, the second test failed. Sure, our function always returns `8`, while the `assert` expects `81`.
+อย่างที่เราคาดไว้ การทดสอบที่สองล้มเหลว แน่นอน ฟังก์ชันของเราส่งคืน `8` เสมอ ในขณะที่ `assert` คาดหวัง `81`
 
-## Improving the implementation
+## อัพเกรดการทำงานให้เทพ!
 
-Let's write something more real for tests to pass:
+งั้นมาเขียนอะไรที่จริงจังกว่านี้ให้ทดสอบผ่านกันดีกว่า:
 
 ```js
 function pow(x, n) {
@@ -200,14 +201,14 @@ function pow(x, n) {
 }
 ```
 
-To be sure that the function works well, let's test it for more values. Instead of writing `it` blocks manually, we can generate them in `for`:
+เพื่อให้แน่ใจว่าฟังก์ชันทำงานได้ดี เราจะทดสอบมันสำหรับค่าอื่นๆ แทนที่จะเขียนบล็อก `it` ด้วยมือ เราสามารถสร้างมันใน `for` ได้:
 
 ```js
 describe("pow", function() {
 
   function makeTest(x) {
     let expected = x * x * x;
-    it(`${x} in the power 3 is ${expected}`, function() {
+    it(`${x} ยกกำลัง 3 เท่ากับ ${expected}`, function() {
       assert.equal(pow(x, 3), expected);
     });
   }
@@ -219,26 +220,26 @@ describe("pow", function() {
 });
 ```
 
-The result:
+ผลลัพธ์:
 
 [iframe height=250 src="pow-3" edit border="1"]
 
-## Nested describe
+## describe ซ้อนกัน
 
-We're going to add even more tests. But before that let's note that the helper function `makeTest` and `for` should be grouped together. We won't need `makeTest` in other tests, it's needed only in `for`: their common task is to check how `pow` raises into the given power.
+เราจะเพิ่มการทดสอบอีกมากมาย แต่ก่อนหน้านั้น โปรดทราบว่าฟังก์ชันช่วยเหลือ `makeTest` และ `for` ควรจัดกลุ่มไว้ด้วยกัน เราไม่ต้องการ `makeTest` ในการทดสอบอื่น ๆ มันจำเป็นเฉพาะใน `for` เท่านั้น: ภารกิจทั่วไปของพวกมันคือการตรวจสอบว่า `pow` ยกกำลังตามที่กำหนด
 
-Grouping is done with a nested `describe`:
+การจัดกลุ่มทำได้ด้วย `describe` ซ้อนกัน:
 
 ```js
 describe("pow", function() {
 
 *!*
-  describe("raises x to power 3", function() {
+  describe("ยก x ยกกำลัง 3", function() {
 */!*
 
     function makeTest(x) {
       let expected = x * x * x;
-      it(`${x} in the power 3 is ${expected}`, function() {
+      it(`${x} ยกกำลัง 3 เท่ากับ ${expected}`, function() {
         assert.equal(pow(x, 3), expected);
       });
     }
@@ -251,29 +252,34 @@ describe("pow", function() {
   });
 */!*
 
-  // ... more tests to follow here, both describe and it can be added
+  // ... จะมีการทดสอบเพิ่มเติมที่นี่ ทั้ง describe และ it สามารถเพิ่มได้
 });
 ```
 
-The nested `describe` defines a new "subgroup" of tests. In the output we can see the titled indentation:
+`describe` ซ้อนกันกำหนด "กลุ่มย่อย" ใหม่ของการทดสอบ ในผลลัพธ์ เราจะเห็นการเยื้องหัวข้อ:
 
 [iframe height=250 src="pow-4" edit border="1"]
 
-In the future we can add more `it` and `describe` on the top level with helper functions of their own, they won't see `makeTest`.
+ในอนาคต เราสามารถเพิ่ม `it` และ `describe` เพิ่มเติมในระดับบนสุดพร้อมฟังก์ชันช่วยเหลือของตัวเอง พวกมันจะไม่เห็น `makeTest`
 
-````smart header="`before/after` and `beforeEach/afterEach`"
-We can setup `before/after` functions that execute before/after running tests, and also `beforeEach/afterEach` functions that execute before/after *every* `it`.
+````smart header="`เทคนิคเสริม: `before/after` กับ `beforeEach/afterEach`"
 
-For instance:
+นอกจากการทดสอบแบบปกติ เรายังมีเทคนิคเสริมที่ช่วยให้การทดสอบสะดวกขึ้น นั่นคือ `before/after` และ `beforeEach/afterEach`
 
-```js no-beautify
+* `before/after`: ฟังก์ชันเหล่านี้จะทำงานก่อน/หลังการรันการทดสอบทั้งหมด ตัวอย่างเช่น เราอาจจะใช้ `before` เพื่อเตรียมข้อมูลเบื้องต้น หรือใช้ `after` เพื่อล้างข้อมูลหลังจากรันการทดสอบเสร็จ
+
+* `beforeEach/afterEach`: ฟังก์ชันเหล่านี้จะทำงานก่อน/หลังการรัน *ทุก* `it` ตัวอย่างเช่น เราอาจจะใช้ `beforeEach` เพื่อสร้าง mock object หรือใช้ `afterEach` เพื่อล้าง mock object
+
+**ตัวอย่างการใช้งาน:**
+
+```js
 describe("test", function() {
 
-  before(() => alert("Testing started – before all tests"));
-  after(() => alert("Testing finished – after all tests"));
+  before(() => alert("เริ่มทดสอบ – ก่อนทดสอบทั้งหมด"));
+  after(() => alert("ทดสอบเสร็จ – หลังทดสอบทั้งหมด"));
 
-  beforeEach(() => alert("Before a test – enter a test"));
-  afterEach(() => alert("After a test – exit a test"));
+  beforeEach(() => alert("ก่อนการทดสอบ – เข้าสู่การทดสอบ"));
+  afterEach(() => alert("หลังการทดสอบ – ออกจากการทดสอบ"));
 
   it('test 1', () => alert(1));
   it('test 2', () => alert(2));
@@ -281,46 +287,50 @@ describe("test", function() {
 });
 ```
 
-The running sequence will be:
+ลำดับการทำงานจะเป็น:
 
 ```
-Testing started – before all tests (before)
-Before a test – enter a test (beforeEach)
+เริ่มทดสอบ – ก่อนทดสอบทั้งหมด (before)
+ก่อนการทดสอบ – เข้าสู่การทดสอบ (beforeEach)
 1
-After a test – exit a test   (afterEach)
-Before a test – enter a test (beforeEach)
+หลังการทดสอบ – ออกจากการทดสอบ   (afterEach)
+ก่อนการทดสอบ – เข้าสู่การทดสอบ (beforeEach)
 2
-After a test – exit a test   (afterEach)
-Testing finished – after all tests (after)
+หลังการทดสอบ – ออกจากการทดสอบ   (afterEach)
+ทดสอบเสร็จ – หลังทดสอบทั้งหมด (after)
 ```
 
-[edit src="beforeafter" title="Open the example in the sandbox."]
+[iframe src="beforeafter" height=250 edit border="1"]
 
-Usually, `beforeEach/afterEach` and `before/after` are used to perform initialization, zero out counters or do something else between the tests (or test groups).
+โดยทั่วไป เราใช้ `beforeEach/afterEach` กับ `before/after` เพื่อ:
+
+* ทำการเตรียมข้อมูลเบื้องต้น
+* รีเซ็ตค่าตัวแปร
+* หรือทำอะไรบางอย่างระหว่างการทดสอบ (หรือกลุ่มการทดสอบ)
 ````
 
-## Extending the spec
+## ยกระดับสเปค (ให้มันเจ๋ง!)
 
-The basic functionality of `pow` is complete. The first iteration of the development is done. When we're done celebrating and drinking champagne -- let's go on and improve it.
+ฟังก์ชัน `pow` พื้นฐานเสร็จเรียบร้อยแล้ว! ได้เวลาปาร์ตี้ฉลองดื่มแชมเปญกัน -- เอ้ย! ยังๆๆ เรายังพัฒนาต่อได้อีก
 
-As it was said, the function `pow(x, n)` is meant to work with positive integer values `n`.
+อย่างที่บอกไว้ ฟังก์ชัน `pow(x, n)` ทำงานกับค่า `n` ที่เป็นจำนวนเต็มบวกเท่านั้น
 
-To indicate a mathematical error, JavaScript functions usually return `NaN`. Let's do the same for invalid values of `n`.
+เพื่อบอกข้อผิดพลาดทางคณิตศาสตร์ ฟังก์ชัน JavaScript มักจะคืนค่า `NaN` (Not a Number) เรามาทำแบบเดียวกันสำหรับค่า `n` ที่ไม่ถูกต้อง
 
-Let's first add the behavior to the spec(!):
+ก่อนอื่นมาอัปเดตสเปคกันก่อน!
 
 ```js
 describe("pow", function() {
 
   // ...
 
-  it("for negative n the result is NaN", function() {
+  it("สำหรับ n ติดลบ ผลลัพธ์คือ NaN", function() {
 *!*
     assert.isNaN(pow(2, -1));
 */!*
   });
 
-  it("for non-integer n the result is NaN", function() {
+  it("สำหรับ n ไม่ใช่จำนวนเต็ม ผลลัพธ์คือ NaN", function() {
 *!*
     assert.isNaN(pow(2, 1.5));    
 */!*
@@ -329,26 +339,26 @@ describe("pow", function() {
 });
 ```
 
-The result with new tests:
+ผลลัพธ์กับเทสต์ใหม่:
 
 [iframe height=530 src="pow-nan" edit border="1"]
 
-The newly added tests fail, because our implementation does not support them. That's how BDD is done: first we write failing tests, and then make an implementation for them.
+เอ๊ะ! เทสต์ที่เราเพิ่มใหม่ล้มเหลวซะงั้น เพราะเรายังไม่ได้เขียนโค้ดให้รองรับค่าที่กำหนดไว้ นี่แหละคือวิธี BDD เราเขียนเทสต์ที่ล้มเหลวก่อน แล้วค่อยกลับไปเขียนโค้ดให้ผ่านเทสต์นั้น
 
-```smart header="Other assertions"
-Please note the assertion `assert.isNaN`: it checks for `NaN`.
+```smart header="การยืนยันอื่นๆ"
+โปรดสังเกตฟังก์ชัน `assert.isNaN` ที่ใช้ตรวจสอบว่าค่าเป็น `NaN` หรือไม่
 
-There are other assertions in [Chai](http://chaijs.com) as well, for instance:
+ใน [Chai](http://chaijs.com) ยังมีฟังก์ชันการยืนยันอื่นๆ อีกเช่น
 
-- `assert.equal(value1, value2)` -- checks the equality  `value1 == value2`.
-- `assert.strictEqual(value1, value2)` -- checks the strict equality `value1 === value2`.
-- `assert.notEqual`, `assert.notStrictEqual` -- inverse checks to the ones above.
-- `assert.isTrue(value)` -- checks that `value === true`
-- `assert.isFalse(value)` -- checks that `value === false`
-- ...the full list is in the [docs](http://chaijs.com/api/assert/)
+- `assert.equal(value1, value2)` -- ตรวจสอบความเท่าเทียม `value1 == value2`
+- `assert.strictEqual(value1, value2)` -- ตรวจสอบความเท่าเทียมแบบเข้มงวด `value1 === value2`
+- `assert.notEqual`, `assert.notStrictEqual` -- ตรวจสอบความไม่เท่าเทียมกับตัวอย่างข้างต้น
+- `assert.isTrue(value)` -- ตรวจสอบว่า `value === true`
+- `assert.isFalse(value)` -- ตรวจสอบว่า `value === false`
+- ...ดูรายการทั้งหมดได้ที่ [คู่มือ](http://chaijs.com/api/assert/)
 ```
 
-So we should add a couple of lines to `pow`:
+มาเพิ่มโค้ดสองสามบรรทัดให้กับ `pow`:
 
 ```js
 function pow(x, n) {
@@ -367,43 +377,43 @@ function pow(x, n) {
 }
 ```
 
-Now it works, all tests pass:
+เย้! ตอนนี้โค้ดทำงานได้แล้ว เทสต์ผ่านหมดเลย:
 
 [iframe height=300 src="pow-full" edit border="1"]
 
-[edit src="pow-full" title="Open the full final example in the sandbox."]
+[edit src="pow-full" title="เปิดตัวอย่างสุดท้ายแบบเต็มใน sandbox."]
 
-## Summary
+## สรุป
 
-In BDD, the spec goes first, followed by implementation. At the end we have both the spec and the code.
+ใน BDD เราเขียนสเปคก่อน แล้วค่อยเขียนโค้ด ท้ายที่สุดเราก็จะได้ทั้งคู่!
 
-The spec can be used in three ways:
+สเปคมีประโยชน์ 3 อย่าง:
 
-1. As **Tests** - they guarantee that the code works correctly.
-2. As **Docs** -- the titles of `describe` and `it` tell what the function does.
-3. As **Examples** -- the tests are actually working examples showing how a function can be used.
+1. **เทสต์** - เพื่อให้แน่ใจว่าโค้ดทำงานได้อย่างถูกต้อง
+2. **เอกสาร** - ชื่อของ `describe` และ `it` บอกว่าฟังก์ชันทำอะไร
+3. **ตัวอย่าง** - เทสต์เป็นเหมือนตัวอย่างการทำงานที่แสดงวิธีใช้ฟังก์ชัน
 
-With the spec, we can safely improve, change, even rewrite the function from scratch and make sure it still works right.
+ด้วยสเปค เราสามารถปรับปรุง เปลี่ยนแปลง หรือแม้กระทั่งเขียนฟังก์ชันใหม่จากศูนย์ได้อย่างปลอดภัย และมั่นใจว่ามันยังคงทำงานได้อย่างถูกต้อง
 
-That's especially important in large projects when a function is used in many places. When we change such a function, there's just no way to manually check if every place that uses it still works right.
+สิ่งนี้มีความสำคัญอย่างยิ่งในโครงการขนาดใหญ่ เมื่อมีการใช้ฟังก์ชันในหลายๆ ส่วน หากเราเปลี่ยนฟังก์ชันนั้น ไม่มีทางที่จะตรวจสอบด้วยตนเองได้ว่าทุกส่วนที่ใช้ฟังก์ชันนั้นยังคงทำงานได้อย่างถูกต้อง
 
-Without tests, people have two ways:
+หากไม่มีการทดสอบ ผู้คนจะมีสองทางเลือก:
 
-1. To perform the change, no matter what. And then our users meet bugs, as we probably fail to check something manually.
-2. Or, if the punishment for errors is harsh, as there are no tests, people become afraid to modify such functions, and then the code becomes outdated, no one wants to get into it. Not good for development.
+1. **เปลี่ยนโค้ดโดยไม่สนใจอะไร** และผู้ใช้ของเราจะพบข้อผิดพลาด เพราะเราน่าจะลืมตรวจสอบอะไรบางอย่างแบบแมนนวล
+2. **กลัวที่จะแก้ไขฟังก์ชันดังกล่าว** เพราะการลงโทษสำหรับข้อผิดพลาดนั้นรุนแรง เนื่องจากไม่มีการทดสอบ ทำให้โค้ดล้าสมัย ไม่มีใครอยากเข้าไปยุ่ง ไม่ดีต่อการพัฒนา
 
-**Automatic testing helps to avoid these problems!**
+**การทดสอบอัตโนมัติช่วยหลีกเลี่ยงปัญหาเหล่านี้!**
 
-If the project is covered with tests, there's just no such problem. After any changes, we can run tests and see a lot of checks made in a matter of seconds.
+หากโครงการมีการทดสอบอย่างครอบคลุม ก็จะไม่มีปัญหาแบบนี้ หลังจากการเปลี่ยนแปลงใดๆ เราสามารถเรียกใช้การทดสอบและดูการตรวจสอบจำนวนมากได้ภายในเวลาไม่กี่วินาที
 
-**Besides, a well-tested code has better architecture.**
+**นอกจากนี้ โค้ดที่ผ่านการทดสอบอย่างดีแล้วยังมีโครงสร้างที่ดีกว่า**
 
-Naturally, that's because auto-tested code is easier to modify and improve. But there's also another reason.
+นั่นเป็นเพราะโค้ดที่ผ่านการทดสอบอัตโนมัติง่ายต่อการปรับปรุงและแก้ไข แต่ยังมีเหตุผลอื่นอีก
 
-To write tests, the code should be organized in such a way that every function has a clearly described task, well-defined input and output. That means a good architecture from the beginning.
+ในการเขียนเทสต์ โค้ดควรได้รับการจัดระเบียบในลักษณะที่ฟังก์ชันแต่ละฟังก์ชันมีภารกิจที่อธิบายไว้ชัดเจน มีอินพุตและเอาต์พุตที่กำหนดไว้อย่างดี ซึ่งหมายถึงโครงสร้างที่ดีตั้งแต่เริ่มต้น
 
-In real life that's sometimes not that easy. Sometimes it's difficult to write a spec before the actual code, because it's not yet clear how it should behave. But in general writing tests makes development faster and more stable.
+ในชีวิตจริงบางครั้งก็ไม่ง่ายนัก บางครั้งการเขียนสเปคก่อนโค้ดจริงทำได้ยาก เพราะยังไม่ชัดเจนว่ามันควรทำงานอย่างไร แต่โดยทั่วไปการเขียนเทสต์จะช่วยให้การพัฒนารวดเร็วและเสถียรมากขึ้น
 
-Later in the tutorial you will meet many tasks with tests baked-in. So you'll see more practical examples.
+ในบทเรียนต่อๆ ไป คุณจะได้พบกับงานต่างๆ ที่มีการทดสอบแบบเบิร์นอิน ดังนั้นคุณจะได้เห็นตัวอย่างจริงมากขึ้น
 
-Writing tests requires good JavaScript knowledge. But we're just starting to learn it. So, to settle down everything, as of now you're not required to write tests, but you should already be able to read them even if they are a little bit more complex than in this chapter.
+การเขียนเทสต์ต้องใช้ความรู้ JavaScript ที่ดี แต่เรากำลังเริ่มต้นเรียนรู้ ดังนั้น ณ ตอนนี้ คุณไม่จำเป็นต้องเขียนเทสต์ แต่คุณควรสามารถอ่านเทสต์ได้แม้ว่ามันจะซับซ้อนกว่าในบทนี้นิดหน่อย
