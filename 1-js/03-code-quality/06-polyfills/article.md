@@ -1,92 +1,89 @@
 
-# Polyfills and transpilers
+## Polyfills และ Transpilers
 
-The JavaScript language steadily evolves. New proposals to the language appear regularly, they are analyzed and, if considered worthy, are appended to the list at <https://tc39.github.io/ecma262/> and then progress to the [specification](http://www.ecma-international.org/publications/standards/Ecma-262.htm).
+ภาษา JavaScript มีการพัฒนาอย่างต่อเนื่อง ข้อเสนอใหม่ๆ สำหรับภาษาจะปรากฏขึ้นเป็นประจำ พวกเขาจะถูกวิเคราะห์และถ้าเห็นว่าเหมาะสมจะถูกเพิ่มเข้าไปในรายการที่ [https://tc39.github.io/ecma262/](https://tc39.github.io/ecma262/) และจากนั้นจะไปต่อที่ ข้อกำหนด: [https://www.ecma-international.org/publications-and-standards/standards/ecma-262/](https://www.ecma-international.org/publications-and-standards/standards/ecma-262/)
 
-Teams behind JavaScript engines have their own ideas about what to implement first. They may decide to implement proposals that are in draft and postpone things that are already in the spec, because they are less interesting or just harder to do.
+ทีมงานเบื้องหลังเอนจิ้น JavaScript มีแนวคิดของตัวเองว่าจะทำอะไรก่อน พวกเขาอาจตัดสินใจที่จะนำข้อเสนอที่อยู่ในร่างและเลื่อนสิ่งที่อยู่ในข้อกำหนดออกไป เพราะสิ่งเหล่านั้นไม่น่าสนใจหรือทำได้ยากกว่า
 
-So it's quite common for an engine to implement only the part of the standard.
+ดังนั้นจึงเป็นเรื่องปกติที่เอนจิ้นจะใช้งานเพียงบางส่วนของข้อกำหนด
 
-A good page to see the current state of support for language features is <https://kangax.github.io/compat-table/es6/> (it's big, we have a lot to study yet).
+หน้าเว็บที่ดีในการดูสถานะปัจจุบันของการรองรับฟีเจอร์ของภาษาคือ [https://kangax.github.io/compat-table/es6/](https://kangax.github.io/compat-table/es6/) (มันใหญ่ เรายังมีอีกหลายอย่างที่ต้องเรียนรู้)
 
-As programmers, we'd like to use most recent features. The more good stuff - the better!
+ในฐานะโปรแกรมเมอร์ เราต้องการใช้ฟีเจอร์ล่าสุด ยิ่งมีของดีมากเท่าไหร่ก็ยิ่งดี!
 
-On the other hand, how to make our modern code work on older engines that don't understand recent features yet?
+ในทางกลับกัน เราจะทำอย่างไรให้โค้ดสมัยใหม่ของเราทำงานบนเอนจิ้นรุ่นเก่าที่ยังไม่เข้าใจฟีเจอร์ล่าสุดได้?
 
-There are two tools for that:
+มีเครื่องมืออยู่สองอย่าง:
 
 1. Transpilers.
 2. Polyfills.
 
-Here, in this chapter, our purpose is to get the gist of how they work, and their place in web development.
+ในบทนี้ วัตถุประสงค์ของเราคือการทำความเข้าใจว่าพวกมันทำงานอย่างไร และตำแหน่งของพวกมันในการพัฒนาเว็บ
 
-## Transpilers
+## Transpilers: เปลี่ยนภาษาให้เข้าใจกัน
 
-A [transpiler](https://en.wikipedia.org/wiki/Source-to-source_compiler) is a special piece of software that translates source code to another source code. It can parse ("read and understand") modern code and rewrite it using older syntax constructs, so that it'll also work in outdated engines.
+**Transpiler** (นึกถึงคำว่า "แปลภาษา") เป็นเครื่องมือพิเศษที่ช่วยแปลงโค้ดจากภาษาหนึ่งไปเป็นอีกภาษาหนึ่ง  เปรียบเหมือนล่ามแปลภาษาที่อ่านแล้วเข้าใจโค้ดสมัยใหม่ แล้วเขียนใหม่ด้วยไวยากรณ์แบบเก่า เพื่อให้ทำงานได้กับเอนจิ้นรุ่นเก่า
 
-E.g. JavaScript before year 2020 didn't have the "nullish coalescing operator" `??`. So, if a visitor uses an outdated browser, it may fail to understand the code like `height = height ?? 100`.
+ยกตัวอย่างเช่น ใน JavaScript ก่อนปี 2020 ไม่มีตัวดำเนินการ "nullish coalescing" `??` ดังนั้นถ้าผู้เยี่ยมชมเว็บไซต์ใช้เบราว์เซอร์รุ่นเก่า โค้ดอย่าง `height = height ?? 100` อาจทำงานไม่ถูก
 
-A transpiler would analyze our code and rewrite `height ?? 100` into `(height !== undefined && height !== null) ? height : 100`.
+Transpiler จะวิเคราะห์โค้ดของเราแล้วเขียน `height ?? 100` ใหม่เป็น `(height !== undefined && height !== null) ? height : 100`
 
 ```js
-// before running the transpiler
+// ก่อนรัน transpiler
 height = height ?? 100;
 
-// after running the transpiler
+// หลังรัน transpiler
 height = (height !== undefined && height !== null) ? height : 100;
 ```
 
-Now the rewritten code is suitable for older JavaScript engines.
+ตอนนี้โค้ดที่เขียนใหม่ก็ใช้งานได้กับเอนจิ้น JavaScript รุ่นเก่าแล้ว
 
-Usually, a developer runs the transpiler on their own computer, and then deploys the transpiled code to the server.
+โดยทั่วไป นักพัฒนาจะรัน transpiler บนคอมพิวเตอร์ของตัวเอง จากนั้นนำโค้ดที่ผ่านการแปลงแล้วไปใช้บนเซิร์ฟเวอร์
 
-Speaking of names, [Babel](https://babeljs.io) is one of the most prominent transpilers out there. 
+ตัวอย่าง transpiler ที่โดดเด่นคือ **Babel** (นึกถึงคำว่า "บาเบล" ที่แปลว่า "หอคอยแห่งการสื่อสาร")
 
-Modern project build systems, such as [webpack](http://webpack.github.io/), provide means to run transpiler automatically on every code change, so it's very easy to integrate into development process.
+ระบบบิลด์โปรเจกต์สมัยใหม่ (Modern project build systems) เช่น **webpack** (นึกถึงคำว่า "แพ็คของ") รองรับการรัน transpiler โดยอัตโนมัติทุกครั้งที่มีการเปลี่ยนแปลงโค้ด ทำให้การทำงานกับ transpiler ง่ายดายมาก
 
-## Polyfills
+## Polyfills: ตัวอุดรอยรั่ว
 
-New language features may include not only syntax constructs and operators, but also built-in functions.
+ฟีเจอร์ใหม่ของภาษาอาจไม่เพียงแค่ไวยากรณ์และตัวดำเนินการ แต่ยังรวมถึงฟังก์ชันในตัวอย่างเช่น `Math.trunc(n)` เป็นฟังก์ชันที่ "ตัดทอน" ส่วนทศนิยมของตัวเลข เช่น `Math.trunc(1.23)` จะส่งคืน `1`
 
-For example, `Math.trunc(n)` is a function that "cuts off" the decimal part of a number, e.g `Math.trunc(1.23)` returns `1`.
+ในเอนจิ้น JavaScript บางรุ่น (รุ่นเก่ามาก) ไม่มี `Math.trunc` ดังนั้นโค้ดดังกล่าวจะไม่ทำงาน
 
-In some (very outdated) JavaScript engines, there's no `Math.trunc`, so such code will fail.
+เนื่องจากเรากำลังพูดถึงฟังก์ชันใหม่ ไม่ใช่การเปลี่ยนแปลงไวยากรณ์ เราจึงไม่จำเป็นต้อง transpile อะไรเลย เราแค่ต้องประกาศฟังก์ชันที่หายไป
 
-As we're talking about new functions, not syntax changes, there's no need to transpile anything here. We just need to declare the missing function.
+สคริปต์ที่อัปเดต/เพิ่มฟังก์ชันใหม่เรียกว่า "polyfill" มัน "เติมเต็มช่องว่าง" และเพิ่มการใช้งานที่หายไป
 
-A script that updates/adds new functions is called "polyfill". It "fills in" the gap and adds missing implementations.
-
-For this particular case, the polyfill for `Math.trunc` is a script that implements it, like this:
+สำหรับกรณีนี้ polyfill สำหรับ `Math.trunc` เป็นสคริปต์ที่นำไปใช้งาน ดังนี้:
 
 ```js
-if (!Math.trunc) { // if no such function
-  // implement it
+if (!Math.trunc) { // ถ้าไม่มีฟังก์ชันดังกล่าว
+  // นำไปใช้งาน
   Math.trunc = function(number) {
-    // Math.ceil and Math.floor exist even in ancient JavaScript engines
-    // they are covered later in the tutorial
+    // Math.ceil และ Math.floor มีอยู่แม้กระทั่งในเอนจิ้น JavaScript รุ่นเก่า
+    // จะกล่าวถึงในบทเรียนต่อไป
     return number < 0 ? Math.ceil(number) : Math.floor(number);
   };
 }
 ```
 
-JavaScript is a highly dynamic language, scripts may add/modify any functions, even including built-in ones. 
+JavaScript เป็นภาษาที่มีความคล่องตัวสูง สคริปต์สามารถเพิ่ม/แก้ไขฟังก์ชันใดๆ ได้แม้กระทั่งฟังก์ชันในตัว
 
-Two interesting libraries of polyfills are:
-- [core js](https://github.com/zloirock/core-js) that supports a lot, allows to include only needed features.
-- [polyfill.io](http://polyfill.io) service that provides a script with polyfills, depending on the features and user's browser.
+ไลบรารี polyfill ที่น่าสนใจสองแห่ง:
 
+- core js: [https://github.com/zloirock/core-js](https://github.com/zloirock/core-js) ที่รองรับหลายอย่าง อนุญาตให้รวมเฉพาะฟีเจอร์ที่ต้องการ
+- polyfill.io: [https://polyfill.io/](https://polyfill.io/) บริการที่จัดหาสคริปต์ที่มี polyfills ขึ้นอยู่กับฟีเจอร์และเบราว์เซอร์ของผู้ใช้
 
-## Summary
+## สรุป
 
-In this chapter we'd like to motivate you to study modern and even "bleeding-edge" language features, even if they aren't yet well-supported by JavaScript engines.
+ในบทนี้ เราอยากกระตุ้นให้คุณศึกษาฟีเจอร์ภาษาใหม่ๆ แม้กระทั่งฟีเจอร์ที่ล้ำสมัย แม้ว่าเอนจิ้น JavaScript ยังไม่รองรับอย่างเต็มที่
 
-Just don't forget to use transpiler (if using modern syntax or operators) and polyfills (to add functions that may be missing). And they'll ensure that the code works.
+เพียงแค่อย่าลืมใช้ transpiler (ถ้าใช้ไวยากรณ์หรือตัวดำเนินการสมัยใหม่) และ polyfills (เพื่อเพิ่มฟังก์ชันที่อาจหายไป) พวกมันจะทำให้โค้ดทำงานได้อย่างถูกต้อง
 
-For example, later when you're familiar with JavaScript, you can setup a code build system based on [webpack](http://webpack.github.io/) with [babel-loader](https://github.com/babel/babel-loader) plugin.
+ตัวอย่างเช่น ต่อมาเมื่อคุณคุ้นเคยกับ JavaScript คุณสามารถตั้งค่าระบบบิลด์โค้ดบนพื้นฐานของ webpack: [https://webpack.js.org/guides/getting-started/](https://webpack.js.org/guides/getting-started/) พร้อมกับปลั๊กอิน babel-loader: [https://github.com/babel/babel-loader](https://github.com/babel/babel-loader)
 
-Good resources that show the current state of support for various features:
-- <https://kangax.github.io/compat-table/es6/> - for pure JavaScript.
-- <https://caniuse.com/> - for browser-related functions.
+แหล่งข้อมูลที่ดีที่แสดงสถานะปัจจุบันของการรองรับฟีเจอร์ต่างๆ:
+- [https://github.com/compat-table/compat-table](https://github.com/compat-table/compat-table) - สำหรับ JavaScript แบบเพียวๆ
+- [https://caniuse.com/](https://caniuse.com/) - สำหรับฟังก์ชันที่เกี่ยวข้องกับเบราว์เซอร์
 
-P.S. Google Chrome is usually the most up-to-date with language features, try it if a tutorial demo fails. Most tutorial demos work with any modern browser though.
-
+ปล. Google Chrome มักจะเป็นเวอร์ชันล่าสุดพร้อมฟีเจอร์ภาษา ลองใช้ดูถ้าการสาธิตบทเรียนไม่ทำงาน อย่างไรก็ตาม บทเรียนส่วนใหญ่จะทำงานได้กับเบราว์เซอร์สมัยใหม่ทุกชนิด
