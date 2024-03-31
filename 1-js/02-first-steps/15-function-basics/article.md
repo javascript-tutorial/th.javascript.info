@@ -305,3 +305,112 @@ showCount(0); // 0
 showCount(null); // unknown 
 showCount(); // unknown
 ```
+
+## การส่งคืนค่า (Returning a value)
+
+ฟังก์ชันสามารถส่งคืนค่ากลับไปยังโค้ดที่เรียกใช้เป็นผลลัพธ์ได้
+
+ตัวอย่างง่ายๆ คือฟังก์ชันที่รวมผลบวกของสองค่า:
+
+```js run no-beautify
+function sum(a, b) {
+  *!*return*/!* a + b;
+}
+
+let result = sum(1, 2);
+alert( result ); // 3
+```
+
+คำสั่ง `return` สามารถอยู่ที่ไหนก็ได้ในฟังก์ชัน เมื่อการทำงานมาถึงมัน ฟังก์ชันจะหยุดและส่งคืนค่าไปยังโค้ดที่เรียกใช้ (กำหนดให้กับ `result` ในตัวอย่างข้างต้น)  
+
+ในฟังก์ชันเดียวอาจมีหลายจุดที่ใช้ `return` ได้ เช่น:
+
+```js run
+function checkAge(age) {
+  if (age >= 18) {
+*!*
+    return true;
+*/!*
+  } else {
+*!*
+    return confirm('คุณได้รับอนุญาตจากผู้ปกครองหรือไม่?');
+*/!*
+  }
+}
+
+let age = prompt('คุณอายุเท่าไหร่?', 18);
+
+if ( checkAge(age) ) {
+  alert('อนุญาตให้เข้าใช้งาน');
+} else {
+  alert('ไม่อนุญาตให้เข้าใช้งาน');
+}
+```
+
+เราสามารถใช้ `return` โดยไม่มีค่าก็ได้ ซึ่งจะทำให้ฟังก์ชันจบการทำงานทันที
+
+ตัวอย่างเช่น:
+
+```js
+function showMovie(age) {
+  if ( !checkAge(age) ) {
+*!*
+    return;
+*/!*
+  }
+
+  alert("กำลังแสดงภาพยนตร์ให้ชม"); // (*)
+  // ...
+}
+```
+
+ในโค้ดข้างต้น ถ้า `checkAge(age)` คืนค่า `false` ฟังก์ชัน `showMovie` จะไม่ทำงานต่อไปที่ `alert`
+
+````smart header="ฟังก์ชันที่มี `return` ว่างหรือไม่มี `return` จะคืนค่า `undefined`"
+ถ้าฟังก์ชันไม่มีการคืนค่า มันจะเหมือนกับการคืนค่า `undefined`:
+
+```js run
+function doNothing() { /* ว่าง */ }
+
+alert( doNothing() === undefined ); // true
+```
+
+`return` ว่างก็เหมือนกับ `return undefined`:
+
+```js run  
+function doNothing() {
+  return;
+}
+
+alert( doNothing() === undefined ); // true
+```
+````
+
+````warn header="อย่าขึ้นบรรทัดใหม่ระหว่าง `return` กับค่าที่คืน"
+สำหรับนิพจน์ยาวๆ ใน `return` อาจเย้ายวนใจให้แยกเป็นบรรทัดใหม่ แบบนี้:
+
+```js
+return
+ (some + long + expression + or + whatever * f(a) + f(b))
+```
+นั่นจะไม่ทำงาน เพราะ JavaScript จะสันนิษฐานว่ามีเครื่องหมายอัฒภาคหลัง `return` ซึ่งจะทำงานเหมือนกับ:
+
+```js  
+return*!*;*/!*
+ (some + long + expression + or + whatever * f(a) + f(b))
+```
+
+ดังนั้นมันจะกลายเป็น return เปล่าๆ อย่างมีประสิทธิภาพ 
+
+ถ้าเราต้องการให้นิพจน์ที่คืนค่าขึ้นบรรทัดใหม่ เราควรเริ่มต้นในบรรทัดเดียวกับ `return` หรืออย่างน้อยควรใส่วงเล็บเปิดเอาไว้ที่นั่น แบบนี้:
+
+```js
+return (
+  some + long + expression
+  + or +
+  whatever * f(a) + f(b)
+  )
+```
+
+และมันจะทำงานตามที่เราคาดหวัง
+````
