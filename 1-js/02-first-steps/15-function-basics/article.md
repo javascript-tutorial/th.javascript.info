@@ -260,3 +260,48 @@ function showMessage(from, text) {
 }
 ```
 ````
+
+### พารามิเตอร์เริ่มต้นทางเลือก
+
+บางครั้งการกำหนดค่าเริ่มต้นให้พารามิเตอร์ในภายหลัง หลังจากประกาศฟังก์ชันไปแล้ว ก็มีเหตุผลเช่นกัน
+
+เราสามารถตรวจสอบว่ามีการส่งพารามิเตอร์มาหรือไม่ระหว่างการทำงานของฟังก์ชัน โดยเปรียบเทียบกับ `undefined`:
+
+```js run
+function showMessage(text) {
+  // ...
+
+*!*
+  if (text === undefined) { // ถ้าไม่มีพารามิเตอร์ส่งมา
+    text = 'ข้อความว่าง';  
+  }
+*/!*
+
+  alert(text);
+}
+
+showMessage(); // ข้อความว่าง
+```
+
+...หรือเราสามารถใช้ตัวดำเนินการ `||`:
+
+```js
+function showMessage(text) {
+  // ถ้า text เป็น undefined หรือ falsy อื่นๆ ให้กำหนดเป็น 'empty'
+  text = text || 'empty';
+  ...  
+}
+```
+
+JavaScript เอนจินสมัยใหม่รองรับ[ตัวดำเนินการรวม nullish](info:nullish-coalescing-operator) `??` ซึ่งจะเหมาะกว่าเมื่อต้องการให้ค่า falsy ส่วนใหญ่ เช่น `0` ถือเป็นค่า "ปกติ":
+
+```js run
+function showCount(count) {
+  // ถ้า count เป็น undefined หรือ null ให้แสดง "unknown"
+  alert(count ?? "unknown");
+}
+
+showCount(0); // 0
+showCount(null); // unknown 
+showCount(); // unknown
+```
