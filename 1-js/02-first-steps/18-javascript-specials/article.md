@@ -177,3 +177,56 @@ JavaScript รองรับตัวดำเนินการดังต่
 : มีอีกไม่กี่ตัว เช่น comma operator
 
 อ่านเพิ่มเติมได้ที่: <info:operators>, <info:comparison>, <info:logical-operators>, <info:nullish-coalescing-operator>
+
+## ลูป
+
+- เราได้ครอบคลุมลูป 3 ประเภท:
+
+    ```js
+    // 1
+    while (condition) {
+      ...
+    }
+
+    // 2
+    do {
+      ...
+    } while (condition);
+
+    // 3
+    for(let i = 0; i < 10; i++) {
+      ...
+    }
+    ```
+
+- ตัวแปรที่ประกาศในลูป `for(let...)` จะมองเห็นได้เฉพาะภายในลูปเท่านั้น แต่เราสามารถละเว้น `let` และนำตัวแปรที่มีอยู่แล้วมาใช้ซ้ำได้
+- คำสั่ง `break/continue` ช่วยให้ออกจากลูปทั้งหมด/ออกจากรอบปัจจุบัน ใช้ label เพื่อออกจากลูปที่ซ้อนกันได้
+
+รายละเอียดใน: <info:while-for>
+
+ในภายหลังเราจะศึกษาลูปชนิดอื่นๆ เพิ่มเติมเพื่อจัดการกับออบเจ็กต์
+
+## โครงสร้าง "switch" 
+
+โครงสร้าง "switch" สามารถใช้แทนการตรวจสอบ `if` หลายครั้งได้ มันใช้ `===` (ตรวจสอบความเท่ากันแบบเข้มงวด) ในการเปรียบเทียบ
+
+ตัวอย่างเช่น:
+
+```js run
+let age = prompt('Your age?', 18);
+
+switch (age) {
+  case 18:
+    alert("Won't work"); // ผลลัพธ์จาก prompt เป็นสตริง ไม่ใช่ตัวเลข
+    break;
+
+  case "18":
+    alert("This works!");
+    break;
+
+  default:
+    alert("Any value not equal to one above");
+}
+```
+
+รายละเอียดใน: <info:switch>
