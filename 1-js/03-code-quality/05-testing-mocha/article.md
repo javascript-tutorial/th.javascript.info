@@ -223,3 +223,77 @@ describe("pow", function() {
 ผลลัพธ์:
 
 [iframe height=250 src="pow-3" edit border="1"]
+
+## ขยายข้อกำหนด
+
+ฟังก์ชันหลักของ `pow` เสร็จสมบูรณ์แล้ว การพัฒนารอบแรกจบลงแล้ว เมื่อเราฉลองและดื่มแชมเปญเสร็จ ก็ถึงเวลาพัฒนาต่อและปรับปรุงมันกัน
+
+อย่างที่บอกไป ฟังก์ชัน `pow(x, n)` มีไว้สำหรับใช้กับค่า `n` ที่เป็นจำนวนเต็มบวก
+
+เพื่อระบุข้อผิดพลาดทางคณิตศาสตร์ ฟังก์ชันใน JavaScript มักจะคืนค่า `NaN` เรามาทำแบบเดียวกันสำหรับค่า `n` ที่ไม่ถูกต้องกัน
+
+อย่างแรกเรามาเพิ่มพฤติกรรมนี้ลงในข้อกำหนด (!):
+
+```js
+describe("pow", function() {
+
+  // ...
+
+  it("สำหรับ n ติดลบ ผลลัพธ์คือ NaN", function() {
+*!*
+    assert.isNaN(pow(2, -1));
+*/!*
+  });
+
+  it("สำหรับ n ที่ไม่ใช่จำนวนเต็ม ผลลัพธ์คือ NaN", function() {
+*!*
+    assert.isNaN(pow(2, 1.5));    
+*/!*
+  });
+
+});
+```
+
+ผลลัพธ์กับเทสต์ใหม่:
+
+[iframe height=530 src="pow-nan" edit border="1"]
+
+เทสต์ที่เพิ่มเข้ามาใหม่ล้มเหลว เพราะการอิมพลีเมนต์ของเรายังไม่รองรับกรณีเหล่านี้ นี่แหละคือวิธีการทำงานของ BDD: อย่างแรกเราเขียนเทสต์ที่ล้มเหลวก่อน แล้วค่อยไปเขียนอิมพลีเมนต์ให้มันผ่าน
+
+```smart header="Assertion อื่นๆ"
+สังเกตการใช้ assertion `assert.isNaN`: มันตรวจสอบค่า `NaN`
+
+ใน [Chai](https://www.chaijs.com/) ยังมี assertion อื่นๆ อีกด้วย เช่น:
+
+- `assert.equal(value1, value2)` -- ตรวจสอบความเท่ากัน `value1 == value2`
+- `assert.strictEqual(value1, value2)` -- ตรวจสอบความเท่ากันแบบเข้มงวด `value1 === value2`
+- `assert.notEqual`, `assert.notStrictEqual` -- ตรวจสอบแบบตรงข้ามกับด้านบน
+- `assert.isTrue(value)` -- ตรวจสอบว่า `value === true`
+- `assert.isFalse(value)` -- ตรวจสอบว่า `value === false`
+- ...ดูรายการทั้งหมดได้ใน [เอกสาร](https://www.chaijs.com/api/assert/)
+```
+
+ดังนั้นเราควรเพิ่มโค้ดอีกสองสามบรรทัดใน `pow`:
+
+```js
+function pow(x, n) {
+*!*
+  if (n < 0) return NaN;
+  if (Math.round(n) != n) return NaN;
+*/!*
+
+  let result = 1;
+
+  for (let i = 0; i < n; i++) {
+    result *= x;
+  }
+
+  return result;
+}
+```
+
+ตอนนี้มันใช้ได้แล้ว เทสต์ทั้งหมดผ่าน:
+
+[iframe height=300 src="pow-full" edit border="1"]
+
+[edit src="pow-full" title="เปิดตัวอย่างสมบูรณ์ใน sandbox"]
