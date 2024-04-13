@@ -216,3 +216,109 @@ alert(clone.age); // 30
 ตรงนี้มันจะคัดลอกคุณสมบัติทั้งหมดของ `user` ไปใส่ในออบเจ็กต์เปล่า แล้วคืนออบเจ็กต์นั้นเป็นผลลัพธ์
 
 มีวิธีอื่นๆ ในการโคลนออบเจ็กต์ด้วย เช่น การใช้ [spread syntax](info:rest-parameters-spread) `clone = {...user}` ซึ่งเราจะกล่าวถึงในภายหลังของบทเรียน
+
+## การโคลนแบบซ้อน (Nested cloning)
+
+จนถึงตอนนี้ เราสมมติว่าคุณสมบัติทั้งหมดของ `user` เป็นข้อมูลพื้นฐาน แต่ในความเป็นจริง คุณสมบัติสามารถเป็นการอ้างอิงไปยังออบเจ็กต์อื่นก็ได้
+
+ตัวอย่างเช่น:
+```js run
+let user = {
+  name: "John",
+  sizes: {
+    height: 182,
+    width: 50
+  }
+};
+
+alert( user.sizes.height ); // 182
+```
+
+ตอนนี้ การคัดลอกแบบ `clone.sizes = user.sizes` ไม่เพียงพออีกต่อไป เพราะ `user.sizes` เป็นออบเจ็กต์ และจะถูกคัดลอกแบบอ้างอิง ทำให้ `clone` กับ `user` จะใช้ออบเจ็กต์ sizes ร่วมกัน:
+
+```js run
+let user = {
+  name: "John",
+  sizes: {
+    height: 182,
+    width: 50
+  }
+};
+
+let clone = Object.assign({}, user);
+
+alert( user.sizes === clone.sizes ); // true, เป็นออบเจ็กต์ตัวเดียวกัน
+
+// user กับ clone ใช้ sizes ร่วมกัน
+user.sizes.width = 60;    // เปลี่ยนค่าจากที่ user
+alert(clone.sizes.width); // 60, ผลลัพธ์เปลี่ยนตามใน clone ด้วย
+```
+
+เพื่อแก้ปัญหานี้และทำให้ `user` กับ `clone` เป็นออบเจ็กต์ที่แยกจากกันจริงๆ เราควรใช้ลูปการโคลน ที่จะตรวจสอบค่าของ `user[key]` แต่ละตัว และถ้าเป็นออบเจ็กต์ ก็ให้ทำซ้ำ (replicate) โครงสร้างของมันด้วย นี่เรียกว่า "deep cloning" หรือ "structured cloning" ซึ่งมีเมท็อด [structuredClone](https://developer.mozilla.org/en-US/docs/Web/API/structuredClone) ที่ทำ deep cloning ให้
+
+### structuredClone
+
+การเรียก `structuredClone(object)` จะโคลน `object` พร้อมกับคุณสมบัติซ้อนทั้งหมด
+
+นี่คือวิธีการใช้ในตัวอย่างของเรา:
+
+```js run
+let user = {
+  name: "John",
+  sizes: {
+    height: 182,
+    width: 50
+  }
+};
+
+*!*
+let clone = structuredClone(user);
+*/!*
+
+alert( user.sizes === clone.sizes ); // false, ออบเจ็กต์คนละตัวกันแล้ว
+
+// ตอนนี้ user กับ clone ไม่เกี่ยวข้องกันเลย
+user.sizes.width = 60;    // เปลี่ยนค่าที่ user
+alert(clone.sizes.width); // 50, ไม่กระทบ clone
+```
+
+เมท็อด `structuredClone` สามารถโคลนข้อมูลได้หลากหลายประเภท เช่น objects, arrays, primitive values
+
+นอกจากนี้ยังรองรับการอ้างอิงวนกลับ (circular references) ด้วย เช่นเมื่อคุณสมบัติของออบเจ็กต์อ้างอิงกลับไปที่ตัวออบเจ็กต์เอง (ทั้งโดยตรง หรือผ่านลูกโซ่การอ้างอิง)
+
+ตัวอย่างเช่น:
+
+```js run
+let user = {};
+// สร้างการอ้างอิงวนกลับ:
+// user.me อ้างอิงกลับไปที่ user เอง
+user.me = user;
+
+let clone = structuredClone(user);
+alert(clone.me === clone); // true
+```
+
+อย่างที่เห็น `clone.me` อ้างอิงถึง `clone` ไม่ใช่ `user`! ดังนั้นการอ้างอิงวนกลับก็ถูกโคลนอย่างถูกต้องเช่นกัน
+
+อย่างไรก็ตาม มีบางกรณีที่ `structuredClone` ล้มเหลว
+
+ตัวอย่างเช่น เมื่อออบเจ็กต์มีคุณสมบัติที่เป็นฟังก์ชัน:
+
+```js run
+// error
+structuredClone({
+  f: function() {}
+});
+```
+
+คุณสมบัติที่เป็นฟังก์ชันไม่ได้รับการสนับสนุน
+
+ในการจัดการกับเคสที่ซับซ้อนแบบนี้ เราอาจต้องใช้วิธีผสมผสานการโคลนหลายแบบ เขียนโค้ดเอง หรือเพื่อไม่ต้องประดิษฐ์ล้อใหม่ อาจใช้การอิมพลีเมนต์ที่มีอยู่แล้ว เช่น [_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep) จากไลบรารี JavaScript อย่าง [lodash](https://lodash.com)
+
+## สรุป
+
+ออบเจ็กต์ถูกกำหนดและคัดลอกแบบอ้างอิง (by reference) กล่าวคือ ตัวแปรไม่ได้เก็บ "ค่าของออบเจ็กต์" แต่เก็บ "การอ้างอิง" (ที่อยู่ในหน่วยความจำ) ของค่านั้นแทน ดังนั้นการคัดลอกตัวแปรหรือส่งมันเป็น argument ของฟังก์ชัน จะเป็นการคัดลอกการอ้างอิงนั้น ไม่ใช่ตัวออบเจ็กต์เอง
+
+การดำเนินการใดๆ ผ่านการอ้างอิงที่คัดลอกมา (เช่นการเพิ่ม/ลบ property) จะเกิดขึ้นบนออบเจ็กต์อันเดียวกันทั้งหมด
+
+ในการสร้าง "สำเนาจริงๆ" (clone) เราสามารถใช้ `Object.assign` สำหรับ "shallow copy" (ออบเจ็กต์ซ้อนจะถูกคัดลอกแบบอ้างอิง) หรือใช้ฟังก์ชัน "deep cloning" อย่าง `structuredClone` หรือเขียนอิมพลีเมนต์การโคลนเอง เช่น [_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep)
