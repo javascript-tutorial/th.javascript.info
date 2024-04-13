@@ -123,3 +123,96 @@ alert(user.name); // Pete
 
 อย่างไรก็ตาม หากเราต้องการทำให้คุณสมบัติของออบเจ็กต์คงที่จริงๆ ก็สามารถทำได้ แต่ต้องใช้วิธีที่แตกต่างออกไป เราจะกล่าวถึงเรื่องนี้ในบท <info:property-descriptors>
 ````
+
+## การโคลนและการรวมออบเจ็กต์ด้วย Object.assign [#cloning-and-merging-object-assign]
+
+ดังนั้น การคัดลอกตัวแปรออบเจ็กต์จะสร้างการอ้างอิงเพิ่มอีกอันไปยังออบเจ็กต์เดียวกัน
+
+แต่ถ้าเราต้องการทำสำเนาออบเจ็กต์ล่ะ?
+
+เราสามารถสร้างออบเจ็กต์ใหม่และทำซ้ำโครงสร้างของออบเจ็กต์เดิมได้ โดยการวนลูปผ่านคุณสมบัติทั้งหมดของมัน แล้วคัดลอกค่าพื้นฐานของแต่ละคุณสมบัติ
+
+แบบนี้:
+
+```js run
+let user = {
+  name: "John",
+  age: 30
+};
+
+*!*
+let clone = {}; // ออบเจ็กต์เปล่าใหม่
+
+// คัดลอกคุณสมบัติทั้งหมดของ user ใส่ในออบเจ็กต์ clone
+for (let key in user) {
+  clone[key] = user[key];
+}
+*/!*
+
+// ตอนนี้ clone เป็นออบเจ็กต์ที่เป็นอิสระอย่างสมบูรณ์แล้ว แต่มีเนื้อหาเหมือนกับ user
+clone.name = "Pete"; // เปลี่ยนข้อมูลใน clone
+
+alert( user.name ); // ในออบเจ็กต์ต้นฉบับยังคงเป็น John อยู่
+```
+
+เรายังสามารถใช้เมท็อด [Object.assign](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign) ได้ด้วย
+
+รูปแบบการใช้งานคือ:
+
+```js
+Object.assign(dest, ...sources)
+```
+
+- อาร์กิวเมนต์แรก `dest` คือออบเจ็กต์ปลายทาง (target)
+- อาร์กิวเมนต์ถัดๆ ไปคือรายการออบเจ็กต์ต้นทาง (sources)
+
+มันจะคัดลอกคุณสมบัติทั้งหมดจากออบเจ็กต์ต้นทางไปใส่ในออบเจ็กต์ปลายทาง `dest` แล้วคืนค่า `dest` เป็นผลลัพธ์
+
+ตัวอย่างเช่น สมมติเรามีออบเจ็กต์ `user` ลองเพิ่มสิทธิ์การเข้าถึง (permissions) สองอย่างให้กับมัน:
+
+```js run
+let user = { name: "John" };
+
+let permissions1 = { canView: true };
+let permissions2 = { canEdit: true };
+
+*!*
+// คัดลอกคุณสมบัติทั้งหมดจาก permissions1 และ permissions2 ไปใส่ใน user
+Object.assign(user, permissions1, permissions2);
+*/!*
+
+// ตอนนี้ user = { name: "John", canView: true, canEdit: true }
+alert(user.name); // John
+alert(user.canView); // true
+alert(user.canEdit); // true
+```
+
+ถ้าชื่อคุณสมบัติที่คัดลอกซ้ำกับที่มีอยู่แล้ว ค่าจะถูกเขียนทับ:
+
+```js run
+let user = { name: "John" };
+
+Object.assign(user, { name: "Pete" });
+
+alert(user.name); // ตอนนี้ user = { name: "Pete" }
+```
+
+เรายังสามารถใช้ `Object.assign` เพื่อโคลนออบเจ็กต์อย่างง่ายๆ ได้ด้วย:
+
+```js run
+let user = {
+  name: "John",
+  age: 30
+};
+
+*!*
+let clone = Object.assign({}, user);
+*/!*
+
+alert(clone.name); // John
+alert(clone.age); // 30
+```
+
+ตรงนี้มันจะคัดลอกคุณสมบัติทั้งหมดของ `user` ไปใส่ในออบเจ็กต์เปล่า แล้วคืนออบเจ็กต์นั้นเป็นผลลัพธ์
+
+มีวิธีอื่นๆ ในการโคลนออบเจ็กต์ด้วย เช่น การใช้ [spread syntax](info:rest-parameters-spread) `clone = {...user}` ซึ่งเราจะกล่าวถึงในภายหลังของบทเรียน
