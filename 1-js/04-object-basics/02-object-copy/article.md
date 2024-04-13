@@ -1,29 +1,29 @@
-# Object references and copying
+# การอ้างอิงและการคัดลอกออบเจ็กต์
 
-One of the fundamental differences of objects versus primitives is that objects are stored and copied "by reference", whereas primitive values: strings, numbers, booleans, etc -- are always copied "as a whole value".
+หนึ่งในความแตกต่างสำคัญระหว่างออบเจ็กต์กับข้อมูลพื้นฐาน คือออบเจ็กต์ถูกจัดเก็บและคัดลอก "โดยการอ้างอิง" ในขณะที่ค่าพื้นฐานอย่างเช่น string, number, boolean เป็นต้น จะถูกคัดลอกเป็น "ค่าทั้งหมด" เสมอ
 
-That's easy to understand if we look a bit under the hood of what happens when we copy a value.
+เราจะเข้าใจได้ง่ายขึ้นหากดูลึกลงไปว่ามีอะไรเกิดขึ้นเมื่อเราคัดลอกค่า
 
-Let's start with a primitive, such as a string.
+เริ่มต้นด้วยข้อมูลพื้นฐาน เช่น string
 
-Here we put a copy of `message` into `phrase`:
+ที่นี่เราคัดลอก `message` ใส่ในตัวแปร `phrase`:
 
 ```js
 let message = "Hello!";
 let phrase = message;
 ```
 
-As a result we have two independent variables, each one storing the string `"Hello!"`.
+ผลลัพธ์คือเรามีสองตัวแปรที่เป็นอิสระต่อกัน แต่ละตัวเก็บค่า string `"Hello!"` 
 
 ![](variable-copy-value.svg)
 
-Quite an obvious result, right?
+ผลลัพธ์ค่อนข้างชัดเจน ใช่ไหม?
 
-Objects are not like that.
+แต่ออบเจ็กต์ไม่เป็นแบบนั้น
 
-**A variable assigned to an object stores not the object itself, but its "address in memory" -- in other words "a reference" to it.**
+**ตัวแปรที่กำหนดให้กับออบเจ็กต์จะไม่ได้เก็บตัวออบเจ็กต์เอง แต่จะเก็บ "ที่อยู่ในหน่วยความจำ" หรือพูดอีกอย่างคือ "การอ้างอิง" ไปยังออบเจ็กต์นั้น**
 
-Let's look at an example of such a variable:
+มาดูตัวอย่างของตัวแปรแบบนี้:
 
 ```js
 let user = {
@@ -31,35 +31,35 @@ let user = {
 };
 ```
 
-And here's how it's actually stored in memory:
+และนี่คือวิธีที่มันถูกเก็บในหน่วยความจำจริงๆ:
 
 ![](variable-contains-reference.svg)
 
-The object is stored somewhere in memory (at the right of the picture), while the `user` variable (at the left) has a "reference" to it.
+ออบเจ็กต์จะถูกเก็บไว้ที่ใดที่หนึ่งในหน่วยความจำ (ทางขวาของภาพ) ในขณะที่ตัวแปร `user` (ทางซ้าย) มี "การอ้างอิง" ไปยังมัน
 
-We may think of an object variable, such as `user`, as like a sheet of paper with the address of the object on it.
+เราอาจมองตัวแปรออบเจ็กต์อย่าง `user` เหมือนกระดาษแผ่นหนึ่งที่มีที่อยู่ของออบเจ็กต์เขียนอยู่
 
-When we perform actions with the object, e.g. take a property `user.name`, the JavaScript engine looks at what's at that address and performs the operation on the actual object.
+เมื่อเราดำเนินการกับออบเจ็กต์ เช่น เข้าถึงพร็อพเพอร์ตี้ `user.name` เอนจิ้น JavaScript จะไปดูที่ที่อยู่นั้นและดำเนินการกับออบเจ็กต์ที่เก็บอยู่จริง
 
-Now here's why it's important.
+ตอนนี้เราจะเข้าใจความสำคัญของเรื่องนี้
 
-**When an object variable is copied, the reference is copied, but the object itself is not duplicated.**
+**เมื่อตัวแปรออบเจ็กต์ถูกคัดลอก การอ้างอิงจะถูกคัดลอก แต่ตัวออบเจ็กต์เองจะไม่ถูกทำสำเนา**
 
-For instance:
+ตัวอย่างเช่น:
 
 ```js no-beautify
 let user = { name: "John" };
 
-let admin = user; // copy the reference
+let admin = user; // คัดลอกการอ้างอิง
 ```
 
-Now we have two variables, each storing a reference to the same object:
+ตอนนี้เรามีสองตัวแปร แต่ละตัวเก็บการอ้างอิงไปยังออบเจ็กต์เดียวกัน:
 
 ![](variable-copy-reference.svg)
 
-As you can see, there's still one object, but now with two variables that reference it.
+อย่างที่เห็น ยังคงมีแค่ออบเจ็กต์เดียว แต่ตอนนี้มีสองตัวแปรที่อ้างอิงถึงมัน
 
-We can use either variable to access the object and modify its contents:
+เราสามารถใช้ตัวแปรใดก็ได้เพื่อเข้าถึงออบเจ็กต์และแก้ไขเนื้อหาของมัน:
 
 ```js run
 let user = { name: 'John' };
@@ -67,174 +67,43 @@ let user = { name: 'John' };
 let admin = user;
 
 *!*
-admin.name = 'Pete'; // changed by the "admin" reference
+admin.name = 'Pete'; // เปลี่ยนโดยใช้การอ้างอิง "admin"
 */!*
 
-alert(*!*user.name*/!*); // 'Pete', changes are seen from the "user" reference
+alert(*!*user.name*/!*); // 'Pete', การเปลี่ยนแปลงจะเห็นได้จากการอ้างอิง "user" ด้วย
 ```
 
-It's as if we had a cabinet with two keys and used one of them (`admin`) to get into it and make changes. Then, if we later use another key (`user`), we are still opening the same cabinet and can access the changed contents.
+เปรียบเหมือนเรามีตู้ตั้งอยู่และมีกุญแจสองดอก แล้วเราใช้กุญแจดอกหนึ่ง (`admin`) ในการเข้าไปเปลี่ยนแปลงข้างใน จากนั้นถ้าเราใช้กุญแจอีกดอก (`user`) เราก็ยังคงเปิดตู้ใบเดิมและสามารถเข้าถึงข้อมูลที่ถูกเปลี่ยนไปได้
 
-## Comparison by reference
+## การเปรียบเทียบโดยใช้การอ้างอิง
 
-Two objects are equal only if they are the same object.
+สองออบเจ็กต์จะเท่ากันก็ต่อเมื่อมันเป็นออบเจ็กต์เดียวกันเท่านั้น
 
-For instance, here `a` and `b` reference the same object, thus they are equal:
+ตัวอย่างเช่น ในกรณีนี้ `a` และ `b` อ้างอิงถึงออบเจ็กต์เดียวกัน ดังนั้นจึงเท่ากัน:
 
 ```js run
 let a = {};
-let b = a; // copy the reference
+let b = a; // คัดลอกการอ้างอิง
 
-alert( a == b ); // true, both variables reference the same object
+alert( a == b ); // true, ตัวแปรทั้งสองอ้างอิงถึงออบเจ็กต์เดียวกัน
 alert( a === b ); // true
 ```
 
-And here two independent objects are not equal, even though they look alike (both are empty):
+และในกรณีนี้ ออบเจ็กต์สองตัวที่เป็นอิสระจากกัน ไม่เท่ากัน แม้ว่าจะดูเหมือนกัน (เป็นออบเจ็กต์ว่างทั้งคู่):
 
 ```js run
 let a = {};
-let b = {}; // two independent objects
+let b = {}; // ออบเจ็กต์สองตัวที่แยกจากกัน
 
 alert( a == b ); // false
 ```
 
-For comparisons like `obj1 > obj2` or for a comparison against a primitive `obj == 5`, objects are converted to primitives. We'll study how object conversions work very soon, but to tell the truth, such comparisons are needed very rarely -- usually they appear as a result of a programming mistake.
+สำหรับการเปรียบเทียบอย่างเช่น `obj1 > obj2` หรือการเปรียบเทียบกับค่าพื้นฐานอย่าง `obj == 5` ออบเจ็กต์จะถูกแปลงเป็นค่าพื้นฐาน เราจะศึกษาวิธีการแปลงออบเจ็กต์ในเร็วๆ นี้ แต่ตามความเป็นจริงแล้ว การเปรียบเทียบลักษณะนั้นมักไม่ค่อยจำเป็น -- โดยส่วนใหญ่มักเกิดจากข้อผิดพลาดในการเขียนโปรแกรม
 
-## Cloning and merging, Object.assign [#cloning-and-merging-object-assign]
+````smart header="ออบเจ็กต์ const ยังสามารถแก้ไขได้"
+ผลข้างเคียงสำคัญของการเก็บออบเจ็กต์แบบอ้างอิงคือ ออบเจ็กต์ที่ประกาศเป็น `const` *สามารถ* ถูกแก้ไขได้
 
-So, copying an object variable creates one more reference to the same object.
-
-But what if we need to duplicate an object? Create an independent copy, a clone?
-
-That's also doable, but a little bit more difficult, because there's no built-in method for that in JavaScript. But there is rarely a need -- copying by reference is good most of the time.
-
-But if we really want that, then we need to create a new object and replicate the structure of the existing one by iterating over its properties and copying them on the primitive level.
-
-Like this:
-
-```js run
-let user = {
-  name: "John",
-  age: 30
-};
-
-*!*
-let clone = {}; // the new empty object
-
-// let's copy all user properties into it
-for (let key in user) {
-  clone[key] = user[key];
-}
-*/!*
-
-// now clone is a fully independent object with the same content
-clone.name = "Pete"; // changed the data in it
-
-alert( user.name ); // still John in the original object
-```
-
-Also we can use the method [Object.assign](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign) for that.
-
-The syntax is:
-
-```js
-Object.assign(dest, [src1, src2, src3...])
-```
-
-- The first argument `dest` is a target object.
-- Further arguments `src1, ..., srcN` (can be as many as needed) are source objects.
-- It copies the properties of all source objects `src1, ..., srcN` into the target `dest`. In other words, properties of all arguments starting from the second are copied into the first object.
-- The call returns `dest`.
-
-For instance, we can use it to merge several objects into one:
-```js
-let user = { name: "John" };
-
-let permissions1 = { canView: true };
-let permissions2 = { canEdit: true };
-
-*!*
-// copies all properties from permissions1 and permissions2 into user
-Object.assign(user, permissions1, permissions2);
-*/!*
-
-// now user = { name: "John", canView: true, canEdit: true }
-```
-
-If the copied property name already exists, it gets overwritten:
-
-```js run
-let user = { name: "John" };
-
-Object.assign(user, { name: "Pete" });
-
-alert(user.name); // now user = { name: "Pete" }
-```
-
-We also can use `Object.assign` to replace `for..in` loop for simple cloning:
-
-```js
-let user = {
-  name: "John",
-  age: 30
-};
-
-*!*
-let clone = Object.assign({}, user);
-*/!*
-```
-
-It copies all properties of `user` into the empty object and returns it.
-
-There are also other methods of cloning an object, e.g. using the [spread syntax](info:rest-parameters-spread) `clone = {...user}`, covered later in the tutorial.
-
-## Nested cloning
-
-Until now we assumed that all properties of `user` are primitive. But properties can be references to other objects. What to do with them?
-
-Like this:
-```js run
-let user = {
-  name: "John",
-  sizes: {
-    height: 182,
-    width: 50
-  }
-};
-
-alert( user.sizes.height ); // 182
-```
-
-Now it's not enough to copy `clone.sizes = user.sizes`, because the `user.sizes` is an object, it will be copied by reference. So `clone` and `user` will share the same sizes:
-
-Like this:
-
-```js run
-let user = {
-  name: "John",
-  sizes: {
-    height: 182,
-    width: 50
-  }
-};
-
-let clone = Object.assign({}, user);
-
-alert( user.sizes === clone.sizes ); // true, same object
-
-// user and clone share sizes
-user.sizes.width++;       // change a property from one place
-alert(clone.sizes.width); // 51, see the result from the other one
-```
-
-To fix that, we should use a cloning loop that examines each value of `user[key]` and, if it's an object, then replicate its structure as well. That is called a "deep cloning".
-
-We can use recursion to implement it. Or, to not reinvent the wheel, take an existing implementation, for instance [_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep) from the JavaScript library [lodash](https://lodash.com).
-
-````smart header="Const objects can be modified"
-An important side effect of storing objects as references is that an object declared as `const` *can* be modified.
-
-For instance:
+ตัวอย่างเช่น:
 
 ```js run
 const user = {
@@ -248,17 +117,208 @@ user.name = "Pete"; // (*)
 alert(user.name); // Pete
 ```
 
-It might seem that the line `(*)` would cause an error, but it does not. The value of `user` is constant, it must always reference the same object, but properties of that object are free to change.
+ดูเหมือนว่าบรรทัดที่ `(*)` น่าจะทำให้เกิดข้อผิดพลาด แต่จริงๆ แล้วไม่ ค่าของ `user` ยังคงไม่เปลี่ยนแปลง มันยังอ้างอิงถึงออบเจ็กต์เดิม แต่คุณสมบัติของออบเจ็กต์นั้นสามารถเปลี่ยนแปลงได้โดยอิสระ
 
-In other words, the `const user` gives an error only if we try to set `user=...` as a whole.
+อีกนัยหนึ่ง `const user` จะให้ข้อผิดพลาดก็ต่อเมื่อเราพยายามกำหนด `user=...` ใหม่ทั้งหมด
 
-That said, if we really need to make constant object properties, it's also possible, but using totally different methods. We'll mention that in the chapter <info:property-descriptors>.
+อย่างไรก็ตาม หากเราต้องการทำให้คุณสมบัติของออบเจ็กต์คงที่จริงๆ ก็สามารถทำได้ แต่ต้องใช้วิธีที่แตกต่างออกไป เราจะกล่าวถึงเรื่องนี้ในบท <info:property-descriptors>
 ````
 
-## Summary
+## การโคลนและการรวมออบเจ็กต์ด้วย Object.assign [#cloning-and-merging-object-assign]
 
-Objects are assigned and copied by reference. In other words, a variable stores not the "object value", but a "reference" (address in memory) for the value. So copying such a variable or passing it as a function argument copies that reference, not the object itself.
+ดังนั้น การคัดลอกตัวแปรออบเจ็กต์จะสร้างการอ้างอิงเพิ่มอีกอันไปยังออบเจ็กต์เดียวกัน
 
-All operations via copied references (like adding/removing properties) are performed on the same single object.
+แต่ถ้าเราต้องการทำสำเนาออบเจ็กต์ล่ะ?
 
-To make a "real copy" (a clone) we can use `Object.assign` for the so-called "shallow copy" (nested objects are copied by reference) or a "deep cloning" function, such as [_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep).
+เราสามารถสร้างออบเจ็กต์ใหม่และทำซ้ำโครงสร้างของออบเจ็กต์เดิมได้ โดยการวนลูปผ่านคุณสมบัติทั้งหมดของมัน แล้วคัดลอกค่าพื้นฐานของแต่ละคุณสมบัติ
+
+แบบนี้:
+
+```js run
+let user = {
+  name: "John",
+  age: 30
+};
+
+*!*
+let clone = {}; // ออบเจ็กต์เปล่าใหม่
+
+// คัดลอกคุณสมบัติทั้งหมดของ user ใส่ในออบเจ็กต์ clone
+for (let key in user) {
+  clone[key] = user[key];
+}
+*/!*
+
+// ตอนนี้ clone เป็นออบเจ็กต์ที่เป็นอิสระอย่างสมบูรณ์แล้ว แต่มีเนื้อหาเหมือนกับ user
+clone.name = "Pete"; // เปลี่ยนข้อมูลใน clone
+
+alert( user.name ); // ในออบเจ็กต์ต้นฉบับยังคงเป็น John อยู่
+```
+
+เรายังสามารถใช้เมท็อด [Object.assign](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign) ได้ด้วย
+
+รูปแบบการใช้งานคือ:
+
+```js
+Object.assign(dest, ...sources)
+```
+
+- อาร์กิวเมนต์แรก `dest` คือออบเจ็กต์ปลายทาง (target)
+- อาร์กิวเมนต์ถัดๆ ไปคือรายการออบเจ็กต์ต้นทาง (sources)
+
+มันจะคัดลอกคุณสมบัติทั้งหมดจากออบเจ็กต์ต้นทางไปใส่ในออบเจ็กต์ปลายทาง `dest` แล้วคืนค่า `dest` เป็นผลลัพธ์
+
+ตัวอย่างเช่น สมมติเรามีออบเจ็กต์ `user` ลองเพิ่มสิทธิ์การเข้าถึง (permissions) สองอย่างให้กับมัน:
+
+```js run
+let user = { name: "John" };
+
+let permissions1 = { canView: true };
+let permissions2 = { canEdit: true };
+
+*!*
+// คัดลอกคุณสมบัติทั้งหมดจาก permissions1 และ permissions2 ไปใส่ใน user
+Object.assign(user, permissions1, permissions2);
+*/!*
+
+// ตอนนี้ user = { name: "John", canView: true, canEdit: true }
+alert(user.name); // John
+alert(user.canView); // true
+alert(user.canEdit); // true
+```
+
+ถ้าชื่อคุณสมบัติที่คัดลอกซ้ำกับที่มีอยู่แล้ว ค่าจะถูกเขียนทับ:
+
+```js run
+let user = { name: "John" };
+
+Object.assign(user, { name: "Pete" });
+
+alert(user.name); // ตอนนี้ user = { name: "Pete" }
+```
+
+เรายังสามารถใช้ `Object.assign` เพื่อโคลนออบเจ็กต์อย่างง่ายๆ ได้ด้วย:
+
+```js run
+let user = {
+  name: "John",
+  age: 30
+};
+
+*!*
+let clone = Object.assign({}, user);
+*/!*
+
+alert(clone.name); // John
+alert(clone.age); // 30
+```
+
+ตรงนี้มันจะคัดลอกคุณสมบัติทั้งหมดของ `user` ไปใส่ในออบเจ็กต์เปล่า แล้วคืนออบเจ็กต์นั้นเป็นผลลัพธ์
+
+มีวิธีอื่นๆ ในการโคลนออบเจ็กต์ด้วย เช่น การใช้ [spread syntax](info:rest-parameters-spread) `clone = {...user}` ซึ่งเราจะกล่าวถึงในภายหลังของบทเรียน
+
+## การโคลนแบบซ้อน (Nested cloning)
+
+จนถึงตอนนี้ เราสมมติว่าคุณสมบัติทั้งหมดของ `user` เป็นข้อมูลพื้นฐาน แต่ในความเป็นจริง คุณสมบัติสามารถเป็นการอ้างอิงไปยังออบเจ็กต์อื่นก็ได้
+
+ตัวอย่างเช่น:
+```js run
+let user = {
+  name: "John",
+  sizes: {
+    height: 182,
+    width: 50
+  }
+};
+
+alert( user.sizes.height ); // 182
+```
+
+ตอนนี้ การคัดลอกแบบ `clone.sizes = user.sizes` ไม่เพียงพออีกต่อไป เพราะ `user.sizes` เป็นออบเจ็กต์ และจะถูกคัดลอกแบบอ้างอิง ทำให้ `clone` กับ `user` จะใช้ออบเจ็กต์ sizes ร่วมกัน:
+
+```js run
+let user = {
+  name: "John",
+  sizes: {
+    height: 182,
+    width: 50
+  }
+};
+
+let clone = Object.assign({}, user);
+
+alert( user.sizes === clone.sizes ); // true, เป็นออบเจ็กต์ตัวเดียวกัน
+
+// user กับ clone ใช้ sizes ร่วมกัน
+user.sizes.width = 60;    // เปลี่ยนค่าจากที่ user
+alert(clone.sizes.width); // 60, ผลลัพธ์เปลี่ยนตามใน clone ด้วย
+```
+
+เพื่อแก้ปัญหานี้และทำให้ `user` กับ `clone` เป็นออบเจ็กต์ที่แยกจากกันจริงๆ เราควรใช้ลูปการโคลน ที่จะตรวจสอบค่าของ `user[key]` แต่ละตัว และถ้าเป็นออบเจ็กต์ ก็ให้ทำซ้ำ (replicate) โครงสร้างของมันด้วย นี่เรียกว่า "deep cloning" หรือ "structured cloning" ซึ่งมีเมท็อด [structuredClone](https://developer.mozilla.org/en-US/docs/Web/API/structuredClone) ที่ทำ deep cloning ให้
+
+### structuredClone
+
+การเรียก `structuredClone(object)` จะโคลน `object` พร้อมกับคุณสมบัติซ้อนทั้งหมด
+
+นี่คือวิธีการใช้ในตัวอย่างของเรา:
+
+```js run
+let user = {
+  name: "John",
+  sizes: {
+    height: 182,
+    width: 50
+  }
+};
+
+*!*
+let clone = structuredClone(user);
+*/!*
+
+alert( user.sizes === clone.sizes ); // false, ออบเจ็กต์คนละตัวกันแล้ว
+
+// ตอนนี้ user กับ clone ไม่เกี่ยวข้องกันเลย
+user.sizes.width = 60;    // เปลี่ยนค่าที่ user
+alert(clone.sizes.width); // 50, ไม่กระทบ clone
+```
+
+เมท็อด `structuredClone` สามารถโคลนข้อมูลได้หลากหลายประเภท เช่น objects, arrays, primitive values
+
+นอกจากนี้ยังรองรับการอ้างอิงวนกลับ (circular references) ด้วย เช่นเมื่อคุณสมบัติของออบเจ็กต์อ้างอิงกลับไปที่ตัวออบเจ็กต์เอง (ทั้งโดยตรง หรือผ่านลูกโซ่การอ้างอิง)
+
+ตัวอย่างเช่น:
+
+```js run
+let user = {};
+// สร้างการอ้างอิงวนกลับ:
+// user.me อ้างอิงกลับไปที่ user เอง
+user.me = user;
+
+let clone = structuredClone(user);
+alert(clone.me === clone); // true
+```
+
+อย่างที่เห็น `clone.me` อ้างอิงถึง `clone` ไม่ใช่ `user`! ดังนั้นการอ้างอิงวนกลับก็ถูกโคลนอย่างถูกต้องเช่นกัน
+
+อย่างไรก็ตาม มีบางกรณีที่ `structuredClone` ล้มเหลว
+
+ตัวอย่างเช่น เมื่อออบเจ็กต์มีคุณสมบัติที่เป็นฟังก์ชัน:
+
+```js run
+// error
+structuredClone({
+  f: function() {}
+});
+```
+
+คุณสมบัติที่เป็นฟังก์ชันไม่ได้รับการสนับสนุน
+
+ในการจัดการกับเคสที่ซับซ้อนแบบนี้ เราอาจต้องใช้วิธีผสมผสานการโคลนหลายแบบ เขียนโค้ดเอง หรือเพื่อไม่ต้องเขียนโค้ดใหม่ทั้งหมดเอง อาจใช้การอิมพลีเมนต์ที่มีอยู่แล้ว เช่น [_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep) จากไลบรารี JavaScript อย่าง [lodash](https://lodash.com)
+
+## สรุป
+
+ออบเจ็กต์ถูกกำหนดและคัดลอกแบบอ้างอิง (by reference) กล่าวคือ ตัวแปรไม่ได้เก็บ "ค่าของออบเจ็กต์" แต่เก็บ "การอ้างอิง" (ที่อยู่ในหน่วยความจำ) ของค่านั้นแทน ดังนั้นการคัดลอกตัวแปรหรือส่งมันเป็น argument ของฟังก์ชัน จะเป็นการคัดลอกการอ้างอิงนั้น ไม่ใช่ตัวออบเจ็กต์เอง
+
+การดำเนินการใดๆ ผ่านการอ้างอิงที่คัดลอกมา (เช่นการเพิ่ม/ลบ property) จะเกิดขึ้นบนออบเจ็กต์อันเดียวกันทั้งหมด
+
+ในการสร้าง "สำเนาจริงๆ" (clone) เราสามารถใช้ `Object.assign` สำหรับ "shallow copy" (ออบเจ็กต์ซ้อนจะถูกคัดลอกแบบอ้างอิง) หรือใช้ฟังก์ชัน "deep cloning" อย่าง `structuredClone` หรือเขียนอิมพลีเมนต์การโคลนเอง เช่น [_.cloneDeep(obj)](https://lodash.com/docs#cloneDeep)
