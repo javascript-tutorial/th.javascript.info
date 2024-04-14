@@ -1,38 +1,38 @@
-# Garbage collection
+# การเก็บขยะ
 
-Memory management in JavaScript is performed automatically and invisibly to us. We create primitives, objects, functions... All that takes memory.
+การจัดการหน่วยความจำใน JavaScript นั้นทำโดยอัตโนมัติและเป็นไปอย่างไม่เห็นกับเรา เมื่อเราสร้าง primitives, objects, functions... สิ่งเหล่านั้นต่างใช้หน่วยความจำ
 
-What happens when something is not needed any more? How does the JavaScript engine discover it and clean it up?
+แล้วเกิดอะไรขึ้นเมื่อมีบางสิ่งที่ไม่จำเป็นต้องใช้อีกต่อไป? JavaScript engine ค้นพบและทำความสะอาดมันได้อย่างไร?
 
-## Reachability
+## ความสามารถในการเข้าถึง (Reachability)
 
-The main concept of memory management in JavaScript is *reachability*.
+แนวคิดหลักของการจัดการหน่วยความจำใน JavaScript คือ *ความสามารถในการเข้าถึง (reachability)*
 
-Simply put, "reachable" values are those that are accessible or usable somehow. They are guaranteed to be stored in memory.
+พูดง่ายๆ คือ ค่าที่ "เข้าถึงได้ (reachable)" คือค่าที่เข้าถึงหรือใช้งานได้ในทางใดทางหนึ่ง มันได้รับการรับประกันว่าจะถูกเก็บไว้ในหน่วยความจำ
 
-1. There's a base set of inherently reachable values, that cannot be deleted for obvious reasons.
+1. มีชุดพื้นฐานของค่าที่เข้าถึงได้โดยธรรมชาติ ซึ่งไม่สามารถลบทิ้งได้ด้วยเหตุผลที่ชัดเจน
 
-    For instance:
+    ยกตัวอย่างเช่น:
 
-    - The currently executing function, its local variables and parameters.
-    - Other functions on the current chain of nested calls, their local variables and parameters.
-    - Global variables.
-    - (there are some other, internal ones as well)
+    - ฟังก์ชันที่กำลังถูกประมวลผลอยู่ และตัวแปรภายในหรือพารามิเตอร์ของมัน
+    - ฟังก์ชันอื่นๆ บนลูกโซ่ปัจจุบันของการเรียกฟังก์ชันซ้อนกัน และตัวแปรภายในหรือพารามิเตอร์ของมัน 
+    - ตัวแปรโกลบอล
+    - (ยังมีบางอย่างที่อยู่เบื้องหลังด้วย)
 
-    These values are called *roots*.
+    ค่าเหล่านี้เรียกว่า *roots*
 
-2. Any other value is considered reachable if it's reachable from a root by a reference or by a chain of references.
+2. ค่าอื่นๆ จะถือว่าเข้าถึงได้ หากมันเข้าถึงได้จาก root โดยการอ้างอิง (reference) หรือลูกโซ่ของการอ้างอิง
 
-    For instance, if there's an object in a global variable, and that object has a property referencing another object, *that* object is considered reachable. And those that it references are also reachable. Detailed examples to follow.
+    ตัวอย่างเช่น ถ้ามีอ็อบเจ็กต์อยู่ในตัวแปรโกลบอล และอ็อบเจ็กต์นั้นมีคุณสมบัติที่อ้างอิงถึงอ็อบเจ็กต์อื่น อ็อบเจ็กต์ *นั้น* จะถูกพิจารณาว่าเข้าถึงได้ และอ็อบเจ็กต์อื่นๆ ที่มันอ้างอิงถึงก็เข้าถึงได้เช่นกัน ตัวอย่างโดยละเอียดจะตามมา
 
-There's a background process in the JavaScript engine that is called [garbage collector](https://en.wikipedia.org/wiki/Garbage_collection_(computer_science)). It monitors all objects and removes those that have become unreachable.
+มีกระบวนการที่ทำงานอยู่เบื้องหลังใน JavaScript engine ที่เรียกว่า [garbage collector](https://en.wikipedia.org/wiki/Garbage_collection_(computer_science)) โดยจะคอยจับตาดูอ็อบเจ็กต์ทั้งหมด และลบทิ้งอ็อบเจ็กต์ที่ไม่สามารถเข้าถึงได้อีกต่อไป
 
-## A simple example
+## ตัวอย่างง่ายๆ
 
-Here's the simplest example:
+นี่คือตัวอย่างที่เรียบง่ายที่สุด: 
 
 ```js
-// user has a reference to the object
+// user มีการอ้างอิงถึงอ็อบเจ็กต์
 let user = {
   name: "John"
 };
@@ -40,9 +40,9 @@ let user = {
 
 ![](memory-user-john.svg)
 
-Here the arrow depicts an object reference. The global variable `"user"` references the object `{name: "John"}` (we'll call it John for brevity). The `"name"` property of John stores a primitive, so it's painted inside the object.
+ที่นี้ลูกศรแสดงถึงการอ้างอิงอ็อบเจ็กต์ ตัวแปรโกลบอล `"user"` อ้างอิงถึงอ็อบเจ็กต์ `{name: "John"}` (เราจะเรียกมันว่า John เพื่อให้สั้นกระชับ) คุณสมบัติ `"name"` ของ John เก็บค่า primitive จึงถูกวาดอยู่ภายในอ็อบเจ็กต์
 
-If the value of `user` is overwritten, the reference is lost:
+ถ้าค่าของ `user` ถูกเขียนทับ การอ้างอิงจะหายไป:
 
 ```js
 user = null;
@@ -50,35 +50,35 @@ user = null;
 
 ![](memory-user-john-lost.svg)
 
-Now John becomes unreachable. There's no way to access it, no references to it. Garbage collector will junk the data and free the memory.
+ตอนนี้ John ไม่สามารถเข้าถึงได้อีกต่อไป ไม่มีวิธีเข้าถึงมันอีก ไม่มีการอ้างอิงถึงมันอีก Garbage collector จะเก็บข้อมูลและเพื่อคืนหน่วยความจำ
 
-## Two references
+## การอ้างอิงสองรายการ
 
-Now let's imagine we copied the reference from `user` to `admin`:
+ทีนี้ลองนึกภาพว่าเราได้คัดลอกการอ้างอิงจาก `user` ไปยัง `admin`:
 
 ```js
-// user has a reference to the object
-let user = {
+// user มีการอ้างอิงถึงอ็อบเจ็กต์
+let user = {  
   name: "John"
 };
 
 *!*
 let admin = user;
-*/!*
+*/!*  
 ```
 
-![](memory-user-john-admin.svg)
+![](memory-user-john-admin.svg)  
 
-Now if we do the same:
+ถ้าตอนนี้เราทำแบบเดิม:
 ```js
 user = null;
 ```
 
-...Then the object is still reachable via `admin` global variable, so it's in memory. If we overwrite `admin` too, then it can be removed.
+...อ็อบเจ็กต์ก็ยังคงเข้าถึงได้ผ่านตัวแปรโกลบอล `admin` ดังนั้นมันต้องยังคงอยู่ในหน่วยความจำ แต่ถ้าเราเขียนทับ `admin` ด้วย มันก็จะสามารถถูกลบทิ้งได้
 
-## Interlinked objects
+## อ็อบเจ็กต์ที่เชื่อมโยงกัน
 
-Now a more complex example. The family:
+ตอนนี้มาดูตัวอย่างที่ซับซ้อนกว่า ครอบครัว:
 
 ```js
 function marry(man, woman) {
@@ -98,15 +98,15 @@ let family = marry({
 });
 ```
 
-Function `marry` "marries" two objects by giving them references to each other and returns a new object that contains them both.
+ฟังก์ชัน `marry` "แต่งงาน" อ็อบเจ็กต์สองตัวให้กัน โดยทำให้มีการอ้างอิงถึงกัน และคืนอ็อบเจ็กต์ใหม่ที่มีทั้งคู่อยู่ด้วย
 
-The resulting memory structure:
+โครงสร้างหน่วยความจำที่ได้:
 
 ![](family.svg)
 
-As of now, all objects are reachable.
+ณ ตอนนี้ อ็อบเจ็กต์ทั้งหมดสามารถเข้าถึงได้
 
-Now let's remove two references:
+เราลองลบการอ้างอิงสองรายการ:
 
 ```js
 delete family.father;
@@ -115,98 +115,98 @@ delete family.mother.husband;
 
 ![](family-delete-refs.svg)
 
-It's not enough to delete only one of these two references, because all objects would still be reachable.
+การลบการอ้างอิงเพียงรายการเดียวไม่เพียงพอ เพราะว่าอ็อบเจ็กต์ทั้งหมดจะยังคงเข้าถึงได้อยู่
 
-But if we delete both, then we can see that John has no incoming reference any more:
+แต่ถ้าเราลบทั้งสองรายการ จะเห็นว่า John ไม่มีการอ้างอิงเข้าอีกแล้ว:
 
 ![](family-no-father.svg)
 
-Outgoing references do not matter. Only incoming ones can make an object reachable. So, John is now unreachable and will be removed from the memory with all its data that also became unaccessible.
+การอ้างอิงออกไม่มีความสำคัญ มีเพียงการอ้างอิงเข้าเท่านั้นที่ทำให้อ็อบเจ็กต์เข้าถึงได้ ดังนั้น John ตอนนี้จึงไม่สามารถเข้าถึงได้อีกต่อไป และจะถูกลบทิ้งจากหน่วยความจำ พร้อมข้อมูลทั้งหมดที่ไม่สามารถเข้าถึงได้อีก
 
-After garbage collection:
+หลังจากการเก็บขยะ:
 
-![](family-no-father-2.svg)
+![](family-no-father-2.svg) 
 
-## Unreachable island
+## เกาะที่เข้าถึงไม่ถึง
 
-It is possible that the whole island of interlinked objects becomes unreachable and is removed from the memory.
+มันเป็นไปได้ว่าทั้งเกาะของอ็อบเจ็กต์ที่เชื่อมโยงกันจะกลายเป็นสิ่งที่เข้าถึงไม่ได้และถูกลบออกจากหน่วยความจำ
 
-The source object is the same as above. Then:
+อ็อบเจ็กต์ต้นทางเป็นเหมือนเดิมดังข้างบน หลังจากนั้นเมื่อ:
 
 ```js
 family = null;
 ```
 
-The in-memory picture becomes:
+สถานการณ์ในหน่วยความจำจะเป็น: 
 
 ![](family-no-family.svg)
 
-This example demonstrates how important the concept of reachability is.
+ตัวอย่างนี้สาธิตให้เห็นว่าแนวคิดเรื่องความสามารถในการเข้าถึงมีความสำคัญขนาดไหน
 
-It's obvious that John and Ann are still linked, both have incoming references. But that's not enough.
+มันเป็นเรื่องชัดเจนว่า John และ Ann ยังคงเชื่อมโยงกันอยู่ ทั้งคู่ยังมีการอ้างอิงเข้า แต่นั่นไม่เพียงพอ
 
-The former `"family"` object has been unlinked from the root, there's no reference to it any more, so the whole island becomes unreachable and will be removed.
+อดีต `"family"` อ็อบเจ็กต์ถูกยกเลิกการเชื่อมโยงจาก root ไม่มีการอ้างอิงไปยังมันอีก ดังนั้นทั้งเกาะก็เลยไม่สามารถเข้าถึงได้และจะถูกลบทิ้งไป
 
-## Internal algorithms
+## อัลกอริธึมภายใน
 
-The basic garbage collection algorithm is called "mark-and-sweep".
+อัลกอริธึมการเก็บขยะพื้นฐานเรียกว่า "mark-and-sweep"
 
-The following "garbage collection" steps are regularly performed:
+ขั้นตอนการ "เก็บขยะ" ต่อไปนี้ถูกดำเนินอย่างสม่ำเสมอ:
 
-- The garbage collector takes roots and "marks" (remembers) them.
-- Then it visits and "marks" all references from them.
-- Then it visits marked objects and marks *their* references. All visited objects are remembered, so as not to visit the same object twice in the future.
-- ...And so on until every reachable (from the roots) references are visited.
-- All objects except marked ones are removed.
+- Garbage collector รวบรวม roots และ "ทำเครื่องหมาย" (จดจำ) ไว้
+- จากนั้นมันจะไปตามการอ้างอิงจาก roots และทำเครื่องหมายการอ้างอิงทั้งหมด
+- หลังจากนั้นจะไปที่อ็อบเจ็กต์ที่ถูกทำเครื่องหมายและทำเครื่องหมาย *การอ้างอิง* ของพวกมัน อ็อบเจ็กต์ที่ไปถึงทั้งหมดจะถูกบันทึกไว้เพื่อไม่ให้ไปที่อ็อบเจ็กต์เดิมซ้ำในอนาคต
+- ...และทำต่อไปเรื่อยๆ จนกว่าทุกการอ้างอิงที่เข้าถึงได้ (จาก roots) จะถูกไปเยี่ยม 
+- อ็อบเจ็กต์ทั้งหมด ยกเว้นที่มีเครื่องหมาย จะถูกลบทิ้ง
 
-For instance, let our object structure look like this:
+ตัวอย่างเช่น สมมติว่าโครงสร้างอ็อบเจ็กต์ของเราเป็นแบบนี้:
 
 ![](garbage-collection-1.svg)
 
-We can clearly see an "unreachable island" to the right side. Now let's see how "mark-and-sweep" garbage collector deals with it.
+เราเห็นได้ชัดว่ามี "เกาะที่เข้าถึงไม่ถึง" อยู่ด้านขวา ทีนี้มาดูกันว่า garbage collector แบบ "mark-and-sweep" จัดการกับมันอย่างไร
 
-The first step marks the roots:
+ขั้นแรกคือการทำเครื่องหมาย roots:
 
 ![](garbage-collection-2.svg)
 
-Then their references are marked:
+จากนั้นเราก็ไปตามการอ้างอิงของพวกมันและทำเครื่องหมายอ็อบเจ็กต์ที่ถูกอ้างอิงถึง:
 
 ![](garbage-collection-3.svg)
 
-...And their references, while possible:
+...และทำต่อไปเรื่อยๆ จนกว่าจะไม่มีทางไปต่อ:
 
-![](garbage-collection-4.svg)
+![](garbage-collection-4.svg) 
 
-Now the objects that could not be visited in the process are considered unreachable and will be removed:
+ตอนนี้อ็อบเจ็กต์ที่ไม่มีการไปหาระหว่างขั้นตอนจะถูกถือว่าเข้าถึงไม่ได้และจะถูกลบทิ้ง:
 
 ![](garbage-collection-5.svg)
 
-We can also imagine the process as spilling a huge bucket of paint from the roots, that flows through all references and marks all reachable objects. The unmarked ones are then removed.
+เราสามารถจินตนาการว่ากระบวนการนี้เปรียบเสมือนการใช้ถังสีขนาดใหญ่ราดจากจุด roots ซึ่งสีจะไหลไปตามการอ้างอิงต่างๆ และทำเครื่องหมายอ็อบเจ็กต์ทั้งหมดที่สามารถเข้าถึงได้ ส่วนอ็อบเจ็กต์ที่ไม่มีเครื่องหมายจะถูกลบทิ้ง
 
-That's the concept of how garbage collection works. JavaScript engines apply many optimizations to make it run faster and not affect the execution.
+นี่คือหลักการว่า garbage collection ทำงานอย่างไร JavaScript engines ใช้การปรับปรุงหลายอย่างเพื่อให้มันทำงานได้เร็วขึ้นและไม่ทำให้เกิดความล่าช้าในการประมวลผลโค้ด
 
-Some of the optimizations:
+การปรับปรุงบางส่วน:
 
-- **Generational collection** -- objects are split into two sets: "new ones" and "old ones". Many  objects appear, do their job and die fast, they can be cleaned up aggressively. Those that survive for long enough, become "old" and are examined less often.
-- **Incremental collection** -- if there are many objects, and we try to walk and mark the whole object set at once, it may take some time and introduce visible delays in the execution. So the engine tries to split the garbage collection into pieces. Then the pieces are executed one by one, separately. That requires some extra bookkeeping between them to track changes, but we have many tiny delays instead of a big one.
-- **Idle-time collection** -- the garbage collector tries to run only while the CPU is idle, to reduce the possible effect on the execution.
+- **Generational collection** -- อ็อบเจ็กต์จะถูกแบ่งออกเป็นสองกลุ่ม: "อ็อบเจ็กต์ใหม่" และ "อ็อบเจ็กต์เก่า" ในโค้ดทั่วไป อ็อบเจ็กต์หลายตัวจะมีอายุขัยสั้น: พวกมันถูกสร้างขึ้น ทำหน้าที่ของมัน และตายอย่างรวดเร็ว ดังนั้นจึงมีเหตุผลที่จะติดตามอ็อบเจ็กต์ใหม่และเคลียร์หน่วยความจำจากพวกมัน หากเป็นเช่นนั้นจริงๆ สำหรับอ็อบเจ็กต์ที่อยู่นานพอจะกลายเป็นอ็อบเจ็กต์ "เก่า" และจะถูกตรวจสอบน้อยลง  
+- **Incremental collection** -- หากมีอ็อบเจ็กต์จำนวนมาก และเราพยายามเดินไปรอบๆ และทำเครื่องหมายกลุ่มอ็อบเจ็กต์ทั้งหมดในครั้งเดียว มันอาจใช้เวลานานและทำให้เกิดความล่าช้าที่เห็นได้ชัดในการประมวลผล ดังนั้น engine จะแบ่งกลุ่มอ็อบเจ็กต์ทั้งหมดที่มีอยู่เป็นหลายๆ ส่วน จากนั้นลบทิ้งทีละส่วน การเก็บขยะจึงเกิดขึ้นหลายครั้งแบบเล็กๆ แทนที่จะทำครั้งเดียวทั้งหมด ซึ่งต้องมีการจัดการพิเศษระหว่างการเก็บขยะแต่ละครั้งเพื่อติดตามการเปลี่ยนแปลง แต่เราจะได้ความล่าช้าหลายครั้งแบบเล็กๆ แทนที่จะเป็นครั้งใหญ่
+- **Idle-time collection** -- garbage collector จะพยายามทำงานเฉพาะช่วงที่ CPU ว่างเท่านั้น เพื่อลดผลกระทบที่อาจเกิดขึ้นกับการประมวลผล
 
-There exist other optimizations and flavours of garbage collection algorithms. As much as I'd like to describe them here, I have to hold off, because different engines implement different tweaks and techniques. And, what's even more important, things change as engines develop, so studying deeper "in advance", without a real need is probably not worth that. Unless, of course, it is a matter of pure interest, then there will be some links for you below.
+อัลกอริธึมการเก็บขยะยังมีการปรับปรุงและหลากหลายรูปแบบอื่นๆ อีก แม้ว่าผมจะอยากอธิบายพวกมันที่นี่ก็ตาม แต่ผมต้องหยุดไว้ก่อน เพราะแต่ละ engine จะใช้เทคนิคและรายละเอียดปลีกย่อยที่แตกต่างกัน และที่สำคัญไปกว่านั้น สิ่งต่างๆ มักจะเปลี่ยนแปลงไปเมื่อ engine มีการพัฒนา ดังนั้นการศึกษาลึกๆ "ล่วงหน้า" โดยไม่มีความจำเป็นจริงๆ อาจจะไม่คุ้มค่านัก เว้นเสียแต่ว่า เป็นเรื่องที่คุณอยากรู้จริงๆ ซึ่งหากเป็นเช่นนั้นจะมีลิงค์ให้ได้อ่านเพิ่มเติมข้างล่างนี้
 
-## Summary
+## สรุป
 
-The main things to know:
+สิ่งสำคัญที่ควรรู้:
 
-- Garbage collection is performed automatically. We cannot force or prevent it.
-- Objects are retained in memory while they are reachable.
-- Being referenced is not the same as being reachable (from a root): a pack of interlinked objects can become unreachable as a whole.
+- การเก็บขยะเกิดขึ้นโดยอัตโนมัติ เราไม่สามารถบังคับให้ทำหรือป้องกันมันได้
+- อ็อบเจ็กต์จะยังคงถูกเก็บในหน่วยความจำตราบเท่าที่ยังเข้าถึงได้ (reachable)
+- การถูกอ้างอิงถึงไม่เหมือนกับการเข้าถึงได้ (จาก root): กลุ่มของอ็อบเจ็กต์ที่เชื่อมโยงกันสามารถกลายเป็นการเข้าถึงไม่ได้ทั้งหมด เช่นในตัวอย่างข้างบน
 
-Modern engines implement advanced algorithms of garbage collection.
+JavaScript engine สมัยใหม่ใช้อัลกอริธึมขั้นสูงในการเก็บขยะ
 
-A general book "The Garbage Collection Handbook: The Art of Automatic Memory Management" (R. Jones et al) covers some of them.
+หนังสือเล่มหนึ่งที่ชื่อ "The Garbage Collection Handbook: The Art of Automatic Memory Management" (R. Jones et al) เขียนเกี่ยวกับอัลกอริธึมบางส่วนนี้
 
-If you are familiar with low-level programming, the more detailed information about V8 garbage collector is in the article [A tour of V8: Garbage Collection](http://jayconrod.com/posts/55/a-tour-of-v8-garbage-collection).
+ถ้าคุณคุ้นเคยกับการเขียนโปรแกรมระดับต่ำ คุณจะหาข้อมูลเกี่ยวกับ garbage collector ของ V8 ได้โดยละเอียดในบทความ [A tour of V8: Garbage Collection](https://jayconrod.com/posts/55/a-tour-of-v8-garbage-collection)
 
-[V8 blog](https://v8.dev/) also publishes articles about changes in memory management from time to time. Naturally, to learn the garbage collection, you'd better prepare by learning about V8 internals in general and read the blog of [Vyacheslav Egorov](http://mrale.ph) who worked as one of V8 engineers. I'm saying: "V8", because it is best covered with articles in the internet. For other engines, many approaches are similar, but garbage collection differs in many aspects.
+[บล็อกของ V8](https://v8.dev/) ยังมีการเผยแพร่บทความเกี่ยวกับการเปลี่ยนแปลงในการจัดการหน่วยความจำเป็นครั้งคราวด้วย เป็นธรรมดาที่ในการเรียนรู้เพิ่มเติมเกี่ยวกับการเก็บขยะ คุณควรเตรียมความรู้เกี่ยวกับการทำงานภายในของ V8 โดยทั่วไปก่อน และอ่านบล็อกของ [Vyacheslav Egorov](https://mrale.ph) ผู้ซึ่งเคยเป็นหนึ่งในวิศวกรของ V8 ผมพูดอยู่ตลอดว่า "V8" เพราะมันถูกกล่าวถึงในบทความทางอินเทอร์เน็ตค่อนข้างมาก สำหรับ engine อื่นๆ หลายแนวคิดก็คล้ายกัน แต่การเก็บขยะนั้นจะแตกต่างกันในหลายแง่มุม
 
-In-depth knowledge of engines is good when you need low-level optimizations. It would be wise to plan that as the next step after you're familiar with the language.  
+ความรู้เชิงลึกเกี่ยวกับ engines มีประโยชน์เมื่อคุณต้องการปรับแต่งประสิทธิภาพในรายละเอียด จะเป็นการฉลาดหากจะวางแผนเรียนรู้สิ่งนี้เป็นขั้นต่อไปหลังจากที่คุณคุ้นเคยกับตัวภาษา
