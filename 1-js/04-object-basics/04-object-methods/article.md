@@ -1,6 +1,6 @@
-# Object methods, "this"
+# วิธีการของอ็อบเจ็กต์ และ "this"
 
-Objects are usually created to represent entities of the real world, like users, orders and so on:
+อ็อบเจ็กต์มักถูกสร้างขึ้นเพื่อแสดงแทนสิ่งต่างๆ ในโลกแห่งความเป็นจริง เช่น ผู้ใช้งาน คำสั่งซื้อ และอื่นๆ:
 
 ```js
 let user = {
@@ -9,13 +9,13 @@ let user = {
 };
 ```
 
-And, in the real world, a user can *act*: select something from the shopping cart, login, logout etc.
+และในโลกแห่งความเป็นจริง ผู้ใช้สามารถ *กระทำ* สิ่งต่างๆ ได้: เลือกสินค้าจากตะกร้า เข้าสู่ระบบ ออกจากระบบ ฯลฯ
 
-Actions are represented in JavaScript by functions in properties.
+การกระทำในภาษา JavaScript จะถูกแสดงด้วยฟังก์ชันที่อยู่ในคุณสมบัติ (properties)
 
-## Method examples
+## ตัวอย่างเมท็อด
 
-For a start, let's teach the `user` to say hello:
+เริ่มต้นด้วยการสอนให้ `user` พูดคำว่าสวัสดี: 
 
 ```js run
 let user = {
@@ -32,15 +32,15 @@ user.sayHi = function() {
 user.sayHi(); // Hello!
 ```
 
-Here we've just used a Function Expression to create a function and assign it to the property `user.sayHi` of the object.
+ที่นี่เราใช้ Function Expression ในการสร้างฟังก์ชันและกำหนดให้กับคุณสมบัติ `user.sayHi` ของอ็อบเจ็กต์
 
-Then we can call it as `user.sayHi()`. The user can now speak!
+จากนั้นเราสามารถเรียกมันด้วย `user.sayHi()` ตอนนี้ผู้ใช้สามารถพูดได้แล้ว!
 
-A function that is a property of an object is called its *method*.
+ฟังก์ชันที่เป็นคุณสมบัติของอ็อบเจ็กต์เรียกว่า *เมท็อด (method)*
 
-So, here we've got a method `sayHi` of the object `user`.
+ดังนั้น ที่นี่เรามีเมท็อด `sayHi` ของอ็อบเจ็กต์ `user`
 
-Of course, we could use a pre-declared function as a method, like this:
+แน่นอนว่าเราสามารถใช้ฟังก์ชันที่ประกาศไว้ก่อนแล้วมาเป็นเมท็อดได้ ตัวอย่างเช่น:
 
 ```js run
 let user = {
@@ -48,29 +48,30 @@ let user = {
 };
 
 *!*
-// first, declare
+// ประกาศฟังก์ชันก่อน
 function sayHi() {
   alert("Hello!");
-};
+}
 
-// then add as a method
+// จากนั้นเพิ่มมันเป็นเมท็อด
 user.sayHi = sayHi;
 */!*
 
 user.sayHi(); // Hello!
 ```
 
-```smart header="Object-oriented programming"
-When we write our code using objects to represent entities, that's called [object-oriented programming](https://en.wikipedia.org/wiki/Object-oriented_programming), in short: "OOP".
+```smart header="การเขียนโปรแกรมเชิงวัตถุ (Object-oriented programming)"
+เมื่อเราเขียนโค้ดโดยใช้อ็อบเจ็กต์แทนสิ่งต่างๆ นี่เรียกว่า [การเขียนโปรแกรมเชิงวัตถุ](https://en.wikipedia.org/wiki/Object-oriented_programming) หรือเรียกสั้นๆ ว่า "OOP"
 
-OOP is a big thing, an interesting science of its own. How to choose the right entities? How to organize the interaction between them? That's architecture, and there are great books on that topic, like "Design Patterns: Elements of Reusable Object-Oriented Software" by E. Gamma, R. Helm, R. Johnson, J. Vissides or "Object-Oriented Analysis and Design with Applications" by G. Booch, and more.
+OOP เป็นเรื่องใหญ่และเป็นศาสตร์ที่น่าสนใจในตัวมันเอง คำถามเช่น จะเลือกอ็อบเจ็กต์แทนสิ่งต่างๆ ได้อย่างไร? จะจัดการปฏิสัมพันธ์ระหว่างพวกมันอย่างไร? นี่คือเรื่องของสถาปัตยกรรม และมีหนังสือดีๆ มากมายเกี่ยวกับหัวข้อนี้ เช่น "Design Patterns: Elements of Reusable Object-Oriented Software" โดย E. Gamma, R. Helm, R. Johnson, J. Vissides หรือ "Object-Oriented Analysis and Design with Applications" โดย G. Booch และอื่นๆ
 ```
-### Method shorthand
 
-There exists a shorter syntax for methods in an object literal:
+### เมท็อดลัด (Method shorthand)
+
+มีรูปแบบสั้นกว่าสำหรับเขียนเมท็อดใน object literal:
 
 ```js
-// these objects do the same
+// อ็อบเจ็กต์เหล่านี้ทำงานแบบเดียวกัน 
 
 user = {
   sayHi: function() {
@@ -78,31 +79,31 @@ user = {
   }
 };
 
-// method shorthand looks better, right?
+// รูปแบบย่อของเมท็อดดูดีกว่าใช่ไหม?
 user = {
 *!*
-  sayHi() { // same as "sayHi: function(){...}"
+  sayHi() { // เหมือนกับ "sayHi: function(){...}"
 */!*
     alert("Hello");
   }
 };
 ```
 
-As demonstrated, we can omit `"function"` and just write `sayHi()`.
+อย่างที่เห็น เราสามารถละ `"function"` ทิ้งและเขียนแค่ `sayHi()` ได้
 
-To tell the truth, the notations are not fully identical. There are subtle differences related to object inheritance (to be covered later), but for now they do not matter. In almost all cases the shorter syntax is preferred.
+อันที่จริง รูปแบบที่เขียนไม่ได้เหมือนกันทั้งหมด มีความแตกต่างเล็กน้อยที่เกี่ยวกับการสืบทอดของอ็อบเจ็กต์ (จะกล่าวถึงภายหลัง) แต่ตอนนี้พวกมันไม่สำคัญ ในเกือบทุกกรณี เราจะเลือกใช้รูปแบบแบบย่อ 
 
-## "this" in methods
+## "this" ในเมท็อด
 
-It's common that an object method needs to access the information stored in the object to do its job.
+มักจะเป็นเรื่องปกติที่เมท็อดของอ็อบเจ็กต์ต้องการเข้าถึงข้อมูลที่เก็บอยู่ในอ็อบเจ็กต์เพื่อทำงานบางอย่าง
 
-For instance, the code inside `user.sayHi()` may need the name of the `user`.
+ยกตัวอย่างเช่น โค้ดภายใน `user.sayHi()` อาจต้องการชื่อ (name) ของ `user`
 
-**To access the object, a method can use the `this` keyword.**
+**เมท็อดสามารถใช้คีย์เวิร์ด `this` เพื่อเข้าถึงอ็อบเจ็กต์**
 
-The value of `this` is the object "before dot", the one used to call the method.
+ค่าของ `this` คืออ็อบเจ็กต์ "ก่อนจุด" ซึ่งเป็นอ็อบเจ็กต์ที่ใช้ในการเรียกเมท็อด
 
-For instance:
+ตัวอย่างเช่น:
 
 ```js run
 let user = {
@@ -111,7 +112,7 @@ let user = {
 
   sayHi() {
 *!*
-    // "this" is the "current object"
+    // "this" คืออ็อบเจ็กต์ "ปัจจุบัน"
     alert(this.name);
 */!*
   }
@@ -121,9 +122,9 @@ let user = {
 user.sayHi(); // John
 ```
 
-Here during the execution of `user.sayHi()`, the value of `this` will be `user`.
+ที่นี่ในระหว่างที่มีการเรียก `user.sayHi()` ค่าของ `this` จะเป็น `user`
 
-Technically, it's also possible to access the object without `this`, by referencing it via the outer variable:
+ในทางเทคนิคแล้ว เราก็สามารถเข้าถึงอ็อบเจ็กต์ได้โดยไม่ต้องใช้ `this` โดยการอ้างอิงผ่านตัวแปรภายนอก:
 
 ```js
 let user = {
@@ -132,16 +133,16 @@ let user = {
 
   sayHi() {
 *!*
-    alert(user.name); // "user" instead of "this"
+    alert(user.name); // ใช้ "user" แทน "this"
 */!*
   }
 
 };
 ```
 
-...But such code is unreliable. If we decide to copy `user` to another variable, e.g. `admin = user` and overwrite `user` with something else, then it will access the wrong object.
+...แต่โค้ดแบบนี้ไม่เชื่อถือได้ หากเราตัดสินใจที่จะคัดลอก `user` ไปยังตัวแปรอื่น เช่น `admin = user` แล้วเขียนทับ `user` ด้วยค่าอื่น มันจะเข้าถึงอ็อบเจ็กต์ผิด
 
-That's demonstrated below:
+ตัวอย่างแสดงไว้ข้างล่างนี้:
 
 ```js run
 let user = {
@@ -150,7 +151,7 @@ let user = {
 
   sayHi() {
 *!*
-    alert( user.name ); // leads to an error
+    alert( user.name ); // นำไปสู่ข้อผิดพลาด
 */!*
   }
 
@@ -158,20 +159,20 @@ let user = {
 
 
 let admin = user;
-user = null; // overwrite to make things obvious
+user = null; // เขียนทับเพื่อให้สิ่งต่างๆ ชัดเจน
 
 *!*
 admin.sayHi(); // TypeError: Cannot read property 'name' of null
 */!*
 ```
 
-If we used `this.name` instead of `user.name` inside the `alert`, then the code would work.
+ถ้าเราใช้ `this.name` แทน `user.name` ภายใน `alert` โค้ดก็จะทำงานได้
 
-## "this" is not bound
+## "this" ไม่ถูกผูกไว้
 
-In JavaScript, keyword `this` behaves unlike most other programming languages. It can be used in any function, even if it's not a method of an object.
+ในภาษา JavaScript คีย์เวิร์ด `this` มีพฤติกรรมแตกต่างจากภาษาอื่นๆ ส่วนใหญ่ มันสามารถใช้ในฟังก์ชันใดก็ได้ ถึงแม้ว่ามันจะไม่ใช่เมท็อดของอ็อบเจ็กต์ก็ตาม
 
-There's no syntax error in the following example:
+ไม่มี syntax error ในตัวอย่างต่อไปนี้:
 
 ```js
 function sayHi() {
@@ -179,9 +180,9 @@ function sayHi() {
 }
 ```
 
-The value of `this` is evaluated during the run-time, depending on the context.
+ค่าของ `this` จะถูกประเมินในช่วง run-time ขึ้นอยู่กับบริบท
 
-For instance, here the same function is assigned to two different objects and has different "this" in the calls:
+ตัวอย่างเช่น ที่นี่ฟังก์ชันเดียวกันถูกกำหนดให้กับอ็อบเจ็กต์สองตัวที่แตกต่างกัน และมี "this" ที่ต่างกันในการเรียก:
 
 ```js run
 let user = { name: "John" };
@@ -192,23 +193,23 @@ function sayHi() {
 }
 
 *!*
-// use the same function in two objects
+// ใช้ฟังก์ชันเดียวกันในอ็อบเจ็กต์สองตัว
 user.f = sayHi;
 admin.f = sayHi;
 */!*
 
-// these calls have different this
-// "this" inside the function is the object "before the dot"
+// การเรียกเหล่านี้มี this ต่างกัน
+// "this" ภายในฟังก์ชันคือ อ็อบเจ็กต์ "ก่อนจุด"
 user.f(); // John  (this == user)
 admin.f(); // Admin  (this == admin)
 
-admin['f'](); // Admin (dot or square brackets access the method – doesn't matter)
+admin['f'](); // Admin (การเข้าถึงเมท็อดโดยจุดกับวงเล็บเหลี่ยมไม่ต่างกัน)
 ```
 
-The rule is simple: if `obj.f()` is called, then `this` is `obj` during the call of `f`. So it's either `user` or `admin` in the example above.
+กฎง่ายๆ คือ: ถ้ามีการเรียก `obj.f()` เมื่อนั้น `this` จะเป็น `obj` ระหว่างการเรียก `f` ดังนั้นมันจะเป็น `user` หรือ `admin` ในตัวอย่างข้างต้น 
 
-````smart header="Calling without an object: `this == undefined`"
-We can even call the function without an object at all:
+````smart header="การเรียกโดยไม่มีอ็อบเจ็กต์: `this == undefined`"
+เราสามารถเรียกฟังก์ชันได้โดยไม่มีอ็อบเจ็กต์เลยก็ได้:
 
 ```js run
 function sayHi() {
@@ -218,28 +219,29 @@ function sayHi() {
 sayHi(); // undefined
 ```
 
-In this case `this` is `undefined` in strict mode. If we try to access `this.name`, there will be an error.
+````
+ในกรณีนี้ `this` จะเป็น `undefined` ในโหมด strict ถ้าเราพยายามเข้าถึง `this.name` จะเกิด error
 
-In non-strict mode the value of `this` in such case will be the *global object* (`window` in a browser, we'll get to it later in the chapter [](info:global-object)). This is a historical behavior that `"use strict"` fixes.
+ในโหมด non-strict ค่าของ `this` ในกรณีนี้จะเป็น *global object* (`window` ในเบราว์เซอร์ เราจะได้เรียนรู้เพิ่มเติมในบท [](info:global-object)) นี่เป็นพฤติกรรมดั้งเดิมที่ `"use strict"` แก้ไข
 
-Usually such call is a programming error. If there's `this` inside a function, it expects to be called in an object context.
+โดยปกติการเรียกแบบนี้เป็นข้อผิดพลาดในการเขียนโปรแกรม ถ้ามี `this` อยู่ในฟังก์ชัน มันคาดหวังว่าจะถูกเรียกในบริบทของอ็อบเจ็กต์
+
+
+````smart header="ผลกระทบของ `this` ที่ไม่ได้ถูกผูกไว้"
+ถ้าคุณมาจากภาษาโปรแกรมอื่น คุณอาจจะคุ้นเคยกับแนวคิดเรื่อง "`this` ที่ถูกผูกไว้" ซึ่งเมท็อดที่ประกาศในอ็อบเจ็กต์จะมี `this` ชี้ไปยังอ็อบเจ็กต์นั้นตลอดเวลา 
+
+ในภาษา JavaScript `this` มีค่า "อิสระ" ค่าของมันจะถูกประเมินในช่วงเวลาเรียก และไม่ขึ้นอยู่กับว่าเมท็อดถูกประกาศที่ไหน แต่จะขึ้นอยู่กับว่าอ็อบเจ็กต์ใดอยู่ "ก่อนจุด"
+
+แนวคิดของ `this` ที่ถูกประเมินในช่วง run-time มีทั้งข้อดีและข้อเสีย ในแง่หนึ่ง ฟังก์ชันสามารถนำไปใช้กับอ็อบเจ็กต์ต่างๆ ได้อย่างอิสระ แต่ในอีกแง่หนึ่ง ความยืดหยุ่นที่เพิ่มขึ้นก็ทำให้มีโอกาสเกิดข้อผิดพลาดได้มากขึ้นด้วย
+
+ที่นี่เราไม่ได้ตัดสินว่าการออกแบบภาษาเช่นนี้ดีหรือไม่ดี เราจะเข้าใจวิธีทำงานกับมัน เพื่อใช้ประโยชน์และหลีกเลี่ยงปัญหา
 ````
 
-```smart header="The consequences of unbound `this`"
-If you come from another programming language, then you are probably used to the idea of a "bound `this`", where methods defined in an object always have `this` referencing that object.
+## Arrow functions ไม่มี "this"
 
-In JavaScript `this` is "free", its value is evaluated at call-time and does not depend on where the method was declared, but rather on what object is "before the dot".
+Arrow functions มีลักษณะพิเศษ: พวกมันไม่มี `this` "เป็นของตัวเอง" ถ้าเราใช้ `this` ในฟังก์ชันแบบนี้ ค่าของมันจะถูกนำมาจากฟังก์ชัน "ธรรมดา" ที่ครอบมันอยู่
 
-The concept of run-time evaluated `this` has both pluses and minuses. On the one hand, a function can be reused for different objects. On the other hand, the greater flexibility creates more possibilities for mistakes.
-
-Here our position is not to judge whether this language design decision is good or bad. We'll understand how to work with it, how to get benefits and avoid problems.
-```
-
-## Arrow functions have no "this"
-
-Arrow functions are special: they don't have their "own" `this`. If we reference `this` from such a function, it's taken from the outer "normal" function.
-
-For instance, here `arrow()` uses `this` from the outer `user.sayHi()` method:
+ตัวอย่างเช่น ที่นี่ `arrow()` ใช้ `this` จากเมท็อด `user.sayHi()` ด้านนอก:
 
 ```js run
 let user = {
@@ -253,18 +255,17 @@ let user = {
 user.sayHi(); // Ilya
 ```
 
-That's a special feature of arrow functions, it's useful when we actually do not want to have a separate `this`, but rather to take it from the outer context. Later in the chapter <info:arrow-functions> we'll go more deeply into arrow functions.
+นี่คือลักษณะพิเศษของ arrow functions มันมีประโยชน์เมื่อเราไม่ต้องการให้มี `this` ที่แยกออกมา แต่จะนำ `this` มาจากบริบทภายนอกแทน เราจะศึกษา arrow functions เพิ่มเติมในบท <info:arrow-functions>
 
+## สรุป
 
-## Summary
+- ฟังก์ชันที่ถูกเก็บอยู่ในคุณสมบัติของอ็อบเจ็กต์เรียกว่า "เมท็อด"
+- เมท็อดทำให้อ็อบเจ็กต์สามารถ "กระทำ" อะไรบางอย่างได้ เช่น `object.doSomething()`
+- เมท็อดสามารถอ้างอิงไปยังอ็อบเจ็กต์ผ่าน `this` ได้
 
-- Functions that are stored in object properties are called "methods".
-- Methods allow objects to "act" like `object.doSomething()`.
-- Methods can reference the object as `this`.
+ค่าของ `this` จะถูกกำหนดในช่วง run-time
+- เมื่อประกาศฟังก์ชัน มันอาจใช้ `this` ได้ แต่ `this` จะยังไม่มีค่าจนกว่าฟังก์ชันจะถูกเรียก
+- ฟังก์ชันสามารถถูกคัดลอกข้ามอ็อบเจ็กต์ได้
+- เมื่อฟังก์ชันถูกเรียกในรูปแบบ `object.method()` ค่าของ `this` ระหว่างการเรียกจะเป็น `object`
 
-The value of `this` is defined at run-time.
-- When a function is declared, it may use `this`, but that `this` has no value until the function is called.
-- A function can be copied between objects.
-- When a function is called in the "method" syntax: `object.method()`, the value of `this` during the call is `object`.
-
-Please note that arrow functions are special: they have no `this`. When `this` is accessed inside an arrow function, it is taken from outside.
+โปรดทราบว่า arrow functions มีลักษณะพิเศษ: พวกมันไม่มี `this` เมื่อมีการใช้ `this` ภายใน arrow function ค่าของมันจะถูกนำมาจากภายนอก
