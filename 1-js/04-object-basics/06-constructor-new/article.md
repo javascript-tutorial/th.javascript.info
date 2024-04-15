@@ -1,17 +1,17 @@
-# Constructor, operator "new"
+# Constructor และตัวดำเนินการ "new"
 
-The regular `{...}` syntax allows us to create one object. But often we need to create many similar objects, like multiple users or menu items and so on.
+การใช้ `{...}` ช่วยให้เราสร้างออบเจ็กต์ได้ แต่ในกรณีที่ต้องการสร้างออบเจ็กต์หลายๆ ตัวที่มีลักษณะคล้ายกัน เช่น ผู้ใช้หลายคน, เมนูหลายรายการ ฯลฯ การใช้ `{...}` ซ้ำๆ อาจไม่ใช่วิธีที่ดี 
 
-That can be done using constructor functions and the `"new"` operator.
+ในกรณีนี้เราสามารถใช้ฟังก์ชัน constructor ร่วมกับตัวดำเนินการ `"new"` ได้
 
-## Constructor function
+## ฟังก์ชัน Constructor
 
-Constructor functions technically are regular functions. There are two conventions though:
+โดยปกติแล้ว ฟังก์ชัน constructor เป็นฟังก์ชันธรรมดา แต่มีข้อตกลงสองประการ:
 
-1. They are named with capital letter first.
-2. They should be executed only with `"new"` operator.
+1. ชื่อฟังก์ชันจะขึ้นต้นด้วยตัวพิมพ์ใหญ่เสมอ
+2. ควรเรียกใช้งานผ่านตัวดำเนินการ `"new"` เท่านั้น
 
-For instance:
+ตัวอย่างเช่น:
 
 ```js run
 function User(name) {
@@ -27,31 +27,31 @@ alert(user.name); // Jack
 alert(user.isAdmin); // false
 ```
 
-When a function is executed with `new`, it does the following steps:
+เมื่อฟังก์ชันถูกเรียกผ่าน `new` จะเกิดขั้นตอนดังนี้:
 
-1. A new empty object is created and assigned to `this`.
-2. The function body executes. Usually it modifies `this`, adds new properties to it.
-3. The value of `this` is returned.
+1. มีการสร้างออบเจ็กต์ใหม่ขึ้นมาเปล่าๆ และกำหนดให้เป็น `this`
+2. ทำงานในส่วนบอดี้ของฟังก์ชัน ซึ่งมักจะมีการปรับแต่ง `this` และเพิ่มคุณสมบัติใหม่ๆ เข้าไป
+3. คืนค่า `this`
 
-In other words, `new User(...)` does something like:
+กล่าวอีกนัยหนึ่ง `new User(...)` สามารถเทียบได้กับ:
 
 ```js
 function User(name) {
 *!*
-  // this = {};  (implicitly)
+  // this = {};  (โดยนัยยะ)
 */!*
 
-  // add properties to this
+  // เพิ่มคุณสมบัติลงใน this
   this.name = name;
   this.isAdmin = false;
 
 *!*
-  // return this;  (implicitly)
+  // return this;  (โดยนัยยะ)
 */!*
 }
 ```
 
-So `let user = new User("Jack")` gives the same result as:
+ดังนั้น `let user = new User("Jack")` จะให้ผลลัพธ์เหมือนกับ:
 
 ```js
 let user = {
@@ -60,135 +60,134 @@ let user = {
 };
 ```
 
-Now if we want to create other users, we can call `new User("Ann")`, `new User("Alice")` and so on. Much shorter than using literals every time, and also easy to read.
+ซึ่งหากเราต้องการสร้าง user อื่นๆ เพิ่มเติม ก็เรียกใช้ `new User("Ann")`, `new User("Alice")` เป็นต้น โดยจะสั้นกว่าและอ่านง่ายกว่าการใช้ออบเจ็กต์ลิเทอรัลซ้ำๆ มากๆ
 
-That's the main purpose of constructors -- to implement reusable object creation code.
+จึงสรุปได้ว่า จุดประสงค์หลักของ constructor คือ การนำโค้ดที่ใช้ในการสร้างออบเจ็กต์มาใช้ซ้ำได้ง่ายขึ้น
 
-Let's note once again -- technically, any function (except arrow functions, as they don't have `this`) can be used as a constructor. It can be run with `new`, and it will execute the algorithm above. The "capital letter first" is a common agreement, to make it clear that a function is to be run with `new`.
+กลับมาเน้นย้ำอีกครั้ง -- ในแง่หลักการแล้ว ฟังก์ชันอะไรก็ตาม (ยกเว้น arrow function ที่ไม่มี `this`) สามารถนำมาเป็น constructor ได้ สามารถเรียกใช้งานผ่าน `new` และจะดำเนินการตามขั้นตอนข้างต้น การตั้งชื่อให้ขึ้นต้นด้วยตัวอักษรพิมพ์ใหญ่เป็นแค่ข้อตกลงร่วมกัน เพื่อให้ชัดเจนว่าฟังก์ชันนี้ควรเรียกใช้ผ่าน `new` เท่านั้น
 
 ````smart header="new function() { ... }"
-If we have many lines of code all about creation of a single complex object, we can wrap them in an immediately called constructor function, like this:
+กรณีที่การสร้างออบเจ็กต์ที่ซับซ้อนมีโค้ดหลายบรรทัด เราสามารถครอบมันด้วย constructor function และเรียกใช้ทันทีได้ ดังนี้:
 
 ```js
-// create a function and immediately call it with new
-let user = new function() { 
+// สร้างฟังก์ชันและทันทีเรียกใช้ผ่าน new
+let user = new function() {
   this.name = "John";
   this.isAdmin = false;
 
-  // ...other code for user creation
-  // maybe complex logic and statements
-  // local variables etc
+  // ...โค้ดอื่นๆ ในการสร้าง user
+  // อาจมีตรรกะและคำสั่งที่ซับซ้อน
+  // มีตัวแปรภายใน ฯลฯ
 };
 ```
 
-This constructor can't be called again, because it is not saved anywhere, just created and called. So this trick aims to encapsulate the code that constructs the single object, without future reuse.
+Constructor ดังกล่าวไม่สามารถเรียกใช้ซ้ำได้อีก เนื่องจากไม่ได้ถูกเก็บไว้ที่ใดเลย ถูกสร้างและเรียกใช้ในทันที เทคนิคนี้ใช้เพื่อห่อหุ้มกระบวนการสร้างออบเจ็กต์ที่ซับซ้อนไว้ด้วยกัน และไม่มีแผนจะนำมาใช้ซ้ำอีกในอนาคต
 ````
 
-## Constructor mode test: new.target
+## ทดสอบโหมด Constructor: new.target
 
-```smart header="Advanced stuff"
-The syntax from this section is rarely used, skip it unless you want to know everything.
+```smart header="แนวคิดขั้นสูง"
+ไวยากรณ์ในส่วนนี้ไม่ค่อยถูกใช้ สามารถข้ามไปได้หากไม่สนใจเนื้อหาโดยลึก
 ```
 
-Inside a function, we can check whether it was called with `new` or without it, using a special `new.target` property.
+ในฟังก์ชัน เราสามารถตรวจสอบได้ว่า มันถูกเรียกผ่าน `new` หรือไม่ โดยใช้ `new.target`
 
-It is undefined for regular calls and equals the function if called with `new`:
+ในกรณีการเรียกปกติ `new.target` จะเป็น `undefined` แต่หากเรียกผ่าน `new` ค่าของมันจะเป็นฟังก์ชันนั้นเอง:
 
 ```js run
 function User() {
   alert(new.target);
 }
 
-// without "new":
+// ไม่ใช้ new
 *!*
 User(); // undefined
 */!*
 
-// with "new":
+// ใช้ new
 *!*
-new User(); // function User { ... }
+new User(); // ฟังก์ชัน User {...}
 */!*
 ```
 
-That can be used inside the function to know whether it was called with `new`, "in constructor mode", or without it, "in regular mode".
+สิ่งนี้สามารถนำไปใช้ในการตรวจสอบภายในฟังก์ชันว่า ถูกเรียกในโหมด "constructor" ด้วย `new` หรือโหมด "ปกติ"
 
-We can also make both `new` and regular calls to do the same, like this:
+เราสามารถทำให้การเรียกแบบใช้และไม่ใช้ `new` ทำงานเหมือนกันได้ เช่น:
 
 ```js run
 function User(name) {
-  if (!new.target) { // if you run me without new
-    return new User(name); // ...I will add new for you
+  if (!new.target) { // ถ้าคุณเรียกใช้ฉันโดยไม่มี new
+    return new User(name); // ...ฉันจะใส่ new ให้เอง
   }
 
   this.name = name;
 }
 
-let john = User("John"); // redirects call to new User
+let john = User("John"); // เปลี่ยนทางไปเรียกใช้ new User
 alert(john.name); // John
 ```
 
-This approach is sometimes used in libraries to make the syntax more flexible. So that people may call the function with or without `new`, and it still works.
+ซึ่งพบเห็นได้บ้างในไลบรารีต่างๆ ที่ต้องการให้ไวยากรณ์ยืดหยุ่น จะเรียกด้วย `new` หรือไม่ก็ได้ ฟังก์ชันจะยังทำงานได้ปกติ
 
-Probably not a good thing to use everywhere though, because omitting `new` makes it a bit less obvious what's going on. With `new` we all know that the new object is being created.
+แต่ไม่ควรนำไปใช้กับทุกฟังก์ชัน เพราะการไม่ใส่ `new` อาจทำให้สิ่งที่เกิดขึ้นคลุมเครือไปหน่อย เมื่อเราใช้ `new` ทุกคนจะเข้าใจว่าเรากำลังสร้างออบเจ็กต์ใหม่
 
-## Return from constructors
+## การ return จาก constructor
 
-Usually, constructors do not have a `return` statement. Their task is to write all necessary stuff into `this`, and it automatically becomes the result.
+ปกติแล้ว constructor จะไม่มีการใช้คำสั่ง `return` หน้าที่ของมันคือการเขียนข้อมูลที่จำเป็นทั้งหมดลงใน `this` ซึ่ง `this` จะกลายเป็นผลลัพธ์โดยอัตโนมัติอยู่แล้ว
 
-But if there is a `return` statement, then the rule is simple:
+แต่ถ้าหากมีการใช้คำสั่ง `return` ก็จะมีกฎง่ายๆ ดังนี้:
 
-- If `return` is called with an object, then the object is returned instead of `this`.
-- If `return` is called with a primitive, it's ignored.
+- หาก `return` ด้วยออบเจ็กต์ ออบเจ็กต์นั้นจะถูกคืนค่ากลับมาแทน `this`
+- หาก `return` ด้วยค่าพื้นฐาน (primitive) จะเกิดการเพิกเฉยต่อค่านั้น
 
-In other words, `return` with an object returns that object, in all other cases `this` is returned.
+หรือกล่าวอีกนัยหนึ่งคือ `return` ด้วยออบเจ็กต์จะคืนออบเจ็กต์นั้นกลับมา แต่ในกรณีอื่นทั้งหมด `this` จะถูกคืนกลับมาเป็นผลลัพธ์
 
-For instance, here `return` overrides `this` by returning an object:
+ยกตัวอย่างเช่น ในที่นี่ `return` จะเขียนทับ `this` โดยคืนออบเจ็กต์ออกมา:
 
 ```js run
 function BigUser() {
 
   this.name = "John";
 
-  return { name: "Godzilla" };  // <-- returns this object
+  return { name: "Godzilla" };  // <-- คืนออบเจ็กต์นี้
 }
 
-alert( new BigUser().name );  // Godzilla, got that object
+alert( new BigUser().name );  // Godzilla ออบเจ็กต์ถูกคืนกลับมา
 ```
 
-And here's an example with an empty `return` (or we could place a primitive after it, doesn't matter):
+ส่วนในนี้คือตัวอย่างการ `return` เปล่าๆ (หรืออาจใส่ค่าพื้นฐานหลังจากนั้นก็ได้ ไม่สำคัญ):
 
 ```js run
 function SmallUser() {
 
   this.name = "John";
 
-  return; // <-- returns this
+  return; // <-- คืนค่า this
 }
 
 alert( new SmallUser().name );  // John
 ```
 
-Usually constructors don't have a `return` statement. Here we mention the special behavior with returning objects mainly for the sake of completeness.
+โดยทั่วไปแล้ว constructor มักจะไม่มีคำสั่ง `return` ในที่นี้เราพูดถึงพฤติกรรมพิเศษ ในการคืนค่าเป็นออบเจ็กต์ เพื่อให้ข้อมูลครบถ้วนสมบูรณ์
 
-````smart header="Omitting parentheses"
-By the way, we can omit parentheses after `new`, if it has no arguments:
+````smart header="ละวงเล็บ"
+ที่จริงแล้ว เราสามารถละวงเล็บต่อท้าย `new` ได้ ถ้าไม่มีอาร์กิวเมนต์:
 
 ```js
-let user = new User; // <-- no parentheses
-// same as
-let user = new User();
+let user = new User; // <-- ไม่มีวงเล็บ
+// เหมือนกับ let user = new User();
 ```
 
-Omitting parentheses here is not considered a "good style", but the syntax is permitted by specification.
+การไม่ใส่วงเล็บแบบนี้ไม่ใช่ "แบบแผนที่ดี" แต่ไวยากรณ์ของภาษาก็อนุญาตให้ทำได้
 ````
 
-## Methods in constructor
+## เมท็อดใน constructor
 
-Using constructor functions to create objects gives a great deal of flexibility. The constructor function may have parameters that define how to construct the object, and what to put in it.
+ฟังก์ชัน constructor ช่วยให้การสร้างออบเจ็กต์มีความยืดหยุ่นมากขึ้น เพราะเราสามารถกำหนดพารามิเตอร์ที่ระบุว่าจะสร้างออบเจ็กต์อย่างไร และจะใส่อะไรลงไปได้
 
-Of course, we can add to `this` not only properties, but methods as well.
+แน่นอนว่าเราสามารถเพิ่มเติมไม่เพียงแต่ property เท่านั้น แต่ยังรวมถึงเมท็อดต่างๆ ให้กับ `this` ด้วย
 
-For instance, `new User(name)` below creates an object with the given `name` and the method `sayHi`:
+ยกตัวอย่างเช่น `new User(name)` ด้านล่างนี้จะสร้างออบเจ็กต์ที่มี `name` และเมท็อด `sayHi`:
 
 ```js run
 function User(name) {
@@ -213,19 +212,19 @@ john = {
 */
 ```
 
-To create complex objects, there's a more advanced syntax, [classes](info:classes), that we'll cover later.
+ในการสร้างออบเจ็กต์ที่ซับซ้อนกว่านี้ จะมีไวยากรณ์ขั้นสูงอย่างเช่น [classes](info:classes) ซึ่งเราจะได้เรียนรู้ในภายหลัง
 
-## Summary
+## สรุป
 
-- Constructor functions or, briefly, constructors, are regular functions, but there's a common agreement to name them with capital letter first.
-- Constructor functions should only be called using `new`. Such a call implies a creation of empty `this` at the start and returning the populated one at the end.
+- ฟังก์ชัน constructor หรือเรียกสั้นๆ ว่า constructor ก็คือฟังก์ชันปกติ แต่มีข้อตกลงว่าจะตั้งชื่อโดยขึ้นต้นด้วยตัวพิมพ์ใหญ่
+- ฟังก์ชัน constructor ควรเรียกใช้ผ่านตัวดำเนินการ `new` เท่านั้น การเรียกแบบนั้นจะหมายความว่า จะมีการสร้าง `this` เปล่าๆ ขึ้นมาตอนเริ่ม และคืน `this` ที่มีข้อมูลกลับไปตอนจบ
 
-We can use constructor functions to make multiple similar objects.
+เราสามารถใช้ฟังก์ชัน constructor ในการสร้างออบเจ็กต์ที่มีลักษณะคล้ายๆ กันหลายๆ ตัว
 
-JavaScript provides constructor functions for many built-in language objects: like `Date` for dates, `Set` for sets and others that we plan to study.
+JavaScript มี constructor สำหรับออบเจ็กต์ในตัวของภาษา เช่น `Date` สำหรับวันที่ `Set` สำหรับเซ็ต และอื่นๆ อีกมากมายที่เราจะได้เรียนรู้ในบทต่อๆ ไป
 
-```smart header="Objects, we'll be back!"
-In this chapter we only cover the basics about objects and constructors. They are essential for learning more about data types and functions in the next chapters.
+````smart header="ออบเจ็กต์ เรามีอะไรต้องคุยอีกมาก!"
+ในบทนี้เราได้เรียนรู้เพียงแค่พื้นฐานเกี่ยวกับออบเจ็กต์และ constructor ซึ่งมีความจำเป็นในการไปต่อเพื่อทำความเข้าใจเกี่ยวกับชนิดข้อมูลและฟังก์ชันต่างๆ ให้ลึกซึ้งยิ่งขึ้น
 
-After we learn that, we return to objects and cover them in-depth in the chapters <info:prototypes> and <info:classes>.
-```
+หลังจากนั้น เมื่อเราเคยชินกับพื้นฐานเหล่านี้แล้ว เราจะย้อนกลับมาศึกษาออบเจ็กต์อีกครั้งในบทเรียน <info:prototypes> และ <info:classes> ซึ่งจะกล่าวถึงรายละเอียดที่น่าสนใจมากขึ้น
+````
