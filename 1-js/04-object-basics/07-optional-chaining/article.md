@@ -64,3 +64,60 @@ alert( user.address && user.address.street && user.address.street.name ); // und
 แต่ก็ยังต้องเช็ค property ซ้ำๆ อยู่ดี
 
 นี่จึงเป็นที่มาของ optional chaining `?.` เพื่อแก้ปัญหานี้ครั้งเดียวจบ!
+
+## Optional Chaining กับ Property: `?.`
+
+Optional chaining `?.` จะหยุดการทำงานทันที ถ้าค่าทางซ้ายของ `?.` เป็น `undefined` หรือ `null` และจะคืนค่า `undefined` กลับมา
+
+**ในบทความนี้ เพื่อความกระชับ เราจะใช้คำว่า "มีอยู่" หมายถึงไม่เป็น `null` หรือ `undefined`**
+
+กล่าวคือ `value?.prop`:
+- จะทำงานเหมือน `value.prop` ถ้า `value` มีอยู่
+- ถ้า `value` เป็น `undefined/null` จะคืนค่า `undefined`
+
+ตัวอย่างการใช้ `?.` เพื่อเข้าถึง `user.address.street`:
+
+```js run
+let user = {}; // ผู้ใช้ไม่มีที่อยู่
+
+alert( user?.address?.street ); // undefined (ไม่เกิด error)
+```
+
+โค้ดสั้นลง และไม่มีการเช็คซ้ำๆ
+
+กับตัวอย่าง `document.querySelector`:
+
+```js run
+let html = document.querySelector('.elem')?.innerHTML; // จะเป็น undefined ถ้าไม่เจอ element
+```
+
+แม้แต่ในกรณีที่ไม่มีตัวแปร `user` เลย ก็ยังใช้ `?.` ได้อย่างปลอดภัย:
+
+```js run
+let user = null;
+
+alert( user?.address ); // undefined
+alert( user?.address.street ); // undefined
+```
+
+โปรดสังเกตว่า `?.` ทำให้ส่วนทางซ้ายมันเป็น optional ได้ แต่ไม่ใช่ส่วนถัดไป
+
+ใน `user?.address.street.name` ตัว `?.` อนุญาตให้ `user` เป็น `null/undefined` แต่ส่วนที่เหลือ (`address`, `street`, `name`) จะถูกเข้าถึงแบบปกติ ถ้าเราอยากให้ส่วนอื่นเป็น optional ด้วย ต้องแทน `.` ด้วย `?.` เพิ่มเติม
+
+```warn header="ใช้ ?. อย่างพอดี"
+เราควรใช้ `?.` เฉพาะในกรณีที่ยอมรับได้หากบางอย่างไม่มีอยู่
+
+เช่น ถ้าตามตรรกะของโปรแกรมแล้ว `user` ต้องมีอยู่ แต่ `address` เป็น optional ได้ เราควรเขียน `user.address?.street` แต่ไม่ใช่ `user?.address?.street`
+
+มิฉะนั้น ถ้าใช้ `?.` มากเกินไป เวลามีข้อผิดพลาดขึ้นมาจริงๆ มันอาจถูกซ่อนเงียบไว้ ทำให้ยากต่อการดีบั๊กในภายหลัง
+```
+
+````warn header="ตัวแปรทางซ้ายของ ?. ต้องถูกประกาศก่อน"
+ถ้าไม่มีตัวแปรนั้นเลย เช่น `user?.anything` จะเกิด error:
+
+```js run
+// ReferenceError: user is not defined
+user?.address;
+```
+ตัวแปรจะต้องถูกประกาศก่อน จากนั้น optional chaining จึงจะใช้งานได้
+````
