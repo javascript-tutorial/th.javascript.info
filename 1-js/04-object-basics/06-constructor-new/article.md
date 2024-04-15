@@ -99,7 +99,7 @@ function User() {
   alert(new.target);
 }
 
-// ไม่ใช่ new
+// ไม่ใช้ new
 *!*
 User(); // undefined
 */!*
