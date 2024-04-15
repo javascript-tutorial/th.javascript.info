@@ -160,3 +160,36 @@ userGuest.admin?.(); // ไม่มีอะไรเกิดขึ้น (ไ
 ```
 
 สังเกตว่าเราใช้ `.` เพื่อเข้าถึง `admin` ก่อน เพราะเรามั่นใจว่าตัวแปร `user` มีอยู่แน่ๆ จากนั้นจึงตามด้วย `?.()`
+
+## Optional Chaining กับ [] : `?.[]`
+
+ถ้าเราต้องการใช้ `[]` เพื่อเข้าถึง property แทนที่จะใช้ `.` ก็ใช้ `?.[]` ได้
+
+```js run
+let key = "firstName";
+
+let user1 = {
+  firstName: "John"
+};
+
+let user2 = null;
+
+alert( user1?.[key] ); // John
+alert( user2?.[key] ); // undefined
+```
+
+และสามารถใช้กับ `delete` ได้ด้วย:
+
+```js run
+delete user?.name; // ลบ user.name ถ้า user มีอยู่
+```
+
+````warn header="ใช้ ?. ได้แค่อ่านและลบ ไม่ใช่การเขียน"
+Optional chaining `?.` ไม่ใช้ในด้านซ้ายของการกำหนดค่า
+
+```js run
+let user = null;
+
+user?.name = "John"; // Error เพราะจะประเมินเป็น undefined = "John"
+```
+````
