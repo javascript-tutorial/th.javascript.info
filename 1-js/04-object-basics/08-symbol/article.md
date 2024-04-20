@@ -247,3 +247,19 @@ alert( Symbol.keyFor(localSymbol) ); // undefined เพราะไม่ใช
 
 alert( localSymbol.description ); // name
 ```
+
+## Symbol ของระบบ
+
+มี "system symbol" ต่างๆ ที่ JavaScript ใช้ภายใน ซึ่งเราสามารถใช้มันปรับแต่งพฤติกรรมของออบเจ็กต์ได้บางส่วน
+
+พวกมันถูกแสดงอยู่ในตารางของ specification ชื่อ [Well-known symbols](https://tc39.github.io/ecma262/#sec-well-known-symbols) เช่น:
+
+- `Symbol.hasInstance`
+- `Symbol.isConcatSpreadable`
+- `Symbol.iterator`
+- `Symbol.toPrimitive`
+- และอื่นๆ อีกมาก
+
+ยกตัวอย่างเช่น `Symbol.toPrimitive` ช่วยให้เราปรับแต่งวิธีการแปลงออบเจ็กต์เป็นค่าพื้นฐานได้ เราจะได้เห็นการใช้งานจริงของมันเร็วๆ นี้
+
+Symbol พวกนี้จะดูคุ้นตาเมื่อเราศึกษา feature ต่างๆ ของภาษาที่เกี่ยวข้องกับมัน
