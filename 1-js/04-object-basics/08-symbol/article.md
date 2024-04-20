@@ -180,3 +180,70 @@ alert( clone[id] ); // 123
 ```
 
 ไม่มีอะไรแปลกตรงนี้ เพราะนั่นคือสิ่งที่มันถูกออกแบบมาให้ทำ แนวคิดคือ เวลาเรา clone หรือ merge ออบเจ็กต์ เราก็มักจะอยากให้มัน copy *ทุก* property (string และ symbol) นั่นเอง
+
+## Global Symbol
+
+อย่างที่เห็น ปกติแล้ว symbol ทุกตัวจะไม่ซ้ำกันเลย แม้ว่าจะมีคำอธิบายเดียวกันก็ตาม 
+
+แต่บางครั้ง เราอาจอยากให้ symbol ที่มีชื่อเหมือนกันเป็นตัวเดียวกันด้วย เช่นอยากให้ส่วนต่างๆ ของแอปพลิเคชันใช้ symbol ที่ชื่อ `"id"` โดยอ้างอิงถึง property อันเดียวกัน
+
+เพื่อทำแบบนั้น มีสิ่งที่เรียกว่า *global symbol registry* เราสามารถสร้าง symbol ไว้ในนั้น และเรียกใช้ซ้ำได้ในภายหลัง registry นี้จะรับประกันว่า การเข้าถึงด้วยชื่อเดิมซ้ำๆ จะคืน symbol ตัวเดียวกันเสมอ
+
+ใช้ `Symbol.for(key)` ในการอ่าน (หรือสร้างใหม่ถ้ายังไม่มี) symbol จาก registry นี้
+
+การเรียกเมท็อดนี้จะไปค้นหาใน global registry ว่ามี symbol ที่มี `key` ตามที่ระบุไว้หรือไม่ ถ้ามีก็จะคืน symbol นั้น ถ้าไม่ก็จะสร้าง symbol ใหม่ด้วย `Symbol(key)` แล้วเก็บไว้ใน registry โดยใช้ `key` เป็นชื่อ
+
+ยกตัวอย่างเช่น:
+
+```js run
+// อ่าน symbol จาก global registry
+let id = Symbol.for("id"); // ถ้ายังไม่มี symbol นี้อยู่ มันก็จะถูกสร้างขึ้นมาใหม่
+
+// อ่าน symbol อีกรอบ (อาจจะจากส่วนอื่นของโค้ด)
+let idAgain = Symbol.for("id");
+
+// คือ symbol อันเดียวกัน
+alert( id === idAgain ); // true
+```
+
+Symbol ภายใน registry นี้ถูกเรียกว่า *global symbol* ถ้าเราต้องการ symbol ที่ใช้ทั่วทั้งแอปพลิเคชันและเข้าถึงได้จากทุกที่ในโค้ด เราก็ใช้อันนี้ได้เลย
+
+```smart header="เหมือนใน Ruby"
+ในบางภาษาเช่น Ruby จะมี symbol อยู่หนึ่งตัวสำหรับชื่อหนึ่งชื่อ
+
+ใน JavaScript อย่างที่เราเห็น มันเป็นอย่างนั้นสำหรับ global symbol เท่านั้น
+```
+
+### Symbol.keyFor
+
+เราเห็นแล้วว่า `Symbol.for(key)` จะคืน symbol ที่มีชื่อตามที่ระบุ เราก็สามารถทำย้อนกลับได้ด้วยเช่นกัน โดยใช้เมท็อด `Symbol.keyFor(sym)` เพื่อคืนชื่อจาก global symbol
+
+ตัวอย่างเช่น:
+
+```js run
+// รับ symbol จากชื่อ
+let sym = Symbol.for("name");
+let sym2 = Symbol.for("id");
+
+// รับชื่อจาก symbol
+alert( Symbol.keyFor(sym) ); // name
+alert( Symbol.keyFor(sym2) ); // id
+```
+
+`Symbol.keyFor` จะค้นหา key ของ symbol จาก global symbol registry ซึ่งหมายความว่ามันจะไม่ใช้กับ symbol ที่ไม่ใช่ global การใช้กับ symbol ที่ไม่ใช่ global จะคืน `undefined`
+
+เทียบกับ `Symbol.for` แล้ว `Symbol.keyFor` นั้นเป็นตรงข้ามกัน: อันแรกคือรับชื่อแล้วคืน symbol ส่วนอันหลังคือรับ symbol แล้วคืนชื่อ
+
+อย่างไรก็ตาม ไม่ใช่ทุก symbol ที่จะถูกเก็บไว้ใน global registry ซึ่ง `Symbol.for` ช่วยให้เรามี global symbol ที่มีชื่อเดียวกันได้ในขณะที่ symbol ทั่วไปจะเป็นคนละอันแม้ชื่อเหมือนกัน
+
+ลองดูโค้ดนี้:
+
+```js run
+let globalSymbol = Symbol.for("name");
+let localSymbol = Symbol("name");
+
+alert( Symbol.keyFor(globalSymbol) ); // name เพราะเป็น global symbol
+alert( Symbol.keyFor(localSymbol) ); // undefined เพราะไม่ใช่ global
+
+alert( localSymbol.description ); // name
+```
