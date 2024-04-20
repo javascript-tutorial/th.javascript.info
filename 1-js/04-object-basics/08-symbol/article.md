@@ -1,31 +1,36 @@
+# Symbol ชนิดข้อมูล
 
-# Symbol type
+ตามข้อกำหนด มีเพียงข้อมูลชนิดพื้นฐาน (primitive) สองชนิดที่ใช้เป็นคีย์ (key) ของคุณสมบัติ (property) ในออบเจ็กต์ได้:
 
-By specification, object property keys may be either of string type, or of symbol type. Not numbers, not booleans, only strings or symbols, these two types.
+- string หรือ
+- symbol 
 
-Till now we've been using only strings. Now let's see the benefits that symbols can give us.
+มิฉะนั้น หากใช้ชนิดอื่น เช่น number มันจะถูกแปลงเป็น string โดยอัตโนมัติ ดังนั้น `obj[1]` จะเหมือนกับ `obj["1"]` และ `obj[true]` จะเหมือนกับ `obj["true"]`
 
-## Symbols
+จนถึงตอนนี้เราใช้แต่ string มาตลอด
 
-A "symbol" represents a unique identifier.
+ตอนนี้มาสำรวจ symbol กัน ดูว่ามันทำอะไรให้เราได้บ้าง
 
-A value of this type can be created using `Symbol()`:
+## Symbol
+
+"Symbol" แทนตัวระบุเฉพาะ (unique identifier)
+
+ค่าของชนิดนี้สามารถสร้างได้โดยใช้ `Symbol()`:
 
 ```js
-// id is a new symbol
 let id = Symbol();
 ```
 
-Upon creation, we can give symbol a description (also called a symbol name), mostly useful for debugging purposes:
+เมื่อสร้าง เราสามารถให้คำอธิบาย (เรียกอีกอย่างว่าชื่อ symbol) ซึ่งมักจะมีประโยชน์สำหรับการดีบั๊ก:
 
 ```js
-// id is a symbol with the description "id"
+// id เป็น symbol ที่มีคำอธิบายว่า "id"
 let id = Symbol("id");
 ```
 
-Symbols are guaranteed to be unique. Even if we create many symbols with the same description, they are different values. The description is just a label that doesn't affect anything.
+Symbol ได้รับการรับประกันว่าเป็นค่าเฉพาะเสมอ แม้ว่าเราจะสร้าง symbol ด้วยคำอธิบายเหมือนกันหลายตัว พวกมันก็จะเป็นค่าที่แตกต่างกัน คำอธิบายเป็นแค่ป้ายกำกับที่ไม่ส่งผลอะไร
 
-For instance, here are two symbols with the same description -- they are not equal:
+ตัวอย่างเช่น ที่นี่มี symbol สองตัวที่มีคำอธิบายเหมือนกัน -- แต่พวกมันไม่เท่ากัน:
 
 ```js run
 let id1 = Symbol("id");
@@ -36,12 +41,14 @@ alert(id1 == id2); // false
 */!*
 ```
 
-If you are familiar with Ruby or another language that also has some sort of "symbols" -- please don't be misguided. JavaScript symbols are different.
+ถ้าคุณคุ้นเคยกับ Ruby หรือภาษาอื่นที่มีบางอย่างคล้ายๆ "symbol" โปรดอย่าสับสน symbol ใน JavaScript นั้นแตกต่าง 
 
-````warn header="Symbols don't auto-convert to a string"
-Most values in JavaScript support implicit conversion to a string. For instance, we can `alert` almost any value, and it will work. Symbols are special. They don't auto-convert.
+ดังนั้น โดยสรุปแล้ว symbol เป็น "ค่าพื้นฐานที่เป็นเอกลักษณ์" ที่อาจมีคำอธิบายกำกับ มาดูกันว่าเราสามารถใช้มันที่ไหนได้บ้าง
 
-For instance, this `alert` will show an error:
+````warn header="Symbol ไม่ถูกแปลงเป็น string โดยอัตโนมัติ"
+ค่าส่วนใหญ่ใน JavaScript สนับสนุนการแปลงเป็น string แบบโดยนัย (implicit) เช่น เราสามารถใช้ `alert` กับค่าเกือบทุกอย่าง และมันจะทำงาน symbol นั้นพิเศษ พวกมันไม่แปลงเป็น string อัตโนมัติ
+
+ตัวอย่างเช่น `alert` นี้จะแสดง error:
 
 ```js run
 let id = Symbol("id");
@@ -50,36 +57,37 @@ alert(id); // TypeError: Cannot convert a Symbol value to a string
 */!*
 ```
 
-That's a "language guard" against messing up, because strings and symbols are fundamentally different and should not accidentally convert one into another.
+นี่เป็น "การป้องกันของภาษา" เพื่อป้องกันความผิดพลาด เพราะ string และ symbol นั้นแตกต่างกันโดยสิ้นเชิง และไม่ควรแปลงเป็นกันและกันโดยไม่ได้ตั้งใจ
 
-If we really want to show a symbol, we need to explicitly call `.toString()` on it, like here:
+ถ้าเราต้องการแสดง symbol จริงๆ เราต้องเรียก `.toString()` กับมันอย่างชัดเจน เช่นนี้:
+
 ```js run
 let id = Symbol("id");
 *!*
-alert(id.toString()); // Symbol(id), now it works
+alert(id.toString()); // Symbol(id), ตอนนี้ทำงานแล้ว
 */!*
 ```
 
-Or get `symbol.description` property to show the description only:
+หรือใช้คุณสมบัติ `symbol.description` เพื่อแสดงเฉพาะคำอธิบาย:
+
 ```js run
 let id = Symbol("id");
 *!*
 alert(id.description); // id
 */!*
 ```
-
 ````
 
-## "Hidden" properties
+## คุณสมบัติที่ "ซ่อนอยู่"
 
-Symbols allow us to create "hidden" properties of an object, that no other part of code can accidentally access or overwrite.
+Symbol ช่วยให้เราสร้างคุณสมบัติที่ "ซ่อนอยู่" ของออบเจ็กต์ได้ ซึ่งส่วนอื่นของโค้ดจะไม่สามารถเข้าถึงหรือเขียนทับโดยบังเอิญ
 
-For instance, if we're working with `user` objects, that belong to a third-party code. We'd like to add identifiers to them.
+ตัวอย่างเช่น ถ้าเรากำลังทำงานกับออบเจ็กต์ `user` ที่มาจากโค้ดของบุคคลที่สาม เราอยากเพิ่มตัวระบุ (identifier) ให้กับมัน
 
-Let's use a symbol key for it:
+เรามาใช้ symbol เป็นคีย์สำหรับเรื่องนี้กัน:
 
 ```js run
-let user = { // belongs to another code
+let user = { // เป็นของโค้ดอื่น
   name: "John"
 };
 
@@ -87,45 +95,45 @@ let id = Symbol("id");
 
 user[id] = 1;
 
-alert( user[id] ); // we can access the data using the symbol as the key
+alert( user[id] ); // เราสามารถเข้าถึงข้อมูลโดยใช้ symbol เป็นคีย์ได้
 ```
 
-What's the benefit of using `Symbol("id")` over a string `"id"`?
+ประโยชน์ของการใช้ `Symbol("id")` มีอะไรบ้างเหนือกว่าใช้ string `"id"`?
 
-As `user` objects belongs to another code, and that code also works with them, we shouldn't just add any fields to it. That's unsafe. But a symbol cannot be accessed accidentally, the third-party code probably won't even see it, so it's probably all right to do.
+เนื่องจากออบเจ็กต์ `user` เป็นของโค้ดฐานอื่น มันจึงไม่ปลอดภัยที่จะเพิ่มฟิลด์ (field) ให้กับมัน เพราะเราอาจไปกระทบพฤติกรรมที่กำหนดไว้ก่อนในโค้ดฐานอื่นนั้น อย่างไรก็ตาม symbol ไม่สามารถถูกเข้าถึงได้โดยบังเอิญ โค้ดของบุคคลที่สามจะไม่ทราบถึง symbol ที่เพิ่งถูกกำหนดขึ้นใหม่ ดังนั้นจึงปลอดภัยที่จะเพิ่ม symbol ให้กับออบเจ็กต์ `user`
 
-Also, imagine that another script wants to have its own identifier inside `user`, for its own purposes. That may be another JavaScript library, so that the scripts are completely unaware of each other.
+นอกจากนี้ ลองจินตนาการว่า script อื่นอยากมีตัวระบุของตัวเองอยู่ใน `user` เพื่อจุดประสงค์ของมันเอง
 
-Then that script can create its own `Symbol("id")`, like this:
+script นั้นก็สามารถสร้าง `Symbol("id")` ของตัวมันเองได้ แบบนี้:
 
 ```js
 // ...
 let id = Symbol("id");
 
-user[id] = "Their id value";
+user[id] = "ค่า id ของพวกเขา";
 ```
 
-There will be no conflict between our and their identifiers, because symbols are always different, even if they have the same name.
+จะไม่มีการขัดแย้งกันระหว่างตัวระบุของเรากับของพวกเขา เพราะ symbol จะต่างกันเสมอ แม้ว่าจะมีชื่อเหมือนกันก็ตาม
 
-...But if we used a string `"id"` instead of a symbol for the same purpose, then there *would* be a conflict:
+...แต่ถ้าเราใช้ string `"id"` แทน symbol สำหรับจุดประสงค์เดียวกัน ก็*จะ*เกิดการขัดแย้ง:
 
 ```js
 let user = { name: "John" };
 
-// Our script uses "id" property
-user.id = "Our id value";
+// script ของเราใช้คุณสมบัติ "id"
+user.id = "ค่า id ของเรา";
 
-// ...Another script also wants "id" for its purposes...
+// ...script อื่นก็อยากใช้ "id" สำหรับจุดประสงค์ของพวกเขา...
 
-user.id = "Their id value"
-// Boom! overwritten by another script!
+user.id = "ค่า id ของพวกเขา"
+// บูม! ถูก script อื่นเขียนทับ!
 ```
 
-### Symbols in an object literal
+### Symbol ใน object literal
 
-If we want to use a symbol in an object literal `{...}`, we need square brackets around it.
+ถ้าเราอยากใช้ symbol ใน object literal `{...}` เราต้องใส่วงเล็บเหลี่ยม (square brackets) ครอบมัน
 
-Like this:
+แบบนี้:
 
 ```js
 let id = Symbol("id");
@@ -133,17 +141,18 @@ let id = Symbol("id");
 let user = {
   name: "John",
 *!*
-  [id]: 123 // not "id": 123
+  [id]: 123 // ไม่ใช่ "id": 123
 */!*
 };
 ```
-That's because we need the value from the variable `id` as the key, not the string "id".
 
-### Symbols are skipped by for..in
+เพราะเราต้องการใช้ค่าจากตัวแปร `id` เป็นคีย์ ไม่ใช่ string "id"
 
-Symbolic properties do not participate in `for..in` loop.
+### Symbol จะถูกข้ามโดย for..in
 
-For instance:
+คุณสมบัติ symbol จะไม่มีส่วนร่วมใน loop `for..in`
+
+ตัวอย่างเช่น:
 
 ```js run
 let id = Symbol("id");
@@ -154,16 +163,16 @@ let user = {
 };
 
 *!*
-for (let key in user) alert(key); // name, age (no symbols)
+for (let key in user) alert(key); // name, age (ไม่มี symbol)
 */!*
 
-// the direct access by the symbol works
-alert( "Direct: " + user[id] );
+// การเข้าถึงโดยตรงด้วย symbol จะใช้ได้
+alert( "Direct: " + user[id] ); // Direct: 123
 ```
 
-[Object.keys(user)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys) also ignores them. That's a part of the general "hiding symbolic properties" principle. If another script or a library loops over our object, it won't unexpectedly access a symbolic property.
+[Object.keys(user)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys) ก็ละเว้น symbol เช่นกัน นี่เป็นส่วนหนึ่งของหลักการ "ซ่อนคุณสมบัติ symbol" ถ้า script หรือไลบรารีอื่นวนรอบออบเจ็กต์ของเรา มันจะไม่เข้าถึงคุณสมบัติ symbol โดยไม่คาดคิด
 
-In contrast, [Object.assign](mdn:js/Object/assign) copies both string and symbol properties:
+ในทางตรงกันข้าม [Object.assign](mdn:js/Object/assign) คัดลอกทั้งคุณสมบัติ string และ symbol:
 
 ```js run
 let id = Symbol("id");
@@ -176,102 +185,105 @@ let clone = Object.assign({}, user);
 alert( clone[id] ); // 123
 ```
 
-There's no paradox here. That's by design. The idea is that when we clone an object or merge objects, we usually want *all* properties to be copied (including symbols like `id`).
+ไม่มีความขัดแย้งใดๆ ที่นี่ เป็นไปตามที่ออกแบบไว้ แนวคิดคือ เมื่อเราโคลนออบเจ็กต์หรือผสานออบเจ็กต์ เรามักจะต้องการ*ทุก*คุณสมบัติถูกคัดลอก (รวมถึง symbol เช่น `id`)
 
-## Global symbols
+## Global symbol
 
-As we've seen, usually all symbols are different, even if they have the same name. But sometimes we want same-named symbols to be same entities. For instance, different parts of our application want to access symbol `"id"` meaning exactly the same property.
+อย่างที่เราเห็น ปกติ symbol ทั้งหมดจะแตกต่างกัน แม้ว่าจะมีชื่อเหมือนกันก็ตาม แต่บางครั้งเราอยากให้ symbol ที่มีชื่อเดียวกันเป็น entity เดียวกัน ตัวอย่างเช่น ส่วนต่างๆ ของแอปพลิเคชันของเราอยากเข้าถึง symbol `"id"` โดยหมายถึงคุณสมบัติ
 
-To achieve that, there exists a *global symbol registry*. We can create symbols in it and access them later, and it guarantees that repeated accesses by the same name return exactly the same symbol.
+เดียวกันพอดี
 
-In order to read (create if absent) a symbol from the registry, use `Symbol.for(key)`.
+เพื่อทำเช่นนั้น มี *global symbol registry* ให้ใช้ เราสามารถสร้าง symbol ในนั้น และเข้าถึงมันได้ในภายหลัง และมันรับประกันว่าการเข้าถึงซ้ำโดยใช้ชื่อเดียวกันจะคืน symbol ตัวเดียวกันเสมอ
 
-That call checks the global registry, and if there's a symbol described as `key`, then returns it, otherwise creates a new symbol `Symbol(key)` and stores it in the registry by the given `key`.
+เพื่ออ่าน (สร้างถ้าไม่มี) symbol จาก registry ให้ใช้ `Symbol.for(key)`
 
-For instance:
+การเรียกนั้นจะตรวจสอบ global registry และถ้ามี symbol ที่มีคำอธิบายเป็น `key` ก็จะคืน symbol นั้น มิฉะนั้นจะสร้าง symbol ใหม่ `Symbol(key)` และเก็บไว้ใน registry ด้วย `key` ที่กำหนด
+
+ตัวอย่างเช่น:
 
 ```js run
-// read from the global registry
-let id = Symbol.for("id"); // if the symbol did not exist, it is created
+// อ่านจาก global registry
+let id = Symbol.for("id"); // ถ้า symbol ไม่มีอยู่ มันจะถูกสร้างขึ้น
 
-// read it again (maybe from another part of the code)
+// อ่านอีกครั้ง (อาจจากส่วนอื่นของโค้ด)
 let idAgain = Symbol.for("id");
 
-// the same symbol
+// เป็น symbol เดียวกัน
 alert( id === idAgain ); // true
 ```
 
-Symbols inside the registry are called *global symbols*. If we want an application-wide symbol, accessible everywhere in the code -- that's what they are for.
+Symbol ภายใน registry เรียกว่า *global symbol* ถ้าเราต้องการ symbol ระดับแอปพลิเคชัน ที่เข้าถึงได้จากทุกที่ในโค้ด -- นั่นคือจุดประสงค์ของมัน
 
-```smart header="That sounds like Ruby"
-In some programming languages, like Ruby, there's a single symbol per name.
+```smart header="นั่นฟังดูเหมือน Ruby"
+ในบางภาษาโปรแกรม เช่น Ruby จะมี symbol เดียวต่อชื่อเดียว
 
-In JavaScript, as we can see, that's right for global symbols.
+ใน JavaScript อย่างที่เราเห็น เรื่องนั้นเป็นจริงสำหรับ global symbol
 ```
 
 ### Symbol.keyFor
 
-For global symbols, not only `Symbol.for(key)` returns a symbol by name, but there's a reverse call: `Symbol.keyFor(sym)`, that does the reverse: returns a name by a global symbol.
+เราได้เห็นว่าสำหรับ global symbol `Symbol.for(key)` คืน symbol ด้วยชื่อ เพื่อทำในทางกลับกัน -- คืนชื่อโดย global symbol -- เราสามารถใช้ `Symbol.keyFor(sym)`:
 
-For instance:
+ตัวอย่างเช่น:
 
 ```js run
-// get symbol by name
+// ได้ symbol ด้วยชื่อ
 let sym = Symbol.for("name");
 let sym2 = Symbol.for("id");
 
-// get name by symbol
+// ได้ชื่อด้วย symbol
 alert( Symbol.keyFor(sym) ); // name
 alert( Symbol.keyFor(sym2) ); // id
 ```
 
-The `Symbol.keyFor` internally uses the global symbol registry to look up the key for the symbol. So it doesn't work for non-global symbols. If the symbol is not global, it won't be able to find it and returns `undefined`.
+`Symbol.keyFor` ใช้ global symbol registry ภายในเพื่อมองหาคีย์สำหรับ symbol ดังนั้นมันจะไม่ทำงานกับ non-global symbol ถ้า symbol ไม่ใช่แบบ global มันจะไม่สามารถหาได้และจะคืน `undefined`
 
-That said, any symbols have `description` property.
+นั่นแสดงว่า symbol ทั้งหมดมีคุณสมบัติ `description`
 
-For instance:
+ตัวอย่างเช่น:
 
 ```js run
 let globalSymbol = Symbol.for("name");
 let localSymbol = Symbol("name");
 
 alert( Symbol.keyFor(globalSymbol) ); // name, global symbol
-alert( Symbol.keyFor(localSymbol) ); // undefined, not global
+alert( Symbol.keyFor(localSymbol) ); // undefined, ไม่ใช่ global
 
 alert( localSymbol.description ); // name
 ```
 
-## System symbols
+## System symbol
 
-There exist many "system" symbols that JavaScript uses internally, and we can use them to fine-tune various aspects of our objects.
+มี "system" symbol จำนวนมากที่ JavaScript ใช้ภายใน และเราสามารถใช้มันเพื่อปรับแต่งแง่มุมต่างๆ ของออบเจ็กต์ได้
 
-They are listed in the specification in the [Well-known symbols](https://tc39.github.io/ecma262/#sec-well-known-symbols) table:
+พวกมันอยู่ในข้อกำหนดในตาราง [Well-known symbols](https://tc39.github.io/ecma262/#sec-well-known-symbols):
 
 - `Symbol.hasInstance`
 - `Symbol.isConcatSpreadable`
 - `Symbol.iterator`
 - `Symbol.toPrimitive`
-- ...and so on.
+- ...และอื่นๆ
 
-For instance, `Symbol.toPrimitive` allows us to describe object to primitive conversion. We'll see its use very soon.
+ตัวอย่างเช่น `Symbol.toPrimitive` ช่วยให้เราอธิบายการแปลงออบเจ็กต์เป็นค่าปฐมภูมิ (primitive) ได้ เราจะเห็นการใช้งานของมันในเร็วๆ นี้
 
-Other symbols will also become familiar when we study the corresponding language features.
+Symbol อื่นๆ ก็จะคุ้นเคยเมื่อเราศึกษาคุณลักษณะของภาษาที่เกี่ยวข้อง
 
-## Summary
+## สรุป
 
-`Symbol` is a primitive type for unique identifiers.
+`Symbol` เป็นชนิดข้อมูลพื้นฐานสำหรับตัวระบุที่เป็นเอกลักษณ์
 
-Symbols are created with `Symbol()` call with an optional description (name).
+Symbol ถูกสร้างโดยการเรียก `Symbol()` พร้อมคำอธิบาย (ชื่อ) ที่เป็นตัวเลือก 
 
-Symbols are always different values, even if they have the same name. If we want same-named symbols to be equal, then we should use the global registry: `Symbol.for(key)` returns (creates if needed) a global symbol with `key` as the name. Multiple calls of `Symbol.for` with the same `key` return exactly the same symbol.
+Symbol จะมีค่าที่แตกต่างกันเสมอ แม้จะมีชื่อเดียวกัน ถ้าเราต้องการให้ symbol ที่มีชื่อเดียวกันนั้นเท่ากัน เราควรใช้ global registry: `Symbol.for(key)` จะคืน (สร้างถ้าจำเป็น) global symbol ที่มีชื่อ `key` การเรียก `Symbol.for` หลายครั้งด้วย `key` เดียวกันจะคืน symbol ตัวเดียวกันเสมอ
 
-Symbols have two main use cases:
+Symbol มีสองกรณีการใช้งานหลักๆ:
 
-1. "Hidden" object properties.
-    If we want to add a property into an object that "belongs" to another script or a library, we can create a symbol and use it as a property key. A symbolic property does not appear in `for..in`, so it won't be accidentally processed together with other properties. Also it won't be accessed directly, because another script does not have our symbol. So the property will be protected from accidental use or overwrite.
+1. คุณสมบัติออบเจ็กต์ที่ "ซ่อนอยู่"
 
-    So we can "covertly" hide something into objects that we need, but others should not see, using symbolic properties.
+    ถ้าเราอยากเพิ่มคุณสมบัติลงในออบเจ็กต์ที่ "เป็นของ" script หรือไลบรารีอื่น เราสามารถสร้าง symbol และใช้เป็นคีย์ของคุณสมบัติได้ คุณสมบัติ symbol จะไม่ปรากฏใน `for..in` ดังนั้นมันจะไม่ถูกประมวลผลร่วมกับคุณสมบัติอื่นๆ โดยไม่ได้ตั้งใจ นอกจากนี้ script อื่นจะไม่สามารถเข้าถึงมันได้โดยตรง เพราะไม่มี symbol ของเรา ดังนั้นคุณสมบัตินั้นจะได้รับการปกป้องจากการใช้หรือเขียนทับโดยไม่ได้ตั้งใจ
 
-2. There are many system symbols used by JavaScript which are accessible as `Symbol.*`. We can use them to alter some built-in behaviors. For instance, later in the tutorial we'll use `Symbol.iterator` for [iterables](info:iterable), `Symbol.toPrimitive` to setup [object-to-primitive conversion](info:object-toprimitive) and so on.
+    เพราะฉะนั้น เราสามารถ "ซุกซ่อน" อะไรบางอย่างเข้าไปในออบเจ็กต์ที่เราต้องการ แต่คนอื่นไม่ควรเห็น โดยใช้คุณสมบัติ symbol
 
-Technically, symbols are not 100% hidden. There is a built-in method [Object.getOwnPropertySymbols(obj)](mdn:js/Object/getOwnPropertySymbols) that allows us to get all symbols. Also there is a method named [Reflect.ownKeys(obj)](mdn:js/Reflect/ownKeys) that returns *all* keys of an object including symbolic ones. So they are not really hidden. But most libraries, built-in functions and syntax constructs don't use these methods.
+2. มี system symbol จำนวนมากที่ JavaScript ใช้ซึ่งเข้าถึงได้จาก `Symbol.*` เราสามารถใช้พวกมันเพื่อเปลี่ยนแปลงพฤติกรรมในตัวบางอย่าง ตัวอย่างเช่น ในภายหลังของบทเรียน เราจะใช้ `Symbol.iterator` สำหรับ [iterable](info:iterable), `Symbol.toPrimitive` เพื่อตั้งค่า [การแปลงออบเจ็กต์เป็นค่าปฐมภูมิ](info:object-toprimitive) และอื่นๆ
+
+ในทางเทคนิค symbol ไม่ได้ซ่อน 100% มีเมท็อดในตัวคือ [Object.getOwnPropertySymbols(obj)](mdn:js/Object/getOwnPropertySymbols) ที่ช่วยให้เราได้ symbol ทั้งหมด มีเมท็อดอื่นที่ชื่อ [Reflect.ownKeys(obj)](mdn:js/Reflect/ownKeys) ที่คืน *ทุก* คีย์ของออบเจ็กต์ รวมถึง symbol ด้วย แต่ไลบรารีส่วนใหญ่ ฟังก์ชันในตัว และโครงสร้างไวยากรณ์ไม่ได้ใช้เมท็อดเหล่านี้
