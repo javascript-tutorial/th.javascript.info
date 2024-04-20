@@ -2,26 +2,27 @@ importance: 5
 
 ---
 
-# Create new Accumulator
+# สร้างตัวสะสมค่า (Accumulator) ใหม่
 
-Create a constructor function `Accumulator(startingValue)`.
+เรามาลองสร้างฟังก์ชันคอนสตรัคเตอร์ที่ชื่อว่า `Accumulator(startingValue)` กันเถอะ ซึ่งจะใช้สำหรับสร้างออบเจ็กต์ที่มีความสามารถในการสะสมค่าตัวเลข
 
-Object that it creates should:
+ออบเจ็กต์ที่สร้างขึ้นจาก `Accumulator` ควรมีคุณสมบัติดังนี้:
 
-- Store the "current value" in the property `value`. The starting value is set to the argument of the constructor `startingValue`.
-- The `read()` method should use `prompt` to read a new number and add it to `value`.
+- มีพร็อพเพอร์ตี้ `value` ที่ใช้ในการเก็บ "ค่าปัจจุบัน" โดยค่าเริ่มต้นของ `value` จะเท่ากับอาร์กิวเมนต์ `startingValue` ที่ส่งเข้ามาตอนเรียกใช้งานคอนสตรัคเตอร์เพื่อสร้างออบเจ็กต์
 
-In other words, the `value` property is the sum of all user-entered values with the initial value  `startingValue`.
+- มีเมท็อด `read()` ที่ใช้ `prompt` เพื่อรับค่าตัวเลขใหม่จากผู้ใช้ แล้วนำค่าตัวเลขใหม่นั้นไปบวกเพิ่มเข้ากับค่าปัจจุบันใน `value`
 
-Here's the demo of the code:
+หรือพูดอีกอย่างก็คือ พร็อพเพอร์ตี้ `value` จะเก็บผลรวมของค่าเริ่มต้น `startingValue` และค่าตัวเลขทั้งหมดที่ผู้ใช้ป้อนเข้ามาผ่านเมท็อด `read()`
+
+นี่คือตัวอย่างการทำงานของโค้ดที่ใช้ `Accumulator`:
 
 ```js
-let accumulator = new Accumulator(1); // initial value 1
+let accumulator = new Accumulator(1); // กำหนดค่าเริ่มต้นเป็น 1
 
-accumulator.read(); // adds the user-entered value
-accumulator.read(); // adds the user-entered value
+accumulator.read(); // รับค่าจากผู้ใช้ แล้วนำไปบวกเพิ่มเข้ากับค่าใน value
+accumulator.read(); // รับค่าจากผู้ใช้อีกครั้ง แล้วนำไปบวกเพิ่มเข้ากับค่าใน value อีกรอบ
 
-alert(accumulator.value); // shows the sum of these values
+alert(accumulator.value); // แสดงผลรวมของค่าเริ่มต้น และค่าที่ผู้ใช้ป้อนเข้ามาทั้งหมด
 ```
 
 [demo]
