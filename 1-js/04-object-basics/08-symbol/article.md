@@ -210,4 +210,78 @@ let idAgain = Symbol.for("id");
 alert( id === idAgain ); // true
 ```
 
-Symbol ภายใน registry เรียกว่า *global symbol* ถ้า
+Symbol ภายใน registry เรียกว่า *global symbol* ถ้าเราต้องการ symbol ระดับแอปพลิเคชันที่เข้าถึงได้จากทุกที่ในโค้ด นั่นคือสิ่งที่มันมีไว้ให้
+
+```smart header="นั่นฟังดูเหมือนใน Ruby"
+ในบางภาษาโปรแกรม เช่น Ruby จะมี symbol เดียวต่อชื่อเดียว
+
+ใน JavaScript อย่างที่เราเห็น เรื่องนั้นเป็นจริงสำหรับ global symbol
+```
+
+### Symbol.keyFor
+
+เราเห็นแล้วว่าสำหรับ global symbol `Symbol.for(key)` คืน symbol ตามชื่อ ส่วนในทางกลับกัน เพื่อคืนชื่อโดยใช้ global symbol เราสามารถใช้: `Symbol.keyFor(sym)`:
+
+ตัวอย่างเช่น:
+
+```js run
+// รับ symbol ตามชื่อ
+let sym = Symbol.for("name");
+let sym2 = Symbol.for("id");
+
+// รับชื่อตาม symbol
+alert( Symbol.keyFor(sym) ); // name
+alert( Symbol.keyFor(sym2) ); // id
+```
+
+`Symbol.keyFor` ภายในจะใช้ global symbol registry เพื่อค้นหาคีย์ของ symbol ดังนั้นมันจะไม่ทำงานกับ non-global symbol ถ้า symbol ไม่ใช่แบบ global มันจะหาไม่เจอและคืน `undefined`
+
+กล่าวคือ symbol ทุกตัวมีคุณสมบัติ `description`
+
+ตัวอย่างเช่น:
+
+```js run
+let globalSymbol = Symbol.for("name");
+let localSymbol = Symbol("name");
+
+alert( Symbol.keyFor(globalSymbol) ); // name, global symbol
+alert( Symbol.keyFor(localSymbol) ); // undefined, ไม่ใช่ global
+
+alert( localSymbol.description ); // name
+```
+
+## System symbol
+
+มี "system" symbol จำนวนมากที่ JavaScript ใช้ภายใน และเราสามารถใช้มันเพื่อปรับแต่งแง่มุมต่างๆ ของอ็อบเจ็กต์ได้
+
+พวกมันอยู่ในสเปคที่ตาราง [Well-known symbols](https://tc39.github.io/ecma262/#sec-well-known-symbols):
+
+- `Symbol.hasInstance`
+- `Symbol.isConcatSpreadable`
+- `Symbol.iterator`
+- `Symbol.toPrimitive`
+- ...และอื่นๆ
+
+ตัวอย่างเช่น `Symbol.toPrimitive` ให้เราอธิบายการแปลงอ็อบเจ็กต์เป็นค่าพื้นฐาน (primitive) ได้ เราจะเห็นการใช้งานของมันเร็วๆ นี้
+
+Symbol อื่นๆ ก็จะดูคุ้นเคยเมื่อเราศึกษาคุณลักษณะของภาษาที่เกี่ยวข้อง
+
+## สรุป
+
+`Symbol` เป็นชนิดข้อมูลพื้นฐานสำหรับตัวระบุเฉพาะ
+
+Symbol ถูกสร้างโดยการเรียก `Symbol()` พร้อมคำอธิบาย (ชื่อ) เป็นตัวเลือก
+
+Symbol จะมีค่าต่างกันเสมอ แม้จะมีชื่อเหมือนกัน ถ้าเราต้องการให้ symbol ที่มีชื่อเดียวกันมีค่าเท่ากัน เราควรใช้ global registry: `Symbol.for(key)` คืนค่า (สร้างถ้าจำเป็น) global symbol พร้อม `key` เป็นชื่อ การเรียก `Symbol.for` หลายครั้งด้วย `key` เดียวกันจะคืน symbol ตัวเดียวกันเสมอ
+
+Symbol มีสองกรณีการใช้งานหลักๆ:
+
+1. พร็อพเพอร์ตี้ของอ็อบเจ็กต์ที่ "ซ่อนอยู่"
+
+    ถ้าเราอยากเพิ่มพร็อพเพอร์ตี้ลงในอ็อบเจ็กต์ที่ "เป็นของ" สคริปต์หรือไลบรารีอื่น เราสามารถสร้าง symbol และใช้เป็นคีย์ของพร็อพเพอร์ตี้ พร็อพเพอร์ตี้ symbol จะไม่ปรากฏใน `for..in` ดังนั้นมันจะไม่ถูกประมวลผลร่วมกับพร็อพเพอร์ตี้อื่นโดยไม่ตั้งใจ และจะไม่ถูกเข้าถึงโดยตรงเพราะสคริปต์อื่นไม่มี symbol ของเรา ดังนั้นพร็อพเพอร์ตี้จะได้รับการป้องกันจากการใช้โดยไม่ได้ตั้งใจหรือการถูกเขียนทับ
+
+    เพราะฉะนั้นเราสามารถ "ซุกซ่อน" อะไรบางอย่างลงในอ็อบเจ็กต์ ซึ่งเราต้องการแต่คนอื่นไม่ควรเห็น โดยใช้พร็อพเพอร์ตี้ symbol
+
+2. มี system symbol หลายตัวที่ JavaScript ใช้และเราสามารถเข้าถึงได้ผ่าน `Symbol.*` เราสามารถใช้มันเพื่อเปลี่ยนแปลงพฤติกรรมในตัวบางอย่าง ตัวอย่างเช่น ในบทเรียนต่อๆ ไป เราจะใช้ `Symbol.iterator` สำหรับ [iterable](info:iterable), `Symbol.toPrimitive` เพื่อตั้งค่า [การแปลงอ็อบเจ็กต์เป็นค่าพื้นฐาน](info:object-toprimitive) และอื่นๆ
+
+ในทางเทคนิค symbol ไม่ได้ถูกซ่อนไว้ 100% มีเมท็อดในตัวอย่าง [Object.getOwnPropertySymbols(obj)](mdn:js/Object/getOwnPropertySymbols) ที่ให้เราเข้าถึง symbol ทั้งหมดได้ และมีเมท็อดอย่าง [Reflect.ownKeys(obj)](mdn:js/Reflect/ownKeys) ที่คืน *ทุก* คีย์ของอ็อบเจ็กต์ รวมถึง symbol ด้วย แต่ไลบรารีส่วนใหญ่ ฟังก์ชันในตัว และโครงสร้างวากยสัมพันธ์ไม่ได้ใช้เมท็อดเหล่านี้
