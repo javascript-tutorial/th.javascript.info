@@ -37,3 +37,38 @@
 1. เรียกใช้ `obj[Symbol.toPrimitive](hint)` หากมีการกำหนดเมท็อดนี้ไว้ โดย `Symbol.toPrimitive` เป็นสัญลักษณ์ในตัวของระบบ
 2. มิฉะนั้น ถ้า hint เป็น `"string"` จะลองเรียก `obj.toString()` และ `obj.valueOf()` อย่างใดอย่างหนึ่งที่มีอยู่
 3. มิฉะนั้น ถ้า hint เป็น `"number"` หรือ `"default"` จะลองเรียก `obj.valueOf()` และ `obj.toString()` อย่างใดอย่างหนึ่งที่มีอยู่
+
+## Symbol.toPrimitive
+
+วิธีแรกคือใช้ symbol ในตัว `Symbol.toPrimitive` เป็นชื่อเมท็อดสำหรับแปลงออบเจ็กต์ โดยใช้ดังนี้:
+
+```js
+obj[Symbol.toPrimitive] = function(hint) {
+  // โค้ดสำหรับแปลงออบเจ็กต์นี้เป็นค่าปฐมภูมิ
+  // ต้องคืนค่าเป็นค่าปฐมภูมิ
+  // hint จะเป็นหนึ่งใน "string", "number", "default"
+};
+```
+
+ถ้ามีเมท็อด `Symbol.toPrimitive` มันจะถูกเรียกใช้สำหรับทุก hint และไม่จำเป็นต้องใช้เมท็อดอื่นอีก
+
+ตัวอย่างเช่น ออบเจ็กต์ `user` ใช้เมท็อดนี้:
+
+```js
+let user = {
+  name: "John",
+  money: 1000,
+
+  [Symbol.toPrimitive](hint) {
+    alert(`hint: ${hint}`);
+    return hint == "string" ? `{name: "${this.name}"}` : this.money;
+  }
+};
+
+// ตัวอย่างการแปลง:
+alert(user); // hint: string -> {name: "John"}
+alert(+user); // hint: number -> 1000
+alert(user + 500); // hint: default -> 1500
+```
+
+จะเห็นว่า `user` กลายเป็น string หรือตัวเลข ขึ้นอยู่กับรูปแบบการแปลง โดยใช้แค่เมท็อดเดียว `user[Symbol.toPrimitive]` ในการจัดการทุกกรณี
