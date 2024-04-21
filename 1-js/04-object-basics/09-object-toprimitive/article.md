@@ -1,115 +1,60 @@
+# การแปลงออบเจ็กต์เป็นค่าปฐมภูมิ
 
-# Object to primitive conversion
+เกิดอะไรขึ้นเมื่อเรานำออบเจ็กต์ไปบวก (`obj1 + obj2`) ลบ (`obj1 - obj2`) หรือแสดงผลด้วย `alert(obj)`?
 
-What happens when objects are added `obj1 + obj2`, subtracted `obj1 - obj2` or printed using `alert(obj)`?
+ใน JavaScript เราไม่สามารถกำหนดพฤติกรรมของตัวดำเนินการเมื่อใช้กับออบเจ็กต์ได้เอง แตกต่างจากบางภาษาเช่น Ruby หรือ C++ ที่สามารถใช้เมท็อดพิเศษเพื่อควบคุมการทำงานของตัวดำเนินการได้ 
 
-JavaScript doesn't exactly allow to customize how operators work on objects. Unlike some other programming languages, such as Ruby or C++, we can't implement a special object method to handle an addition (or other operators).
+ในกรณีเหล่านี้ ออบเจ็กต์จะถูกแปลงเป็นค่าปฐมภูมิ (primitive value) โดยอัตโนมัติก่อน จากนั้นการดำเนินการจะเกิดขึ้นกับค่าปฐมภูมินั้น และส่งผลลัพธ์กลับมาเป็นค่าปฐมภูมิเช่นกัน
 
-In case of such operations, objects are auto-converted to primitives, and then the operation is carried out over these primitives and results in a primitive value.
+นี่เป็นข้อจำกัดที่สำคัญ: ผลลัพธ์ของ `obj1 + obj2` (หรือการดำเนินการทางคณิตศาสตร์อื่นๆ) ไม่สามารถเป็นออบเจ็กต์ได้ 
 
-That's an important limitation, as the result of `obj1 + obj2` can't be another object!
+ดังนั้น เราจึงไม่สามารถนิยามออบเจ็กต์ที่แทนเวกเตอร์หรือเมทริกซ์ แล้วคาดหวังให้การบวกออบเจ็กต์เหล่านั้นเข้าด้วยกัน ทำให้ได้เวกเตอร์หรือเมทริกซ์ใหม่ที่ "รวม" ค่าเข้าด้วยกัน ข้อจำกัดนี้ทำให้ไม่สามารถเขียนโค้ดในลักษณะนั้นได้เลย
 
-E.g. we can't make objects representing vectors or matrices (or achievements or whatever), add them and expect a "summed" object as the result. Such architectural feats are automatically "off the board".
+ด้วยเหตุนี้ การทำงานทางคณิตศาสตร์โดยใช้ออบเจ็กต์จึงมีใช้น้อยมากในโปรเจ็กต์จริง และถ้าเกิดขึ้นมักจะเป็นเพราะข้อผิดพลาดในการเขียนโค้ดมากกว่า
 
-So, because we can't do much here, there's no maths with objects in real projects. When it happens, it's usually because of a coding mistake.
+ในบทความนี้ เราจะเรียนรู้กระบวนการแปลงออบเจ็กต์เป็นค่าปฐมภูมิ และวิธีควบคุมกระบวนการนั้นด้วยตัวเอง โดยมีจุดประสงค์ 2 ประการ:
 
-In this chapter we'll cover how an object converts to primitive and how to customize it.
+1. เพื่อเข้าใจสิ่งที่เกิดขึ้นเมื่อมีข้อผิดพลาดในการเขียนโค้ด ที่ทำให้เกิดการแปลงโดยไม่ตั้งใจ
+2. เพื่อศึกษากรณียกเว้นที่การแปลงดังกล่าวมีประโยชน์และให้ผลลัพธ์ที่ถูกต้อง เช่น การลบหรือเปรียบเทียบวันที่ (Date)
 
-We have two purposes:
+## ขั้นตอนการแปลง
 
-1. It will allow us to understand what's going on in case of coding mistakes, when such an operation happened accidentally.
-2. There are exceptions, where such operations are possible and look good. E.g. subtracting or comparing dates (`Date` objects). We'll come across them later.
-
-## Conversion rules
-
-In the chapter <info:type-conversions> we've seen the rules for numeric, string and boolean conversions of primitives. But we left a gap for objects. Now, as we know about methods and symbols it becomes possible to fill it.
-
-1. All objects are `true` in a boolean context. There are only numeric and string conversions.
-2. The numeric conversion happens when we subtract objects or apply mathematical functions. For instance, `Date` objects (to be covered in the chapter <info:date>) can be subtracted, and the result of `date1 - date2` is the time difference between two dates.
-3. As for the string conversion -- it usually happens when we output an object like `alert(obj)` and in similar contexts.
-
-We can fine-tune string and numeric conversion, using special object methods.
-
-There are three variants of type conversion, that happen in various situations.
-
-They're called "hints", as described in the [specification](https://tc39.github.io/ecma262/#sec-toprimitive):
+ใน JavaScript มี 3 ประเภทของการแปลงออบเจ็กต์เป็นค่าปฐมภูมิ ซึ่งเรียกว่า "hint" (คำใบ้) ขึ้นอยู่กับสถานการณ์ที่เกิดขึ้น ดังนี้:
 
 `"string"`
-: For an object-to-string conversion, when we're doing an operation on an object that expects a string, like `alert`:
-
-    ```js
-    // output
-    alert(obj);
-
-    // using object as a property key
-    anotherObj[obj] = 123;
-    ```
+: สำหรับการแปลงเป็น string เมื่อเราต้องการนำออบเจ็กต์ไปใช้ในบริบทที่คาดหวังค่า string เช่น `alert(obj)`
 
 `"number"`
-: For an object-to-number conversion, like when we're doing maths:
-
-    ```js
-    // explicit conversion
-    let num = Number(obj);
-
-    // maths (except binary plus)
-    let n = +obj; // unary plus
-    let delta = date1 - date2;
-
-    // less/greater comparison
-    let greater = user1 > user2;
-    ```
+: สำหรับการแปลงเป็นตัวเลข เช่น ในการคำนวณทางคณิตศาสตร์ `let num = Number(obj)`, `let n = +obj`, `let delta = date1 - date2`, `let greater = user1 > user2` เป็นต้น ฟังก์ชันคณิตศาสตร์ส่วนใหญ่ก็ใช้การแปลงแบบนี้ด้วย
 
 `"default"`
-: Occurs in rare cases when the operator is "not sure" what type to expect.
+: เกิดขึ้นน้อยครั้ง เมื่อตัวดำเนินการ "ไม่แน่ใจ" ว่าคาดหวังข้อมูลประเภทใด เช่น ตัวดำเนินการบวกเลขฐานสอง `+` ที่ยอมรับทั้ง string และตัวเลข ดังนั้นจึงใช้ hint นี้เมื่อได้รับออบเจ็กต์มา นอกจากนี้ตัวดำเนินการเปรียบเทียบ `==` กับ string, number หรือ symbol ก็ใช้ hint `"default"` เช่นกัน
 
-    For instance, binary plus `+` can work both with strings (concatenates them) and numbers (adds them), so both strings and numbers would do. So if a binary plus gets an object as an argument, it uses the `"default"` hint to convert it.
+ในทางปฏิบัติ สถานการณ์อาจง่ายกว่านี้เล็กน้อย ออบเจ็กต์ส่วนใหญ่ (ยกเว้น Date) จะใช้การแปลงแบบ `"default"` เหมือนกับ `"number"` และเราก็ควรทำเช่นนั้น แต่ก็ยังจำเป็นต้องรู้จักทั้ง 3 ประเภท เพื่อให้เข้าใจว่ามันมีประโยชน์อย่างไร
 
-    Also, if an object is compared using `==` with a string, number or a symbol, it's also unclear which conversion should be done, so the `"default"` hint is used.
+**เมื่อต้องการแปลงออบเจ็กต์เป็นค่าปฐมภูมิ JavaScript จะพยายามค้นหาและเรียกใช้เมท็อดต่างๆ ตามลำดับดังนี้:**
 
-    ```js
-    // binary plus uses the "default" hint
-    let total = obj1 + obj2;
-
-    // obj == number uses the "default" hint
-    if (user == 1) { ... };
-    ```
-
-    The greater and less comparison operators, such as `<` `>`, can work with both strings and numbers too. Still, they use the `"number"` hint, not `"default"`. That's for historical reasons.
-
-    In practice though, we don't need to remember these peculiar details, because all built-in objects except for one case (`Date` object, we'll learn it later) implement `"default"` conversion the same way as `"number"`. And we can do the same.
-
-```smart header="No `\"boolean\"` hint"
-Please note -- there are only three hints. It's that simple.
-
-There is no "boolean" hint (all objects are `true` in boolean context) or anything else. And if we treat `"default"` and `"number"` the same, like most built-ins do, then there are only two conversions.
-```
-
-**To do the conversion, JavaScript tries to find and call three object methods:**
-
-1. Call `obj[Symbol.toPrimitive](hint)` - the method with the symbolic key `Symbol.toPrimitive` (system symbol), if such method exists,
-2. Otherwise if hint is `"string"`
-    - try `obj.toString()` and `obj.valueOf()`, whatever exists.
-3. Otherwise if hint is `"number"` or `"default"`
-    - try `obj.valueOf()` and `obj.toString()`, whatever exists.
+1. เรียกใช้ `obj[Symbol.toPrimitive](hint)` หากมีการกำหนดเมท็อดนี้ไว้ โดย `Symbol.toPrimitive` เป็นสัญลักษณ์ในตัวของระบบ
+2. มิฉะนั้น ถ้า hint เป็น `"string"` จะลองเรียก `obj.toString()` และ `obj.valueOf()` อย่างใดอย่างหนึ่งที่มีอยู่
+3. มิฉะนั้น ถ้า hint เป็น `"number"` หรือ `"default"` จะลองเรียก `obj.valueOf()` และ `obj.toString()` อย่างใดอย่างหนึ่งที่มีอยู่
 
 ## Symbol.toPrimitive
 
-Let's start from the first method. There's a built-in symbol named `Symbol.toPrimitive` that should be used to name the conversion method, like this:
+วิธีแรกคือใช้ symbol ในตัว `Symbol.toPrimitive` เป็นชื่อเมท็อดสำหรับแปลงออบเจ็กต์ โดยใช้ดังนี้:
 
 ```js
 obj[Symbol.toPrimitive] = function(hint) {
-  // here goes the code to convert this object to a primitive
-  // it must return a primitive value
-  // hint = one of "string", "number", "default"
+  // โค้ดสำหรับแปลงออบเจ็กต์นี้เป็นค่าปฐมภูมิ
+  // ต้องคืนค่าเป็นค่าปฐมภูมิ
+  // hint จะเป็นหนึ่งใน "string", "number", "default"
 };
 ```
 
-If the method `Symbol.toPrimitive` exists, it's used for all hints, and no more methods are needed.
+ถ้ามีเมท็อด `Symbol.toPrimitive` มันจะถูกเรียกใช้สำหรับทุก hint และไม่จำเป็นต้องใช้เมท็อดอื่นอีก
 
-For instance, here `user` object implements it:
+ตัวอย่างเช่น ออบเจ็กต์ `user` ใช้เมท็อดนี้:
 
-```js run
+```js
 let user = {
   name: "John",
   money: 1000,
@@ -120,63 +65,61 @@ let user = {
   }
 };
 
-// conversions demo:
+// ตัวอย่างการแปลง:
 alert(user); // hint: string -> {name: "John"}
 alert(+user); // hint: number -> 1000
 alert(user + 500); // hint: default -> 1500
 ```
 
-As we can see from the code, `user` becomes a self-descriptive string or a money amount depending on the conversion. The single method `user[Symbol.toPrimitive]` handles all conversion cases.
-
+จะเห็นว่า `user` กลายเป็น string หรือตัวเลข ขึ้นอยู่กับรูปแบบการแปลง โดยใช้แค่เมท็อดเดียว `user[Symbol.toPrimitive]` ในการจัดการทุกกรณี
 
 ## toString/valueOf
 
-If there's no `Symbol.toPrimitive` then JavaScript tries to find methods `toString` and `valueOf`:
+ถ้าไม่มี `Symbol.toPrimitive` JavaScript จะมองหาเมท็อด `toString` และ `valueOf` แทน:
 
-- For the "string" hint: `toString`, and if it doesn't exist, then `valueOf` (so `toString` has the priority for string conversions).
-- For other hints: `valueOf`, and if it doesn't exist, then `toString` (so `valueOf` has the priority for maths).
+- สำหรับ hint ชนิด `"string"` จะเรียก `toString` ก่อน หากไม่มีหรือคืนค่าเป็นออบเจ็กต์ จะไปเรียก `valueOf` แทน (ดังนั้น `toString` จึงมีความสำคัญมากกว่าในการแปลงเป็น string)
+- สำหรับ hint ชนิด `"number"` หรือ `"default"` จะเรียก `valueOf` ก่อน หากไม่มีหรือคืนค่าเป็นออบเจ็กต์ จะไปเรียก `toString` แทน (ดังนั้น `valueOf` จึงมีความสำคัญมากกว่าในการคำนวณ)
 
-Methods `toString` and `valueOf` come from ancient times. They are not symbols (symbols did not exist that long ago), but rather "regular" string-named methods. They provide an alternative "old-style" way to implement the conversion.
+เมท็อด `toString` และ `valueOf` มาจากสมัยเก่า ก่อนที่จะมีแนวคิดเรื่อง symbol เป็นเมท็อดชื่อ string ธรรมดาที่ให้วิธีการแปลงแบบ "โบราณ"
 
-These methods must return a primitive value. If `toString` or `valueOf` returns an object, then it's ignored (same as if there were no method).
+โดยเมท็อดเหล่านี้ต้องคืนค่าปฐมภูมิ หาก `toString` หรือ `valueOf` คืนค่าเป็นออบเจ็กต์ ก็จะถูกละเลยเสมือนไม่มีการกำหนดเมท็อดนั้นไว้เลย
 
-By default, a plain object has following `toString` and `valueOf` methods:
+ออบเจ็กต์ทั่วไปมีเมท็อด `toString` และ `valueOf` ค่าเริ่มต้นดังนี้:
 
-- The `toString` method returns a string `"[object Object]"`.
-- The `valueOf` method returns the object itself.
+- `toString` คืนค่าเป็น string `"[object Object]"`
+- `valueOf` คืนออบเจ็กต์ตัวมันเอง
 
-Here's the demo:
+ตัวอย่างเช่น:
 
-```js run
+```js
 let user = {name: "John"};
 
 alert(user); // [object Object]
 alert(user.valueOf() === user); // true
 ```
 
-So if we try to use an object as a string, like in an `alert` or so, then by default we see `[object Object]`.
+ดังนั้น หากใช้ออบเจ็กต์แทนที่ที่คาดหวังค่า string เช่นใน `alert` โดยปกติแล้วจะแสดงผลเป็น `[object Object]`
 
-The default `valueOf` is mentioned here only for the sake of completeness, to avoid any confusion. As you can see, it returns the object itself, and so is ignored. Don't ask me why, that's for historical reasons. So we can assume it doesn't exist.
+ส่วน `valueOf` ที่คืนออบเจ็กต์ตัวมันเองนั้น ไม่มากมีประโยชน์ มีการกล่าวถึงไว้ที่นี่เพื่อความครบถ้วนเท่านั้น ซึ่งเป็นแบบนี้มาตั้งแต่สมัยแรกด้วยบางเหตุผล ส่วนใหญ่แล้วมักจะถือว่ามันไม่มีอยู่
 
-Let's implement these methods to customize the conversion.
+มาลองใช้เมท็อดเหล่านี้ในการกำหนดพฤติกรรมการแปลงเป็นแบบของเราเองกัน
 
-For instance, here `user` does the same as above using a combination of `toString` and `valueOf` instead of `Symbol.toPrimitive`:
+ตัวอย่างเช่น ที่นี่ `user` จะทำงานแบบเดียวกับตัวอย่างก่อนหน้า แต่ใช้ `toString` กับ `valueOf` แทน `Symbol.toPrimitive`:
 
-```js run
+```js
 let user = {
   name: "John",
   money: 1000,
 
-  // for hint="string"
+  // สำหรับ hint "string"
   toString() {
     return `{name: "${this.name}"}`;
   },
 
-  // for hint="number" or "default"
+  // สำหรับ hint "number" หรือ "default"
   valueOf() {
     return this.money;
   }
-
 };
 
 alert(user); // toString -> {name: "John"}
@@ -184,11 +127,9 @@ alert(+user); // valueOf -> 1000
 alert(user + 500); // valueOf -> 1500
 ```
 
-As we can see, the behavior is the same as the previous example with `Symbol.toPrimitive`.
+โดยทั่วไปแล้ว มักต้องการจุดรวมศูนย์เดียวในการจัดการการแปลงออบเจ็กต์ให้เป็นค่าปฐมภูมิทั้งหมด ในกรณีนี้เราจะใช้แค่ `toString` อย่างเดียว ทำให้มันเป็นตัวจัดการหลักในการแปลง ดังตัวอย่าง:
 
-Often we want a single "catch-all" place to handle all primitive conversions. In this case, we can implement `toString` only, like this:
-
-```js run
+```js
 let user = {
   name: "John",
 
@@ -201,77 +142,101 @@ alert(user); // toString -> John
 alert(user + 500); // toString -> John500
 ```
 
-In the absence of `Symbol.toPrimitive` and `valueOf`, `toString` will handle all primitive conversions.
+หากไม่มี `Symbol.toPrimitive` และ `valueOf` เมท็อด `toString` ก็จะรับผิดชอบการแปลงออบเจ็กต์เป็นค่าปฐมภูมิทั้งหมดเอง
 
-### A conversion can return any primitive type
+### การแปลงสามารถคืนค่าปฐมภูมิประเภทใดก็ได้
 
-The important thing to know about all primitive-conversion methods is that they do not necessarily return the "hinted" primitive.
+สิ่งสำคัญที่ต้องทราบเกี่ยวกับเมท็อดทั้งหมดที่ใช้ในการแปลงออบเจ็กต์ คือ พวกมันไม่จำเป็นต้องคืนค่าปฐมภูมิประเภทที่ตรงกับ hint เสมอไป
 
-There is no control whether `toString` returns exactly a string, or whether `Symbol.toPrimitive` method returns a number for a hint `"number"`.
+ไม่มีข้อบังคับว่า `toString` ต้องคืนค่าเป็น string เสมอ หรือ `Symbol.toPrimitive` ต้องคืนตัวเลขเมื่อ hint เป็น `"number"` 
 
-The only mandatory thing: these methods must return a primitive, not an object.
+สิ่งเดียวที่จำเป็นคือ เมท็อดเหล่านั้นต้องคืนค่าปฐมภูมิ ไม่ใช่ออบเจ็กต์
 
-```smart header="Historical notes"
-For historical reasons, if `toString` or `valueOf` returns an object, there's no error, but such value is ignored (like if the method didn't exist). That's because in ancient times there was no good "error" concept in JavaScript.
+```smart header="หมายเหตุทางประวัติศาสตร์"
+สมัยก่อน ถ้า `toString` หรือ `valueOf` คืนออบเจ็กต์ ก็จะไม่เกิด error แต่ค่านั้นจะถูกละเลย (เสมือนไม่มีการกำหนดเมท็อดนั้นไว้) นั่นเป็นเพราะไม่มีแนวคิดเรื่อง "error" ที่ดีพอใน JavaScript สมัยนั้น
 
-In contrast, `Symbol.toPrimitive` *must* return a primitive, otherwise there will be an error.
+ในทางตรงข้าม `Symbol.toPrimitive` มีกฎเข้มงวดกว่า มันต้องคืนค่าปฐมภูมิเท่านั้น ไม่เช่นนั้นจะเกิด error
 ```
 
-## Further conversions
+## การแปลงอื่นๆ
 
-As we know already, many operators and functions perform type conversions, e.g. multiplication `*` converts operands to numbers.
+อย่างที่เราได้เรียนรู้มา มีตัวดำเนินการและฟังก์ชันหลายตัวที่ดำเนินการแปลงชนิดข้อมูล เช่น การคูณ `*` จะแปลงตัวถูกดำเนินการให้เป็นตัวเลข
 
-If we pass an object as an argument, then there are two stages:
-1. The object is converted to a primitive (using the rules described above).
-2. If the resulting primitive isn't of the right type, it's converted.
+หากเราส่งออบเจ็กต์เป็นอาร์กิวเมนต์ การคำนวณจะประกอบด้วย 2 ขั้นตอน:
+1. ออบเจ็กต์จะถูกแปลงให้เป็นค่าปฐมภูมิ (ตามกฎที่อธิบายข้างต้น)
+2. หากจำเป็นสำหรับการดำเนินการต่อไป ค่าปฐมภูมินั้นจะถูกแปลงอีกครั้ง
 
-For instance:
+ตัวอย่างเช่น:
 
-```js run
+```js
 let obj = {
-  // toString handles all conversions in the absence of other methods
+  // toString จัดการการแปลงทั้งหมดเมื่อไม่มีเมท็อดอื่น
   toString() {
     return "2";
   }
 };
 
-alert(obj * 2); // 4, object converted to primitive "2", then multiplication made it a number
+alert(obj * 2); // 4 ออบเจ็กต์ถูกแปลงเป็น "2", จากนั้น "2" จึงถูกคูณด้วย 2
 ```
 
-1. The multiplication `obj * 2` first converts the object to primitive (that's a string `"2"`).
-2. Then `"2" * 2` becomes `2 * 2` (the string is converted to number).
+1. การคูณ `obj * 2` ขั้นแรกจะแปลง `obj` ให้เป็นค่าปฐมภูมิ ซึ่งจะเป็น string `"2"` (จาก `toString`)
+2. จากนั้น `"2" * 2` จะกลายเป็น `2 * 2` (string ถูกแปลงเป็นตัวเลข)
 
-Binary plus will concatenate strings in the same situation, as it gladly accepts a string:
+บวกด้วย `+` ก็มีกฎพิเศษเหมือนกัน:
 
-```js run
+```js
 let obj = {
   toString() {
     return "2";
   }
 };
 
-alert(obj + 2); // 22 ("2" + 2), conversion to primitive returned a string => concatenation
+alert(obj + 2); // 22 ("2" + 2), การแปลงเป็น string เกิดขึ้น
 ```
 
-## Summary
+การบวก `obj + 2` ในตอนแรกจะแปลง `obj` เป็นค่าปฐมภูมิ (ซึ่งเป็น string `"2"`) จากนั้นจึงเกิดการต่อ string `"2" + 2 = "22"`
 
-The object-to-primitive conversion is called automatically by many built-in functions and operators that expect a primitive as a value.
+ในทางตรงข้าม การลบ `-` และตัวดำเนินการเปรียบเทียบอื่นๆ เช่น `<` `>` จะแปลงทั้งสอง operand ให้เป็นตัวเลขเสมอ:
 
-There are 3 types (hints) of it:
-- `"string"` (for `alert` and other operations that need a string)
-- `"number"` (for maths)
-- `"default"` (few operators)
+```js
+let obj = {
+  toString() {
+    return "2";
+  }
+};
 
-The specification describes explicitly which operator uses which hint. There are very few operators that "don't know what to expect" and use the `"default"` hint. Usually for built-in objects `"default"` hint is handled the same way as `"number"`, so in practice the last two are often merged together.
+alert(obj - 2); // 0 ("2" - 2), การแปลงเป็นตัวเลขเกิดขึ้น
+```
 
-The conversion algorithm is:
+นี่คือตารางสรุประบุว่าตัวดำเนินการใช้การแปลงแบบใด:
 
-1. Call `obj[Symbol.toPrimitive](hint)` if the method exists,
-2. Otherwise if hint is `"string"`
-    - try `obj.toString()` and `obj.valueOf()`, whatever exists.
-3. Otherwise if hint is `"number"` or `"default"`
-    - try `obj.valueOf()` and `obj.toString()`, whatever exists.
+| ตัวดำเนินการ | การแปลงตัวถูกดำเนินการ |
+|--------------|----------------------|
+| + | ทำการต่อ string ถ้าสามารถแปลงได้ เช่น `"1" + "2" = "12"`, `"1" + 2 = "12"` |
+| - | แปลงเป็นตัวเลข |
+| * / | แปลงเป็นตัวเลข |
+| == | แปลงเป็นตัวเลข แต่ `null` กับ `undefined` จะถูกเปรียบเทียบโดยไม่มีการแปลง |
+| < > >= <= | แปลงเป็นตัวเลข |
+| + (unary) | แปลงเป็นตัวเลข |
 
-In practice, it's often enough to implement only `obj.toString()` as a "catch-all" method for string conversions that should return a "human-readable" representation of an object, for logging or debugging purposes.  
 
-As for math operations, JavaScript doesn't provide a way to "override" them using methods, so real life projects rarely use them on objects.
+## สรุป
+
+การแปลงออบเจ็กต์เป็นค่าปฐมภูมิจะถูกเรียกใช้โดยอัตโนมัติ โดยฟังก์ชันและตัวดำเนินการหลายตัวที่คาดหวังให้ข้อมูลเป็นค่าปฐมภูมิ
+
+มีการแปลง 3 แบบ:
+- `"string"` (สำหรับ `alert` และตัวดำเนินการที่ต้องการ string)  
+- `"number"` (สำหรับการคำนวณทางคณิตศาสตร์)
+- `"default"` (สำหรับตัวดำเนินการบางตัวเท่านั้น)
+
+ซึ่งมีระบุไว้ชัดเจนในสเปคว่าตัวดำเนินการแต่ละตัวใช้การแปลงแบบใด
+
+ลำดับขั้นตอนการแปลงคือ:
+
+1. เรียกใช้ `obj[Symbol.toPrimitive](hint)` หากมีการกำหนดไว้
+2. มิฉะนั้น ถ้า hint คือ `"string"`
+    - ลองเรียก `obj.toString()` และ `obj.valueOf()` ตามลำดับ เลือกอันแรกที่ใช้ได้ 
+3. มิฉะนั้น ถ้า hint คือ `"number"` หรือ `"default"`
+    - ลองเรียก `obj.valueOf()` และ `obj.toString()` ตามลำดับ เลือกอันแรกที่ใช้ได้
+
+ในทางปฏิบัติ การใช้เมท็อด `obj.toString()` เพียงอย่างเดียวเป็นตัวจัดการหลักในการแปลงออบเจ็กต์เป็น string มักจะพอเพียง และถูกใช้เพื่ออธิบายข้อมูลของออบเจ็กต์ในรูปแบบที่อ่านได้ง่าย โดยมักใช้ในการล็อก (log) และดีบั๊ก
