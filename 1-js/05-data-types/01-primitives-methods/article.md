@@ -79,7 +79,7 @@ alert( n.toFixed(2) ); // 1.23
 เราจะได้เรียนรู้เมท็อดเฉพาะของข้อมูลปฐมภูมิแต่ละตัวเพิ่มเติมในบท <info:number> และ <info:string>
 
 
-```warn header="constructor ของ String/Number/Boolean ใช้สำหรับภายในเท่านั้น"
+````warn header="constructor ของ String/Number/Boolean ใช้สำหรับภายในเท่านั้น"
 บางภาษา เช่น Java อนุญาตให้เราสร้าง "ออบเจ็กต์ wrapper" สำหรับข้อมูลปฐมภูมิได้โดยใช้ syntax แบบ `new Number(1)` หรือ `new Boolean(false)`
 
 ใน JavaScript ก็ทำแบบนั้นได้ด้วยเหตุผลทางประวัติ แต่ *ไม่แนะนำให้ใช้เด็ดขาด* เพราะอาจเกิดปัญหาได้มากมาย 
@@ -108,10 +108,10 @@ if (zero) { // zero เป็น true เพราะเป็นออบเจ
 ```js
 let num = Number("123"); // แปลง string เป็น number
 ```
-```
+````
 
 
-```warn header="null/undefined ไม่มีเมท็อด"
+````warn header="null/undefined ไม่มีเมท็อด"
 ข้อมูลปฐมภูมิพิเศษ `null` กับ `undefined` ถือเป็นข้อยกเว้น ไม่มี "ออบเจ็กต์ wrapper" สำหรับค่าเหล่านี้ และก็ไม่มีเมท็อดอะไรด้วย แปลว่าพวกมันคือข้อมูลปฐมภูมิล้วนๆ ที่สุดเลยก็ว่าได้
 
 การพยายามเข้าถึงพร็อพเพอร์ตี้ของค่าพวกนี้จะทำให้เกิด error:
@@ -119,6 +119,7 @@ let num = Number("123"); // แปลง string เป็น number
 ```js run
 alert(null.test); // error
 ```
+````
 
 ## สรุป
 
