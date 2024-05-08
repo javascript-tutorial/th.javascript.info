@@ -1,20 +1,18 @@
-# Methods of primitives
+# เมท็อดของข้อมูลปฐมภูมิ
 
-JavaScript allows us to work with primitives (strings, numbers, etc.) as if they were objects. They also provide methods to call as such. We will study those soon, but first we'll see how it works because, of course, primitives are not objects (and here we will make it even clearer).
+JavaScript อนุญาตให้เราทำงานกับข้อมูลปฐมภูมิ (เช่น string, number) ราวกับว่าพวกมันเป็นออบเจ็กต์ โดยมีเมท็อดให้เรียกใช้ได้ด้วย เราจะศึกษาวิธีการทำงานนี้กันในรายละเอียด
 
-Let's look at the key distinctions between primitives and objects.
+ก่อนอื่นมาทำความเข้าใจความแตกต่างสำคัญระหว่างข้อมูลปฐมภูมิกับออบเจ็กต์กันก่อน
 
-A primitive
+ข้อมูลปฐมภูมิ:
+- เป็นค่าปฐมภูมีประเภทต่างๆ 
+- มีทั้งหมด 7 ประเภท ได้แก่ `string`, `number`, `bigint`, `boolean`, `symbol`, `null` และ `undefined`
 
-- Is a value of a primitive type.
-- There are 7 primitive types: `string`, `number`, `bigint`, `boolean`, `symbol`, `null` and `undefined`.
+ออบเจ็กต์:
+- สามารถเก็บพร็อพเพอร์ตี้หลายค่า ในรูปแบบคีย์-ค่า
+- สามารถสร้างได้ด้วย `{}` เช่น `{name: "John", age: 30}` และในภาษา JavaScript ยังมีออบเจ็กต์ประเภทอื่นๆ อีก เช่น ฟังก์ชันเองก็ถือเป็นออบเจ็กต์
 
-An object
-
-- Is capable of storing multiple values as properties.
-- Can be created with `{}`, for instance: `{name: "John", age: 30}`. There are other kinds of objects in JavaScript: functions, for example, are objects.
-
-One of the best things about objects is that we can store a function as one of its properties.
+หนึ่งในจุดเด่นของออบเจ็กต์คือ เราสามารถเก็บฟังก์ชันเป็นพร็อพเพอร์ตี้ได้:
 
 ```js run
 let john = {
@@ -27,32 +25,32 @@ let john = {
 john.sayHi(); // Hi buddy!
 ```
 
-So here we've made an object `john` with the method `sayHi`.
+ที่นี่เราสร้างออบเจ็กต์ `john` ที่มีเมท็อด `sayHi` ไว้ด้วย
 
-Many built-in objects already exist, such as those that work with dates, errors, HTML elements, etc. They have different properties and methods.
+มีออบเจ็กต์ในตัวจำนวนมากที่มีอยู่แล้ว เช่น ออบเจ็กต์สำหรับวันที่ (Date), ข้อผิดพลาด (Error), องค์ประกอบ HTML เป็นต้น ซึ่งมีพร็อพเพอร์ตี้และเมท็อดเฉพาะตัวที่หลากหลาย
 
-But, these features come with a cost!
+แต่คุณสมบัติเหล่านี้ก็มีค่าใช้จ่าย!
 
-Objects are "heavier" than primitives. They require additional resources to support the internal machinery.
+ออบเจ็กต์จะ "หนัก" กว่าข้อมูลปฐมภูมิ เพราะต้องใช้ทรัพยากรเพิ่มเติมเพื่อสนับสนุนกลไกภายในต่างๆ
 
-## A primitive as an object
+## ข้อมูลปฐมภูมิในฐานะออบเจ็กต์ 
 
-Here's the paradox faced by the creator of JavaScript:
+นี่คือปัญหาที่ผู้สร้าง JavaScript ต้องเผชิญ:
 
-- There are many things one would want to do with a primitive like a string or a number. It would be great to access them using methods.
-- Primitives must be as fast and lightweight as possible.
+- เรามักจะอยากทำอะไรหลายๆ อย่างกับข้อมูลปฐมภูมิ เช่น string หรือ number การเข้าถึงข้อมูลผ่านเมท็อดจะช่วยได้มาก  
+- แต่ข้อมูลปฐมภูมิควรจะเบาและรวดเร็วที่สุดเท่าที่จะเป็นไปได้
 
-The solution looks a little bit awkward, but here it is:
+วิธีแก้ปัญหาอาจดูแปลกไปหน่อย แต่ทำได้ดังนี้:
 
-1. Primitives are still primitive. A single value, as desired.
-2. The language allows access to methods and properties of strings, numbers, booleans and symbols.
-3. In order for that to work, a special "object wrapper" that provides the extra functionality is created, and then is destroyed.
+1. ข้อมูลปฐมภูมิยังคงเป็นข้อมูลปฐมภูมิ ซึ่งเป็นค่าเดี่ยวตามต้องการ
+2. ภาษานี้อนุญาตให้เข้าถึงเมท็อดและพร็อพเพอร์ตี้ของ string, number, boolean และ symbol
+3. เพื่อให้ทำได้ มีการสร้าง "ออบเจ็กต์ห่อหุ้ม (wrapper)" พิเศษขึ้นมาเพื่อให้ฟังก์ชันการทำงานเพิ่มเติม ซึ่งจะถูกทำลายทิ้งหลังจากเสร็จงาน
 
-The "object wrappers" are different for each primitive type and are called: `String`, `Number`, `Boolean`, `Symbol` and `BigInt`. Thus, they provide different sets of methods.
+"ออบเจ็กต์ห่อหุ้ม (wrapper)" จะแตกต่างกันตามชนิดของข้อมูลปฐมภูมิ มี `String`, `Number`, `Boolean`, `Symbol` และ `BigInt` แต่ละตัวจะมีเมท็อดเฉพาะของตัวเอง
 
-For instance, there exists a string method [str.toUpperCase()](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/String/toUpperCase) that returns a capitalized `str`.
+ยกตัวอย่างเช่น มีเมท็อดสำหรับ string อย่าง [str.toUpperCase()](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/String/toUpperCase) ที่คืนค่า `str` เป็นตัวอักษรพิมพ์ใหญ่ทั้งหมด
 
-Here's how it works:
+ลองดูการทำงานได้ดังนี้:
 
 ```js run
 let str = "Hello";
@@ -60,17 +58,17 @@ let str = "Hello";
 alert( str.toUpperCase() ); // HELLO
 ```
 
-Simple, right? Here's what actually happens in `str.toUpperCase()`:
+ง่ายๆ เลย แต่แท้จริงแล้ว เบื้องหลัง `str.toUpperCase()` เกิดอะไรขึ้นมั่ง:
 
-1. The string `str` is a primitive. So in the moment of accessing its property, a special object is created that knows the value of the string, and has useful methods, like `toUpperCase()`.
-2. That method runs and returns a new string (shown by `alert`).
-3. The special object is destroyed, leaving the primitive `str` alone.
+1. string `str` เป็นข้อมูลปฐมภูมิ ดังนั้นเมื่อมีการเข้าถึงพร็อพเพอร์ตี้ จะมีการสร้างออบเจ็กต์พิเศษขึ้นมาซึ่งรู้ค่าของ string นั้น และมีเมท็อดที่มีประโยชน์ต่างๆ เช่น `toUpperCase()`
+2. เมท็อดนั้นรันและคืนค่า string ใหม่ (แสดงโดย `alert`)
+3. ออบเจ็กต์พิเศษจะถูกทำลายทิ้ง ปล่อย `str` ไว้เป็นข้อมูลปฐมภูมิตามเดิม
 
-So primitives can provide methods, but they still remain lightweight.
+ดังนั้น ข้อมูลปฐมภูมิสามารถจัดการเมท็อดได้ โดยยังคงความเป็นข้อมูลที่มีน้ำหนักเบาไว้เหมือนเดิม
 
-The JavaScript engine highly optimizes this process. It may even skip the creation of the extra object at all. But it must still adhere to the specification and behave as if it creates one.
+เอ็นจิน JavaScript ทำให้กระบวนการนี้ราบรื่นที่สุด บางครั้งอาจแม้กระทั่งข้ามการสร้างออบเจ็กต์พิเศษไปเลย แต่ยังคงปฏิบัติตามข้อกำหนดและให้ผลเสมือนมีการสร้างออบเจ็กต์นั้นขึ้นมาจริง
 
-A number has methods of its own, for instance, [toFixed(n)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed) rounds the number to the given precision:
+ตัวเลขก็มีเมท็อดเป็นของตัวเองเช่นกัน เช่น [toFixed(n)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed) ที่ปัดเศษทศนิยมตามจำนวนตำแหน่งที่ระบุ:
 
 ```js run
 let n = 1.23456;
@@ -78,15 +76,15 @@ let n = 1.23456;
 alert( n.toFixed(2) ); // 1.23
 ```
 
-We'll see more specific methods in chapters <info:number> and <info:string>.
+เราจะได้เรียนรู้เมท็อดเฉพาะของข้อมูลปฐมภูมิแต่ละตัวเพิ่มเติมในบท <info:number> และ <info:string>
 
 
-````warn header="Constructors `String/Number/Boolean` are for internal use only"
-Some languages like Java allow us to explicitly create "wrapper objects" for primitives using a syntax like `new Number(1)` or `new Boolean(false)`.
+````warn header="constructor ของ String/Number/Boolean ใช้สำหรับภายในเท่านั้น"
+บางภาษา เช่น Java อนุญาตให้เราสร้าง "ออบเจ็กต์ wrapper" สำหรับข้อมูลปฐมภูมิได้โดยใช้ syntax แบบ `new Number(1)` หรือ `new Boolean(false)`
 
-In JavaScript, that's also possible for historical reasons, but highly **unrecommended**. Things will go crazy in several places.
+JavaScript ก็อนุญาตให้ทำแบบนั้นได้เช่นกันเพราะเหตุผลบางอย่างในอดีต แต่ปัจจุบัน*ไม่แนะนำให้ใช้วิธีนี้เด็ดขาด* เนื่องจากอาจนำไปสู่ปัญหามากมาย
 
-For instance:
+ยกตัวอย่างเช่น:
 
 ```js run
 alert( typeof 0 ); // "number"
@@ -94,35 +92,35 @@ alert( typeof 0 ); // "number"
 alert( typeof new Number(0) ); // "object"!
 ```
 
-Objects are always truthy in `if`, so here the alert will show up:
+ออบเจ็กต์จะมีค่าเป็น truthy เสมอ ดังนั้น alert ด้านล่างจะแสดงอะไรออกมา:
 
 ```js run
 let zero = new Number(0);
 
-if (zero) { // zero is true, because it's an object
+if (zero) { // zero เป็น true เพราะเป็นออบเจ็กต์
   alert( "zero is truthy!?!" );
 }
 ```
 
-On the other hand, using the same functions `String/Number/Boolean` without `new` is a totally sane and useful thing. They convert a value to the corresponding type: to a string, a number, or a boolean (primitive).
+ในทางกลับกัน การใช้ฟังก์ชัน `String/Number/Boolean` แบบไม่มี `new` นั้นโอเค และมีประโยชน์มาก เพราะจะแปลงค่าเป็น string/number/boolean ตามแต่ประเภทที่ต้องการ (ซึ่งยังคงเป็นค่าปฐมภูมิ)
 
-For example, this is entirely valid:
+ยกตัวอย่างเช่น นี่เป็นวิธีที่ถูกต้อง:
 ```js
-let num = Number("123"); // convert a string to number
+let num = Number("123"); // แปลง string เป็น number
 ```
 ````
 
+````warn header="null/undefined ไม่มีเมท็อด"
+ข้อมูลปฐมภูมิพิเศษ `null` กับ `undefined` ถือเป็นข้อยกเว้น ไม่มี "ออบเจ็กต์ wrapper" สำหรับค่าเหล่านี้ และก็ไม่มีเมท็อดอะไรด้วย แปลว่าพวกมันคือข้อมูลปฐมภูมิล้วนๆ ที่สุดเลยก็ว่าได้
 
-````warn header="null/undefined have no methods"
-The special primitives `null` and `undefined` are exceptions. They have no corresponding "wrapper objects" and provide no methods. In a sense, they are "the most primitive".
-
-An attempt to access a property of such value would give the error:
+การพยายามเข้าถึงพร็อพเพอร์ตี้ของค่าพวกนี้จะทำให้เกิด error:
 
 ```js run
 alert(null.test); // error
+```
 ````
 
-## Summary
+## สรุป
 
-- Primitives except `null` and `undefined` provide many helpful methods. We will study those in the upcoming chapters.
-- Formally, these methods work via temporary objects, but JavaScript engines are well tuned to optimize that internally, so they are not expensive to call.
+- ข้อมูลปฐมภูมิยกเว้น `null` และ `undefined` มีเมท็อดที่ใช้งานได้จำนวนมาก เราจะศึกษาเมท็อดเหล่านั้นในบทต่อๆ ไป
+- อย่างเป็นทางการแล้ว เมท็อดพวกนี้ทำงานผ่านออบเจ็กต์ชั่วคราว แต่เอ็นจิน JavaScript ได้รับการปรับแต่งอย่างดีเพื่อให้เกิดค่าใช้จ่ายในการเรียกใช้น้อยที่สุด
