@@ -2,9 +2,9 @@ importance: 4
 
 ---
 
-# An occasional infinite loop
+# ลูปอนันต์ที่ไม่คาดคิด
 
-This loop is infinite. It never ends. Why?
+ลูปนี้เป็นลูปอนันต์ มันไม่มีวันจบ ทำไม?
 
 ```js
 let i = 0;
