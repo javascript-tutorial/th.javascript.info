@@ -441,4 +441,4 @@ alert( parseInt('2n9c', 36) ); // 123456
 
 ฟังก์ชันคณิตศาสตร์เพิ่มเติม:
 
-- ดูวัตถุ [Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) เมื่อต้องการใช้ ไลบรารีนี้มีขนาดเล็ก แต่ครอบคลุมความต้องการพื้นฐานทางคณิตศาสตร์ได้
+- ดู [Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) เมื่อต้องการใช้ ไลบรารีนี้มีขนาดเล็ก แต่ครอบคลุมความต้องการพื้นฐานทางคณิตศาสตร์ได้
