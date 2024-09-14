@@ -2,10 +2,12 @@ importance: 5
 
 ---
 
-# Sum numbers from the visitor
+คุณต้องการให้ผมแปลโจทย์และคำอธิบายนี้เป็นภาษาไทยใช่ไหมครับ? ถ้าใช่ นี่คือคำแปล:
 
-Create a script that prompts the visitor to enter two numbers and then shows their sum.
+# รวมตัวเลขจากผู้เข้าชม
 
-[demo]
+สร้างสคริปต์ที่ขอให้ผู้เข้าชมป้อนตัวเลขสองตัว แล้วแสดงผลรวมของตัวเลขเหล่านั้น
 
-P.S. There is a gotcha with types.
+[สาธิต]
+
+ข้อควรระวัง: มีจุดที่ต้องระวังเกี่ยวกับประเภทข้อมูล
