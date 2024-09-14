@@ -2,13 +2,12 @@ importance: 5
 
 ---
 
-# Repeat until the input is a number
+# ทำซ้ำจนกว่าจะได้รับข้อมูลเป็นตัวเลข
 
-Create a function `readNumber` which prompts for a number until the visitor enters a valid numeric value.
+สร้างฟังก์ชัน `readNumber` ที่ขอให้ป้อนตัวเลขจนกว่าผู้เข้าชมจะป้อนค่าตัวเลขที่ถูกต้อง
 
-The resulting value must be returned as a number.
+ค่าที่ได้ต้องถูกส่งคืนเป็นตัวเลข
 
-The visitor can also stop the process by entering an empty line or pressing "CANCEL". In that case, the function should return `null`.
+ผู้เข้าชมสามารถหยุดกระบวนการได้โดยการป้อนบรรทัดว่างหรือกด "CANCEL" ในกรณีนั้น ฟังก์ชันควรส่งคืน `null`
 
-[demo]
-
+[สาธิต]

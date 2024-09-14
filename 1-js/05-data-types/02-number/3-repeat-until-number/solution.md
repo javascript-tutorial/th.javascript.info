@@ -1,10 +1,9 @@
-
 ```js run demo
 function readNumber() {
   let num;
 
   do {
-    num = prompt("Enter a number please?", 0);
+    num = prompt("กรุณาป้อนตัวเลข", 0);
   } while ( !isFinite(num) );
 
   if (num === null || num === '') return null;
@@ -12,12 +11,11 @@ function readNumber() {
   return +num;
 }
 
-alert(`Read: ${readNumber()}`);
+alert(`อ่านค่า: ${readNumber()}`);
 ```
 
-The solution is a little bit more intricate that it could be because we need to handle `null`/empty lines.
+วิธีแก้ปัญหานี้ค่อนข้างซับซ้อนกว่าที่ควรจะเป็นเล็กน้อย เพราะเราต้องจัดการกับ `null` และบรรทัดว่าง
 
-So we actually accept the input until it is a "regular number". Both `null` (cancel) and empty line also fit that condition, because in numeric form they are `0`.
+ดังนั้นเราจึงยอมรับการป้อนข้อมูลจนกว่าจะเป็น "ตัวเลขปกติ" ทั้ง `null` (ยกเลิก) และบรรทัดว่างก็เข้าเงื่อนไขนี้ด้วย เพราะในรูปแบบตัวเลขพวกมันเป็น `0`
 
-After we stopped, we need to treat `null` and empty line specially (return `null`), because converting them to a number would return `0`.
-
+หลังจากที่เราหยุด เราต้องจัดการกับ `null` และบรรทัดว่างเป็นพิเศษ (ส่งคืน `null`) เพราะการแปลงพวกมันเป็นตัวเลขจะส่งคืน `0`
