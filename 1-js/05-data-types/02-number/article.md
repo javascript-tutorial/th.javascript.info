@@ -1,98 +1,98 @@
-# Numbers
+# ตัวเลข
 
-In modern JavaScript, there are two types of numbers:
+ในจาวาสคริปต์ยุคใหม่ มีตัวเลขอยู่สองประเภท:
 
-1. Regular numbers in JavaScript are stored in 64-bit format [IEEE-754](https://en.wikipedia.org/wiki/IEEE_754-2008_revision), also known as "double precision floating point numbers". These are numbers that we're using most of the time, and we'll talk about them in this chapter.
+1. ตัวเลขทั่วไปในจาวาสคริปต์ถูกเก็บในรูปแบบ 64 บิต [IEEE-754](https://en.wikipedia.org/wiki/IEEE_754-2008_revision) หรือที่เรียกว่า "จำนวนทศนิยมความแม่นยำสองเท่า" ตัวเลขเหล่านี้เป็นตัวเลขที่เราใช้บ่อยที่สุด และเราจะพูดถึงในบทนี้
 
-2. BigInt numbers, to represent integers of arbitrary length. They are sometimes needed, because a regular number can't safely exceed <code>2<sup>53</sup></code> or be less than <code>-2<sup>53</sup></code>. As bigints are used in few special areas, we devote them a special chapter <info:bigint>.
+2. BigInt ใช้แทนจำนวนเต็มที่มีความยาวไม่จำกัด บางครั้งจำเป็นต้องใช้เพราะตัวเลขทั่วไปไม่สามารถเกิน <code>2<sup>53</sup></code> หรือน้อยกว่า <code>-2<sup>53</sup></code> ได้อย่างปลอดภัย เนื่องจาก BigInt ใช้ในบางกรณีพิเศษเท่านั้น เราจึงแยกไว้ในบทเฉพาะ <info:bigint>
 
-So here we'll talk about regular numbers. Let's expand our knowledge of them.
+ในบทนี้เราจะพูดถึงตัวเลขทั่วไป มาดูรายละเอียดเพิ่มเติมกัน
 
-## More ways to write a number
+## วิธีเขียนตัวเลขแบบอื่นๆ
 
-Imagine we need to write 1 billion. The obvious way is:
+สมมติว่าเราต้องเขียนหนึ่งพันล้าน วิธีที่ชัดเจนคือ:
 
 ```js
 let billion = 1000000000;
 ```
 
-We also can use underscore `_` as the separator:
+แต่ในชีวิตจริง เราอาจสับสนกับจำนวนศูนย์ได้ง่าย ในภาษาไทย เรามักใช้คำว่า "ล้าน" "สิบล้าน" "ร้อยล้าน" เพื่อช่วยในการอ่าน ในจาวาสคริปต์ เราสามารถใช้เครื่องหมายขีดล่าง `_` เป็นตัวคั่นได้:
 
 ```js
 let billion = 1_000_000_000;
 ```
 
-Here the underscore `_` plays the role of the "syntactic sugar", it makes the number more readable. The JavaScript engine simply ignores `_` between digits, so it's exactly the same one billion as above.
+ในที่นี้ เครื่องหมายขีดล่าง `_` ทำหน้าที่เป็น "น้ำตาลทางไวยากรณ์" ช่วยให้ตัวเลขอ่านง่ายขึ้น เครื่องมือจาวาสคริปต์จะมองข้าม `_` ระหว่างตัวเลข ดังนั้นจึงเป็นตัวเลขหนึ่งพันล้านเหมือนกันกับข้างบน
 
-In real life though, we try to avoid writing long sequences of zeroes. We're too lazy for that. We'll try to write something like `"1bn"` for a billion or `"7.3bn"` for 7 billion 300 million. The same is true for most large numbers.
+ในชีวิตจริง เรามักหลีกเลี่ยงการเขียนเลขศูนย์ต่อกันยาวๆ เพราะขี้เกียจ เรามักเขียนแบบย่อ เช่น `"1พันล้าน"` สำหรับหนึ่งพันล้าน หรือ `"7.3พันล้าน"` สำหรับเจ็ดพันสามร้อยล้าน เช่นเดียวกับตัวเลขใหญ่ส่วนมาก
 
-In JavaScript, we can shorten a number by appending the letter `"e"` to it and specifying the zeroes count:
+ในจาวาสคริปต์ เราสามารถย่อตัวเลขโดยเพิ่มตัวอักษร `"e"` ต่อท้ายและระบุจำนวนศูนย์:
 
 ```js run
-let billion = 1e9;  // 1 billion, literally: 1 and 9 zeroes
+let billion = 1e9;  // 1 พันล้าน คือ 1 ตามด้วยศูนย์ 9 ตัว
 
-alert( 7.3e9 );  // 7.3 billions (same as 7300000000 or 7_300_000_000)
+alert( 7.3e9 );  // 7.3 พันล้าน (เท่ากับ 7300000000 หรือ 7_300_000_000)
 ```
 
-In other words, `e` multiplies the number by `1` with the given zeroes count.
+กล่าวคือ `e` คูณตัวเลขด้วย 1 ตามด้วยจำนวนศูนย์ที่กำหนด
 
 ```js
-1e3 === 1 * 1000; // e3 means *1000
-1.23e6 === 1.23 * 1000000; // e6 means *1000000
+1e3 === 1 * 1000; // e3 หมายถึง *1000
+1.23e6 === 1.23 * 1000000; // e6 หมายถึง *1000000
 ```
 
-Now let's write something very small. Say, 1 microsecond (one millionth of a second):
+ทีนี้มาเขียนตัวเลขที่เล็กมากๆ กัน สมมติว่า 1 ไมโครวินาที (หนึ่งในล้านของวินาที):
 
 ```js
 let mсs = 0.000001;
 ```
 
-Just like before, using `"e"` can help. If we'd like to avoid writing the zeroes explicitly, we could say the same as:
+เช่นเดียวกับก่อนหน้านี้ การใช้ `"e"` ช่วยได้ ถ้าเราไม่อยากเขียนศูนย์เยอะๆ เราก็เขียนแบบนี้ได้:
 
 ```js
-let mcs = 1e-6; // six zeroes to the left from 1
+let mcs = 1e-6; // ศูนย์หกตัวทางซ้ายของ 1
 ```
 
-If we count the zeroes in `0.000001`, there are 6 of them. So naturally it's `1e-6`.
+ถ้านับจำนวนศูนย์ใน `0.000001` จะมี 6 ตัว ดังนั้นจึงเป็น `1e-6`
 
-In other words, a negative number after `"e"` means a division by 1 with the given number of zeroes:
+กล่าวอีกนัยหนึ่ง ตัวเลขลบหลัง `"e"` หมายถึงการหารด้วย 1 ตามด้วยจำนวนศูนย์ที่กำหนด:
 
 ```js
-// -3 divides by 1 with 3 zeroes
+// -3 หมายถึงหารด้วย 1000 (3 ศูนย์)
 1e-3 === 1 / 1000; // 0.001
 
-// -6 divides by 1 with 6 zeroes
+// -6 หมายถึงหารด้วย 1,000,000 (6 ศูนย์)
 1.23e-6 === 1.23 / 1000000; // 0.00000123
 ```
 
-### Hex, binary and octal numbers
+### เลขฐานสิบหก ฐานสอง และฐานแปด
 
-[Hexadecimal](https://en.wikipedia.org/wiki/Hexadecimal) numbers are widely used in JavaScript to represent colors, encode characters, and for many other things. So naturally, there exists a shorter way to write them: `0x` and then the number.
+[เลขฐานสิบหก](https://en.wikipedia.org/wiki/Hexadecimal) ใช้กันมากในจาวาสคริปต์ เพื่อแสดงสี เข้ารหัสตัวอักษร และอื่นๆ อีกมาก จึงมีวิธีเขียนแบบย่อ คือใช้ `0x` นำหน้าตัวเลข
 
-For instance:
+ตัวอย่าง:
 
 ```js run
 alert( 0xff ); // 255
-alert( 0xFF ); // 255 (the same, case doesn't matter)
+alert( 0xFF ); // 255 (ไม่ต่างกัน ตัวพิมพ์เล็กหรือใหญ่ไม่สำคัญ)
 ```
 
-Binary and octal numeral systems are rarely used, but also supported using the `0b` and `0o` prefixes:
+ระบบเลขฐานสองและฐานแปดใช้น้อย แต่ก็รองรับ โดยใช้คำนำหน้า `0b` และ `0o`:
 
 
 ```js run
-let a = 0b11111111; // binary form of 255
-let b = 0o377; // octal form of 255
+let a = 0b11111111; // รูปแบบเลขฐานสองของ 255
+let b = 0o377; // รูปแบบเลขฐานแปดของ 255
 
-alert( a == b ); // true, the same number 255 at both sides
+alert( a == b ); // จริง เป็นเลข 255 เหมือนกันทั้งสองฝั่ง
 ```
 
-There are only 3 numeral systems with such support. For other numeral systems, we should use the function `parseInt` (which we will see later in this chapter).
+มีแค่ 3 ระบบเลขที่รองรับแบบนี้ สำหรับระบบเลขอื่นๆ เราควรใช้ฟังก์ชัน `parseInt` (ซึ่งเราจะเห็นในภายหลังในบทนี้)
 
 ## toString(base)
 
-The method `num.toString(base)` returns a string representation of `num` in the numeral system with the given `base`.
+วิธี `num.toString(base)` คืนค่าสตริงที่แสดง `num` ในระบบเลขฐาน `base`
 
-For example:
+ตัวอย่าง:
 ```js run
 let num = 255;
 
@@ -100,46 +100,46 @@ alert( num.toString(16) );  // ff
 alert( num.toString(2) );   // 11111111
 ```
 
-The `base` can vary from `2` to `36`. By default it's `10`.
+`base` อาจมีค่าตั้งแต่ `2` ถึง `36` โดยค่าเริ่มต้นคือ `10`
 
-Common use cases for this are:
+กรณีใช้งานทั่วไปคือ:
 
-- **base=16** is used for hex colors, character encodings etc, digits can be `0..9` or `A..F`.
-- **base=2** is mostly for debugging bitwise operations, digits can be `0` or `1`.
-- **base=36** is the maximum, digits can be `0..9` or `A..Z`. The whole latin alphabet is used to represent a number. A funny, but useful case for `36` is when we need to turn a long numeric identifier into something shorter, for example to make a short url. Can simply represent it in the numeral system with base `36`:
+- **base=16** ใช้สำหรับสีในรูปแบบเลขฐานสิบหก, เข้ารหัสตัวอักษร ฯลฯ ตัวเลขอาจเป็น `0..9` หรือ `A..F`
+- **base=2** ส่วนใหญ่ใช้สำหรับการแก้จุดบกพร่องของการดำเนินการระดับบิต ตัวเลขอาจเป็น `0` หรือ `1`
+- **base=36** เป็นค่าสูงสุด ตัวเลขอาจเป็น `0..9` หรือ `A..Z` ตัวอักษรละตินทั้งหมดถูกใช้แทนตัวเลข กรณีที่สนุกแต่มีประโยชน์สำหรับ `36` คือเมื่อเราต้องการย่อตัวระบุตัวเลขที่ยาวให้สั้นลง เช่น ทำ URL ย่อ เราสามารถแสดงมันในระบบเลขฐาน `36` ได้ง่ายๆ:
 
     ```js run
     alert( 123456..toString(36) ); // 2n9c
     ```
 
-```warn header="Two dots to call a method"
-Please note that two dots in `123456..toString(36)` is not a typo. If we want to call a method directly on a number, like `toString` in the example above, then we need to place two dots `..` after it.
+```warn header="จุดสองจุดเพื่อเรียกเมธอด"
+โปรดสังเกตว่าจุดสองจุดใน `123456..toString(36)` ไม่ใช่การพิมพ์ผิด ถ้าเราต้องการเรียกเมธอดโดยตรงกับตัวเลข เช่น `toString` ในตัวอย่างข้างต้น เราต้องใส่จุดสองจุด `..` หลังตัวเลข
 
-If we placed a single dot: `123456.toString(36)`, then there would be an error, because JavaScript syntax implies the decimal part after the first dot. And if we place one more dot, then JavaScript knows that the decimal part is empty and now goes the method.
+ถ้าเราใส่จุดเดียว: `123456.toString(36)` จะเกิดข้อผิดพลาด เพราะไวยากรณ์จาวาสคริปต์เข้าใจว่าส่วนทศนิยมอยู่หลังจุดแรก และถ้าเราใส่จุดอีกจุด จาวาสคริปต์จะเข้าใจว่าส่วนทศนิยมว่างเปล่าและตามด้วยเมธอด
 
-Also could write `(123456).toString(36)`.
+เราสามารถเขียน `(123456).toString(36)` ได้เช่นกัน
 
 ```
 
-## Rounding
+## การปัดเศษ
 
-One of the most used operations when working with numbers is rounding.
+การดำเนินการที่ใช้บ่อยที่สุดเมื่อทำงานกับตัวเลขคือการปัดเศษ
 
-There are several built-in functions for rounding:
+มีฟังก์ชันในตัวหลายตัวสำหรับการปัดเศษ:
 
 `Math.floor`
-: Rounds down: `3.1` becomes `3`, and `-1.1` becomes `-2`.
+: ปัดลง: `3.1` เป็น `3`, `-1.1` เป็น `-2`
 
 `Math.ceil`
-: Rounds up: `3.1` becomes `4`, and `-1.1` becomes `-1`.
+: ปัดขึ้น: `3.1` เป็น `4`, `-1.1` เป็น `-1`
 
 `Math.round`
-: Rounds to the nearest integer: `3.1` becomes `3`, `3.6` becomes `4`, the middle case: `3.5` rounds up to `4` too.
+: ปัดเศษไปยังจำนวนเต็มที่ใกล้ที่สุด: `3.1` เป็น `3`, `3.6` เป็น `4`, กรณีกึ่งกลาง `3.5` ปัดขึ้นเป็น `4` เช่นกัน
 
-`Math.trunc` (not supported by Internet Explorer)
-: Removes anything after the decimal point without rounding: `3.1` becomes `3`, `-1.1` becomes `-1`.
+`Math.trunc` (ไม่รองรับใน Internet Explorer)
+: ตัดส่วนทศนิยมทิ้งโดยไม่ปัดเศษ: `3.1` เป็น `3`, `-1.1` เป็น `-1`
 
-Here's the table to summarize the differences between them:
+ตารางสรุปความแตกต่างระหว่างฟังก์ชันเหล่านี้:
 
 |   | `Math.floor` | `Math.ceil` | `Math.round` | `Math.trunc` |
 |---|---------|--------|---------|---------|
@@ -149,259 +149,259 @@ Here's the table to summarize the differences between them:
 |`-1.6`|  `-2`    |   `-1`  |    `-2`  |   `-1`   |
 
 
-These functions cover all of the possible ways to deal with the decimal part of a number. But what if we'd like to round the number to `n-th` digit after the decimal?
+ฟังก์ชันเหล่านี้ครอบคลุมวิธีการจัดการกับส่วนทศนิยมของตัวเลขทั้งหมด แต่ถ้าเราต้องการปัดเศษตัวเลขไปยังตำแหน่งทศนิยมที่ `n` ล่ะ?
 
-For instance, we have `1.2345` and want to round it to 2 digits, getting only `1.23`.
+เช่น เรามี `1.2345` และต้องการปัดเศษให้เหลือ 2 ตำแหน่งทศนิยม เป็น `1.23`
 
-There are two ways to do so:
+มีสองวิธีในการทำเช่นนี้:
 
-1. Multiply-and-divide.
+1. คูณและหาร
 
-    For example, to round the number to the 2nd digit after the decimal, we can multiply the number by `100` (or a bigger power of 10), call the rounding function and then divide it back.
+    เช่น เพื่อปัดเศษตัวเลขไปยังตำแหน่งทศนิยมที่ 2 เราสามารถคูณตัวเลขด้วย `100` (หรือกำลังของ 10 ที่มากกว่า) เรียกใช้ฟังก์ชันปัดเศษ แล้วหารกลับ
+
     ```js run
     let num = 1.23456;
 
     alert( Math.round(num * 100) / 100 ); // 1.23456 -> 123.456 -> 123 -> 1.23
     ```
 
-2. The method [toFixed(n)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed) rounds the number to `n` digits after the point and returns a string representation of the result.
+2. วิธี [toFixed(n)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed) ปัดเศษตัวเลขไปยัง `n` ตำแหน่งหลังจุดทศนิยมและคืนค่าเป็นสตริง
 
     ```js run
     let num = 12.34;
     alert( num.toFixed(1) ); // "12.3"
     ```
 
-    This rounds up or down to the nearest value, similar to `Math.round`:
+    วิธีนี้ปัดขึ้นหรือลงไปยังค่าที่ใกล้ที่สุด คล้ายกับ `Math.round`:
 
     ```js run
     let num = 12.36;
     alert( num.toFixed(1) ); // "12.4"
     ```
 
-    Please note that result of `toFixed` is a string. If the decimal part is shorter than required, zeroes are appended to the end:
+    โปรดทราบว่าผลลัพธ์ของ `toFixed` เป็นสตริง หากส่วนทศนิยมสั้นกว่าที่ต้องการ จะเพิ่มศูนย์ต่อท้าย:
 
     ```js run
     let num = 12.34;
-    alert( num.toFixed(5) ); // "12.34000", added zeroes to make exactly 5 digits
+    alert( num.toFixed(5) ); // "12.34000", เพิ่มศูนย์เพื่อให้ครบ 5 หลัก
     ```
 
-    We can convert it to a number using the unary plus or a `Number()` call: `+num.toFixed(5)`.
+    เราสามารถแปลงเป็นตัวเลขโดยใช้เครื่องหมายบวกเดี่ยวหรือเรียก `Number()`: `+num.toFixed(5)`
 
-## Imprecise calculations
+## การคำนวณที่ไม่แม่นยำ
 
-Internally, a number is represented in 64-bit format [IEEE-754](https://en.wikipedia.org/wiki/IEEE_754-2008_revision), so there are exactly 64 bits to store a number: 52 of them are used to store the digits, 11 of them store the position of the decimal point (they are zero for integer numbers), and 1 bit is for the sign.
+ภายใน ตัวเลขถูกเก็บในรูปแบบ 64 บิต [IEEE-754](https://en.wikipedia.org/wiki/IEEE_754-2008_revision) มีบิต 64 บิตเพื่อเก็บตัวเลข: 52 บิตใช้เก็บตัวเลข, 11 บิตเก็บตำแหน่งของจุดทศนิยม (เป็นศูนย์สำหรับจำนวนเต็ม) และ 1 บิตสำหรับเครื่องหมาย
 
-If a number is too big, it would overflow the 64-bit storage, potentially giving an infinity:
+ถ้าตัวเลขใหญ่เกินไป อาจล้นพื้นที่เก็บข้อมูล 64 บิต ทำให้ได้ค่าอนันต์:
 
 ```js run
 alert( 1e500 ); // Infinity
 ```
 
-What may be a little less obvious, but happens quite often, is the loss of precision.
+สิ่งที่อาจไม่ชัดเจนนัก แต่เกิดขึ้นบ่อย คือการสูญเสียความแม่นยำ
 
-Consider this (falsy!) test:
+พิจารณาการทดสอบนี้ (ที่ให้ผลเป็นเท็จ):
 
 ```js run
-alert( 0.1 + 0.2 == 0.3 ); // *!*false*/!*
+alert( 0.1 + 0.2 == 0.3 ); // เท็จ
 ```
 
-That's right, if we check whether the sum of `0.1` and `0.2` is `0.3`, we get `false`.
+ถูกต้อง ถ้าเราตรวจสอบว่าผลรวมของ `0.1` และ `0.2` เท่ากับ `0.3` เราจะได้ `เท็จ`
 
-Strange! What is it then if not `0.3`?
+แปลก! แล้วมันคืออะไรถ้าไม่ใช่ `0.3`?
 
 ```js run
 alert( 0.1 + 0.2 ); // 0.30000000000000004
 ```
 
-Ouch! There are more consequences than an incorrect comparison here. Imagine you're making an e-shopping site and the visitor puts `$0.10` and `$0.20` goods into their cart. The order total will be `$0.30000000000000004`. That would surprise anyone.
+โอ้! มีผลกระทบมากกว่าการเปรียบเทียบที่ไม่ถูกต้อง ลองนึกภาพว่าคุณกำลังทำเว็บไซต์ขายของออนไลน์ และลูกค้าใส่สินค้ามูลค่า `฿10` และ `฿20` ลงในตะกร้า ยอดรวมจะเป็น `฿30.000000000000004` ซึ่งจะทำให้ทุกคนแปลกใจ
 
-But why does this happen?
+แต่ทำไมถึงเกิดเรื่องนี้ขึ้น?
 
-A number is stored in memory in its binary form, a sequence of bits - ones and zeroes. But fractions like `0.1`, `0.2` that look simple in the decimal numeric system are actually unending fractions in their binary form.
+ตัวเลขถูกเก็บในหน่วยความจำในรูปแบบไบนารี เป็นลำดับของบิต 0 และ 1 แต่เศษส่วนเช่น `0.1`, `0.2` ที่ดูง่ายในระบบเลขฐานสิบ จริงๆ แล้วเป็นเศษส่วนไม่รู้จบในระบบไบนารี
 
-In other words, what is `0.1`? It is one divided by ten `1/10`, one-tenth. In decimal numeral system such numbers are easily representable. Compare it to one-third: `1/3`. It becomes an endless fraction `0.33333(3)`.
+กล่าวคือ `0.1` คืออะไร? มันคือ 1 หาร 10 หรือ `1/10` ในระบบเลขฐานสิบ ตัวเลขแบบนี้แสดงได้ง่าย เปรียบเทียบกับ 1 หาร 3 หรือ `1/3` ซึ่งเป็นเศษส่วนไม่รู้จบ `0.33333(3)`
 
-So, division by powers `10` is guaranteed to work well in the decimal system, but division by `3` is not. For the same reason, in the binary numeral system, the division by powers of `2` is guaranteed to work, but `1/10` becomes an endless binary fraction.
+ดังนั้น การหารด้วยกำลังของ 10 รับประกันว่าจะทำงานได้ดีในระบบฐานสิบ แต่การหารด้วย 3 ไม่ใช่ ด้วยเหตุผลเดียวกัน ในระบบไบนารี การหารด้วยกำลังของ 2 รับประกันว่าจะทำงานได้ แต่ `1/10` กลายเป็นเศษส่วนไบนารีไม่รู้จบ
 
-There's just no way to store *exactly 0.1* or *exactly 0.2* using the binary system, just like there is no way to store one-third as a decimal fraction.
+ไม่มีทางเก็บ *0.1 หรือ 0.2 อย่างแม่นยำ* โดยใช้ระบบไบนารี เช่นเดียวกับที่ไม่มีทางเก็บหนึ่งส่วนสามเป็นเศษส่วนทศนิยมได้อย่างแม่นยำ
 
-The numeric format IEEE-754 solves this by rounding to the nearest possible number. These rounding rules normally don't allow us to see that "tiny precision loss", but it exists.
+รูปแบบตัวเลข IEEE-754 แก้ปัญหานี้โดยปัดเศษไปยังตัวเลขที่ใกล้ที่สุดที่เป็นไปได้ กฎการปัดเศษเหล่านี้ปกติไม่ให้เราเห็น "การสูญเสียความแม่นยำเล็กน้อย" นั้น แต่มันมีอยู่
 
-We can see this in action:
+เราสามารถเห็นสิ่งนี้ในการทำงาน:
 ```js run
 alert( 0.1.toFixed(20) ); // 0.10000000000000000555
 ```
 
-And when we sum two numbers, their "precision losses" add up.
+และเมื่อเรารวมสองตัวเลข "การสูญเสียความแม่นยำ" ของพวกมันจะรวมกัน
 
-That's why `0.1 + 0.2` is not exactly `0.3`.
+นั่นคือเหตุผลที่ `0.1 + 0.2` ไม่เท่ากับ `0.3` อย่างแม่นยำ
 
-```smart header="Not only JavaScript"
-The same issue exists in many other programming languages.
+```smart header="ไม่ใช่แค่จาวาสคริปต์"
+ปัญหาเดียวกันนี้มีอยู่ในภาษาโปรแกรมอื่นๆ หลายภาษา
 
-PHP, Java, C, Perl, Ruby give exactly the same result, because they are based on the same numeric format.
+PHP, Java, C, Perl, Ruby ให้ผลลัพธ์เดียวกัน เพราะพวกมันใช้รูปแบบตัวเลขเดียวกัน
 ```
 
-Can we work around the problem? Sure, the most reliable method is to round the result with the help of a method [toFixed(n)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed):
+เราสามารถแก้ไขปัญหานี้ได้ไหม? แน่นอน วิธีที่น่าเชื่อถือที่สุดคือปัดเศษผลลัพธ์โดยใช้วิธี [toFixed(n)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed):
 
 ```js run
 let sum = 0.1 + 0.2;
 alert( sum.toFixed(2) ); // 0.30
 ```
 
-Please note that `toFixed` always returns a string. It ensures that it has 2 digits after the decimal point. That's actually convenient if we have an e-shopping and need to show `$0.30`. For other cases, we can use the unary plus to coerce it into a number:
+โปรดทราบว่า `toFixed` คืนค่าเป็นสตริงเสมอ มันรับประกันว่าจะมี 2 ตำแหน่งหลังจุดทศนิยม ซึ่งสะดวกถ้าเรามีร้านค้าออนไลน์และต้องแสดง `฿0.30` สำหรับกรณีอื่นๆ เราสามารถใช้เครื่องหมายบวกเดี่ยวเพื่อแปลงเป็นตัวเลข:
 
 ```js run
 let sum = 0.1 + 0.2;
 alert( +sum.toFixed(2) ); // 0.3
 ```
 
-We also can temporarily multiply the numbers by 100 (or a bigger number) to turn them into integers, do the maths, and then divide back. Then, as we're doing maths with integers, the error somewhat decreases, but we still get it on division:
+เราสามารถคูณตัวเลขด้วย 100 (หรือตัวเลขที่ใหญ่กว่า) ชั่วคราวเพื่อเปลี่ยนให้เป็นจำนวนเต็ม ทำการคำนวณ แล้วหารกลับ เมื่อทำเช่นนี้ ข้อผิดพลาดจะลดลงบ้าง แต่ยังคงมีเมื่อหาร:
 
 ```js run
 alert( (0.1 * 10 + 0.2 * 10) / 10 ); // 0.3
 alert( (0.28 * 100 + 0.14 * 100) / 100); // 0.4200000000000001
 ```
 
-So, multiply/divide approach reduces the error, but doesn't remove it totally.
+ดังนั้น วิธีคูณ/หารช่วยลดข้อผิดพลาด แต่ไม่ได้กำจัดออกทั้งหมด
 
-Sometimes we could try to evade fractions at all. Like if we're dealing with a shop, then we can store prices in cents instead of dollars. But what if we apply a discount of 30%? In practice, totally evading fractions is rarely possible. Just round them to cut "tails" when needed.
+บางครั้งเราอาจพยายามหลีกเลี่ยงเศษส่วนทั้งหมด เช่น ถ้าเราทำเรื่องร้านค้า เราอาจเก็บราคาเป็นสตางค์แทนบาท แต่ถ้าเราลดราคา 30% ล่ะ? ในทางปฏิบัติ การหลีกเลี่ยงเศษส่วนทั้งหมดแทบจะเป็นไปไม่ได้ เพียงแค่ปัดเศษตัดทศนิยมเมื่อจำเป็น
 
-````smart header="The funny thing"
-Try running this:
+````smart header="เรื่องแปลก"
+ลองรันโค้ดนี้ดู:
 
 ```js run
-// Hello! I'm a self-increasing number!
-alert( 9999999999999999 ); // shows 10000000000000000
+// สวัสดี! ฉันเป็นตัวเลขที่เพิ่มขึ้นเอง!
+alert( 9999999999999999 ); // แสดง 10000000000000000
 ```
 
-This suffers from the same issue: a loss of precision. There are 64 bits for the number, 52 of them can be used to store digits, but that's not enough. So the least significant digits disappear.
+นี่เกิดจากปัญหาเดียวกัน: การสูญเสียความแม่นยำ มี 64 บิตสำหรับตัวเลข, 52 บิตใช้เก็บตัวเลข แต่ไม่พอ ดังนั้นตัวเลขที่มีนัยสำคัญน้อยที่สุดจึงหายไป
 
-JavaScript doesn't trigger an error in such events. It does its best to fit the number into the desired format, but unfortunately, this format is not big enough.
+จาวาสคริปต์ไม่แจ้งข้อผิดพลาดในกรณีเช่นนี้ มันพยายามทำให้ตัวเลขพอดีกับรูปแบบที่ต้องการ แต่น่าเสียดายที่รูปแบบนี้ไม่ใหญ่พอ
 ````
 
-```smart header="Two zeroes"
-Another funny consequence of the internal representation of numbers is the existence of two zeroes: `0` and `-0`.
+```smart header="สองศูนย์"
+ผลพลอยได้ที่แปลกอีกอย่างของการแสดงตัวเลขภายในคือการมีศูนย์สองแบบ: `0` และ `-0`
 
-That's because a sign is represented by a single bit, so it can be set or not set for any number including a zero.
+นั่นเพราะเครื่องหมายถูกแสดงด้วยบิตเดียว ดังนั้นจึงอาจตั้งค่าหรือไม่ตั้งค่าสำหรับตัวเลขใดๆ รวมถึงศูนย์
 
-In most cases the distinction is unnoticeable, because operators are suited to treat them as the same.
+ในกรณีส่วนใหญ่ ความแตกต่างไม่สังเกตเห็น เพราะตัวดำเนินการปฏิบัติต่อพวกมันเหมือนกัน
 ```
 
-## Tests: isFinite and isNaN
+## การทดสอบ: isFinite และ isNaN
 
-Remember these two special numeric values?
+จำค่าตัวเลขพิเศษสองค่านี้ได้ไหม?
 
-- `Infinity` (and `-Infinity`) is a special numeric value that is greater (less) than anything.
-- `NaN` represents an error.
+- `Infinity` (และ `-Infinity`) เป็นค่าตัวเลขพิเศษที่มากกว่า (น้อยกว่า) ทุกอย่าง
+- `NaN` แทนข้อผิดพลาด
 
-They belong to the type `number`, but are not "normal" numbers, so there are special functions to check for them:
+ค่าเหล่านี้เป็นประเภท `number` แต่ไม่ใช่ตัวเลข "ปกติ" จึงมีฟังก์ชันพิเศษสำหรับตรวจสอบ:
 
-
-- `isNaN(value)` converts its argument to a number and then tests it for being `NaN`:
-
-    ```js run
-    alert( isNaN(NaN) ); // true
-    alert( isNaN("str") ); // true
-    ```
-
-    But do we need this function? Can't we just use the comparison `=== NaN`? Sorry, but the answer is no. The value `NaN` is unique in that it does not equal anything, including itself:
+- `isNaN(value)` แปลงอาร์กิวเมนต์เป็นตัวเลขแล้วทดสอบว่าเป็น `NaN`:
 
     ```js run
-    alert( NaN === NaN ); // false
+    alert( isNaN(NaN) ); // จริง
+    alert( isNaN("str") ); // จริง
     ```
 
-- `isFinite(value)` converts its argument to a number and returns `true` if it's a regular number, not `NaN/Infinity/-Infinity`:
+    แต่เราจำเป็นต้องใช้ฟังก์ชันนี้ไหม? เราไม่สามารถใช้การเปรียบเทียบ `=== NaN` ได้หรือ? ขอโทษ แต่คำตอบคือไม่ได้ ค่า `NaN` เป็นค่าพิเศษที่ไม่เท่ากับอะไรเลย รวมถึงตัวมันเอง:
 
     ```js run
-    alert( isFinite("15") ); // true
-    alert( isFinite("str") ); // false, because a special value: NaN
-    alert( isFinite(Infinity) ); // false, because a special value: Infinity
+    alert( NaN === NaN ); // เท็จ
     ```
 
-Sometimes `isFinite` is used to validate whether a string value is a regular number:
+- `isFinite(value)` แปลงอาร์กิวเมนต์เป็นตัวเลขและคืนค่า `จริง` ถ้าเป็นตัวเลขปกติ ไม่ใช่ `NaN/Infinity/-Infinity`:
+
+    ```js run
+    alert( isFinite("15") ); // จริง
+    alert( isFinite("str") ); // เท็จ เพราะเป็นค่าพิเศษ: NaN
+    alert( isFinite(Infinity) ); // เท็จ เพราะเป็นค่าพิเศษ: Infinity
+    ```
+
+บางครั้ง `isFinite` ถูกใช้เพื่อตรวจสอบว่าค่าสตริงเป็นตัวเลขปกติหรือไม่:
 
 
 ```js run
-let num = +prompt("Enter a number", '');
+let num = +prompt("ป้อนตัวเลข", '');
 
-// will be true unless you enter Infinity, -Infinity or not a number
+// จะเป็นจริงยกเว้นคุณป้อน Infinity, -Infinity หรือไม่ใช่ตัวเลข
 alert( isFinite(num) );
 ```
 
-Please note that an empty or a space-only string is treated as `0` in all numeric functions including `isFinite`.
+โปรดทราบว่าสตริงว่างเปล่าหรือสตริงที่มีแต่ช่องว่างจะถูกปฏิบัติเป็น `0` ในทุกฟังก์ชันตัวเลขรวมถึง `isFinite`
 
-```smart header="Compare with `Object.is`"
+```smart header="เปรียบเทียบกับ `Object.is`"
 
-There is a special built-in method [`Object.is`](mdn:js/Object/is) that compares values like `===`, but is more reliable for two edge cases:
+มีวิธีพิเศษในตัว [`Object.is`](mdn:js/Object/is) ที่เปรียบเทียบค่าเหมือน `===` แต่น่าเชื่อถือมากกว่าสำหรับสองกรณีพิเศษ:
 
-1. It works with `NaN`: `Object.is(NaN, NaN) === true`, that's a good thing.
-2. Values `0` and `-0` are different: `Object.is(0, -0) === false`, technically that's true, because internally the number has a sign bit that may be different even if all other bits are zeroes.
+1. ทำงานกับ `NaN`: `Object.is(NaN, NaN) === true` ซึ่งดี
+2. ค่า `0` และ `-0` ต่างกัน: `Object.is(0, -0) === false` ทางเทคนิคแล้วถูกต้อง เพราะภายในตัวเลขมีบิตเครื่องหมายที่อาจต่างกันแม้บิตอื่นทั้งหมดเป็นศูนย์
 
-In all other cases, `Object.is(a, b)` is the same as `a === b`.
+ในกรณีอื่นๆ ทั้งหมด `Object.is(a, b)` เหมือนกับ `a === b`
 
-This way of comparison is often used in JavaScript specification. When an internal algorithm needs to compare two values for being exactly the same, it uses `Object.is` (internally called [SameValue](https://tc39.github.io/ecma262/#sec-samevalue)).
+วิธีเปรียบเทียบนี้มักใช้ในข้อกำหนดของจาวาสคริปต์ เมื่ออัลกอริทึมภายในต้องเปรียบเทียบสองค่าว่าเหมือนกันพอดี จะใช้ `Object.is` (เรียกภายในว่า [SameValue](https://tc39.github.io/ecma262/#sec-samevalue))
 ```
 
 
-## parseInt and parseFloat
+## parseInt และ parseFloat
 
-Numeric conversion using a plus `+` or `Number()` is strict. If a value is not exactly a number, it fails:
+การแปลงเป็นตัวเลขโดยใช้เครื่องหมายบวก `+` หรือ `Number()` นั้นเข้มงวด ถ้าค่าไม่ใช่ตัวเลขพอดี จะล้มเหลว:
 
 ```js run
 alert( +"100px" ); // NaN
 ```
 
-The sole exception is spaces at the beginning or at the end of the string, as they are ignored.
+ข้อยกเว้นเดียวคือช่องว่างที่อยู่ต้นหรือท้ายสตริง ซึ่งจะถูกละเลย
 
-But in real life we often have values in units, like `"100px"` or `"12pt"` in CSS. Also in many countries the currency symbol goes after the amount, so we have `"19€"` and would like to extract a numeric value out of that.
+แต่ในชีวิตจริง เรามักมีค่าในหน่วยต่างๆ เช่น `"100px"` หรือ `"12pt"` ใน CSS และในหลายประเทศสัญลักษณ์สกุลเงินอยู่หลังจำนวน เช่น `"19฿"` และเราอยากแยกค่าตัวเลขออกมา
 
-That's what `parseInt` and `parseFloat` are for.
+นั่นคือสิ่งที่ `parseInt` และ `parseFloat` มีไว้
 
-They "read" a number from a string until they can't. In case of an error, the gathered number is returned. The function `parseInt` returns an integer, whilst `parseFloat` will return a floating-point number:
+ฟังก์ชันเหล่านี้ "อ่าน" ตัวเลขจากสตริงจนกว่าจะอ่านไม่ได้ ถ้าเกิดข้อผิดพลาด จะคืนค่าตัวเลขที่อ่านได้ ฟังก์ชัน `parseInt` คืนค่าจำนวนเต็ม ส่วน `parseFloat` คืนค่าทศนิยม:
 
 ```js run
 alert( parseInt('100px') ); // 100
 alert( parseFloat('12.5em') ); // 12.5
 
-alert( parseInt('12.3') ); // 12, only the integer part is returned
-alert( parseFloat('12.3.4') ); // 12.3, the second point stops the reading
+alert( parseInt('12.3') ); // 12, คืนเฉพาะส่วนจำนวนเต็ม
+alert( parseFloat('12.3.4') ); // 12.3, หยุดอ่านที่จุดทศนิยมที่สอง
 ```
 
-There are situations when `parseInt/parseFloat` will return `NaN`. It happens when no digits could be read:
+มีบางสถานการณ์ที่ `parseInt/parseFloat` จะคืนค่า `NaN` เกิดขึ้นเมื่อไม่สามารถอ่านตัวเลขได้เลย:
 
 ```js run
-alert( parseInt('a123') ); // NaN, the first symbol stops the process
+alert( parseInt('a123') ); // NaN, หยุดอ่านที่ตัวอักษรแรก
 ```
 
-````smart header="The second argument of `parseInt(str, radix)`"
-The `parseInt()` function has an optional second parameter. It specifies the base of the numeral system, so `parseInt` can also parse strings of hex numbers, binary numbers and so on:
+````smart header="อาร์กิวเมนต์ที่สองของ `parseInt(str, radix)`"
+ฟังก์ชัน `parseInt()` มีอาร์กิวเมนต์ที่สองเป็นตัวเลือก กำหนดฐานของระบบตัวเลข ดังนั้น `parseInt` สามารถแยกวิเคราะห์สตริงของตัวเลขฐานสิบหก ฐานสอง และอื่นๆ ได้:
 
 ```js run
 alert( parseInt('0xff', 16) ); // 255
-alert( parseInt('ff', 16) ); // 255, without 0x also works
+alert( parseInt('ff', 16) ); // 255, ทำงานได้โดยไม่มี 0x ด้วย
 
 alert( parseInt('2n9c', 36) ); // 123456
 ```
 ````
 
-## Other math functions
+## ฟังก์ชันคณิตศาสตร์อื่นๆ
 
-JavaScript has a built-in [Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) object which contains a small library of mathematical functions and constants.
+จาวาสคริปต์มีวัตถุ [Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) ในตัว ซึ่งมีไลบรารีขนาดเล็กของฟังก์ชันคณิตศาสตร์และค่าคงที่
 
-A few examples:
+ตัวอย่างบางส่วน:
 
 `Math.random()`
-: Returns a random number from 0 to 1 (not including 1).
+: สร้างตัวเลขสุ่มตั้งแต่ 0 ถึง 1 (ไม่รวม 1)
 
     ```js run
     alert( Math.random() ); // 0.1234567894322
     alert( Math.random() ); // 0.5435252343232
-    alert( Math.random() ); // ... (any random numbers)
+    alert( Math.random() ); // ... (ตัวเลขสุ่มใดๆ)
     ```
 
 `Math.max(a, b, c...)` / `Math.min(a, b, c...)`
-: Returns the greatest/smallest from the arbitrary number of arguments.
+: คืนค่าสูงสุด/ต่ำสุดจากอาร์กิวเมนต์ที่ให้มา
 
     ```js run
     alert( Math.max(3, 5, -10, 0, 1) ); // 5
@@ -409,36 +409,36 @@ A few examples:
     ```
 
 `Math.pow(n, power)`
-: Returns `n` raised to the given power.
+: คืนค่า `n` ยกกำลัง `power`
 
     ```js run
-    alert( Math.pow(2, 10) ); // 2 in power 10 = 1024
+    alert( Math.pow(2, 10) ); // 2 ยกกำลัง 10 = 1024
     ```
 
-There are more functions and constants in `Math` object, including trigonometry, which you can find in the [docs for the Math object](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math).
+มีฟังก์ชันและค่าคงที่อื่นๆ อีกใน `Math` รวมถึงตรีโกณมิติ ซึ่งคุณสามารถดูได้ในเอกสารสำหรับวัตถุ [Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math)
 
-## Summary
+## สรุป
 
-To write numbers with many zeroes:
+การเขียนตัวเลขที่มีศูนย์จำนวนมาก:
 
-- Append `"e"` with the zeroes count to the number. Like: `123e6` is the same as `123` with 6 zeroes `123000000`.
-- A negative number after `"e"` causes the number to be divided by 1 with given zeroes. E.g. `123e-6` means `0.000123` (`123` millionths).
+- เพิ่ม `"e"` ตามด้วยจำนวนศูนย์ต่อท้ายตัวเลข เช่น: `123e6` เท่ากับ `123` ตามด้วยศูนย์ 6 ตัว `123000000`
+- ตัวเลขลบหลัง `"e"` ทำให้ตัวเลขถูกหารด้วย 1 ตามด้วยจำนวนศูนย์ที่กำหนด เช่น `123e-6` หมายถึง `0.000123` (`123` หนึ่งในล้าน)
 
-For different numeral systems:
+สำหรับระบบตัวเลขต่างๆ:
 
-- Can write numbers directly in hex (`0x`), octal (`0o`) and binary (`0b`) systems.
-- `parseInt(str, base)` parses the string `str` into an integer in numeral system with given `base`, `2 ≤ base ≤ 36`.
-- `num.toString(base)` converts a number to a string in the numeral system with the given `base`.
+- เขียนตัวเลขโดยตรงในระบบฐานสิบหก (`0x`), ฐานแปด (`0o`) และฐานสอง (`0b`) ได้
+- `parseInt(str, base)` แยกวิเคราะห์สตริง `str` เป็นจำนวนเต็มในระบบตัวเลขฐาน `base`, `2 ≤ base ≤ 36`
+- `num.toString(base)` แปลงตัวเลขเป็นสตริงในระบบตัวเลขฐานที่กำหนด
 
-For converting values like `12pt` and `100px` to a number:
+สำหรับการแปลงค่าเช่น `12pt` และ `100px` เป็นตัวเลข:
 
-- Use `parseInt/parseFloat` for the "soft" conversion, which reads a number from a string and then returns the value they could read before the error.
+- ใช้ `parseInt/parseFloat` สำหรับการแปลง "แบบยืดหยุ่น" ซึ่งอ่านตัวเลขจากสตริงแล้วคืนค่าที่อ่านได้ก่อนเกิดข้อผิดพลาด
 
-For fractions:
+สำหรับเศษส่วน:
 
-- Round using `Math.floor`, `Math.ceil`, `Math.trunc`, `Math.round` or `num.toFixed(precision)`.
-- Make sure to remember there's a loss of precision when working with fractions.
+- ปัดเศษโดยใช้ `Math.floor`, `Math.ceil`, `Math.trunc`, `Math.round` หรือ `num.toFixed(precision)`
+- พึงระวังการสูญเสียความแม่นยำเมื่อทำงานกับเศษส่วน
 
-More mathematical functions:
+ฟังก์ชันคณิตศาสตร์เพิ่มเติม:
 
-- See the [Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) object when you need them. The library is very small, but can cover basic needs.
+- ดู [Math](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math) เมื่อต้องการใช้ ไลบรารีนี้มีขนาดเล็ก แต่ครอบคลุมความต้องการพื้นฐานทางคณิตศาสตร์ได้
