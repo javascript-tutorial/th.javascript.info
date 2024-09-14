@@ -2,13 +2,13 @@ importance: 2
 
 ---
 
-# A random number from min to max
+# สุ่มตัวเลขจาก min ถึง max
 
-The built-in function `Math.random()` creates a random value from `0` to `1` (not including `1`).
+ฟังก์ชันในตัว `Math.random()` สร้างค่าสุ่มจาก `0` ถึง `1` (ไม่รวม `1`)
 
-Write the function `random(min, max)` to generate a random floating-point number from `min` to `max` (not including `max`).
+เขียนฟังก์ชัน `random(min, max)` เพื่อสร้างตัวเลขทศนิยมแบบสุ่มจาก `min` ถึง `max` (ไม่รวม `max`)
 
-Examples of its work:
+ตัวอย่างการทำงาน:
 
 ```js
 alert( random(1, 5) ); // 1.2345623452
