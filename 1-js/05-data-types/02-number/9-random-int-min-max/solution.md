@@ -1,6 +1,6 @@
-# The simple but wrong solution
+# วิธีแก้ที่ง่ายแต่ไม่ถูกต้อง
 
-The simplest, but wrong solution would be to generate a value from `min` to `max` and round it:
+วิธีที่ง่ายที่สุดแต่ไม่ถูกต้องคือการสร้างค่าจาก `min` ถึง `max` แล้วปัดเศษ:
 
 ```js run
 function randomInteger(min, max) {
@@ -11,56 +11,52 @@ function randomInteger(min, max) {
 alert( randomInteger(1, 3) );
 ```
 
-The function works, but it is incorrect. The probability to get edge values `min` and `max` is two times less than any other.
+ฟังก์ชันนี้ทำงานได้ แต่ไม่ถูกต้อง โอกาสที่จะได้ค่าขอบ `min` และ `max` น้อยกว่าค่าอื่นๆ สองเท่า
 
-If you run the example above many times, you would easily see that `2` appears the most often.
+ถ้าคุณรันตัวอย่างข้างบนหลายๆ ครั้ง คุณจะเห็นว่า `2` ปรากฏบ่อยที่สุด
 
-That happens because `Math.round()` gets random numbers from the interval `1..3` and rounds them as follows:
+นี่เกิดขึ้นเพราะ `Math.round()` รับตัวเลขสุ่มจากช่วง `1..3` และปัดเศษดังนี้:
 
 ```js no-beautify
-values from 1    ... to 1.4999999999  become 1
-values from 1.5  ... to 2.4999999999  become 2
-values from 2.5  ... to 2.9999999999  become 3
+ค่าจาก 1    ... ถึง 1.4999999999  กลายเป็น 1
+ค่าจาก 1.5  ... ถึง 2.4999999999  กลายเป็น 2
+ค่าจาก 2.5  ... ถึง 2.9999999999  กลายเป็น 3
 ```
 
-Now we can clearly see that `1` gets twice less values than `2`. And the same with `3`.
+เราเห็นชัดว่า `1` ได้ค่าน้อยกว่า `2` สองเท่า และเช่นเดียวกันกับ `3`
 
-# The correct solution
+# วิธีแก้ที่ถูกต้อง
 
-There are many correct solutions to the task. One of them is to adjust interval borders. To ensure the same intervals, we can generate values from `0.5 to 3.5`, thus adding the required probabilities to the edges:
+มีหลายวิธีที่ถูกต้องสำหรับโจทย์นี้ หนึ่งในนั้นคือการปรับขอบเขตของช่วง เพื่อให้แน่ใจว่าช่วงเท่ากัน เราสามารถสร้างค่าจาก `0.5 ถึง 3.5` เพื่อเพิ่มโอกาสที่ต้องการให้กับขอบ:
 
 ```js run
-*!*
 function randomInteger(min, max) {
-  // now rand is from  (min-0.5) to (max+0.5)
+  // ตอนนี้ rand อยู่ระหว่าง (min-0.5) ถึง (max+0.5)
   let rand = min - 0.5 + Math.random() * (max - min + 1);
   return Math.round(rand);
 }
-*/!*
 
 alert( randomInteger(1, 3) );
 ```
 
-An alternative way could be to use `Math.floor` for a random number from `min` to `max+1`:
+อีกวิธีหนึ่งคือใช้ `Math.floor` สำหรับตัวเลขสุ่มจาก `min` ถึง `max+1`:
 
 ```js run
-*!*
 function randomInteger(min, max) {
-  // here rand is from min to (max+1)
+  // ตรงนี้ rand อยู่ระหว่าง min ถึง (max+1)
   let rand = min + Math.random() * (max + 1 - min);
   return Math.floor(rand);
 }
-*/!*
 
 alert( randomInteger(1, 3) );
 ```
 
-Now all intervals are mapped this way:
+ตอนนี้ทุกช่วงถูกแมปดังนี้:
 
 ```js no-beautify
-values from 1  ... to 1.9999999999  become 1
-values from 2  ... to 2.9999999999  become 2
-values from 3  ... to 3.9999999999  become 3
+ค่าจาก 1  ... ถึง 1.9999999999  กลายเป็น 1
+ค่าจาก 2  ... ถึง 2.9999999999  กลายเป็น 2
+ค่าจาก 3  ... ถึง 3.9999999999  กลายเป็น 3
 ```
 
-All intervals have the same length, making the final distribution uniform.
+ทุกช่วงมีความยาวเท่ากัน ทำให้การกระจายสุดท้ายสม่ำเสมอ

@@ -2,14 +2,13 @@ importance: 2
 
 ---
 
-# A random integer from min to max
+# สุ่มจำนวนเต็มจาก min ถึง max
 
-Create a function `randomInteger(min, max)` that generates a random *integer* number from `min` to `max` including both `min` and `max` as possible values.
+สร้างฟังก์ชัน `randomInteger(min, max)` ที่สร้างตัวเลขจำนวนเต็มสุ่มจาก `min` ถึง `max` โดยรวมทั้ง `min` และ `max` เป็นค่าที่เป็นไปได้ด้วย
 
-Any number from the interval `min..max` must appear with the same probability.
+ตัวเลขใดๆ จากช่วง `min..max` ต้องปรากฏด้วยความน่าจะเป็นเท่ากัน
 
-
-Examples of its work:
+ตัวอย่างการทำงาน:
 
 ```js
 alert( randomInteger(1, 5) ); // 1
@@ -17,4 +16,4 @@ alert( randomInteger(1, 5) ); // 3
 alert( randomInteger(1, 5) ); // 5
 ```
 
-You can use the solution of the [previous task](info:task/random-min-max) as the base.
+คุณสามารถใช้วิธีแก้ของ [โจทย์ก่อนหน้า](info:task/random-min-max) เป็นพื้นฐานได้
