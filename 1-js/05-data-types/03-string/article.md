@@ -1,14 +1,19 @@
-# Strings
+# สตริง (Strings)
 
-In JavaScript, the textual data is stored as strings. There is no separate type for a single character.
+ในภาษา JavaScript ข้อมูลที่เป็นตัวอักษรจะถูกเก็บในรูปแบบของสตริง โดยไม่มีประเภทข้อมูลแยกต่างหากสำหรับอักขระเดี่ยว ซึ่งต่างจากบางภาษาโปรแกรมมิ่งอื่นๆ ที่มีประเภทข้อมูลเฉพาะสำหรับตัวอักษรเดี่ยว
 
-The internal format for strings is always [UTF-16](https://en.wikipedia.org/wiki/UTF-16), it is not tied to the page encoding.
+รูปแบบภายในของสตริงใน JavaScript จะเป็น UTF-16 เสมอ โดยไม่ขึ้นอยู่กับการเข้ารหัสของหน้าเว็บ นี่หมายความว่าสตริงใน JavaScript สามารถรองรับอักขระยูนิโค้ดได้อย่างกว้างขวาง ทำให้สามารถทำงานกับข้อความในหลายภาษาได้อย่างมีประสิทธิภาพ
 
-## Quotes
+## เครื่องหมายคำพูด
 
-Let's recall the kinds of quotes.
+มาทบทวนประเภทของเครื่องหมายคำพูดที่ใช้ในการสร้างสตริงใน JavaScript กัน
+สตริงสามารถอยู่ภายในเครื่องหมายคำพูดได้ 3 แบบ:
 
-Strings can be enclosed within either single quotes, double quotes or backticks:
+เครื่องหมายคำพูดเดี่ยว (Single quotes)
+เครื่องหมายคำพูดคู่ (Double quotes)
+เครื่องหมาย backticks
+
+ตัวอย่างการใช้งาน:
 
 ```js
 let single = 'single-quoted';
@@ -17,7 +22,9 @@ let double = "double-quoted";
 let backticks = `backticks`;
 ```
 
-Single and double quotes are essentially the same. Backticks, however, allow us to embed any expression into the string, by wrapping it in `${…}`:
+เครื่องหมายคำพูดเดี่ยวและคู่มีลักษณะการทำงานเหมือนกัน แต่เครื่องหมาย backticks มีความสามารถพิเศษ ช่วยให้เราสามารถแทรกนิพจน์ (expression) ใดๆ ลงในสตริงได้ โดยครอบด้วย `${…}` ซึ่งเรียกว่า template literals หรือ template strings
+
+ตัวอย่างการใช้ template literals:
 
 ```js run
 function sum(a, b) {
@@ -27,7 +34,7 @@ function sum(a, b) {
 alert(`1 + 2 = ${sum(1, 2)}.`); // 1 + 2 = 3.
 ```
 
-Another advantage of using backticks is that they allow a string to span multiple lines:
+ข้อดีอีกอย่างของการใช้ backticks คือสามารถทำให้สตริงมีหลายบรรทัดได้:
 
 ```js run
 let guestList = `Guests:
@@ -39,136 +46,149 @@ let guestList = `Guests:
 alert(guestList); // a list of guests, multiple lines
 ```
 
-Looks natural, right? But single or double quotes do not work this way.
+สังเกตว่าการใช้ backticks ทำให้เราสามารถเขียนข้อความหลายบรรทัดได้อย่างเป็นธรรมชาติ โดยไม่ต้องใช้อักขระพิเศษเช่น `\n` เพื่อขึ้นบรรทัดใหม่
 
-If we use them and try to use multiple lines, there'll be an error:
+ในทางกลับกัน ถ้าเราใช้เครื่องหมายคำพูดเดี่ยวหรือคู่และพยายามใช้หลายบรรทัด จะเกิดข้อผิดพลาด:
 
 ```js run
-let guestList = "Guests: // Error: Unexpected token ILLEGAL
-  * John";
+let guestList = "รายชื่อแขก: // Error: Unexpected token ILLEGAL
+  * สมชาย";
 ```
 
-Single and double quotes come from ancient times of language creation when the need for multiline strings was not taken into account. Backticks appeared much later and thus are more versatile.
+เครื่องหมายคำพูดเดี่ยวและคู่มีมาตั้งแต่ยุคแรกๆ ของการสร้างภาษา JavaScript ซึ่งตอนนั้นยังไม่ได้คำนึงถึงความต้องการในการใช้สตริงหลายบรรทัด ส่วน backticks เพิ่งมาในภายหลังใน ECMAScript 6 (ES6) จึงมีความสามารถที่หลากหลายกว่า
 
-Backticks also allow us to specify a "template function" before the first backtick. The syntax is: <code>func&#96;string&#96;</code>. The function `func` is called automatically, receives the string and embedded expressions and can process them. This is called "tagged templates". This feature makes it easier to implement custom templating, but is rarely used in practice. You can read more about it in the [manual](mdn:/JavaScript/Reference/Template_literals#Tagged_templates).
+นอกจากนี้ backticks ยังช่วยให้เราสามารถระบุ "ฟังก์ชันเทมเพลต" (template function) ก่อน backtick แรกได้ด้วย ไวยากรณ์คือ: <code>func&#96;string&#96;</code> ฟังก์ชัน `func` จะถูกเรียกโดยอัตโนมัติ รับสตริงและนิพจน์ที่แทรกเข้ามาและสามารถประมวลผลได้ คุณลักษณะนี้เรียกว่า "tagged templates" ซึ่งมีประโยชน์มากในการสร้างสตริงที่ซับซ้อนหรือต้องการการประมวลผลพิเศษ แม้ว่าจะพบเห็นได้ไม่บ่อยนักในโค้ดทั่วไป แต่มีประโยชน์มากในไลบรารีหรือเฟรมเวิร์กบางตัว คุณสามารถอ่านเพิ่มเติมได้ที่เอกสารอ้างอิงของ MDN: [Template literals](mdn:/JavaScript/Reference/Template_literals#Tagged_templates)
 
-## Special characters
+## อักขระพิเศษ
 
-It is still possible to create multiline strings with single and double quotes by using a so-called "newline character", written as `\n`, which denotes a line break:
+แม้ว่า backticks จะช่วยให้เราสร้างสตริงหลายบรรทัดได้ง่าย แต่เราก็ยังสามารถสร้างสตริงหลายบรรทัดด้วยเครื่องหมายคำพูดเดี่ยวและคู่ได้ โดยใช้ "อักขระขึ้นบรรทัดใหม่" (newline character) ซึ่งเขียนเป็น `\n`:
 
 ```js run
 let guestList = "Guests:\n * John\n * Pete\n * Mary";
 
-alert(guestList); // a multiline list of guests
+alert(guestList); // แสดงรายชื่อแขกหลายบรรทัด เหมือนกับตัวอย่างก่อนหน้า
 ```
 
-For example, these two lines are equal, just written differently:
+ตัวอย่างที่ง่ายกว่านี้ สองบรรทัดต่อไปนี้ให้ผลลัพธ์เหมือนกัน แค่เขียนต่างกัน:
 
 ```js run
-let str1 = "Hello\nWorld"; // two lines using a "newline symbol"
+let str1 = "Hello\nWorld"; // สองบรรทัดโดยใช้ "สัญลักษณ์ขึ้นบรรทัดใหม่"
 
-// two lines using a normal newline and backticks
+// สองบรรทัดโดยใช้การขึ้นบรรทัดปกติและ backticks
 let str2 = `Hello
 World`;
 
-alert(str1 == str2); // true
+alert(str1 == str2); // true แสดงว่าทั้งสองสตริงเหมือนกัน
 ```
 
-There are other, less common "special" characters.
+มีอักขระพิเศษอื่นๆ ที่พบได้น้อยกว่า:
 
-Here's the full list:
-
-| Character | Description |
+| อักขระ | คำอธิบาย |
 |-----------|-------------|
-|`\n`|New line|
-|`\r`|In Windows text files a combination of two characters `\r\n` represents a new break, while on non-Windows OS it's just `\n`. That's for historical reasons, most Windows software also understands `\n`. |
-|`\'`, `\"`|Quotes|
-|`\\`|Backslash|
-|`\t`|Tab|
-|`\b`, `\f`, `\v`| Backspace, Form Feed, Vertical Tab -- kept for compatibility, not used nowadays. |
-|`\xXX`|Unicode character with the given hexadecimal Unicode `XX`, e.g. `'\x7A'` is the same as `'z'`.|
-|`\uXXXX`|A Unicode symbol with the hex code `XXXX` in UTF-16 encoding, for instance `\u00A9` -- is a Unicode for the copyright symbol `©`. It must be exactly 4 hex digits. |
-|`\u{X…XXXXXX}` (1 to 6 hex characters)|A Unicode symbol with the given UTF-32 encoding. Some rare characters are encoded with two Unicode symbols, taking 4 bytes. This way we can insert long codes. |
+|`\n`|ขึ้นบรรทัดใหม่|
+|`\r`|Carriage return (ใช้ในระบบ Windows)|
+|`\t`|แท็บ (Tab)|
+|`\'`|เครื่องหมายคำพูดเดี่ยว|
+|`\"`|เครื่องหมายคำพูดคู่|
+|<code>\\`</code>|Backtick|
+|`\\`|แบ็คสแลช|
 
-Examples with Unicode:
+สำหรับระบบปฏิบัติการ Windows การรวมกันของอักขระสองตัว `\r\n` แสดงถึงการขึ้นบรรทัดใหม่ ในขณะที่ระบบปฏิบัติการอื่นๆ เช่น macOS หรือ Linux จะใช้แค่ `\n` นี่เป็นเพราะเหตุผลทางประวัติศาสตร์ของการพัฒนาระบบปฏิบัติการ อย่างไรก็ตาม ซอฟต์แวร์ Windows ส่วนใหญ่ในปัจจุบันก็เข้าใจ `\n` เช่นกัน
+
+ดังที่คุณเห็น อักขระพิเศษทั้งหมดเริ่มต้นด้วยเครื่องหมายแบ็คสแลช `\` ซึ่งเรียกว่า "อักขระหลบ" (escape character) เนื่องจากมันมีความพิเศษ ถ้าเราต้องการแสดงแบ็คสแลชจริงๆ `\` ในสตริง เราต้องเขียนมันสองครั้ง:
 
 ```js run
-alert( "\u00A9" ); // ©
-alert( "\u{20331}" ); // 佫, a rare Chinese hieroglyph (long Unicode)
-alert( "\u{1F60D}" ); // 😍, a smiling face symbol (another long Unicode)
+alert( `The backslash: \\` ); // แสดงผล: แบ็คสแลช: \
 ```
 
-All special characters start with a backslash character `\`. It is also called an "escape character".
+เครื่องหมายคำพูดที่ "หลบ" (escaped) `\'`, `\"`, <code>\\`</code> ใช้เพื่อแทรกเครื่องหมายคำพูดลงในสตริงที่ใช้เครื่องหมายคำพูดแบบเดียวกัน
 
-We might also use it if we wanted to insert a quote into the string.
-
-For instance:
+ตัวอย่างเช่น:
 
 ```js run
 alert( 'I*!*\'*/!*m the Walrus!' ); // *!*I'm*/!* the Walrus!
 ```
 
-As you can see, we have to prepend the inner quote by the backslash `\'`, because otherwise it would indicate the string end.
+ในตัวอย่างนี้ เราใช้ `\'` เพื่อแทรกเครื่องหมายคำพูดเดี่ยวลงในสตริงที่ล้อมรอบด้วยเครื่องหมายคำพูดเดี่ยวเช่นกัน ถ้าไม่ใช้ `\` JavaScript จะเข้าใจผิดว่าเครื่องหมายคำพูดนั้นเป็นจุดสิ้นสุดของสตริง
 
-Of course, only the quotes that are the same as the enclosing ones need to be escaped. So, as a more elegant solution, we could switch to double quotes or backticks instead:
+อย่างไรก็ตาม วิธีที่สะดวกและอ่านง่ายกว่าคือการใช้เครื่องหมายคำพูดที่ต่างกัน:
 
-```js run
-alert( `I'm the Walrus!` ); // I'm the Walrus!
-```
-
-Note that the backslash `\` serves for the correct reading of the string by JavaScript, then disappears. The in-memory string has no `\`. You can clearly see that in `alert` from the examples above.
-
-But what if we need to show an actual backslash `\` within the string?
-
-That's possible, but we need to double it like `\\`:
 
 ```js run
-alert( `The backslash: \\` ); // The backslash: \
+alert( "I'm the Walrus!" ); // I'm the Walrus!
 ```
 
-## String length
+ในกรณีนี้ เราใช้เครื่องหมายคำพูดคู่ภายนอกและเครื่องหมายคำพูดเดี่ยวภายใน ทำให้ไม่ต้องใช้อักขระหลบและอ่านง่ายขึ้น 
 
-The `length` property has the string length:
+## ความยาวของสตริง
+
+คุณสมบัติ `length` ใช้เพื่อหาความยาวของสตริง:
 
 ```js run
 alert( `My\n`.length ); // 3
 ```
 
-Note that `\n` is a single "special" character, so the length is indeed `3`.
+สังเกตว่า `\n` เป็น "อักขระพิเศษ" เดียว ดังนั้นความยาวของสตริงนี้จึงเป็น `3`
 
-```warn header="`length` is a property"
-People with a background in some other languages sometimes mistype by calling `str.length()` instead of just `str.length`. That doesn't work.
+```warn header="`length` เป็นคุณสมบัติ"
+ผู้ที่มีพื้นฐานจากภาษาอื่นบางครั้งอาจเผลอเรียกใช้ `str.length()` แทนที่จะใช้แค่ `str.length` ซึ่งไม่ถูกต้องและจะทำให้โปรแกรมทำงานผิดพลาด
 
-Please note that `str.length` is a numeric property, not a function. There is no need to add parenthesis after it.
+โปรดจำไว้ว่า `str.length` เป็นคุณสมบัติเชิงตัวเลข ไม่ใช่ฟังก์ชัน ไม่จำเป็นต้องเพิ่มวงเล็บหลังมัน เราใช้แค่ `.length` ไม่ใช่ `.length()`
 ```
 
-## Accessing characters
+## การเข้าถึงอักขระ
 
-To get a character at position `pos`, use square brackets `[pos]` or call the method [str.charAt(pos)](mdn:js/String/charAt). The first character starts from the zero position:
+ในภาษา JavaScript เรามีวิธีการเข้าถึงอักขระในสตริงสองวิธีหลัก:
+
+1. การใช้วงเล็บเหลี่ยม `[]`
+2. การใช้เมธอด `at()`
+
+### การใช้วงเล็บเหลี่ยม
+
+เพื่อเข้าถึงอักขระที่ตำแหน่ง `pos` เราสามารถใช้วงเล็บเหลี่ยม `[pos]` โดยการนับเริ่มจาก 0:
 
 ```js run
 let str = `Hello`;
 
-// the first character
+// อักขระแรก
 alert( str[0] ); // H
-alert( str.charAt(0) ); // H
 
-// the last character
+// อักขระสุดท้าย
 alert( str[str.length - 1] ); // o
 ```
 
-The square brackets are a modern way of getting a character, while `charAt` exists mostly for historical reasons.
+### การใช้เมธอด at()
 
-The only difference between them is that if no character is found, `[]` returns `undefined`, and `charAt` returns an empty string:
+อีกวิธีหนึ่งคือการใช้เมธอด [str.at(pos)](mdn:js/String/at) ซึ่งมีข้อดีคือสามารถใช้ค่าลบเพื่อนับจากท้ายสตริงได้:
 
 ```js run
 let str = `Hello`;
 
-alert( str[1000] ); // undefined
-alert( str.charAt(1000) ); // '' (an empty string)
+// อักขระแรก
+alert( str.at(0) ); // H
+
+// อักขระสุดท้าย
+alert( str.at(-1) ); // o
+
+// อักขระก่อนสุดท้าย
+alert( str.at(-2) ); // l
 ```
 
-We can also iterate over characters using `for..of`:
+ข้อแตกต่างที่สำคัญระหว่างสองวิธีนี้คือ:
+
+1. วงเล็บเหลี่ยม `[]` จะคืนค่า `undefined` เสมอสำหรับดัชนีที่เป็นลบ
+2. เมธอด `at()` สามารถใช้ค่าลบเพื่อนับจากท้ายสตริงได้
+
+ตัวอย่างเช่น:
+
+```js run
+let str = `Hello`;
+
+alert( str[-2] ); // undefined
+alert( str.at(-2) ); // l
+```
+
+เราสามารถวนลูปผ่านอักขระของสตริงโดยใช้ `for..of` ได้ด้วย:
 
 ```js run
 for (let char of "Hello") {
@@ -176,72 +196,68 @@ for (let char of "Hello") {
 }
 ```
 
-## Strings are immutable
+## สตริงไม่สามารถเปลี่ยนแปลงได้
 
-Strings can't be changed in JavaScript. It is impossible to change a character.
+สตริงใน JavaScript เป็นประเภทข้อมูลที่ไม่สามารถเปลี่ยนแปลงได้ (immutable) นั่นหมายความว่าเราไม่สามารถแก้ไขอักขระในสตริงที่มีอยู่แล้วได้
 
-Let's try it to show that it doesn't work:
+ลองดูตัวอย่างนี้เพื่อแสดงให้เห็นว่าการพยายามเปลี่ยนแปลงสตริงโดยตรงไม่ทำงาน:
 
 ```js run
 let str = 'Hi';
 
-str[0] = 'h'; // error
-alert( str[0] ); // doesn't work
+str[0] = 'h'; // เกิดข้อผิดพลาด
+alert( str[0] ); // ไม่ทำงาน
 ```
 
-The usual workaround is to create a whole new string and assign it to `str` instead of the old one.
+วิธีแก้ปัญหาทั่วไปเมื่อต้องการเปลี่ยนแปลงสตริงคือการสร้างสตริงใหม่ทั้งหมดและกำหนดให้กับตัวแปรเดิม:
 
-For instance:
+ตัวอย่างเช่น:
 
 ```js run
 let str = 'Hi';
 
-str = 'h' + str[1]; // replace the string
+str = 'h' + str[1]; // แทนที่ 'H' ด้วย 'h'
 
 alert( str ); // hi
 ```
 
-In the following sections we'll see more examples of this.
+ในตัวอย่างนี้ เราสร้างสตริงใหม่โดยใช้อักขระ 'h' แทนที่อักขระแรกของสตริงเดิม และคงอักขระที่เหลือไว้เหมือนเดิม
 
-## Changing the case
+## การเปลี่ยนตัวพิมพ์
 
-Methods [toLowerCase()](mdn:js/String/toLowerCase) and [toUpperCase()](mdn:js/String/toUpperCase) change the case:
+การเปลี่ยนตัวพิมพ์ของสตริงเป็นสิ่งที่ทำได้ง่ายใน JavaScript โดยใช้เมธอด `toLowerCase()` และ `toUpperCase()`:
 
 ```js run
 alert( 'Interface'.toUpperCase() ); // INTERFACE
 alert( 'Interface'.toLowerCase() ); // interface
 ```
 
-Or, if we want a single character lowercased:
+ถ้าเราต้องการเปลี่ยนตัวพิมพ์ของอักขระเดี่ยว เราสามารถทำได้โดยการเข้าถึงอักขระนั้นก่อนแล้วใช้เมธอดเปลี่ยนตัวพิมพ์:
 
-```js
+```js run
 alert( 'Interface'[0].toLowerCase() ); // 'i'
 ```
 
-## Searching for a substring
+## การค้นหาสตริงย่อย
 
-There are multiple ways to look for a substring within a string.
+JavaScript มีหลายวิธีในการค้นหาสตริงย่อยภายในสตริง แต่ละวิธีมีจุดเด่นและการใช้งานที่แตกต่างกัน
 
 ### str.indexOf
 
-The first method is [str.indexOf(substr, pos)](mdn:js/String/indexOf).
+เมธอด [str.indexOf(substr, pos)](mdn:js/String/indexOf) เป็นวิธีพื้นฐานในการค้นหาสตริงย่อย:
 
-It looks for the `substr` in `str`, starting from the given position `pos`, and returns the position where the match was found or `-1` if nothing can be found.
-
-For instance:
+ตัวอย่างเช่น:
 
 ```js run
 let str = 'Widget with id';
 
-alert( str.indexOf('Widget') ); // 0, because 'Widget' is found at the beginning
-alert( str.indexOf('widget') ); // -1, not found, the search is case-sensitive
+alert( str.indexOf('Widget') ); // 0, เพราะ 'Widget' พบที่จุดเริ่มต้น
+alert( str.indexOf('widget') ); // // -1, ไม่พบ การค้นหานี้คำนึงถึงตัวพิมพ์ใหญ่-เล็ก
 
-alert( str.indexOf("id") ); // 1, "id" is found at the position 1 (..idget with id)
+alert( str.indexOf("id") ); // 1, "ไอดี" พบที่ตำแหน่ง 1
 ```
 
-The optional second parameter allows us to start searching from a given position.
-
-For instance, the first occurrence of `"id"` is at position `1`. To look for the next occurrence, let's start the search from position `2`:
+พารามิเตอร์ที่สองเป็นตัวเลือก ช่วยให้เราเริ่มค้นหาจากตำแหน่งที่กำหนดได้:
 
 ```js run
 let str = 'Widget with id';
@@ -249,12 +265,12 @@ let str = 'Widget with id';
 alert( str.indexOf('id', 2) ) // 12
 ```
 
-If we're interested in all occurrences, we can run `indexOf` in a loop. Every new call is made with the position after the previous match:
+ถ้าเราต้องการหาทุกตำแหน่งที่สตริงย่อยปรากฏ เราสามารถใช้ `indexOf` ในลูปได้:
 
 ```js run
 let str = 'As sly as a fox, as strong as an ox';
 
-let target = 'as'; // let's look for it
+let target = 'as'; // หา "as" ในสตริง
 
 let pos = 0;
 while (true) {
@@ -262,11 +278,11 @@ while (true) {
   if (foundPos == -1) break;
 
   alert( `Found at ${foundPos}` );
-  pos = foundPos + 1; // continue the search from the next position
+  pos = foundPos + 1; // ตำแหน่งถัดไปจากการค้นหาล่าสุด
 }
 ```
 
-The same algorithm can be layed out shorter:
+อัลกอริทึมเดียวกันนี้สามารถเขียนให้กระชับขึ้นได้:
 
 ```js run
 let str = "As sly as a fox, as strong as an ox";
@@ -281,24 +297,24 @@ while ((pos = str.indexOf(target, pos + 1)) != -1) {
 ```
 
 ```smart header="`str.lastIndexOf(substr, position)`"
-There is also a similar method [str.lastIndexOf(substr, position)](mdn:js/String/lastIndexOf) that searches from the end of a string to its beginning.
+มีเมธอดที่คล้ายกันคือ [str.lastIndexOf(substr, position)](mdn:js/String/lastIndexOf) ที่ค้นหาจากท้ายสตริงไปยังจุดเริ่มต้น
 
-It would list the occurrences in the reverse order.
+มันจะแสดงรายการการปรากฏในลำดับย้อนกลับ ซึ่งมีประโยชน์เมื่อต้องการหาการปรากฏล่าสุดของสตริงย่อย
 ```
 
-There is a slight inconvenience with `indexOf` in the `if` test. We can't put it in the `if` like this:
+มีข้อควรระวังเล็กน้อยเมื่อใช้ `indexOf` ในการทดสอบเงื่อนไข เราไม่สามารถใช้มันใน `if` แบบนี้ได้โดยตรง:
 
 ```js run
 let str = "Widget with id";
 
 if (str.indexOf("Widget")) {
-    alert("We found it"); // doesn't work!
+    alert("We found it"); // ไม่ทำงานอย่างที่คาด!
 }
 ```
 
-The `alert` in the example above doesn't show because `str.indexOf("Widget")` returns `0` (meaning that it found the match at the starting position). Right, but `if` considers `0` to be `false`.
+`alert` ในตัวอย่างด้านบนไม่แสดงผลเพราะ `str.indexOf("Widget")` คืนค่า `0` (หมายความว่าพบการจับคู่ที่ตำแหน่งเริ่มต้น) แต่ `if` ถือว่า `0` เป็น `false`
 
-So, we should actually check for `-1`, like this:
+ดังนั้น วิธีที่ถูกต้องคือการตรวจสอบว่าผลลัพธ์ไม่เท่ากับ `-1`:
 
 ```js run
 let str = "Widget with id";
@@ -306,54 +322,14 @@ let str = "Widget with id";
 *!*
 if (str.indexOf("Widget") != -1) {
 */!*
-    alert("We found it"); // works now!
+    alert("We found it"); // ตอนนี้ทำงานแล้ว!
 }
 ```
-
-#### The bitwise NOT trick
-
-One of the old tricks used here is the [bitwise NOT](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_NOT) `~` operator. It converts the number to a 32-bit integer (removes the decimal part if exists) and then reverses all bits in its binary representation.
-
-In practice, that means a simple thing: for 32-bit integers `~n` equals `-(n+1)`.
-
-For instance:
-
-```js run
-alert( ~2 ); // -3, the same as -(2+1)
-alert( ~1 ); // -2, the same as -(1+1)
-alert( ~0 ); // -1, the same as -(0+1)
-*!*
-alert( ~-1 ); // 0, the same as -(-1+1)
-*/!*
-```
-
-As we can see, `~n` is zero only if `n == -1` (that's for any 32-bit signed integer `n`).
-
-So, the test `if ( ~str.indexOf("...") )` is truthy only if the result of `indexOf` is not `-1`. In other words, when there is a match.
-
-People use it to shorten `indexOf` checks:
-
-```js run
-let str = "Widget";
-
-if (~str.indexOf("Widget")) {
-  alert( 'Found it!' ); // works
-}
-```
-
-It is usually not recommended to use language features in a non-obvious way, but this particular trick is widely used in old code, so we should understand it.
-
-Just remember: `if (~str.indexOf(...))` reads as "if found".
-
-To be precise though, as big numbers are truncated to 32 bits by `~` operator, there exist other numbers that give `0`, the smallest is `~4294967295=0`. That makes such check correct only if a string is not that long.
-
-Right now we can see this trick only in the old code, as modern JavaScript provides `.includes` method (see below).
 
 ### includes, startsWith, endsWith
 
-The more modern method [str.includes(substr, pos)](mdn:js/String/includes) returns `true/false` depending on whether `str` contains `substr` within.
+เมธอดที่ทันสมัยและใช้งานง่ายกว่าสำหรับการตรวจสอบการมีอยู่ของสตริงย่อยคือ [str.includes(substr, pos)](mdn:js/String/includes) ซึ่งส่งคืน `true` หรือ `false` ขึ้นอยู่กับว่า `str` มี `substr` อยู่หรือไม่:
 
-It's the right choice if we need to test for the match, but don't need its position:
 
 ```js run
 alert( "Widget with id".includes("Widget") ); // true
@@ -361,152 +337,151 @@ alert( "Widget with id".includes("Widget") ); // true
 alert( "Hello".includes("Bye") ); // false
 ```
 
-The optional second argument of `str.includes` is the position to start searching from:
+อาร์กิวเมนต์ที่สองของ `str.includes` เป็นตัวเลือก เป็นตำแหน่งที่จะเริ่มค้นหา:
 
 ```js run
 alert( "Widget".includes("id") ); // true
-alert( "Widget".includes("id", 3) ); // false, from position 3 there is no "id"
+alert( "Widget".includes("id", 3) ); // false, ตั้งแต่ตำแหน่งที่ 3 ไม่มี "id"
 ```
 
-The methods [str.startsWith](mdn:js/String/startsWith) and [str.endsWith](mdn:js/String/endsWith) do exactly what they say:
+เมธอด [str.startsWith](mdn:js/String/startsWith) และ [str.endsWith](mdn:js/String/endsWith) ทำหน้าที่ตามชื่อของมันเลย คือตรวจสอบว่าสตริงขึ้นต้นหรือลงท้ายด้วยสตริงย่อยที่กำหนดหรือไม่:
 
 ```js run
-alert( "Widget".startsWith("Wid") ); // true, "Widget" starts with "Wid"
-alert( "Widget".endsWith("get") ); // true, "Widget" ends with "get"
+alert( "*!*Wid*/!*get".startsWith("Wid") ); // true ขึ้นต้นด้วย "Wid"
+alert( "Wid*!*get*/!*".endsWith("get") ); // true ลงท้ายด้วย "get"
 ```
 
-## Getting a substring
+## การดึงสตริงย่อย
 
-There are 3 methods in JavaScript to get a substring: `substring`, `substr` and `slice`.
+มี 3 เมธอดหลักใน JavaScript สำหรับการดึงสตริงย่อย: `substring`, `substr` และ `slice` แต่ละวิธีมีลักษณะการทำงานที่แตกต่างกันเล็กน้อย ดังนี้:
 
 `str.slice(start [, end])`
-: Returns the part of the string from `start` to (but not including) `end`.
+: ส่งคืนส่วนของสตริงจาก `start` ถึง (แต่ไม่รวม) `end`
 
-    For instance:
+    ตัวอย่างการใช้งาน:
 
     ```js run
     let str = "stringify";
-    alert( str.slice(0, 5) ); // 'strin', the substring from 0 to 5 (not including 5)
-    alert( str.slice(0, 1) ); // 's', from 0 to 1, but not including 1, so only character at 0
+    alert( str.slice(0, 5) ); // 'strin', สตริงย่อยจาก 0 ถึง 5 (ไม่รวม 5)
+    alert( str.slice(0, 1) ); // 's', จาก 0 ถึง 1 แต่ไม่รวม 1 ดังนั้นเป็นเพียงอักขระที่ 0
     ```
 
-    If there is no second argument, then `slice` goes till the end of the string:
+    ถ้าไม่ระบุอาร์กิวเมนต์ที่สอง `slice` จะดึงสตริงย่อยจนถึงท้ายสตริง:
 
     ```js run
     let str = "st*!*ringify*/!*";
-    alert( str.slice(2) ); // 'ringify', from the 2nd position till the end
+    alert( str.slice(2) ); // 'ringify', จากตำแหน่งที่ 2 จนถึงท้าย
     ```
 
-    Negative values for `start/end` are also possible. They mean the position is counted from the string end:
+    `slice` ยังรองรับค่าลบสำหรับ `start` และ `end` ซึ่งหมายถึงตำแหน่งจะถูกนับจากท้ายสตริง:
 
     ```js run
     let str = "strin*!*gif*/!*y";
 
-    // start at the 4th position from the right, end at the 1st from the right
+    // เริ่มที่ตำแหน่งที่ 4 จากขวา จบที่ตำแหน่งที่ 1 จากขวา
     alert( str.slice(-4, -1) ); // 'gif'
     ```
 
 `str.substring(start [, end])`
-: Returns the part of the string *between* `start` and `end`.
+: ส่งคืนส่วนของสตริง*ระหว่าง* `start` และ `end` (ไม่รวม `end`)
 
-    This is almost the same as `slice`, but it allows `start` to be greater than `end`.
+    การทำงานคล้ายกับ `slice` แต่มีความแตกต่างสำคัญคือ `substring` อนุญาตให้ `start` มีค่ามากกว่า `end` ได้ ในกรณีนี้มันจะสลับค่า `start` และ `end` โดยอัตโนมัติ
 
-    For instance:
+    ตัวอย่างการใช้งาน:
 
     ```js run
     let str = "st*!*ring*/!*ify";
 
-    // these are same for substring
+    // ทั้งสองคำสั่งนี้ให้ผลลัพธ์เหมือนกันสำหรับ substring
     alert( str.substring(2, 6) ); // "ring"
     alert( str.substring(6, 2) ); // "ring"
 
-    // ...but not for slice:
-    alert( str.slice(2, 6) ); // "ring" (the same)
-    alert( str.slice(6, 2) ); // "" (an empty string)
+    // แต่ให้ผลต่างกันสำหรับ slice:
+    alert( str.slice(2, 6) ); // "ring" (เหมือนกัน)
+    alert( str.slice(6, 2) ); // "" (สตริงว่าง)
 
     ```
 
-    Negative arguments are (unlike slice) not supported, they are treated as `0`.
+    `substring` จะปฏิบัติกับอาร์กิวเมนต์ที่เป็นลบเสมือนเป็น `0` ซึ่งต่างจาก `slice`
 
 `str.substr(start [, length])`
-: Returns the part of the string from `start`, with the given `length`.
+: ส่งคืนส่วนของสตริงจาก `start` โดยมีความยาวที่กำหนด
 
-    In contrast with the previous methods, this one allows us to specify the `length` instead of the ending position:
+    วิธีนี้แตกต่างจากสองวิธีแรกตรงที่เราระบุ `length` แทนตำแหน่งสิ้นสุด:
 
     ```js run
     let str = "st*!*ring*/!*ify";
-    alert( str.substr(2, 4) ); // 'ring', from the 2nd position get 4 characters
+    alert( str.substr(2, 4) ); // 'ring', จากตำแหน่งที่ 2 ดึง 4 อักขระ
     ```
 
-    The first argument may be negative, to count from the end:
+    อาร์กิวเมนต์แรกสามารถเป็นค่าลบได้ เพื่อนับจากท้ายสตริง:
 
     ```js run
     let str = "strin*!*gi*/!*fy";
-    alert( str.substr(-4, 2) ); // 'gi', from the 4th position get 2 characters
+    alert( str.substr(-4, 2) ); // 'gi', จากตำแหน่งที่ 4 จากท้าย ดึง 2 อักขระ
     ```
 
-Let's recap these methods to avoid any confusion:
+    อย่างไรก็ตาม ควรระมัดระวังในการใช้ `substr` เนื่องจากมีอยู่ใน [Annex B](https://tc39.es/ecma262/#sec-string.prototype.substr) ของข้อกำหนดภาษา JavaScript ซึ่งหมายความว่าอาจไม่ได้รับการสนับสนุนในสภาพแวดล้อมที่ไม่ใช่เบราว์เซอร์ แม้ว่าในทางปฏิบัติจะได้รับการสนับสนุนในเกือบทุกที่ แต่ก็ไม่แนะนำให้ใช้ในโค้ดใหม่
 
-| method | selects... | negatives |
+สรุปเมธอดเหล่านี้เพื่อให้เข้าใจง่ายขึ้น:
+
+| เมธอด | เลือก... | ค่าลบ |
 |--------|-----------|-----------|
-| `slice(start, end)` | from `start` to `end` (not including `end`) | allows negatives |
-| `substring(start, end)` | between `start` and `end` | negative values mean `0` |
-| `substr(start, length)` | from `start` get `length` characters | allows negative `start` |
+| `slice(start, end)` | จาก `start` ถึง `end` (ไม่รวม `end`) | อนุญาตค่าลบ |
+| `substring(start, end)` | ระหว่าง `start` และ `end` (ไม่รวม `end`) | ค่าลบหมายถึง `0` |
+| `substr(start, length)` | จาก `start` ดึง `length` อักขระ | อนุญาต `start` เป็นลบ |
 
-```smart header="Which one to choose?"
-All of them can do the job. Formally, `substr` has a minor drawback: it is described not in the core JavaScript specification, but in Annex B, which covers browser-only features that exist mainly for historical reasons. So, non-browser environments may fail to support it. But in practice it works everywhere.
+```smart header="ควรเลือกใช้เมธอดไหนดี?"
+ทั้งสามเมธอดสามารถทำงานได้ แต่แต่ละวิธีมีข้อดีและข้อจำกัดต่างกัน:
 
-Of the other two variants, `slice` is a little bit more flexible, it allows negative arguments and shorter to write. So, it's enough to remember solely `slice` of these three methods.
+- `substr` มีข้อเสียคือไม่ได้อยู่ในข้อกำหนดหลักของ JavaScript แต่อยู่ใน Annex B ซึ่งครอบคลุมคุณลักษณะที่มีไว้เพื่อความเข้ากันได้กับโค้ดเก่าเป็นหลัก อาจมีปัญหาในสภาพแวดล้อมที่ไม่ใช่เบราว์เซอร์
+- `substring` มีพฤติกรรมแปลกๆ กับค่าลบ ซึ่งอาจทำให้สับสนได้
+- `slice` มีความยืดหยุ่นมากที่สุด รองรับค่าลบได้ และมีไวยากรณ์ที่เข้าใจง่าย
+
+ดังนั้น สำหรับการใช้งานทั่วไป การจดจำและใช้แค่ `slice` ก็เพียงพอและปลอดภัยที่สุด
 ```
 
-## Comparing strings
+## การเปรียบเทียบสตริง
 
-As we know from the chapter <info:comparison>, strings are compared character-by-character in alphabetical order.
+การเปรียบเทียบสตริงใน JavaScript ใช้การเปรียบเทียบทีละอักขระตามลำดับตัวอักษร (lexicographical order) ซึ่งอาจให้ผลลัพธ์ที่แตกต่างจากที่คาดไว้ในบางกรณี:
 
-Although, there are some oddities.
-
-1. A lowercase letter is always greater than the uppercase:
+1. ตัวพิมพ์เล็กจะมากกว่าตัวพิมพ์ใหญ่เสมอ:
 
     ```js run
     alert( 'a' > 'Z' ); // true
     ```
 
-2. Letters with diacritical marks are "out of order":
+2. ตัวอักษรที่มีเครื่องหมายกำกับอาจไม่เรียงตามที่คาดหวัง:
 
     ```js run
     alert( 'Österreich' > 'Zealand' ); // true
     ```
 
-    This may lead to strange results if we sort these country names. Usually people would expect `Zealand` to come after `Österreich` in the list.
+    ผลลัพธ์นี้อาจดูแปลกประหลาดถ้าเราเรียงลำดับชื่อประเทศ โดยปกติแล้วคนจะคาดหวังว่า `Zealand` ควรมาหลัง `Österreich` ในรายการที่เรียงตามตัวอักษร
 
-To understand what happens, let's review the internal representation of strings in JavaScript.
+เพื่อเข้าใจว่าทำไมจึงเป็นเช่นนี้ เราต้องรู้ว่าสตริงใน JavaScript ถูกเข้ารหัสโดยใช้ [UTF-16](https://en.wikipedia.org/wiki/UTF-16) ซึ่งหมายความว่าแต่ละอักขระมีรหัสตัวเลขที่สอดคล้องกัน
 
-All strings are encoded using [UTF-16](https://en.wikipedia.org/wiki/UTF-16). That is: each character has a corresponding numeric code. There are special methods that allow to get the character for the code and back.
+JavaScript มีเมธอดพิเศษที่ช่วยให้เราได้รหัสของอักขระและสร้างอักขระจากรหัส:
 
 `str.codePointAt(pos)`
-: Returns the code for the character at position `pos`:
+: ส่งคืนรหัส Unicode ของอักขระที่ตำแหน่ง `pos`:
 
     ```js run
-    // different case letters have different codes
-    alert( "z".codePointAt(0) ); // 122
+    // ตัวอักษรที่มีตัวพิมพ์ต่างกันจะมีรหัสต่างกัน
     alert( "Z".codePointAt(0) ); // 90
+    alert( "z".codePointAt(0) ); // 122
+    alert( "z".codePointAt(0).toString(16) ); // 7a (ถ้าเราต้องการค่าฐานสิบหก)
     ```
 
 `String.fromCodePoint(code)`
-: Creates a character by its numeric `code`
+: สร้างอักขระจากรหัส Unicode ที่กำหนด:
 
     ```js run
     alert( String.fromCodePoint(90) ); // Z
+    alert( String.fromCodePoint(0x5a) ); // Z (เราสามารถใช้ค่าฐานสิบหกเป็นอาร์กิวเมนต์ได้ด้วย)
     ```
 
-    We can also add Unicode characters by their codes using `\u` followed by the hex code:
-
-    ```js run
-    // 90 is 5a in hexadecimal system
-    alert( '\u005a' ); // Z
-    ```
-
-Now let's see the characters with codes `65..220` (the latin alphabet and a little bit extra) by making a string of them:
+เราสามารถทดลองดูอักขระที่มีรหัสระหว่าง 65 ถึง 220 (ซึ่งครอบคลุมตัวอักษรละตินและสัญลักษณ์พิเศษบางตัว) ได้ดังนี้:
 
 ```js run
 let str = '';
@@ -515,165 +490,85 @@ for (let i = 65; i <= 220; i++) {
   str += String.fromCodePoint(i);
 }
 alert( str );
-// ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~
+// ผลลัพธ์:
+// ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~
 // ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜ
 ```
 
-See? Capital characters go first, then a few special ones, then lowercase characters, and `Ö` near the end of the output.
+จากผลลัพธ์นี้ เราจะเห็นว่าตัวอักษรตัวพิมพ์ใหญ่มาก่อน ตามด้วยสัญลักษณ์พิเศษบางตัว แล้วจึงเป็นตัวอักษรตัวพิมพ์เล็ก และตัวอักษรที่มีเครื่องหมายกำกับ (เช่น Ö) อยู่ท้ายสุด
 
-Now it becomes obvious why `a > Z`.
+ตอนนี้เราเข้าใจแล้วว่าทำไม `'a' > 'Z'`:
 
-The characters are compared by their numeric code. The greater code means that the character is greater. The code for `a` (97) is greater than the code for `Z` (90).
+1. อักขระถูกเปรียบเทียบโดยใช้รหัสตัวเลขของพวกมัน
+2. รหัสที่มากกว่าหมายถึงอักขระนั้น "มากกว่า" ในการเปรียบเทียบ
+3. รหัสสำหรับ `a` (97) มากกว่ารหัสสำหรับ `Z` (90)
 
-- All lowercase letters go after uppercase letters because their codes are greater.
-- Some letters like `Ö` stand apart from the main alphabet. Here, its code is greater than anything from `a` to `z`.
+### การเปรียบเทียบที่ถูกต้องตามภาษา
 
-### Correct comparisons [#correct-comparisons]
+อัลกอริทึมการเปรียบเทียบสตริง "ที่ถูกต้อง" ตามหลักภาษาศาสตร์นั้นซับซ้อนกว่าที่คิด เพราะภาษาต่างๆ มีกฎการเรียงลำดับตัวอักษรที่แตกต่างกัน
 
-The "right" algorithm to do string comparisons is more complex than it may seem, because alphabets are different for different languages.
+โชคดีที่เบราว์เซอร์สมัยใหม่ (และ Node.js) สนับสนุนมาตรฐานการทำให้เป็นสากล [ECMA-402](https://www.ecma-international.org/publications-and-standards/standards/ecma-402/) ซึ่งให้วิธีการเปรียบเทียบสตริงที่คำนึงถึงกฎของแต่ละภาษา
 
-So, the browser needs to know the language to compare.
+เราสามารถใช้เมธอด [str.localeCompare(str2)](mdn:js/String/localeCompare) เพื่อเปรียบเทียบสตริงตามกฎภาษา:
 
-Luckily, all modern browsers (IE10- requires the additional library [Intl.js](https://github.com/andyearnshaw/Intl.js/)) support the internationalization standard [ECMA-402](http://www.ecma-international.org/ecma-402/1.0/ECMA-402.pdf).
-
-It provides a special method to compare strings in different languages, following their rules.
-
-The call [str.localeCompare(str2)](mdn:js/String/localeCompare) returns an integer indicating whether `str` is less, equal or greater than `str2` according to the language rules:
-
-- Returns a negative number if `str` is less than `str2`.
-- Returns a positive number if `str` is greater than `str2`.
-- Returns `0` if they are equivalent.
-
-For instance:
+ตัวอย่างเช่น:
 
 ```js run
 alert( 'Österreich'.localeCompare('Zealand') ); // -1
 ```
+เข้าใจครับ ผมจะขยายความเฉพาะส่วนที่เกี่ยวกับ `localeCompare` และสรุปตามที่ระบุไว้ในต้นฉบับ โดยไม่เพิ่มเติมเนื้อหาใหม่
 
-This method actually has two additional arguments specified in [the documentation](mdn:js/String/localeCompare), which allows it to specify the language (by default taken from the environment, letter order depends on the language) and setup additional rules like case sensitivity or should `"a"` and `"á"` be treated as the same etc.
+เมธอด `localeCompare` มีอาร์กิวเมนต์เพิ่มเติมที่ช่วยให้เราสามารถปรับแต่งการเปรียบเทียบได้ดังนี้:
 
-## Internals, Unicode
-
-```warn header="Advanced knowledge"
-The section goes deeper into string internals. This knowledge will be useful for you if you plan to deal with emoji, rare mathematical or hieroglyphic characters or other rare symbols.
-
-You can skip the section if you don't plan to support them.
+```js
+str.localeCompare(str2, [locales, [options]])
 ```
 
-### Surrogate pairs
+- `locales`: ช่วยระบุภาษาที่ใช้ในการเปรียบเทียบ โดยค่าเริ่มต้นจะใช้ภาษาตามสภาพแวดล้อมของระบบ
+- `options`: เป็นวัตถุที่ใช้กำหนดกฎเพิ่มเติมในการเปรียบเทียบ เช่น การคำนึงถึงตัวพิมพ์ใหญ่-เล็ก หรือการปฏิบัติต่ออักขระที่มีเครื่องหมายกำกับ
 
-All frequently used characters have 2-byte codes. Letters in most european languages, numbers, and even most hieroglyphs, have a 2-byte representation.
+การใช้อาร์กิวเมนต์เหล่านี้ช่วยให้เราสามารถปรับแต่งการเปรียบเทียบให้เหมาะกับความต้องการเฉพาะได้ เช่น การเปรียบเทียบโดยไม่คำนึงถึงตัวพิมพ์ใหญ่-เล็ก หรือการปฏิบัติต่อตัวอักษรที่มีเครื่องหมายกำกับ (เช่น "a" และ "á") ให้เหมือนกัน
 
-But 2 bytes only allow 65536 combinations and that's not enough for every possible symbol. So rare symbols are encoded with a pair of 2-byte characters called "a surrogate pair".
+## สรุป
 
-The length of such symbols is `2`:
+เรามาสรุปสาระสำคัญเกี่ยวกับการจัดการสตริงใน JavaScript กัน:
 
-```js run
-alert( '𝒳'.length ); // 2, MATHEMATICAL SCRIPT CAPITAL X
-alert( '😂'.length ); // 2, FACE WITH TEARS OF JOY
-alert( '𩷶'.length ); // 2, a rare Chinese hieroglyph
-```
+1. **การสร้างสตริง**: สามารถใช้เครื่องหมายคำพูดเดี่ยว (''), คู่ ("") หรือ backticks (``). Backticks มีความสามารถพิเศษในการแทรกนิพจน์และสร้างสตริงหลายบรรทัด
 
-Note that surrogate pairs did not exist at the time when JavaScript was created, and thus are not correctly processed by the language!
+2. **การเข้าถึงอักขระ**: ใช้วงเล็บเหลี่ยม `[]` หรือเมธอด `at()` โดย `at()` สามารถใช้ดัชนีเชิงลบได้
 
-We actually have a single symbol in each of the strings above, but the `length` shows a length of `2`.
+3. **การเปลี่ยนตัวพิมพ์**: ใช้ `toLowerCase()` และ `toUpperCase()`
 
-`String.fromCodePoint` and `str.codePointAt` are few rare methods that deal with surrogate pairs right. They recently appeared in the language. Before them, there were only [String.fromCharCode](mdn:js/String/fromCharCode) and [str.charCodeAt](mdn:js/String/charCodeAt). These methods are actually the same as `fromCodePoint/codePointAt`, but don't work with surrogate pairs.
+4. **การค้นหาสตริงย่อย**: 
+   - `indexOf()`: หาตำแหน่งแรกที่พบ
+   - `includes()`: ตรวจสอบการมีอยู่
+   - `startsWith()` และ `endsWith()`: ตรวจสอบการขึ้นต้นและลงท้าย
 
-Getting a symbol can be tricky, because surrogate pairs are treated as two characters:
+5. **การดึงสตริงย่อย**: 
+   - `slice(start, end)`: ดึงจาก start ถึง (ไม่รวม) end, รองรับดัชนีลบ
+   - `substring(start, end)`: คล้าย slice แต่ไม่รองรับดัชนีลบ
+   - `substr(start, length)`: ดึงตามความยาวที่กำหนด (ไม่แนะนำให้ใช้ในโค้ดใหม่)
 
-```js run
-alert( '𝒳'[0] ); // strange symbols...
-alert( '𝒳'[1] ); // ...pieces of the surrogate pair
-```
+6. **การเปรียบเทียบสตริง**: 
+   - ใช้เครื่องหมาย `<`, `>`, `==`, `===` สำหรับการเปรียบเทียบทั่วไป
+   - ใช้ `localeCompare()` สำหรับการเปรียบเทียบที่คำนึงถึงภาษา
 
-Note that pieces of the surrogate pair have no meaning without each other. So the alerts in the example above actually display garbage.
+7. **อักขระพิเศษ**: เช่น `\n` สำหรับขึ้นบรรทัดใหม่, `\t` สำหรับแท็บ, `\'` และ `\"` สำหรับเครื่องหมายคำพูด
 
-Technically, surrogate pairs are also detectable by their codes: if a character has the code in the interval of `0xd800..0xdbff`, then it is the first part of the surrogate pair. The next character (second part) must have the code in interval `0xdc00..0xdfff`. These intervals are reserved exclusively for surrogate pairs by the standard.
+8. **ความยาวของสตริง**: ใช้คุณสมบัติ `length`
 
-In the case above:
+9. **สตริงเป็นข้อมูลที่ไม่สามารถเปลี่ยนแปลงได้ (immutable)**: การแก้ไขสตริงต้องสร้างสตริงใหม่เสมอ
 
-```js run
-// charCodeAt is not surrogate-pair aware, so it gives codes for parts
+10. **การทำงานกับ Unicode**: ใช้ `codePointAt()` และ `String.fromCodePoint()` สำหรับการจัดการรหัส Unicode
 
-alert( '𝒳'.charCodeAt(0).toString(16) ); // d835, between 0xd800 and 0xdbff
-alert( '𝒳'.charCodeAt(1).toString(16) ); // dcb3, between 0xdc00 and 0xdfff
-```
+เมื่อทำงานกับสตริง สิ่งสำคัญคือต้องเลือกใช้เมธอดที่เหมาะสมกับงาน และระมัดระวังเรื่องประสิทธิภาพเมื่อต้องทำงานกับสตริงขนาดใหญ่หรือการดำเนินการซ้ำๆ
 
-You will find more ways to deal with surrogate pairs later in the chapter <info:iterable>. There are probably special libraries for that too, but nothing famous enough to suggest here.
+นอกจากนี้ JavaScript ยังมีเมธอดอื่นๆ สำหรับการจัดการสตริงที่มีประโยชน์ เช่น:
 
-### Diacritical marks and normalization
+- `trim()`: ลบช่องว่างจากจุดเริ่มต้นและจุดสิ้นสุดของสตริง
+- `repeat(n)`: ทำซ้ำสตริง `n` ครั้ง
+- `padStart()` และ `padEnd()`: เติมสตริงให้ได้ความยาวที่กำหนด
 
-In many languages there are symbols that are composed of the base character with a mark above/under it.
+สำหรับการค้นหาและแทนที่ที่ซับซ้อนมากขึ้น JavaScript รองรับการใช้นิพจน์ทั่วไป (Regular Expressions) ซึ่งเป็นเครื่องมือที่ทรงพลังสำหรับการจัดการกับรูปแบบของสตริง
 
-For instance, the letter `a` can be the base character for: `àáâäãåā`. Most common "composite" character have their own code in the UTF-16 table. But not all of them, because there are too many possible combinations.
-
-To support arbitrary compositions, UTF-16 allows us to use several Unicode characters: the base character followed by one or many "mark" characters that "decorate" it.
-
-For instance, if we have `S` followed by the special "dot above" character (code `\u0307`), it is shown as Ṡ.
-
-```js run
-alert( 'S\u0307' ); // Ṡ
-```
-
-If we need an additional mark above the letter (or below it) -- no problem, just add the necessary mark character.
-
-For instance, if we append a character "dot below" (code `\u0323`), then we'll have "S with dots above and below": `Ṩ`.
-
-For example:
-
-```js run
-alert( 'S\u0307\u0323' ); // Ṩ
-```
-
-This provides great flexibility, but also an interesting problem: two characters may visually look the same, but be represented with different Unicode compositions.
-
-For instance:
-
-```js run
-let s1 = 'S\u0307\u0323'; // Ṩ, S + dot above + dot below
-let s2 = 'S\u0323\u0307'; // Ṩ, S + dot below + dot above
-
-alert( `s1: ${s1}, s2: ${s2}` );
-
-alert( s1 == s2 ); // false though the characters look identical (?!)
-```
-
-To solve this, there exists a "Unicode normalization" algorithm that brings each string to the single "normal" form.
-
-It is implemented by [str.normalize()](mdn:js/String/normalize).
-
-```js run
-alert( "S\u0307\u0323".normalize() == "S\u0323\u0307".normalize() ); // true
-```
-
-It's funny that in our situation `normalize()` actually brings together a sequence of 3 characters to one: `\u1e68` (S with two dots).
-
-```js run
-alert( "S\u0307\u0323".normalize().length ); // 1
-
-alert( "S\u0307\u0323".normalize() == "\u1e68" ); // true
-```
-
-In reality, this is not always the case. The reason being that the symbol `Ṩ` is "common enough", so UTF-16 creators included it in the main table and gave it the code.
-
-If you want to learn more about normalization rules and variants -- they are described in the appendix of the Unicode standard: [Unicode Normalization Forms](http://www.unicode.org/reports/tr15/), but for most practical purposes the information from this section is enough.
-
-## Summary
-
-- There are 3 types of quotes. Backticks allow a string to span multiple lines and embed expressions `${…}`.
-- Strings in JavaScript are encoded using UTF-16.
-- We can use special characters like `\n` and insert letters by their Unicode using `\u...`.
-- To get a character, use: `[]`.
-- To get a substring, use: `slice` or `substring`.
-- To lowercase/uppercase a string, use: `toLowerCase/toUpperCase`.
-- To look for a substring, use: `indexOf`, or `includes/startsWith/endsWith` for simple checks.
-- To compare strings according to the language, use: `localeCompare`, otherwise they are compared by character codes.
-
-There are several other helpful methods in strings:
-
-- `str.trim()` -- removes ("trims") spaces from the beginning and end of the string.
-- `str.repeat(n)` -- repeats the string `n` times.
-- ...and more to be found in the [manual](mdn:js/String).
-
-Strings also have methods for doing search/replace with regular expressions. But that's big topic, so it's explained in a separate tutorial section <info:regular-expressions>.
+สุดท้าย เมื่อทำงานกับสตริงที่มีอักขระพิเศษหรือต้องการความถูกต้องในการจัดการกับ Unicode ควรศึกษาเพิ่มเติมเกี่ยวกับการทำงานของ Unicode ใน JavaScript เพื่อหลีกเลี่ยงปัญหาที่อาจเกิดขึ้นกับอักขระบางตัว ดูเพิ่มเติมได้ที่บทเรียนนี้ info:unicode
