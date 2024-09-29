@@ -51,8 +51,8 @@ alert(guestList); // a list of guests, multiple lines
 ในทางกลับกัน ถ้าเราใช้เครื่องหมายคำพูดเดี่ยวหรือคู่และพยายามใช้หลายบรรทัด จะเกิดข้อผิดพลาด:
 
 ```js run
-let guestList = "รายชื่อแขก: // Error: Unexpected token ILLEGAL
-  * สมชาย";
+let guestList = "Guests: // Error: Unexpected token ILLEGAL
+  * John";
 ```
 
 เครื่องหมายคำพูดเดี่ยวและคู่มีมาตั้งแต่ยุคแรกๆ ของการสร้างภาษา JavaScript ซึ่งตอนนั้นยังไม่ได้คำนึงถึงความต้องการในการใช้สตริงหลายบรรทัด ส่วน backticks เพิ่งมาในภายหลังใน ECMAScript 6 (ES6) จึงมีความสามารถที่หลากหลายกว่า
