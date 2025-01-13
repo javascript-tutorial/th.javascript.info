@@ -48,7 +48,11 @@ alert( sum(1, 2) ); // 3
     alert( double(3) ); // 6
     ```
 
+<<<<<<< HEAD
 - ถ้าไม่มีอาร์กิวเมนต์เลย วงเล็บจะว่างเปล่า แต่ต้องใส่ไว้:
+=======
+- If there are no arguments, parentheses are empty, but they must be present:
+>>>>>>> 34a80e70f8cce5794be259d25f815d7a7db7cbe3
 
     ```js run
     let sayHi = () => alert("Hello!");
@@ -76,9 +80,15 @@ welcome();
 
 ## ฟังก์ชันลูกศรแบบหลายบรรทัด
 
+<<<<<<< HEAD
 ฟังก์ชันลูกศรที่เราเห็นมาจนถึงตอนนี้ค่อนข้างเรียบง่าย โดยรับอาร์กิวเมนต์จากด้านซ้ายของ `=>` ประเมินค่า และส่งคืนนิพจน์ทางขวาโดยใช้อาร์กิวเมนต์เหล่านั้น
 
 บางครั้งเราต้องการฟังก์ชันที่ซับซ้อนกว่านั้น ที่มีหลายนิพจน์และประโยค ในกรณีนี้ เราสามารถครอบมันด้วยวงเล็บปีกกาได้ ความแตกต่างหลักคือ การใช้วงเล็บปีกกาต้องมีคำสั่ง `return` ภายในเพื่อส่งค่ากลับ (เหมือนฟังก์ชันปกติ)
+=======
+The arrow functions that we've seen so far were very simple. They took arguments from the left of `=>`, evaluated and returned the right-side expression with them.
+
+Sometimes we need a more complex function, with multiple expressions and statements. In that case, we can enclose them in curly braces. The major difference is that curly braces require a `return` within them to return a value (just like a regular function does).
+>>>>>>> 34a80e70f8cce5794be259d25f815d7a7db7cbe3
 
 ตัวอย่างเช่น:
 
@@ -105,7 +115,14 @@ alert( sum(1, 2) ); // 3
 
 ## สรุป
 
+<<<<<<< HEAD
 ฟังก์ชันลูกศรนั้นใช้สะดวกสำหรับการกระทำง่ายๆ โดยเฉพาะอย่างยิ่งแบบบรรทัดเดียว มีสองรูปแบบดังนี้:
 
 1. ไม่มีวงเล็บปีกกา: `(...args) => expression` -- ทางขวาเป็นนิพจน์: ฟังก์ชันจะประเมินค่าและส่งคืนผลลัพธ์ สามารถละวงเล็บได้ถ้ามีอาร์กิวเมนต์เพียงตัวเดียว เช่น `n => n*2`
 2. มีวงเล็บปีกกา: `(...args) => { body }` -- วงเล็บปีกกาช่วยให้เราเขียนหลายคำสั่งภายในฟังก์ชันได้ แต่เราต้องใส่ `return` อย่างชัดเจนเพื่อส่งอะไรบางอย่างกลับ
+=======
+Arrow functions are handy for simple actions, especially for one-liners. They come in two flavors:
+
+1. Without curly braces: `(...args) => expression` -- the right side is an expression: the function evaluates it and returns the result. Parentheses can be omitted, if there's only a single argument, e.g. `n => n*2`.
+2. With curly braces: `(...args) => { body }` -- brackets allow us to write multiple statements inside the function, but we need an explicit `return` to return something.
+>>>>>>> 34a80e70f8cce5794be259d25f815d7a7db7cbe3

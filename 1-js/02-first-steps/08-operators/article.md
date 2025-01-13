@@ -13,6 +13,7 @@
 - ตัวดำเนินการจะเป็นแบบ _unary_ หากมีตัวถูกดำเนินการเพียงตัวเดียว อย่างเช่น การกลับเครื่องหมาย `-` ที่จะกลับเครื่องหมายของตัวเลข:
 
 ```js run
+<<<<<<< HEAD
 let x = 1;
 
 *!*
@@ -20,6 +21,11 @@ x = -x;
 */!*
 
 alert( x ); // -1, มีการใช้ unary negation
+=======
+alert( 5 % 2 ); // 1, the remainder of 5 divided by 2
+alert( 8 % 3 ); // 2, the remainder of 8 divided by 3
+alert( 8 % 4 ); // 0, the remainder of 8 divided by 4
+>>>>>>> 34a80e70f8cce5794be259d25f815d7a7db7cbe3
 ```
 
 - ตัวดำเนินการจะเป็นแบบ _binary_ หากมีตัวถูกดำเนินการสองตัว เครื่องหมายลบก็มีในรูปแบบ binary ด้วยเช่นกัน:
@@ -72,7 +78,11 @@ alert( 2 ** 3 ); // 2³ = 8
 alert( 2 ** 4 ); // 2⁴ = 16 
 ```
 
+<<<<<<< HEAD
 เหมือนในคณิตศาสตร์ ตัวดำเนินการยกกำลังใช้กับจำนวนที่ไม่ใช่จำนวนเต็มได้ด้วย
+=======
+Just like in maths, the exponentiation operator is defined for non-integer numbers as well.
+>>>>>>> 34a80e70f8cce5794be259d25f815d7a7db7cbe3
 
 อย่างเช่น การหารากกำลังสองก็คือการยกกำลังด้วย ½
 
@@ -85,7 +95,11 @@ alert( 8 ** (1/3) ); // 2 (ยกกำลัง 1/3 เท่ากับหา
 
 ลองมาดูคุณสมบัติของตัวดำเนินการใน JavaScript ที่นอกเหนือจากคณิตศาสตร์ในห้องเรียนกันหน่อย
 
+<<<<<<< HEAD
 ปกติแล้ว ตัวดำเนินการบวก `+` ใช้สำหรับบวกตัวเลข
+=======
+Let's meet the features of JavaScript operators that are beyond school arithmetics.
+>>>>>>> 34a80e70f8cce5794be259d25f815d7a7db7cbe3
 
 แต่ถ้าใช้ `+` แบบ binary กับสตริง มันจะเชื่อม (ต่อ) สตริงเข้าด้วยกัน
 
@@ -200,7 +214,11 @@ JavaScript มีตัวดำเนินการอยู่มากมา
 | ... | ... | ... |
 | 14 | unary plus | `+` |
 | 14 | unary negation | `-` |
+<<<<<<< HEAD
 | 13 | exponentiation | `**` |  
+=======
+| 13 | exponentiation | `**` |
+>>>>>>> 34a80e70f8cce5794be259d25f815d7a7db7cbe3
 | 12 | multiplication | `*` |
 | 12 | division | `/` |
 | 11 | addition | `+` |
@@ -209,7 +227,11 @@ JavaScript มีตัวดำเนินการอยู่มากมา
 | 2 | assignment | `=` |
 | ... | ... | ... |
 
+<<<<<<< HEAD
 ดังที่เห็น "unary plus" มีลำดับความสำคัญ `14` ซึ่งสูงกว่า "addition" (binary plus) ที่มีค่า `11` นั่นจึงเป็นเหตุผลว่าทำไมในนิพจน์ `"+apples + +oranges"` unary plus จึงทำงานก่อน addition
+=======
+As we can see, the "unary plus" has a priority of `14` which is higher than the `11` of "addition" (binary plus). That's why, in the expression `"+apples + +oranges"`, unary pluses work before the addition.
+>>>>>>> 34a80e70f8cce5794be259d25f815d7a7db7cbe3
 
 ## การกำหนดค่า (Assignment)
 
@@ -308,7 +330,11 @@ alert( n ); // 14
 ```js run
 let n = 2;
 
+<<<<<<< HEAD
 n *= 3 + 5; // คำนวณทางด้านขวาก่อน เหมือนกับการเขียน n *= 8
+=======
+n *= 3 + 5; // right part evaluated first, same as n *= 8
+>>>>>>> 34a80e70f8cce5794be259d25f815d7a7db7cbe3
 
 alert( n ); // 16
 ```
@@ -442,7 +468,11 @@ counter++;
 - RIGHT SHIFT ( `>>` )
 - ZERO-FILL RIGHT SHIFT ( `>>>` )
 
+<<<<<<< HEAD
 ตัวดำเนินการเหล่านี้ใช้น้อยมาก เว้นแต่เมื่อเราต้องจัดการกับตัวเลขในระดับ bitwise โดยเฉพาะ เราอาจจะไม่ต้องใช้มันในเร็วๆ นี้ เนื่องจากการพัฒนาเว็บแทบจะไม่ได้ประยุกต์ใช้ แต่ในบางด้านเช่น การเข้ารหัสลับ พวกมันก็ยังมีประโยชน์ คุณสามารถอ่านบท [Bitwise Operators](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators#bitwise_operators) บน MDN เมื่อจำเป็นต้องใช้
+=======
+These operators are used very rarely, when we need to fiddle with numbers on the very lowest (bitwise) level. We won't need these operators any time soon, as web development has little use of them, but in some special areas, such as cryptography, they are useful. You can read the [Bitwise Operators](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators#bitwise_operators) chapter on MDN when a need arises.
+>>>>>>> 34a80e70f8cce5794be259d25f815d7a7db7cbe3
 
 ## ตัวดำเนินการเครื่องหมายจุลภาค (Comma)
 

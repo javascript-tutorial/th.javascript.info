@@ -1,6 +1,10 @@
 # โมเดิร์นจาวาสคริปฉบับภาษาไทย
 
+<<<<<<< HEAD
 ยินดีต้อนรับสู่คู่มือภาษาโปรแกรม JavaScript สำหรับผู้เริ่มต้นชาวไทย! ในคู่มือนี้ เราจะแนะนำแนวคิดพื้นฐานของ JavaScript และการประยุกต์ใช้ในการพัฒนาเว็บไซต์
+=======
+This repository hosts the English content of the Modern JavaScript Tutorial, published at [https://javascript.info](https://javascript.info).
+>>>>>>> 34a80e70f8cce5794be259d25f815d7a7db7cbe3
 
 JavaScript เป็นภาษาโปรแกรมที่ใช้กันอย่างแพร่หลายในการสร้างเว็บไซต์แบบไดนามิกและอินเทอร์แอคทีฟ มันทำงานร่วมกับ HTML และ CSS เพื่อเพิ่มความสามารถและปรับแต่งหน้าเว็บให้ตอบสนองต่อการกระทำของผู้ใช้ ด้วย JavaScript คุณสามารถสร้างเว็บไซต์ที่มีคุณสมบัติน่าสนใจ เช่น แบบฟอร์มที่ตรวจสอบข้อมูลอัตโนมัติ เมนูที่เลื่อนลงเมื่อคลิก หรือการโหลดเนื้อหาใหม่โดยไม่ต้องรีเฟรชหน้า
 
@@ -15,6 +19,7 @@ JavaScript เป็นภาษาโปรแกรมที่ใช้กั
 
 เราหวังว่าคู่มือนี้จะช่วยให้คุณสามารถเรียนรู้และใช้งาน JavaScript ได้อย่างมั่นใจ มาร่วมกันสำรวจโลกของการพัฒนาเว็บด้วย JavaScript กันเลย!
 
+<<<<<<< HEAD
 **อยากมีส่วนร่วมทำได้อย่างไร**
 - สามารถดูความคืบหน้าการแปลได้ที่หน้า [Thai Translate Progress](https://github.com/javascript-tutorial/th.javascript.info/issues/1)
 - เลือกบทความที่ยังไม่ถูกติ๊กและแปล
@@ -25,14 +30,25 @@ JavaScript เป็นภาษาโปรแกรมที่ใช้กั
     - จั่วหัว PR ควรใช้ชื่อเดียวกับหัวข้อบทความ ทีนี้บอทจะมอบหมายเลขให้ issue นั้นๆ
 
 คลิก <https://javascript.info/translate> เพื่อดูรายละเอียดในภาษาอื่นๆ
+=======
+Something's wrong? A topic is missing? Explain it to people, add it as PR 👏
+
+**You can edit the text in any editor.** The tutorial uses an enhanced "markdown" format, easy to grasp. And if you want to see how it looks on-site, there's a server to run the tutorial locally at <https://github.com/javascript-tutorial/server>.
+>>>>>>> 34a80e70f8cce5794be259d25f815d7a7db7cbe3
 
 Maintainers จะรีวิวและแก้ไขการแปลไปตามความเหมาะสม
 
 หาก maintainers ไม่ตอบ หรือ ต้องการเป็น maintainers กรุณาเขียนคำร้องที่ [เรโปฯหลัก](https://github.com/javascript-tutorial/en.javascript.info/issues/new).
 
+<<<<<<< HEAD
 **มาช่วยร่วมกันแปลคู่มือจาวาสคริปต์ฉบับภาษาไทย**
 
 ชื่อของผู้มีส่วนร่วมและจำนวน contribution จะแสดงอยู่ในหน้า "About project" เมื่อการแปลถูกเผยแพร่เป็นที่เรียบร้อย
+=======
+Every chapter, article, or task has its folder.
+
+The folder is named like `N-url`, where `N` is a number for the sorting purposes and `URL` is the URL part with the title of the material.
+>>>>>>> 34a80e70f8cce5794be259d25f815d7a7db7cbe3
 
 ## โครงสร้าง
 
