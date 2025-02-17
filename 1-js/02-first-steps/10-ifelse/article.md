@@ -68,7 +68,11 @@ if (cond) {
 
 ## กรณี "else"
 
+<<<<<<< HEAD
 คำสั่ง `if` อาจมีบล็อก `else` เพิ่มเติมได้ ซึ่งจะทำงานเมื่อเงื่อนไขเป็น falsy (เท็จ)
+=======
+The `if` statement may contain an optional `else` block. It executes when the condition is falsy.
+>>>>>>> 1dce5b72b16288dad31b7b3febed4f38b7a5cd8a
 
 ตัวอย่างเช่น:
 ```js run
@@ -180,10 +184,17 @@ alert( message );
 
 อาจดูงงในตอนแรกว่าเกิดอะไรขึ้น แต่ถ้ามองให้ดี จะเห็นว่ามันเป็นเพียงการทดสอบเงื่อนไขทีละข้อตามลำดับ:
 
+<<<<<<< HEAD
 1. `?` ตัวแรกตรวจสอบว่า `age < 3` หรือไม่
 2. ถ้าใช่ -- คืนค่า `'สวัสดีจ้าหนู!'` ถ้าไม่ใช่ มันจะไปเช็คเงื่อนไขถัดจากโคลอน ":" คือ `age < 18`
 3. ถ้าเงื่อนไขนั้นเป็นจริง -- คืนค่า `'สวัสดีจ้า!'` ถ้าไม่จริง ก็จะไปเช็คเงื่อนไขถัดจากโคลอนถัดไป ":" คือ `age < 100`
 4. ถ้านั่นเป็นจริง -- คืนค่า `'สวัสดีครับ/ค่ะ!'` ไม่อย่างนั้นจะไปที่เงื่อนไขสุดท้ายหลังโคลอนตัวสุดท้าย ":" และคืนค่า `'อายุแปลกๆ นะ!'`
+=======
+1. The first question mark checks whether `age < 3`.
+2. If true -- it returns `'Hi, baby!'`. Otherwise, it continues to the expression after the colon ":", checking `age < 18`.
+3. If that's true -- it returns `'Hello!'`. Otherwise, it continues to the expression after the next colon ":", checking `age < 100`.
+4. If that's true -- it returns `'Greetings!'`. Otherwise, it continues to the expression after the last colon ":", returning `'What an unusual age!'`.
+>>>>>>> 1dce5b72b16288dad31b7b3febed4f38b7a5cd8a
 
 นี่คือการเขียนโค้ดข้างต้นโดยใช้ `if..else`:
 

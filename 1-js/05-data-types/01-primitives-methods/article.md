@@ -37,8 +37,13 @@ john.sayHi(); // Hi buddy!
 
 นี่คือปัญหาที่ผู้สร้าง JavaScript ต้องเผชิญ:
 
+<<<<<<< HEAD
 - เรามักจะอยากทำอะไรหลายๆ อย่างกับข้อมูลปฐมภูมิ เช่น string หรือ number การเข้าถึงข้อมูลผ่านเมท็อดจะช่วยได้มาก  
 - แต่ข้อมูลปฐมภูมิควรจะเบาและรวดเร็วที่สุดเท่าที่จะเป็นไปได้
+=======
+- There are many things one would want to do with a primitive, like a string or a number. It would be great to access them using methods.
+- Primitives must be as fast and lightweight as possible.
+>>>>>>> 1dce5b72b16288dad31b7b3febed4f38b7a5cd8a
 
 วิธีแก้ปัญหาอาจดูแปลกไปหน่อย แต่ทำได้ดังนี้:
 
@@ -102,9 +107,16 @@ if (zero) { // zero เป็น true เพราะเป็นออบเจ
 }
 ```
 
+<<<<<<< HEAD
 ในทางกลับกัน การใช้ฟังก์ชัน `String/Number/Boolean` แบบไม่มี `new` นั้นโอเค และมีประโยชน์มาก เพราะจะแปลงค่าเป็น string/number/boolean ตามแต่ประเภทที่ต้องการ (ซึ่งยังคงเป็นค่าปฐมภูมิ)
 
 ยกตัวอย่างเช่น นี่เป็นวิธีที่ถูกต้อง:
+=======
+On the other hand, using the same functions `String/Number/Boolean` without `new` is totally fine and useful thing. They convert a value to the corresponding type: to a string, a number, or a boolean (primitive).
+
+For example, this is entirely valid:
+
+>>>>>>> 1dce5b72b16288dad31b7b3febed4f38b7a5cd8a
 ```js
 let num = Number("123"); // แปลง string เป็น number
 ```
