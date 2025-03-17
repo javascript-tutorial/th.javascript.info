@@ -6,8 +6,13 @@
 
 อย่างไรก็ตาม มีบางกรณีที่เราจำเป็นต้องแปลงค่าเป็นชนิดข้อมูลที่ต้องการ
 
+<<<<<<< HEAD
 ```smart header="ยังไม่กล่าวถึง object"
 ในบทนี้เรายังไม่ครอบคลุมถึง object เราจะพูดถึงแค่ค่า primitive เท่านั้น
+=======
+```smart header="Not talking about objects yet"
+In this chapter, we won't cover objects. For now, we'll just be talking about primitives.
+>>>>>>> 3d7abb9cc8fa553963025547717f06f126c449b6
 
 หลังจากที่เราได้เรียนรู้เรื่อง object แล้ว ในบท <info:object-toprimitive> เราจะได้เห็นว่า object เข้ามาเกี่ยวข้องอย่างไร
 ```
@@ -34,7 +39,11 @@ alert(typeof value); // string
 
 ## การแปลงเป็นตัวเลข
 
+<<<<<<< HEAD
 การแปลงเป็นตัวเลขที่เกิดขึ้นในฟังก์ชันและนิพจน์ทางคณิตศาสตร์จะดำเนินการโดยอัตโนมัติ
+=======
+Numeric conversion in mathematical functions and expressions happens automatically.
+>>>>>>> 3d7abb9cc8fa553963025547717f06f126c449b6
 
 ยกตัวอย่างเช่น เมื่อมีการหาร `/` กับสิ่งที่ไม่ใช่ตัวเลข:
 
@@ -69,8 +78,13 @@ alert(age); // NaN, การแปลงล้มเหลว
 |-------|-------------|
 |`undefined`|`NaN`|
 |`null`|`0`|
+<<<<<<< HEAD
 |<code>true&nbsp;และ&nbsp;false</code> | `1` และ `0` |
 | `string` | ช่องว่าง (รวมถึงเว้นวรรค, tab `\t`, ขึ้นบรรทัดใหม่ `\n` เป็นต้น) ที่จุดเริ่มต้นและสิ้นสุดจะถูกละเว้น ถ้า string ที่เหลือว่างเปล่า ผลลัพธ์จะเป็น `0` มิฉะนั้นตัวเลขจะถูก "อ่าน" จาก string เมื่อเกิด error จะได้เป็น `NaN` |
+=======
+|<code>true&nbsp;and&nbsp;false</code> | `1` and `0` |
+| `string` | Whitespaces (includes spaces, tabs `\t`, newlines `\n` etc.) from the start and end are removed. If the remaining string is empty, the result is `0`. Otherwise, the number is "read" from the string. An error gives `NaN`. |
+>>>>>>> 3d7abb9cc8fa553963025547717f06f126c449b6
 
 ตัวอย่าง:
 
@@ -130,7 +144,11 @@ alert( Boolean(" ") ); // เว้นวรรค ก็เป็น true (stri
 |`undefined`|`NaN`|
 |`null`|`0`|
 |<code>true&nbsp;/&nbsp;false</code> | `1 / 0` |
+<<<<<<< HEAD
 | `string` | string จะถูกอ่าน "ตามที่เป็น" ส่วนช่องว่าง (รวมถึงเว้นวรรค tab `\t` ขึ้นบรรทัดใหม่ `\n` เป็นต้น) ที่ทั้งสองฝั่งจะถูกละเว้น string เปล่าจะกลายเป็น `0` เมื่อเกิด error จะได้เป็น `NaN` |
+=======
+| `string` | The string is read "as is", whitespaces (includes spaces, tabs `\t`, newlines `\n` etc.) from both sides are ignored. An empty string becomes `0`. An error gives `NaN`. |
+>>>>>>> 3d7abb9cc8fa553963025547717f06f126c449b6
 
 **`การแปลงเป็น Boolean`** -- เกิดขึ้นในการดำเนินการเชิงตรรกะ สามารถทำได้ด้วย `Boolean(value)`
 

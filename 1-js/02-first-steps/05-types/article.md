@@ -69,9 +69,26 @@ n = 12.345;
 
 ## BigInt [#bigint-type]
 
+<<<<<<< HEAD
 ในภาษา JavaScript ชนิดข้อมูล "number" ไม่สามารถแสดงค่าจำนวนเต็มที่มากกว่า <code>(2<sup>53</sup>-1)</code> (ซึ่งก็คือ `9007199254740991`) หรือน้อยกว่า <code>-(2<sup>53</sup>-1)</code> สำหรับจำนวนลบได้อย่างปลอดภัย
 
 ถ้าจะให้พูดให้ถูกต้องจริงๆ ชนิดข้อมูล "number" จะเก็บจำนวนเต็มที่ใหญ่กว่านั้นได้ (สูงสุดถึง <code>1.7976931348623157 * 10<sup>308</sup></code>) แต่นอกเหนือจากช่วงจำนวนเต็มที่ปลอดภัยคือ <code>±(2<sup>53</sup>-1)</code> แล้ว จะมีข้อผิดพลาดในการแสดงตัวเลขที่ละเอียด เพราะไม่สามารถเก็บตัวเลขได้ทุกหลักในพื้นที่จัดเก็บแบบคงที่ขนาด 64 บิต ดังนั้นค่าที่เก็บอาจจะเป็นค่า "โดยประมาณ"
+=======
+In JavaScript, the "number" type cannot safely represent integer values larger than <code>(2<sup>53</sup>-1)</code> (that's `9007199254740991`), or less than <code>-(2<sup>53</sup>-1)</code> for negatives.
+
+To be really precise, the "number" type can store larger integers (up to <code>1.7976931348623157 * 10<sup>308</sup></code>), but outside of the safe integer range <code>±(2<sup>53</sup>-1)</code> there'll be a precision error, because not all digits fit into the fixed 64-bit storage. So an "approximate" value may be stored.
+
+For example, these two numbers (right above the safe range) are the same:
+
+```js
+console.log(9007199254740991 + 1); // 9007199254740992
+console.log(9007199254740991 + 2); // 9007199254740992
+```
+
+So to say, all odd integers greater than <code>(2<sup>53</sup>-1)</code> can't be stored at all in the "number" type.
+
+For most purposes <code>±(2<sup>53</sup>-1)</code> range is quite enough, but sometimes we need the entire range of really big integers, e.g. for cryptography or microsecond-precision timestamps.
+>>>>>>> 3d7abb9cc8fa553963025547717f06f126c449b6
 
 ยกตัวอย่างเช่น จำนวนสองตัวนี้ (ที่อยู่เหนือช่วงปลอดภัยเล็กน้อย) จะมีค่าเท่ากัน:
 
@@ -95,6 +112,7 @@ const bigInt = 1234567890123456789012345678901234567890n;
 
 เนื่องจากไม่ค่อยได้ใช้ตัวเลข `BigInt` บ่อยนัก เราจึงไม่ขอลงรายละเอียดในที่นี้ แต่จะแยกอธิบายไว้ในบทเรียน <info:bigint> อ่านได้เมื่อคุณต้องการใช้จำนวนขนาดใหญ่มากๆ นะ
 
+<<<<<<< HEAD
 
 ```smart header="ปัญหาความเข้ากันได้"
 ปัจจุบัน `BigInt` รองรับใน Firefox/Chrome/Edge/Safari แต่ยังไม่รองรับใน IE 
@@ -102,6 +120,8 @@ const bigInt = 1234567890123456789012345678901234567890n;
 
 คุณสามารถดูได้จาก [ตารางความเข้ากันได้ของ BigInt บน *MDN*](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt#Browser_compatibility) ว่ารองรับในเบราว์เซอร์เวอร์ชันใดบ้าง
 
+=======
+>>>>>>> 3d7abb9cc8fa553963025547717f06f126c449b6
 ## String
 
 ใน JavaScript string ต้องถูกล้อมรอบด้วยเครื่องหมายคำพูด
@@ -226,7 +246,11 @@ alert(age); // แสดงผลเป็น "undefined"
 
 ## typeof operator [#type-typeof]
 
+<<<<<<< HEAD
 `typeof` operator จะคืนค่าชนิดข้อมูลของ operand มันมีประโยชน์เมื่อเราต้องการประมวลผลค่าที่มีชนิดข้อมูลแตกต่างกัน หรือเพียงแค่ต้องการตรวจสอบแบบรวดเร็ว
+=======
+The `typeof` operator returns the type of the operand. It's useful when we want to process values of different types differently or just want to do a quick check.
+>>>>>>> 3d7abb9cc8fa553963025547717f06f126c449b6
 
 การเรียกใช้ `typeof x` จะคืนค่าเป็น string ที่ระบุชื่อชนิดข้อมูล:
 
@@ -276,6 +300,7 @@ typeof alert // "function"  (3)
 
 ใน JavaScript มีชนิดข้อมูลพื้นฐาน 8 ชนิด ได้แก่
 
+<<<<<<< HEAD
 - ชนิดข้อมูล primitive 7 ชนิด:
     - `number` สำหรับตัวเลขทุกประเภท ทั้งจำนวนเต็มและทศนิยม โดยจำนวนเต็มจะมีขอบเขตอยู่ที่ <code>±(2<sup>53</sup>-1)</code>
     - `bigint` สำหรับจำนวนเต็มที่มีความยาวเท่าใดก็ได้
@@ -286,6 +311,18 @@ typeof alert // "function"  (3)
     - `symbol` สำหรับการสร้างตัวระบุที่ไม่ซ้ำกัน
 - และชนิดข้อมูลที่ไม่ใช่ primitive 1 ชนิด:
     - `object` สำหรับโครงสร้างข้อมูลที่มีความซับซ้อนมากขึ้น
+=======
+- Seven primitive data types:
+    - `number` for numbers of any kind: integer or floating-point, integers are limited by <code>±(2<sup>53</sup>-1)</code>.
+    - `bigint` for integer numbers of arbitrary length.
+    - `string` for strings. A string may have zero or more characters, there's no separate single-character type.
+    - `boolean` for `true`/`false`.
+    - `null` for unknown values -- a standalone type that has a single value `null`.
+    - `undefined` for unassigned values -- a standalone type that has a single value `undefined`.
+    - `symbol` for unique identifiers.
+- And one non-primitive data type:
+    - `object` for more complex data structures.
+>>>>>>> 3d7abb9cc8fa553963025547717f06f126c449b6
 
 `typeof` operator ช่วยให้เราสามารถตรวจสอบชนิดข้อมูลที่ถูกเก็บอยู่ในตัวแปรได้
 
