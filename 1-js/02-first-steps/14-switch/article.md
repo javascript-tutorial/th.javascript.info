@@ -139,7 +139,11 @@ switch (a) {
 
 ตอนนี้ทั้ง `3` และ `5` จะแสดงข้อความเดียวกัน
 
+<<<<<<< HEAD
 ความสามารถในการ "จัดกลุ่ม" `case` เป็นผลข้างเคียงของวิธีการทำงานของ `switch/case` เมื่อไม่มี `break` ในที่นี้ `case 3` จะเริ่มรันโค้ดจากบรรทัด `(*)` และรันผ่าน `case 5` ไปเลย เพราะไม่มี `break`
+=======
+The ability to "group" cases is a side effect of how `switch/case` works without `break`. Here the execution of `case 3` starts from the line `(*)` and goes through `case 5`, because there's no `break`.
+>>>>>>> 035c5267ba80fa7b55878f7213cbde449b4092d9
 
 ## ชนิดข้อมูลมีความสำคัญ
 

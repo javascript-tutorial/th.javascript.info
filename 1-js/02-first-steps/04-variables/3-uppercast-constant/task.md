@@ -12,13 +12,18 @@ const birthday = '18.04.1982';
 const age = someCode(birthday);
 ```
 
+<<<<<<< HEAD
 เรามีตัวแปร `birthday` และ `age` ที่จะถูกคำนวณจากค่าเริ่มต้นอย่าง `birthday` ด้วยความช่วยเหลือจากฟังก์ชั่น `someCode` (ในตอนนี้ยังไม่ต้องรู้จักฟังก์ชั่น เพราะยังไม่ใช่ประเด็นในตอนนี้)
+=======
+Here we have a constant `birthday` for the date, and also the `age` constant.
+
+The `age` is calculated from `birthday` using `someCode()`, which means a function call that we didn't explain yet (we will soon!), but the details don't matter here, the point is that `age` is calculated somehow based on the `birthday`.
+>>>>>>> 035c5267ba80fa7b55878f7213cbde449b4092d9
 
 จะให้ชื่อตัวแปรไหนเป็น ตัวพิมพ์เล็ก หรือ ตัวใหญ่ดีตัวแปร `birthday` ดีไหม? หรือตัวแปร `age` หรือจะทั้งคู่ดีละ
 
 ```js
-const BIRTHDAY = '18.04.1982'; // make uppercase?
+const BIRTHDAY = '18.04.1982'; // make birthday uppercase?
 
-const AGE = someCode(BIRTHDAY); // make uppercase?
+const AGE = someCode(BIRTHDAY); // make age uppercase?
 ```
-
