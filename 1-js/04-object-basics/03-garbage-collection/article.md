@@ -74,7 +74,11 @@ let admin = user;
 user = null;
 ```
 
+<<<<<<< HEAD
 ...แล้วออบเจ็กต์ก็ยังคงเข้าถึงได้ผ่านตัวแปรโกลบอล `admin` ดังนั้นจึงต้องยังคงอยู่ในหน่วยความจำ แต่ถ้าเราเขียนทับ `admin` ด้วย มันก็สามารถถูกลบทิ้งได้
+=======
+...Then the object is still reachable via `admin` global variable, so it must stay in memory. If we overwrite `admin` too, then it can be removed.
+>>>>>>> 540d753e90789205fc6e75c502f68382c87dea9b
 
 ## ออบเจ็กต์ที่เชื่อมโยงกัน
 
@@ -169,11 +173,19 @@ family = null;
 
 ![](garbage-collection-2.svg)
 
+<<<<<<< HEAD
 จากนั้นเราก็ไปตามการอ้างอิงของพวกมันและทำเครื่องหมายออบเจ็กต์ที่ถูกอ้างอิงถึง:
 
 ![](garbage-collection-3.svg)
 
 ...และทำต่อไปเรื่อยๆ จนไม่มีออบเจ็กต์ให้ทำเครื่องหมายต่อ:
+=======
+Then we follow their references and mark referenced objects:
+
+![](garbage-collection-3.svg)
+
+...And continue to follow further references, while possible:
+>>>>>>> 540d753e90789205fc6e75c502f68382c87dea9b
 
 ![](garbage-collection-4.svg)
 
@@ -183,13 +195,23 @@ family = null;
 
 เราจะจินตนาการว่ากระบวนการทำงานเหมือนการใช้ถังสีขนาดใหญ่ราดจากจุด roots สีจะไหลไปตามการอ้างอิงทั้งหมดและทำเครื่องหมายที่ออบเจ็กต์ทุกตัวที่เข้าถึงได้ ส่วนที่ไม่มีเครื่องหมายก็จะถูกลบทิ้ง
 
+<<<<<<< HEAD
 นี่คือแนวคิดพื้นฐานของการทำงานของ garbage collection JavaScript engines มีการใช้เทคนิคปรับปรุงประสิทธิภาพหลายอย่างเพื่อให้มันทำงานได้เร็วขึ้นและไม่ทำให้เกิดความล่าช้าในการประมวลผลโค้ด
+=======
+That's the concept of how garbage collection works. JavaScript engines apply many optimizations to make it run faster and not introduce any delays into the code execution.
+>>>>>>> 540d753e90789205fc6e75c502f68382c87dea9b
 
 บางส่วนของเทคนิคเหล่านี้ได้แก่:
 
+<<<<<<< HEAD
 - **Generational collection** -- ออบเจ็กต์จะถูกแบ่งเป็นสองชุด: "ออบเจ็กต์ใหม่" และ "ออบเจ็กต์เก่า" ในโค้ดทั่วไป ออบเจ็กต์หลายตัวจะมีช่วงชีวิตสั้น: พวกมันถูกสร้างขึ้น ทำหน้าที่ และหายไปอย่างรวดเร็ว ดังนั้นจึงมีเหตุผลที่จะติดตามออบเจ็กต์ใหม่และคืนหน่วยความจำจากพวกมัน หากกรณีเป็นเช่นนั้นจริงๆ ส่วนที่อยู่นานพอจะกลายเป็น "ออบเจ็กต์เก่า" และถูกตรวจสอบน้อยลง
 - **Incremental collection** -- หากมีออบเจ็กต์จำนวนมาก และเราพยายามที่จะวนรอบและทำเครื่องหมายทีเดียวให้หมด อาจจะใช้เวลาพอสมควรและทำให้เกิดความล่าช้าที่สังเกตได้ชัดในการทำงาน ดังนั้น engine จะแบ่งชุดออบเจ็กต์ทั้งหมดที่มีอยู่ออกเป็นหลายส่วน แล้วค่อยๆ เก็บแต่ละส่วนทีละนิด จะมีการเก็บขยะหลายครั้งแบบเล็กๆ แทนที่จะเก็บครั้งเดียวทั้งหมด ซึ่งจำเป็นต้องมีการจัดการพิเศษระหว่างการเก็บแต่ละครั้งเพื่อติดตามการเปลี่ยนแปลง แต่ด้วยวิธีนี้เราจะเจอความล่าช้าเล็กน้อยหลายครั้ง แทนที่จะเป็นความล่าช้ามากๆ ครั้งใหญ่ครั้งเดียว
 - **Idle-time collection** -- garbage collector จะพยายามทำงานเฉพาะในช่วงที่ CPU ว่างเท่านั้น เพื่อลดผลกระทบต่อการทำงานของโปรแกรมให้มากที่สุด 
+=======
+- **Generational collection** -- objects are split into two sets: "new ones" and "old ones". In typical code, many objects have a short life span: they appear, do their job and die fast, so it makes sense to track new objects and clear the memory from them if that's the case. Those that survive for long enough, become "old" and are examined less often.
+- **Incremental collection** -- if there are many objects, and we try to walk and mark the whole object set at once, it may take some time and introduce visible delays in the execution. So the engine splits the whole set of existing objects into multiple parts. And then clear these parts one after another. There are many small garbage collections instead of a total one. That requires some extra bookkeeping between them to track changes, but we get many tiny delays instead of a big one.
+- **Idle-time collection** -- the garbage collector tries to run only while the CPU is idle, to reduce the possible effect on the execution.
+>>>>>>> 540d753e90789205fc6e75c502f68382c87dea9b
 
 ยังมีการปรับแต่งและอัลกอริธึมการเก็บขยะในรูปแบบอื่นๆ อีกมากมาย ถึงแม้ผมอยากจะอธิบายถึงพวกมันที่นี่ก็ตาม แต่คงต้องยับยั้งไว้ก่อน เพราะแต่ละ engine จะมีเทคนิคและรายละเอียดปลีกย่อยที่แตกต่างกัน และที่สำคัญไปกว่านั้น สิ่งต่างๆ มักจะเปลี่ยนแปลงไปเมื่อ engine ถูกพัฒนา ดังนั้นการศึกษาเชิงลึก "ล่วงหน้า" โดยไม่มีความจำเป็นจริงๆ อาจจะไม่คุ้มค่านัก เว้นเสียแต่ว่ามันเป็นเรื่องที่คุณสนใจจริงๆ ซึ่งในกรณีนั้นจะมีลิงก์สำหรับอ่านเพิ่มเติมให้ด้านล่างนี้
 
@@ -197,16 +219,30 @@ family = null;
 
 สิ่งสำคัญที่ควรรู้มีดังนี้:
 
+<<<<<<< HEAD
 - Garbage collection เกิดขึ้นโดยอัตโนมัติ เราไม่สามารถบังคับให้มันทำงานหรือป้องกันมันได้
 - ออบเจ็กต์จะยังคงอยู่ในหน่วยความจำตราบเท่าที่ยังเข้าถึงได้
 - การถูกอ้างอิงไม่เท่ากับการเข้าถึงได้ (จาก root): หมู่ออบเจ็กต์ที่เชื่อมต่อกันอาจกลายเป็นสิ่งที่เข้าถึงไม่ได้ทั้งหมด เหมือนอย่างในตัวอย่างข้างต้น
+=======
+- Garbage collection is performed automatically. We cannot force or prevent it.
+- Objects are retained in memory while they are reachable.
+- Being referenced is not the same as being reachable (from a root): a pack of interlinked objects can become unreachable as a whole, as we've seen in the example above.
+>>>>>>> 540d753e90789205fc6e75c502f68382c87dea9b
 
 JavaScript engines สมัยใหม่ได้นำอัลกอริธึมขั้นสูงมาใช้ในการเก็บขยะ
 
 หนังสือทั่วไปเล่มหนึ่งชื่อ "The Garbage Collection Handbook: The Art of Automatic Memory Management" (R. Jones et al) ได้อธิบายถึงอัลกอริธึมบางส่วนเหล่านี้
 
+<<<<<<< HEAD
 หากคุณมีความรู้เกี่ยวกับการเขียนโปรแกรมระดับต่ำ (low-level programming) ข้อมูลเพิ่มเติมโดยละเอียดเกี่ยวกับ garbage collector ของ V8 มีอยู่ในบทความ [A tour of V8: Garbage Collection](https://jayconrod.com/posts/55/a-tour-of-v8-garbage-collection)
 
 [บล็อกของ V8](https://v8.dev/) เองก็มีการเผยแพร่บทความเกี่ยวกับการเปลี่ยนแปลงในการจัดการหน่วยความจำเป็นระยะๆ แน่นอนว่าในการเรียนรู้เพิ่มเติมเกี่ยวกับ garbage collection คุณควรเตรียมพื้นฐานเกี่ยวกับการทำงานภายในของ V8 โดยทั่วไปก่อน และอ่านบล็อกของ [Vyacheslav Egorov](https://mrale.ph) ผู้ซึ่งเคยเป็นหนึ่งในทีมวิศวกรของ V8 ที่ผมพูดถึง "V8" เพราะมันเป็น engine ที่มีบทความเกี่ยวกับมันมากที่สุดในอินเทอร์เน็ต สำหรับ engine อื่นๆ หลายแนวคิดก็คล้ายคลึงกัน แต่การเก็บขยะจะมีความแตกต่างกันในรายละเอียดหลายอย่าง
 
 การมีความรู้เชิงลึกเกี่ยวกับ engine จะเป็นประโยชน์อย่างมากเมื่อคุณต้องการปรับแต่งประสิทธิภาพในระดับต่ำ (low-level optimizations) มันจะเป็นการฉลาดหากจะวางแผนศึกษาเรื่องนี้ในขั้นต่อไป หลังจากที่คุณมีความคุ้นเคยกับภาษาเป็นอย่างดีแล้ว
+=======
+If you are familiar with low-level programming, more detailed information about V8's garbage collector is in the article [A tour of V8: Garbage Collection](https://jayconrod.com/posts/55/a-tour-of-v8-garbage-collection).
+
+The [V8 blog](https://v8.dev/) also publishes articles about changes in memory management from time to time. Naturally, to learn more about garbage collection, you'd better prepare by learning about V8 internals in general and read the blog of [Vyacheslav Egorov](https://mrale.ph) who worked as one of the V8 engineers. I'm saying: "V8", because it is best covered by articles on the internet. For other engines, many approaches are similar, but garbage collection differs in many aspects.
+
+In-depth knowledge of engines is good when you need low-level optimizations. It would be wise to plan that as the next step after you're familiar with the language.
+>>>>>>> 540d753e90789205fc6e75c502f68382c87dea9b
