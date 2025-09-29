@@ -55,9 +55,15 @@ let guestList = "Guests: // Error: Unexpected token ILLEGAL
   * John";
 ```
 
+<<<<<<< HEAD
 เครื่องหมายคำพูดเดี่ยวและคู่มีมาตั้งแต่ยุคแรกๆ ของการสร้างภาษา JavaScript ซึ่งตอนนั้นยังไม่ได้คำนึงถึงความต้องการในการใช้สตริงหลายบรรทัด ส่วน backticks เพิ่งมาในภายหลังใน ECMAScript 6 (ES6) จึงมีความสามารถที่หลากหลายกว่า
 
 นอกจากนี้ backticks ยังช่วยให้เราสามารถระบุ "ฟังก์ชันเทมเพลต" (template function) ก่อน backtick แรกได้ด้วย ไวยากรณ์คือ: <code>func&#96;string&#96;</code> ฟังก์ชัน `func` จะถูกเรียกโดยอัตโนมัติ รับสตริงและนิพจน์ที่แทรกเข้ามาและสามารถประมวลผลได้ คุณลักษณะนี้เรียกว่า "tagged templates" ซึ่งมีประโยชน์มากในการสร้างสตริงที่ซับซ้อนหรือต้องการการประมวลผลพิเศษ แม้ว่าจะพบเห็นได้ไม่บ่อยนักในโค้ดทั่วไป แต่มีประโยชน์มากในไลบรารีหรือเฟรมเวิร์กบางตัว คุณสามารถอ่านเพิ่มเติมได้ที่เอกสารอ้างอิงของ MDN: [Template literals](mdn:/JavaScript/Reference/Template_literals#Tagged_templates)
+=======
+Single and double quotes come from ancient times of language creation, when the need for multiline strings was not taken into account. Backticks appeared much later and thus are more versatile.
+
+Backticks also allow us to specify a "template function" before the first backtick. The syntax is: <code>func&#96;string&#96;</code>. The function `func` is called automatically, receives the string and embedded expressions and can process them. This feature is called "tagged templates", it's rarely seen, but you can read about it in the MDN: [Template literals](mdn:/JavaScript/Reference/Template_literals#Tagged_templates).
+>>>>>>> 51bc6d3cdc16b6eb79cb88820a58c4f037f3bf19
 
 ## อักขระพิเศษ
 
@@ -66,10 +72,17 @@ let guestList = "Guests: // Error: Unexpected token ILLEGAL
 ```js run
 let guestList = "Guests:\n * John\n * Pete\n * Mary";
 
+<<<<<<< HEAD
 alert(guestList); // แสดงรายชื่อแขกหลายบรรทัด เหมือนกับตัวอย่างก่อนหน้า
 ```
 
 ตัวอย่างที่ง่ายกว่านี้ สองบรรทัดต่อไปนี้ให้ผลลัพธ์เหมือนกัน แค่เขียนต่างกัน:
+=======
+alert(guestList); // a multiline list of guests, same as above
+```
+
+As a simpler example, these two lines are equal, just written differently:
+>>>>>>> 51bc6d3cdc16b6eb79cb88820a58c4f037f3bf19
 
 ```js run
 let str1 = "Hello\nWorld"; // สองบรรทัดโดยใช้ "สัญลักษณ์ขึ้นบรรทัดใหม่"
@@ -81,6 +94,7 @@ World`;
 alert(str1 == str2); // true แสดงว่าทั้งสองสตริงเหมือนกัน
 ```
 
+<<<<<<< HEAD
 มีอักขระพิเศษอื่นๆ ที่พบได้น้อยกว่า:
 
 | อักขระ | คำอธิบาย |
@@ -104,6 +118,30 @@ alert( `The backslash: \\` ); // แสดงผล: แบ็คสแลช: \
 เครื่องหมายคำพูดที่ "หลบ" (escaped) `\'`, `\"`, <code>\\`</code> ใช้เพื่อแทรกเครื่องหมายคำพูดลงในสตริงที่ใช้เครื่องหมายคำพูดแบบเดียวกัน
 
 ตัวอย่างเช่น:
+=======
+There are other, less common special characters:
+
+| Character | Description |
+|-----------|-------------|
+|`\n`|New line|
+|`\r`|In Windows text files a combination of two characters `\r\n` represents a new break, while on non-Windows OS it's just `\n`. That's for historical reasons, most Windows software also understands `\n`. |
+|`\'`,&nbsp;`\"`,&nbsp;<code>\\`</code>|Quotes|
+|`\\`|Backslash|
+|`\t`|Tab|
+|`\b`, `\f`, `\v`| Backspace, Form Feed, Vertical Tab -- mentioned for completeness, coming from old times, not used nowadays (you can forget them right now). |
+
+As you can see, all special characters start with a backslash character `\`. It is also called an "escape character".
+
+Because it's so special, if we need to show an actual backslash `\` within the string, we need to double it:
+
+```js run
+alert( `The backslash: \\` ); // The backslash: \
+```
+
+So-called "escaped" quotes `\'`, `\"`, <code>\\`</code> are used to insert a quote into the same-quoted string.
+
+For instance:
+>>>>>>> 51bc6d3cdc16b6eb79cb88820a58c4f037f3bf19
 
 ```js run
 alert( 'I*!*\'*/!*m the Walrus!' ); // *!*I'm*/!* the Walrus!
@@ -118,11 +156,19 @@ alert( 'I*!*\'*/!*m the Walrus!' ); // *!*I'm*/!* the Walrus!
 alert( "I'm the Walrus!" ); // I'm the Walrus!
 ```
 
+<<<<<<< HEAD
 ในกรณีนี้ เราใช้เครื่องหมายคำพูดคู่ภายนอกและเครื่องหมายคำพูดเดี่ยวภายใน ทำให้ไม่ต้องใช้อักขระหลบและอ่านง่ายขึ้น 
 
 ## ความยาวของสตริง
 
 คุณสมบัติ `length` ใช้เพื่อหาความยาวของสตริง:
+=======
+Besides these special characters, there's also a special notation for Unicode codes `\u…`, it's rarely used and is covered in the optional chapter about [Unicode](info:unicode).
+
+## String length
+
+The `length` property has the string length:
+>>>>>>> 51bc6d3cdc16b6eb79cb88820a58c4f037f3bf19
 
 ```js run
 alert( `My\n`.length ); // 3
@@ -133,11 +179,16 @@ alert( `My\n`.length ); // 3
 ```warn header="`length` เป็นคุณสมบัติ"
 ผู้ที่มีพื้นฐานจากภาษาอื่นบางครั้งอาจเผลอเรียกใช้ `str.length()` แทนที่จะใช้แค่ `str.length` ซึ่งไม่ถูกต้องและจะทำให้โปรแกรมทำงานผิดพลาด
 
+<<<<<<< HEAD
 โปรดจำไว้ว่า `str.length` เป็นคุณสมบัติเชิงตัวเลข ไม่ใช่ฟังก์ชัน ไม่จำเป็นต้องเพิ่มวงเล็บหลังมัน เราใช้แค่ `.length` ไม่ใช่ `.length()`
+=======
+Please note that `str.length` is a numeric property, not a function. There is no need to add parenthesis after it. Not `.length()`, but `.length`.
+>>>>>>> 51bc6d3cdc16b6eb79cb88820a58c4f037f3bf19
 ```
 
 ## การเข้าถึงอักขระ
 
+<<<<<<< HEAD
 ในภาษา JavaScript เรามีวิธีการเข้าถึงอักขระในสตริงสองวิธีหลัก:
 
 1. การใช้วงเล็บเหลี่ยม `[]`
@@ -146,24 +197,41 @@ alert( `My\n`.length ); // 3
 ### การใช้วงเล็บเหลี่ยม
 
 เพื่อเข้าถึงอักขระที่ตำแหน่ง `pos` เราสามารถใช้วงเล็บเหลี่ยม `[pos]` โดยการนับเริ่มจาก 0:
+=======
+To get a character at position `pos`, use square brackets `[pos]` or call the method [str.at(pos)](mdn:js/String/at). The first character starts from the zero position:
+>>>>>>> 51bc6d3cdc16b6eb79cb88820a58c4f037f3bf19
 
 ```js run
 let str = `Hello`;
 
 // อักขระแรก
 alert( str[0] ); // H
+<<<<<<< HEAD
+=======
+alert( str.at(0) ); // H
+>>>>>>> 51bc6d3cdc16b6eb79cb88820a58c4f037f3bf19
 
 // อักขระสุดท้าย
 alert( str[str.length - 1] ); // o
+alert( str.at(-1) );
 ```
 
+<<<<<<< HEAD
 ### การใช้เมธอด at()
 
 อีกวิธีหนึ่งคือการใช้เมธอด [str.at(pos)](mdn:js/String/at) ซึ่งมีข้อดีคือสามารถใช้ค่าลบเพื่อนับจากท้ายสตริงได้:
+=======
+As you can see, the `.at(pos)` method has a benefit of allowing negative position. If `pos` is negative, then it's counted from the end of the string.
+
+So `.at(-1)` means the last character, and `.at(-2)` is the one before it, etc.
+
+The square brackets always return `undefined` for negative indexes, for instance:
+>>>>>>> 51bc6d3cdc16b6eb79cb88820a58c4f037f3bf19
 
 ```js run
 let str = `Hello`;
 
+<<<<<<< HEAD
 // อักขระแรก
 alert( str.at(0) ); // H
 
@@ -171,6 +239,9 @@ alert( str.at(0) ); // H
 alert( str.at(-1) ); // o
 
 // อักขระก่อนสุดท้าย
+=======
+alert( str[-2] ); // undefined
+>>>>>>> 51bc6d3cdc16b6eb79cb88820a58c4f037f3bf19
 alert( str.at(-2) ); // l
 ```
 
@@ -347,8 +418,13 @@ alert( "Widget".includes("id", 3) ); // false, ตั้งแต่ตำแห
 เมธอด [str.startsWith](mdn:js/String/startsWith) และ [str.endsWith](mdn:js/String/endsWith) ทำหน้าที่ตามชื่อของมันเลย คือตรวจสอบว่าสตริงขึ้นต้นหรือลงท้ายด้วยสตริงย่อยที่กำหนดหรือไม่:
 
 ```js run
+<<<<<<< HEAD
 alert( "*!*Wid*/!*get".startsWith("Wid") ); // true ขึ้นต้นด้วย "Wid"
 alert( "Wid*!*get*/!*".endsWith("get") ); // true ลงท้ายด้วย "get"
+=======
+alert( "*!*Wid*/!*get".startsWith("Wid") ); // true, "Widget" starts with "Wid"
+alert( "Wid*!*get*/!*".endsWith("get") ); // true, "Widget" ends with "get"
+>>>>>>> 51bc6d3cdc16b6eb79cb88820a58c4f037f3bf19
 ```
 
 ## การดึงสตริงย่อย
@@ -383,9 +459,15 @@ alert( "Wid*!*get*/!*".endsWith("get") ); // true ลงท้ายด้วย
     ```
 
 `str.substring(start [, end])`
+<<<<<<< HEAD
 : ส่งคืนส่วนของสตริง*ระหว่าง* `start` และ `end` (ไม่รวม `end`)
 
     การทำงานคล้ายกับ `slice` แต่มีความแตกต่างสำคัญคือ `substring` อนุญาตให้ `start` มีค่ามากกว่า `end` ได้ ในกรณีนี้มันจะสลับค่า `start` และ `end` โดยอัตโนมัติ
+=======
+: Returns the part of the string *between* `start` and `end` (not including `end`).
+
+    This is almost the same as `slice`, but it allows `start` to be greater than `end` (in this case it simply swaps `start` and `end` values).
+>>>>>>> 51bc6d3cdc16b6eb79cb88820a58c4f037f3bf19
 
     ตัวอย่างการใช้งาน:
 
@@ -421,24 +503,42 @@ alert( "Wid*!*get*/!*".endsWith("get") ); // true ลงท้ายด้วย
     alert( str.substr(-4, 2) ); // 'gi', จากตำแหน่งที่ 4 จากท้าย ดึง 2 อักขระ
     ```
 
+<<<<<<< HEAD
     อย่างไรก็ตาม ควรระมัดระวังในการใช้ `substr` เนื่องจากมีอยู่ใน [Annex B](https://tc39.es/ecma262/#sec-string.prototype.substr) ของข้อกำหนดภาษา JavaScript ซึ่งหมายความว่าอาจไม่ได้รับการสนับสนุนในสภาพแวดล้อมที่ไม่ใช่เบราว์เซอร์ แม้ว่าในทางปฏิบัติจะได้รับการสนับสนุนในเกือบทุกที่ แต่ก็ไม่แนะนำให้ใช้ในโค้ดใหม่
+=======
+    This method resides in the [Annex B](https://tc39.es/ecma262/#sec-string.prototype.substr) of the language specification. It means that only browser-hosted Javascript engines should support it, and it's not recommended to use it. In practice, it's supported everywhere.
+
+Let's recap these methods to avoid any confusion:
+>>>>>>> 51bc6d3cdc16b6eb79cb88820a58c4f037f3bf19
 
 สรุปเมธอดเหล่านี้เพื่อให้เข้าใจง่ายขึ้น:
 
 | เมธอด | เลือก... | ค่าลบ |
 |--------|-----------|-----------|
+<<<<<<< HEAD
 | `slice(start, end)` | จาก `start` ถึง `end` (ไม่รวม `end`) | อนุญาตค่าลบ |
 | `substring(start, end)` | ระหว่าง `start` และ `end` (ไม่รวม `end`) | ค่าลบหมายถึง `0` |
 | `substr(start, length)` | จาก `start` ดึง `length` อักขระ | อนุญาต `start` เป็นลบ |
+=======
+| `slice(start, end)` | from `start` to `end` (not including `end`) | allows negatives |
+| `substring(start, end)` | between `start` and `end` (not including `end`)| negative values mean `0` |
+| `substr(start, length)` | from `start` get `length` characters | allows negative `start` |
+>>>>>>> 51bc6d3cdc16b6eb79cb88820a58c4f037f3bf19
 
 ```smart header="ควรเลือกใช้เมธอดไหนดี?"
 ทั้งสามเมธอดสามารถทำงานได้ แต่แต่ละวิธีมีข้อดีและข้อจำกัดต่างกัน:
 
+<<<<<<< HEAD
 - `substr` มีข้อเสียคือไม่ได้อยู่ในข้อกำหนดหลักของ JavaScript แต่อยู่ใน Annex B ซึ่งครอบคลุมคุณลักษณะที่มีไว้เพื่อความเข้ากันได้กับโค้ดเก่าเป็นหลัก อาจมีปัญหาในสภาพแวดล้อมที่ไม่ใช่เบราว์เซอร์
 - `substring` มีพฤติกรรมแปลกๆ กับค่าลบ ซึ่งอาจทำให้สับสนได้
 - `slice` มีความยืดหยุ่นมากที่สุด รองรับค่าลบได้ และมีไวยากรณ์ที่เข้าใจง่าย
 
 ดังนั้น สำหรับการใช้งานทั่วไป การจดจำและใช้แค่ `slice` ก็เพียงพอและปลอดภัยที่สุด
+=======
+Of the other two variants, `slice` is a little bit more flexible, it allows negative arguments and shorter to write.
+
+So, for practical use it's enough to remember only `slice`.
+>>>>>>> 51bc6d3cdc16b6eb79cb88820a58c4f037f3bf19
 ```
 
 ## การเปรียบเทียบสตริง
@@ -459,6 +559,7 @@ alert( "Wid*!*get*/!*".endsWith("get") ); // true ลงท้ายด้วย
 
     ผลลัพธ์นี้อาจดูแปลกประหลาดถ้าเราเรียงลำดับชื่อประเทศ โดยปกติแล้วคนจะคาดหวังว่า `Zealand` ควรมาหลัง `Österreich` ในรายการที่เรียงตามตัวอักษร
 
+<<<<<<< HEAD
 เพื่อเข้าใจว่าทำไมจึงเป็นเช่นนี้ เราต้องรู้ว่าสตริงใน JavaScript ถูกเข้ารหัสโดยใช้ [UTF-16](https://en.wikipedia.org/wiki/UTF-16) ซึ่งหมายความว่าแต่ละอักขระมีรหัสตัวเลขที่สอดคล้องกัน
 
 JavaScript มีเมธอดพิเศษที่ช่วยให้เราได้รหัสของอักขระและสร้างอักขระจากรหัส:
@@ -471,6 +572,20 @@ JavaScript มีเมธอดพิเศษที่ช่วยให้เ
     alert( "Z".codePointAt(0) ); // 90
     alert( "z".codePointAt(0) ); // 122
     alert( "z".codePointAt(0).toString(16) ); // 7a (ถ้าเราต้องการค่าฐานสิบหก)
+=======
+To understand what happens, we should be aware that strings in Javascript are encoded using [UTF-16](https://en.wikipedia.org/wiki/UTF-16). That is: each character has a corresponding numeric code.
+
+There are special methods that allow to get the character for the code and back:
+
+`str.codePointAt(pos)`
+: Returns a decimal number representing the code for the character at position `pos`:
+
+    ```js run
+    // different case letters have different codes
+    alert( "Z".codePointAt(0) ); // 90
+    alert( "z".codePointAt(0) ); // 122
+    alert( "z".codePointAt(0).toString(16) ); // 7a (if we need a hexadecimal value)
+>>>>>>> 51bc6d3cdc16b6eb79cb88820a58c4f037f3bf19
     ```
 
 `String.fromCodePoint(code)`
@@ -478,10 +593,17 @@ JavaScript มีเมธอดพิเศษที่ช่วยให้เ
 
     ```js run
     alert( String.fromCodePoint(90) ); // Z
+<<<<<<< HEAD
     alert( String.fromCodePoint(0x5a) ); // Z (เราสามารถใช้ค่าฐานสิบหกเป็นอาร์กิวเมนต์ได้ด้วย)
     ```
 
 เราสามารถทดลองดูอักขระที่มีรหัสระหว่าง 65 ถึง 220 (ซึ่งครอบคลุมตัวอักษรละตินและสัญลักษณ์พิเศษบางตัว) ได้ดังนี้:
+=======
+    alert( String.fromCodePoint(0x5a) ); // Z (we can also use a hex value as an argument)
+    ```
+
+Now let's see the characters with codes `65..220` (the latin alphabet and a little bit extra) by making a string of them:
+>>>>>>> 51bc6d3cdc16b6eb79cb88820a58c4f037f3bf19
 
 ```js run
 let str = '';
@@ -490,8 +612,13 @@ for (let i = 65; i <= 220; i++) {
   str += String.fromCodePoint(i);
 }
 alert( str );
+<<<<<<< HEAD
 // ผลลัพธ์:
 // ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~
+=======
+// Output:
+// ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~
+>>>>>>> 51bc6d3cdc16b6eb79cb88820a58c4f037f3bf19
 // ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜ
 ```
 
@@ -511,7 +638,21 @@ alert( str );
 
 เราสามารถใช้เมธอด [str.localeCompare(str2)](mdn:js/String/localeCompare) เพื่อเปรียบเทียบสตริงตามกฎภาษา:
 
+<<<<<<< HEAD
 ตัวอย่างเช่น:
+=======
+Luckily, modern browsers support the internationalization standard [ECMA-402](https://www.ecma-international.org/publications-and-standards/standards/ecma-402/).
+
+It provides a special method to compare strings in different languages, following their rules.
+
+The call [str.localeCompare(str2)](mdn:js/String/localeCompare) returns an integer indicating whether `str` is less, equal or greater than `str2` according to the language rules:
+
+- Returns a negative number if `str` is less than `str2`.
+- Returns a positive number if `str` is greater than `str2`.
+- Returns `0` if they are equivalent.
+
+For instance:
+>>>>>>> 51bc6d3cdc16b6eb79cb88820a58c4f037f3bf19
 
 ```js run
 alert( 'Österreich'.localeCompare('Zealand') ); // -1
@@ -520,6 +661,7 @@ alert( 'Österreich'.localeCompare('Zealand') ); // -1
 
 เมธอด `localeCompare` มีอาร์กิวเมนต์เพิ่มเติมที่ช่วยให้เราสามารถปรับแต่งการเปรียบเทียบได้ดังนี้:
 
+<<<<<<< HEAD
 ```js
 str.localeCompare(str2, [locales, [options]])
 ```
@@ -572,3 +714,24 @@ str.localeCompare(str2, [locales, [options]])
 สำหรับการค้นหาและแทนที่ที่ซับซ้อนมากขึ้น JavaScript รองรับการใช้นิพจน์ทั่วไป (Regular Expressions) ซึ่งเป็นเครื่องมือที่ทรงพลังสำหรับการจัดการกับรูปแบบของสตริง
 
 สุดท้าย เมื่อทำงานกับสตริงที่มีอักขระพิเศษหรือต้องการความถูกต้องในการจัดการกับ Unicode ควรศึกษาเพิ่มเติมเกี่ยวกับการทำงานของ Unicode ใน JavaScript เพื่อหลีกเลี่ยงปัญหาที่อาจเกิดขึ้นกับอักขระบางตัว ดูเพิ่มเติมได้ที่บทเรียนนี้ info:unicode
+=======
+## Summary
+
+- There are 3 types of quotes. Backticks allow a string to span multiple lines and embed expressions `${…}`.
+- We can use special characters, such as a line break `\n`.
+- To get a character, use: `[]` or `at` method.
+- To get a substring, use: `slice` or `substring`.
+- To lowercase/uppercase a string, use: `toLowerCase/toUpperCase`.
+- To look for a substring, use: `indexOf`, or `includes/startsWith/endsWith` for simple checks.
+- To compare strings according to the language, use: `localeCompare`, otherwise they are compared by character codes.
+
+There are several other helpful methods in strings:
+
+- `str.trim()` -- removes ("trims") spaces from the beginning and end of the string.
+- `str.repeat(n)` -- repeats the string `n` times.
+- ...and more to be found in the [manual](mdn:js/String).
+
+Strings also have methods for doing search/replace with regular expressions. But that's big topic, so it's explained in a separate tutorial section <info:regular-expressions>.
+
+Also, as of now it's important to know that strings are based on Unicode encoding, and hence there're issues with comparisons. There's more about Unicode in the chapter <info:unicode>.
+>>>>>>> 51bc6d3cdc16b6eb79cb88820a58c4f037f3bf19

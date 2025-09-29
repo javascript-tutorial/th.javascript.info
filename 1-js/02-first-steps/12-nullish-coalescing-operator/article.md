@@ -4,7 +4,11 @@
 
 ตัวดำเนินการรวม nullish เขียนด้วยเครื่องหมายคำถามสองตัวติดกัน `??` 
 
+<<<<<<< HEAD
 ในบทความนี้เราจะใช้ศัพท์เฉพาะ เนื่องจาก `null` และ `undefined` ถูกจัดการในลักษณะคล้ายกัน เพื่อให้กระชับ เราจะเรียกว่าค่าหนึ่ง "ถูกกำหนด" เมื่อไม่ใช่ทั้ง `null` และ `undefined`
+=======
+As it treats `null` and `undefined` similarly, we'll use a special term here, in this article. For brevity, we'll say that a value is "defined" when it's neither `null` nor `undefined`.
+>>>>>>> 51bc6d3cdc16b6eb79cb88820a58c4f037f3bf19
 
 ผลลัพธ์ของ `a ?? b` จะเป็น:
 - ถ้า `a` ถูกกำหนด ผลลัพธ์คือ `a`
@@ -22,14 +26,24 @@ result = (a !== null && a !== undefined) ? a : b;
 
 ตอนนี้น่าจะชัดเจนแล้วว่า `??` ทำอะไร มาดูกันว่ามันมีประโยชน์อย่างไรบ้าง
 
+<<<<<<< HEAD
 กรณีใช้งานทั่วไปของ `??` คือการกำหนดค่าเริ่มต้น (default)
 
 ตัวอย่างเช่น ตรงนี้เราจะแสดง `user` ถ้าค่าไม่ใช่ `null/undefined` ไม่อย่างนั้นจะแสดง `Anonymous`:
+=======
+The common use case for `??` is to provide a default value.
+
+For example, here we show `user` if its value isn't `null/undefined`, otherwise `Anonymous`:
+>>>>>>> 51bc6d3cdc16b6eb79cb88820a58c4f037f3bf19
 
 ```js run
 let user;
 
+<<<<<<< HEAD
 alert(user ?? "Anonymous"); // Anonymous (user เป็น undefined)
+=======
+alert(user ?? "Anonymous"); // Anonymous (user is undefined)
+>>>>>>> 51bc6d3cdc16b6eb79cb88820a58c4f037f3bf19
 ```
 
 นี่คือตัวอย่างที่กำหนด `user` เป็นชื่อ:
@@ -37,14 +51,24 @@ alert(user ?? "Anonymous"); // Anonymous (user เป็น undefined)
 ```js run
 let user = "John";
 
+<<<<<<< HEAD
 alert(user ?? "Anonymous"); // John (user ไม่ใช่ null/undefined)
+=======
+alert(user ?? "Anonymous"); // John (user is not null/undefined)
+>>>>>>> 51bc6d3cdc16b6eb79cb88820a58c4f037f3bf19
 ```
 
 เรายังสามารถใช้ `??` หลายตัวต่อกัน เพื่อเลือกค่าแรกจาก list ที่ไม่ใช่ `null/undefined` ได้ด้วย
 
+<<<<<<< HEAD
 สมมติเรามีข้อมูลผู้ใช้ในตัวแปร `firstName`, `lastName` หรือ `nickName` ซึ่งอาจไม่ถูกกำหนดค่า หากผู้ใช้ไม่ได้กรอกข้อมูลที่เกี่ยวข้อง
 
 เราต้องการแสดงชื่อผู้ใช้จากตัวแปรเหล่านี้ตัวใดตัวหนึ่ง หรือแสดง "Anonymous" ถ้าทุกตัวเป็น `null/undefined`
+=======
+Let's say we have a user's data in variables `firstName`, `lastName` or `nickName`. All of them may be not defined, if the user decided not to fill in the corresponding values.
+
+We'd like to display the user name using one of these variables, or show "Anonymous" if all of them are `null/undefined`.
+>>>>>>> 51bc6d3cdc16b6eb79cb88820a58c4f037f3bf19
 
 มาใช้ตัวดำเนินการ `??` กันเลย:
 
@@ -76,7 +100,11 @@ alert(firstName || lastName || nickName || "Anonymous"); // Supercoder
 */!*
 ```
 
+<<<<<<< HEAD
 ย้อนไปในอดีต ตัวดำเนินการ OR `||` มีมาก่อนตั้งแต่ JavaScript เริ่มต้น นักพัฒนาจึงใช้มันเพื่อวัตถุประสงค์แบบนี้มานาน
+=======
+Historically, the OR `||` operator was there first. It's been there since the beginning of JavaScript, so developers were using it for such purposes for a long time.
+>>>>>>> 51bc6d3cdc16b6eb79cb88820a58c4f037f3bf19
 
 ในทางกลับกัน ตัวดำเนินการรวม nullish `??` เพิ่งถูกเพิ่มเข้ามาใน JavaScript ไม่นานมานี้ สาเหตุเพราะคนไม่ค่อยพอใจกับ `||` นัก
 
@@ -106,11 +134,19 @@ alert(height ?? 100); // 0
 
 ## ลำดับความสำคัญ
 
+<<<<<<< HEAD
 ตัวดำเนินการ `??` มีลำดับความสำคัญเท่ากับ `||` ทั้งคู่มีค่าเท่ากับ `3` ในตาราง [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence#Table)
+=======
+The precedence of the `??` operator is the same as `||`. They both equal `3` in the [MDN table](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence#Table).
+>>>>>>> 51bc6d3cdc16b6eb79cb88820a58c4f037f3bf19
 
 นั่นหมายความว่า เช่นเดียวกับ `||` ตัวดำเนินการรวม nullish `??` จะถูกประเมินก่อน `=` และ `?` แต่หลังการดำเนินการอื่นๆ ส่วนใหญ่ เช่น `+`, `*`
 
+<<<<<<< HEAD
 ดังนั้นในนิพจน์แบบนี้ เราอาจต้องใส่วงเล็บเพิ่ม:
+=======
+So we may need to add parentheses in expressions like this:
+>>>>>>> 51bc6d3cdc16b6eb79cb88820a58c4f037f3bf19
 
 ```js run
 let height = null;
@@ -128,7 +164,11 @@ alert(area); // 5000
 // ไม่มีวงเล็บ
 let area = height ?? 100 * width ?? 50;
 
+<<<<<<< HEAD
 // ...ทำงานแบบนี้ (ไม่ใช่สิ่งที่เราต้องการ):
+=======
+// ...works this way (not what we want):
+>>>>>>> 51bc6d3cdc16b6eb79cb88820a58c4f037f3bf19
 let area = height ?? (100 * width) ?? 50;
 ```
 

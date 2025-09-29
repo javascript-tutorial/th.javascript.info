@@ -170,8 +170,13 @@ alert( new SmallUser().name );  // John
 
 โดยทั่วไปแล้ว constructor มักจะไม่มีคำสั่ง `return` ในที่นี้เราพูดถึงพฤติกรรมพิเศษ ในการคืนค่าเป็นออบเจ็กต์ เพื่อให้ข้อมูลครบถ้วนสมบูรณ์
 
+<<<<<<< HEAD
 ````smart header="ละวงเล็บ"
 ที่จริงแล้ว เราสามารถละวงเล็บต่อท้าย `new` ได้ ถ้าไม่มีอาร์กิวเมนต์:
+=======
+````smart header="Omitting parentheses"
+By the way, we can omit parentheses after `new`:
+>>>>>>> 51bc6d3cdc16b6eb79cb88820a58c4f037f3bf19
 
 ```js
 let user = new User; // <-- ไม่มีวงเล็บ
