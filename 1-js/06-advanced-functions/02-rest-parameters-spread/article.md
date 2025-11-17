@@ -23,7 +23,11 @@ function sum(a, b) {
 alert( sum(1, 2, 3, 4, 5) );
 ```
 
+<<<<<<< HEAD
 ในโค้ดตัวอย่างนี้ จะไม่เกิด error จากการที่มีตัวแปรที่มากไป แต่ ฟังก์ชั่น sum จะถูกคำนวนจาก arguments แค่ 2 ตัวแรกเท่านั้น
+=======
+There will be no error because of "excessive" arguments. But of course in the result only the first two will be counted, so the result in the code above is `3`.
+>>>>>>> 5e893cffce8e2346d4e50926d5148c70af172533
 
 parameters ที่เหลือสามารถเขียนเพิ่มในฟังก์ชั่นได้ผ่านการใช้จุดสามจุด `...` แล้วตามด้วยชื่อของ array นั้น โดยจุดหมายถึง การรวม parameters ที่เหลือใน array ด้วย
 
