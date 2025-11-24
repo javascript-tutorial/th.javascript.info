@@ -22,7 +22,7 @@
 
 หน้าตาจะออกมาประมาณนี้:
 
-![chrome](chrome.png)
+![chrome](chrome.webp)
 
 รูปลักษณ์ที่แน่นอนของเครื่องมือนักพัฒนาขึ้นอยู่กับเวอร์ชันของ Chrome ที่ใช้ มันมีการเปลี่ยนแปลงไปเรื่อยๆ แต่น่าจะคล้ายๆ กับในภาพ
 
@@ -49,7 +49,11 @@
 
 Safari (เบราว์เซอร์ของ Mac ไม่รองรับ Windows/Linux) จะแตกต่างออกไปเล็กน้อย เราต้องเปิดใช้งาน "Develop menu" ก่อน
 
+<<<<<<< HEAD
 ไปที่ Preferences และเลือกแท็บ "Advanced" จะเห็นช่องทำเครื่องหมายที่ด้านล่างของหน้า:
+=======
+Open Settings and go to the "Advanced" pane. There's a checkbox at the bottom:
+>>>>>>> d78b01e9833009fab534462e05c03cffc51bf0e3
 
 ![safari](safari.png)
 
