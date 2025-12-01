@@ -209,8 +209,16 @@ alert( undefined == 0 ); // false (3)
 
 ## สรุป
 
+<<<<<<< HEAD
 - ตัวดำเนินการเปรียบเทียบให้ค่าเป็น boolean
 - การเปรียบเทียบ string จะเปรียบเทียบทีละตัวอักษรตามลำดับ "พจนานุกรม"
 - เมื่อเปรียบเทียบค่าต่างประเภทกัน ค่าจะถูกแปลงเป็นตัวเลข (ยกเว้นการตรวจสอบความเท่ากันอย่างเข้มงวด) 
 - ค่า `null` และ `undefined` เท่ากันเฉพาะเมื่อใช้ `==` และไม่เท่ากับค่าอื่นใดทั้งสิ้น
 - ระมัดระวังเมื่อใช้การเปรียบเทียบ เช่น `>` หรือ `<` กับตัวแปรที่อาจเป็น `null/undefined` ได้ บางครั้งการตรวจสอบ `null/undefined` แยกต่างหากถือเป็นแนวทางที่ดี
+=======
+- Comparison operators return a boolean value.
+- Strings are compared letter-by-letter in the "dictionary" order.
+- When values of different types are compared, they get converted to numbers (with the exclusion of a strict equality check).
+- The values `null` and `undefined` are equal `==` to themselves and each other, but do not equal any other value.
+- Be careful when using comparisons like `>` or `<` with variables that can occasionally be `null/undefined`. Checking for `null/undefined` separately is a good idea.
+>>>>>>> d78b01e9833009fab534462e05c03cffc51bf0e3
