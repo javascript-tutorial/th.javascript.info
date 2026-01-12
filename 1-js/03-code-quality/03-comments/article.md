@@ -142,7 +142,11 @@ function pow(x, n) {
 
 ในทางกลับกัน เครื่องมือแก้ไขโค้ดหลายตัวเช่น [WebStorm](https://www.jetbrains.com/webstorm/) ก็สามารถอ่านคอมเมนต์เหล่านี้และใช้เพื่อช่วยเติมโค้ดอัตโนมัติและตรวจสอบโค้ดบางอย่างโดยอัตโนมัติได้
 
+<<<<<<< HEAD
 และยังมีเครื่องมืออย่าง [JSDoc 3](https://github.com/jsdoc/jsdoc) ที่สามารถสร้างเอกสาร HTML จากคอมเมนต์ คุณสามารถอ่านข้อมูลเพิ่มเติมเกี่ยวกับ JSDoc ได้ที่ <https://jsdoc.app>
+=======
+Also, there are tools like [JSDoc 3](https://github.com/jsdoc/jsdoc) that can generate HTML-documentation from the comments. You can read more information about JSDoc at <https://jsdoc.app>.
+>>>>>>> d78b01e9833009fab534462e05c03cffc51bf0e3
 
 ทำไมปัญหาถึงได้รับการแก้ไขด้วยวิธีนี้?
 : สิ่งที่เขียนไว้นั้นสำคัญ แต่สิ่งที่ *ไม่ได้* เขียนอาจจะสำคัญยิ่งกว่าในการทำความเข้าใจว่ากำลังเกิดอะไรขึ้น ทำไมปัญหาถึงถูกแก้ไขด้วยวิธีนี้พอดี? โค้ดไม่ได้ให้คำตอบ
