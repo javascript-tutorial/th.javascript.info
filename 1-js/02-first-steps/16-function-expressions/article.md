@@ -82,14 +82,20 @@ let sayHi = function() { // (1) สร้าง
   alert( "Hello" );
 };
 
-let func = sayHi;
+let func = sayHi;  //(2)
 // ...
 ```
 
 ทุกอย่างจะทำงานเหมือนเดิม
 
+<<<<<<< HEAD
 ```smart header="ทำไมต้องมีเครื่องหมายอัฒภาคตามหลัง?"
 คุณอาจสงสัยว่าทำไมนิพจน์ฟังก์ชันถึงต้องมีเครื่องหมายอัฒภาค `;` ท้ายประโยค แต่การประกาศฟังก์ชันไม่ต้องมี:
+=======
+
+````smart header="Why is there a semicolon at the end?"
+You might wonder, why do Function Expressions have a semicolon `;` at the end, but Function Declarations do not:
+>>>>>>> d78b01e9833009fab534462e05c03cffc51bf0e3
 
 ```js
 function sayHi() {
@@ -142,13 +148,21 @@ function showCancel() {
 ask("Do you agree?", showOk, showCancel);
 ```
 
+<<<<<<< HEAD
 ในทางปฏิบัติ ฟังก์ชันเหล่านี้มีประโยชน์มาก ความแตกต่างหลักระหว่าง `ask` ในชีวิตจริงกับตัวอย่างข้างต้นคือ ฟังก์ชันในชีวิตจริงใช้วิธีที่ซับซ้อนกว่าในการโต้ตอบกับผู้ใช้ นอกเหนือจากการใช้ `confirm` ธรรมดา ในเบราว์เซอร์ ฟังก์ชันเหล่านี้มักสร้างหน้าต่างคำถามที่สวยงาม แต่นั่นเป็นอีกเรื่องหนึ่ง
+=======
+In practice, such functions are quite useful. The major difference between a real-life `ask` and the example above is that real-life functions use more complex ways to interact with the user than a simple `confirm`. In the browser, such functions usually draw a nice-looking question window. But that's another story.
+>>>>>>> d78b01e9833009fab534462e05c03cffc51bf0e3
 
 **อาร์กิวเมนต์ `showOk` และ `showCancel` ของ `ask` เรียกว่า *ฟังก์ชันคอลแบ็ก* หรือ *คอลแบ็ก***
 
 แนวคิดคือ เราส่งฟังก์ชันไป และคาดหวังว่ามันจะถูก "เรียกกลับ (called back)" ในภายหลังหากจำเป็น ในกรณีของเรา `showOk` เป็นคอลแบ็กสำหรับคำตอบ "ใช่" และ `showCancel` สำหรับคำตอบ "ไม่"
 
+<<<<<<< HEAD
 เราสามารถใช้นิพจน์ฟังก์ชันเพื่อเขียนฟังก์ชันเทียบเท่าที่สั้นกว่าได้:
+=======
+We can use Function Expressions to write an equivalent, shorter function:
+>>>>>>> d78b01e9833009fab534462e05c03cffc51bf0e3
 
 ```js run no-beautify
 function ask(question, yes, no) {
@@ -183,7 +197,13 @@ ask(
 
 ประการแรก ในแง่วากยสัมพันธ์: วิธีแยกแยะทั้งสองแบบในโค้ด
 
+<<<<<<< HEAD
 - *การประกาศฟังก์ชัน:* ฟังก์ชันที่ประกาศเป็นประโยคแยกต่างหาก ในเนื้อหาหลักของโค้ด:
+=======
+First, the syntax: how to differentiate between them in the code.
+
+- *Function Declaration:* a function, declared as a separate statement, in the main code flow:
+>>>>>>> d78b01e9833009fab534462e05c03cffc51bf0e3
 
     ```js
     // การประกาศฟังก์ชัน
@@ -191,7 +211,11 @@ ask(
       return a + b;
     }
     ```
+<<<<<<< HEAD
 - *นิพจน์ฟังก์ชัน:* ฟังก์ชันที่ถูกสร้างภายในนิพจน์ หรือภายในโครงสร้างไวยากรณ์อื่นๆ ในที่นี้ ฟังก์ชันถูกสร้างขึ้นทางด้านขวาของ "นิพจน์การกำหนดค่า" `=`:
+=======
+- *Function Expression:* a function, created inside an expression or inside another syntax construct. Here, the function is created on the right side of the "assignment expression" `=`:
+>>>>>>> d78b01e9833009fab534462e05c03cffc51bf0e3
 
     ```js
     // นิพจน์ฟังก์ชัน
@@ -280,7 +304,46 @@ welcome(); // Error: welcome is not defined
 
 วิธีที่ถูกต้องคือการใช้นิพจน์ฟังก์ชันและกำหนดค่า `welcome` ให้กับตัวแปรที่ประกาศไว้นอก `if` ซึ่งมีการมองเห็นที่เหมาะสม
 
+<<<<<<< HEAD
 โค้ดนี้ทำงานตามที่ตั้งใจไว้:
+=======
+```js run
+let age = 16; // take 16 as an example
+
+if (age < 18) {
+*!*
+  welcome();               // \   (runs)
+*/!*
+                           //  |
+  function welcome() {     //  |
+    alert("Hello!");       //  |  Function Declaration is available
+  }                        //  |  everywhere in the block where it's declared
+                           //  |
+*!*
+  welcome();               // /   (runs)
+*/!*
+
+} else {
+
+  function welcome() {
+    alert("Greetings!");
+  }
+}
+
+// Here we're out of curly braces,
+// so we can not see Function Declarations made inside of them.
+
+*!*
+welcome(); // Error: welcome is not defined
+*/!*
+```
+
+What can we do to make `welcome` visible outside of `if`?
+
+The correct approach would be to use a Function Expression and assign `welcome` to the variable that is declared outside of `if` and has the proper visibility.
+
+This code works as intended:
+>>>>>>> d78b01e9833009fab534462e05c03cffc51bf0e3
 
 ```js run
 let age = prompt("What is your age?", 18);
@@ -321,8 +384,13 @@ welcome(); // ตอนนี้ใช้ได้แล้ว
 ```
 
 
+<<<<<<< HEAD
 ```smart header="เมื่อไหร่ควรเลือกใช้การประกาศฟังก์ชัน หรือนิพจน์ฟังก์ชัน?"
 โดยหลักการทั่วไป เมื่อเราต้องการประกาศฟังก์ชัน สิ่งแรกที่ควรพิจารณาคือใช้ไวยากรณ์แบบการประกาศฟังก์ชัน เพราะมันให้อิสระในการจัดวางโค้ดมากกว่า เนื่องจากเราสามารถเรียกใช้ฟังก์ชันเหล่านั้นได้ก่อนที่จะมีการประกาศ
+=======
+```smart header="When to choose Function Declaration versus Function Expression?"
+As a rule of thumb, when we need to declare a function, the first thing to consider is Function Declaration syntax. It gives more freedom in how to organize our code, because we can call such functions before they are declared.
+>>>>>>> d78b01e9833009fab534462e05c03cffc51bf0e3
 
 นอกจากนี้ยังอ่านทำความเข้าใจง่ายกว่า เพราะมองหา `function f(…) {…}` ในโค้ดได้ง่ายกว่า `let f = function(…) {…};` การประกาศฟังก์ชันนั้น "โดดเด่นมากกว่า"
 
