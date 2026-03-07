@@ -1,97 +1,97 @@
 
-# Map and Set
+# Map และ Set
 
-Till now, we've learned about the following complex data structures:
+ก่อนหน้านี้เราได้รู้จักโครงสร้างข้อมูลสองแบบแล้ว:
 
-- Objects are used for storing keyed collections.
-- Arrays are used for storing ordered collections.
+- ออบเจ็กต์ — เก็บข้อมูลแบบมี key
+- อาร์เรย์ — เก็บข้อมูลแบบมีลำดับ
 
-But that's not enough for real life. That's why `Map` and `Set` also exist.
+แต่สำหรับงานจริงๆ บางครั้งสองแบบนี้ก็ยังไม่พอ `Map` และ `Set` จึงเกิดขึ้นมาเพื่อเติมเต็มจุดนั้น
 
 ## Map
 
-[Map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map) is a collection of keyed data items, just like an `Object`. But the main difference is that `Map` allows keys of any type.
+[Map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map) คือคอลเล็กชันของข้อมูลแบบมี key คล้ายกับ `Object` แต่ข้อแตกต่างสำคัญคือ `Map` ให้ใช้ key เป็น **ชนิดข้อมูลใดก็ได้**
 
-Methods and properties are:
+เมธอดและพร็อพเพอร์ตี้ที่มี:
 
-- [`new Map()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/Map) -- creates the map.
-- [`map.set(key, value)`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/set) -- stores the value by the key.
-- [`map.get(key)`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/get) -- returns the value by the key, `undefined` if `key` doesn't exist in map.
-- [`map.has(key)`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/has) -- returns `true` if the `key` exists, `false` otherwise.
-- [`map.delete(key)`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/delete) -- removes the element (the key/value pair) by the key.
-- [`map.clear()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/clear) -- removes everything from the map.
-- [`map.size`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/size) -- returns the current element count.
+- [`new Map()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/Map) -- สร้าง map ใหม่
+- [`map.set(key, value)`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/set) -- บันทึกค่า value ด้วย key ที่กำหนด
+- [`map.get(key)`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/get) -- คืนค่า value ตาม key ที่กำหนด หากไม่มี key นั้นจะคืนค่า `undefined`
+- [`map.has(key)`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/has) -- คืนค่า `true` ถ้า key มีอยู่ใน map, `false` ถ้าไม่มี
+- [`map.delete(key)`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/delete) -- ลบ element (คู่ key/value) ตาม key ที่กำหนด
+- [`map.clear()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/clear) -- ลบทุกอย่างออกจาก map
+- [`map.size`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/size) -- คืนค่าจำนวน element ปัจจุบัน
 
-For instance:
+ตัวอย่าง:
 
 ```js run
 let map = new Map();
 
-map.set('1', 'str1');   // a string key
-map.set(1, 'num1');     // a numeric key
-map.set(true, 'bool1'); // a boolean key
+map.set('1', 'str1');   // key เป็น string
+map.set(1, 'num1');     // key เป็นตัวเลข
+map.set(true, 'bool1'); // key เป็น boolean
 
-// remember the regular Object? it would convert keys to string
-// Map keeps the type, so these two are different:
+// จำ Object ธรรมดาได้ไหม? มันจะแปลง key ให้เป็น string เสมอ
+// แต่ Map เก็บชนิดข้อมูลไว้ ดังนั้นสองตัวนี้ต่างกัน:
 alert( map.get(1)   ); // 'num1'
 alert( map.get('1') ); // 'str1'
 
 alert( map.size ); // 3
 ```
 
-As we can see, unlike objects, keys are not converted to strings. Any type of key is possible.
+ต่างจาก Object ตรงนี้แหละ — Map ไม่แปลง key เป็น string key จะเป็นชนิดใดก็ได้ทั้งนั้น
 
-```smart header="`map[key]` isn't the right way to use a `Map`"
-Although `map[key]` also works, e.g. we can set `map[key] = 2`, this is treating `map` as a plain JavaScript object, so it implies all corresponding limitations (only string/symbol keys and so on).
+```smart header="`map[key]` ไม่ใช่วิธีที่ถูกต้องในการใช้ `Map`"
+แม้ว่า `map[key]` จะใช้ได้ เช่น `map[key] = 2` แต่นั่นคือการใช้ `map` เสมือน plain JavaScript object ทั่วไป ซึ่งมีข้อจำกัดทั้งหมดของ Object (key ได้แค่ string หรือ symbol เป็นต้น)
 
-So we should use `map` methods: `set`, `get` and so on.
+ดังนั้น ควรใช้เมธอดของ `map` แทน ได้แก่ `set`, `get` และอื่นๆ
 ```
 
-**Map can also use objects as keys.**
+**Map ยังใช้ออบเจ็กต์เป็น key ได้ด้วย**
 
-For instance:
+ตัวอย่าง:
 
 ```js run
 let john = { name: "John" };
 
-// for every user, let's store their visits count
+// เก็บจำนวนครั้งที่ผู้ใช้แต่ละคนเข้าเยี่ยมชม
 let visitsCountMap = new Map();
 
-// john is the key for the map
+// john เป็น key ของ map
 visitsCountMap.set(john, 123);
 
 alert( visitsCountMap.get(john) ); // 123
 ```
 
-Using objects as keys is one of the most notable and important `Map` features. The same does not count for `Object`. String as a key in `Object` is fine, but we can't use another `Object` as a key in `Object`.
+นี่คือหนึ่งในฟีเจอร์ที่โดดเด่นที่สุดของ `Map` — ใช้ออบเจ็กต์เป็น key ได้เลย ซึ่ง `Object` ทำไม่ได้ เพราะ Object ธรรมดาใช้ string เป็น key ได้ แต่ไม่สามารถใช้ Object อื่นเป็น key ได้
 
-Let's try:
+ลองดูตัวอย่าง:
 
 ```js run
 let john = { name: "John" };
 let ben = { name: "Ben" };
 
-let visitsCountObj = {}; // try to use an object
+let visitsCountObj = {}; // ลองใช้ object ธรรมดา
 
-visitsCountObj[ben] = 234; // try to use ben object as the key
-visitsCountObj[john] = 123; // try to use john object as the key, ben object will get replaced
+visitsCountObj[ben] = 234; // ลองใช้ ben object เป็น key
+visitsCountObj[john] = 123; // ลองใช้ john object เป็น key ซึ่งจะทับ ben object
 
 *!*
-// That's what got written!
-alert( visitsCountObj["[object Object]"] ); // 123 
+// ผลลัพธ์ที่ได้จริงๆ คือ:
+alert( visitsCountObj["[object Object]"] ); // 123
 */!*
 ```
 
-As `visitsCountObj` is an object, it converts all `Object` keys, such as `john` and `ben` above, to same string `"[object Object]"`. Definitely not what we want.
+เนื่องจาก `visitsCountObj` เป็น object ธรรมดา ไม่ว่าจะใส่ `john` หรือ `ben` เป็น key มันจะแปลงให้เป็น string เดียวกันคือ `"[object Object]"` ซึ่งไม่ใช่สิ่งที่ต้องการแน่นอน
 
-```smart header="How `Map` compares keys"
-To test keys for equivalence, `Map` uses the algorithm [SameValueZero](https://tc39.github.io/ecma262/#sec-samevaluezero). It is roughly the same as strict equality `===`, but the difference is that `NaN` is considered equal to `NaN`. So `NaN` can be used as the key as well.
+```smart header="`Map` เปรียบเทียบ key อย่างไร"
+`Map` ใช้อัลกอริทึม [SameValueZero](https://tc39.github.io/ecma262/#sec-samevaluezero) ในการเปรียบเทียบ key ซึ่งคล้ายกับ strict equality `===` แต่ต่างตรงที่ `NaN` ถือว่าเท่ากับ `NaN` จึงใช้ `NaN` เป็น key ได้เช่นกัน
 
-This algorithm can't be changed or customized.
+อัลกอริทึมนี้ไม่สามารถเปลี่ยนหรือปรับแต่งได้
 ```
 
-````smart header="Chaining"
-Every `map.set` call returns the map itself, so we can "chain" the calls:
+````smart header="การเชื่อมต่อเมธอด (Chaining)"
+ทุกครั้งที่เรียก `map.set` จะได้รับ map กลับคืนมา จึงเชื่อมการเรียกต่อกันได้แบบนี้:
 
 ```js
 map.set('1', 'str1')
@@ -100,15 +100,15 @@ map.set('1', 'str1')
 ```
 ````
 
-## Iteration over Map
+## การวนซ้ำบน Map
 
-For looping over a `map`, there are 3 methods:
+วนซ้ำบน `map` ได้ด้วยเมธอดสามแบบ:
 
-- [`map.keys()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/keys) -- returns an iterable for keys,
-- [`map.values()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/values) -- returns an iterable for values,
-- [`map.entries()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/entries) -- returns an iterable for entries `[key, value]`, it's used by default in `for..of`.
+- [`map.keys()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/keys) -- คืนค่า iterable สำหรับ key ทั้งหมด
+- [`map.values()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/values) -- คืนค่า iterable สำหรับ value ทั้งหมด
+- [`map.entries()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/entries) -- คืนค่า iterable สำหรับ entry ในรูป `[key, value]` ซึ่งเป็นค่าที่ `for..of` ใช้โดยค่าเริ่มต้น
 
-For instance:
+ตัวอย่าง:
 
 ```js run
 let recipeMap = new Map([
@@ -117,41 +117,41 @@ let recipeMap = new Map([
   ['onion',    50]
 ]);
 
-// iterate over keys (vegetables)
+// วนซ้ำบน key (ผัก)
 for (let vegetable of recipeMap.keys()) {
   alert(vegetable); // cucumber, tomatoes, onion
 }
 
-// iterate over values (amounts)
+// วนซ้ำบน value (ปริมาณ)
 for (let amount of recipeMap.values()) {
   alert(amount); // 500, 350, 50
 }
 
-// iterate over [key, value] entries
-for (let entry of recipeMap) { // the same as of recipeMap.entries()
-  alert(entry); // cucumber,500 (and so on)
+// วนซ้ำบน entry แบบ [key, value]
+for (let entry of recipeMap) { // เหมือนกับ recipeMap.entries()
+  alert(entry); // cucumber,500 (และอื่นๆ)
 }
 ```
 
-```smart header="The insertion order is used"
-The iteration goes in the same order as the values were inserted. `Map` preserves this order, unlike a regular `Object`.
+```smart header="ลำดับการแทรกถูกนำมาใช้"
+การวนซ้ำจะเป็นลำดับเดียวกับที่แทรกค่าเข้าไป `Map` รักษาลำดับนี้ไว้ ต่างจาก Object ธรรมดา
 ```
 
-Besides that, `Map` has a built-in `forEach` method, similar to `Array`:
+นอกจากนี้ `Map` ยังมีเมธอด `forEach` แบบ built-in คล้ายกับ `Array`:
 
 ```js
-// runs the function for each (key, value) pair
+// เรียกฟังก์ชันสำหรับแต่ละคู่ (key, value)
 recipeMap.forEach( (value, key, map) => {
-  alert(`${key}: ${value}`); // cucumber: 500 etc
+  alert(`${key}: ${value}`); // cucumber: 500 เป็นต้น
 });
 ```
 
-## Object.entries: Map from Object
+## Object.entries: สร้าง Map จาก Object
 
-When a `Map` is created, we can pass an array (or another iterable) with key/value pairs for initialization, like this:
+ตอนสร้าง `Map` เราส่งอาร์เรย์ (หรือ iterable อื่นๆ) ที่มีคู่ key/value เพื่อกำหนดค่าเริ่มต้นได้เลย:
 
 ```js run
-// array of [key, value] pairs
+// อาร์เรย์ของคู่ [key, value]
 let map = new Map([
   ['1',  'str1'],
   [1,    'num1'],
@@ -161,9 +161,9 @@ let map = new Map([
 alert( map.get('1') ); // str1
 ```
 
-If we have a plain object, and we'd like to create a `Map` from it, then we can use built-in method [Object.entries(obj)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/entries) that returns an array of key/value pairs for an object exactly in that format.
+ถ้ามี plain object อยู่แล้วและต้องการแปลงเป็น `Map` ใช้เมธอด built-in [Object.entries(obj)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/entries) ได้เลย มันคืนค่าอาร์เรย์ของคู่ key/value ในรูปแบบที่ต้องการพอดี
 
-So we can create a map from an object like this:
+สร้าง map จาก object ได้แบบนี้:
 
 ```js run
 let obj = {
@@ -178,14 +178,12 @@ let map = new Map(Object.entries(obj));
 alert( map.get('name') ); // John
 ```
 
-Here, `Object.entries` returns the array of key/value pairs: `[ ["name","John"], ["age", 30] ]`. That's what `Map` needs.
+`Object.entries` คืนค่าอาร์เรย์ `[ ["name","John"], ["age", 30] ]` ซึ่งเป็นรูปแบบที่ `Map` ต้องการพอดี
 
 
-## Object.fromEntries: Object from Map
+## Object.fromEntries: สร้าง Object จาก Map
 
-We've just seen how to create `Map` from a plain object with `Object.entries(obj)`.
-
-There's `Object.fromEntries` method that does the reverse: given an array of `[key, value]` pairs, it creates an object from them:
+ถ้า `Object.entries` แปลง object เป็น Map ได้ `Object.fromEntries` ก็ทำสิ่งตรงกันข้าม — รับอาร์เรย์ของคู่ `[key, value]` แล้วสร้าง object กลับออกมา:
 
 ```js run
 let prices = Object.fromEntries([
@@ -194,16 +192,12 @@ let prices = Object.fromEntries([
   ['meat', 4]
 ]);
 
-// now prices = { banana: 1, orange: 2, meat: 4 }
+// ตอนนี้ prices = { banana: 1, orange: 2, meat: 4 }
 
 alert(prices.orange); // 2
 ```
 
-We can use `Object.fromEntries` to get a plain object from `Map`.
-
-E.g. we store the data in a `Map`, but we need to pass it to a 3rd-party code that expects a plain object.
-
-Here we go:
+ใช้ `Object.fromEntries` แปลง `Map` กลับเป็น plain object ได้ เช่น เก็บข้อมูลไว้ใน `Map` แต่ต้องส่งให้โค้ดของ third-party ที่รับแค่ plain object — ทำแบบนี้:
 
 ```js run
 let map = new Map();
@@ -212,42 +206,40 @@ map.set('orange', 2);
 map.set('meat', 4);
 
 *!*
-let obj = Object.fromEntries(map.entries()); // make a plain object (*)
+let obj = Object.fromEntries(map.entries()); // แปลงเป็น plain object (*)
 */!*
 
-// done!
+// เสร็จแล้ว!
 // obj = { banana: 1, orange: 2, meat: 4 }
 
 alert(obj.orange); // 2
 ```
 
-A call to `map.entries()` returns an iterable of key/value pairs, exactly in the right format for `Object.fromEntries`.
+`map.entries()` คืนค่า iterable ของคู่ key/value ในรูปแบบที่ `Object.fromEntries` ต้องการพอดี
 
-We could also make line `(*)` shorter:
+ย่อบรรทัด `(*)` ให้สั้นลงได้อีก:
 ```js
-let obj = Object.fromEntries(map); // omit .entries()
+let obj = Object.fromEntries(map); // ละ .entries() ออก
 ```
 
-That's the same, because `Object.fromEntries` expects an iterable object as the argument. Not necessarily an array. And the standard iteration for `map` returns same key/value pairs as `map.entries()`. So we get a plain object with same key/values as the `map`.
+ผลลัพธ์เหมือนกัน เพราะ `Object.fromEntries` รับ iterable object เป็น argument ไม่จำเป็นต้องเป็นอาร์เรย์เสมอไป และการวนซ้ำมาตรฐานของ `map` คืนค่าคู่ key/value เหมือนกับ `map.entries()` ทุกประการ
 
 ## Set
 
-A [`Set`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set) is a special type collection - "set of values" (without keys), where each value may occur only once.
+[`Set`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set) คือคอลเล็กชันชนิดพิเศษ — "ชุดของค่า" (ไม่มี key) ที่ **แต่ละค่าปรากฏได้เพียงครั้งเดียว**
 
-Its main methods are:
+เมธอดหลักที่มี:
 
-- [`new Set([iterable])`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/Set) -- creates the set, and if an `iterable` object is provided (usually an array), copies values from it into the set.
-- [`set.add(value)`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/add) -- adds a value, returns the set itself.
-- [`set.delete(value)`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/delete) -- removes the value, returns `true` if `value` existed at the moment of the call, otherwise `false`.
-- [`set.has(value)`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/has) -- returns `true` if the value exists in the set, otherwise `false`.
-- [`set.clear()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/clear) -- removes everything from the set.
-- [`set.size`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/size) -- is the elements count.
+- [`new Set([iterable])`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/Set) -- สร้าง set ใหม่ ถ้าส่ง `iterable` มาด้วย (ปกติเป็นอาร์เรย์) จะคัดลอกค่าจากมันเข้า set
+- [`set.add(value)`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/add) -- เพิ่มค่า และคืนค่า set กลับมา
+- [`set.delete(value)`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/delete) -- ลบค่า คืนค่า `true` ถ้า value มีอยู่ตอนที่เรียก มิฉะนั้นคืน `false`
+- [`set.has(value)`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/has) -- คืนค่า `true` ถ้าค่ามีอยู่ใน set มิฉะนั้นคืน `false`
+- [`set.clear()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/clear) -- ลบทุกอย่างออกจาก set
+- [`set.size`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/size) -- จำนวน element ทั้งหมด
 
-The main feature is that repeated calls of `set.add(value)` with the same value don't do anything. That's the reason why each value appears in a `Set` only once.
+จุดเด่นคือการเรียก `set.add(value)` ซ้ำด้วยค่าเดิมจะไม่มีผลใดๆ นั่นเองที่ทำให้แต่ละค่าปรากฏใน `Set` ได้เพียงครั้งเดียว
 
-For example, we have visitors coming, and we'd like to remember everyone. But repeated visits should not lead to duplicates. A visitor must be "counted" only once.
-
-`Set` is just the right thing for that:
+สมมติมีผู้เยี่ยมชมเข้ามา และต้องการจำทุกคน — แต่ไม่อยากให้คนเดิมซ้ำกัน ผู้เยี่ยมชมคนหนึ่งควรนับแค่ครั้งเดียว `Set` เหมาะกับงานนี้พอดี:
 
 ```js run
 let set = new Set();
@@ -256,76 +248,76 @@ let john = { name: "John" };
 let pete = { name: "Pete" };
 let mary = { name: "Mary" };
 
-// visits, some users come multiple times
+// ผู้เยี่ยมชม บางคนมาหลายครั้ง
 set.add(john);
 set.add(pete);
 set.add(mary);
 set.add(john);
 set.add(mary);
 
-// set keeps only unique values
+// set เก็บเฉพาะค่าที่ไม่ซ้ำกัน
 alert( set.size ); // 3
 
 for (let user of set) {
-  alert(user.name); // John (then Pete and Mary)
+  alert(user.name); // John (แล้วก็ Pete และ Mary)
 }
 ```
 
-The alternative to `Set` could be an array of users, and the code to check for duplicates on every insertion using [arr.find](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find). But the performance would be much worse, because this method walks through the whole array checking every element. `Set` is much better optimized internally for uniqueness checks.
+อีกทางหนึ่งคือใช้อาร์เรย์แล้วตรวจสอบซ้ำทุกครั้งที่เพิ่มด้วย [arr.find](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find) แต่ประสิทธิภาพจะแย่กว่ามาก เพราะ `arr.find` ต้องวนอ่านอาร์เรย์ทั้งหมดทุกครั้ง ส่วน `Set` ถูกออกแบบมาให้ตรวจสอบความเป็นเอกลักษณ์ได้รวดเร็วกว่ามาก
 
-## Iteration over Set
+## การวนซ้ำบน Set
 
-We can loop over a set either with `for..of` or using `forEach`:
+วนซ้ำบน set ได้ด้วย `for..of` หรือ `forEach`:
 
 ```js run
 let set = new Set(["oranges", "apples", "bananas"]);
 
 for (let value of set) alert(value);
 
-// the same with forEach:
+// แบบเดียวกันกับ forEach:
 set.forEach((value, valueAgain, set) => {
   alert(value);
 });
 ```
 
-Note the funny thing. The callback function passed in `forEach` has 3 arguments: a `value`, then *the same value* `valueAgain`, and then the target object. Indeed, the same value appears in the arguments twice.
+สังเกตสิ่งที่น่าแปลกใจ — callback ที่ส่งให้ `forEach` มี 3 argument คือ `value`, *ค่าเดิมอีกครั้ง* `valueAgain`, และ object เป้าหมาย ค่าเดิมปรากฏถึงสองครั้ง ดูแปลกๆ ใช่ไหม?
 
-That's for compatibility with `Map` where the callback passed `forEach` has three arguments. Looks a bit strange, for sure. But this may help to replace `Map` with `Set` in certain cases with ease, and vice versa.
+เหตุผลคือเพื่อความเข้ากันได้กับ `Map` ซึ่ง callback ของ `forEach` มีสาม argument เหมือนกัน ข้อดีคือช่วยให้สลับระหว่าง `Map` กับ `Set` ได้ง่ายในบางกรณี
 
-The same methods `Map` has for iterators are also supported:
+เมธอด iterator ที่ `Map` มีก็รองรับใน `Set` ด้วย:
 
-- [`set.keys()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/keys) -- returns an iterable object for values,
-- [`set.values()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/values) -- same as `set.keys()`, for compatibility with `Map`,
-- [`set.entries()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/entries) -- returns an iterable object for entries `[value, value]`, exists for compatibility with `Map`.
+- [`set.keys()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/keys) -- คืนค่า iterable object สำหรับ value ทั้งหมด
+- [`set.values()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/values) -- เหมือนกับ `set.keys()` ไว้รองรับความเข้ากันได้กับ `Map`
+- [`set.entries()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/entries) -- คืนค่า iterable object สำหรับ entry ในรูป `[value, value]` ไว้รองรับความเข้ากันได้กับ `Map`
 
-## Summary
+## สรุป
 
-[`Map`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map) -- is a collection of keyed values.
+[`Map`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map) -- คือคอลเล็กชันของค่าแบบมี key
 
-Methods and properties:
+เมธอดและพร็อพเพอร์ตี้:
 
-- [`new Map([iterable])`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/Map) -- creates the map, with optional `iterable` (e.g. array) of `[key,value]` pairs for initialization.
-- [`map.set(key, value)`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/set) -- stores the value by the key, returns the map itself.
-- [`map.get(key)`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/get) -- returns the value by the key, `undefined` if `key` doesn't exist in map.
-- [`map.has(key)`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/has) -- returns `true` if the `key` exists, `false` otherwise.
-- [`map.delete(key)`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/delete) -- removes the element by the key, returns `true` if `key` existed at the moment of the call, otherwise `false`.
-- [`map.clear()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/clear) -- removes everything from the map.
-- [`map.size`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/size) -- returns the current element count.
+- [`new Map([iterable])`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/Map) -- สร้าง map ใหม่ โดยมี `iterable` (เช่น อาร์เรย์) ของคู่ `[key,value]` สำหรับกำหนดค่าเริ่มต้นได้ (ไม่บังคับ)
+- [`map.set(key, value)`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/set) -- บันทึกค่า value ด้วย key และคืนค่า map กลับมา
+- [`map.get(key)`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/get) -- คืนค่า value ตาม key, `undefined` ถ้าไม่มี key นั้น
+- [`map.has(key)`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/has) -- คืนค่า `true` ถ้า key มีอยู่, `false` ถ้าไม่มี
+- [`map.delete(key)`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/delete) -- ลบ element ตาม key คืนค่า `true` ถ้า key มีอยู่ตอนที่เรียก มิฉะนั้นคืน `false`
+- [`map.clear()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/clear) -- ลบทุกอย่างออกจาก map
+- [`map.size`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/size) -- คืนค่าจำนวน element ปัจจุบัน
 
-The differences from a regular `Object`:
+ข้อแตกต่างจาก `Object` ธรรมดา:
 
-- Any keys, objects can be keys.
-- Additional convenient methods, the `size` property.
+- key เป็นชนิดใดก็ได้ รวมถึงออบเจ็กต์
+- มีเมธอดอำนวยความสะดวกเพิ่มเติม และพร็อพเพอร์ตี้ `size`
 
-[`Set`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set) -- is a collection of unique values.
+[`Set`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set) -- คือคอลเล็กชันของค่าที่ไม่ซ้ำกัน
 
-Methods and properties:
+เมธอดและพร็อพเพอร์ตี้:
 
-- [`new Set([iterable])`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/Set) -- creates the set, with optional `iterable` (e.g. array) of values for initialization.
-- [`set.add(value)`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/add) -- adds a value (does nothing if `value` exists), returns the set itself.
-- [`set.delete(value)`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/delete) -- removes the value, returns `true` if `value` existed at the moment of the call, otherwise `false`.
-- [`set.has(value)`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/has) -- returns `true` if the value exists in the set, otherwise `false`.
-- [`set.clear()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/clear) -- removes everything from the set.
-- [`set.size`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/size) -- is the elements count.
+- [`new Set([iterable])`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/Set) -- สร้าง set ใหม่ โดยมี `iterable` (เช่น อาร์เรย์) ของค่าสำหรับกำหนดค่าเริ่มต้นได้ (ไม่บังคับ)
+- [`set.add(value)`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/add) -- เพิ่มค่า (ไม่ทำอะไรถ้า value มีอยู่แล้ว) คืนค่า set กลับมา
+- [`set.delete(value)`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/delete) -- ลบค่า คืนค่า `true` ถ้า value มีอยู่ตอนที่เรียก มิฉะนั้นคืน `false`
+- [`set.has(value)`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/has) -- คืนค่า `true` ถ้าค่ามีอยู่ใน set มิฉะนั้นคืน `false`
+- [`set.clear()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/clear) -- ลบทุกอย่างออกจาก set
+- [`set.size`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/size) -- จำนวน element ทั้งหมด
 
-Iteration over `Map` and `Set` is always in the insertion order, so we can't say that these collections are unordered, but we can't reorder elements or directly get an element by its number.
+การวนซ้ำบน `Map` และ `Set` จะเป็นลำดับเดียวกับที่แทรกค่าเข้าไปเสมอ จึงพูดไม่ได้ว่าคอลเล็กชันเหล่านี้ไม่มีลำดับ — แต่ก็ไม่สามารถจัดเรียงใหม่หรือดึง element โดยตรงจากหมายเลขลำดับได้

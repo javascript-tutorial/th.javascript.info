@@ -1,42 +1,42 @@
 
 # Object.keys, values, entries
 
-Let's step away from the individual data structures and talk about the iterations over them.
+มาพักจากโครงสร้างข้อมูลแต่ละตัวสักครู่ แล้วมาคุยเรื่องการวนซ้ำผ่านข้อมูลเหล่านั้นกัน
 
-In the previous chapter we saw methods `map.keys()`, `map.values()`, `map.entries()`.
+บทที่แล้วเราได้รู้จัก `map.keys()`, `map.values()`, `map.entries()` กันไปแล้ว
 
-These methods are generic, there is a common agreement to use them for data structures. If we ever create a data structure of our own, we should implement them too.
+เมธอดพวกนี้ถือเป็นแบบแผนสากล — ทุกโครงสร้างข้อมูลควรมีเมธอดเหล่านี้ ถ้าสร้างโครงสร้างข้อมูลขึ้นมาเอง ก็ควรมีเมธอดเหล่านี้ด้วยเช่นกัน
 
-They are supported for:
+รองรับในโครงสร้างต่อไปนี้:
 
 - `Map`
 - `Set`
 - `Array`
 
-Plain objects also support similar methods, but the syntax is a bit different.
+ออบเจ็กต์ธรรมดาก็มีเมธอดในแบบเดียวกัน แต่ไวยากรณ์ต่างออกไปเล็กน้อย
 
 ## Object.keys, values, entries
 
-For plain objects, the following methods are available:
+สำหรับออบเจ็กต์ธรรมดา มีเมธอดต่อไปนี้:
 
-- [Object.keys(obj)](mdn:js/Object/keys) -- returns an array of keys.
-- [Object.values(obj)](mdn:js/Object/values) -- returns an array of values.
-- [Object.entries(obj)](mdn:js/Object/entries) -- returns an array of `[key, value]` pairs.
+- [Object.keys(obj)](mdn:js/Object/keys) -- คืนค่าอาร์เรย์ของ key ทั้งหมด
+- [Object.values(obj)](mdn:js/Object/values) -- คืนค่าอาร์เรย์ของ value ทั้งหมด
+- [Object.entries(obj)](mdn:js/Object/entries) -- คืนค่าอาร์เรย์ของคู่ `[key, value]`
 
-Please note the distinctions (compared to map for example):
+สังเกตความแตกต่าง (เทียบกับ Map):
 
 |             | Map              | Object       |
 |-------------|------------------|--------------|
-| Call syntax | `map.keys()`  | `Object.keys(obj)`, but not `obj.keys()` |
-| Returns     | iterable    | "real" Array                     |
+| วิธีเรียกใช้ | `map.keys()`  | `Object.keys(obj)` ไม่ใช่ `obj.keys()` |
+| คืนค่า     | iterable    | อาร์เรย์จริงๆ                     |
 
-The first difference is that we have to call `Object.keys(obj)`, and not `obj.keys()`.
+ข้อแรกคือต้องเรียก `Object.keys(obj)` ไม่ใช่ `obj.keys()`
 
-Why so? The main reason is flexibility. Remember, objects are a base of all complex structures in JavaScript. So we may have an object of our own like `data` that implements its own `data.values()` method. And we still can call `Object.values(data)` on it.
+ทำไมถึงเป็นแบบนี้? เพราะต้องการความยืดหยุ่น จำไว้ว่าออบเจ็กต์คือรากฐานของทุกโครงสร้างใน JavaScript เราอาจสร้างออบเจ็กต์อย่าง `data` ที่มีเมธอด `data.values()` เป็นของตัวเอง — แต่ยังเรียก `Object.values(data)` ได้เสมอ
 
-The second difference is that `Object.*` methods return "real" array objects, not just an iterable. That's mainly for historical reasons.
+ข้อสองคือ `Object.*` คืนค่าเป็นอาร์เรย์จริงๆ ไม่ใช่แค่ iterable เหตุผลส่วนใหญ่เป็นเรื่องของประวัติศาสตร์ภาษา
 
-For instance:
+ตัวอย่างเช่น:
 
 ```js
 let user = {
@@ -49,7 +49,7 @@ let user = {
 - `Object.values(user) = ["John", 30]`
 - `Object.entries(user) = [ ["name","John"], ["age",30] ]`
 
-Here's an example of using `Object.values` to loop over property values:
+ตัวอย่างการใช้ `Object.values` เพื่อวนซ้ำผ่าน value ของพร็อพเพอร์ตี้:
 
 ```js run
 let user = {
@@ -57,30 +57,30 @@ let user = {
   age: 30
 };
 
-// loop over values
+// วนซ้ำผ่าน value ทั้งหมด
 for (let value of Object.values(user)) {
-  alert(value); // John, then 30
+  alert(value); // John แล้วก็ 30
 }
 ```
 
-```warn header="Object.keys/values/entries ignore symbolic properties"
-Just like a `for..in` loop, these methods ignore properties that use `Symbol(...)` as keys.
+```warn header="Object.keys/values/entries ไม่สนใจพร็อพเพอร์ตี้ที่เป็น Symbol"
+เช่นเดียวกับลูป `for..in` เมธอดเหล่านี้จะข้ามพร็อพเพอร์ตี้ที่ใช้ `Symbol(...)` เป็น key
 
-Usually that's convenient. But if we want symbolic keys too, then there's a separate method [Object.getOwnPropertySymbols](mdn:js/Object/getOwnPropertySymbols) that returns an array of only symbolic keys. Also, there exist a method [Reflect.ownKeys(obj)](mdn:js/Reflect/ownKeys) that returns *all* keys.
+ส่วนใหญ่ก็สะดวกดี แต่ถ้าต้องการ symbolic key ด้วย ใช้ [Object.getOwnPropertySymbols](mdn:js/Object/getOwnPropertySymbols) ซึ่งคืนค่าเป็นอาร์เรย์ของ symbolic key โดยเฉพาะ หรือจะใช้ [Reflect.ownKeys(obj)](mdn:js/Reflect/ownKeys) ที่คืนค่า key *ทั้งหมด* ก็ได้
 ```
 
 
-## Transforming objects
+## การแปลงออบเจ็กต์
 
-Objects lack many methods that exist for arrays, e.g. `map`, `filter` and others.
+ออบเจ็กต์ไม่มีเมธอดหลายตัวที่อาร์เรย์มี เช่น `map`, `filter` เป็นต้น
 
-If we'd like to apply them, then we can use `Object.entries` followed by `Object.fromEntries`:
+ถ้าอยากใช้เมธอดพวกนั้น ให้จับคู่ `Object.entries` กับ `Object.fromEntries` ดังนี้:
 
-1. Use `Object.entries(obj)` to get an array of key/value pairs from `obj`.
-2. Use array methods on that array, e.g. `map`, to transform these key/value pairs.
-3. Use `Object.fromEntries(array)` on the resulting array to turn it back into an object.
+1. ใช้ `Object.entries(obj)` เพื่อดึงอาร์เรย์ของคู่ key/value จาก `obj`
+2. ใช้เมธอดของอาร์เรย์ เช่น `map` เพื่อแปลงคู่ key/value ตามที่ต้องการ
+3. ใช้ `Object.fromEntries(array)` แปลงอาร์เรย์ผลลัพธ์กลับเป็นออบเจ็กต์
 
-For example, we have an object with prices, and would like to double them:
+ตัวอย่างเช่น ถ้ามีออบเจ็กต์ราคาสินค้า และต้องการคูณราคาทุกอย่างด้วย 2:
 
 ```js run
 let prices = {
@@ -91,8 +91,8 @@ let prices = {
 
 *!*
 let doublePrices = Object.fromEntries(
-  // convert prices to array, map each key/value pair into another pair
-  // and then fromEntries gives back the object
+  // แปลง prices เป็นอาร์เรย์ แล้ว map แต่ละคู่ key/value ให้เป็นคู่ใหม่
+  // จากนั้น fromEntries แปลงกลับเป็นออบเจ็กต์
   Object.entries(prices).map(entry => [entry[0], entry[1] * 2])
 );
 */!*
@@ -100,4 +100,4 @@ let doublePrices = Object.fromEntries(
 alert(doublePrices.meat); // 8
 ```
 
-It may look difficult at first sight, but becomes easy to understand after you use it once or twice. We can make powerful chains of transforms this way.
+ดูซับซ้อนตอนแรก แต่ลองใช้สักครั้งสองครั้งก็จะคุ้นเอง เทคนิคนี้ต่อโซ่การแปลงข้อมูลได้อย่างมีพลัง

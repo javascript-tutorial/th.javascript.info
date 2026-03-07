@@ -1,20 +1,20 @@
 
 # Iterables
 
-*Iterable* objects are a generalization of arrays. That's a concept that allows us to make any object useable in a `for..of` loop.
+*Iterable* คือแนวคิดที่ขยายออกมาจากอาร์เรย์ — ช่วยให้เราเอาออบเจ็กต์ใดก็ได้ไปใช้ใน `for..of` loop ได้
 
-Of course, Arrays are iterable. But there are many other built-in objects, that are iterable as well. For instance, strings are also iterable.
+อาร์เรย์เป็น iterable อยู่แล้ว แต่ built-in object อื่นๆ ก็เป็น iterable ด้วย อย่างสตริงก็เช่นกัน
 
-If an object isn't technically an array, but represents a collection (list, set) of something, then `for..of` is a great syntax to loop over it, so let's see how to make it work.
+ถ้ามีออบเจ็กต์ที่ไม่ใช่อาร์เรย์ แต่แทนคอลเล็กชัน (list, set) ของบางอย่าง `for..of` ก็เป็นวิธีวนซ้ำที่ดีมาก มาดูกันว่าทำให้ใช้งานได้อย่างไร
 
 
 ## Symbol.iterator
 
-We can easily grasp the concept of iterables by making one of our own.
+วิธีที่เข้าใจง่ายที่สุดคือลองสร้าง iterable ขึ้นมาเอง
 
-For instance, we have an object that is not an array, but looks suitable for `for..of`.
+สมมติว่ามีออบเจ็กต์ที่ไม่ใช่อาร์เรย์ แต่เหมาะกับ `for..of`
 
-Like a `range` object that represents an interval of numbers:
+เช่น ออบเจ็กต์ `range` ที่แทนช่วงของตัวเลข:
 
 ```js
 let range = {
@@ -22,18 +22,18 @@ let range = {
   to: 5
 };
 
-// We want the for..of to work:
+// เราอยากให้ for..of ทำงานได้:
 // for(let num of range) ... num=1,2,3,4,5
 ```
 
-To make the `range` object iterable (and thus let `for..of` work) we need to add a method to the object named `Symbol.iterator` (a special built-in symbol just for that).
+การทำให้ `range` เป็น iterable (เพื่อให้ `for..of` ใช้งานได้) ต้องเพิ่มเมธอดชื่อ `Symbol.iterator` ลงในออบเจ็กต์ ซึ่งเป็น built-in symbol พิเศษสำหรับเรื่องนี้โดยเฉพาะ
 
-1. When `for..of` starts, it calls that method once (or errors if not found). The method must return an *iterator* -- an object with the method `next`.
-2. Onward, `for..of` works *only with that returned object*.
-3. When `for..of` wants the next value, it calls `next()` on that object.
-4. The result of `next()` must have the form `{done: Boolean, value: any}`, where `done=true` means that the loop is finished, otherwise `value` is the next value.
+1. ตอนที่ `for..of` เริ่มทำงาน จะเรียกเมธอดนั้นหนึ่งครั้ง (ถ้าไม่พบจะเกิดข้อผิดพลาด) เมธอดต้องคืนค่าเป็น *iterator* — ออบเจ็กต์ที่มีเมธอด `next`
+2. จากนั้น `for..of` จะทำงาน *กับออบเจ็กต์ที่คืนมาเท่านั้น*
+3. ทุกครั้งที่ต้องการค่าถัดไป `for..of` จะเรียก `next()` บนออบเจ็กต์นั้น
+4. ผลลัพธ์จาก `next()` ต้องอยู่ในรูป `{done: Boolean, value: any}` — `done=true` แปลว่าลูปจบแล้ว ถ้ายังไม่จบ `value` คือค่าถัดไป
 
-Here's the full implementation for `range` with remarks:
+ด้านล่างคือโค้ดครบถ้วนสำหรับ `range` พร้อมคำอธิบาย:
 
 ```js run
 let range = {
@@ -41,18 +41,18 @@ let range = {
   to: 5
 };
 
-// 1. call to for..of initially calls this
+// 1. การเรียก for..of ครั้งแรกจะเรียกฟังก์ชันนี้
 range[Symbol.iterator] = function() {
 
-  // ...it returns the iterator object:
-  // 2. Onward, for..of works only with the iterator object below, asking it for next values
+  // ...ซึ่งคืนค่าเป็นออบเจ็กต์ iterator:
+  // 2. จากนั้น for..of จะทำงานกับออบเจ็กต์ iterator ด้านล่างเท่านั้น โดยขอค่าถัดไปจากมัน
   return {
     current: this.from,
     last: this.to,
 
-    // 3. next() is called on each iteration by the for..of loop
+    // 3. next() จะถูกเรียกในแต่ละรอบของ for..of loop
     next() {
-      // 4. it should return the value as an object {done:.., value :...}
+      // 4. ต้องคืนค่าในรูปออบเจ็กต์ {done:.., value :...}
       if (this.current <= this.last) {
         return { done: false, value: this.current++ };
       } else {
@@ -62,22 +62,22 @@ range[Symbol.iterator] = function() {
   };
 };
 
-// now it works!
+// ตอนนี้ใช้งานได้แล้ว!
 for (let num of range) {
-  alert(num); // 1, then 2, 3, 4, 5
+  alert(num); // 1, แล้วก็ 2, 3, 4, 5
 }
 ```
 
-Please note the core feature of iterables: separation of concerns.
+จุดสำคัญของ iterable คือการแยกหน้าที่กันอย่างชัดเจน (separation of concerns)
 
-- The `range` itself does not have the `next()` method.
-- Instead, another object, a so-called "iterator" is created by the call to `range[Symbol.iterator]()`, and its `next()` generates values for the iteration.
+- ตัว `range` เองไม่มีเมธอด `next()`
+- แต่เมื่อเรียก `range[Symbol.iterator]()` จะสร้างออบเจ็กต์ "iterator" ขึ้นมาอีกตัว แล้วเมธอด `next()` ของมันทำหน้าที่สร้างค่าในการวนซ้ำ
 
-So, the iterator object is separate from the object it iterates over.
+กล่าวคือ iterator แยกออกจากออบเจ็กต์ที่กำลังวนซ้ำ
 
-Technically, we may merge them and use `range` itself as the iterator to make the code simpler.
+ถ้าต้องการให้โค้ดกระชับขึ้น ก็รวมทั้งสองเข้าด้วยกันได้ โดยให้ `range` เป็น iterator ของตัวเองไปเลย
 
-Like this:
+แบบนี้:
 
 ```js run
 let range = {
@@ -99,55 +99,55 @@ let range = {
 };
 
 for (let num of range) {
-  alert(num); // 1, then 2, 3, 4, 5
+  alert(num); // 1, แล้วก็ 2, 3, 4, 5
 }
 ```
 
-Now `range[Symbol.iterator]()` returns the `range` object itself:  it has the necessary `next()` method and remembers the current iteration progress in `this.current`. Shorter? Yes. And sometimes that's fine too.
+ตอนนี้ `range[Symbol.iterator]()` คืนค่าเป็นออบเจ็กต์ `range` เอง ซึ่งมีเมธอด `next()` ครบ และเก็บสถานะการวนซ้ำไว้ใน `this.current` กระชับขึ้นใช่ไหม? ใช่เลย และบางบริบทก็เหมาะดี
 
-The downside is that now it's impossible to have two `for..of` loops running over the object simultaneously: they'll share the iteration state, because there's only one iterator -- the object itself. But two parallel for-ofs is a rare thing, even in async scenarios.
+ข้อเสียคือ `for..of` สองตัวรันพร้อมกันบนออบเจ็กต์เดียวไม่ได้ เพราะทั้งคู่จะแชร์สถานะร่วมกัน — มี iterator แค่ตัวเดียวคือตัวออบเจ็กต์นั่นเอง แต่ก็ไม่ค่อยมีใครวนแบบขนานสองตัวพร้อมกันอยู่แล้ว แม้แต่ในสถานการณ์ async
 
 ```smart header="Infinite iterators"
-Infinite iterators are also possible. For instance, the `range` becomes infinite for `range.to = Infinity`. Or we can make an iterable object that generates an infinite sequence of pseudorandom numbers. Also can be useful.
+Infinite iterators เป็นไปได้เช่นกัน เช่น `range` จะกลายเป็นอนันต์เมื่อกำหนด `range.to = Infinity` หรือสร้างออบเจ็กต์ iterable ที่ผลิตลำดับตัวเลขสุ่ม (pseudorandom) ต่อเนื่องไปเรื่อยๆ ก็ได้ ซึ่งมีประโยชน์ในหลายกรณี
 
-There are no limitations on `next`, it can return more and more values, that's normal.
+`next` ไม่มีข้อจำกัด คืนค่าได้เรื่อยๆ ถือเป็นเรื่องปกติ
 
-Of course, the `for..of` loop over such an iterable would be endless. But we can always stop it using `break`.
+แน่นอนว่า `for..of` ที่วนซ้ำ iterable แบบนี้จะไม่มีวันจบ แต่หยุดได้เสมอด้วย `break`
 ```
 
 
-## String is iterable
+## สตริงเป็น iterable
 
-Arrays and strings are most widely used built-in iterables.
+อาร์เรย์กับสตริงเป็น built-in iterables ที่ใช้บ่อยที่สุด
 
-For a string, `for..of` loops over its characters:
+สำหรับสตริง `for..of` จะวนผ่านตัวอักษรทีละตัว:
 
 ```js run
 for (let char of "test") {
-  // triggers 4 times: once for each character
-  alert( char ); // t, then e, then s, then t
+  // ทำงาน 4 รอบ: หนึ่งรอบต่อหนึ่งตัวอักษร
+  alert( char ); // t, แล้วก็ e, แล้วก็ s, แล้วก็ t
 }
 ```
 
-And it works correctly with surrogate pairs!
+และยังทำงานได้ถูกต้องกับ surrogate pairs อีกด้วย!
 
 ```js run
 let str = '𝒳😂';
 for (let char of str) {
-    alert( char ); // 𝒳, and then 😂
+    alert( char ); // 𝒳, แล้วก็ 😂
 }
 ```
 
-## Calling an iterator explicitly
+## การเรียก iterator โดยตรง
 
-For deeper understanding, let's see how to use an iterator explicitly.
+อยากเข้าใจให้ลึกขึ้น ลองใช้ iterator โดยตรงดูกัน
 
-We'll iterate over a string in exactly the same way as `for..of`, but with direct calls. This code creates a string iterator and gets values from it "manually":
+เราจะวนสตริงแบบเดียวกับ `for..of` แต่เรียกเองด้วยมือ โค้ดด้านล่างสร้าง string iterator แล้วดึงค่าออกมาทีละตัว:
 
 ```js run
 let str = "Hello";
 
-// does the same as
+// ทำงานเหมือนกับ
 // for (let char of str) alert(char);
 
 *!*
@@ -157,49 +157,49 @@ let iterator = str[Symbol.iterator]();
 while (true) {
   let result = iterator.next();
   if (result.done) break;
-  alert(result.value); // outputs characters one by one
+  alert(result.value); // แสดงตัวอักษรทีละตัว
 }
 ```
 
-That is rarely needed, but gives us more control over the process than `for..of`. For instance, we can split the iteration process: iterate a bit, then stop, do something else, and then resume later.
+วิธีนี้ไม่ค่อยจำเป็นนัก แต่ควบคุมได้มากกว่า `for..of` เช่น วนไปสักพัก แล้วหยุด ไปทำอย่างอื่นก่อน แล้วค่อยกลับมาวนต่อทีหลัง
 
-## Iterables and array-likes [#array-like]
+## Iterables และ array-likes [#array-like]
 
-Two official terms look similar, but are very different. Please make sure you understand them well to avoid the confusion.
+สองคำนี้ดูคล้ายกัน แต่จริงๆ ต่างกันมาก ควรเข้าใจให้ชัดเพื่อไม่ให้สับสน
 
-- *Iterables* are objects that implement the `Symbol.iterator` method, as described above.
-- *Array-likes* are objects that have indexes and `length`, so they look like arrays.
+- *Iterables* คือออบเจ็กต์ที่ implement เมธอด `Symbol.iterator` ตามที่อธิบายไว้ข้างต้น
+- *Array-likes* คือออบเจ็กต์ที่มี index และ `length` ทำให้ดูเหมือนอาร์เรย์
 
-When we use JavaScript for practical tasks in a browser or any other environment, we may meet objects that are iterables or array-likes, or both.
+ในงานจริงบนเบราว์เซอร์หรือสภาพแวดล้อมอื่น เราอาจเจอออบเจ็กต์ที่เป็น iterable หรือ array-like หรือทั้งสองอย่างพร้อมกัน
 
-For instance, strings are both iterable (`for..of` works on them) and array-like (they have numeric indexes and `length`).
+สตริงเป็นตัวอย่างที่ดี — เป็นทั้ง iterable (`for..of` ใช้ได้) และ array-like (มี numeric index และ `length`)
 
-But an iterable may not be array-like. And vice versa an array-like may not be iterable.
+แต่ iterable ไม่จำเป็นต้องเป็น array-like และกลับกัน array-like ก็ไม่จำเป็นต้องเป็น iterable
 
-For example, the `range` in the example above is iterable, but not array-like, because it does not have indexed properties and `length`.
+`range` ในตัวอย่างข้างต้นเป็น iterable แต่ไม่ใช่ array-like เพราะไม่มีพร็อพเพอร์ตี้ index และ `length`
 
-And here's the object that is array-like, but not iterable:
+ด้านล่างคือออบเจ็กต์ที่เป็น array-like แต่ไม่ใช่ iterable:
 
 ```js run
-let arrayLike = { // has indexes and length => array-like
+let arrayLike = { // มี index และ length => array-like
   0: "Hello",
   1: "World",
   length: 2
 };
 
 *!*
-// Error (no Symbol.iterator)
+// เกิดข้อผิดพลาด (ไม่มี Symbol.iterator)
 for (let item of arrayLike) {}
 */!*
 ```
 
-Both iterables and array-likes are usually *not arrays*, they don't have `push`, `pop` etc. That's rather inconvenient if we have such an object and want to work with it as with an array. E.g. we would like to work with `range` using array methods. How to achieve that?
+ทั้ง iterable และ array-like มักจะ *ไม่ใช่อาร์เรย์* ไม่มีเมธอด `push`, `pop` หรืออื่นๆ ซึ่งไม่สะดวกเลยถ้าอยากใช้งานเหมือนอาร์เรย์ เช่น อยากใช้ array methods กับ `range` จะทำอย่างไรดี?
 
 ## Array.from
 
-There's a universal method [Array.from](mdn:js/Array/from) that takes an iterable or array-like value and makes a "real" `Array` from it. Then we can call array methods on it.
+[Array.from](mdn:js/Array/from) คือเมธอดที่รับ iterable หรือ array-like แล้วสร้างอาร์เรย์ "จริงๆ" ออกมา จากนั้นก็เรียก array methods ได้ตามปกติ
 
-For instance:
+ตัวอย่างเช่น:
 
 ```js run
 let arrayLike = {
@@ -211,43 +211,43 @@ let arrayLike = {
 *!*
 let arr = Array.from(arrayLike); // (*)
 */!*
-alert(arr.pop()); // World (method works)
+alert(arr.pop()); // World (เมธอดทำงานได้แล้ว)
 ```
 
-`Array.from` at the line `(*)` takes the object, examines it for being an iterable or array-like, then makes a new array and copies all items to it.
+`Array.from` ที่บรรทัด `(*)` รับออบเจ็กต์มาตรวจว่าเป็น iterable หรือ array-like แล้วสร้างอาร์เรย์ใหม่และคัดลอกทุกรายการเข้าไป
 
-The same happens for an iterable:
+กับ iterable ก็ทำได้เหมือนกัน:
 
 ```js run
-// assuming that range is taken from the example above
+// สมมติว่า range มาจากตัวอย่างข้างต้น
 let arr = Array.from(range);
-alert(arr); // 1,2,3,4,5 (array toString conversion works)
+alert(arr); // 1,2,3,4,5 (การแปลง array toString ทำงานได้)
 ```
 
-The full syntax for `Array.from` also allows us to provide an optional "mapping" function:
+`Array.from` ยังรองรับอาร์กิวเมนต์ "mapping" เพิ่มเติม:
 ```js
 Array.from(obj[, mapFn, thisArg])
 ```
 
-The optional second argument `mapFn` can be a function that will be applied to each element before adding it to the array, and `thisArg` allows us to set `this` for it.
+`mapFn` คืออาร์กิวเมนต์ที่สองซึ่งเลือกใส่หรือไม่ก็ได้ — เป็นฟังก์ชันที่จะถูกเรียกกับแต่ละ element ก่อนเพิ่มเข้าอาร์เรย์ และ `thisArg` ช่วยกำหนด `this` ให้กับฟังก์ชันนั้นได้
 
-For instance:
+ตัวอย่างเช่น:
 
 ```js run
-// assuming that range is taken from the example above
+// สมมติว่า range มาจากตัวอย่างข้างต้น
 
-// square each number
+// ยกกำลังสองตัวเลขแต่ละตัว
 let arr = Array.from(range, num => num * num);
 
 alert(arr); // 1,4,9,16,25
 ```
 
-Here we use `Array.from` to turn a string into an array of characters:
+ทีนี้ลองใช้ `Array.from` แปลงสตริงเป็นอาร์เรย์ของตัวอักษรดูบ้าง:
 
 ```js run
 let str = '𝒳😂';
 
-// splits str into array of characters
+// แยก str ออกเป็นอาร์เรย์ของตัวอักษร
 let chars = Array.from(str);
 
 alert(chars[0]); // 𝒳
@@ -255,14 +255,14 @@ alert(chars[1]); // 😂
 alert(chars.length); // 2
 ```
 
-Unlike `str.split`, it relies on the iterable nature of the string and so, just like `for..of`, correctly works with surrogate pairs.
+ต่างจาก `str.split` ตรงที่อาศัยคุณสมบัติ iterable ของสตริง จึงเหมือนกับ `for..of` คือรองรับ surrogate pairs ได้ถูกต้อง
 
-Technically here it does the same as:
+จริงๆ แล้ว ภายในมันทำแบบเดียวกับ:
 
 ```js run
 let str = '𝒳😂';
 
-let chars = []; // Array.from internally does the same loop
+let chars = []; // Array.from ทำลูปแบบเดียวกันภายใน
 for (let char of str) {
   chars.push(char);
 }
@@ -270,9 +270,9 @@ for (let char of str) {
 alert(chars);
 ```
 
-...But it is shorter.
+...แต่กระชับกว่านั่นเอง
 
-We can even build surrogate-aware `slice` on it:
+นอกจากนี้ยังสร้างฟังก์ชัน `slice` ที่รองรับ surrogate pairs ได้ด้วย:
 
 ```js run
 function slice(str, start, end) {
@@ -283,25 +283,25 @@ let str = '𝒳😂𩷶';
 
 alert( slice(str, 1, 3) ); // 😂𩷶
 
-// the native method does not support surrogate pairs
-alert( str.slice(1, 3) ); // garbage (two pieces from different surrogate pairs)
+// เมธอดดั้งเดิมไม่รองรับ surrogate pairs
+alert( str.slice(1, 3) ); // ขยะ (สองชิ้นจาก surrogate pairs ต่างคู่กัน)
 ```
 
 
-## Summary
+## สรุป
 
-Objects that can be used in `for..of` are called *iterable*.
+ออบเจ็กต์ที่ใช้ใน `for..of` ได้เรียกว่า *iterable*
 
-- Technically, iterables must implement the method named `Symbol.iterator`.
-    - The result of `obj[Symbol.iterator]()` is called an *iterator*. It handles further iteration process.
-    - An iterator must have the method named `next()` that returns an object `{done: Boolean, value: any}`, here `done:true` denotes the end of the iteration process, otherwise the `value` is the next value.
-- The `Symbol.iterator` method is called automatically by `for..of`, but we also can do it directly.
-- Built-in iterables like strings or arrays, also implement `Symbol.iterator`.
-- String iterator knows about surrogate pairs.
+- ในทางเทคนิค iterable ต้องมีเมธอดชื่อ `Symbol.iterator`
+    - ผลลัพธ์จากการเรียก `obj[Symbol.iterator]()` คือ *iterator* ซึ่งรับช่วงดูแลกระบวนการวนซ้ำต่อไป
+    - iterator ต้องมีเมธอด `next()` ที่คืนค่าเป็น `{done: Boolean, value: any}` — `done:true` หมายความว่าวนซ้ำจบแล้ว ถ้ายังไม่จบ `value` คือค่าถัดไป
+- `for..of` เรียก `Symbol.iterator` อัตโนมัติ แต่เรียกโดยตรงก็ได้เช่นกัน
+- Built-in iterables เช่นสตริงและอาร์เรย์มี `Symbol.iterator` ติดมาด้วย
+- String iterator รองรับ surrogate pairs
 
 
-Objects that have indexed properties and `length` are called *array-like*. Such objects may also have other properties and methods, but lack the built-in methods of arrays.
+ออบเจ็กต์ที่มีพร็อพเพอร์ตี้แบบ index และ `length` เรียกว่า *array-like* อาจมีพร็อพเพอร์ตี้และเมธอดอื่นด้วย แต่ไม่มี built-in methods ของอาร์เรย์
 
-If we look inside the specification -- we'll see that most built-in methods assume that they work with iterables or array-likes instead of "real" arrays, because that's more abstract.
+ลองดูใน specification จะเห็นว่า built-in methods ส่วนใหญ่ออกแบบมาให้ทำงานกับ iterable หรือ array-like แทน "real" arrays เพราะเป็นแนวคิดที่ abstract กว่า
 
-`Array.from(obj[, mapFn, thisArg])` makes a real `Array` from an iterable or array-like `obj`, and we can then use array methods on it. The optional arguments `mapFn` and `thisArg` allow us to apply a function to each item.
+`Array.from(obj[, mapFn, thisArg])` สร้างอาร์เรย์จริงๆ จาก iterable หรือ array-like `obj` แล้วใช้ array methods ได้ทันที อาร์กิวเมนต์เสริม `mapFn` และ `thisArg` ช่วยให้ใส่ฟังก์ชัน mapping กับแต่ละรายการได้

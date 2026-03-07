@@ -1,10 +1,8 @@
-# JSON methods, toJSON
+# เมธอด JSON และ toJSON
 
-Let's say we have a complex object, and we'd like to convert it into a string, to send it over a network, or just to output it for logging purposes.
+สมมติว่ามีออบเจ็กต์ที่ซับซ้อนและอยากแปลงให้เป็นสตริง — เพื่อส่งผ่านเครือข่ายหรือเพื่อ log ข้อมูล โดยสตริงนั้นควรครอบคลุมพร็อพเพอร์ตี้สำคัญทั้งหมดด้วย
 
-Naturally, such a string should include all important properties.
-
-We could implement the conversion like this:
+วิธีง่ายๆ คือเขียน `toString` เองแบบนี้:
 
 ```js run
 let user = {
@@ -21,20 +19,20 @@ let user = {
 alert(user); // {name: "John", age: 30}
 ```
 
-...But in the process of development, new properties are added, old properties are renamed and removed. Updating such `toString` every time can become a pain. We could try to loop over properties in it, but what if the object is complex and has nested objects in properties? We'd need to implement their conversion as well.
+...แต่ระหว่างพัฒนา พร็อพเพอร์ตี้อาจถูกเพิ่ม เปลี่ยนชื่อ หรือลบออกได้ตลอด การอัปเดต `toString` ทุกครั้งจึงน่าเบื่อหน่าย แถมถ้าออบเจ็กต์ซับซ้อนและมีออบเจ็กต์ซ้อนอยู่ข้างใน ก็ต้องจัดการออบเจ็กต์ย่อยพวกนั้นด้วย
 
-Luckily, there's no need to write the code to handle all this. The task has been solved already.
+โชคดีที่ไม่ต้องเขียนโค้ดพวกนี้เอง — มีวิธีสำเร็จรูปที่ทำให้เราแล้ว
 
 ## JSON.stringify
 
-The [JSON](https://en.wikipedia.org/wiki/JSON) (JavaScript Object Notation) is a general format to represent values and objects. It is described as in [RFC 4627](https://tools.ietf.org/html/rfc4627) standard. Initially it was made for JavaScript, but many other languages have libraries to handle it as well.  So it's easy to use JSON for data exchange when the client uses JavaScript and the server is written on Ruby/PHP/Java/Whatever.
+[JSON](https://en.wikipedia.org/wiki/JSON) (JavaScript Object Notation) คือรูปแบบมาตรฐานสำหรับแทนค่าและออบเจ็กต์ กำหนดไว้ในสเปค [RFC 4627](https://tools.ietf.org/html/rfc4627) เดิมทีออกแบบมาเพื่อ JavaScript แต่ทุกวันนี้ภาษาอื่นๆ ก็มีไลบรารีรองรับ JSON เช่นกัน จึงแลกเปลี่ยนข้อมูลได้สะดวกมาก ไม่ว่า client จะเป็น JavaScript และ server จะเป็น Ruby/PHP/Java หรืออะไรก็ตาม
 
-JavaScript provides methods:
+JavaScript มีเมธอดสำหรับจัดการ:
 
-- `JSON.stringify` to convert objects into JSON.
-- `JSON.parse` to convert JSON back into an object.
+- `JSON.stringify` — แปลงออบเจ็กต์เป็น JSON
+- `JSON.parse` — แปลง JSON กลับเป็นออบเจ็กต์
 
-For instance, here we `JSON.stringify` a student:
+ลองดูตัวอย่างกับข้อมูลนักเรียน:
 ```js run
 let student = {
   name: 'John',
@@ -48,11 +46,11 @@ let student = {
 let json = JSON.stringify(student);
 */!*
 
-alert(typeof json); // we've got a string!
+alert(typeof json); // เราได้สตริงแล้ว!
 
 alert(json);
 *!*
-/* JSON-encoded object:
+/* ออบเจ็กต์ที่เข้ารหัสเป็น JSON:
 {
   "name": "John",
   "age": 30,
@@ -64,35 +62,34 @@ alert(json);
 */!*
 ```
 
-The method `JSON.stringify(student)` takes the object and converts it into a string.
+`JSON.stringify(student)` รับออบเจ็กต์แล้วแปลงเป็นสตริง
 
-The resulting `json` string is called a *JSON-encoded* or *serialized* or *stringified* or *marshalled* object. We are ready to send it over the wire or put into a plain data store.
+สตริง `json` ที่ได้นี้เรียกว่าออบเจ็กต์ที่ *JSON-encoded* หรือ *serialized* หรือ *stringified* หรือ *marshalled* — พร้อมส่งผ่านเครือข่ายหรือเก็บลง data store ได้เลย
 
+ทว่าออบเจ็กต์ที่ JSON-encoded ต่างจาก object literal ตรงๆ อยู่บ้าง:
 
-Please note that a JSON-encoded object has several important differences from the object literal:
+- สตริงใช้เครื่องหมายคำพูดคู่ ใน JSON ไม่มีคำพูดเดี่ยวหรือ backtick ดังนั้น `'John'` จะกลายเป็น `"John"`
+- ชื่อพร็อพเพอร์ตี้ก็ใส่เครื่องหมายคำพูดคู่ด้วย นั่นเป็นกฎบังคับ ดังนั้น `age:30` จะกลายเป็น `"age":30`
 
-- Strings use double quotes. No single quotes or backticks in JSON. So `'John'` becomes `"John"`.
-- Object property names are double-quoted also. That's obligatory. So `age:30` becomes `"age":30`.
+`JSON.stringify` ยังใช้กับค่า primitive ได้ด้วย
 
-`JSON.stringify` can be applied to primitives as well.
+JSON รองรับชนิดข้อมูลดังนี้:
 
-JSON supports following data types:
+- ออบเจ็กต์ `{ ... }`
+- อาร์เรย์ `[ ... ]`
+- Primitive:
+    - สตริง,
+    - ตัวเลข,
+    - บูลีน `true/false`,
+    - `null`
 
-- Objects `{ ... }`
-- Arrays `[ ... ]`
-- Primitives:
-    - strings,
-    - numbers,
-    - boolean values `true/false`,
-    - `null`.
-
-For instance:
+ตัวอย่าง:
 
 ```js run
-// a number in JSON is just a number
+// ตัวเลขใน JSON ก็คือตัวเลขธรรมดา
 alert( JSON.stringify(1) ) // 1
 
-// a string in JSON is still a string, but double-quoted
+// สตริงใน JSON ยังคงเป็นสตริง แต่ใส่เครื่องหมายคำพูดคู่
 alert( JSON.stringify('test') ) // "test"
 
 alert( JSON.stringify(true) ); // true
@@ -100,31 +97,31 @@ alert( JSON.stringify(true) ); // true
 alert( JSON.stringify([1, 2, 3]) ); // [1,2,3]
 ```
 
-JSON is data-only language-independent specification, so some JavaScript-specific object properties are skipped by `JSON.stringify`.
+JSON เป็นสเปคที่ไม่ขึ้นกับภาษาโปรแกรมใด เก็บได้แต่ข้อมูลล้วนๆ `JSON.stringify` จึงข้ามพร็อพเพอร์ตี้ที่เป็น JavaScript เฉพาะ
 
-Namely:
+โดยเฉพาะ:
 
-- Function properties (methods).
-- Symbolic keys and values.
-- Properties that store `undefined`.
+- พร็อพเพอร์ตี้ที่เป็นฟังก์ชัน (เมธอด)
+- คีย์และค่าที่เป็น Symbol
+- พร็อพเพอร์ตี้ที่เก็บค่า `undefined`
 
 ```js run
 let user = {
-  sayHi() { // ignored
+  sayHi() { // ถูกข้าม
     alert("Hello");
   },
-  [Symbol("id")]: 123, // ignored
-  something: undefined // ignored
+  [Symbol("id")]: 123, // ถูกข้าม
+  something: undefined // ถูกข้าม
 };
 
-alert( JSON.stringify(user) ); // {} (empty object)
+alert( JSON.stringify(user) ); // {} (ออบเจ็กต์ว่างเปล่า)
 ```
 
-Usually that's fine. If that's not what we want, then soon we'll see how to customize the process.
+โดยส่วนใหญ่ก็ไม่มีปัญหา แต่ถ้าอยากควบคุมตรงนี้ เดี๋ยวเราจะดูวิธีกัน
 
-The great thing is that nested objects are supported and converted automatically.
+ข้อดีอีกอย่างคือออบเจ็กต์ที่ซ้อนกันก็รองรับและแปลงให้อัตโนมัติ
 
-For instance:
+ตัวอย่าง:
 
 ```js run
 let meetup = {
@@ -138,7 +135,7 @@ let meetup = {
 };
 
 alert( JSON.stringify(meetup) );
-/* The whole structure is stringified:
+/* โครงสร้างทั้งหมดถูกแปลงเป็น string:
 {
   "title":"Conference",
   "room":{"number":23,"participants":["john","ann"]},
@@ -146,9 +143,9 @@ alert( JSON.stringify(meetup) );
 */
 ```
 
-The important limitation: there must be no circular references.
+แต่มีข้อจำกัดสำคัญคือต้องไม่มี circular reference
 
-For instance:
+ตัวอย่าง:
 
 ```js run
 let room = {
@@ -160,41 +157,41 @@ let meetup = {
   participants: ["john", "ann"]
 };
 
-meetup.place = room;       // meetup references room
-room.occupiedBy = meetup; // room references meetup
+meetup.place = room;       // meetup อ้างอิงถึง room
+room.occupiedBy = meetup; // room อ้างอิงถึง meetup
 
 *!*
 JSON.stringify(meetup); // Error: Converting circular structure to JSON
 */!*
 ```
 
-Here, the conversion fails, because of circular reference: `room.occupiedBy` references `meetup`, and `meetup.place` references `room`:
+การแปลงล้มเหลวเพราะอ้างอิงกันวนไม่รู้จบ: `room.occupiedBy` ชี้ไปที่ `meetup` และ `meetup.place` ก็ชี้กลับมาที่ `room`:
 
 ![](json-meetup.svg)
 
 
-## Excluding and transforming: replacer
+## การกรองและแปลงค่า: replacer
 
-The full syntax of `JSON.stringify` is:
+ไวยากรณ์เต็มของ `JSON.stringify` คือ:
 
 ```js
 let json = JSON.stringify(value[, replacer, space])
 ```
 
 value
-: A value to encode.
+: ค่าที่ต้องการเข้ารหัส
 
 replacer
-: Array of properties to encode or a mapping function `function(key, value)`.
+: อาร์เรย์ของพร็อพเพอร์ตี้ที่ต้องการเข้ารหัส หรือฟังก์ชัน `function(key, value)`
 
 space
-: Amount of space to use for formatting
+: จำนวน space สำหรับการจัดรูปแบบ
 
-Most of the time, `JSON.stringify` is used with the first argument only. But if we need to fine-tune the replacement process, like to filter out circular references, we can use the second argument of `JSON.stringify`.
+ปกติแล้ว `JSON.stringify` ใช้แค่อาร์กิวเมนต์แรก แต่ถ้าต้องการกรองหรือแปลงค่าระหว่างทาง เช่น ตัด circular reference ออก ก็ส่งอาร์กิวเมนต์ที่สองเข้าไปได้
 
-If we pass an array of properties to it, only these properties will be encoded.
+ถ้าส่งเป็นอาร์เรย์ของชื่อพร็อพเพอร์ตี้ จะเข้ารหัสเฉพาะพร็อพเพอร์ตี้ที่ระบุเท่านั้น
 
-For instance:
+ตัวอย่าง:
 
 ```js run
 let room = {
@@ -204,18 +201,18 @@ let room = {
 let meetup = {
   title: "Conference",
   participants: [{name: "John"}, {name: "Alice"}],
-  place: room // meetup references room
+  place: room // meetup อ้างอิงถึง room
 };
 
-room.occupiedBy = meetup; // room references meetup
+room.occupiedBy = meetup; // room อ้างอิงถึง meetup
 
 alert( JSON.stringify(meetup, *!*['title', 'participants']*/!*) );
 // {"title":"Conference","participants":[{},{}]}
 ```
 
-Here we are probably too strict. The property list is applied to the whole object structure. So the objects in `participants` are empty, because `name` is not in the list.
+เข้มงวดไปนิดนึง — รายการพร็อพเพอร์ตี้นี้ใช้กับโครงสร้างทั้งหมด เลยทำให้ออบเจ็กต์ใน `participants` ว่างเปล่า เพราะ `name` ไม่ได้อยู่ในรายการ
 
-Let's include in the list every property except `room.occupiedBy` that would cause the circular reference:
+ลองใส่พร็อพเพอร์ตี้ทุกตัว ยกเว้น `room.occupiedBy` ที่ทำให้เกิด circular reference:
 
 ```js run
 let room = {
@@ -225,10 +222,10 @@ let room = {
 let meetup = {
   title: "Conference",
   participants: [{name: "John"}, {name: "Alice"}],
-  place: room // meetup references room
+  place: room // meetup อ้างอิงถึง room
 };
 
-room.occupiedBy = meetup; // room references meetup
+room.occupiedBy = meetup; // room อ้างอิงถึง meetup
 
 alert( JSON.stringify(meetup, *!*['title', 'participants', 'place', 'name', 'number']*/!*) );
 /*
@@ -240,13 +237,13 @@ alert( JSON.stringify(meetup, *!*['title', 'participants', 'place', 'name', 'num
 */
 ```
 
-Now everything except `occupiedBy` is serialized. But the list of properties is quite long.
+ตอนนี้ทุกอย่างยกเว้น `occupiedBy` ก็ serialize ครบแล้ว แต่รายการพร็อพเพอร์ตี้ยาวเกินไปหน่อย
 
-Fortunately, we can use a function instead of an array as the `replacer`.
+โชคดีที่ส่งฟังก์ชันแทนอาร์เรย์เป็น `replacer` ได้เช่นกัน
 
-The function will be called for every `(key, value)` pair and should return the "replaced" value, which will be used instead of the original one. Or `undefined` if the value is to be skipped.
+ฟังก์ชัน `replacer` จะถูกเรียกทีละคู่ `(key, value)` และควรคืนค่าที่จะใช้แทน หรือคืน `undefined` ถ้าต้องการข้ามพร็อพเพอร์ตี้นั้น
 
-In our case, we can return `value` "as is" for everything except `occupiedBy`. To ignore `occupiedBy`, the code below returns `undefined`:
+ในตัวอย่างนี้ เราคืน `value` ตามเดิมสำหรับทุกอย่าง ยกเว้น `occupiedBy` ที่คืน `undefined` เพื่อข้ามไป:
 
 ```js run
 let room = {
@@ -256,17 +253,17 @@ let room = {
 let meetup = {
   title: "Conference",
   participants: [{name: "John"}, {name: "Alice"}],
-  place: room // meetup references room
+  place: room // meetup อ้างอิงถึง room
 };
 
-room.occupiedBy = meetup; // room references meetup
+room.occupiedBy = meetup; // room อ้างอิงถึง meetup
 
 alert( JSON.stringify(meetup, function replacer(key, value) {
   alert(`${key}: ${value}`);
   return (key == 'occupiedBy') ? undefined : value;
 }));
 
-/* key:value pairs that come to replacer:
+/* คู่ key:value ที่ส่งให้ replacer:
 :             [object Object]
 title:        Conference
 participants: [object Object],[object Object]
@@ -280,20 +277,20 @@ occupiedBy: [object Object]
 */
 ```
 
-Please note that `replacer` function gets every key/value pair including nested objects and array items. It is applied recursively. The value of `this` inside `replacer` is the object that contains the current property.
+สังเกตว่า `replacer` ได้รับทุกคู่ key/value รวมถึงออบเจ็กต์ซ้อนและรายการในอาร์เรย์ด้วย ทำงานแบบ recursive และ `this` ภายใน `replacer` คือออบเจ็กต์ที่มีพร็อพเพอร์ตี้ปัจจุบัน
 
-The first call is special. It is made using a special "wrapper object": `{"": meetup}`. In other words, the first `(key, value)` pair has an empty key, and the value is the target object as a whole. That's why the first line is `":[object Object]"` in the example above.
+การเรียกครั้งแรกนั้นพิเศษ — จะใช้ "wrapper object" แบบนี้: `{"": meetup}` นั่นคือคู่ `(key, value)` แรก มี key เป็นสตริงว่าง และ value คือออบเจ็กต์เป้าหมายทั้งหมด จึงเห็นบรรทัดแรกในตัวอย่างเป็น `":[object Object]"` นั่นเอง
 
-The idea is to provide as much power for `replacer` as possible: it has a chance to analyze and replace/skip even the whole object if necessary.
+แบบนี้ทำให้ `replacer` ทรงพลังมาก — วิเคราะห์ แทนที่ หรือข้ามทั้งออบเจ็กต์ก็ยังได้
 
 
-## Formatting: space
+## การจัดรูปแบบ: space
 
-The third argument of `JSON.stringify(value, replacer, space)` is the number of spaces to use for pretty formatting.
+อาร์กิวเมนต์ที่สามของ `JSON.stringify(value, replacer, space)` คือจำนวน space สำหรับจัดรูปแบบให้อ่านง่าย
 
-Previously, all stringified objects had no indents and extra spaces. That's fine if we want to send an object over a network. The `space` argument is used exclusively for a nice output.
+ผลลัพธ์ของ `JSON.stringify` ปกติไม่มีการเยื้องหรือ space เพิ่มเติมเลย — เพียงพอสำหรับส่งผ่านเครือข่าย แต่ถ้าอยากให้อ่านง่ายขึ้น ใส่ `space` เข้าไปได้
 
-Here `space = 2` tells JavaScript to show nested objects on multiple lines, with indentation of 2 spaces inside an object:
+เช่น `space = 2` บอกให้ JavaScript แสดงออบเจ็กต์ซ้อนบนหลายบรรทัด โดยเยื้อง 2 space:
 
 ```js run
 let user = {
@@ -306,7 +303,7 @@ let user = {
 };
 
 alert(JSON.stringify(user, null, 2));
-/* two-space indents:
+/* เยื้องด้วย 2 space:
 {
   "name": "John",
   "age": 25,
@@ -317,7 +314,7 @@ alert(JSON.stringify(user, null, 2));
 }
 */
 
-/* for JSON.stringify(user, null, 4) the result would be more indented:
+/* สำหรับ JSON.stringify(user, null, 4) ผลลัพธ์จะเยื้องมากกว่า:
 {
     "name": "John",
     "age": 25,
@@ -329,15 +326,15 @@ alert(JSON.stringify(user, null, 2));
 */
 ```
 
-The third argument can also be a string. In this case, the string is used for indentation instead of a number of spaces.
+อาร์กิวเมนต์ที่สามยังเป็นสตริงได้ด้วย ในกรณีนั้นสตริงนั้นจะใช้เป็นตัวเยื้องแทนจำนวน space
 
-The `space` parameter is used solely for logging and nice-output purposes.
+พารามิเตอร์ `space` มีไว้เพื่อ log และแสดงผลให้อ่านง่ายเท่านั้น ไม่มีผลต่อข้อมูล
 
-## Custom "toJSON"
+## toJSON แบบกำหนดเอง
 
-Like `toString` for string conversion, an object may provide method `toJSON` for to-JSON conversion. `JSON.stringify` automatically calls it if available.
+เหมือนกับ `toString` ที่ใช้แปลงเป็นสตริง ออบเจ็กต์สามารถมีเมธอด `toJSON` สำหรับแปลงเป็น JSON ได้ `JSON.stringify` จะเรียกเมธอดนี้อัตโนมัติถ้ามีอยู่
 
-For instance:
+ตัวอย่าง:
 
 ```js run
 let room = {
@@ -362,9 +359,9 @@ alert( JSON.stringify(meetup) );
 */
 ```
 
-Here we can see that `date` `(1)` became a string. That's because all dates have a built-in `toJSON` method which returns such kind of string.
+ตรง `(1)` จะเห็นว่า `date` กลายเป็นสตริง — เพราะออบเจ็กต์ Date มีเมธอด `toJSON` ในตัวที่คืนค่าสตริงในรูปแบบนั้นอยู่แล้ว
 
-Now let's add a custom `toJSON` for our object `room` `(2)`:
+ทีนี้ลองเพิ่ม `toJSON` แบบกำหนดเองให้ `room` `(2)` ดูบ้าง:
 
 ```js run
 let room = {
@@ -396,28 +393,28 @@ alert( JSON.stringify(meetup) );
 */
 ```
 
-As we can see, `toJSON` is used both for the direct call `JSON.stringify(room)` and when `room` is nested in another encoded object.
+`toJSON` ทำงานทั้งเมื่อเรียกตรงๆ อย่าง `JSON.stringify(room)` และเมื่อ `room` ซ้อนอยู่ในออบเจ็กต์อื่น
 
 
 ## JSON.parse
 
-To decode a JSON-string, we need another method named [JSON.parse](mdn:js/JSON/parse).
+หากต้องการ decode สตริง JSON กลับ ใช้เมธอด [JSON.parse](mdn:js/JSON/parse)
 
-The syntax:
+ไวยากรณ์:
 ```js
 let value = JSON.parse(str[, reviver]);
 ```
 
 str
-: JSON-string to parse.
+: สตริง JSON ที่ต้องการ parse
 
 reviver
-: Optional function(key,value) that will be called for each `(key, value)` pair and can transform the value.
+: ฟังก์ชัน function(key,value) ไม่บังคับ — เรียกทีละคู่ `(key, value)` เพื่อแปลงค่าระหว่างการ parse
 
-For instance:
+ตัวอย่าง:
 
 ```js run
-// stringified array
+// อาร์เรย์ที่ถูก stringify
 let numbers = "[0, 1, 2, 3]";
 
 numbers = JSON.parse(numbers);
@@ -425,7 +422,7 @@ numbers = JSON.parse(numbers);
 alert( numbers[1] ); // 1
 ```
 
-Or for nested objects:
+หรือถ้าเป็นออบเจ็กต์ซ้อนกัน:
 
 ```js run
 let userData = '{ "name": "John", "age": 35, "isAdmin": false, "friends": [0,1,2,3] }';
@@ -435,40 +432,40 @@ let user = JSON.parse(userData);
 alert( user.friends[1] ); // 1
 ```
 
-The JSON may be as complex as necessary, objects and arrays can include other objects and arrays. But they must obey the same JSON format.
+JSON ซับซ้อนได้แค่ไหนก็ได้ ซ้อนออบเจ็กต์และอาร์เรย์ลึกกี่ชั้นก็ยังได้ แต่ต้องเป็นไปตามรูปแบบ JSON เสมอ
 
-Here are typical mistakes in hand-written JSON (sometimes we have to write it for debugging purposes):
+นี่คือข้อผิดพลาดที่เจอบ่อยเมื่อเขียน JSON ด้วยมือ (บางทีต้องเขียนเองตอน debug):
 
 ```js
 let json = `{
-  *!*name*/!*: "John",                     // mistake: property name without quotes
-  "surname": *!*'Smith'*/!*,               // mistake: single quotes in value (must be double)
-  *!*'isAdmin'*/!*: false                  // mistake: single quotes in key (must be double)
-  "birthday": *!*new Date(2000, 2, 3)*/!*, // mistake: no "new" is allowed, only bare values
-  "friends": [0,1,2,3]              // here all fine
+  *!*name*/!*: "John",                     // ข้อผิดพลาด: ชื่อพร็อพเพอร์ตี้ไม่มีเครื่องหมายคำพูด
+  "surname": *!*'Smith'*/!*,               // ข้อผิดพลาด: ใช้คำพูดเดี่ยวสำหรับค่า (ต้องใช้คู่)
+  *!*'isAdmin'*/!*: false                  // ข้อผิดพลาด: ใช้คำพูดเดี่ยวสำหรับ key (ต้องใช้คู่)
+  "birthday": *!*new Date(2000, 2, 3)*/!*, // ข้อผิดพลาด: ไม่อนุญาต "new" ใช้ได้แค่ค่าพื้นฐาน
+  "friends": [0,1,2,3]              // ตรงนี้ถูกต้อง
 }`;
 ```
 
-Besides, JSON does not support comments. Adding a comment to JSON makes it invalid.
+อีกอย่างคือ JSON ไม่รองรับ comment — ใส่ไปก็จะทำให้ invalid ทันที
 
-There's another format named [JSON5](https://json5.org/), which allows unquoted keys, comments etc. But this is a standalone library, not in the specification of the language.
+มีรูปแบบทางเลือกชื่อ [JSON5](https://json5.org/) ที่อนุญาต unquoted keys, comment และอื่นๆ แต่เป็น library แยกต่างหาก ไม่ได้อยู่ในสเปค JSON มาตรฐาน
 
-The regular JSON is that strict not because its developers are lazy, but to allow easy, reliable and very fast implementations of the parsing algorithm.
+ที่ JSON เข้มงวดขนาดนี้ไม่ใช่เพราะผู้พัฒนาขี้เกียจ แต่เพื่อให้สร้างอัลกอริทึม parse ที่ง่าย เชื่อถือได้ และรวดเร็วได้นั่นเอง
 
-## Using reviver
+## การใช้ reviver
 
-Imagine, we got a stringified `meetup` object from the server.
+สมมติว่าได้รับออบเจ็กต์ `meetup` ที่ stringify แล้วมาจาก server
 
-It looks like this:
+ข้อมูลหน้าตาแบบนี้:
 
 ```js
-// title: (meetup title), date: (meetup date)
+// title: (ชื่อการประชุม), date: (วันที่ประชุม)
 let str = '{"title":"Conference","date":"2017-11-30T12:00:00.000Z"}';
 ```
 
-...And now we need to *deserialize* it, to turn back into JavaScript object.
+...แล้วเราต้องการ *deserialize* มันกลับเป็นออบเจ็กต์ JavaScript
 
-Let's do it by calling `JSON.parse`:
+ลองเรียก `JSON.parse` ดู:
 
 ```js run
 let str = '{"title":"Conference","date":"2017-11-30T12:00:00.000Z"}';
@@ -476,15 +473,15 @@ let str = '{"title":"Conference","date":"2017-11-30T12:00:00.000Z"}';
 let meetup = JSON.parse(str);
 
 *!*
-alert( meetup.date.getDate() ); // Error!
+alert( meetup.date.getDate() ); // เกิดข้อผิดพลาด!
 */!*
 ```
 
-Whoops! An error!
+อุ๊ย! เกิดข้อผิดพลาด!
 
-The value of `meetup.date` is a string, not a `Date` object. How could `JSON.parse` know that it should transform that string into a `Date`?
+`meetup.date` เป็นสตริง ไม่ใช่ออบเจ็กต์ `Date` — `JSON.parse` ไม่มีทางรู้เองว่าต้องแปลงสตริงนั้นเป็น `Date`
 
-Let's pass to `JSON.parse` the reviving function as the second argument, that returns all values "as is", but `date` will become a `Date`:
+แก้ได้โดยส่งฟังก์ชัน reviver เป็นอาร์กิวเมนต์ที่สอง โดยคืนทุกอย่างตามเดิม ยกเว้น `date` ที่แปลงเป็น `Date` ก่อน:
 
 ```js run
 let str = '{"title":"Conference","date":"2017-11-30T12:00:00.000Z"}';
@@ -496,10 +493,10 @@ let meetup = JSON.parse(str, function(key, value) {
 });
 */!*
 
-alert( meetup.date.getDate() ); // now works!
+alert( meetup.date.getDate() ); // ทำงานได้แล้ว!
 ```
 
-By the way, that works for nested objects as well:
+วิธีนี้ใช้ได้กับออบเจ็กต์ซ้อนกันด้วยเช่นกัน:
 
 ```js run
 let schedule = `{
@@ -515,16 +512,16 @@ schedule = JSON.parse(schedule, function(key, value) {
 });
 
 *!*
-alert( schedule.meetups[1].date.getDate() ); // works!
+alert( schedule.meetups[1].date.getDate() ); // ทำงานได้!
 */!*
 ```
 
 
 
-## Summary
+## สรุป
 
-- JSON is a data format that has its own independent standard and libraries for most programming languages.
-- JSON supports plain objects, arrays, strings, numbers, booleans, and `null`.
-- JavaScript provides methods [JSON.stringify](mdn:js/JSON/stringify) to serialize into JSON and [JSON.parse](mdn:js/JSON/parse) to read from JSON.
-- Both methods support transformer functions for smart reading/writing.
-- If an object has `toJSON`, then it is called by `JSON.stringify`.
+- JSON คือรูปแบบข้อมูลมาตรฐานที่มีไลบรารีรองรับในเกือบทุกภาษา
+- JSON รองรับออบเจ็กต์ธรรมดา อาร์เรย์ สตริง ตัวเลข บูลีน และ `null`
+- JavaScript มีเมธอด [JSON.stringify](mdn:js/JSON/stringify) สำหรับ serialize และ [JSON.parse](mdn:js/JSON/parse) สำหรับ deserialize
+- ทั้งสองเมธอดรองรับฟังก์ชัน transformer สำหรับอ่าน/เขียนแบบ custom ได้
+- ถ้าออบเจ็กต์มีเมธอด `toJSON` ให้ `JSON.stringify` จะเรียกเมธอดนั้นอัตโนมัติ

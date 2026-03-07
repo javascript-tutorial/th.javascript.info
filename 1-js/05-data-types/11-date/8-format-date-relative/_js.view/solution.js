@@ -1,24 +1,24 @@
 
 function formatDate(date) {
-  let diff = new Date() - date; // the difference in milliseconds
+  let diff = new Date() - date; // ความต่างในหน่วยมิลลิวินาที
 
-  if (diff < 1000) { // less than 1 second
-    return 'right now';
+  if (diff < 1000) { // น้อยกว่า 1 วินาที
+    return 'เมื่อกี้นี้';
   }
 
-  let sec = Math.floor(diff / 1000); // convert diff to seconds
+  let sec = Math.floor(diff / 1000); // แปลงความต่างเป็นวินาที
 
   if (sec < 60) {
-    return sec + ' sec. ago';
+    return sec + ' วินาทีที่แล้ว';
   }
 
-  let min = Math.floor(diff / 60000); // convert diff to minutes
+  let min = Math.floor(diff / 60000); // แปลงความต่างเป็นนาที
   if (min < 60) {
-    return min + ' min. ago';
+    return min + ' นาทีที่แล้ว';
   }
 
-  // format the date
-  // add leading zeroes to single-digit day/month/hours/minutes
+  // จัดรูปแบบวันที่
+  // เติมศูนย์นำหน้าสำหรับวัน/เดือน/ชั่วโมง/นาทีที่มีหลักเดียว
   let d = date;
   d = [
     '0' + d.getDate(),
@@ -26,8 +26,8 @@ function formatDate(date) {
     '' + d.getFullYear(),
     '0' + d.getHours(),
     '0' + d.getMinutes()
-  ].map(component => component.slice(-2)); // take last 2 digits of every component
+  ].map(component => component.slice(-2)); // นำ 2 หลักสุดท้ายของแต่ละส่วน
 
-  // join the components into date
+  // รวมส่วนประกอบเป็นวันที่
   return d.slice(0, 3).join('.') + ' ' + d.slice(3).join(':');
 }

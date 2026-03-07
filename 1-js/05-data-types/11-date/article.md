@@ -1,141 +1,141 @@
-# Date and time
+# วันที่และเวลา
 
-Let's meet a new built-in object: [Date](mdn:js/Date). It stores the date, time and provides methods for date/time management.
+มาทำความรู้จักกับออบเจ็กต์ built-in ตัวใหม่: [Date](mdn:js/Date) ออบเจ็กต์นี้เก็บวันที่และเวลา พร้อมมีเมธอดสำหรับจัดการข้อมูลเหล่านั้น
 
-For instance, we can use it to store creation/modification times, to measure time, or just to print out the current date.
+ใช้งานได้หลายอย่าง เช่น บันทึกเวลาที่สร้างหรือแก้ไขไฟล์ วัดระยะเวลา หรือแค่แสดงวันที่ปัจจุบัน
 
-## Creation
+## การสร้าง
 
-To create a new `Date` object call `new Date()` with one of the following arguments:
+สร้างออบเจ็กต์ `Date` ด้วย `new Date()` โดยส่งอาร์กิวเมนต์ในรูปแบบใดรูปแบบหนึ่งดังนี้:
 
 `new Date()`
-: Without arguments -- create a `Date` object for the current date and time:
+: ไม่มีอาร์กิวเมนต์ -- สร้างออบเจ็กต์ `Date` สำหรับวันที่และเวลาปัจจุบัน:
 
     ```js run
     let now = new Date();
-    alert( now ); // shows current date/time
+    alert( now ); // แสดงวันที่/เวลาปัจจุบัน
     ```
 
 `new Date(milliseconds)`
-: Create a `Date` object with the time equal to number of milliseconds (1/1000 of a second) passed after the Jan 1st of 1970 UTC+0.
+: สร้างออบเจ็กต์ `Date` โดยกำหนดเวลาจากจำนวนมิลลิวินาที (1/1000 ของวินาที) ที่ผ่านมานับตั้งแต่วันที่ 1 มกราคม 1970 UTC+0
 
     ```js run
-    // 0 means 01.01.1970 UTC+0
+    // 0 หมายถึง 01.01.1970 UTC+0
     let Jan01_1970 = new Date(0);
     alert( Jan01_1970 );
 
-    // now add 24 hours, get 02.01.1970 UTC+0
+    // เพิ่ม 24 ชั่วโมง ได้ 02.01.1970 UTC+0
     let Jan02_1970 = new Date(24 * 3600 * 1000);
     alert( Jan02_1970 );
     ```
 
-    An integer number representing the number of milliseconds that has passed since the beginning of 1970 is called a *timestamp*.
+    ตัวเลขจำนวนเต็มที่แทนจำนวนมิลลิวินาทีที่ผ่านมาตั้งแต่ต้นปี 1970 เรียกว่า *timestamp*
 
-    It's a lightweight numeric representation of a date. We can always create a date from a timestamp using `new Date(timestamp)` and convert the existing `Date` object to a timestamp using the `date.getTime()` method (see below).
+    เป็นการแทนค่าวันที่แบบตัวเลขที่เบาและกะทัดรัด สร้างวันที่จาก timestamp ได้ตลอดเวลาด้วย `new Date(timestamp)` และแปลงออบเจ็กต์ `Date` เป็น timestamp ได้ด้วยเมธอด `date.getTime()` (ดูรายละเอียดด้านล่าง)
 
-    Dates before 01.01.1970 have negative timestamps, e.g.:
+    วันที่ก่อน 01.01.1970 จะมี timestamp เป็นค่าลบ เช่น:
     ```js run
-    // 31 Dec 1969
+    // 31 ธ.ค. 1969
     let Dec31_1969 = new Date(-24 * 3600 * 1000);
     alert( Dec31_1969 );
     ```
 
 `new Date(datestring)`
-: If there is a single argument, and it's a string, then it is parsed automatically. The algorithm is the same as `Date.parse` uses, we'll cover it later.
+: ถ้ามีอาร์กิวเมนต์เพียงตัวเดียวและเป็นสตริง จะถูก parse อัตโนมัติ โดยใช้อัลกอริทึมเดียวกับที่ `Date.parse` ใช้ ซึ่งจะพูดถึงในภายหลัง
 
     ```js run
     let date = new Date("2017-01-26");
     alert(date);
-    // The time is not set, so it's assumed to be midnight GMT and
-    // is adjusted according to the timezone the code is run in
-    // So the result could be
+    // ไม่ได้กำหนดเวลา ระบบจึงถือว่าเป็นเที่ยงคืน GMT และ
+    // ปรับตามเขตเวลาที่รันโค้ดอยู่
+    // ผลลัพธ์อาจเป็น
     // Thu Jan 26 2017 11:00:00 GMT+1100 (Australian Eastern Daylight Time)
-    // or
+    // หรือ
     // Wed Jan 25 2017 16:00:00 GMT-0800 (Pacific Standard Time)
     ```
 
 `new Date(year, month, date, hours, minutes, seconds, ms)`
-: Create the date with the given components in the local time zone. Only the first two arguments are obligatory.
+: สร้างวันที่ด้วยค่าที่กำหนดในเขตเวลาท้องถิ่น โดยอาร์กิวเมนต์สองตัวแรกเท่านั้นที่จำเป็น
 
-    - The `year` should have 4 digits. For compatibility, 2 digits are also accepted and considered `19xx`, e.g. `98` is the same as `1998` here, but always using 4 digits is strongly encouraged.
-    - The `month` count starts with `0` (Jan), up to `11` (Dec).
-    - The `date` parameter is actually the day of month, if absent then `1` is assumed.
-    - If `hours/minutes/seconds/ms` is absent, they are assumed to be equal `0`.
+    - `year` ควรมี 4 หลัก เพื่อความเข้ากันได้ ยังรับ 2 หลักได้และถือว่าเป็น `19xx` เช่น `98` เทียบเท่ากับ `1998` แต่แนะนำให้ใช้ 4 หลักเสมอ
+    - `month` เริ่มนับจาก `0` (ม.ค.) ไปถึง `11` (ธ.ค.)
+    - พารามิเตอร์ `date` คือวันที่ในเดือน ถ้าไม่ระบุจะใช้ค่า `1`
+    - ถ้าไม่ระบุ `hours/minutes/seconds/ms` จะมีค่าเป็น `0`
 
-    For instance:
+    ตัวอย่าง:
 
     ```js
-    new Date(2011, 0, 1, 0, 0, 0, 0); // 1 Jan 2011, 00:00:00
-    new Date(2011, 0, 1); // the same, hours etc are 0 by default
+    new Date(2011, 0, 1, 0, 0, 0, 0); // 1 ม.ค. 2011, 00:00:00
+    new Date(2011, 0, 1); // เหมือนกัน ค่า hours เป็นต้นจะเป็น 0 โดยค่าเริ่มต้น
     ```
 
-    The maximal precision is 1 ms (1/1000 sec):
+    ความละเอียดสูงสุดคือ 1 ms (1/1000 วินาที):
 
     ```js run
     let date = new Date(2011, 0, 1, 2, 3, 4, 567);
     alert( date ); // 1.01.2011, 02:03:04.567
     ```
 
-## Access date components
+## การเข้าถึงส่วนประกอบของวันที่
 
-There are methods to access the year, month and so on from the `Date` object:
+เมธอดที่ใช้ดึงค่าปี เดือน และส่วนต่างๆ จากออบเจ็กต์ `Date` มีดังนี้:
 
 [getFullYear()](mdn:js/Date/getFullYear)
-: Get the year (4 digits)
+: ดึงปี (4 หลัก)
 
 [getMonth()](mdn:js/Date/getMonth)
-: Get the month, **from 0 to 11**.
+: ดึงเดือน **ตั้งแต่ 0 ถึง 11**
 
 [getDate()](mdn:js/Date/getDate)
-: Get the day of month, from 1 to 31, the name of the method does look a little bit strange.
+: ดึงวันที่ในเดือน ตั้งแต่ 1 ถึง 31 ชื่อเมธอดนี้ดูแปลกๆ นิดหน่อย
 
 [getHours()](mdn:js/Date/getHours), [getMinutes()](mdn:js/Date/getMinutes), [getSeconds()](mdn:js/Date/getSeconds), [getMilliseconds()](mdn:js/Date/getMilliseconds)
-: Get the corresponding time components.
+: ดึงค่าส่วนประกอบเวลาตามลำดับ
 
-```warn header="Not `getYear()`, but `getFullYear()`"
-Many JavaScript engines implement a non-standard method `getYear()`. This method is deprecated. It returns 2-digit year sometimes. Please never use it. There is `getFullYear()` for the year.
+```warn header="ไม่ใช่ `getYear()` แต่ใช้ `getFullYear()`"
+JavaScript engine หลายตัวมีเมธอดที่ไม่ได้มาตรฐานชื่อ `getYear()` เมธอดนี้ถูก deprecated แล้วและบางครั้งคืนค่าปีแค่ 2 หลัก ขอให้หลีกเลี่ยงอย่างเด็ดขาด ให้ใช้ `getFullYear()` แทน
 ```
 
-Additionally, we can get a day of week:
+นอกจากนี้ยังดึงวันในสัปดาห์ได้:
 
 [getDay()](mdn:js/Date/getDay)
-: Get the day of week, from `0` (Sunday) to `6` (Saturday). The first day is always Sunday, in some countries that's not so, but can't be changed.
+: ดึงวันในสัปดาห์ ตั้งแต่ `0` (อาทิตย์) ถึง `6` (เสาร์) วันแรกเป็นวันอาทิตย์เสมอ บางประเทศอาจไม่ใช่แบบนี้ แต่ก็ไม่สามารถเปลี่ยนได้
 
-**All the methods above return the components relative to the local time zone.**
+**เมธอดทั้งหมดข้างต้นคืนค่าตามเขตเวลาท้องถิ่น**
 
-There are also their UTC-counterparts, that return day, month, year and so on for the time zone UTC+0: [getUTCFullYear()](mdn:js/Date/getUTCFullYear), [getUTCMonth()](mdn:js/Date/getUTCMonth), [getUTCDay()](mdn:js/Date/getUTCDay). Just insert the `"UTC"` right after `"get"`.
+แต่ละเมธอดมีเวอร์ชัน UTC ด้วย ซึ่งคืนค่าวัน เดือน ปี ฯลฯ สำหรับเขตเวลา UTC+0 ได้แก่ [getUTCFullYear()](mdn:js/Date/getUTCFullYear), [getUTCMonth()](mdn:js/Date/getUTCMonth), [getUTCDay()](mdn:js/Date/getUTCDay) แค่เพิ่ม `"UTC"` ต่อจาก `"get"` เท่านั้น
 
-If your local time zone is shifted relative to UTC, then the code below shows different hours:
+ถ้าเขตเวลาท้องถิ่นต่างจาก UTC โค้ดด้านล่างจะแสดงชั่วโมงที่ต่างกัน:
 
 ```js run
-// current date
+// วันที่ปัจจุบัน
 let date = new Date();
 
-// the hour in your current time zone
+// ชั่วโมงในเขตเวลาปัจจุบัน
 alert( date.getHours() );
 
-// the hour in UTC+0 time zone (London time without daylight savings)
+// ชั่วโมงในเขตเวลา UTC+0 (เวลาลอนดอนไม่มีการปรับเวลาฤดูร้อน)
 alert( date.getUTCHours() );
 ```
 
-Besides the given methods, there are two special ones that do not have a UTC-variant:
+ยังมีอีกสองเมธอดพิเศษที่ไม่มีเวอร์ชัน UTC:
 
 [getTime()](mdn:js/Date/getTime)
-: Returns the timestamp for the date -- a number of milliseconds passed from the January 1st of 1970 UTC+0.
+: คืนค่า timestamp ของวันที่นั้น -- จำนวนมิลลิวินาทีที่ผ่านมาตั้งแต่วันที่ 1 มกราคม 1970 UTC+0
 
 [getTimezoneOffset()](mdn:js/Date/getTimezoneOffset)
-: Returns the difference between UTC and the local time zone, in minutes:
+: คืนค่าความต่างระหว่าง UTC กับเขตเวลาท้องถิ่น เป็นหน่วยนาที:
 
     ```js run
-    // if you are in timezone UTC-1, outputs 60
-    // if you are in timezone UTC+3, outputs -180
+    // ถ้าอยู่ในเขตเวลา UTC-1 จะแสดง 60
+    // ถ้าอยู่ในเขตเวลา UTC+3 จะแสดง -180
     alert( new Date().getTimezoneOffset() );
 
     ```
 
-## Setting date components
+## การกำหนดค่าส่วนประกอบของวันที่
 
-The following methods allow to set date/time components:
+เมธอดเหล่านี้ใช้กำหนดค่าส่วนประกอบวันที่/เวลา:
 
 - [`setFullYear(year, [month], [date])`](mdn:js/Date/setFullYear)
 - [`setMonth(month, [date])`](mdn:js/Date/setMonth)
@@ -144,38 +144,38 @@ The following methods allow to set date/time components:
 - [`setMinutes(min, [sec], [ms])`](mdn:js/Date/setMinutes)
 - [`setSeconds(sec, [ms])`](mdn:js/Date/setSeconds)
 - [`setMilliseconds(ms)`](mdn:js/Date/setMilliseconds)
-- [`setTime(milliseconds)`](mdn:js/Date/setTime) (sets the whole date by milliseconds since 01.01.1970 UTC)
+- [`setTime(milliseconds)`](mdn:js/Date/setTime) (กำหนดวันที่ทั้งหมดด้วยมิลลิวินาทีตั้งแต่ 01.01.1970 UTC)
 
-Every one of them except `setTime()` has a UTC-variant, for instance: `setUTCHours()`.
+ทุกเมธอดยกเว้น `setTime()` มีเวอร์ชัน UTC เช่น `setUTCHours()`
 
-As we can see, some methods can set multiple components at once, for example `setHours`. The components that are not mentioned are not modified.
+จะเห็นว่าบางเมธอดกำหนดหลายค่าพร้อมกันได้ เช่น `setHours` ส่วนค่าที่ไม่ได้ระบุจะไม่ถูกเปลี่ยน
 
-For instance:
+ตัวอย่าง:
 
 ```js run
 let today = new Date();
 
 today.setHours(0);
-alert(today); // still today, but the hour is changed to 0
+alert(today); // ยังเป็นวันนี้อยู่ แต่ชั่วโมงเปลี่ยนเป็น 0
 
 today.setHours(0, 0, 0, 0);
-alert(today); // still today, now 00:00:00 sharp.
+alert(today); // ยังเป็นวันนี้อยู่ แต่ตอนนี้เป็น 00:00:00 พอดี
 ```
 
-## Autocorrection
+## การแก้ไขค่าอัตโนมัติ
 
-The *autocorrection* is a very handy feature of `Date` objects. We can set out-of-range values, and it will auto-adjust itself.
+*การแก้ไขค่าอัตโนมัติ (autocorrection)* เป็นฟีเจอร์ที่มีประโยชน์มากของออบเจ็กต์ `Date` กำหนดค่าที่เกินขอบเขตได้เลย แล้วมันจะปรับให้ถูกต้องเอง
 
-For instance:
+ตัวอย่าง:
 
 ```js run
-let date = new Date(2013, 0, *!*32*/!*); // 32 Jan 2013 ?!?
-alert(date); // ...is 1st Feb 2013!
+let date = new Date(2013, 0, *!*32*/!*); // 32 ม.ค. 2013 ?!?
+alert(date); // ...กลายเป็น 1 ก.พ. 2013!
 ```
 
-Out-of-range date components are distributed automatically.
+ส่วนประกอบที่เกินขอบเขตจะถูกกระจายออกไปอัตโนมัติ
 
-Let's say we need to increase the date "28 Feb 2016" by 2 days. It may be "2 Mar" or "1 Mar" in case of a leap-year. We don't need to think about it. Just add 2 days. The `Date` object will do the rest:
+สมมติต้องการเพิ่ม 2 วันให้กับ "28 ก.พ. 2016" ผลลัพธ์อาจเป็น "2 มี.ค." หรือ "1 มี.ค." ถ้าปีนั้นเป็นปีอธิกสุรทิน ไม่ต้องคิดเรื่องนี้เลย แค่บวก 2 วัน ออบเจ็กต์ `Date` จัดการให้เอง:
 
 ```js run
 let date = new Date(2016, 1, 28);
@@ -183,112 +183,110 @@ let date = new Date(2016, 1, 28);
 date.setDate(date.getDate() + 2);
 */!*
 
-alert( date ); // 1 Mar 2016
+alert( date ); // 1 มี.ค. 2016
 ```
 
-That feature is often used to get the date after the given period of time. For instance, let's get the date for "70 seconds after now":
+ฟีเจอร์นี้มักใช้เพื่อหาวันที่หลังจากช่วงเวลาที่กำหนด เช่น มาหาวันที่ "70 วินาทีหลังจากนี้":
 
 ```js run
 let date = new Date();
 date.setSeconds(date.getSeconds() + 70);
 
-alert( date ); // shows the correct date
+alert( date ); // แสดงวันที่ที่ถูกต้อง
 ```
 
-We can also set zero or even negative values. For example:
+กำหนดค่าศูนย์หรือค่าลบก็ได้เช่นกัน:
 
 ```js run
-let date = new Date(2016, 0, 2); // 2 Jan 2016
+let date = new Date(2016, 0, 2); // 2 ม.ค. 2016
 
-date.setDate(1); // set day 1 of month
+date.setDate(1); // กำหนดเป็นวันที่ 1 ของเดือน
 alert( date );
 
-date.setDate(0); // min day is 1, so the last day of the previous month is assumed
-alert( date ); // 31 Dec 2015
+date.setDate(0); // วันที่น้อยสุดคือ 1 ระบบจึงถือว่าเป็นวันสุดท้ายของเดือนก่อนหน้า
+alert( date ); // 31 ธ.ค. 2015
 ```
 
-## Date to number, date diff
+## วันที่เป็นตัวเลข และการลบวันที่
 
-When a `Date` object is converted to number, it becomes the timestamp same as `date.getTime()`:
+แปลงออบเจ็กต์ `Date` เป็นตัวเลข จะได้ค่า timestamp เหมือนกับ `date.getTime()`:
 
 ```js run
 let date = new Date();
-alert(+date); // the number of milliseconds, same as date.getTime()
+alert(+date); // จำนวนมิลลิวินาที เหมือนกับ date.getTime()
 ```
 
-The important side effect: dates can be subtracted, the result is their difference in ms.
+ผลที่น่าสนใจคือ วันที่นำมาลบกันได้ โดยได้ผลต่างในหน่วย ms นั่นเอง
 
-That can be used for time measurements:
+เอาไปวัดเวลาได้เลย:
 
 ```js run
-let start = new Date(); // start measuring time
+let start = new Date(); // เริ่มจับเวลา
 
-// do the job
+// ทำงานบางอย่าง
 for (let i = 0; i < 100000; i++) {
   let doSomething = i * i * i;
 }
 
-let end = new Date(); // end measuring time
+let end = new Date(); // หยุดจับเวลา
 
-alert( `The loop took ${end - start} ms` );
+alert( `ลูปใช้เวลา ${end - start} ms` );
 ```
 
 ## Date.now()
 
-If we only want to measure time, we don't need the `Date` object.
+ถ้าต้องการแค่วัดเวลา ไม่จำเป็นต้องสร้างออบเจ็กต์ `Date` เลย
 
-There's a special method `Date.now()` that returns the current timestamp.
+มีเมธอดพิเศษ `Date.now()` ที่คืนค่า timestamp ปัจจุบัน
 
-It is semantically equivalent to `new Date().getTime()`, but it doesn't create an intermediate `Date` object. So it's faster and doesn't put pressure on garbage collection.
+ความหมายเหมือนกับ `new Date().getTime()` แต่ไม่สร้างออบเจ็กต์ `Date` ชั่วคราว จึงเร็วกว่าและไม่กดดัน garbage collection
 
-It is used mostly for convenience or when performance matters, like in games in JavaScript or other specialized applications.
+ใช้บ่อยเมื่อต้องการความสะดวก หรือเมื่อประสิทธิภาพสำคัญ เช่น ในเกม JavaScript หรือแอปพลิเคชันเฉพาะทาง
 
-So this is probably better:
+วิธีนี้จึงน่าจะดีกว่า:
 
 ```js run
 *!*
-let start = Date.now(); // milliseconds count from 1 Jan 1970
+let start = Date.now(); // นับมิลลิวินาทีตั้งแต่ 1 ม.ค. 1970
 */!*
 
-// do the job
+// ทำงานบางอย่าง
 for (let i = 0; i < 100000; i++) {
   let doSomething = i * i * i;
 }
 
 *!*
-let end = Date.now(); // done
+let end = Date.now(); // เสร็จแล้ว
 */!*
 
-alert( `The loop took ${end - start} ms` ); // subtract numbers, not dates
+alert( `ลูปใช้เวลา ${end - start} ms` ); // ลบตัวเลข ไม่ใช่วันที่
 ```
 
 ## Benchmarking
 
-If we want a reliable benchmark of CPU-hungry function, we should be careful.
+ถ้าต้องการ benchmark ฟังก์ชันที่ใช้ CPU หนัก ต้องระมัดระวังหน่อย
 
-For instance, let's measure two functions that calculate the difference between two dates: which one is faster?
-
-Such performance measurements are often called "benchmarks".
+ลองวัดสองฟังก์ชันที่คำนวณความต่างระหว่างวันที่สองวัน ฟังก์ชันไหนเร็วกว่า? การวัดแบบนี้เรียกว่า "benchmark" นั่นเอง
 
 ```js
-// we have date1 and date2, which function faster returns their difference in ms?
+// มี date1 และ date2 ฟังก์ชันไหนคืนค่าความต่างในหน่วย ms ได้เร็วกว่า?
 function diffSubtract(date1, date2) {
   return date2 - date1;
 }
 
-// or
+// หรือ
 function diffGetTime(date1, date2) {
   return date2.getTime() - date1.getTime();
 }
 ```
 
-These two do exactly the same thing, but one of them uses an explicit `date.getTime()` to get the date in ms, and the other one relies on a date-to-number transform. Their result is always the same.
+ทั้งสองทำสิ่งเดียวกันทุกประการ ฟังก์ชันหนึ่งใช้ `date.getTime()` อย่างชัดเจน อีกฟังก์ชันอาศัยการแปลงวันที่เป็นตัวเลขแทน ผลลัพธ์เหมือนกันเสมอ
 
-So, which one is faster?
+แล้วฟังก์ชันไหนเร็วกว่ากัน?
 
-The first idea may be to run them many times in a row and measure the time difference. For our case, functions are very simple, so we have to do it at least 100000 times.
+ความคิดแรกคือรันซ้ำหลายๆ ครั้งติดกันแล้ววัดเวลา ฟังก์ชันเรียบง่ายมาก จึงต้องรันอย่างน้อย 100,000 ครั้ง
 
-Let's measure:
+มาวัดกัน:
 
 ```js run
 function diffSubtract(date1, date2) {
@@ -308,23 +306,21 @@ function bench(f) {
   return Date.now() - start;
 }
 
-alert( 'Time of diffSubtract: ' + bench(diffSubtract) + 'ms' );
-alert( 'Time of diffGetTime: ' + bench(diffGetTime) + 'ms' );
+alert( 'เวลาของ diffSubtract: ' + bench(diffSubtract) + 'ms' );
+alert( 'เวลาของ diffGetTime: ' + bench(diffGetTime) + 'ms' );
 ```
 
-Wow! Using `getTime()` is so much faster! That's because there's no type conversion, it is much easier for engines to optimize.
+ว้าว! `getTime()` เร็วกว่ามากเลย! เพราะไม่มีการแปลงประเภท engine จึง optimize ได้ง่ายกว่า
 
-Okay, we have something. But that's not a good benchmark yet.
+โอเค เราได้ข้อมูลแล้ว แต่นี่ยังไม่ใช่ benchmark ที่ดีนัก
 
-Imagine that at the time of running `bench(diffSubtract)` CPU was doing something in parallel, and it was taking resources. And by the time of running `bench(diffGetTime)` that work has finished.
+ลองนึกภาพว่าตอนที่รัน `bench(diffSubtract)` CPU กำลังทำงานอื่นพร้อมกันและกินทรัพยากรไป แล้วพอถึงเวลารัน `bench(diffGetTime)` งานนั้นเสร็จพอดี สถานการณ์แบบนี้พบได้บ่อยในระบบปฏิบัติการแบบ multi-process สมัยใหม่
 
-A pretty real scenario for a modern multi-process OS.
+ผลก็คือ benchmark แรกได้ทรัพยากร CPU น้อยกว่า benchmark ที่สอง ซึ่งอาจทำให้ผลลัพธ์คลาดเคลื่อนได้
 
-As a result, the first benchmark will have less CPU resources than the second. That may lead to wrong results.
+**เพื่อให้ benchmark น่าเชื่อถือ ควรรันชุด benchmark ทั้งหมดสลับกันหลายๆ รอบ**
 
-**For more reliable benchmarking, the whole pack of benchmarks should be rerun multiple times.**
-
-For example, like this:
+ตัวอย่าง:
 
 ```js run
 function diffSubtract(date1, date2) {
@@ -348,53 +344,53 @@ let time1 = 0;
 let time2 = 0;
 
 *!*
-// run bench(diffSubtract) and bench(diffGetTime) each 10 times alternating
+// รัน bench(diffSubtract) และ bench(diffGetTime) สลับกัน 10 รอบ
 for (let i = 0; i < 10; i++) {
   time1 += bench(diffSubtract);
   time2 += bench(diffGetTime);
 }
 */!*
 
-alert( 'Total time for diffSubtract: ' + time1 );
-alert( 'Total time for diffGetTime: ' + time2 );
+alert( 'เวลารวมของ diffSubtract: ' + time1 );
+alert( 'เวลารวมของ diffGetTime: ' + time2 );
 ```
 
-Modern JavaScript engines start applying advanced optimizations only to "hot code" that executes many times (no need to optimize rarely executed things). So, in the example above, first executions are not well-optimized. We may want to add a heat-up run:
+JavaScript engine สมัยใหม่จะเริ่ม optimize ขั้นสูงเฉพาะกับ "hot code" ที่รันซ้ำหลายครั้ง ดังนั้นในตัวอย่างข้างต้น การรันครั้งแรกๆ ยังไม่ได้รับการ optimize จึงควรเพิ่มการ "อุ่นเครื่อง" ก่อน:
 
 ```js
-// added for "heating up" prior to the main loop
+// อุ่นเครื่องก่อนเข้าลูปหลัก
 bench(diffSubtract);
 bench(diffGetTime);
 
-// now benchmark
+// เริ่ม benchmark จริง
 for (let i = 0; i < 10; i++) {
   time1 += bench(diffSubtract);
   time2 += bench(diffGetTime);
 }
 ```
 
-```warn header="Be careful doing microbenchmarking"
-Modern JavaScript engines perform many optimizations. They may tweak results of "artificial tests" compared to "normal usage", especially when we benchmark something very small, such as how an operator works, or a built-in function. So if you seriously want to understand performance, then please study how the JavaScript engine works. And then you probably won't need microbenchmarks at all.
+```warn header="ระวังการทำ microbenchmarking"
+JavaScript engine สมัยใหม่ทำการ optimize หลายอย่าง ซึ่งอาจบิดเบือนผลของ "การทดสอบเทียม" เมื่อเทียบกับ "การใช้งานจริง" โดยเฉพาะเมื่อ benchmark สิ่งที่เล็กมาก เช่น วิธีที่ตัวดำเนินการทำงาน หรือฟังก์ชัน built-in ดังนั้นถ้าต้องการเข้าใจประสิทธิภาพอย่างจริงจัง ให้ศึกษาว่า JavaScript engine ทำงานอย่างไร แล้วจะพบว่าแทบไม่จำเป็นต้องใช้ microbenchmark เลย
 
-The great pack of articles about V8 can be found at <https://mrale.ph>.
+บทความดีๆ เกี่ยวกับ V8 หาได้ที่ <https://mrale.ph>
 ```
 
-## Date.parse from a string
+## Date.parse จากสตริง
 
-The method [Date.parse(str)](mdn:js/Date/parse) can read a date from a string.
+เมธอด [Date.parse(str)](mdn:js/Date/parse) อ่านวันที่จากสตริงได้
 
-The string format should be: `YYYY-MM-DDTHH:mm:ss.sssZ`, where:
+รูปแบบสตริงควรเป็น: `YYYY-MM-DDTHH:mm:ss.sssZ` โดยที่:
 
-- `YYYY-MM-DD` -- is the date: year-month-day.
-- The character `"T"` is used as the delimiter.
-- `HH:mm:ss.sss` -- is the time: hours, minutes, seconds and milliseconds.
-- The optional `'Z'` part denotes the time zone in the format `+-hh:mm`. A single letter `Z` would mean UTC+0.
+- `YYYY-MM-DD` -- คือวันที่: ปี-เดือน-วัน
+- อักขระ `"T"` ใช้เป็นตัวคั่น
+- `HH:mm:ss.sss` -- คือเวลา: ชั่วโมง นาที วินาที และมิลลิวินาที
+- ส่วน `'Z'` ที่เป็น optional ระบุเขตเวลาในรูปแบบ `+-hh:mm` ถ้าเป็นตัวอักษร `Z` เพียงตัวเดียว หมายถึง UTC+0
 
-Shorter variants are also possible, like `YYYY-MM-DD` or `YYYY-MM` or even `YYYY`.
+ใช้รูปแบบย่อก็ได้ เช่น `YYYY-MM-DD` หรือ `YYYY-MM` หรือแม้แต่ `YYYY`
 
-The call to `Date.parse(str)` parses the string in the given format and returns the timestamp (number of milliseconds from 1 Jan 1970 UTC+0). If the format is invalid, returns `NaN`.
+`Date.parse(str)` จะ parse สตริงตามรูปแบบที่กำหนดแล้วคืนค่า timestamp (จำนวนมิลลิวินาทีตั้งแต่ 1 ม.ค. 1970 UTC+0) ถ้ารูปแบบไม่ถูกต้อง จะคืนค่า `NaN`
 
-For instance:
+ตัวอย่าง:
 
 ```js run
 let ms = Date.parse('2012-01-26T13:51:50.417-07:00');
@@ -402,7 +398,7 @@ let ms = Date.parse('2012-01-26T13:51:50.417-07:00');
 alert(ms); // 1327611110417  (timestamp)
 ```
 
-We can instantly create a `new Date` object from the timestamp:
+สร้างออบเจ็กต์ `new Date` จาก timestamp ได้ทันที:
 
 ```js run
 let date = new Date( Date.parse('2012-01-26T13:51:50.417-07:00') );
@@ -410,24 +406,24 @@ let date = new Date( Date.parse('2012-01-26T13:51:50.417-07:00') );
 alert(date);
 ```
 
-## Summary
+## สรุป
 
-- Date and time in JavaScript are represented with the [Date](mdn:js/Date) object. We can't create "only date" or "only time": `Date` objects always carry both.
-- Months are counted from zero (yes, January is a zero month).
-- Days of week in `getDay()` are also counted from zero (that's Sunday).
-- `Date` auto-corrects itself when out-of-range components are set. Good for adding/subtracting days/months/hours.
-- Dates can be subtracted, giving their difference in milliseconds. That's because a `Date` becomes the timestamp when converted to a number.
-- Use `Date.now()` to get the current timestamp fast.
+- วันที่และเวลาใน JavaScript ใช้ออบเจ็กต์ [Date](mdn:js/Date) ไม่สามารถสร้าง "แค่วันที่" หรือ "แค่เวลา" แยกกันได้ ออบเจ็กต์ `Date` มีทั้งสองเสมอ
+- เดือนนับจากศูนย์ (ใช่แล้ว มกราคมคือเดือนที่ศูนย์)
+- วันในสัปดาห์ใน `getDay()` ก็นับจากศูนย์เช่นกัน นั่นคือวันอาทิตย์
+- `Date` แก้ไขค่าตัวเองอัตโนมัติเมื่อกำหนดค่าเกินขอบเขต สะดวกสำหรับการบวก/ลบวัน/เดือน/ชั่วโมง
+- วันที่ลบกันได้ ได้ผลต่างในหน่วยมิลลิวินาที เพราะออบเจ็กต์ `Date` กลายเป็น timestamp เมื่อแปลงเป็นตัวเลข
+- ใช้ `Date.now()` เพื่อดึง timestamp ปัจจุบันได้รวดเร็ว
 
-Note that unlike many other systems, timestamps in JavaScript are in milliseconds, not in seconds.
+น่าสังเกตว่าต่างจากระบบอื่นๆ หลายระบบ timestamp ใน JavaScript มีหน่วยเป็นมิลลิวินาที ไม่ใช่วินาที
 
-Sometimes we need more precise time measurements. JavaScript itself does not have a way to measure time in microseconds (1 millionth of a second), but most environments provide it. For instance, browser has [performance.now()](mdn:api/Performance/now) that gives the number of milliseconds from the start of page loading with microsecond precision (3 digits after the point):
+บางครั้งต้องการวัดเวลาที่แม่นยำกว่านี้ JavaScript เองไม่มีวิธีวัดในระดับไมโครวินาที (1 ในล้านของวินาที) แต่สภาพแวดล้อมส่วนใหญ่มีให้ เช่น เบราว์เซอร์มี [performance.now()](mdn:api/Performance/now) ที่คืนค่าจำนวนมิลลิวินาทีตั้งแต่เริ่มโหลดหน้าเว็บ พร้อมความแม่นยำระดับไมโครวินาที (3 ตำแหน่งหลังจุดทศนิยม):
 
 ```js run
-alert(`Loading started ${performance.now()}ms ago`);
-// Something like: "Loading started 34731.26000000001ms ago"
-// .26 is microseconds (260 microseconds)
-// more than 3 digits after the decimal point are precision errors, only the first 3 are correct
+alert(`โหลดเริ่มมาแล้ว ${performance.now()}ms`);
+// บางอย่างเช่น: "โหลดเริ่มมาแล้ว 34731.26000000001ms"
+// .26 คือไมโครวินาที (260 ไมโครวินาที)
+// ตัวเลขหลังจุดทศนิยมมากกว่า 3 ตำแหน่งคือความผิดพลาดของความแม่นยำ ถูกต้องแค่ 3 ตำแหน่งแรก
 ```
 
-Node.js has `microtime` module and other ways. Technically, almost any device and environment allows to get more precision, it's just not in `Date`.
+Node.js มีโมดูล `microtime` และวิธีอื่นๆ ในทางเทคนิค แทบทุกอุปกรณ์และสภาพแวดล้อมสามารถให้ความแม่นยำสูงกว่านี้ได้ เพียงแต่ยังไม่อยู่ใน `Date`
