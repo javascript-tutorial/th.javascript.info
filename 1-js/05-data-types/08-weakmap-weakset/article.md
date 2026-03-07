@@ -1,46 +1,46 @@
 
-# WeakMap and WeakSet
+# WeakMap และ WeakSet
 
-As we know from the chapter <info:garbage-collection>, JavaScript engine keeps a value in memory while it is "reachable" and can potentially be used.
+จากที่เรารู้กันในบท <info:garbage-collection> JavaScript engine จะเก็บค่าไว้ในหน่วยความจำตราบเท่าที่ค่านั้น "ยังเข้าถึงได้" และอาจถูกนำไปใช้งาน
 
-For instance:
+ตัวอย่างเช่น:
 
 ```js
 let john = { name: "John" };
 
-// the object can be accessed, john is the reference to it
+// เข้าถึงออบเจ็กต์ได้ผ่าน john ซึ่งเป็น reference ของมัน
 
-// overwrite the reference
+// เขียนทับ reference
 john = null;
 
 *!*
-// the object will be removed from memory
+// ออบเจ็กต์จะถูกลบออกจากหน่วยความจำ
 */!*
 ```
 
-Usually, properties of an object or elements of an array or another data structure are considered reachable and kept in memory while that data structure is in memory.
+โดยทั่วไปแล้ว พร็อพเพอร์ตี้ของออบเจ็กต์ หรือสมาชิกของอาร์เรย์ หรือโครงสร้างข้อมูลอื่นๆ จะถือว่า "เข้าถึงได้" และจะถูกเก็บไว้ในหน่วยความจำตราบเท่าที่โครงสร้างข้อมูลนั้นยังคงอยู่
 
-For instance, if we put an object into an array, then while the array is alive, the object will be alive as well, even if there are no other references to it.
+ตัวอย่างเช่น ถ้าเราใส่ออบเจ็กต์ลงในอาร์เรย์ ตราบใดที่อาร์เรย์ยังคงอยู่ ออบเจ็กต์นั้นก็จะยังคงอยู่ด้วย แม้จะไม่มี reference อื่นชี้ไปที่มันแล้วก็ตาม
 
-Like this:
+แบบนี้:
 
 ```js
 let john = { name: "John" };
 
 let array = [ john ];
 
-john = null; // overwrite the reference
+john = null; // เขียนทับ reference
 
 *!*
-// the object previously referenced by john is stored inside the array
-// therefore it won't be garbage-collected
-// we can get it as array[0]
+// ออบเจ็กต์ที่ john เคยชี้ไป ยังคงอยู่ในอาร์เรย์
+// ดังนั้นมันจะไม่ถูก garbage-collected
+// เราเข้าถึงมันได้ผ่าน array[0]
 */!*
 ```
 
-Similar to that, if we use an object as the key in a regular `Map`, then while the `Map` exists, that object exists as well. It occupies memory and may not be garbage collected.
+ในทำนองเดียวกัน ถ้าเราใช้ออบเจ็กต์เป็น key ใน `Map` ปกติ ตราบใดที่ `Map` ยังคงอยู่ ออบเจ็กต์นั้นก็จะยังคงอยู่ด้วย มันจะครอบครองหน่วยความจำและไม่อาจถูก garbage collect
 
-For instance:
+ตัวอย่าง:
 
 ```js
 let john = { name: "John" };
@@ -48,36 +48,36 @@ let john = { name: "John" };
 let map = new Map();
 map.set(john, "...");
 
-john = null; // overwrite the reference
+john = null; // เขียนทับ reference
 
 *!*
-// john is stored inside the map,
-// we can get it by using map.keys()
+// john ยังคงอยู่ใน map
+// เราเข้าถึงมันได้ผ่าน map.keys()
 */!*
 ```
 
-[`WeakMap`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap) is fundamentally different in this aspect. It doesn't prevent garbage-collection of key objects.
+[`WeakMap`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap) ทำงานต่างออกไปในแง่นี้โดยสิ้นเชิง มันไม่ขัดขวางการ garbage-collect ของออบเจ็กต์ที่เป็น key
 
-Let's see what it means on examples.
+มาดูกันว่าหมายความว่าอะไรผ่านตัวอย่าง
 
 ## WeakMap
 
-The first difference between [`Map`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map) and [`WeakMap`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap) is that keys must be objects, not primitive values:
+ความแตกต่างประการแรกระหว่าง [`Map`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map) และ [`WeakMap`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap) คือ key ต้องเป็นออบเจ็กต์เท่านั้น ไม่ใช่ค่า primitive:
 
 ```js run
 let weakMap = new WeakMap();
 
 let obj = {};
 
-weakMap.set(obj, "ok"); // works fine (object key)
+weakMap.set(obj, "ok"); // ใช้งานได้ปกติ (key เป็นออบเจ็กต์)
 
 *!*
-// can't use a string as the key
-weakMap.set("test", "Whoops"); // Error, because "test" is not an object
+// ไม่สามารถใช้สตริงเป็น key ได้
+weakMap.set("test", "Whoops"); // เกิดข้อผิดพลาด เพราะ "test" ไม่ใช่ออบเจ็กต์
 */!*
 ```
 
-Now, if we use an object as the key in it, and there are no other references to that object -- it will be removed from memory (and from the map) automatically.
+ทีนี้ ถ้าเราใช้ออบเจ็กต์เป็น key และไม่มี reference อื่นชี้ไปที่ออบเจ็กต์นั้นอีกแล้ว ออบเจ็กต์นั้นจะถูกลบออกจากหน่วยความจำ (และจาก map) โดยอัตโนมัติ
 
 ```js
 let john = { name: "John" };
@@ -85,103 +85,103 @@ let john = { name: "John" };
 let weakMap = new WeakMap();
 weakMap.set(john, "...");
 
-john = null; // overwrite the reference
+john = null; // เขียนทับ reference
 
-// john is removed from memory!
+// john ถูกลบออกจากหน่วยความจำแล้ว!
 ```
 
-Compare it with the regular `Map` example above. Now if `john` only exists as the key of `WeakMap` -- it will be automatically deleted from the map (and memory).
+เปรียบเทียบกับตัวอย่าง `Map` ปกติข้างบน ถ้า `john` อยู่ใน `WeakMap` ในฐานะ key เพียงอย่างเดียว มันจะถูกลบออกจาก map (และหน่วยความจำ) โดยอัตโนมัติ
 
-`WeakMap` does not support iteration and methods `keys()`, `values()`, `entries()`, so there's no way to get all keys or values from it.
+`WeakMap` ไม่รองรับการวนซ้ำ และเมธอด `keys()`, `values()`, `entries()` ดังนั้นจึงไม่มีทางดึง key หรือ value ทั้งหมดออกมาได้
 
-`WeakMap` has only the following methods:
+`WeakMap` มีเพียงเมธอดเหล่านี้:
 
 - [`weakMap.set(key, value)`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap/set)
 - [`weakMap.get(key)`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap/get)
 - [`weakMap.delete(key)`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap/delete)
 - [`weakMap.has(key)`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap/has)
 
-Why such a limitation? That's for technical reasons. If an object has lost all other references (like `john` in the code above), then it is to be garbage-collected automatically. But technically it's not exactly specified *when the cleanup happens*.
+ทำไมถึงมีข้อจำกัดเช่นนี้? เหตุผลเป็นเรื่องทางเทคนิค ถ้าออบเจ็กต์สูญเสีย reference ทั้งหมด (เหมือน `john` ในโค้ดข้างบน) มันจะถูก garbage collect โดยอัตโนมัติ แต่ในทางเทคนิคแล้ว ไม่มีการระบุแน่นอนว่า *การทำความสะอาดจะเกิดขึ้นเมื่อใด*
 
-The JavaScript engine decides that. It may choose to perform the memory cleanup immediately or to wait and do the cleaning later when more deletions happen. So, technically, the current element count of a `WeakMap` is not known. The engine may have cleaned it up or not, or did it partially. For that reason, methods that access all keys/values are not supported.
+JavaScript engine เป็นตัวตัดสินใจ อาจเลือกทำทันทีหรือรอก่อนแล้วค่อยทำในภายหลังเมื่อมีการลบมากขึ้น ดังนั้นในทางเทคนิค จำนวนสมาชิกปัจจุบันของ `WeakMap` จึงไม่แน่นอน engine อาจทำความสะอาดไปแล้วหรือยังไม่ได้ทำ หรือทำไปบางส่วน ด้วยเหตุนี้ เมธอดที่เข้าถึง key/value ทั้งหมดจึงไม่ได้รับการรองรับ
 
-Now, where do we need such a data structure?
+แล้วเราต้องการโครงสร้างข้อมูลแบบนี้ในสถานการณ์ไหน?
 
-## Use case: additional data
+## กรณีใช้งาน: ข้อมูลเสริม
 
-The main area of application for `WeakMap` is an *additional data storage*.
+การใช้งานหลักของ `WeakMap` คือการเก็บ *ข้อมูลเสริม*
 
-If we're working with an object that "belongs" to another code, maybe even a third-party library, and would like to store some data associated with it, that should only exist while the object is alive - then `WeakMap` is exactly what's needed.
+ถ้าเรากำลังทำงานกับออบเจ็กต์ที่ "เป็นของ" โค้ดอื่น หรืออาจเป็น library ของบุคคลที่สาม และต้องการเก็บข้อมูลบางอย่างที่เชื่อมโยงกับมัน ซึ่งควรมีอยู่แค่ตราบเท่าที่ออบเจ็กต์นั้นยังมีชีวิตอยู่ — `WeakMap` คือสิ่งที่ต้องการพอดี
 
-We put the data to a `WeakMap`, using the object as the key, and when the object is garbage collected, that data will automatically disappear as well.
+เราใส่ข้อมูลลงใน `WeakMap` โดยใช้ออบเจ็กต์เป็น key และเมื่อออบเจ็กต์ถูก garbage collect ข้อมูลนั้นก็จะหายไปโดยอัตโนมัติด้วย
 
 ```js
-weakMap.set(john, "secret documents");
-// if john dies, secret documents will be destroyed automatically
+weakMap.set(john, "เอกสารลับ");
+// ถ้า john ถูกลบ เอกสารลับก็จะถูกทำลายโดยอัตโนมัติ
 ```
 
-Let's look at an example.
+มาดูตัวอย่างกัน
 
-For instance, we have code that keeps a visit count for users. The information is stored in a map: a user object is the key and the visit count is the value. When a user leaves (its object gets garbage collected), we don't want to store their visit count anymore.
+สมมติเรามีโค้ดที่เก็บจำนวนครั้งที่ผู้ใช้เข้าเยี่ยมชม ข้อมูลถูกเก็บใน map โดยใช้ออบเจ็กต์ user เป็น key และจำนวนครั้งเป็น value เมื่อผู้ใช้จากไป (ออบเจ็กต์ถูก garbage collect) เราก็ไม่อยากเก็บจำนวนครั้งของเขาอีกต่อไป
 
-Here's an example of a counting function with `Map`:
+นี่คือตัวอย่างฟังก์ชันนับการเข้าชมด้วย `Map`:
 
 ```js
 // 📁 visitsCount.js
-let visitsCountMap = new Map(); // map: user => visits count
+let visitsCountMap = new Map(); // map: user => จำนวนครั้งที่เข้าชม
 
-// increase the visits count
+// เพิ่มจำนวนครั้งที่เข้าชม
 function countUser(user) {
   let count = visitsCountMap.get(user) || 0;
   visitsCountMap.set(user, count + 1);
 }
 ```
 
-And here's another part of the code, maybe another file using it:
+และนี่คืออีกส่วนของโค้ด อาจเป็นไฟล์อื่นที่ใช้งานมัน:
 
 ```js
 // 📁 main.js
 let john = { name: "John" };
 
-countUser(john); // count his visits
+countUser(john); // นับการเข้าชมของเขา
 
-// later john leaves us
+// ต่อมา john ออกจากระบบ
 john = null;
 ```
 
-Now, `john` object should be garbage collected, but remains in memory, as it's a key in `visitsCountMap`.
+ตอนนี้ ออบเจ็กต์ `john` ควรจะถูก garbage collect แต่มันยังคงอยู่ในหน่วยความจำ เพราะเป็น key ใน `visitsCountMap`
 
-We need to clean `visitsCountMap` when we remove users, otherwise it will grow in memory indefinitely. Such cleaning can become a tedious task in complex architectures.
+เราต้องทำความสะอาด `visitsCountMap` ทุกครั้งที่ลบผู้ใช้ออก ไม่เช่นนั้นมันจะกินหน่วยความจำไปเรื่อยๆ การทำความสะอาดแบบนี้อาจกลายเป็นงานน่าเบื่อในสถาปัตยกรรมที่ซับซ้อน
 
-We can avoid it by switching to `WeakMap` instead:
+เราหลีกเลี่ยงปัญหานี้ได้ด้วยการเปลี่ยนไปใช้ `WeakMap` แทน:
 
 ```js
 // 📁 visitsCount.js
-let visitsCountMap = new WeakMap(); // weakmap: user => visits count
+let visitsCountMap = new WeakMap(); // weakmap: user => จำนวนครั้งที่เข้าชม
 
-// increase the visits count
+// เพิ่มจำนวนครั้งที่เข้าชม
 function countUser(user) {
   let count = visitsCountMap.get(user) || 0;
   visitsCountMap.set(user, count + 1);
 }
 ```
 
-Now we don't have to clean `visitsCountMap`. After `john` object becomes unreachable, by all means except as a key of `WeakMap`, it gets removed from memory, along with the information by that key from `WeakMap`.
+ทีนี้เราไม่ต้องทำความสะอาด `visitsCountMap` อีกต่อไป เมื่อออบเจ็กต์ `john` ไม่สามารถเข้าถึงได้แล้ว ยกเว้นในฐานะ key ของ `WeakMap` มันจะถูกลบออกจากหน่วยความจำพร้อมกับข้อมูลที่เชื่อมโยงกับ key นั้นใน `WeakMap` โดยอัตโนมัติ
 
-## Use case: caching
+## กรณีใช้งาน: caching
 
-Another common example is caching. We can store ("cache") results from a function, so that future calls on the same object can reuse it.
+อีกตัวอย่างที่พบบ่อยคือการทำ caching เราสามารถเก็บ ("cache") ผลลัพธ์จากฟังก์ชันไว้ เพื่อที่การเรียกครั้งต่อๆ ไปด้วยออบเจ็กต์เดิมจะได้นำผลลัพธ์เดิมมาใช้ได้เลย
 
-To achieve that, we can use `Map` (not optimal scenario):
+เราทำแบบนี้ได้ด้วย `Map` (แต่ยังไม่ดีที่สุด):
 
 ```js run
 // 📁 cache.js
 let cache = new Map();
 
-// calculate and remember the result
+// คำนวณและจดจำผลลัพธ์
 function process(obj) {
   if (!cache.has(obj)) {
-    let result = /* calculations of the result for */ obj;
+    let result = /* คำนวณผลลัพธ์สำหรับ */ obj;
 
     cache.set(obj, result);
     return result;
@@ -191,26 +191,26 @@ function process(obj) {
 }
 
 *!*
-// Now we use process() in another file:
+// ทีนี้เราใช้ process() ในไฟล์อื่น:
 */!*
 
 // 📁 main.js
-let obj = {/* let's say we have an object */};
+let obj = {/* สมมติว่าเรามีออบเจ็กต์นี้ */};
 
-let result1 = process(obj); // calculated
+let result1 = process(obj); // คำนวณแล้ว
 
-// ...later, from another place of the code...
-let result2 = process(obj); // remembered result taken from cache
+// ...ต่อมา จากที่อื่นในโค้ด...
+let result2 = process(obj); // นำผลลัพธ์จาก cache มาใช้
 
-// ...later, when the object is not needed any more:
+// ...ต่อมา เมื่อไม่ต้องการออบเจ็กต์แล้ว:
 obj = null;
 
-alert(cache.size); // 1 (Ouch! The object is still in cache, taking memory!)
+alert(cache.size); // 1 (อุ๊ย! ออบเจ็กต์ยังอยู่ใน cache กินหน่วยความจำ!)
 ```
 
-For multiple calls of `process(obj)` with the same object, it only calculates the result the first time, and then just takes it from `cache`. The downside is that we need to clean `cache` when the object is not needed any more.
+เมื่อเรียก `process(obj)` ด้วยออบเจ็กต์เดิมหลายครั้ง ครั้งแรกเท่านั้นที่จะคำนวณผลลัพธ์ ครั้งต่อๆ ไปจะดึงมาจาก `cache` แต่ข้อเสียคือเราต้องทำความสะอาด `cache` เมื่อไม่ต้องการออบเจ็กต์แล้ว
 
-If we replace `Map` with `WeakMap`, then this problem disappears. The cached result will be removed from memory automatically after the object gets garbage collected.
+ถ้าเราแทน `Map` ด้วย `WeakMap` ปัญหานี้จะหมดไป ผลลัพธ์ที่ cache ไว้จะถูกลบออกจากหน่วยความจำโดยอัตโนมัติหลังจากออบเจ็กต์ถูก garbage collect
 
 ```js run
 // 📁 cache.js
@@ -218,10 +218,10 @@ If we replace `Map` with `WeakMap`, then this problem disappears. The cached res
 let cache = new WeakMap();
 */!*
 
-// calculate and remember the result
+// คำนวณและจดจำผลลัพธ์
 function process(obj) {
   if (!cache.has(obj)) {
-    let result = /* calculate the result for */ obj;
+    let result = /* คำนวณผลลัพธ์สำหรับ */ obj;
 
     cache.set(obj, result);
     return result;
@@ -231,30 +231,30 @@ function process(obj) {
 }
 
 // 📁 main.js
-let obj = {/* some object */};
+let obj = {/* ออบเจ็กต์ตัวหนึ่ง */};
 
 let result1 = process(obj);
 let result2 = process(obj);
 
-// ...later, when the object is not needed any more:
+// ...ต่อมา เมื่อไม่ต้องการออบเจ็กต์แล้ว:
 obj = null;
 
-// Can't get cache.size, as it's a WeakMap,
-// but it's 0 or soon be 0
-// When obj gets garbage collected, cached data will be removed as well
+// ไม่สามารถดู cache.size ได้ เพราะเป็น WeakMap
+// แต่ค่าจะเป็น 0 หรือจะเป็น 0 ในไม่ช้า
+// เมื่อ obj ถูก garbage collect ข้อมูล cache ก็จะถูกลบตามไปด้วย
 ```
 
 ## WeakSet
 
-[`WeakSet`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet) behaves similarly:
+[`WeakSet`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet) ทำงานในลักษณะเดียวกัน:
 
-- It is analogous to `Set`, but we may only add objects to `WeakSet` (not primitives).
-- An object exists in the set while it is reachable from somewhere else.
-- Like `Set`, it supports [`add`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Weakset/add), [`has`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Weakset/has) and [`delete`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Weakset/delete), but not `size`, `keys()` and no iterations.
+- คล้ายกับ `Set` แต่เราเพิ่มได้เฉพาะออบเจ็กต์ใน `WeakSet` เท่านั้น (ไม่ใช่ค่า primitive)
+- ออบเจ็กต์จะอยู่ใน set ตราบเท่าที่ยังมีที่อื่นเข้าถึงมันได้
+- เหมือน `Set` รองรับ [`add`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Weakset/add), [`has`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Weakset/has) และ [`delete`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Weakset/delete) แต่ไม่มี `size`, `keys()` และไม่รองรับการวนซ้ำ
 
-Being "weak", it also serves as additional storage. But not for arbitrary data, rather for "yes/no" facts. A membership in `WeakSet` may mean something about the object.
+ด้วยความเป็น "weak" มันจึงเหมาะสำหรับเก็บข้อมูลเสริมเช่นกัน แต่ไม่ใช่ข้อมูลทั่วไป แต่เป็นข้อเท็จจริงแบบ "ใช่/ไม่ใช่" การที่ออบเจ็กต์อยู่ใน `WeakSet` อาจหมายความว่าบางอย่างเกี่ยวกับออบเจ็กต์นั้น
 
-For instance, we can add users to `WeakSet` to keep track of those who visited our site:
+ตัวอย่างเช่น เราสามารถเพิ่ม user ลงใน `WeakSet` เพื่อติดตามว่าใครเคยเข้าเยี่ยมชมเว็บของเรา:
 
 ```js run
 let visitedSet = new WeakSet();
@@ -263,33 +263,33 @@ let john = { name: "John" };
 let pete = { name: "Pete" };
 let mary = { name: "Mary" };
 
-visitedSet.add(john); // John visited us
-visitedSet.add(pete); // Then Pete
-visitedSet.add(john); // John again
+visitedSet.add(john); // John เข้าเยี่ยมชม
+visitedSet.add(pete); // แล้ว Pete ก็เข้ามา
+visitedSet.add(john); // John เข้ามาอีกครั้ง
 
-// visitedSet has 2 users now
+// ตอนนี้ visitedSet มี 2 user
 
-// check if John visited?
+// ตรวจสอบว่า John เคยเข้าเยี่ยมชมหรือยัง?
 alert(visitedSet.has(john)); // true
 
-// check if Mary visited?
+// ตรวจสอบว่า Mary เคยเข้าเยี่ยมชมหรือยัง?
 alert(visitedSet.has(mary)); // false
 
 john = null;
 
-// visitedSet will be cleaned automatically
+// visitedSet จะถูกทำความสะอาดโดยอัตโนมัติ
 ```
 
-The most notable limitation of `WeakMap` and `WeakSet` is the absence of iterations, and the inability to get all current content. That may appear inconvenient, but does not prevent `WeakMap/WeakSet` from doing their main job -- be an "additional" storage of data for objects which are stored/managed at another place.
+ข้อจำกัดที่เด่นชัดที่สุดของ `WeakMap` และ `WeakSet` คือการไม่รองรับการวนซ้ำ และไม่สามารถดึงเนื้อหาทั้งหมดในขณะนั้นออกมาได้ ดูเหมือนจะไม่สะดวก แต่ก็ไม่ได้ขัดขวาง `WeakMap/WeakSet` จากการทำหน้าที่หลัก นั่นคือเป็นที่เก็บข้อมูล "เสริม" สำหรับออบเจ็กต์ที่ถูกเก็บและจัดการในที่อื่น
 
-## Summary
+## สรุป
 
-[`WeakMap`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap) is `Map`-like collection that allows only objects as keys and removes them together with associated value once they become inaccessible by other means.
+[`WeakMap`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap) คือคอลเล็กชันคล้าย `Map` ที่รองรับเฉพาะออบเจ็กต์เป็น key และจะลบออบเจ็กต์พร้อมกับค่าที่เชื่อมโยงโดยอัตโนมัติเมื่อออบเจ็กต์นั้นไม่สามารถเข้าถึงได้จากที่อื่นอีกแล้ว
 
-[`WeakSet`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet) is `Set`-like collection that stores only objects and removes them once they become inaccessible by other means.
+[`WeakSet`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet) คือคอลเล็กชันคล้าย `Set` ที่เก็บได้เฉพาะออบเจ็กต์ และจะลบออบเจ็กต์โดยอัตโนมัติเมื่อไม่สามารถเข้าถึงได้จากที่อื่นอีกแล้ว
 
-Their main advantages are that they have weak reference to objects, so they can easily be removed by garbage collector.
+ข้อดีหลักของทั้งสองคือมัน reference ออบเจ็กต์แบบ "อ่อนแอ" ทำให้ garbage collector ลบออบเจ็กต์เหล่านั้นได้อย่างง่ายดาย
 
-That comes at the cost of not having support for `clear`, `size`, `keys`, `values`...
+แลกมาด้วยการไม่รองรับ `clear`, `size`, `keys`, `values`...
 
-`WeakMap` and `WeakSet` are used as "secondary" data structures in addition to the "primary" object storage. Once the object is removed from the primary storage, if it is only found as the key of `WeakMap` or in a `WeakSet`, it will be cleaned up automatically.
+`WeakMap` และ `WeakSet` ถูกใช้เป็นโครงสร้างข้อมูล "รอง" เพิ่มเติมจากที่เก็บออบเจ็กต์ "หลัก" เมื่อออบเจ็กต์ถูกลบออกจากที่เก็บหลัก หากพบมันในฐานะ key ของ `WeakMap` หรืออยู่ใน `WeakSet` เท่านั้น มันก็จะถูกทำความสะอาดโดยอัตโนมัติ

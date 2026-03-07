@@ -1,111 +1,111 @@
-# Array methods
+# เมธอดของอาร์เรย์
 
-Arrays provide a lot of methods. To make things easier, in this chapter, they are split into groups.
+อาร์เรย์มีเมธอดให้ใช้มากมาย เพื่อให้เข้าใจง่ายขึ้น ในบทนี้จะแบ่งเมธอดออกเป็นกลุ่มๆ
 
-## Add/remove items
+## เพิ่ม/ลบรายการ
 
-We already know methods that add and remove items from the beginning or the end:
+เราได้รู้จักเมธอดสำหรับเพิ่มและลบรายการจากต้นหรือท้ายอาร์เรย์ไปแล้ว:
 
-- `arr.push(...items)` -- adds items to the end,
-- `arr.pop()` -- extracts an item from the end,
-- `arr.shift()` -- extracts an item from the beginning,
-- `arr.unshift(...items)` -- adds items to the beginning.
+- `arr.push(...items)` -- เพิ่มรายการที่ท้ายอาร์เรย์
+- `arr.pop()` -- ดึงรายการออกจากท้ายอาร์เรย์
+- `arr.shift()` -- ดึงรายการออกจากต้นอาร์เรย์
+- `arr.unshift(...items)` -- เพิ่มรายการที่ต้นอาร์เรย์
 
-Here are a few others.
+มาดูเมธอดอื่นๆ เพิ่มเติมกัน
 
 ### splice
 
-How to delete an element from the array?
+จะลบสมาชิกออกจากอาร์เรย์ได้อย่างไร?
 
-The arrays are objects, so we can try to use `delete`:
+เนื่องจากอาร์เรย์เป็นออบเจ็กต์ เราอาจลองใช้ `delete`:
 
 ```js run
 let arr = ["I", "go", "home"];
 
-delete arr[1]; // remove "go"
+delete arr[1]; // ลบ "go"
 
 alert( arr[1] ); // undefined
 
-// now arr = ["I",  , "home"];
+// ตอนนี้ arr = ["I",  , "home"];
 alert( arr.length ); // 3
 ```
 
-The element was removed, but the array still has 3 elements, we can see that `arr.length == 3`.
+สมาชิกถูกลบแล้ว แต่อาร์เรย์ยังมี 3 สมาชิกอยู่ จะเห็นว่า `arr.length == 3`
 
-That's natural, because `delete obj.key` removes a value by the `key`. It's all it does. Fine for objects. But for arrays we usually want the rest of the elements to shift and occupy the freed place. We expect to have a shorter array now.
+เป็นเรื่องปกติ เพราะ `delete obj.key` ลบค่าตาม `key` เท่านั้น สำหรับออบเจ็กต์ทั่วไปก็ใช้ได้ แต่สำหรับอาร์เรย์ เรามักต้องการให้สมาชิกที่เหลือเลื่อนมาเติมช่องที่ว่าง และอยากได้อาร์เรย์ที่สั้นลงด้วย
 
-So, special methods should be used.
+ดังนั้น จึงต้องใช้เมธอดพิเศษแทน
 
-The [arr.splice](mdn:js/Array/splice) method is a Swiss army knife for arrays. It can do everything: insert, remove and replace elements.
+เมธอด [arr.splice](mdn:js/Array/splice) เปรียบเสมือนมีดพับอเนกประสงค์ของอาร์เรย์ ทำได้ทุกอย่าง: แทรก ลบ และแทนที่สมาชิก
 
-The syntax is:
+ไวยากรณ์คือ:
 
 ```js
 arr.splice(start[, deleteCount, elem1, ..., elemN])
 ```
 
-It modifies `arr` starting from the index `start`: removes `deleteCount` elements and then inserts `elem1, ..., elemN` at their place. Returns the array of removed elements.
+เมธอดนี้แก้ไข `arr` โดยเริ่มจาก index `start`: ลบ `deleteCount` สมาชิก แล้วแทรก `elem1, ..., elemN` ลงในตำแหน่งนั้น และคืนค่าเป็นอาร์เรย์ของสมาชิกที่ถูกลบออก
 
-This method is easy to grasp by examples.
+วิธีที่ดีที่สุดในการทำความเข้าใจเมธอดนี้คือดูตัวอย่าง
 
-Let's start with the deletion:
+เริ่มจากการลบก่อน:
 
 ```js run
 let arr = ["I", "study", "JavaScript"];
 
 *!*
-arr.splice(1, 1); // from index 1 remove 1 element
+arr.splice(1, 1); // จาก index 1 ลบ 1 สมาชิก
 */!*
 
 alert( arr ); // ["I", "JavaScript"]
 ```
 
-Easy, right? Starting from the index `1` it removed `1` element.
+ง่ายใช่ไหม? เริ่มจาก index `1` แล้วลบ `1` สมาชิก
 
-In the next example, we remove 3 elements and replace them with the other two:
+ในตัวอย่างถัดไป เราลบ 3 สมาชิกแล้วแทนด้วยอีก 2 สมาชิก:
 
 ```js run
 let arr = [*!*"I", "study", "JavaScript",*/!* "right", "now"];
 
-// remove 3 first elements and replace them with another
+// ลบ 3 สมาชิกแรก แล้วแทนด้วยสมาชิกใหม่
 arr.splice(0, 3, "Let's", "dance");
 
-alert( arr ) // now [*!*"Let's", "dance"*/!*, "right", "now"]
+alert( arr ) // ตอนนี้คือ [*!*"Let's", "dance"*/!*, "right", "now"]
 ```
 
-Here we can see that `splice` returns the array of removed elements:
+ต่อไปมาดูว่า `splice` คืนค่าเป็นอาร์เรย์ของสมาชิกที่ถูกลบ:
 
 ```js run
 let arr = [*!*"I", "study",*/!* "JavaScript", "right", "now"];
 
-// remove 2 first elements
+// ลบ 2 สมาชิกแรก
 let removed = arr.splice(0, 2);
 
-alert( removed ); // "I", "study" <-- array of removed elements
+alert( removed ); // "I", "study" <-- อาร์เรย์ของสมาชิกที่ถูกลบ
 ```
 
-The `splice` method is also able to insert the elements without any removals. For that, we need to set `deleteCount` to `0`:
+เมธอด `splice` ยังสามารถแทรกสมาชิกโดยไม่ต้องลบอะไรเลย เพียงกำหนด `deleteCount` เป็น `0`:
 
 ```js run
 let arr = ["I", "study", "JavaScript"];
 
-// from index 2
-// delete 0
-// then insert "complex" and "language"
+// จาก index 2
+// ลบ 0 สมาชิก
+// แล้วแทรก "complex" และ "language"
 arr.splice(2, 0, "complex", "language");
 
 alert( arr ); // "I", "study", "complex", "language", "JavaScript"
 ```
 
-````smart header="Negative indexes allowed"
-Here and in other array methods, negative indexes are allowed. They specify the position from the end of the array, like here:
+````smart header="ใช้ index ติดลบได้"
+ในเมธอดนี้และเมธอดอาร์เรย์อื่นๆ สามารถใช้ index ติดลบได้ ซึ่งหมายถึงตำแหน่งนับจากท้ายอาร์เรย์ ดังนี้:
 
 ```js run
 let arr = [1, 2, 5];
 
-// from index -1 (one step from the end)
-// delete 0 elements,
-// then insert 3 and 4
+// จาก index -1 (หนึ่งขั้นจากท้าย)
+// ลบ 0 สมาชิก
+// แล้วแทรก 3 และ 4
 arr.splice(-1, 0, 3, 4);
 
 alert( arr ); // 1,2,3,4,5
@@ -114,62 +114,62 @@ alert( arr ); // 1,2,3,4,5
 
 ### slice
 
-The method [arr.slice](mdn:js/Array/slice) is much simpler than the similar-looking `arr.splice`.
+เมธอด [arr.slice](mdn:js/Array/slice) ง่ายกว่า `arr.splice` มาก แม้จะดูคล้ายกัน
 
-The syntax is:
+ไวยากรณ์คือ:
 
 ```js
 arr.slice([start], [end])
 ```
 
-It returns a new array copying to it all items from index `start` to `end` (not including `end`). Both `start` and `end` can be negative, in that case position from array end is assumed.
+เมธอดนี้คืนค่าเป็นอาร์เรย์ใหม่ โดยคัดลอกสมาชิกทุกตัวตั้งแต่ index `start` ถึง `end` (ไม่รวม `end`) ทั้ง `start` และ `end` ใช้ค่าติดลบได้ ซึ่งจะนับตำแหน่งจากท้ายอาร์เรย์
 
-It's similar to a string method `str.slice`, but instead of substrings, it makes subarrays.
+คล้ายกับเมธอด `str.slice` ของสตริง แต่แทนที่จะได้ substring กลับได้เป็น subarray แทน
 
-For instance:
+ตัวอย่าง:
 
 ```js run
 let arr = ["t", "e", "s", "t"];
 
-alert( arr.slice(1, 3) ); // e,s (copy from 1 to 3)
+alert( arr.slice(1, 3) ); // e,s (คัดลอกจาก index 1 ถึง 3)
 
-alert( arr.slice(-2) ); // s,t (copy from -2 till the end)
+alert( arr.slice(-2) ); // s,t (คัดลอกจาก index -2 ถึงท้ายอาร์เรย์)
 ```
 
-We can also call it without arguments: `arr.slice()` creates a copy of `arr`. That's often used to obtain a copy for further transformations that should not affect the original array.
+เรายังสามารถเรียกใช้โดยไม่ระบุอาร์กิวเมนต์: `arr.slice()` จะสร้างสำเนาของ `arr` ซึ่งมักใช้เมื่อต้องการทำสำเนาสำหรับการแปลงข้อมูลที่ไม่ต้องการกระทบอาร์เรย์ต้นฉบับ
 
 ### concat
 
-The method [arr.concat](mdn:js/Array/concat) creates a new array that includes values from other arrays and additional items.
+เมธอด [arr.concat](mdn:js/Array/concat) สร้างอาร์เรย์ใหม่ที่รวมค่าจากอาร์เรย์อื่นและรายการเพิ่มเติม
 
-The syntax is:
+ไวยากรณ์คือ:
 
 ```js
 arr.concat(arg1, arg2...)
 ```
 
-It accepts any number of arguments -- either arrays or values.
+รับอาร์กิวเมนต์กี่ตัวก็ได้ จะเป็นอาร์เรย์หรือค่าธรรมดาก็ได้
 
-The result is a new array containing items from `arr`, then `arg1`, `arg2` etc.
+ผลลัพธ์คืออาร์เรย์ใหม่ที่ประกอบด้วยสมาชิกจาก `arr` ตามด้วย `arg1`, `arg2` เป็นต้น
 
-If an argument `argN` is an array, then all its elements are copied. Otherwise, the argument itself is copied.
+ถ้าอาร์กิวเมนต์ `argN` เป็นอาร์เรย์ สมาชิกทุกตัวจะถูกคัดลอก มิฉะนั้นจะคัดลอกอาร์กิวเมนต์นั้นทั้งก้อน
 
-For instance:
+ตัวอย่าง:
 
 ```js run
 let arr = [1, 2];
 
-// create an array from: arr and [3,4]
+// สร้างอาร์เรย์จาก: arr และ [3,4]
 alert( arr.concat([3, 4]) ); // 1,2,3,4
 
-// create an array from: arr and [3,4] and [5,6]
+// สร้างอาร์เรย์จาก: arr และ [3,4] และ [5,6]
 alert( arr.concat([3, 4], [5, 6]) ); // 1,2,3,4,5,6
 
-// create an array from: arr and [3,4], then add values 5 and 6
+// สร้างอาร์เรย์จาก: arr และ [3,4] แล้วเพิ่มค่า 5 และ 6
 alert( arr.concat([3, 4], 5, 6) ); // 1,2,3,4,5,6
 ```
 
-Normally, it only copies elements from arrays. Other objects, even if they look like arrays, are added as a whole:
+โดยปกติ เมธอดนี้จะคัดลอกแค่สมาชิกจากอาร์เรย์ ส่วนออบเจ็กต์อื่นๆ แม้จะดูคล้ายอาร์เรย์ จะถูกเพิ่มเข้าไปทั้งก้อน:
 
 ```js run
 let arr = [1, 2];
@@ -182,7 +182,7 @@ let arrayLike = {
 alert( arr.concat(arrayLike) ); // 1,2,[object Object]
 ```
 
-...But if an array-like object has a special `Symbol.isConcatSpreadable` property, then it's treated as an array by `concat`: its elements are added instead:
+...แต่ถ้าออบเจ็กต์ array-like มีพร็อพเพอร์ตี้พิเศษชื่อ `Symbol.isConcatSpreadable` `concat` จะถือว่ามันเป็นอาร์เรย์และเพิ่มสมาชิกแทน:
 
 ```js run
 let arr = [1, 2];
@@ -199,49 +199,49 @@ let arrayLike = {
 alert( arr.concat(arrayLike) ); // 1,2,something,else
 ```
 
-## Iterate: forEach
+## วนซ้ำด้วย forEach
 
-The [arr.forEach](mdn:js/Array/forEach) method allows to run a function for every element of the array.
+เมธอด [arr.forEach](mdn:js/Array/forEach) ช่วยให้รันฟังก์ชันสำหรับสมาชิกทุกตัวในอาร์เรย์
 
-The syntax:
+ไวยากรณ์:
 ```js
 arr.forEach(function(item, index, array) {
-  // ... do something with an item
+  // ... ทำบางอย่างกับ item
 });
 ```
 
-For instance, this shows each element of the array:
+ตัวอย่างเช่น โค้ดนี้แสดงสมาชิกทุกตัวในอาร์เรย์:
 
 ```js run
-// for each element call alert
+// เรียก alert สำหรับสมาชิกแต่ละตัว
 ["Bilbo", "Gandalf", "Nazgul"].forEach(alert);
 ```
 
-And this code is more elaborate about their positions in the target array:
+และโค้ดนี้แสดงข้อมูลตำแหน่งของแต่ละสมาชิกในอาร์เรย์:
 
 ```js run
 ["Bilbo", "Gandalf", "Nazgul"].forEach((item, index, array) => {
-  alert(`${item} is at index ${index} in ${array}`);
+  alert(`${item} อยู่ที่ index ${index} ใน ${array}`);
 });
 ```
 
-The result of the function (if it returns any) is thrown away and ignored.
+ค่าที่ฟังก์ชันคืนค่ากลับมา (ถ้ามี) จะถูกทิ้งและไม่นำมาใช้งาน
 
 
-## Searching in array
+## ค้นหาในอาร์เรย์
 
-Now let's cover methods that search in an array.
+ทีนี้มาดูเมธอดสำหรับค้นหาข้อมูลในอาร์เรย์กัน
 
-### indexOf/lastIndexOf and includes
+### indexOf/lastIndexOf และ includes
 
-The methods [arr.indexOf](mdn:js/Array/indexOf) and [arr.includes](mdn:js/Array/includes) have the similar syntax and do essentially the same as their string counterparts, but operate on items instead of characters:
+เมธอด [arr.indexOf](mdn:js/Array/indexOf) และ [arr.includes](mdn:js/Array/includes) มีไวยากรณ์คล้ายกัน และทำงานคล้ายกับเมธอดของสตริง แต่ทำงานกับสมาชิกแทนที่จะเป็นตัวอักษร:
 
-- `arr.indexOf(item, from)` -- looks for `item` starting from index `from`, and returns the index where it was found, otherwise `-1`.
-- `arr.includes(item, from)` -- looks for `item` starting from index `from`, returns `true` if found.
+- `arr.indexOf(item, from)` -- ค้นหา `item` โดยเริ่มจาก index `from` คืนค่า index ที่พบ ถ้าไม่พบคืน `-1`
+- `arr.includes(item, from)` -- ค้นหา `item` โดยเริ่มจาก index `from` คืน `true` ถ้าพบ
 
-Usually, these methods are used with only one argument: the `item` to search. By default, the search is from the beginning.
+โดยทั่วไปเมธอดเหล่านี้ใช้กับอาร์กิวเมนต์เดียวคือ `item` ที่ต้องการค้นหา ซึ่งจะค้นหาตั้งแต่ต้น
 
-For instance:
+ตัวอย่าง:
 
 ```js run
 let arr = [1, 0, false];
@@ -253,140 +253,140 @@ alert( arr.indexOf(null) ); // -1
 alert( arr.includes(1) ); // true
 ```
 
-Please note that `indexOf` uses the strict equality `===` for comparison. So, if we look for `false`, it finds exactly `false` and not the zero.
+โปรดสังเกตว่า `indexOf` ใช้การเปรียบเทียบแบบเข้มงวด `===` ดังนั้นถ้าค้นหา `false` จะพบ `false` เท่านั้น ไม่ใช่ศูนย์
 
-If we want to check if `item` exists in the array and don't need the index, then `arr.includes` is preferred.
+ถ้าต้องการแค่ตรวจสอบว่า `item` มีอยู่ในอาร์เรย์หรือไม่ โดยไม่ต้องการ index ให้ใช้ `arr.includes` แทน
 
-The method [arr.lastIndexOf](mdn:js/Array/lastIndexOf) is the same as `indexOf`, but looks for from right to left.
+เมธอด [arr.lastIndexOf](mdn:js/Array/lastIndexOf) ทำงานเหมือน `indexOf` แต่ค้นหาจากขวาไปซ้าย
 
 ```js run
 let fruits = ['Apple', 'Orange', 'Apple']
 
-alert( fruits.indexOf('Apple') ); // 0 (first Apple)
-alert( fruits.lastIndexOf('Apple') ); // 2 (last Apple)
+alert( fruits.indexOf('Apple') ); // 0 (Apple ตัวแรก)
+alert( fruits.lastIndexOf('Apple') ); // 2 (Apple ตัวสุดท้าย)
 ```
 
-````smart header="The `includes` method handles `NaN` correctly"
-A minor, but noteworthy feature of `includes` is that it correctly handles `NaN`, unlike `indexOf`:
+````smart header="เมธอด `includes` รองรับ `NaN` อย่างถูกต้อง"
+ข้อดีเล็กน้อยแต่น่าสนใจของ `includes` คือรองรับ `NaN` ได้อย่างถูกต้อง ต่างจาก `indexOf`:
 
 ```js run
 const arr = [NaN];
-alert( arr.indexOf(NaN) ); // -1 (wrong, should be 0)
-alert( arr.includes(NaN) );// true (correct)
+alert( arr.indexOf(NaN) ); // -1 (ผิด ควรได้ 0)
+alert( arr.includes(NaN) );// true (ถูกต้อง)
 ```
-That's because `includes` was added to JavaScript much later and uses the more up-to-date comparison algorithm internally.
+เพราะ `includes` ถูกเพิ่มเข้ามาใน JavaScript ในภายหลัง และใช้อัลกอริทึมเปรียบเทียบที่ทันสมัยกว่า
 ````
 
-### find and findIndex/findLastIndex
+### find และ findIndex/findLastIndex
 
-Imagine we have an array of objects. How do we find an object with a specific condition?
+ลองนึกภาพว่าเรามีอาร์เรย์ของออบเจ็กต์ แล้วจะค้นหาออบเจ็กต์ที่ตรงตามเงื่อนไขได้อย่างไร?
 
-Here the [arr.find(fn)](mdn:js/Array/find) method comes in handy.
+เมธอด [arr.find(fn)](mdn:js/Array/find) ช่วยได้พอดี
 
-The syntax is:
+ไวยากรณ์คือ:
 ```js
 let result = arr.find(function(item, index, array) {
-  // if true is returned, item is returned and iteration is stopped
-  // for falsy scenario returns undefined
+  // ถ้าคืนค่า true จะหยุดค้นหาและคืน item กลับ
+  // ถ้าไม่พบจะคืน undefined
 });
 ```
 
-The function is called for elements of the array, one after another:
+ฟังก์ชันจะถูกเรียกสำหรับสมาชิกทุกตัวในอาร์เรย์ ทีละตัว:
 
-- `item` is the element.
-- `index` is its index.
-- `array` is the array itself.
+- `item` คือสมาชิก
+- `index` คือ index ของสมาชิก
+- `array` คืออาร์เรย์เอง
 
-If it returns `true`, the search is stopped, the `item` is returned. If nothing is found, `undefined` is returned.
+ถ้าฟังก์ชันคืน `true` การค้นหาจะหยุดและคืน `item` กลับ ถ้าไม่พบอะไร จะคืน `undefined`
 
-For example, we have an array of users, each with the fields `id` and `name`. Let's find the one with `id == 1`:
+ตัวอย่าง เรามีอาร์เรย์ของผู้ใช้ที่มีฟิลด์ `id` และ `name` แล้วหาผู้ใช้ที่มี `id == 1`:
 
 ```js run
 let users = [
-  {id: 1, name: "John"},
-  {id: 2, name: "Pete"},
-  {id: 3, name: "Mary"}
+  {id: 1, name: "สมชาย"},
+  {id: 2, name: "สมหญิง"},
+  {id: 3, name: "มาลี"}
 ];
 
 let user = users.find(item => item.id == 1);
 
-alert(user.name); // John
+alert(user.name); // สมชาย
 ```
 
-In real life, arrays of objects are a common thing, so the `find` method is very useful.
+ในชีวิตจริง อาร์เรย์ของออบเจ็กต์เป็นเรื่องที่พบบ่อยมาก ดังนั้นเมธอด `find` จึงมีประโยชน์มาก
 
-Note that in the example we provide to `find` the function `item => item.id == 1` with one argument. That's typical, other arguments of this function are rarely used.
+สังเกตว่าในตัวอย่างนี้ เราส่งฟังก์ชัน `item => item.id == 1` ที่มีอาร์กิวเมนต์เดียวให้ `find` ซึ่งเป็นรูปแบบทั่วไป อาร์กิวเมนต์อื่นๆ ของฟังก์ชันนี้ใช้น้อยมาก
 
-The [arr.findIndex](mdn:js/Array/findIndex) method has the same syntax but returns the index where the element was found instead of the element itself. The value of `-1` is returned if nothing is found.
+เมธอด [arr.findIndex](mdn:js/Array/findIndex) มีไวยากรณ์เหมือนกัน แต่คืน index ของสมาชิกที่พบแทนตัวสมาชิก ถ้าไม่พบจะคืน `-1`
 
-The [arr.findLastIndex](mdn:js/Array/findLastIndex) method is like `findIndex`, but searches from right to left, similar to `lastIndexOf`.
+เมธอด [arr.findLastIndex](mdn:js/Array/findLastIndex) คล้ายกับ `findIndex` แต่ค้นหาจากขวาไปซ้าย คล้ายกับ `lastIndexOf`
 
-Here's an example:
+ตัวอย่าง:
 
 ```js run
 let users = [
-  {id: 1, name: "John"},
-  {id: 2, name: "Pete"},
-  {id: 3, name: "Mary"},
-  {id: 4, name: "John"}
+  {id: 1, name: "สมชาย"},
+  {id: 2, name: "สมหญิง"},
+  {id: 3, name: "มาลี"},
+  {id: 4, name: "สมชาย"}
 ];
 
-// Find the index of the first John
-alert(users.findIndex(user => user.name == 'John')); // 0
+// หา index ของสมชายคนแรก
+alert(users.findIndex(user => user.name == 'สมชาย')); // 0
 
-// Find the index of the last John
-alert(users.findLastIndex(user => user.name == 'John')); // 3
+// หา index ของสมชายคนสุดท้าย
+alert(users.findLastIndex(user => user.name == 'สมชาย')); // 3
 ```
 
 ### filter
 
-The `find` method looks for a single (first) element that makes the function return `true`.
+เมธอด `find` ค้นหาสมาชิกตัวเดียว (ตัวแรก) ที่ทำให้ฟังก์ชันคืน `true`
 
-If there may be many, we can use [arr.filter(fn)](mdn:js/Array/filter).
+ถ้าอาจมีหลายตัวที่ตรงเงื่อนไข ให้ใช้ [arr.filter(fn)](mdn:js/Array/filter)
 
-The syntax is similar to `find`, but `filter` returns an array of all matching elements:
+ไวยากรณ์คล้ายกับ `find` แต่ `filter` คืนอาร์เรย์ของสมาชิกทุกตัวที่ตรงเงื่อนไข:
 
 ```js
 let results = arr.filter(function(item, index, array) {
-  // if true item is pushed to results and the iteration continues
-  // returns empty array if nothing found
+  // ถ้าคืน true สมาชิกจะถูกเพิ่มใน results และวนต่อ
+  // คืนอาร์เรย์ว่างถ้าไม่พบ
 });
 ```
 
-For instance:
+ตัวอย่าง:
 
 ```js run
 let users = [
-  {id: 1, name: "John"},
-  {id: 2, name: "Pete"},
-  {id: 3, name: "Mary"}
+  {id: 1, name: "สมชาย"},
+  {id: 2, name: "สมหญิง"},
+  {id: 3, name: "มาลี"}
 ];
 
-// returns array of the first two users
+// คืนอาร์เรย์ของสองผู้ใช้แรก
 let someUsers = users.filter(item => item.id < 3);
 
 alert(someUsers.length); // 2
 ```
 
-## Transform an array
+## แปลงอาร์เรย์
 
-Let's move on to methods that transform and reorder an array.
+มาดูเมธอดสำหรับแปลงและจัดเรียงอาร์เรย์กัน
 
 ### map
 
-The [arr.map](mdn:js/Array/map) method is one of the most useful and often used.
+เมธอด [arr.map](mdn:js/Array/map) เป็นหนึ่งในเมธอดที่มีประโยชน์และใช้บ่อยที่สุด
 
-It calls the function for each element of the array and returns the array of results.
+เมธอดนี้เรียกฟังก์ชันสำหรับสมาชิกแต่ละตัวในอาร์เรย์ แล้วคืนอาร์เรย์ของผลลัพธ์
 
-The syntax is:
+ไวยากรณ์คือ:
 
 ```js
 let result = arr.map(function(item, index, array) {
-  // returns the new value instead of item
+  // คืนค่าใหม่แทน item
 });
 ```
 
-For instance, here we transform each element into its length:
+ตัวอย่าง เราแปลงสมาชิกแต่ละตัวให้เป็นความยาวของมัน:
 
 ```js run
 let lengths = ["Bilbo", "Gandalf", "Nazgul"].map(item => item.length);
@@ -395,42 +395,42 @@ alert(lengths); // 5,7,6
 
 ### sort(fn)
 
-The call to [arr.sort()](mdn:js/Array/sort) sorts the array *in place*, changing its element order.
+การเรียก [arr.sort()](mdn:js/Array/sort) จะเรียงลำดับอาร์เรย์ *แบบ in-place* นั่นคือเปลี่ยนลำดับสมาชิกในอาร์เรย์เดิม
 
-It also returns the sorted array, but the returned value is usually ignored, as `arr` itself is modified.
+เมธอดนี้ยังคืนอาร์เรย์ที่เรียงแล้วด้วย แต่ค่าที่คืนมักถูกละเว้น เพราะ `arr` เองถูกแก้ไขแล้ว
 
-For instance:
+ตัวอย่าง:
 
 ```js run
 let arr = [ 1, 2, 15 ];
 
-// the method reorders the content of arr
+// เมธอดนี้จัดเรียงเนื้อหาของ arr ใหม่
 arr.sort();
 
 alert( arr );  // *!*1, 15, 2*/!*
 ```
 
-Did you notice anything strange in the outcome?
+สังเกตเห็นอะไรแปลกๆ ไหม?
 
-The order became `1, 15, 2`. Incorrect. But why?
+ลำดับกลายเป็น `1, 15, 2` ซึ่งไม่ถูกต้อง แต่ทำไม?
 
-**The items are sorted as strings by default.**
+**สมาชิกถูกเรียงลำดับในรูปแบบสตริงโดยค่าเริ่มต้น**
 
-Literally, all elements are converted to strings for comparisons. For strings, lexicographic ordering is applied and indeed `"2" > "15"`.
+สมาชิกทุกตัวจะถูกแปลงเป็นสตริงก่อนเปรียบเทียบ สำหรับสตริงจะใช้การเรียงแบบ lexicographic ซึ่ง `"2" > "15"` นั่นเอง
 
-To use our own sorting order, we need to supply a function as the argument of `arr.sort()`.
+ถ้าต้องการกำหนดลำดับการเรียงเอง ต้องส่งฟังก์ชันเป็นอาร์กิวเมนต์ให้ `arr.sort()`
 
-The function should compare two arbitrary values and return:
+ฟังก์ชันนั้นควรเปรียบเทียบค่าสองค่าใดๆ และคืนค่า:
 
 ```js
 function compare(a, b) {
-  if (a > b) return 1; // if the first value is greater than the second
-  if (a == b) return 0; // if values are equal
-  if (a < b) return -1; // if the first value is less than the second
+  if (a > b) return 1; // ถ้าค่าแรกมากกว่าค่าที่สอง
+  if (a == b) return 0; // ถ้าค่าเท่ากัน
+  if (a < b) return -1; // ถ้าค่าแรกน้อยกว่าค่าที่สอง
 }
 ```
 
-For instance, to sort as numbers:
+ตัวอย่าง เรียงลำดับเป็นตัวเลข:
 
 ```js run
 function compareNumeric(a, b) {
@@ -448,13 +448,13 @@ arr.sort(compareNumeric);
 alert(arr);  // *!*1, 2, 15*/!*
 ```
 
-Now it works as intended.
+ตอนนี้ทำงานถูกต้องแล้ว
 
-Let's step aside and think about what's happening. The `arr` can be an array of anything, right? It may contain numbers or strings or objects or whatever. We have a set of *some items*. To sort it, we need an *ordering function* that knows how to compare its elements. The default is a string order.
+ลองคิดดูว่าเกิดอะไรขึ้น `arr` อาจเป็นอาร์เรย์ของอะไรก็ได้ใช่ไหม? อาจเป็นตัวเลข สตริง ออบเจ็กต์ หรืออะไรก็ตาม เรามี *ชุดของรายการ* บางอย่าง ในการเรียงลำดับ เราต้องมี *ฟังก์ชันเรียงลำดับ* ที่รู้วิธีเปรียบเทียบสมาชิก ค่าเริ่มต้นคือการเรียงแบบสตริง
 
-The `arr.sort(fn)` method implements a generic sorting algorithm. We don't need to care how it internally works (an optimized [quicksort](https://en.wikipedia.org/wiki/Quicksort) or [Timsort](https://en.wikipedia.org/wiki/Timsort) most of the time). It will walk the array, compare its elements using the provided function and reorder them, all we need is to provide the `fn` which does the comparison.
+เมธอด `arr.sort(fn)` ใช้อัลกอริทึมการเรียงลำดับทั่วไป เราไม่จำเป็นต้องรู้ว่ามันทำงานภายในอย่างไร (ส่วนใหญ่จะเป็น [quicksort](https://en.wikipedia.org/wiki/Quicksort) หรือ [Timsort](https://en.wikipedia.org/wiki/Timsort) ที่ปรับแต่งแล้ว) เมธอดจะวนผ่านอาร์เรย์ เปรียบเทียบสมาชิกด้วยฟังก์ชันที่ให้มา และจัดเรียงใหม่ สิ่งที่เราต้องทำมีแค่ระบุ `fn` สำหรับการเปรียบเทียบ
 
-By the way, if we ever want to know which elements are compared -- nothing prevents us from alerting them:
+อนึ่ง ถ้าต้องการดูว่าสมาชิกไหนถูกเปรียบเทียบ แค่ alert ออกมาได้เลย:
 
 ```js run
 [1, -2, 15, 2, 0, 8].sort(function(a, b) {
@@ -463,12 +463,12 @@ By the way, if we ever want to know which elements are compared -- nothing preve
 });
 ```
 
-The algorithm may compare an element with multiple others in the process, but it tries to make as few comparisons as possible.
+อัลกอริทึมอาจเปรียบเทียบสมาชิกหนึ่งตัวกับหลายตัว แต่จะพยายามเปรียบเทียบให้น้อยครั้งที่สุด
 
-````smart header="A comparison function may return any number"
-Actually, a comparison function is only required to return a positive number to say "greater" and a negative number to say "less".
+````smart header="ฟังก์ชันเปรียบเทียบสามารถคืนค่าตัวเลขใดก็ได้"
+จริงๆ แล้ว ฟังก์ชันเปรียบเทียบต้องคืนค่าบวกเพื่อบอกว่า "มากกว่า" และค่าลบเพื่อบอกว่า "น้อยกว่า" เท่านั้น
 
-That allows to write shorter functions:
+ทำให้เขียนฟังก์ชันได้สั้นลง:
 
 ```js run
 let arr = [ 1, 2, 15 ];
@@ -479,37 +479,37 @@ alert(arr);  // *!*1, 2, 15*/!*
 ```
 ````
 
-````smart header="Arrow functions for the best"
-Remember [arrow functions](info:arrow-functions-basics)? We can use them here for neater sorting:
+````smart header="ใช้ arrow function ให้กระชับ"
+จำ [arrow function](info:arrow-functions-basics) ได้ไหม? เราใช้มันเพื่อเขียนการเรียงลำดับได้กระชับขึ้น:
 
 ```js
 arr.sort( (a, b) => a - b );
 ```
 
-This works exactly the same as the longer version above.
+ทำงานได้เหมือนกับเวอร์ชันยาวด้านบนทุกประการ
 ````
 
-````smart header="Use `localeCompare` for strings"
-Remember [strings](info:string#correct-comparisons) comparison algorithm? It compares letters by their codes by default.
+````smart header="ใช้ `localeCompare` สำหรับสตริง"
+จำอัลกอริทึมการเปรียบเทียบ[สตริง](info:string#correct-comparisons) ได้ไหม? โดยค่าเริ่มต้นจะเปรียบเทียบตัวอักษรด้วยรหัสของมัน
 
-For many alphabets, it's better to use `str.localeCompare` method to correctly sort letters, such as `Ö`.
+สำหรับหลายภาษา ควรใช้เมธอด `str.localeCompare` เพื่อเรียงลำดับตัวอักษรให้ถูกต้อง เช่น `Ö`
 
-For example, let's sort a few countries in German:
+ตัวอย่าง ลองเรียงชื่อประเทศในภาษาเยอรมัน:
 
 ```js run
 let countries = ['Österreich', 'Andorra', 'Vietnam'];
 
-alert( countries.sort( (a, b) => a > b ? 1 : -1) ); // Andorra, Vietnam, Österreich (wrong)
+alert( countries.sort( (a, b) => a > b ? 1 : -1) ); // Andorra, Vietnam, Österreich (ผิด)
 
-alert( countries.sort( (a, b) => a.localeCompare(b) ) ); // Andorra,Österreich,Vietnam (correct!)
+alert( countries.sort( (a, b) => a.localeCompare(b) ) ); // Andorra,Österreich,Vietnam (ถูกต้อง!)
 ```
 ````
 
 ### reverse
 
-The method [arr.reverse](mdn:js/Array/reverse) reverses the order of elements in `arr`.
+เมธอด [arr.reverse](mdn:js/Array/reverse) กลับลำดับสมาชิกใน `arr`
 
-For instance:
+ตัวอย่าง:
 
 ```js run
 let arr = [1, 2, 3, 4, 5];
@@ -518,15 +518,15 @@ arr.reverse();
 alert( arr ); // 5,4,3,2,1
 ```
 
-It also returns the array `arr` after the reversal.
+เมธอดนี้ยังคืนอาร์เรย์ `arr` หลังจากกลับลำดับแล้วด้วย
 
-### split and join
+### split และ join
 
-Here's the situation from real life. We are writing a messaging app, and the person enters the comma-delimited list of receivers: `John, Pete, Mary`. But for us an array of names would be much more comfortable than a single string. How to get it?
+ลองนึกถึงสถานการณ์จริง เรากำลังเขียนแอปส่งข้อความ และผู้ใช้พิมพ์รายชื่อผู้รับคั่นด้วยจุลภาค: `สมชาย, สมหญิง, มาลี` แต่สำหรับเรา อาร์เรย์ของชื่อสะดวกกว่าสตริงเดียวมาก จะแปลงได้อย่างไร?
 
-The [str.split(delim)](mdn:js/String/split) method does exactly that. It splits the string into an array by the given delimiter `delim`.
+เมธอด [str.split(delim)](mdn:js/String/split) ทำงานนี้ได้พอดี โดยแยกสตริงออกเป็นอาร์เรย์โดยใช้ตัวคั่น `delim`
 
-In the example below, we split by a comma followed by a space:
+ในตัวอย่างด้านล่าง เราแยกด้วยจุลภาคตามด้วยเว้นวรรค:
 
 ```js run
 let names = 'Bilbo, Gandalf, Nazgul';
@@ -534,11 +534,11 @@ let names = 'Bilbo, Gandalf, Nazgul';
 let arr = names.split(', ');
 
 for (let name of arr) {
-  alert( `A message to ${name}.` ); // A message to Bilbo  (and other names)
+  alert( `ส่งข้อความถึง ${name}.` ); // ส่งข้อความถึง Bilbo  (และชื่ออื่นๆ)
 }
 ```
 
-The `split` method has an optional second numeric argument -- a limit on the array length. If it is provided, then the extra elements are ignored. In practice it is rarely used though:
+เมธอด `split` มีอาร์กิวเมนต์ตัวเลขตัวที่สองที่ไม่บังคับ ซึ่งเป็นขีดจำกัดความยาวของอาร์เรย์ ถ้าระบุ สมาชิกส่วนเกินจะถูกละเว้น แต่ในทางปฏิบัติใช้น้อยมาก:
 
 ```js run
 let arr = 'Bilbo, Gandalf, Nazgul, Saruman'.split(', ', 2);
@@ -546,8 +546,8 @@ let arr = 'Bilbo, Gandalf, Nazgul, Saruman'.split(', ', 2);
 alert(arr); // Bilbo, Gandalf
 ```
 
-````smart header="Split into letters"
-The call to `split(s)` with an empty `s` would split the string into an array of letters:
+````smart header="แยกเป็นตัวอักษร"
+การเรียก `split(s)` ด้วย `s` ว่างเปล่าจะแยกสตริงออกเป็นอาร์เรย์ของตัวอักษร:
 
 ```js run
 let str = "test";
@@ -556,27 +556,27 @@ alert( str.split('') ); // t,e,s,t
 ```
 ````
 
-The call [arr.join(glue)](mdn:js/Array/join) does the reverse to `split`. It creates a string of `arr` items joined by `glue` between them.
+การเรียก [arr.join(glue)](mdn:js/Array/join) ทำงานตรงข้ามกับ `split` โดยสร้างสตริงจากสมาชิกของ `arr` โดยเชื่อมด้วย `glue`
 
-For instance:
+ตัวอย่าง:
 
 ```js run
 let arr = ['Bilbo', 'Gandalf', 'Nazgul'];
 
-let str = arr.join(';'); // glue the array into a string using ;
+let str = arr.join(';'); // เชื่อมอาร์เรย์เป็นสตริงด้วย ;
 
 alert( str ); // Bilbo;Gandalf;Nazgul
 ```
 
 ### reduce/reduceRight
 
-When we need to iterate over an array -- we can use `forEach`, `for` or `for..of`.
+เมื่อต้องวนซ้ำในอาร์เรย์ เราใช้ `forEach`, `for` หรือ `for..of` ได้
 
-When we need to iterate and return the data for each element -- we can use `map`.
+เมื่อต้องวนซ้ำและคืนข้อมูลสำหรับแต่ละสมาชิก เราใช้ `map` ได้
 
-The methods [arr.reduce](mdn:js/Array/reduce) and [arr.reduceRight](mdn:js/Array/reduceRight) also belong to that breed, but are a little bit more intricate. They are used to calculate a single value based on the array.
+เมธอด [arr.reduce](mdn:js/Array/reduce) และ [arr.reduceRight](mdn:js/Array/reduceRight) อยู่ในกลุ่มเดียวกัน แต่ซับซ้อนกว่าเล็กน้อย ใช้สำหรับคำนวณค่าเดียวจากอาร์เรย์
 
-The syntax is:
+ไวยากรณ์คือ:
 
 ```js
 let value = arr.reduce(function(accumulator, item, index, array) {
@@ -584,24 +584,24 @@ let value = arr.reduce(function(accumulator, item, index, array) {
 }, [initial]);
 ```
 
-The function is applied to all array elements one after another and "carries on" its result to the next call.
+ฟังก์ชันจะถูกเรียกสำหรับสมาชิกทุกตัวตามลำดับ และ "ส่งต่อ" ผลลัพธ์ไปยังการเรียกครั้งถัดไป
 
-Arguments:
+อาร์กิวเมนต์:
 
-- `accumulator` -- is the result of the previous function call, equals `initial` the first time (if `initial` is provided).
-- `item` -- is the current array item.
-- `index` -- is its position.
-- `array` -- is the array.
+- `accumulator` -- ผลลัพธ์จากการเรียกฟังก์ชันครั้งก่อน ถ้าเป็นการเรียกครั้งแรกจะเท่ากับ `initial` (ถ้าระบุ)
+- `item` -- สมาชิกในอาร์เรย์ปัจจุบัน
+- `index` -- ตำแหน่งของสมาชิก
+- `array` -- อาร์เรย์เอง
 
-As the function is applied, the result of the previous function call is passed to the next one as the first argument.
+เมื่อฟังก์ชันถูกเรียก ผลลัพธ์จากการเรียกครั้งก่อนจะถูกส่งเป็นอาร์กิวเมนต์แรกของการเรียกครั้งถัดไป
 
-So, the first argument is essentially the accumulator that stores the combined result of all previous executions. And at the end, it becomes the result of `reduce`.
+กล่าวคือ อาร์กิวเมนต์แรกเป็น accumulator ที่เก็บผลลัพธ์รวมของการทำงานทั้งหมดก่อนหน้า และในตอนท้ายจะกลายเป็นผลลัพธ์ของ `reduce`
 
-Sounds complicated?
+ฟังดูซับซ้อนใช่ไหม?
 
-The easiest way to grasp that is by example.
+วิธีที่ง่ายที่สุดในการเข้าใจคือดูตัวอย่าง
 
-Here we get a sum of an array in one line:
+ในตัวอย่างนี้เราหาผลรวมของอาร์เรย์ในบรรทัดเดียว:
 
 ```js run
 let arr = [1, 2, 3, 4, 5];
@@ -611,73 +611,73 @@ let result = arr.reduce((sum, current) => sum + current, 0);
 alert(result); // 15
 ```
 
-The function passed to `reduce` uses only 2 arguments, that's typically enough.
+ฟังก์ชันที่ส่งให้ `reduce` ใช้แค่ 2 อาร์กิวเมนต์ ซึ่งมักเพียงพอ
 
-Let's see the details of what's going on.
+มาดูรายละเอียดว่าเกิดอะไรขึ้น:
 
-1. On the first run, `sum` is the `initial` value (the last argument of `reduce`), equals `0`, and `current` is the first array element, equals `1`. So the function result is `1`.
-2. On the second run, `sum = 1`, we add the second array element (`2`) to it and return.
-3. On the 3rd run, `sum = 3` and we add one more element to it, and so on...
+1. ครั้งแรก `sum` คือค่า `initial` (อาร์กิวเมนต์สุดท้ายของ `reduce`) ซึ่งเท่ากับ `0` และ `current` คือสมาชิกแรกของอาร์เรย์ ซึ่งเท่ากับ `1` ดังนั้นผลลัพธ์ของฟังก์ชันคือ `1`
+2. ครั้งที่สอง `sum = 1` เราบวกสมาชิกที่สอง (`2`) แล้วคืนค่ากลับ
+3. ครั้งที่สาม `sum = 3` และบวกสมาชิกตัวถัดไป และต่อไปเรื่อยๆ...
 
-The calculation flow:
+ขั้นตอนการคำนวณ:
 
 ![](reduce.svg)
 
-Or in the form of a table, where each row represents a function call on the next array element:
+หรือในรูปแบบตาราง แต่ละแถวแสดงการเรียกฟังก์ชันสำหรับสมาชิกถัดไป:
 
-|   |`sum`|`current`|result|
+|   |`sum`|`current`|ผลลัพธ์|
 |---|-----|---------|---------|
-|the first call|`0`|`1`|`1`|
-|the second call|`1`|`2`|`3`|
-|the third call|`3`|`3`|`6`|
-|the fourth call|`6`|`4`|`10`|
-|the fifth call|`10`|`5`|`15`|
+|การเรียกครั้งที่ 1|`0`|`1`|`1`|
+|การเรียกครั้งที่ 2|`1`|`2`|`3`|
+|การเรียกครั้งที่ 3|`3`|`3`|`6`|
+|การเรียกครั้งที่ 4|`6`|`4`|`10`|
+|การเรียกครั้งที่ 5|`10`|`5`|`15`|
 
-Here we can clearly see how the result of the previous call becomes the first argument of the next one.
+จะเห็นชัดว่าผลลัพธ์ของการเรียกครั้งก่อนกลายเป็นอาร์กิวเมนต์แรกของการเรียกครั้งถัดไปอย่างไร
 
-We also can omit the initial value:
+เราสามารถละเว้นค่าเริ่มต้นได้:
 
 ```js run
 let arr = [1, 2, 3, 4, 5];
 
-// removed initial value from reduce (no 0)
+// ลบค่าเริ่มต้นออกจาก reduce (ไม่มี 0)
 let result = arr.reduce((sum, current) => sum + current);
 
 alert( result ); // 15
 ```
 
-The result is the same. That's because if there's no initial, then `reduce` takes the first element of the array as the initial value and starts the iteration from the 2nd element.
+ผลลัพธ์เหมือนกัน เพราะถ้าไม่มีค่าเริ่มต้น `reduce` จะใช้สมาชิกแรกของอาร์เรย์เป็นค่าเริ่มต้น และเริ่มวนซ้ำจากสมาชิกที่ 2
 
-The calculation table is the same as above, minus the first row.
+ตารางการคำนวณก็เหมือนกับด้านบน แค่ขาดแถวแรก
 
-But such use requires an extreme care. If the array is empty, then `reduce` call without initial value gives an error.
+แต่การใช้แบบนี้ต้องระวังมาก ถ้าอาร์เรย์ว่างเปล่า การเรียก `reduce` โดยไม่มีค่าเริ่มต้นจะเกิดข้อผิดพลาด
 
-Here's an example:
+ดูตัวอย่าง:
 
 ```js run
 let arr = [];
 
 // Error: Reduce of empty array with no initial value
-// if the initial value existed, reduce would return it for the empty arr.
+// ถ้ามีค่าเริ่มต้น reduce จะคืนค่านั้นสำหรับอาร์เรย์ว่าง
 arr.reduce((sum, current) => sum + current);
 ```
 
-So it's advised to always specify the initial value.
+ดังนั้น แนะนำให้ระบุค่าเริ่มต้นเสมอ
 
-The method [arr.reduceRight](mdn:js/Array/reduceRight) does the same but goes from right to left.
+เมธอด [arr.reduceRight](mdn:js/Array/reduceRight) ทำงานเหมือนกันแต่วนจากขวาไปซ้าย
 
 ## Array.isArray
 
-Arrays do not form a separate language type. They are based on objects.
+อาร์เรย์ไม่ได้เป็น type แยกต่างหากในภาษา แต่อิงจากออบเจ็กต์
 
-So `typeof` does not help to distinguish a plain object from an array:
+ดังนั้น `typeof` จึงไม่สามารถแยกออบเจ็กต์ธรรมดาจากอาร์เรย์ได้:
 
 ```js run
 alert(typeof {}); // object
-alert(typeof []); // object (same)
+alert(typeof []); // object (เหมือนกัน)
 ```
 
-...But arrays are used so often that there's a special method for that: [Array.isArray(value)](mdn:js/Array/isArray). It returns `true` if the `value` is an array, and `false` otherwise.
+...แต่อาร์เรย์ถูกใช้บ่อยมากจนมีเมธอดพิเศษสำหรับตรวจสอบ: [Array.isArray(value)](mdn:js/Array/isArray) คืน `true` ถ้า `value` เป็นอาร์เรย์ และคืน `false` มิฉะนั้น
 
 ```js run
 alert(Array.isArray({})); // false
@@ -685,25 +685,25 @@ alert(Array.isArray({})); // false
 alert(Array.isArray([])); // true
 ```
 
-## Most methods support "thisArg"
+## เมธอดส่วนใหญ่รองรับ "thisArg"
 
-Almost all array methods that call functions -- like `find`, `filter`, `map`, with a notable exception of `sort`, accept an optional additional parameter `thisArg`.
+เกือบทุกเมธอดของอาร์เรย์ที่เรียกฟังก์ชัน เช่น `find`, `filter`, `map` (ยกเว้น `sort`) รับพารามิเตอร์เสริมตัวสุดท้ายที่เรียกว่า `thisArg`
 
-That parameter is not explained in the sections above, because it's rarely used. But for completeness, we have to cover it.
+พารามิเตอร์นี้ไม่ได้อธิบายในส่วนก่อนหน้า เพราะใช้น้อยมาก แต่เพื่อความสมบูรณ์เราควรพูดถึงมัน
 
-Here's the full syntax of these methods:
+ไวยากรณ์เต็มรูปแบบของเมธอดเหล่านี้:
 
 ```js
 arr.find(func, thisArg);
 arr.filter(func, thisArg);
 arr.map(func, thisArg);
 // ...
-// thisArg is the optional last argument
+// thisArg คือพารามิเตอร์เสริมตัวสุดท้าย
 ```
 
-The value of `thisArg` parameter becomes `this` for `func`.
+ค่าของพารามิเตอร์ `thisArg` จะกลายเป็น `this` ของ `func`
 
-For example, here we use a method of `army` object as a filter, and `thisArg` passes the context:
+ตัวอย่าง เราใช้เมธอดของออบเจ็กต์ `army` เป็นตัวกรอง และ `thisArg` ส่งบริบท:
 
 ```js run
 let army = {
@@ -722,7 +722,7 @@ let users = [
 ];
 
 *!*
-// find users, for who army.canJoin returns true
+// หาผู้ใช้ที่ army.canJoin คืนค่า true
 let soldiers = users.filter(army.canJoin, army);
 */!*
 
@@ -731,53 +731,53 @@ alert(soldiers[0].age); // 20
 alert(soldiers[1].age); // 23
 ```
 
-If in the example above we used `users.filter(army.canJoin)`, then `army.canJoin` would be called as a standalone function, with `this=undefined`, thus leading to an instant error.
+ถ้าในตัวอย่างด้านบนเราใช้ `users.filter(army.canJoin)` แล้ว `army.canJoin` จะถูกเรียกเป็นฟังก์ชันแบบ standalone ที่มี `this=undefined` ซึ่งจะเกิดข้อผิดพลาดทันที
 
-A call to `users.filter(army.canJoin, army)` can be replaced with `users.filter(user => army.canJoin(user))`, that does the same. The latter is used more often, as it's a bit easier to understand for most people.
+การเรียก `users.filter(army.canJoin, army)` สามารถแทนด้วย `users.filter(user => army.canJoin(user))` ซึ่งทำงานเหมือนกัน รูปแบบหลังใช้บ่อยกว่า เพราะเข้าใจง่ายกว่าสำหรับคนส่วนใหญ่
 
-## Summary
+## สรุป
 
-A cheat sheet of array methods:
+สรุปเมธอดของอาร์เรย์:
 
-- To add/remove elements:
-  - `push(...items)` -- adds items to the end,
-  - `pop()` -- extracts an item from the end,
-  - `shift()` -- extracts an item from the beginning,
-  - `unshift(...items)` -- adds items to the beginning.
-  - `splice(pos, deleteCount, ...items)` -- at index `pos` deletes `deleteCount` elements and inserts `items`.
-  - `slice(start, end)` -- creates a new array, copies elements from index `start` till `end` (not inclusive) into it.
-  - `concat(...items)` -- returns a new array: copies all members of the current one and adds `items` to it. If any of `items` is an array, then its elements are taken.
+- สำหรับเพิ่ม/ลบสมาชิก:
+  - `push(...items)` -- เพิ่มสมาชิกที่ท้ายอาร์เรย์
+  - `pop()` -- ดึงสมาชิกออกจากท้ายอาร์เรย์
+  - `shift()` -- ดึงสมาชิกออกจากต้นอาร์เรย์
+  - `unshift(...items)` -- เพิ่มสมาชิกที่ต้นอาร์เรย์
+  - `splice(pos, deleteCount, ...items)` -- ที่ index `pos` ลบ `deleteCount` สมาชิกและแทรก `items`
+  - `slice(start, end)` -- สร้างอาร์เรย์ใหม่ คัดลอกสมาชิกตั้งแต่ index `start` ถึง `end` (ไม่รวม) ลงไป
+  - `concat(...items)` -- คืนอาร์เรย์ใหม่: คัดลอกสมาชิกทั้งหมดจากอาร์เรย์ปัจจุบันและเพิ่ม `items` ต่อท้าย ถ้า `items` ตัวไหนเป็นอาร์เรย์ สมาชิกของมันจะถูกนำมาใช้
 
-- To search among elements:
-  - `indexOf/lastIndexOf(item, pos)` -- look for `item` starting from position `pos`, and return the index or `-1` if not found.
-  - `includes(value)` -- returns `true` if the array has `value`, otherwise `false`.
-  - `find/filter(func)` -- filter elements through the function, return first/all values that make it return `true`.
-  - `findIndex` is like `find`, but returns the index instead of a value.
+- สำหรับค้นหาสมาชิก:
+  - `indexOf/lastIndexOf(item, pos)` -- ค้นหา `item` โดยเริ่มจากตำแหน่ง `pos` คืน index หรือ `-1` ถ้าไม่พบ
+  - `includes(value)` -- คืน `true` ถ้าอาร์เรย์มี `value` มิฉะนั้นคืน `false`
+  - `find/filter(func)` -- กรองสมาชิกผ่านฟังก์ชัน คืนค่าแรก/ทั้งหมดที่ทำให้ฟังก์ชันคืน `true`
+  - `findIndex` คล้ายกับ `find` แต่คืน index แทนค่า
 
-- To iterate over elements:
-  - `forEach(func)` -- calls `func` for every element, does not return anything.
+- สำหรับวนซ้ำสมาชิก:
+  - `forEach(func)` -- เรียก `func` สำหรับทุกสมาชิก ไม่คืนค่าใด
 
-- To transform the array:
-  - `map(func)` -- creates a new array from results of calling `func` for every element.
-  - `sort(func)` -- sorts the array in-place, then returns it.
-  - `reverse()` -- reverses the array in-place, then returns it.
-  - `split/join` -- convert a string to array and back.
-  - `reduce/reduceRight(func, initial)` -- calculate a single value over the array by calling `func` for each element and passing an intermediate result between the calls.
+- สำหรับแปลงอาร์เรย์:
+  - `map(func)` -- สร้างอาร์เรย์ใหม่จากผลลัพธ์ของการเรียก `func` สำหรับทุกสมาชิก
+  - `sort(func)` -- เรียงลำดับอาร์เรย์แบบ in-place แล้วคืนค่ากลับ
+  - `reverse()` -- กลับลำดับอาร์เรย์แบบ in-place แล้วคืนค่ากลับ
+  - `split/join` -- แปลงสตริงเป็นอาร์เรย์และกลับกัน
+  - `reduce/reduceRight(func, initial)` -- คำนวณค่าเดียวจากอาร์เรย์โดยเรียก `func` สำหรับทุกสมาชิกและส่งผลลัพธ์กลางระหว่างการเรียกแต่ละครั้ง
 
-- Additionally:
-  - `Array.isArray(value)` checks `value` for being an array, if so returns `true`, otherwise `false`.
+- นอกจากนี้:
+  - `Array.isArray(value)` ตรวจสอบว่า `value` เป็นอาร์เรย์หรือไม่ ถ้าใช่คืน `true` มิฉะนั้นคืน `false`
 
-Please note that methods `sort`, `reverse` and `splice` modify the array itself.
+โปรดสังเกตว่าเมธอด `sort`, `reverse` และ `splice` แก้ไขอาร์เรย์เดิมโดยตรง
 
-These methods are the most used ones, they cover 99% of use cases. But there are few others:
+เมธอดเหล่านี้เป็นเมธอดที่ใช้บ่อยที่สุด ครอบคลุม 99% ของกรณีการใช้งาน แต่ยังมีเมธอดอื่นๆ อีก:
 
-- [arr.some(fn)](mdn:js/Array/some)/[arr.every(fn)](mdn:js/Array/every) check the array.
+- [arr.some(fn)](mdn:js/Array/some)/[arr.every(fn)](mdn:js/Array/every) ตรวจสอบอาร์เรย์
 
-  The function `fn` is called on each element of the array similar to `map`. If any/all results are `true`, returns `true`, otherwise `false`.
+  ฟังก์ชัน `fn` ถูกเรียกสำหรับสมาชิกแต่ละตัวในอาร์เรย์ คล้ายกับ `map` ถ้าผลลัพธ์บางตัว/ทุกตัวเป็น `true` จะคืน `true` มิฉะนั้นคืน `false`
 
-  These methods behave sort of like `||` and `&&` operators: if `fn` returns a truthy value, `arr.some()` immediately returns `true` and stops iterating over the rest of items; if `fn` returns a falsy value, `arr.every()` immediately returns `false` and stops iterating over the rest of items as well.
+  เมธอดเหล่านี้ทำงานคล้ายกับตัวดำเนินการ `||` และ `&&`: ถ้า `fn` คืนค่า truthy `arr.some()` จะคืน `true` ทันทีและหยุดวนซ้ำ ถ้า `fn` คืนค่า falsy `arr.every()` จะคืน `false` ทันทีและหยุดวนซ้ำเช่นกัน
 
-  We can use `every` to compare arrays:
+  เราสามารถใช้ `every` เพื่อเปรียบเทียบอาร์เรย์:
 
   ```js run
   function arraysEqual(arr1, arr2) {
@@ -787,16 +787,16 @@ These methods are the most used ones, they cover 99% of use cases. But there are
   alert( arraysEqual([1, 2], [1, 2])); // true
   ```
 
-- [arr.fill(value, start, end)](mdn:js/Array/fill) -- fills the array with repeating `value` from index `start` to `end`.
+- [arr.fill(value, start, end)](mdn:js/Array/fill) -- เติมอาร์เรย์ด้วยค่า `value` ซ้ำๆ ตั้งแต่ index `start` ถึง `end`
 
-- [arr.copyWithin(target, start, end)](mdn:js/Array/copyWithin) -- copies its elements from position `start` till position `end` into *itself*, at position `target` (overwrites existing).
+- [arr.copyWithin(target, start, end)](mdn:js/Array/copyWithin) -- คัดลอกสมาชิกจากตำแหน่ง `start` ถึง `end` ไปยัง *ตัวมันเอง* ที่ตำแหน่ง `target` (ทับค่าที่มีอยู่)
 
-- [arr.flat(depth)](mdn:js/Array/flat)/[arr.flatMap(fn)](mdn:js/Array/flatMap) create a new flat array from a multidimensional array.
+- [arr.flat(depth)](mdn:js/Array/flat)/[arr.flatMap(fn)](mdn:js/Array/flatMap) สร้างอาร์เรย์แบนใหม่จากอาร์เรย์หลายมิติ
 
-For the full list, see the [manual](mdn:js/Array).
+ดูรายการเต็มได้ที่ [เอกสารอ้างอิง](mdn:js/Array)
 
-At first sight, it may seem that there are so many methods, quite difficult to remember. But actually, that's much easier.
+มองเผินๆ อาจรู้สึกว่ามีเมธอดเยอะมากจนจำยาก แต่จริงๆ แล้วไม่ได้ยากขนาดนั้น
 
-Look through the cheat sheet just to be aware of them. Then solve the tasks of this chapter to practice, so that you have experience with array methods.
+ผ่านตาสรุปเพื่อให้รู้ว่ามีอะไรบ้าง แล้วทำโจทย์ในบทนี้เพื่อฝึกฝน เพื่อให้มีประสบการณ์กับเมธอดของอาร์เรย์จริงๆ
 
-Afterwards whenever you need to do something with an array, and you don't know how -- come here, look at the cheat sheet and find the right method. Examples will help you to write it correctly. Soon you'll automatically remember the methods, without specific efforts from your side.
+หลังจากนั้น เมื่อใดก็ตามที่ต้องทำอะไรกับอาร์เรย์แต่ไม่รู้จะทำยังไง ก็มาดูสรุปตรงนี้แล้วหาเมธอดที่ใช่ ตัวอย่างจะช่วยให้เขียนได้อย่างถูกต้อง เดี๋ยวก็จะจำเมธอดต่างๆ ได้เองโดยไม่ต้องพยายาม

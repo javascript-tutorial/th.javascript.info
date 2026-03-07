@@ -2,15 +2,15 @@ importance: 5
 
 ---
 
-# Sum the properties
+# รวมเงินเดือน
 
-There is a `salaries` object with arbitrary number of salaries. 
+มีออบเจ็กต์ `salaries` ที่เก็บเงินเดือนจำนวนไม่แน่นอน
 
-Write the function `sumSalaries(salaries)` that returns the sum of all salaries using `Object.values` and the `for..of` loop.
+เขียนฟังก์ชัน `sumSalaries(salaries)` ที่คืนค่าผลรวมของเงินเดือนทั้งหมด โดยใช้ `Object.values` และลูป `for..of`
 
-If `salaries` is empty, then the result must be `0`.
+ถ้า `salaries` ว่างเปล่า ผลลัพธ์ต้องเป็น `0`
 
-For instance:
+ตัวอย่าง:
 
 ```js
 let salaries = {
@@ -21,4 +21,3 @@ let salaries = {
 
 alert( sumSalaries(salaries) ); // 650
 ```
-
