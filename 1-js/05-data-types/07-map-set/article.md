@@ -1,16 +1,16 @@
 
 # Map และ Set
 
-ที่ผ่านมา เราได้เรียนรู้โครงสร้างข้อมูลที่ซับซ้อนดังนี้:
+ก่อนหน้านี้เราได้รู้จักโครงสร้างข้อมูลสองแบบแล้ว:
 
-- ออบเจ็กต์ ใช้สำหรับเก็บคอลเล็กชันแบบมี key
-- อาร์เรย์ ใช้สำหรับเก็บคอลเล็กชันที่มีลำดับ
+- ออบเจ็กต์ — เก็บข้อมูลแบบมี key
+- อาร์เรย์ — เก็บข้อมูลแบบมีลำดับ
 
-แต่สำหรับงานจริงในชีวิตประจำวัน แค่นี้ยังไม่พอ นั่นจึงเป็นเหตุที่ `Map` และ `Set` ถือกำเนิดขึ้นมา
+แต่สำหรับงานจริงๆ บางครั้งสองแบบนี้ก็ยังไม่พอ `Map` และ `Set` จึงเกิดขึ้นมาเพื่อเติมเต็มจุดนั้น
 
 ## Map
 
-[Map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map) คือคอลเล็กชันของข้อมูลแบบมี key คล้ายกับ `Object` แต่ข้อแตกต่างสำคัญคือ `Map` อนุญาตให้ใช้ key เป็น **ชนิดข้อมูลใดก็ได้**
+[Map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map) คือคอลเล็กชันของข้อมูลแบบมี key คล้ายกับ `Object` แต่ข้อแตกต่างสำคัญคือ `Map` ให้ใช้ key เป็น **ชนิดข้อมูลใดก็ได้**
 
 เมธอดและพร็อพเพอร์ตี้ที่มี:
 
@@ -39,7 +39,7 @@ alert( map.get('1') ); // 'str1'
 alert( map.size ); // 3
 ```
 
-จะเห็นว่าต่างจาก Object ตรงที่ Map ไม่แปลง key ให้เป็น string key จะเป็นชนิดใดก็ได้ทั้งนั้น
+ต่างจาก Object ตรงนี้แหละ — Map ไม่แปลง key เป็น string key จะเป็นชนิดใดก็ได้ทั้งนั้น
 
 ```smart header="`map[key]` ไม่ใช่วิธีที่ถูกต้องในการใช้ `Map`"
 แม้ว่า `map[key]` จะใช้ได้ เช่น `map[key] = 2` แต่นั่นคือการใช้ `map` เสมือน plain JavaScript object ทั่วไป ซึ่งมีข้อจำกัดทั้งหมดของ Object (key ได้แค่ string หรือ symbol เป็นต้น)
@@ -47,7 +47,7 @@ alert( map.size ); // 3
 ดังนั้น ควรใช้เมธอดของ `map` แทน ได้แก่ `set`, `get` และอื่นๆ
 ```
 
-**Map ยังสามารถใช้ออบเจ็กต์เป็น key ได้ด้วย**
+**Map ยังใช้ออบเจ็กต์เป็น key ได้ด้วย**
 
 ตัวอย่าง:
 
@@ -63,7 +63,7 @@ visitsCountMap.set(john, 123);
 alert( visitsCountMap.get(john) ); // 123
 ```
 
-การใช้ออบเจ็กต์เป็น key นี้คือหนึ่งในฟีเจอร์ที่โดดเด่นและสำคัญที่สุดของ `Map` ซึ่ง `Object` ทำไม่ได้ การใช้ string เป็น key ใน `Object` นั้นโอเค แต่เราไม่สามารถใช้ `Object` อื่นเป็น key ใน `Object` ได้
+นี่คือหนึ่งในฟีเจอร์ที่โดดเด่นที่สุดของ `Map` — ใช้ออบเจ็กต์เป็น key ได้เลย ซึ่ง `Object` ทำไม่ได้ เพราะ Object ธรรมดาใช้ string เป็น key ได้ แต่ไม่สามารถใช้ Object อื่นเป็น key ได้
 
 ลองดูตัวอย่าง:
 
@@ -82,16 +82,16 @@ alert( visitsCountObj["[object Object]"] ); // 123
 */!*
 ```
 
-เนื่องจาก `visitsCountObj` เป็น object ธรรมดา มันจึงแปลง Object ทุกตัวที่เป็น key ไม่ว่าจะเป็น `john` หรือ `ben` ให้กลายเป็น string เดียวกันคือ `"[object Object]"` ซึ่งไม่ใช่สิ่งที่เราต้องการแน่นอน
+เนื่องจาก `visitsCountObj` เป็น object ธรรมดา ไม่ว่าจะใส่ `john` หรือ `ben` เป็น key มันจะแปลงให้เป็น string เดียวกันคือ `"[object Object]"` ซึ่งไม่ใช่สิ่งที่ต้องการแน่นอน
 
 ```smart header="`Map` เปรียบเทียบ key อย่างไร"
-`Map` ใช้อัลกอริทึม [SameValueZero](https://tc39.github.io/ecma262/#sec-samevaluezero) ในการตรวจสอบความเท่ากันของ key ซึ่งคล้ายกับ strict equality `===` แต่ต่างตรงที่ `NaN` ถือว่าเท่ากับ `NaN` จึงสามารถใช้ `NaN` เป็น key ได้เช่นกัน
+`Map` ใช้อัลกอริทึม [SameValueZero](https://tc39.github.io/ecma262/#sec-samevaluezero) ในการเปรียบเทียบ key ซึ่งคล้ายกับ strict equality `===` แต่ต่างตรงที่ `NaN` ถือว่าเท่ากับ `NaN` จึงใช้ `NaN` เป็น key ได้เช่นกัน
 
 อัลกอริทึมนี้ไม่สามารถเปลี่ยนหรือปรับแต่งได้
 ```
 
 ````smart header="การเชื่อมต่อเมธอด (Chaining)"
-ทุกครั้งที่เรียก `map.set` จะได้รับ map กลับคืนมา จึงสามารถ "เชื่อม" การเรียกต่อกันได้แบบนี้:
+ทุกครั้งที่เรียก `map.set` จะได้รับ map กลับคืนมา จึงเชื่อมการเรียกต่อกันได้แบบนี้:
 
 ```js
 map.set('1', 'str1')
@@ -102,7 +102,7 @@ map.set('1', 'str1')
 
 ## การวนซ้ำบน Map
 
-สำหรับการวนซ้ำบน `map` มีเมธอดให้เลือก 3 แบบ:
+วนซ้ำบน `map` ได้ด้วยเมธอดสามแบบ:
 
 - [`map.keys()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/keys) -- คืนค่า iterable สำหรับ key ทั้งหมด
 - [`map.values()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/values) -- คืนค่า iterable สำหรับ value ทั้งหมด
@@ -148,7 +148,7 @@ recipeMap.forEach( (value, key, map) => {
 
 ## Object.entries: สร้าง Map จาก Object
 
-เมื่อสร้าง `Map` เราสามารถส่งอาร์เรย์ (หรือ iterable อื่นๆ) ที่มีคู่ key/value เพื่อใช้กำหนดค่าเริ่มต้นได้ดังนี้:
+ตอนสร้าง `Map` เราส่งอาร์เรย์ (หรือ iterable อื่นๆ) ที่มีคู่ key/value เพื่อกำหนดค่าเริ่มต้นได้เลย:
 
 ```js run
 // อาร์เรย์ของคู่ [key, value]
@@ -161,9 +161,9 @@ let map = new Map([
 alert( map.get('1') ); // str1
 ```
 
-ถ้ามี plain object อยู่แล้วและต้องการสร้าง `Map` จากมัน เราสามารถใช้เมธอด built-in [Object.entries(obj)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/entries) ซึ่งคืนค่าอาร์เรย์ของคู่ key/value ในรูปแบบที่ต้องการพอดี
+ถ้ามี plain object อยู่แล้วและต้องการแปลงเป็น `Map` ใช้เมธอด built-in [Object.entries(obj)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/entries) ได้เลย มันคืนค่าอาร์เรย์ของคู่ key/value ในรูปแบบที่ต้องการพอดี
 
-ดังนั้น เราสร้าง map จาก object ได้แบบนี้:
+สร้าง map จาก object ได้แบบนี้:
 
 ```js run
 let obj = {
@@ -178,14 +178,12 @@ let map = new Map(Object.entries(obj));
 alert( map.get('name') ); // John
 ```
 
-ที่นี่ `Object.entries` คืนค่าอาร์เรย์ของคู่ key/value: `[ ["name","John"], ["age", 30] ]` ซึ่งเป็นสิ่งที่ `Map` ต้องการ
+`Object.entries` คืนค่าอาร์เรย์ `[ ["name","John"], ["age", 30] ]` ซึ่งเป็นรูปแบบที่ `Map` ต้องการพอดี
 
 
 ## Object.fromEntries: สร้าง Object จาก Map
 
-เราเพิ่งเห็นวิธีสร้าง `Map` จาก plain object ด้วย `Object.entries(obj)` ไปแล้ว
-
-ยังมีเมธอด `Object.fromEntries` ที่ทำสิ่งตรงกันข้าม: รับอาร์เรย์ของคู่ `[key, value]` แล้วสร้าง object จากมัน:
+ถ้า `Object.entries` แปลง object เป็น Map ได้ `Object.fromEntries` ก็ทำสิ่งตรงกันข้าม — รับอาร์เรย์ของคู่ `[key, value]` แล้วสร้าง object กลับออกมา:
 
 ```js run
 let prices = Object.fromEntries([
@@ -199,11 +197,7 @@ let prices = Object.fromEntries([
 alert(prices.orange); // 2
 ```
 
-เราใช้ `Object.fromEntries` เพื่อแปลง `Map` กลับเป็น plain object ได้
-
-เช่น เก็บข้อมูลไว้ใน `Map` แต่ต้องส่งต่อให้โค้ดของ third-party ที่รับได้แค่ plain object
-
-ทำได้แบบนี้:
+ใช้ `Object.fromEntries` แปลง `Map` กลับเป็น plain object ได้ เช่น เก็บข้อมูลไว้ใน `Map` แต่ต้องส่งให้โค้ดของ third-party ที่รับแค่ plain object — ทำแบบนี้:
 
 ```js run
 let map = new Map();
@@ -221,18 +215,18 @@ let obj = Object.fromEntries(map.entries()); // แปลงเป็น plain o
 alert(obj.orange); // 2
 ```
 
-การเรียก `map.entries()` คืนค่า iterable ของคู่ key/value ในรูปแบบที่ `Object.fromEntries` ต้องการพอดี
+`map.entries()` คืนค่า iterable ของคู่ key/value ในรูปแบบที่ `Object.fromEntries` ต้องการพอดี
 
-เราย่อบรรทัด `(*)` ให้สั้นลงได้อีก:
+ย่อบรรทัด `(*)` ให้สั้นลงได้อีก:
 ```js
 let obj = Object.fromEntries(map); // ละ .entries() ออก
 ```
 
-ผลลัพธ์เหมือนกัน เพราะ `Object.fromEntries` รับ iterable object เป็น argument ไม่จำเป็นต้องเป็นอาร์เรย์เสมอไป และการวนซ้ำมาตรฐานของ `map` คืนค่าคู่ key/value เหมือนกับ `map.entries()` ทุกประการ ผลลัพธ์จึงเป็น plain object ที่มี key/value เดียวกับ `map`
+ผลลัพธ์เหมือนกัน เพราะ `Object.fromEntries` รับ iterable object เป็น argument ไม่จำเป็นต้องเป็นอาร์เรย์เสมอไป และการวนซ้ำมาตรฐานของ `map` คืนค่าคู่ key/value เหมือนกับ `map.entries()` ทุกประการ
 
 ## Set
 
-[`Set`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set) คือคอลเล็กชันชนิดพิเศษ — "ชุดของค่า" (ไม่มี key) ที่ **แต่ละค่าสามารถมีได้เพียงครั้งเดียว**
+[`Set`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set) คือคอลเล็กชันชนิดพิเศษ — "ชุดของค่า" (ไม่มี key) ที่ **แต่ละค่าปรากฏได้เพียงครั้งเดียว**
 
 เมธอดหลักที่มี:
 
@@ -243,11 +237,9 @@ let obj = Object.fromEntries(map); // ละ .entries() ออก
 - [`set.clear()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/clear) -- ลบทุกอย่างออกจาก set
 - [`set.size`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/size) -- จำนวน element ทั้งหมด
 
-จุดเด่นสำคัญคือการเรียก `set.add(value)` ซ้ำๆ ด้วยค่าเดิมจะไม่มีผลใดๆ นั่นเป็นเหตุให้แต่ละค่าปรากฏใน `Set` ได้เพียงครั้งเดียว
+จุดเด่นคือการเรียก `set.add(value)` ซ้ำด้วยค่าเดิมจะไม่มีผลใดๆ นั่นเองที่ทำให้แต่ละค่าปรากฏใน `Set` ได้เพียงครั้งเดียว
 
-สมมติว่ามีผู้เยี่ยมชมเข้ามา และเราต้องการจำทุกคน แต่การเข้าซ้ำไม่ควรทำให้มีข้อมูลซ้ำ ผู้เยี่ยมชมคนหนึ่งควร "นับ" แค่ครั้งเดียว
-
-`Set` เหมาะกับงานนี้พอดี:
+สมมติมีผู้เยี่ยมชมเข้ามา และต้องการจำทุกคน — แต่ไม่อยากให้คนเดิมซ้ำกัน ผู้เยี่ยมชมคนหนึ่งควรนับแค่ครั้งเดียว `Set` เหมาะกับงานนี้พอดี:
 
 ```js run
 let set = new Set();
@@ -271,7 +263,7 @@ for (let user of set) {
 }
 ```
 
-อีกทางเลือกหนึ่งแทน `Set` อาจเป็นอาร์เรย์ของผู้ใช้ แล้วเขียนโค้ดตรวจสอบซ้ำทุกครั้งที่เพิ่มด้วย [arr.find](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find) แต่ประสิทธิภาพจะแย่กว่ามาก เพราะเมธอดนี้ต้องวนผ่านอาร์เรย์ทั้งหมดเพื่อตรวจสอบทุก element ในขณะที่ `Set` ถูกออกแบบมาให้ตรวจสอบความเป็นเอกลักษณ์ได้รวดเร็วกว่ามาก
+อีกทางหนึ่งคือใช้อาร์เรย์แล้วตรวจสอบซ้ำทุกครั้งที่เพิ่มด้วย [arr.find](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find) แต่ประสิทธิภาพจะแย่กว่ามาก เพราะ `arr.find` ต้องวนอ่านอาร์เรย์ทั้งหมดทุกครั้ง ส่วน `Set` ถูกออกแบบมาให้ตรวจสอบความเป็นเอกลักษณ์ได้รวดเร็วกว่ามาก
 
 ## การวนซ้ำบน Set
 
@@ -288,11 +280,11 @@ set.forEach((value, valueAgain, set) => {
 });
 ```
 
-สังเกตสิ่งที่น่าแปลกใจ — ฟังก์ชัน callback ที่ส่งให้ `forEach` มี 3 argument คือ `value`, *ค่าเดิมอีกครั้ง* `valueAgain`, และ object เป้าหมาย ซึ่งค่าเดิมปรากฏในอาร์กิวเมนต์ถึงสองครั้ง
+สังเกตสิ่งที่น่าแปลกใจ — callback ที่ส่งให้ `forEach` มี 3 argument คือ `value`, *ค่าเดิมอีกครั้ง* `valueAgain`, และ object เป้าหมาย ค่าเดิมปรากฏถึงสองครั้ง ดูแปลกๆ ใช่ไหม?
 
-ที่เป็นแบบนี้เพื่อให้เข้ากันได้กับ `Map` ซึ่ง callback ของ `forEach` มีสาม argument ดูแปลกๆ นิดหน่อย แต่ช่วยให้สลับระหว่าง `Map` กับ `Set` ได้อย่างง่ายดายในบางกรณี
+เหตุผลคือเพื่อความเข้ากันได้กับ `Map` ซึ่ง callback ของ `forEach` มีสาม argument เหมือนกัน ข้อดีคือช่วยให้สลับระหว่าง `Map` กับ `Set` ได้ง่ายในบางกรณี
 
-เมธอดสำหรับ iterator ที่ `Map` มีก็รองรับใน `Set` ด้วย:
+เมธอด iterator ที่ `Map` มีก็รองรับใน `Set` ด้วย:
 
 - [`set.keys()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/keys) -- คืนค่า iterable object สำหรับ value ทั้งหมด
 - [`set.values()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/values) -- เหมือนกับ `set.keys()` ไว้รองรับความเข้ากันได้กับ `Map`
@@ -328,4 +320,4 @@ set.forEach((value, valueAgain, set) => {
 - [`set.clear()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/clear) -- ลบทุกอย่างออกจาก set
 - [`set.size`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/size) -- จำนวน element ทั้งหมด
 
-การวนซ้ำบน `Map` และ `Set` จะเป็นลำดับเดียวกับที่แทรกค่าเข้าไปเสมอ เราจึงพูดไม่ได้ว่าคอลเล็กชันเหล่านี้ไม่มีลำดับ แต่ก็ไม่สามารถจัดเรียงใหม่หรือดึง element โดยตรงจากหมายเลขลำดับได้
+การวนซ้ำบน `Map` และ `Set` จะเป็นลำดับเดียวกับที่แทรกค่าเข้าไปเสมอ จึงพูดไม่ได้ว่าคอลเล็กชันเหล่านี้ไม่มีลำดับ — แต่ก็ไม่สามารถจัดเรียงใหม่หรือดึง element โดยตรงจากหมายเลขลำดับได้
