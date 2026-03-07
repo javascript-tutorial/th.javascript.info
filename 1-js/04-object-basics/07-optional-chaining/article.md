@@ -27,11 +27,7 @@ alert(user.address.street); // เกิด Error!
 let html = document.querySelector('.elem').innerHTML; // เกิด Error ถ้าเป็น null 
 ```
 
-<<<<<<< HEAD
 อีกครั้ง ในหลายกรณีที่ไม่เจอ element ก็ถือเป็นเรื่องปกติ เราอาจต้องการให้คืนค่า `html` เป็น `null` แทนที่จะเกิด error
-=======
-Once again, if the element doesn't exist, we'll get an error accessing `.innerHTML` property of `null`. And in some cases, when the absence of the element is normal, we'd like to avoid the error and just accept `html = null` as the result.
->>>>>>> ff804bc19351b72bc5df7766f4b9eb8249a3cb11
 
 ## วิธีแก้ไขเดิมก่อนมี Optional Chaining
 
@@ -43,7 +39,6 @@ let user = {};
 alert(user.address ? user.address.street : undefined);
 ```
 
-<<<<<<< HEAD
 หรือในกรณี `document.querySelector`:
 
 ```js run
@@ -51,21 +46,6 @@ let html = document.querySelector('.elem') ? document.querySelector('.elem').inn
 ```
 
 ใช้ได้ แต่ดูยุ่งเหยิงและต้องเช็คซ้ำๆ โดยเฉพาะกับ property ที่ซ้อนกันหลายชั้น เช่น `user.address.street.name`
-=======
-It works, there's no error... But it's quite inelegant. As you can see, the `"user.address"` appears twice in the code.
-
-Here's how the same would look for `document.querySelector`:
-
-```js run
-let html = document.querySelector('.elem') ? document.querySelector('.elem').innerHTML : null;
-```
-
-We can see that the element search `document.querySelector('.elem')` is actually called twice here. Not good.
-
-For more deeply nested properties, it becomes even uglier, as more repetitions are required.
-
-E.g. let's get `user.address.street.name` in a similar fashion.
->>>>>>> ff804bc19351b72bc5df7766f4b9eb8249a3cb11
 
 ```js
 let user = {}; // ผู้ใช้ไม่มีที่อยู่
@@ -73,13 +53,7 @@ let user = {}; // ผู้ใช้ไม่มีที่อยู่
 alert(user.address ? user.address.street ? user.address.street.name : null : null);
 ```
 
-<<<<<<< HEAD
 อีกวิธีที่ดูดีกว่าเล็กน้อยคือใช้ `&&`:
-=======
-That's just awful, one may even have problems understanding such code.
-
-There's a little better way to write it, using the `&&` operator:
->>>>>>> ff804bc19351b72bc5df7766f4b9eb8249a3cb11
 
 ```js run
 let user = {}; // ผู้ใช้ไม่มีที่อยู่
@@ -111,7 +85,6 @@ alert( user?.address?.street ); // undefined (ไม่เกิด error)
 
 โค้ดสั้นลง และไม่มีการเช็คซ้ำๆ
 
-<<<<<<< HEAD
 กับตัวอย่าง `document.querySelector`:
 
 ```js run
@@ -119,15 +92,6 @@ let html = document.querySelector('.elem')?.innerHTML; // จะเป็น und
 ```
 
 แม้แต่ในกรณีที่ไม่มีตัวแปร `user` เลย ก็ยังใช้ `?.` ได้อย่างปลอดภัย:
-=======
-Here's an example with `document.querySelector`:
-
-```js run
-let html = document.querySelector('.elem')?.innerHTML; // will be undefined, if there's no element
-```
-
-Reading the address with `user?.address` works even if `user` object doesn't exist:
->>>>>>> ff804bc19351b72bc5df7766f4b9eb8249a3cb11
 
 ```js run
 let user = null;
@@ -143,15 +107,9 @@ alert( user?.address.street ); // undefined
 ```warn header="ใช้ ?. อย่างพอดี"
 เราควรใช้ `?.` เฉพาะในกรณีที่ยอมรับได้หากบางอย่างไม่มีอยู่
 
-<<<<<<< HEAD
 เช่น ถ้าตามตรรกะของโปรแกรมแล้ว `user` ต้องมีอยู่ แต่ `address` เป็น optional ได้ เราควรเขียน `user.address?.street` แต่ไม่ใช่ `user?.address?.street`
 
 มิฉะนั้น ถ้าใช้ `?.` มากเกินไป เวลามีข้อผิดพลาดขึ้นมาจริงๆ มันอาจถูกซ่อนเงียบไว้ ทำให้ยากต่อการดีบั๊กในภายหลัง
-=======
-For example, if according to our code logic `user` object must exist, but `address` is optional, then we should write `user.address?.street`, but not `user?.address?.street`.
-
-Then, if `user` happens to be undefined, we'll see a programming error about it and fix it. Otherwise, if we overuse `?.`, coding errors can be silenced where not appropriate, and become more difficult to debug.
->>>>>>> ff804bc19351b72bc5df7766f4b9eb8249a3cb11
 ```
 
 ````warn header="ตัวแปรทางซ้ายของ ?. ต้องถูกประกาศก่อน"
@@ -166,25 +124,13 @@ user?.address;
 
 ## Short-Circuiting
 
-<<<<<<< HEAD
 `?.` จะหยุดการทำงานทันทีถ้าส่วนซ้ายไม่มีอยู่ (เป็น `null/undefined`) ดังนั้นถ้ามีการเรียก function หรือคำสั่งอื่นๆ ทางขวาของ `?.` จะไม่ถูกรันเลย
-=======
-As it was said before, the `?.` immediately stops ("short-circuits") the evaluation if the left part doesn't exist.
-
-So, if there are any further function calls or operations to the right of `?.`, they won't be made.
-
-For instance:
->>>>>>> ff804bc19351b72bc5df7766f4b9eb8249a3cb11
 
 ```js run
 let user = null;
 let x = 0;
 
-<<<<<<< HEAD
 user?.sayHi(x++); // ไม่มี "user" จึงไม่ถึงการเรียก sayHi และ x++
-=======
-user?.sayHi(x++); // no "user", so the execution doesn't reach sayHi call and x++
->>>>>>> ff804bc19351b72bc5df7766f4b9eb8249a3cb11
 
 alert(x); // 0, ค่า x ไม่ถูกเพิ่ม
 ```
@@ -208,7 +154,6 @@ let userGuest = {};
 userAdmin.admin?.(); // ฉันคือ admin
 */!*
 
-<<<<<<< HEAD
 *!*  
 userGuest.admin?.(); // ไม่มีอะไรเกิดขึ้น (ไม่มี method admin)
 */!*
@@ -217,16 +162,6 @@ userGuest.admin?.(); // ไม่มีอะไรเกิดขึ้น (ไ
 สังเกตว่าเราใช้ `.` เพื่อเข้าถึง `admin` ก่อน เพราะเรามั่นใจว่าตัวแปร `user` มีอยู่แน่ๆ จากนั้นจึงตามด้วย `?.()`
 
 ## Optional Chaining กับ [] : `?.[]`
-=======
-*!*
-userGuest.admin?.(); // nothing happens (no such method)
-*/!*
-```
-
-Here, in both lines we first use the dot (`userAdmin.admin`) to get `admin` property, because we assume that the `user` object exists, so it's safe read from it.
-
-Then `?.()` checks the left part: if the `admin` function exists, then it runs (that's so for `userAdmin`). Otherwise (for `userGuest`) the evaluation stops without errors.
->>>>>>> ff804bc19351b72bc5df7766f4b9eb8249a3cb11
 
 ถ้าเราต้องการใช้ `[]` เพื่อเข้าถึง property แทนที่จะใช้ `.` ก็ใช้ `?.[]` ได้
 
@@ -249,26 +184,14 @@ alert( user2?.[key] ); // undefined
 delete user?.name; // ลบ user.name ถ้า user มีอยู่
 ```
 
-<<<<<<< HEAD
 ````warn header="ใช้ ?. ได้แค่อ่านและลบ ไม่ใช่การเขียน"
 Optional chaining `?.` ไม่ใช้ในด้านซ้ายของการกำหนดค่า
-=======
-````warn header="We can use `?.` for safe reading and deleting, but not writing"
-The optional chaining `?.` has no use on the left side of an assignment.
->>>>>>> ff804bc19351b72bc5df7766f4b9eb8249a3cb11
 
 ```js run
 let user = null;
 
-<<<<<<< HEAD
 user?.name = "John"; // Error เพราะจะประเมินเป็น undefined = "John"
 ```
-=======
-user?.name = "John"; // Error, doesn't work
-// because it evaluates to: undefined = "John"
-```
-
->>>>>>> ff804bc19351b72bc5df7766f4b9eb8249a3cb11
 ````
 
 ## สรุป
@@ -283,8 +206,4 @@ user?.name = "John"; // Error, doesn't work
 
 การเรียงต่อกันหลายตัวของ `?.` ทำให้เข้าถึง property ที่ซ้อนกันได้อย่างปลอดภัย
 
-<<<<<<< HEAD
 อย่างไรก็ตาม ควรใช้ `?.` อย่างระมัดระวัง เฉพาะในกรณีที่ยอมรับได้หากบางอย่างไม่มีอยู่จริง เพื่อไม่ให้ข้อผิดพลาดที่ควรเกิดถูกซ่อนเงียบไป
-=======
-Still, we should apply `?.` carefully, only where it's acceptable, according to our code logic, that the left part doesn't exist. So that it won't hide programming errors from us, if they occur.
->>>>>>> ff804bc19351b72bc5df7766f4b9eb8249a3cb11

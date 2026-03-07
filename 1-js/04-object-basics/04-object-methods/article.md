@@ -91,11 +91,7 @@ user = {
 
 อย่างที่เห็น เราสามารถละ `"function"` ทิ้งไปได้และเขียนแค่ `sayHi()`
 
-<<<<<<< HEAD
 จริงๆ แล้วสองแบบนี้ไม่ได้เหมือนกันทีเดียว มันมีความแตกต่างเล็กน้อยที่เกี่ยวข้องกับการสืบทอดของอ็อบเจ็กต์ (จะกล่าวถึงต่อไป) แต่ตอนนี้ยังไม่มีผลอะไร ในเกือบทุกกรณี แบบย่อจะเป็นที่นิยมมากกว่า
-=======
-To tell the truth, the notations are not fully identical. There are subtle differences related to object inheritance (to be covered later), but for now they do not matter. In almost all cases, the shorter syntax is preferred.
->>>>>>> ff804bc19351b72bc5df7766f4b9eb8249a3cb11
 
 ## "this" ในเมท็อด
 

@@ -49,11 +49,7 @@
 
 Safari (เบราว์เซอร์ของ Mac ไม่รองรับ Windows/Linux) จะแตกต่างออกไปเล็กน้อย เราต้องเปิดใช้งาน "Develop menu" ก่อน
 
-<<<<<<< HEAD
 ไปที่ Preferences และเลือกแท็บ "Advanced" จะเห็นช่องทำเครื่องหมายที่ด้านล่างของหน้า:
-=======
-Open Settings and go to the "Advanced" pane. There's a checkbox at the bottom:
->>>>>>> ff804bc19351b72bc5df7766f4b9eb8249a3cb11
 
 ![safari](safari.png)
 

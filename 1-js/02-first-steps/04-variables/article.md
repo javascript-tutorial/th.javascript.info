@@ -63,11 +63,7 @@ let age = 25;
 let message = 'สวัสดี';
 ```
 
-<<<<<<< HEAD
 บางคนยังชอบประกาศตัวแปรหลายตัวแบบหลายบรรทัดแบบนี้:
-=======
-Some people also define multiple variables in this multiline style:
->>>>>>> ff804bc19351b72bc5df7766f4b9eb8249a3cb11
 
 ```js no-beautify
 let user = 'จอห์น',
@@ -92,28 +88,18 @@ let user = 'จอห์น'
 *!*var*/!* message = 'สวัสดี';
 ```
 
-<<<<<<< HEAD
 คีย์เวิร์ด `var` นั้น*เกือบจะ*เหมือนกับ `let` คือใช้ประกาศตัวแปร แต่จะมีความแตกต่างเล็กน้อยในสไตล์ที่ค่อนข้าง "เชย"
 
 ความแตกต่างระหว่าง `let` กับ `var` นั้นไม่ใช่ประเด็นสำคัญสำหรับเราในตอนนี้ เราจะกล่าวถึงรายละเอียดในบทเรียน <info:var>
 
 โดยทั่วไปแล้ว ในโค้ด JavaScript สมัยใหม่เรามักใช้ `let` ในการประกาศตัวแปร ส่วนการใช้ `var` ถือเป็นวิธีการแบบเดิมที่ปัจจุบันไม่เป็นที่นิยมแล้ว
-=======
-The `var` keyword is *almost* the same as `let`. It also declares a variable but in a slightly different, "old-school" way.
-
-There are subtle differences between `let` and `var`, but they do not matter to us yet. We'll cover them in detail in the chapter <info:var>.
->>>>>>> ff804bc19351b72bc5df7766f4b9eb8249a3cb11
 ````
 
 # การเปรียบเทียบกับสถานการณ์ในชีวิตจริง
 
 เราสามารถเข้าใจแนวคิดของ "ตัวแปร" ได้ง่ายขึ้น ถ้าลองนึกภาพว่ามันเป็น "กล่อง" ไว้ใส่ข้อมูล โดยมีสติกเกอร์ชื่อเฉพาะติดอยู่
 
-<<<<<<< HEAD
 ยกตัวอย่างเช่น ตัวแปร `message` จะเปรียบได้กับกล่องที่มีป้ายชื่อ `"message"` และมีค่า `"สวัสดี!"` ข้างใน:
-=======
-For instance, the variable `message` can be imagined as a box labelled `"message"` with the value `"Hello!"` in it:
->>>>>>> ff804bc19351b72bc5df7766f4b9eb8249a3cb11
 
 ![](variable.svg)
 
@@ -121,11 +107,6 @@ For instance, the variable `message` can be imagined as a box labelled `"message
 
 และเปลี่ยนค่าได้ตามใจชอบ:
 
-<<<<<<< HEAD
-=======
-We can also change it as many times as we want:
-
->>>>>>> ff804bc19351b72bc5df7766f4b9eb8249a3cb11
 ```js run
 let message;
 
@@ -172,21 +153,12 @@ let message = "นั่น"; // SyntaxError: 'message' ถูกประกา
 ดังนั้น เราควรประกาศตัวแปรแค่ครั้งเดียว จากนั้นก็อ้างอิงถึงมันได้เลยโดยไม่ต้องมี `let` อีก
 ````
 
-<<<<<<< HEAD
 ```smart header="ภาษาการเขียนโปรแกรมแบบฟังก์ชัน"
 น่าสนใจว่า มีภาษาโปรแกรมที่เรียกว่า [ฟังก์ชันเชิงบริสุทธิ์](https://en.wikipedia.org/wiki/Purely_functional_programming) เช่น [Haskell](https://en.wikipedia.org/wiki/Haskell) ซึ่งห้ามไม่ให้เปลี่ยนค่าตัวแปรเด็ดขาด
-=======
-```smart header="Functional languages"
-It's interesting to note that there exist so-called [pure functional](https://en.wikipedia.org/wiki/Purely_functional_programming) programming languages, such as [Haskell](https://en.wikipedia.org/wiki/Haskell), that forbid changing variable values.
->>>>>>> ff804bc19351b72bc5df7766f4b9eb8249a3cb11
 
 ในภาษาเหล่านี้ เมื่อเก็บค่าใส่ "กล่อง" ไปแล้ว มันจะอยู่ในนั้นตลอดกาล หากต้องการเก็บข้อมูลอย่างอื่น ภาษาจะบังคับให้เราต้องสร้างกล่องใหม่ (ประกาศตัวแปรใหม่) จะนำกล่องเก่ามาใช้ใหม่ไม่ได้ 
 
-<<<<<<< HEAD
 ถึงแม้พอแรกอาจฟังดูแปลกๆ แต่ภาษาพวกนี้ก็มีความสามารถในการพัฒนาโปรแกรมจริงจังได้นะ ยิ่งไปกว่านั้น ในบางด้านอย่างการประมวลผลแบบขนาน ข้อจำกัดนี้กลับให้ประโยชน์บางอย่างเสียด้วยซ้ำ
-=======
-Though it may seem a little odd at first sight, these languages are quite capable of serious development. More than that, there are areas like parallel computations where this limitation confers certain benefits.
->>>>>>> ff804bc19351b72bc5df7766f4b9eb8249a3cb11
 ```
 
 ## การตั้งชื่อตัวแปร [#variable-naming]
@@ -203,11 +175,7 @@ let userName;
 let test123;
 ```
 
-<<<<<<< HEAD
 เมื่อชื่อประกอบด้วยหลายคำ มักนิยมใช้รูปแบบ [camelCase](https://en.wikipedia.org/wiki/CamelCase) นั่นคือเขียนคำต่อกันเรื่อยๆ โดยขึ้นต้นคำแรกด้วยตัวพิมพ์เล็ก ส่วนคำถัดๆ ไปให้ขึ้นต้นด้วยตัวพิมพ์ใหญ่ เช่น `myVeryLongName`
-=======
-When the name contains multiple words, [camelCase](https://en.wikipedia.org/wiki/CamelCase) is commonly used. That is: words go one after another, with each word except the first starting with a capital letter: `myVeryLongName`.
->>>>>>> ff804bc19351b72bc5df7766f4b9eb8249a3cb11
 
 ที่น่าสนใจคือ เครื่องหมายดอลลาร์ `'$'` และอันเดอร์สกอร์ `'_'` ก็สามารถใช้เป็นส่วนหนึ่งของชื่อได้ โดยมันเป็นแค่สัญลักษณ์ธรรมดาเหมือนตัวอักษร ไม่ได้มีความหมายพิเศษอะไร
 
@@ -228,34 +196,20 @@ let 1a; // ห้ามขึ้นต้นด้วยตัวเลข
 let my-name; // เครื่องหมายขีด '-' ไม่อนุญาตให้ใช้ในชื่อ
 ```
 
-<<<<<<< HEAD
 ```smart header="ตัวพิมพ์ใหญ่-เล็กมีผล"
 ตัวแปร `apple` กับ `APPLE` ถือเป็นคนละตัวกัน
 ```
 
 ```smart header="อักษรที่ไม่ใช่ภาษาอังกฤษใช้ได้ แต่ไม่แนะนำ"
 เราสามารถใช้ภาษาอื่นๆ ได้ รวมถึงอักษรภาษารัสเซีย อักษรจีน หรืออื่นๆ เช่น:
-=======
-```smart header="Case matters"
-Variables named `apple` and `APPLE` are two different variables.
-```
-
-````smart header="Non-Latin letters are allowed, but not recommended"
-It is possible to use any language, including Cyrillic letters, Chinese logograms and so on, like this:
->>>>>>> ff804bc19351b72bc5df7766f4b9eb8249a3cb11
 
 ```js
 let имя = '...';
 let 我 = '...';
 ```
 
-<<<<<<< HEAD
 ในทางเทคนิคแล้ว ตัวอย่างข้างบนไม่มีข้อผิดพลาด การตั้งชื่อแบบนั้นใช้ได้ แต่เรามีข้อตกลงสากลว่าควรใช้ภาษาอังกฤษในการตั้งชื่อตัวแปร เพราะถึงแม้จะเป็นสคริปต์สั้นๆ แต่ก็อาจจะมีชีวิตอยู่ได้นานมาก และในอนาคตอาจมีคนจากประเทศอื่นจำเป็นต้องเข้ามาอ่านมันก็เป็นได้
 ```
-=======
-Technically, there is no error here. Such names are allowed, but there is an international convention to use English in variable names. Even if we're writing a small script, it may have a long life ahead. People from other countries may need to read it sometime.
-````
->>>>>>> ff804bc19351b72bc5df7766f4b9eb8249a3cb11
 
 ```warn header="ชื่อที่สงวนไว้"
 มี[รายการคำสงวน](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar#Keywords) ที่ไม่อนุญาตให้นำมาตั้งเป็นชื่อตัวแปร เพราะมันถูกสงวนไว้ใช้โดยตัวภาษาเอง
@@ -308,21 +262,13 @@ const myBirthday = '18.04.1982';
 myBirthday = '01.01.2001'; // error เพราะไม่สามารถกำหนดค่าใหม่ให้ค่าคงที่ได้!
 ```
 
-<<<<<<< HEAD
 เมื่อโปรแกรมเมอร์มั่นใจว่าตัวแปรจะไม่มีวันเปลี่ยนแปลงค่า ก็สามารถประกาศเป็นค่าคงที่ด้วย `const` เพื่อการันตีและสื่อสารข้อเท็จจริงดังกล่าวให้ทุกคนรับทราบ
 
 ### ค่าคงที่ที่เขียนด้วยตัวพิมพ์ใหญ่
-=======
-When a programmer is sure that a variable will never change, they can declare it with `const` to guarantee and communicate that fact to everyone.
->>>>>>> ff804bc19351b72bc5df7766f4b9eb8249a3cb11
 
 ในทางปฏิบัติ มักนิยมใช้ค่าคงที่เป็นนามแทนสำหรับค่าที่จำยาก ซึ่งทราบค่าตายตัวก่อนการประมวลผลโปรแกรมแล้ว
 
-<<<<<<< HEAD
 ค่าคงที่ลักษณะนี้มักตั้งชื่อโดยใช้ตัวพิมพ์ใหญ่และอันเดอร์สกอร์
-=======
-There is a widespread practice to use constants as aliases for difficult-to-remember values that are known before execution.
->>>>>>> ff804bc19351b72bc5df7766f4b9eb8249a3cb11
 
 ยกตัวอย่างเช่น ลองสร้างค่าคงที่แทนรหัสสีในฟอร์แมต "web" (เขียนเป็นเลขฐานสิบหก):
 
@@ -345,30 +291,17 @@ alert(color); // #FF7F00
 
 แล้วเราควรใช้ตัวพิมพ์ใหญ่กับค่าคงที่เมื่อไหร่ และควรตั้งชื่อปกติเมื่อไหร่? ลองมาทำความเข้าใจกัน
 
-<<<<<<< HEAD
 คำว่า "ค่าคงที่" หมายถึงค่าของตัวแปรจะไม่มีวันเปลี่ยนแปลงเท่านั้น แต่ค่าคงที่บางตัวเป็นที่รู้จักก่อนการประมวลผล (เช่นค่าฐานสิบหกของสีแดง) ส่วนค่าคงที่อีกประเภทคือถูก*คำนวณ*ระหว่างรันไทม์ ในช่วงการประมวลผล แต่จะไม่เปลี่ยนแปลงหลังจากกำหนดค่าไปแล้ว
 
 ตัวอย่างเช่น:
 
-=======
-Being a "constant" just means that a variable's value never changes. But some constants are known before execution (like a hexadecimal value for red) and some constants are *calculated* in run-time, during the execution, but do not change after their initial assignment.
-
-For instance:
-
->>>>>>> ff804bc19351b72bc5df7766f4b9eb8249a3cb11
 ```js
 const pageLoadTime = /* เวลาที่ใช้ในการโหลดเว็บเพจ */;
 ```
 
-<<<<<<< HEAD
 ค่าของ `pageLoadTime` ไม่เป็นที่ทราบก่อนโหลดเพจ ดังนั้นจึงตั้งชื่อแบบปกติ แต่ถึงอย่างนั้นมันก็ยังเป็นค่าคงที่ เพราะไม่มีการเปลี่ยนแปลงค่าหลังจากกำหนดไปแล้ว
 
 หรือพูดอีกอย่างคือ ค่าคงที่ที่ตั้งชื่อด้วยตัวพิมพ์ใหญ่จะใช้เป็นเพียงแค่นามแทนสำหรับค่าที่ "ฮาร์ดโค้ด" เข้าไปโดยตรงเท่านั้น
-=======
-The value of `pageLoadTime` is not known before the page load, so it's named normally. But it's still a constant because it doesn't change after the assignment.
-
-In other words, capital-named constants are only used as aliases for "hard-coded" values.
->>>>>>> ff804bc19351b72bc5df7766f4b9eb8249a3cb11
 
 ## ตั้งชื่อให้ถูกต้อง
 
@@ -376,31 +309,18 @@ In other words, capital-named constants are only used as aliases for "hard-coded
 
 ชื่อตัวแปรควรมีความหมายที่ชัดเจน เข้าใจง่าย สามารถอธิบายข้อมูลที่เก็บอยู่ภายในได้
 
-<<<<<<< HEAD
 การตั้งชื่อตัวแปรถือเป็นหนึ่งในทักษะที่สำคัญและซับซ้อนที่สุดในการเขียนโปรแกรม เพียงแค่กวาดตามองผ่านชื่อตัวแปร ก็สามารถบอกได้แล้วว่าโค้ดนั้นเขียนโดยมือใหม่หรือนักพัฒนาที่มีประสบการณ์
 
 ในโปรเจ็กต์จริง เรามักใช้เวลาส่วนใหญ่ไปกับการแก้ไขและต่อยอดโค้ดเดิมที่มีอยู่แล้ว มากกว่าการเขียนโค้ดใหม่ล้วนๆ จากศูนย์ เมื่อต้องย้อนกลับไปดูโค้ดหลังจากไปทำอย่างอื่นสักพัก การมีข้อมูลที่ตั้งชื่อตัวแปรไว้อย่างดีจะช่วยให้เราหาสิ่งที่ต้องการได้ง่ายขึ้นมาก หรือพูดอีกอย่างคือ เมื่อตัวแปรมีชื่อที่ดีนั่นเอง
-=======
-Variable naming is one of the most important and complex skills in programming. A glance at variable names can reveal which code was written by a beginner versus an experienced developer.
-
-In a real project, most of the time is spent modifying and extending an existing code base rather than writing something completely separate from scratch. When we return to some code after doing something else for a while, it's much easier to find information that is well-labelled. Or, in other words, when the variables have good names.
->>>>>>> ff804bc19351b72bc5df7766f4b9eb8249a3cb11
 
 ดังนั้น ควรใช้เวลาคิดพิจารณาชื่อที่เหมาะสมให้ตัวแปร ก่อนที่จะประกาศใช้มัน การทำเช่นนี้จะคุ้มค่าเป็นอย่างมากในภายหลัง
 
 ต่อไปนี้คือกฎที่ควรนำไปปฏิบัติ:
 
-<<<<<<< HEAD
 - ใช้ชื่อที่มนุษย์อ่านเข้าใจได้ เช่น `userName` หรือ `shoppingCart`
 - หลีกเลี่ยงการใช้คำย่อหรือชื่อสั้นๆ อย่าง `a`, `b` หรือ `c` ยกเว้นว่าคุณมั่นใจว่ากำลังทำอะไรอยู่
 - ตั้งชื่อให้อธิบายได้ชัดเจนที่สุดและกระชับ ตัวอย่างชื่อที่ไม่ดี ได้แก่ `data` และ `value` เพราะไม่ได้สื่อความหมายอะไร ยกเว้นบริบทของโค้ดจะบ่งชี้ชัดว่าตัวแปรนั้นหมายถึงข้อมูลหรือค่าใด
 - ตกลงใช้ศัพท์เฉพาะกันภายในทีมและในใจของคุณเอง ถ้าเรียกผู้เยี่ยมชมเว็บว่า "user" เราก็ควรตั้งชื่อตัวแปรที่เกี่ยวข้องว่า `currentUser` หรือ `newUser` แทนที่จะเป็น `currentVisitor` หรือ `newManInTown`
-=======
-- Use human-readable names like `userName` or `shoppingCart`.
-- Stay away from abbreviations or short names like `a`, `b`, and `c`, unless you know what you're doing.
-- Make names maximally descriptive and concise. Examples of bad names are `data` and `value`. Such names say nothing. It's only okay to use them if the context of the code makes it exceptionally obvious which data or value the variable is referencing.
-- Agree on terms within your team and in your mind. If a site visitor is called a "user" then we should name related variables `currentUser` or `newUser` instead of `currentVisitor` or `newManInTown`.
->>>>>>> ff804bc19351b72bc5df7766f4b9eb8249a3cb11
 
 ฟังดูง่ายมั้ย แต่ในทางปฏิบัติ การสร้างชื่อตัวแปรที่สื่อความหมายและกระชับไม่ใช่เรื่องง่ายเลย ลองทำดูนะ
 
