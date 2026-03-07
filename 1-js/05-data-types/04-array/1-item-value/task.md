@@ -2,18 +2,17 @@ importance: 3
 
 ---
 
-# Is array copied?
+# อาร์เรย์ถูกคัดลอกหรือเปล่า?
 
-What is this code going to show?
+โค้ดนี้จะแสดงผลอะไร?
 
 ```js
 let fruits = ["Apples", "Pear", "Orange"];
 
-// push a new value into the "copy"
+// push ค่าใหม่เข้าไปใน "สำเนา"
 let shoppingCart = fruits;
 shoppingCart.push("Banana");
 
-// what's in fruits?
+// แล้ว fruits มีอะไรอยู่?
 alert( fruits.length ); // ?
 ```
-

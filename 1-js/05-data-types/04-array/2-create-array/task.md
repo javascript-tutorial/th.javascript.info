@@ -2,17 +2,17 @@ importance: 5
 
 ---
 
-# Array operations.
+# การดำเนินการกับอาร์เรย์
 
-Let's try 5 array operations.
+มาลองทำ 5 การดำเนินการกับอาร์เรย์กัน
 
-1. Create an array `styles` with items "Jazz" and "Blues".
-2. Append "Rock-n-Roll" to the end.
-3. Replace the value in the middle with "Classics". Your code for finding the middle value should work for any arrays with odd length.
-4. Strip off the first value of the array and show it.
-5. Prepend `Rap` and `Reggae` to the array.
+1. สร้างอาร์เรย์ `styles` ที่มีสมาชิก "Jazz" และ "Blues"
+2. เพิ่ม "Rock-n-Roll" ไว้ที่ท้ายอาร์เรย์
+3. แทนค่าตรงกลางด้วย "Classics" โดยโค้ดที่ใช้หาตำแหน่งกลางต้องทำงานได้กับอาร์เรย์ที่มีความยาวเป็นเลขคี่ทุกขนาด
+4. ตัดสมาชิกตัวแรกออกจากอาร์เรย์แล้วแสดงผลค่านั้น
+5. เพิ่ม `Rap` และ `Reggae` ไว้ที่ต้นอาร์เรย์
 
-The array in the process:
+ลำดับการเปลี่ยนแปลงของอาร์เรย์:
 
 ```js no-beautify
 Jazz, Blues
@@ -21,4 +21,3 @@ Jazz, Classics, Rock-n-Roll
 Classics, Rock-n-Roll
 Rap, Reggae, Classics, Rock-n-Roll
 ```
-

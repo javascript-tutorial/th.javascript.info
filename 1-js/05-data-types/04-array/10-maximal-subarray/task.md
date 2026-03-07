@@ -2,29 +2,29 @@ importance: 2
 
 ---
 
-# A maximal subarray
+# ผลรวมของ subarray ที่มากที่สุด
 
-The input is an array of numbers, e.g. `arr = [1, -2, 3, 4, -9, 6]`.
+อินพุตคืออาร์เรย์ของตัวเลข เช่น `arr = [1, -2, 3, 4, -9, 6]`
 
-The task is: find the contiguous subarray of `arr` with the maximal sum of items.
+โจทย์คือ: ให้หา subarray ที่ต่อเนื่องกันใน `arr` ซึ่งมีผลรวมของสมาชิกมากที่สุด
 
-Write the function `getMaxSubSum(arr)` that will return that sum.
+เขียนฟังก์ชัน `getMaxSubSum(arr)` ที่คืนค่าผลรวมนั้น
 
-For instance:
+ตัวอย่างเช่น:
 
 ```js
-getMaxSubSum([-1, *!*2, 3*/!*, -9]) == 5 (the sum of highlighted items)
+getMaxSubSum([-1, *!*2, 3*/!*, -9]) == 5 (ผลรวมของสมาชิกที่ไฮไลต์)
 getMaxSubSum([*!*2, -1, 2, 3*/!*, -9]) == 6
 getMaxSubSum([-1, 2, 3, -9, *!*11*/!*]) == 11
 getMaxSubSum([-2, -1, *!*1, 2*/!*]) == 3
 getMaxSubSum([*!*100*/!*, -9, 2, -3, 5]) == 100
-getMaxSubSum([*!*1, 2, 3*/!*]) == 6 (take all)
+getMaxSubSum([*!*1, 2, 3*/!*]) == 6 (นำทุกสมาชิกมารวม)
 ```
 
-If all items are negative, it means that we take none (the subarray is empty), so the sum is zero:
+ถ้าสมาชิกทุกตัวเป็นค่าลบ แสดงว่าเราไม่เลือกสมาชิกตัวใดเลย (subarray ว่างเปล่า) ผลรวมจึงเป็นศูนย์:
 
 ```js
 getMaxSubSum([-1, -2, -3]) = 0
 ```
 
-Please try to think of a fast solution: [O(n<sup>2</sup>)](https://en.wikipedia.org/wiki/Big_O_notation) or even O(n) if you can.
+ลองคิดหาวิธีที่เร็ว: [O(n<sup>2</sup>)](https://en.wikipedia.org/wiki/Big_O_notation) หรือถ้าทำได้ก็ O(n) เลย

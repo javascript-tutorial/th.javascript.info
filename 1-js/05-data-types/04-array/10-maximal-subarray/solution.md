@@ -1,43 +1,43 @@
-# Slow solution
+# วิธีแก้แบบช้า
 
-We can calculate all possible subsums.
+เราสามารถคำนวณผลรวมของ subarray ทั้งหมดที่เป็นไปได้
 
-The simplest way is to take every element and calculate sums of all subarrays starting from it.
+วิธีที่ง่ายที่สุดคือ ดึงสมาชิกแต่ละตัวออกมา แล้วคำนวณผลรวมของ subarray ทุกชุดที่เริ่มต้นจากสมาชิกตัวนั้น
 
-For instance, for `[-1, 2, 3, -9, 11]`:
+เช่น สำหรับ `[-1, 2, 3, -9, 11]`:
 
 ```js no-beautify
-// Starting from -1:
+// เริ่มจาก -1:
 -1
 -1 + 2
 -1 + 2 + 3
 -1 + 2 + 3 + (-9)
 -1 + 2 + 3 + (-9) + 11
 
-// Starting from 2:
+// เริ่มจาก 2:
 2
 2 + 3
 2 + 3 + (-9)
 2 + 3 + (-9) + 11
 
-// Starting from 3:
+// เริ่มจาก 3:
 3
 3 + (-9)
 3 + (-9) + 11
 
-// Starting from -9
+// เริ่มจาก -9
 -9
 -9 + 11
 
-// Starting from 11
+// เริ่มจาก 11
 11
 ```
 
-The code is actually a nested loop: the external loop over array elements, and the internal counts subsums starting with the current element.
+โค้ดที่ใช้จริงคือลูปซ้อนกัน: ลูปนอกวนผ่านสมาชิกในอาร์เรย์ ส่วนลูปในคำนวณผลรวม subarray ที่เริ่มจากสมาชิกตัวปัจจุบัน
 
 ```js run
 function getMaxSubSum(arr) {
-  let maxSum = 0; // if we take no elements, zero will be returned
+  let maxSum = 0; // ถ้าไม่เลือกสมาชิกตัวใดเลย จะคืนค่าเป็นศูนย์
 
   for (let i = 0; i < arr.length; i++) {
     let sumFixedStart = 0;
@@ -57,25 +57,25 @@ alert( getMaxSubSum([1, 2, 3]) ); // 6
 alert( getMaxSubSum([100, -9, 2, -3, 5]) ); // 100
 ```
 
-The solution has a time complexity of [O(n<sup>2</sup>)](https://en.wikipedia.org/wiki/Big_O_notation). In other words, if we increase the array size 2 times, the algorithm will work 4 times longer.
+วิธีนี้มีความซับซ้อนของเวลาเป็น [O(n<sup>2</sup>)](https://en.wikipedia.org/wiki/Big_O_notation) พูดง่ายๆ ก็คือ ถ้าขนาดอาร์เรย์เพิ่มขึ้น 2 เท่า อัลกอริทึมจะทำงานช้าลงถึง 4 เท่า
 
-For big arrays (1000, 10000 or more items) such algorithms can lead to serious sluggishness.
+สำหรับอาร์เรย์ขนาดใหญ่ (1,000, 10,000 สมาชิกขึ้นไป) วิธีแบบนี้อาจทำให้โปรแกรมทำงานช้ามาก
 
-# Fast solution
+# วิธีแก้แบบเร็ว
 
-Let's walk the array and keep the current partial sum of elements in the variable `s`. If `s` becomes negative at some point, then assign `s=0`. The maximum of all such `s` will be the answer.
+เราวนผ่านอาร์เรย์แล้วเก็บผลรวมสะสมของสมาชิกไว้ในตัวแปร `s` ถ้า `s` ติดลบ ณ จุดใดก็ตาม ให้กำหนด `s=0` ใหม่ ค่าสูงสุดของ `s` ตลอดการวนนั้นคือคำตอบ
 
-If the description is too vague, please see the code, it's short enough:
+ถ้าคำอธิบายยังไม่ชัดเจน ลองดูที่โค้ดได้เลย มันสั้นมาก:
 
 ```js run demo
 function getMaxSubSum(arr) {
   let maxSum = 0;
   let partialSum = 0;
 
-  for (let item of arr) { // for each item of arr
-    partialSum += item; // add it to partialSum
-    maxSum = Math.max(maxSum, partialSum); // remember the maximum
-    if (partialSum < 0) partialSum = 0; // zero if negative
+  for (let item of arr) { // วนผ่านสมาชิกแต่ละตัวในอาร์เรย์
+    partialSum += item; // บวกเพิ่มเข้า partialSum
+    maxSum = Math.max(maxSum, partialSum); // จำค่าสูงสุดไว้
+    if (partialSum < 0) partialSum = 0; // รีเซ็ตเป็นศูนย์ถ้าติดลบ
   }
 
   return maxSum;
@@ -89,6 +89,6 @@ alert( getMaxSubSum([1, 2, 3]) ); // 6
 alert( getMaxSubSum([-1, -2, -3]) ); // 0
 ```
 
-The algorithm requires exactly 1 array pass, so the time complexity is O(n).
+อัลกอริทึมนี้วนผ่านอาร์เรย์เพียงรอบเดียว ความซับซ้อนของเวลาจึงเป็น O(n)
 
-You can find more detailed information about the algorithm here: [Maximum subarray problem](http://en.wikipedia.org/wiki/Maximum_subarray_problem). If it's still not obvious why that works, then please trace the algorithm on the examples above, see how it works, that's better than any words.
+อ่านรายละเอียดเพิ่มเติมเกี่ยวกับอัลกอริทึมนี้ได้ที่: [Maximum subarray problem](http://en.wikipedia.org/wiki/Maximum_subarray_problem) ถ้ายังไม่เข้าใจว่าทำไมวิธีนี้ถึงได้ผล ลองลากการทำงานของอัลกอริทึมผ่านตัวอย่างข้างต้นดู การเห็นภาพจริงๆ ดีกว่าคำอธิบายใดๆ ทั้งนั้น

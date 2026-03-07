@@ -2,14 +2,14 @@ importance: 4
 
 ---
 
-# Sum input numbers
+# รับตัวเลขแล้วรวมผล
 
-Write the function `sumInput()` that:
+เขียนฟังก์ชัน `sumInput()` ที่:
 
-- Asks the user for values using `prompt` and stores the values in the array.
-- Finishes asking when the user enters a non-numeric value, an empty string, or presses "Cancel".
-- Calculates and returns the sum of array items.
+- ถามค่าจากผู้ใช้ด้วย `prompt` แล้วเก็บค่าเหล่านั้นไว้ในอาร์เรย์
+- หยุดถามเมื่อผู้ใช้ป้อนค่าที่ไม่ใช่ตัวเลข สตริงว่าง หรือกด "Cancel"
+- คำนวณแล้วคืนค่าผลรวมของสมาชิกในอาร์เรย์
 
-P.S. A zero `0` is a valid number, please don't stop the input on zero.
+หมายเหตุ: เลข `0` ถือว่าเป็นตัวเลขที่ถูกต้อง อย่าหยุดรับค่าเมื่อผู้ใช้ป้อนศูนย์
 
 [demo]
