@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# Calling in an array context
+# การเรียกในบริบทของอาร์เรย์
 
-What is the result? Why?
+ผลลัพธ์คืออะไร และทำไม?
 
 ```js
 let arr = ["a", "b"];
@@ -15,4 +15,3 @@ arr.push(function() {
 
 arr[2](); // ?
 ```
-

@@ -1,16 +1,16 @@
-Please note the subtle, but important detail of the solution. We don't convert `value` to number instantly after `prompt`, because after `value = +value` we would not be able to tell an empty string (stop sign) from the zero (valid number). We do it later instead.
+สังเกตรายละเอียดเล็กน้อยแต่สำคัญในโซลูชันนี้ เราไม่แปลง `value` เป็นตัวเลขทันทีหลังจาก `prompt` เพราะถ้าทำ `value = +value` ไปก่อน เราจะไม่สามารถแยกแยะสตริงว่าง (สัญญาณหยุด) ออกจากเลขศูนย์ (ค่าที่ถูกต้อง) ได้ จึงแปลงทีหลังแทน
 
 
 ```js run demo
 function sumInput() {
- 
+
   let numbers = [];
 
   while (true) {
 
-    let value = prompt("A number please?", 0);
+    let value = prompt("กรุณาป้อนตัวเลข", 0);
 
-    // should we cancel?
+    // ควรหยุดหรือเปล่า?
     if (value === "" || value === null || !isFinite(value)) break;
 
     numbers.push(+value);
@@ -23,6 +23,5 @@ function sumInput() {
   return sum;
 }
 
-alert( sumInput() ); 
+alert( sumInput() );
 ```
-

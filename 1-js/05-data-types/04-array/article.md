@@ -1,31 +1,31 @@
-# Arrays
+# อาร์เรย์
 
-Objects allow you to store keyed collections of values. That's fine.
+ออบเจ็กต์ช่วยให้เราเก็บข้อมูลแบบ key-value ได้ดี
 
-But quite often we find that we need an *ordered collection*, where we have a 1st, a 2nd, a 3rd element and so on. For example, we need that to store a list of something: users, goods, HTML elements etc.
+แต่บ่อยครั้งเราต้องการ *คอลเล็กชันที่มีลำดับ (ordered collection)* ซึ่งมีสมาชิกตัวที่ 1, ตัวที่ 2, ตัวที่ 3 และต่อๆ ไป เช่น เมื่อต้องการเก็บรายการบางอย่าง: รายชื่อผู้ใช้, สินค้า, HTML elements และอื่นๆ
 
-It is not convenient to use an object here, because it provides no methods to manage the order of elements. We can’t insert a new property “between” the existing ones. Objects are just not meant for such use.
+การใช้ออบเจ็กต์ในกรณีนี้ไม่ค่อยเหมาะ เพราะออบเจ็กต์ไม่มีเมธอดสำหรับจัดการลำดับของสมาชิก เราไม่สามารถแทรกพร็อพเพอร์ตี้ใหม่ "ระหว่าง" พร็อพเพอร์ตี้ที่มีอยู่ได้ ออบเจ็กต์ไม่ได้ออกแบบมาเพื่องานแบบนี้
 
-There exists a special data structure named `Array`, to store ordered collections.
+ข้อมูลชนิดพิเศษที่ชื่อว่า `Array` ถูกสร้างขึ้นมาเพื่อเก็บคอลเล็กชันที่มีลำดับโดยเฉพาะ
 
-## Declaration
+## การประกาศ
 
-There are two syntaxes for creating an empty array:
+มีสองวิธีในการสร้างอาร์เรย์ว่าง:
 
 ```js
 let arr = new Array();
 let arr = [];
 ```
 
-Almost all the time, the second syntax is used. We can supply initial elements in the brackets:
+เกือบทุกครั้งเราใช้วิธีที่สอง และสามารถใส่สมาชิกเริ่มต้นไว้ในวงเล็บได้เลย:
 
 ```js
 let fruits = ["Apple", "Orange", "Plum"];
 ```
 
-Array elements are numbered, starting with zero.
+สมาชิกในอาร์เรย์มีหมายเลขกำกับ โดยเริ่มจากศูนย์
 
-We can get an element by its number in square brackets:
+เราดึงสมาชิกออกมาด้วยหมายเลขดัชนีในวงเล็บเหลี่ยม:
 
 ```js run
 let fruits = ["Apple", "Orange", "Plum"];
@@ -35,19 +35,19 @@ alert( fruits[1] ); // Orange
 alert( fruits[2] ); // Plum
 ```
 
-We can replace an element:
+เราแทนที่สมาชิกได้:
 
 ```js
-fruits[2] = 'Pear'; // now ["Apple", "Orange", "Pear"]
+fruits[2] = 'Pear'; // ตอนนี้กลายเป็น ["Apple", "Orange", "Pear"]
 ```
 
-...Or add a new one to the array:
+...หรือเพิ่มสมาชิกใหม่เข้าไปในอาร์เรย์:
 
 ```js
-fruits[3] = 'Lemon'; // now ["Apple", "Orange", "Pear", "Lemon"]
+fruits[3] = 'Lemon'; // ตอนนี้กลายเป็น ["Apple", "Orange", "Pear", "Lemon"]
 ```
 
-The total count of the elements in the array is its `length`:
+จำนวนสมาชิกทั้งหมดในอาร์เรย์ดูได้จาก `length`:
 
 ```js run
 let fruits = ["Apple", "Orange", "Plum"];
@@ -55,7 +55,7 @@ let fruits = ["Apple", "Orange", "Plum"];
 alert( fruits.length ); // 3
 ```
 
-We can also use `alert` to show the whole array.
+นอกจากนี้ยังใช้ `alert` แสดงอาร์เรย์ทั้งหมดได้ด้วย:
 
 ```js run
 let fruits = ["Apple", "Orange", "Plum"];
@@ -63,24 +63,24 @@ let fruits = ["Apple", "Orange", "Plum"];
 alert( fruits ); // Apple,Orange,Plum
 ```
 
-An array can store elements of any type.
+อาร์เรย์สามารถเก็บสมาชิกที่เป็นชนิดข้อมูลใดก็ได้
 
-For instance:
+ตัวอย่างเช่น:
 
 ```js run no-beautify
-// mix of values
+// รวมข้อมูลหลายชนิด
 let arr = [ 'Apple', { name: 'John' }, true, function() { alert('hello'); } ];
 
-// get the object at index 1 and then show its name
+// ดึงออบเจ็กต์ที่ index 1 แล้วแสดงชื่อของมัน
 alert( arr[1].name ); // John
 
-// get the function at index 3 and run it
+// ดึงฟังก์ชันที่ index 3 แล้วเรียกใช้
 arr[3](); // hello
 ```
 
 
-````smart header="Trailing comma"
-An array, just like an object, may end with a comma:
+````smart header="จุลภาคท้าย (Trailing comma)"
+อาร์เรย์ เช่นเดียวกับออบเจ็กต์ สามารถจบด้วยจุลภาคได้:
 ```js
 let fruits = [
   "Apple",
@@ -89,20 +89,20 @@ let fruits = [
 ];
 ```
 
-The "trailing comma" style makes it easier to insert/remove items, because all lines become alike.
+รูปแบบ "trailing comma" ทำให้เพิ่มหรือลบสมาชิกได้ง่ายขึ้น เพราะทุกบรรทัดมีรูปแบบเหมือนกัน
 ````
 
-## Get last elements with "at"
+## ดึงสมาชิกตัวสุดท้ายด้วย "at"
 
 [recent browser="new"]
 
-Let's say we want the last element of the array.
+สมมติว่าเราต้องการสมาชิกตัวสุดท้ายของอาร์เรย์
 
-Some programming languages allow the use of negative indexes for the same purpose, like `fruits[-1]`.
+บางภาษาโปรแกรมอนุญาตให้ใช้ดัชนีที่เป็นลบสำหรับจุดประสงค์นี้ เช่น `fruits[-1]`
 
-However, in JavaScript it won't work. The result will be `undefined`, because the index in square brackets is treated literally.
+แต่ใน JavaScript ไม่ได้ผล จะได้ค่าเป็น `undefined` เพราะดัชนีในวงเล็บเหลี่ยมถูกตีความตรงตัว
 
-We can explicitly calculate the last element index and then access it: `fruits[fruits.length - 1]`.
+เราคำนวณดัชนีของสมาชิกตัวสุดท้ายแล้วเข้าถึงได้แบบนี้: `fruits[fruits.length - 1]`
 
 ```js run
 let fruits = ["Apple", "Orange", "Plum"];
@@ -110,70 +110,70 @@ let fruits = ["Apple", "Orange", "Plum"];
 alert( fruits[fruits.length-1] ); // Plum
 ```
 
-A bit cumbersome, isn't it? We need to write the variable name twice.
+ดูยุ่งยากนิดหน่อยใช่ไหม เพราะต้องเขียนชื่อตัวแปรซ้ำสองครั้ง
 
-Luckily, there's a shorter syntax: `fruits.at(-1)`:
+โชคดีที่มีวิธีสั้นกว่า: `fruits.at(-1)`:
 
 ```js run
 let fruits = ["Apple", "Orange", "Plum"];
 
-// same as fruits[fruits.length-1]
+// เหมือนกับ fruits[fruits.length-1]
 alert( fruits.at(-1) ); // Plum
 ```
 
-In other words, `arr.at(i)`:
-- is exactly the same as `arr[i]`, if `i >= 0`.
-- for negative values of `i`, it steps back from the end of the array.
+พูดง่ายๆ ก็คือ `arr.at(i)`:
+- ทำงานเหมือน `arr[i]` ทุกประการ ถ้า `i >= 0`
+- สำหรับค่า `i` ที่เป็นลบ จะนับถอยหลังจากท้ายอาร์เรย์
 
-## Methods pop/push, shift/unshift
+## เมธอด pop/push, shift/unshift
 
-A [queue](https://en.wikipedia.org/wiki/Queue_(abstract_data_type)) is one of the most common uses of an array. In computer science, this means an ordered collection of elements which supports two operations:
+[คิว (queue)](https://en.wikipedia.org/wiki/Queue_(abstract_data_type)) เป็นหนึ่งในการใช้งานอาร์เรย์ที่พบบ่อยที่สุด ในศาสตร์คอมพิวเตอร์ คิวคือคอลเล็กชันที่มีลำดับซึ่งรองรับสองการทำงาน:
 
-- `push` appends an element to the end.
-- `shift` get an element from the beginning, advancing the queue, so that the 2nd element becomes the 1st.
+- `push` เพิ่มสมาชิกไว้ที่ท้าย
+- `shift` ดึงสมาชิกออกจากต้น พร้อมเลื่อนคิว ทำให้สมาชิกตัวที่ 2 กลายเป็นตัวที่ 1
 
 ![](queue.svg)
 
-Arrays support both operations.
+อาร์เรย์รองรับทั้งสองการทำงาน
 
-In practice we need it very often. For example, a queue of messages that need to be shown on-screen.
+ในทางปฏิบัติ เราต้องการสิ่งนี้บ่อยมาก เช่น คิวของข้อความที่ต้องแสดงบนหน้าจอ
 
-There's another use case for arrays -- the data structure named [stack](https://en.wikipedia.org/wiki/Stack_(abstract_data_type)).
+ยังมีการใช้งานอาร์เรย์อีกแบบหนึ่ง นั่นคือโครงสร้างข้อมูลที่เรียกว่า [สแต็ก (stack)](https://en.wikipedia.org/wiki/Stack_(abstract_data_type))
 
-It supports two operations:
+สแต็กรองรับสองการทำงาน:
 
-- `push` adds an element to the end.
-- `pop` takes an element from the end.
+- `push` เพิ่มสมาชิกไว้ที่ท้าย
+- `pop` ดึงสมาชิกออกจากท้าย
 
-So new elements are added or taken always from the "end".
+กล่าวคือ สมาชิกใหม่จะถูกเพิ่มหรือดึงออกจาก "ท้าย" เสมอ
 
-A stack is usually illustrated as a pack of cards: new cards are added to the top or taken from the top:
+สแต็กมักเปรียบเหมือนสำรับไพ่: ไพ่ใหม่วางทับบนกองหรือหยิบออกจากด้านบน:
 
 ![](stack.svg)
 
-For stacks, the latest pushed item is received first, that's also called LIFO (Last-In-First-Out) principle. For queues, we have FIFO (First-In-First-Out).
+สำหรับสแต็ก สมาชิกที่เพิ่งใส่เข้าไปล่าสุดจะถูกดึงออกมาก่อน นี่คือหลักการ LIFO (Last-In-First-Out) ส่วนคิวใช้ FIFO (First-In-First-Out)
 
-Arrays in JavaScript can work both as a queue and as a stack. They allow you to add/remove elements, both to/from the beginning or the end.
+อาร์เรย์ใน JavaScript ทำงานได้ทั้งแบบคิวและสแต็ก รองรับการเพิ่ม/ลบสมาชิกทั้งที่ต้นและท้าย
 
-In computer science, the data structure that allows this, is called [deque](https://en.wikipedia.org/wiki/Double-ended_queue).
+ในศาสตร์คอมพิวเตอร์ โครงสร้างข้อมูลที่ทำแบบนี้ได้เรียกว่า [deque](https://en.wikipedia.org/wiki/Double-ended_queue)
 
-**Methods that work with the end of the array:**
+**เมธอดที่ทำงานกับท้ายอาร์เรย์:**
 
 `pop`
-: Extracts the last element of the array and returns it:
+: ดึงสมาชิกตัวสุดท้ายออกจากอาร์เรย์แล้วคืนค่า:
 
     ```js run
     let fruits = ["Apple", "Orange", "Pear"];
 
-    alert( fruits.pop() ); // remove "Pear" and alert it
+    alert( fruits.pop() ); // ลบ "Pear" และแสดงค่า
 
     alert( fruits ); // Apple, Orange
     ```
 
-    Both `fruits.pop()` and `fruits.at(-1)` return the last element of the array, but `fruits.pop()` also modifies the array by removing it.
+    ทั้ง `fruits.pop()` และ `fruits.at(-1)` ต่างคืนค่าสมาชิกตัวสุดท้าย แต่ `fruits.pop()` ยังลบสมาชิกนั้นออกจากอาร์เรย์ด้วย
 
 `push`
-: Append the element to the end of the array:
+: เพิ่มสมาชิกไว้ที่ท้ายอาร์เรย์:
 
     ```js run
     let fruits = ["Apple", "Orange"];
@@ -183,23 +183,23 @@ In computer science, the data structure that allows this, is called [deque](http
     alert( fruits ); // Apple, Orange, Pear
     ```
 
-    The call `fruits.push(...)` is equal to `fruits[fruits.length] = ...`.
+    การเรียก `fruits.push(...)` มีผลเหมือนกับ `fruits[fruits.length] = ...`
 
-**Methods that work with the beginning of the array:**
+**เมธอดที่ทำงานกับต้นอาร์เรย์:**
 
 `shift`
-: Extracts the first element of the array and returns it:
+: ดึงสมาชิกตัวแรกออกจากอาร์เรย์แล้วคืนค่า:
 
     ```js run
     let fruits = ["Apple", "Orange", "Pear"];
 
-    alert( fruits.shift() ); // remove Apple and alert it
+    alert( fruits.shift() ); // ลบ Apple และแสดงค่า
 
     alert( fruits ); // Orange, Pear
     ```
 
 `unshift`
-: Add the element to the beginning of the array:
+: เพิ่มสมาชิกไว้ที่ต้นอาร์เรย์:
 
     ```js run
     let fruits = ["Orange", "Pear"];
@@ -209,7 +209,7 @@ In computer science, the data structure that allows this, is called [deque](http
     alert( fruits ); // Apple, Orange, Pear
     ```
 
-Methods `push` and `unshift` can add multiple elements at once:
+เมธอด `push` และ `unshift` สามารถเพิ่มหลายสมาชิกพร้อมกันได้:
 
 ```js run
 let fruits = ["Apple"];
@@ -221,97 +221,97 @@ fruits.unshift("Pineapple", "Lemon");
 alert( fruits );
 ```
 
-## Internals
+## กลไกภายใน
 
-An array is a special kind of object. The square brackets used to access a property `arr[0]` actually come from the object syntax. That's essentially the same as `obj[key]`, where `arr` is the object, while numbers are used as keys.
+อาร์เรย์เป็นออบเจ็กต์ชนิดพิเศษ วงเล็บเหลี่ยมที่ใช้เข้าถึงพร็อพเพอร์ตี้ `arr[0]` มาจาก syntax ของออบเจ็กต์นั่นเอง นั่นแทบไม่ต่างจาก `obj[key]` เลย โดยที่ `arr` คือออบเจ็กต์ และตัวเลขเป็น key
 
-They extend objects providing special methods to work with ordered collections of data and also the `length` property. But at the core it's still an object.
+อาร์เรย์ขยายออบเจ็กต์ด้วยการเพิ่มเมธอดพิเศษสำหรับจัดการคอลเล็กชันที่มีลำดับ รวมถึงพร็อพเพอร์ตี้ `length` แต่แกนกลางของมันยังคงเป็นออบเจ็กต์
 
-Remember, there are only eight basic data types in JavaScript (see the [Data types](info:types) chapter for more info). Array is an object and thus behaves like an object.
+พึงระวังว่า JavaScript มีชนิดข้อมูลพื้นฐานแปดชนิด (ดูเพิ่มเติมในบท <info:types>) อาร์เรย์คือออบเจ็กต์ จึงทำงานเหมือนออบเจ็กต์
 
-For instance, it is copied by reference:
+ตัวอย่างเช่น การคัดลอกจะเป็นแบบอ้างอิง (by reference):
 
 ```js run
 let fruits = ["Banana"]
 
-let arr = fruits; // copy by reference (two variables reference the same array)
+let arr = fruits; // คัดลอกแบบ reference (ตัวแปรสองตัวอ้างถึงอาร์เรย์เดียวกัน)
 
 alert( arr === fruits ); // true
 
-arr.push("Pear"); // modify the array by reference
+arr.push("Pear"); // แก้ไขอาร์เรย์ผ่าน reference
 
-alert( fruits ); // Banana, Pear - 2 items now
+alert( fruits ); // Banana, Pear - ตอนนี้มี 2 รายการ
 ```
 
-...But what makes arrays really special is their internal representation. The engine tries to store its elements in the contiguous memory area, one after another, just as depicted on the illustrations in this chapter, and there are other optimizations as well, to make arrays work really fast.
+...แต่สิ่งที่ทำให้อาร์เรย์พิเศษจริงๆ คือกลไกการจัดเก็บภายใน เอ็นจิ้นพยายามเก็บสมาชิกในพื้นที่หน่วยความจำที่ต่อเนื่องกัน ทีละตัวตามลำดับ เหมือนที่เห็นในภาพประกอบของบทนี้ และยังมีการปรับประสิทธิภาพอื่นๆ อีก เพื่อให้อาร์เรย์ทำงานได้เร็วจริงๆ
 
-But they all break if we quit working with an array as with an "ordered collection" and start working with it as if it were a regular object.
+แต่ทั้งหมดนั้นจะพังถ้าเราเลิกใช้อาร์เรย์เป็น "คอลเล็กชันที่มีลำดับ" แล้วหันไปใช้มันเหมือนออบเจ็กต์ทั่วไป
 
-For instance, technically we can do this:
+ในทางเทคนิค เราทำแบบนี้ได้:
 
 ```js
-let fruits = []; // make an array
+let fruits = []; // สร้างอาร์เรย์
 
-fruits[99999] = 5; // assign a property with the index far greater than its length
+fruits[99999] = 5; // กำหนดพร็อพเพอร์ตี้ที่มีดัชนีใหญ่กว่า length มาก
 
-fruits.age = 25; // create a property with an arbitrary name
+fruits.age = 25; // สร้างพร็อพเพอร์ตี้ด้วยชื่อที่กำหนดเอง
 ```
 
-That's possible, because arrays are objects at their base. We can add any properties to them.
+ทำแบบนี้ได้ เพราะอาร์เรย์เป็นออบเจ็กต์ที่แกนกลาง เราเพิ่มพร็อพเพอร์ตี้อะไรก็ได้
 
-But the engine will see that we're working with the array as with a regular object. Array-specific optimizations are not suited for such cases and will be turned off, their benefits disappear.
+แต่เอ็นจิ้นจะรู้ว่าเรากำลังใช้อาร์เรย์เหมือนออบเจ็กต์ทั่วไป การปรับประสิทธิภาพแบบพิเศษของอาร์เรย์จะไม่เหมาะกับกรณีนี้และจะถูกปิดใช้งาน ทำให้ประโยชน์หายไป
 
-The ways to misuse an array:
+วิธีที่ทำให้อาร์เรย์ทำงานผิดปกติ:
 
-- Add a non-numeric property like `arr.test = 5`.
-- Make holes, like: add `arr[0]` and then `arr[1000]` (and nothing between them).
-- Fill the array in the reverse order, like `arr[1000]`, `arr[999]` and so on.
+- เพิ่มพร็อพเพอร์ตี้ที่ไม่ใช่ตัวเลข เช่น `arr.test = 5`
+- สร้างช่องว่าง เช่น เพิ่ม `arr[0]` แล้วก็ `arr[1000]` (โดยไม่มีอะไรระหว่างนั้น)
+- ใส่ข้อมูลย้อนหลัง เช่น `arr[1000]`, `arr[999]` และต่อๆ ไป
 
-Please think of arrays as special structures to work with the *ordered data*. They provide special methods for that. Arrays are carefully tuned inside JavaScript engines to work with contiguous ordered data, please use them this way. And if you need arbitrary keys, chances are high that you actually require a regular object `{}`.
+โปรดคิดถึงอาร์เรย์ว่าเป็นโครงสร้างพิเศษสำหรับ *ข้อมูลที่มีลำดับ* อาร์เรย์มีเมธอดพิเศษสำหรับสิ่งนี้ และถูกปรับแต่งอย่างพิถีพิถันภายใน JavaScript engines เพื่อทำงานกับข้อมูลต่อเนื่องที่มีลำดับ โปรดใช้อาร์เรย์แบบนี้ แต่ถ้าต้องการ key ที่กำหนดเอง มีความเป็นไปได้สูงที่เราต้องการออบเจ็กต์ธรรมดา `{}` มากกว่า
 
-## Performance
+## ประสิทธิภาพ
 
-Methods `push/pop` run fast, while `shift/unshift` are slow.
+เมธอด `push/pop` ทำงานได้เร็ว ส่วน `shift/unshift` ช้ากว่า
 
 ![](array-speed.svg)
 
-Why is it faster to work with the end of an array than with its beginning? Let's see what happens during the execution:
+ทำไมการทำงานกับท้ายอาร์เรย์ถึงเร็วกว่าต้นอาร์เรย์? มาดูกันว่าเกิดอะไรขึ้นตอนที่รัน:
 
 ```js
-fruits.shift(); // take 1 element from the start
+fruits.shift(); // ดึงสมาชิก 1 ตัวออกจากต้น
 ```
 
-It's not enough to take and remove the element with the index `0`. Other elements need to be renumbered as well.
+แค่ดึงและลบสมาชิกที่ดัชนี `0` ออกไปยังไม่พอ สมาชิกตัวอื่นต้องถูกกำหนดหมายเลขใหม่ด้วย
 
-The `shift` operation must do 3 things:
+การทำงาน `shift` ต้องทำ 3 สิ่ง:
 
-1. Remove the element with the index `0`.
-2. Move all elements to the left, renumber them from the index `1` to `0`, from `2` to `1` and so on.
-3. Update the `length` property.
+1. ลบสมาชิกที่ดัชนี `0`
+2. เลื่อนสมาชิกทั้งหมดไปทางซ้าย กำหนดหมายเลขใหม่จากดัชนี `1` เป็น `0`, จาก `2` เป็น `1` และต่อๆ ไป
+3. อัปเดตพร็อพเพอร์ตี้ `length`
 
 ![](array-shift.svg)
 
-**The more elements in the array, the more time to move them, more in-memory operations.**
+**ยิ่งอาร์เรย์มีสมาชิกมาก ยิ่งใช้เวลาในการเลื่อน และใช้การทำงานในหน่วยความจำมากขึ้น**
 
-The similar thing happens with `unshift`: to add an element to the beginning of the array, we need first to move existing elements to the right, increasing their indexes.
+เช่นเดียวกับ `unshift`: การเพิ่มสมาชิกที่ต้นอาร์เรย์ ต้องเลื่อนสมาชิกที่มีอยู่ไปทางขวาก่อน และเพิ่มดัชนีของทุกตัว
 
-And what's with `push/pop`? They do not need to move anything. To extract an element from the end, the `pop` method cleans the index and shortens `length`.
+แล้ว `push/pop` ล่ะ? ไม่ต้องเลื่อนอะไรเลย เมธอด `pop` ดึงสมาชิกออกจากท้าย ลบดัชนี และย่อ `length`
 
-The actions for the `pop` operation:
+การทำงานของ `pop`:
 
 ```js
-fruits.pop(); // take 1 element from the end
+fruits.pop(); // ดึงสมาชิก 1 ตัวออกจากท้าย
 ```
 
 ![](array-pop.svg)
 
-**The `pop` method does not need to move anything, because other elements keep their indexes. That's why it's blazingly fast.**
+**เมธอด `pop` ไม่ต้องเลื่อนอะไร เพราะสมาชิกตัวอื่นยังคงดัชนีเดิม นั่นคือเหตุผลที่มันเร็วมาก**
 
-The similar thing with the `push` method.
+เมธอด `push` ก็เช่นกัน
 
-## Loops
+## ลูป
 
-One of the oldest ways to cycle array items is the `for` loop over indexes:
+วิธีดั้งเดิมที่สุดในการวนซ้ำสมาชิกในอาร์เรย์คือลูป `for` แบบใช้ดัชนี:
 
 ```js run
 let arr = ["Apple", "Orange", "Pear"];
@@ -323,20 +323,20 @@ for (let i = 0; i < arr.length; i++) {
 }
 ```
 
-But for arrays there is another form of loop, `for..of`:
+แต่สำหรับอาร์เรย์มีรูปแบบลูปอีกแบบหนึ่ง คือ `for..of`:
 
 ```js run
 let fruits = ["Apple", "Orange", "Plum"];
 
-// iterates over array elements
+// วนซ้ำสมาชิกในอาร์เรย์
 for (let fruit of fruits) {
   alert( fruit );
 }
 ```
 
-The `for..of` doesn't give access to the number of the current element, just its value, but in most cases that's enough. And it's shorter.
+`for..of` ไม่ให้ข้อมูลหมายเลขดัชนีของสมาชิกปัจจุบัน มีเพียงค่าของมัน แต่ส่วนใหญ่แล้วก็เพียงพอแล้ว และเขียนได้สั้นกว่า
 
-Technically, because arrays are objects, it is also possible to use `for..in`:
+ในทางเทคนิค เพราะอาร์เรย์คือออบเจ็กต์ จึงสามารถใช้ `for..in` ได้เช่นกัน:
 
 ```js run
 let arr = ["Apple", "Orange", "Pear"];
@@ -348,22 +348,22 @@ for (let key in arr) {
 }
 ```
 
-But that's actually a bad idea. There are potential problems with it:
+แต่จริงๆ แล้วนี่เป็นความคิดที่ไม่ดี มีปัญหาที่อาจเกิดขึ้น:
 
-1. The loop `for..in` iterates over *all properties*, not only the numeric ones.
+1. ลูป `for..in` วนซ้ำ *ทุกพร็อพเพอร์ตี้* ไม่ใช่แค่ที่เป็นตัวเลข
 
-    There are so-called "array-like" objects in the browser and in other environments, that *look like arrays*. That is, they have `length` and indexes properties, but they may also have other non-numeric properties and methods, which we usually don't need. The `for..in` loop will list them though. So if we need to work with array-like objects, then these "extra" properties can become a problem.
+    ในเบราว์เซอร์และสภาพแวดล้อมอื่นๆ มีออบเจ็กต์ที่เรียกว่า "array-like" ซึ่ง *ดูเหมือนอาร์เรย์* นั่นคือมีพร็อพเพอร์ตี้ `length` และดัชนี แต่ยังอาจมีพร็อพเพอร์ตี้และเมธอดที่ไม่ใช่ตัวเลขอื่นๆ ที่เราไม่ต้องการ ลูป `for..in` จะวนซ้ำผ่านสิ่งเหล่านั้นด้วย ดังนั้นถ้าต้องการทำงานกับออบเจ็กต์แบบ array-like พร็อพเพอร์ตี้ "พิเศษ" เหล่านี้อาจกลายเป็นปัญหา
 
-2. The `for..in` loop is optimized for generic objects, not arrays, and thus is 10-100 times slower. Of course, it's still very fast. The speedup may only matter in bottlenecks. But still we should be aware of the difference.
+2. ลูป `for..in` ถูกปรับประสิทธิภาพสำหรับออบเจ็กต์ทั่วไป ไม่ใช่อาร์เรย์ จึงช้ากว่า 10-100 เท่า แน่นอนว่าก็ยังเร็วอยู่ ความแตกต่างอาจเห็นได้ชัดเฉพาะในจุด bottleneck แต่เราควรรู้ถึงความแตกต่างนี้
 
-Generally, we shouldn't use `for..in` for arrays.
+โดยทั่วไปแล้ว ไม่ควรใช้ `for..in` กับอาร์เรย์
 
 
-## A word about "length"
+## เรื่องของ "length"
 
-The `length` property automatically updates when we modify the array. To be precise, it is actually not the count of values in the array, but the greatest numeric index plus one.
+พร็อพเพอร์ตี้ `length` จะอัปเดตอัตโนมัติเมื่อเราแก้ไขอาร์เรย์ ให้แม่นยำกว่านั้น จริงๆ แล้วมันไม่ใช่จำนวนค่าในอาร์เรย์ แต่เป็นดัชนีตัวเลขสูงสุดบวกหนึ่ง
 
-For instance, a single element with a large index gives a big length:
+ตัวอย่างเช่น สมาชิกตัวเดียวที่มีดัชนีสูงมาก ทำให้ length ใหญ่ตาม:
 
 ```js run
 let fruits = [];
@@ -372,52 +372,52 @@ fruits[123] = "Apple";
 alert( fruits.length ); // 124
 ```
 
-Note that we usually don't use arrays like that.
+โดยทั่วไปเราไม่ใช้อาร์เรย์แบบนี้
 
-Another interesting thing about the `length` property is that it's writable.
+สิ่งที่น่าสนใจอีกอย่างเกี่ยวกับพร็อพเพอร์ตี้ `length` คือมันเขียนได้
 
-If we increase it manually, nothing interesting happens. But if we decrease it, the array is truncated. The process is irreversible, here's the example:
+ถ้าเพิ่มค่าด้วยตัวเอง จะไม่มีอะไรเกิดขึ้น แต่ถ้าลดค่าลง อาร์เรย์จะถูกตัดทิ้ง และกระบวนการนี้ไม่สามารถย้อนกลับได้ ดูตัวอย่าง:
 
 ```js run
 let arr = [1, 2, 3, 4, 5];
 
-arr.length = 2; // truncate to 2 elements
+arr.length = 2; // ตัดให้เหลือ 2 สมาชิก
 alert( arr ); // [1, 2]
 
-arr.length = 5; // return length back
-alert( arr[3] ); // undefined: the values do not return
+arr.length = 5; // คืน length กลับ
+alert( arr[3] ); // undefined: ค่าที่ถูกลบไปแล้วไม่กลับมา
 ```
 
-So, the simplest way to clear the array is: `arr.length = 0;`.
+ดังนั้น วิธีง่ายที่สุดในการล้างอาร์เรย์คือ: `arr.length = 0;`
 
 
 ## new Array() [#new-array]
 
-There is one more syntax to create an array:
+มีวิธีสร้างอาร์เรย์อีกแบบหนึ่ง:
 
 ```js
 let arr = *!*new Array*/!*("Apple", "Pear", "etc");
 ```
 
-It's rarely used, because square brackets `[]` are shorter. Also, there's a tricky feature with it.
+ไม่ค่อยมีคนใช้ เพราะวงเล็บเหลี่ยม `[]` สั้นกว่า และยังมีกับดักอยู่ด้วย
 
-If `new Array` is called with a single argument which is a number, then it creates an array *without items, but with the given length*.
+ถ้าเรียก `new Array` ด้วยอาร์กิวเมนต์เดียวที่เป็นตัวเลข จะสร้างอาร์เรย์ *ที่ไม่มีสมาชิก แต่มี length ตามที่ระบุ*
 
-Let's see how one can shoot themselves in the foot:
+มาดูว่าจะเกิดอะไรขึ้น:
 
 ```js run
-let arr = new Array(2); // will it create an array of [2] ?
+let arr = new Array(2); // จะสร้างอาร์เรย์ [2] ไหม?
 
-alert( arr[0] ); // undefined! no elements.
+alert( arr[0] ); // undefined! ไม่มีสมาชิกเลย
 
-alert( arr.length ); // length 2
+alert( arr.length ); // length เป็น 2
 ```
 
-To avoid such surprises, we usually use square brackets, unless we really know what we're doing.
+เพื่อหลีกเลี่ยงความประหลาดใจแบบนี้ เราจึงใช้วงเล็บเหลี่ยมเสมอ ยกเว้นในกรณีที่รู้แน่ชัดว่าทำอะไรอยู่
 
-## Multidimensional arrays
+## อาร์เรย์หลายมิติ
 
-Arrays can have items that are also arrays. We can use it for multidimensional arrays, for example to store matrices:
+อาร์เรย์สามารถมีสมาชิกที่เป็นอาร์เรย์ได้ เราใช้สิ่งนี้สำหรับอาร์เรย์หลายมิติ เช่น การเก็บเมทริกซ์:
 
 ```js run
 let matrix = [
@@ -426,15 +426,14 @@ let matrix = [
   [7, 8, 9]
 ];
 
-alert( matrix[0][1] ); // 2, the second value of the first inner array
+alert( matrix[0][1] ); // 2 ค่าที่สองของอาร์เรย์ด้านในตัวแรก
 ```
 
 ## toString
 
-Arrays have their own implementation of `toString` method that returns a comma-separated list of elements.
+อาร์เรย์มีการ implement เมธอด `toString` ของตัวเองที่คืนค่าเป็นรายการสมาชิกคั่นด้วยเครื่องหมายจุลภาค
 
-For instance:
-
+ตัวอย่างเช่น:
 
 ```js run
 let arr = [1, 2, 3];
@@ -443,7 +442,7 @@ alert( arr ); // 1,2,3
 alert( String(arr) === '1,2,3' ); // true
 ```
 
-Also, let's try this:
+ลองดูอีกตัวอย่าง:
 
 ```js run
 alert( [] + 1 ); // "1"
@@ -451,9 +450,9 @@ alert( [1] + 1 ); // "11"
 alert( [1,2] + 1 ); // "1,21"
 ```
 
-Arrays do not have `Symbol.toPrimitive`, neither a viable `valueOf`, they implement only `toString` conversion, so here `[]` becomes an empty string, `[1]` becomes `"1"` and `[1,2]` becomes `"1,2"`.
+อาร์เรย์ไม่มี `Symbol.toPrimitive` และไม่มี `valueOf` ที่ใช้งานได้ มีเพียงการแปลงแบบ `toString` ดังนั้น `[]` จึงกลายเป็นสตริงว่าง, `[1]` กลายเป็น `"1"` และ `[1,2]` กลายเป็น `"1,2"`
 
-When the binary plus `"+"` operator adds something to a string, it converts it to a string as well, so the next step looks like this:
+เมื่อตัวดำเนินการบวก `"+"` บวกบางอย่างเข้ากับสตริง จะแปลงสิ่งนั้นเป็นสตริงด้วย ดังนั้นขั้นตอนถัดไปจะเป็นแบบนี้:
 
 ```js run
 alert( "" + 1 ); // "1"
@@ -461,31 +460,31 @@ alert( "1" + 1 ); // "11"
 alert( "1,2" + 1 ); // "1,21"
 ```
 
-## Don't compare arrays with ==
+## อย่าเปรียบเทียบอาร์เรย์ด้วย ==
 
-Arrays in JavaScript, unlike some other programming languages, shouldn't be compared with operator `==`.
+อาร์เรย์ใน JavaScript ไม่ควรเปรียบเทียบด้วยตัวดำเนินการ `==` ต่างจากภาษาโปรแกรมบางภาษา
 
-This operator has no special treatment for arrays, it works with them as with any objects.
+ตัวดำเนินการนี้ไม่มีการจัดการพิเศษสำหรับอาร์เรย์ แต่ทำงานกับมันเหมือนออบเจ็กต์ทั่วไป
 
-Let's recall the rules:
+ทบทวนกฎ:
 
-- Two objects are equal `==` only if they're references to the same object.
-- If one of the arguments of `==` is an object, and the other one is a primitive, then the object gets converted to primitive, as explained in the chapter <info:object-toprimitive>.
-- ...With an exception of `null` and `undefined` that equal `==` each other and nothing else.
+- ออบเจ็กต์สองตัวเท่ากัน `==` ก็ต่อเมื่อทั้งคู่อ้างถึงออบเจ็กต์เดียวกัน
+- ถ้าอาร์กิวเมนต์ตัวหนึ่งของ `==` เป็นออบเจ็กต์ และอีกตัวเป็น primitive ออบเจ็กต์จะถูกแปลงเป็น primitive ตามที่อธิบายในบท <info:object-toprimitive>
+- ...ยกเว้น `null` และ `undefined` ซึ่งเท่ากัน `==` กันและกัน แต่ไม่เท่ากับอะไรอื่น
 
-The strict comparison `===` is even simpler, as it doesn't convert types.
+ตัวดำเนินการเปรียบเทียบแบบเข้มงวด `===` ง่ายกว่าอีก เพราะไม่แปลงชนิดข้อมูล
 
-So, if we compare arrays with `==`, they are never the same, unless we compare two variables that reference exactly the same array.
+ดังนั้น ถ้าเราเปรียบเทียบอาร์เรย์ด้วย `==` จะไม่มีทางเท่ากันเลย ยกเว้นตัวแปรสองตัวที่อ้างถึงอาร์เรย์เดียวกันพอดี
 
-For example:
+ตัวอย่างเช่น:
 ```js run
 alert( [] == [] ); // false
 alert( [0] == [0] ); // false
 ```
 
-These arrays are technically different objects. So they aren't equal. The `==` operator doesn't do item-by-item comparison.
+อาร์เรย์เหล่านี้เป็นออบเจ็กต์คนละตัวในทางเทคนิค จึงไม่เท่ากัน ตัวดำเนินการ `==` ไม่เปรียบเทียบสมาชิกทีละตัว
 
-Comparison with primitives may give seemingly strange results as well:
+การเปรียบเทียบกับ primitive ก็อาจให้ผลที่ดูแปลกๆ ได้เช่นกัน:
 
 ```js run
 alert( 0 == [] ); // true
@@ -493,59 +492,59 @@ alert( 0 == [] ); // true
 alert('0' == [] ); // false
 ```
 
-Here, in both cases, we compare a primitive with an array object. So the array `[]` gets converted to primitive for the purpose of comparison and becomes an empty string `''`.
+ในทั้งสองกรณี เราเปรียบเทียบ primitive กับออบเจ็กต์อาร์เรย์ ดังนั้นอาร์เรย์ `[]` จึงถูกแปลงเป็น primitive เพื่อการเปรียบเทียบ และกลายเป็นสตริงว่าง `''`
 
-Then the comparison process goes on with the primitives, as described in the chapter <info:type-conversions>:
+จากนั้นกระบวนการเปรียบเทียบดำเนินต่อด้วย primitive ตามที่อธิบายในบท <info:type-conversions>:
 
 ```js run
-// after [] was converted to ''
-alert( 0 == '' ); // true, as '' becomes converted to number 0
+// หลังจาก [] ถูกแปลงเป็น ''
+alert( 0 == '' ); // true เพราะ '' ถูกแปลงเป็นตัวเลข 0
 
-alert('0' == '' ); // false, no type conversion, different strings
+alert('0' == '' ); // false ไม่มีการแปลงชนิด เป็นสตริงต่างกัน
 ```
 
-So, how to compare arrays?
+แล้วจะเปรียบเทียบอาร์เรย์อย่างไร?
 
-That's simple: don't use the `==` operator. Instead, compare them item-by-item in a loop or using iteration methods explained in the next chapter.
+ง่ายมาก อย่าใช้ตัวดำเนินการ `==` แต่ให้เปรียบเทียบสมาชิกทีละตัวในลูป หรือใช้เมธอด iteration ที่จะอธิบายในบทถัดไป
 
-## Summary
+## สรุป
 
-Array is a special kind of object, suited to storing and managing ordered data items.
+อาร์เรย์เป็นออบเจ็กต์ชนิดพิเศษ เหมาะสำหรับการเก็บและจัดการข้อมูลที่มีลำดับ
 
-The declaration:
+การประกาศ:
 
 ```js
-// square brackets (usual)
+// วงเล็บเหลี่ยม (ใช้บ่อย)
 let arr = [item1, item2...];
 
-// new Array (exceptionally rare)
+// new Array (ใช้น้อยมาก)
 let arr = new Array(item1, item2...);
 ```
 
-The call to `new Array(number)` creates an array with the given length, but without elements.
+การเรียก `new Array(number)` จะสร้างอาร์เรย์ที่มี length ตามที่ระบุ แต่ไม่มีสมาชิก
 
-- The `length` property is the array length or, to be precise, its last numeric index plus one. It is auto-adjusted by array methods.
-- If we shorten `length` manually, the array is truncated.
+- พร็อพเพอร์ตี้ `length` คือความยาวของอาร์เรย์ หรือพูดให้แม่นยำ คือดัชนีตัวเลขสุดท้ายบวกหนึ่ง อาร์เรย์เมธอดจะปรับค่านี้อัตโนมัติ
+- ถ้าลด `length` ด้วยตัวเอง อาร์เรย์จะถูกตัดทิ้ง
 
-Getting the elements:
+การดึงสมาชิก:
 
-- we can get element by its index, like `arr[0]`
-- also we can use `at(i)` method that allows negative indexes. For negative values of `i`, it steps back from the end of the array. If `i >= 0`, it works same as `arr[i]`.
+- ดึงสมาชิกด้วยดัชนี เช่น `arr[0]`
+- นอกจากนี้ยังใช้เมธอด `at(i)` ที่รองรับดัชนีลบได้ สำหรับค่า `i` ลบ จะนับถอยหลังจากท้ายอาร์เรย์ ถ้า `i >= 0` ทำงานเหมือน `arr[i]`
 
-We can use an array as a deque with the following operations:
+เราใช้อาร์เรย์เป็น deque ได้ด้วยการทำงานดังนี้:
 
-- `push(...items)` adds `items` to the end.
-- `pop()` removes the element from the end and returns it.
-- `shift()` removes the element from the beginning and returns it.
-- `unshift(...items)` adds `items` to the beginning.
+- `push(...items)` เพิ่ม `items` ไว้ที่ท้าย
+- `pop()` ลบสมาชิกจากท้ายและคืนค่า
+- `shift()` ลบสมาชิกจากต้นและคืนค่า
+- `unshift(...items)` เพิ่ม `items` ไว้ที่ต้น
 
-To loop over the elements of the array:
-  - `for (let i=0; i<arr.length; i++)` -- works fastest, old-browser-compatible.
-  - `for (let item of arr)` -- the modern syntax for items only,
-  - `for (let i in arr)` -- never use.
+การวนซ้ำสมาชิกในอาร์เรย์:
+  - `for (let i=0; i<arr.length; i++)` -- เร็วที่สุด ใช้ได้กับเบราว์เซอร์เก่า
+  - `for (let item of arr)` -- syntax สมัยใหม่ สำหรับค่าสมาชิกอย่างเดียว
+  - `for (let i in arr)` -- ห้ามใช้
 
-To compare arrays, don't use the `==` operator (as well as `>`, `<` and others), as they have no special treatment for arrays. They handle them as any objects, and it's not what we usually want.
+สำหรับการเปรียบเทียบอาร์เรย์ อย่าใช้ตัวดำเนินการ `==` (รวมถึง `>`, `<` และอื่นๆ) เพราะไม่มีการจัดการพิเศษสำหรับอาร์เรย์ จะจัดการกับมันเหมือนออบเจ็กต์ ซึ่งไม่ใช่สิ่งที่เราต้องการ
 
-Instead you can use `for..of` loop to compare arrays item-by-item.
+ให้ใช้ลูป `for..of` เพื่อเปรียบเทียบอาร์เรย์ทีละสมาชิกแทน
 
-We will continue with arrays and study more methods to add, remove, extract elements and sort arrays in the next chapter <info:array-methods>.
+เราจะศึกษาอาร์เรย์เพิ่มเติมและเรียนรู้เมธอดต่างๆ สำหรับการเพิ่ม ลบ ดึง และเรียงลำดับสมาชิกในบทถัดไป <info:array-methods>

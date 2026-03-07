@@ -1,6 +1,6 @@
-The call `arr[2]()` is syntactically the good old `obj[method]()`, in the role of `obj` we have `arr`, and in the role of `method` we have `2`.
+การเรียก `arr[2]()` นั้นในเชิงไวยากรณ์ก็คือรูปแบบ `obj[method]()` ที่คุ้นเคย โดย `arr` ทำหน้าที่เป็น `obj` และ `2` ทำหน้าที่เป็น `method`
 
-So we have a call of the function `arr[2]` as an object method. Naturally, it receives `this` referencing the object `arr` and outputs the array:
+ดังนั้นจึงเป็นการเรียกฟังก์ชัน `arr[2]` ในฐานะเมธอดของออบเจ็กต์ ซึ่งแน่นอนว่า this จะชี้ไปยังออบเจ็กต์ `arr` และแสดงผลเป็นอาร์เรย์:
 
 ```js run
 let arr = ["a", "b"];
@@ -12,4 +12,4 @@ arr.push(function() {
 arr[2](); // a,b,function(){...}
 ```
 
-The array has 3 values: initially it had two, plus the function. 
+อาร์เรย์มีค่าอยู่ 3 ค่า: เดิมมีสองค่า บวกกับฟังก์ชันที่เพิ่งเพิ่มเข้ามา
