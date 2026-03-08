@@ -1,4 +1,4 @@
-The solution using a loop:
+วิธีใช้ลูป:
 
 ```js run
 function sumTo(n) {
@@ -12,7 +12,7 @@ function sumTo(n) {
 alert( sumTo(100) );
 ```
 
-The solution using recursion:
+วิธีใช้การเรียกซ้ำ:
 
 ```js run
 function sumTo(n) {
@@ -23,7 +23,7 @@ function sumTo(n) {
 alert( sumTo(100) );
 ```
 
-The solution using the formula: `sumTo(n) = n*(n+1)/2`:
+วิธีใช้สูตร: `sumTo(n) = n*(n+1)/2`:
 
 ```js run
 function sumTo(n) {
@@ -33,8 +33,8 @@ function sumTo(n) {
 alert( sumTo(100) );
 ```
 
-P.S. Naturally, the formula is the fastest solution. It uses only 3 operations for any number `n`. The math helps!
+P.S. แน่นอนว่าสูตรคณิตศาสตร์เร็วที่สุด ใช้แค่ 3 การดำเนินการไม่ว่า `n` จะเป็นเท่าไหร่ คณิตศาสตร์ช่วยได้!
 
-The loop variant is the second in terms of speed. In both the recursive and the loop variant we sum the same numbers. But the recursion involves nested calls and execution stack management. That also takes resources, so it's slower.
+วิธีลูปเร็วเป็นอันดับสอง ทั้งแบบเรียกซ้ำและแบบลูปบวกตัวเลขชุดเดียวกัน แต่การเรียกซ้ำมีการเรียกฟังก์ชันซ้อนและจัดการ execution stack ซึ่งกินทรัพยากรเพิ่ม จึงช้ากว่า
 
-P.P.S. Some engines support the "tail call" optimization: if a recursive call is the very last one in the function, with no other calculations performed, then the outer function will not need to resume the execution, so the engine doesn't need to remember its execution context. That removes the burden on memory. But if the JavaScript engine does not support tail call optimization (most of them don't), there will be an error: maximum stack size exceeded, because there's usually a limitation on the total stack size.
+P.P.S. บาง engine รองรับการปรับแต่ง "tail call" คือถ้าการเรียกซ้ำเป็นคำสั่งสุดท้ายของฟังก์ชัน โดยไม่มีการคำนวณอื่นอีก ฟังก์ชันภายนอกก็ไม่ต้องกลับมาทำงานต่อ ดังนั้น engine ไม่ต้องจำ execution context ช่วยลดภาระหน่วยความจำได้ แต่ถ้า JavaScript engine ไม่รองรับ tail call optimization (ส่วนใหญ่ไม่รองรับ) ก็จะเกิด error: maximum stack size exceeded เพราะปกติจะมีการจำกัดขนาดสแต็กรวมไว้

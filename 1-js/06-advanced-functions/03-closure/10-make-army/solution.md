@@ -1,14 +1,14 @@
 
-Let's examine what exactly happens inside `makeArmy`, and the solution will become obvious.
+มาดูกันว่าเกิดอะไรขึ้นภายใน `makeArmy` แล้วจะเข้าใจคำตอบเอง
 
-1. It creates an empty array `shooters`:
+1. สร้างอาร์เรย์เปล่า `shooters`:
 
     ```js
     let shooters = [];
     ```
-2. Fills it with functions via `shooters.push(function)` in the loop.
+2. เติมฟังก์ชันเข้าไปด้วย `shooters.push(function)` ในลูป
 
-    Every element is a function, so the resulting array looks like this:
+    สมาชิกทุกตัวเป็นฟังก์ชัน อาร์เรย์ที่ได้จึงหน้าตาแบบนี้:
 
     ```js no-beautify
     shooters = [
@@ -25,105 +25,105 @@ Let's examine what exactly happens inside `makeArmy`, and the solution will beco
     ];
     ```
 
-3. The array is returned from the function.
-    
-    Then, later, the call to any member, e.g. `army[5]()` will get the element `army[5]` from the array (which is a function) and calls it.
-    
-    Now why do all such functions show the same value, `10`?
-    
-    That's because there's no local variable `i` inside `shooter` functions. When such a function is called, it takes `i` from its outer lexical environment.
-    
-    Then, what will be the value of `i`?
-    
-    If we look at the source:
-    
+3. อาร์เรย์ถูก return ออกจากฟังก์ชัน
+
+    จากนั้น เมื่อเรียกสมาชิกตัวใดก็ตาม เช่น `army[5]()` จะดึงเอลิเมนต์ `army[5]` จากอาร์เรย์ (ซึ่งเป็นฟังก์ชัน) แล้วเรียกใช้
+
+    ทำไมฟังก์ชันทุกตัวถึงแสดงค่าเดียวกันคือ `10`?
+
+    เพราะไม่มีตัวแปร `i` ภายในฟังก์ชัน `shooter` เมื่อเรียกฟังก์ชัน จึงดึงค่า `i` จาก Lexical Environment ชั้นนอก
+
+    แล้วค่าของ `i` จะเป็นเท่าไหร่?
+
+    ลองดูจากซอร์สโค้ด:
+
     ```js
     function makeArmy() {
       ...
       let i = 0;
       while (i < 10) {
-        let shooter = function() { // shooter function
-          alert( i ); // should show its number
+        let shooter = function() { // ฟังก์ชัน shooter
+          alert( i ); // ควรแสดงหมายเลขของมัน
         };
-        shooters.push(shooter); // add function to the array
+        shooters.push(shooter); // เพิ่มฟังก์ชันเข้าอาร์เรย์
         i++;
       }
       ...
     }
     ```
-    
-    We can see that all `shooter` functions are created in the lexical environment of `makeArmy()` function. But when `army[5]()` is called, `makeArmy` has already finished its job, and the final value of `i` is `10` (`while` stops at `i=10`).
-    
-    As the result, all `shooter` functions get the same value from the outer lexical environment and that is, the last value, `i=10`.
-    
+
+    จะเห็นว่าฟังก์ชัน `shooter` ทุกตัวถูกสร้างใน Lexical Environment ของฟังก์ชัน `makeArmy()` แต่เมื่อเรียก `army[5]()` ตอนนั้น `makeArmy` ทำงานเสร็จแล้ว และค่าสุดท้ายของ `i` คือ `10` (`while` หยุดที่ `i=10`)
+
+    ผลก็คือ ฟังก์ชัน `shooter` ทุกตัวดึงค่าเดียวกันจาก Lexical Environment ชั้นนอก นั่นคือค่าสุดท้าย `i=10`
+
     ![](lexenv-makearmy-empty.svg)
-    
-    As you can see above, on each iteration of a `while {...}` block, a new lexical environment is created. So, to fix this, we can copy the value of `i` into a variable within the `while {...}` block, like this:
-    
+
+    จากรูปด้านบนจะเห็นว่า ในแต่ละรอบของลูป `while {...}` จะสร้าง Lexical Environment ใหม่ ดังนั้นวิธีแก้คือ คัดลอกค่า `i` ไว้ในตัวแปรภายในบล็อก `while {...}` แบบนี้:
+
     ```js run
     function makeArmy() {
       let shooters = [];
-    
+
       let i = 0;
       while (i < 10) {
         *!*
           let j = i;
         */!*
-          let shooter = function() { // shooter function
-            alert( *!*j*/!* ); // should show its number
+          let shooter = function() { // ฟังก์ชัน shooter
+            alert( *!*j*/!* ); // ควรแสดงหมายเลขของมัน
           };
         shooters.push(shooter);
         i++;
       }
-    
+
       return shooters;
     }
-    
+
     let army = makeArmy();
-    
-    // Now the code works correctly
+
+    // ตอนนี้โค้ดทำงานถูกต้องแล้ว
     army[0](); // 0
     army[5](); // 5
     ```
-    
-    Here `let j = i` declares an "iteration-local" variable `j` and copies `i` into it. Primitives are copied "by value", so we actually get an independent copy of `i`, belonging to the current loop iteration.
-    
-    The shooters work correctly, because the value of `i` now lives a little bit closer. Not in `makeArmy()` Lexical Environment, but in the Lexical Environment that corresponds to the current loop iteration:
-    
+
+    ตรงนี้ `let j = i` ประกาศตัวแปร `j` ที่เป็นของแต่ละรอบลูป แล้วคัดลอกค่า `i` ไป ค่า primitive ถูกคัดลอก "ตามค่า" ดังนั้นจึงได้สำเนาอิสระของ `i` ที่เป็นของรอบลูปปัจจุบัน
+
+    shooters ทำงานถูกต้อง เพราะค่าของ `i` ตอนนี้อยู่ใกล้ขึ้น ไม่ได้อยู่ใน Lexical Environment ของ `makeArmy()` แต่อยู่ใน Lexical Environment ของรอบลูปปัจจุบัน:
+
     ![](lexenv-makearmy-while-fixed.svg)
-    
-    Such a problem could also be avoided if we used `for` in the beginning, like this:
-    
+
+    ปัญหานี้จะหายไปเลยถ้าใช้ `for` ตั้งแต่แรก แบบนี้:
+
     ```js run demo
     function makeArmy() {
-    
+
       let shooters = [];
-    
+
     *!*
       for(let i = 0; i < 10; i++) {
     */!*
-        let shooter = function() { // shooter function
-          alert( i ); // should show its number
+        let shooter = function() { // ฟังก์ชัน shooter
+          alert( i ); // ควรแสดงหมายเลขของมัน
         };
         shooters.push(shooter);
       }
-    
+
       return shooters;
     }
-    
+
     let army = makeArmy();
-    
+
     army[0](); // 0
     army[5](); // 5
     ```
-    
-    That's essentially the same, because `for` on each iteration generates a new lexical environment, with its own variable `i`. So `shooter` generated in every iteration references its own `i`, from that very iteration.
-    
+
+    หลักการเดียวกัน เพราะ `for` จะสร้าง Lexical Environment ใหม่ในแต่ละรอบ พร้อมตัวแปร `i` ของตัวเอง ดังนั้น `shooter` ที่สร้างในแต่ละรอบจะอ้างอิง `i` ของรอบนั้นโดยเฉพาะ
+
     ![](lexenv-makearmy-for-fixed.svg)
 
-Now, as you've put so much effort into reading this, and the final recipe is so simple - just use `for`, you may wonder -- was it worth that?
+ตอนนี้ที่อ่านมาตั้งมาก แล้วสรุปก็แค่ใช้ `for` อาจรู้สึกว่าคุ้มไหมที่อ่าน?
 
-Well, if you could easily answer the question, you wouldn't read the solution. So, hopefully this task must have helped you to understand things a bit better. 
+ถ้าตอบได้ทันทีก็คงไม่ต้องอ่านคำเฉลย หวังว่าโจทย์ข้อนี้จะช่วยให้เข้าใจเรื่องนี้ได้ดีขึ้น
 
-Besides, there are indeed cases when one prefers `while` to `for`, and other scenarios, where such problems are real.
+นอกจากนี้ ในการทำงานจริงก็มีกรณีที่ต้องใช้ `while` แทน `for` และปัญหาแบบนี้ก็เกิดขึ้นจริง
 

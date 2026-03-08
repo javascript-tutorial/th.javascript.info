@@ -1,6 +1,6 @@
-By definition, a factorial `n!` can be written as `n * (n-1)!`.
+จากนิยาม แฟกทอเรียล `n!` เขียนได้เป็น `n * (n-1)!`
 
-In other words, the result of `factorial(n)` can be calculated as `n` multiplied by the result of `factorial(n-1)`. And the call for `n-1` can recursively descend lower, and lower, till `1`.
+พูดอีกอย่างก็คือ ผลลัพธ์ของ `factorial(n)` คือ `n` คูณกับผลลัพธ์ของ `factorial(n-1)` แล้วการเรียกที่ `n-1` ก็เรียกซ้ำลดลงไปเรื่อยๆ จนถึง `1`
 
 ```js run
 function factorial(n) {
@@ -10,7 +10,7 @@ function factorial(n) {
 alert( factorial(5) ); // 120
 ```
 
-The basis of recursion is the value `1`. We can also make `0` the basis here, doesn't matter much, but gives one more recursive step:
+ฐานของการเรียกซ้ำคือค่า `1` เราจะใช้ `0` เป็นฐานแทนก็ได้ ไม่ต่างกันมาก แค่เพิ่มขั้นตอนการเรียกซ้ำอีกหนึ่งครั้ง:
 
 ```js run
 function factorial(n) {

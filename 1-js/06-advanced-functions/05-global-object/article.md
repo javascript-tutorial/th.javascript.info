@@ -1,89 +1,90 @@
 
+
 # Global object
 
-The global object provides variables and functions that are available anywhere. By default, those that are built into the language or the environment.
+Global object เป็นออบเจ็กต์ที่เก็บตัวแปรและฟังก์ชันซึ่งเข้าถึงได้จากทุกที่ในโปรแกรม โดยปกติจะมีทั้งฟังก์ชันที่มากับตัวภาษาเองและฟังก์ชันที่มากับสภาพแวดล้อมการทำงาน
 
-In a browser it is named `window`, for Node.js it is `global`, for other environments it may have another name.
+ในเบราว์เซอร์จะใช้ชื่อ `window` ส่วน Node.js ใช้ `global` และสภาพแวดล้อมอื่นๆ อาจใช้ชื่อต่างออกไป
 
-Recently, `globalThis` was added to the language, as a standardized name for a global object, that should be supported across all environments. It's supported in all major browsers.
+เมื่อไม่นานมานี้ `globalThis` ถูกเพิ่มเข้ามาในภาษา เพื่อเป็นชื่อมาตรฐานของ global object ที่ใช้ได้ในทุกสภาพแวดล้อม ซึ่งเบราว์เซอร์หลักๆ ก็รองรับกันหมดแล้ว
 
-We'll use `window` here, assuming that our environment is a browser. If your script may run in other environments, it's better to use `globalThis` instead.
+ในบทความนี้เราจะใช้ `window` โดยสมมติว่าทำงานอยู่บนเบราว์เซอร์ แต่ถ้าสคริปต์ของเราอาจรันในสภาพแวดล้อมอื่นด้วย ควรใช้ `globalThis` แทนจะดีกว่า
 
-All properties of the global object can be accessed directly:
+พร็อพเพอร์ตี้ทั้งหมดของ global object สามารถเข้าถึงได้โดยตรง:
 
 ```js run
 alert("Hello");
-// is the same as
+// เหมือนกับ
 window.alert("Hello");
 ```
 
-In a browser, global functions and variables declared with `var` (not `let/const`!) become the property of the global object:
+ในเบราว์เซอร์ ฟังก์ชันและตัวแปรระดับ global ที่ประกาศด้วย `var` (ไม่ใช่ `let/const` นะ!) จะกลายเป็นพร็อพเพอร์ตี้ของ global object ด้วย:
 
 ```js run untrusted refresh
 var gVar = 5;
 
-alert(window.gVar); // 5 (became a property of the global object)
+alert(window.gVar); // 5 (กลายเป็นพร็อพเพอร์ตี้ของ global object)
 ```
 
-Function declarations have the same effect (statements with `function` keyword in the main code flow, not function expressions).
+Function Declaration ก็มีพฤติกรรมแบบเดียวกัน (หมายถึงคำสั่ง `function` ที่อยู่ในโฟลว์หลักของโค้ด ไม่ใช่ function expression)
 
-Please don't rely on that! This behavior exists for compatibility reasons. Modern scripts use [JavaScript modules](info:modules) where such a thing doesn't happen.
+อย่าพึ่งพาพฤติกรรมนี้นะ! มันมีอยู่เพื่อความเข้ากันได้กับโค้ดเก่าเท่านั้น สคริปต์สมัยใหม่ที่ใช้ [JavaScript modules](info:modules) จะไม่เกิดเรื่องแบบนี้
 
-If we used `let` instead, such thing wouldn't happen:
+ถ้าเราใช้ `let` แทน จะไม่เกิดพฤติกรรมดังกล่าว:
 
 ```js run untrusted refresh
 let gLet = 5;
 
-alert(window.gLet); // undefined (doesn't become a property of the global object)
+alert(window.gLet); // undefined (ไม่ได้กลายเป็นพร็อพเพอร์ตี้ของ global object)
 ```
 
-If a value is so important that you'd like to make it available globally, write it directly as a property:
+ถ้าต้องการให้ค่าใดค่าหนึ่งเข้าถึงได้จากทุกที่ในโปรแกรม ให้เขียนเป็นพร็อพเพอร์ตี้ของ global object โดยตรง:
 
 ```js run
 *!*
-// make current user information global, to let all scripts access it
+// กำหนดข้อมูลผู้ใช้ปัจจุบันเป็น global เพื่อให้ทุกสคริปต์เข้าถึงได้
 window.currentUser = {
   name: "John"
 };
 */!*
 
-// somewhere else in code
+// ที่อื่นในโค้ด
 alert(currentUser.name);  // John
 
-// or, if we have a local variable with the name "currentUser"
-// get it from window explicitly (safe!)
+// หรือถ้ามีตัวแปรภายในฟังก์ชันชื่อ "currentUser" อยู่แล้ว
+// ก็ดึงจาก window ตรงๆ ได้ (ปลอดภัย!)
 alert(window.currentUser.name); // John
 ```
 
-That said, using global variables is generally discouraged. There should be as few global variables as possible. The code design where a function gets "input" variables and produces certain "outcome" is clearer, less prone to errors and easier to test than if it uses outer or global variables.
+อย่างไรก็ตาม โดยทั่วไปไม่แนะนำให้ใช้ตัวแปร global ควรมีให้น้อยที่สุด การออกแบบโค้ดที่ฟังก์ชันรับ "ข้อมูลเข้า" แล้วส่ง "ผลลัพธ์" ออกมา จะชัดเจนกว่า เกิดข้อผิดพลาดน้อยกว่า และทดสอบง่ายกว่าการใช้ตัวแปรภายนอกหรือตัวแปร global
 
-## Using for polyfills
+## ใช้สำหรับ polyfill
 
-We use the global object to test for support of modern language features.
+เราใช้ global object ในการตรวจสอบว่าเบราว์เซอร์รองรับฟีเจอร์สมัยใหม่หรือไม่
 
-For instance, test if a built-in `Promise` object exists (it doesn't in really old browsers):
+ยกตัวอย่าง ลองเช็คว่ามีออบเจ็กต์ `Promise` ในตัวหรือเปล่า (เบราว์เซอร์เก่ามากๆ จะไม่มี):
 ```js run
 if (!window.Promise) {
   alert("Your browser is really old!");
 }
 ```
 
-If there's none (say, we're in an old browser), we can create "polyfills": add functions that are not supported by the environment, but exist in the modern standard.
+ถ้ายังไม่มี (เช่น เป็นเบราว์เซอร์เก่า) เราสามารถสร้าง "polyfill" ขึ้นมาได้ นั่นคือการเพิ่มฟังก์ชันที่สภาพแวดล้อมไม่รองรับ แต่มีอยู่ในมาตรฐานสมัยใหม่:
 
 ```js run
 if (!window.Promise) {
-  window.Promise = ... // custom implementation of the modern language feature
+  window.Promise = ... // โค้ดที่เราเขียนขึ้นมาเองเพื่อทดแทนฟีเจอร์ที่ขาดไป
 }
 ```
 
-## Summary
+## สรุป
 
-- The global object holds variables that should be available everywhere.
+- Global object เก็บตัวแปรที่ควรเข้าถึงได้จากทุกที่
 
-    That includes JavaScript built-ins, such as `Array` and environment-specific values, such as `window.innerHeight` -- the window height in the browser.
-- The global object has a universal name `globalThis`.
+    ซึ่งรวมถึงสิ่งที่มากับ JavaScript เช่น `Array` และค่าเฉพาะของสภาพแวดล้อม เช่น `window.innerHeight` ซึ่งคือความสูงของหน้าต่างเบราว์เซอร์
+- Global object มีชื่อมาตรฐานคือ `globalThis`
 
-    ...But more often is referred by "old-school" environment-specific names, such as `window` (browser) and `global` (Node.js).
-- We should store values in the global object only if they're truly global for our project. And keep their number at minimum.
-- In-browser, unless we're using [modules](info:modules), global functions and variables declared with `var` become a property of the global object.
-- To make our code future-proof and easier to understand, we should access properties of the global object directly, as `window.x`.
+    ...แต่ที่พบบ่อยกว่าคือชื่อเฉพาะของแต่ละสภาพแวดล้อม เช่น `window` (เบราว์เซอร์) และ `global` (Node.js)
+- ควรเก็บค่าไว้ใน global object เฉพาะเมื่อจำเป็นจริงๆ สำหรับทั้งโปรเจกต์เท่านั้น และให้มีจำนวนน้อยที่สุด
+- ในเบราว์เซอร์ หากไม่ได้ใช้ [modules](info:modules) ฟังก์ชันและตัวแปร global ที่ประกาศด้วย `var` จะกลายเป็นพร็อพเพอร์ตี้ของ global object
+- เพื่อให้โค้ดรองรับอนาคตและอ่านเข้าใจง่าย ควรเข้าถึงพร็อพเพอร์ตี้ของ global object โดยตรง เช่น `window.x`

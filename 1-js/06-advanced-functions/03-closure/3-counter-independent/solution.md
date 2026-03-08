@@ -1,5 +1,5 @@
-The answer: **0,1.**
+คำตอบคือ: **0,1**
 
-Functions `counter` and `counter2` are created by different invocations of `makeCounter`.
+ฟังก์ชัน `counter` กับ `counter2` ถูกสร้างจากการเรียก `makeCounter` คนละครั้ง
 
-So they have independent outer Lexical Environments, each one has its own `count`.
+ดังนั้นจึงมี Lexical Environment ชั้นนอกเป็นของตัวเอง แต่ละตัวมี `count` ของตัวเอง

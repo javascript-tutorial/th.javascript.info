@@ -1,9 +1,9 @@
 importance: 5
 
 ---
-# Function in if
+# ฟังก์ชันใน if
 
-Look at the code. What will be the result of the call at the last line?
+ดูโค้ดนี้ ผลลัพธ์ของการเรียกบรรทัดสุดท้ายจะเป็นอะไร?
 
 ```js run
 let phrase = "Hello";

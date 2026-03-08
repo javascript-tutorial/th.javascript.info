@@ -2,14 +2,14 @@ importance: 5
 
 ---
 
-# Set and decrease for counter
+# ตั้งค่าและลดค่าตัวนับ
 
-Modify the code of `makeCounter()` so that the counter can also decrease and set the number:
+แก้ไขโค้ดของ `makeCounter()` ให้ตัวนับสามารถลดค่าและตั้งค่าได้ด้วย:
 
-- `counter()` should return the next number (as before).
-- `counter.set(value)` should set the counter to `value`.
-- `counter.decrease()` should decrease the counter by 1.
+- `counter()` ควรคืนค่าตัวเลขถัดไป (เหมือนเดิม)
+- `counter.set(value)` ควรตั้งค่าตัวนับเป็น `value`
+- `counter.decrease()` ควรลดค่าตัวนับลง 1
 
-See the sandbox code for the complete usage example.
+ดูตัวอย่างการใช้งานแบบเต็มได้ในโค้ด sandbox
 
-P.S. You can use either a closure or the function property to keep the current count. Or write both variants.
+P.S. จะใช้คลอเชอร์หรือพร็อพเพอร์ตี้ของฟังก์ชันในการเก็บค่าปัจจุบันก็ได้ หรือจะเขียนทั้งสองแบบเลยก็ได้

@@ -2,9 +2,9 @@ importance: 4
 
 ---
 
-# Is variable visible?
+# ตัวแปรมองเห็นไหม?
 
-What will be the result of this code?
+โค้ดนี้จะให้ผลลัพธ์อะไร?
 
 ```js
 let x = 1;
@@ -18,4 +18,4 @@ function func() {
 func();
 ```
 
-P.S. There's a pitfall in this task. The solution is not obvious.
+ป.ล. โจทย์ข้อนี้มีกับดัก คำตอบอาจไม่ตรงตามที่คิดไว้

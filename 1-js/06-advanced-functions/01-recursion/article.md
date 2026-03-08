@@ -1,18 +1,18 @@
-# Recursion and stack
+# การเรียกซ้ำ (Recursion) และสแต็ก
 
-Let's return to functions and study them more in-depth.
+กลับมาศึกษาเรื่องฟังก์ชันกันต่อ คราวนี้เราจะเจาะลึกมากขึ้น
 
-Our first topic will be *recursion*.
+หัวข้อแรกที่เราจะพูดถึงคือ *การเรียกซ้ำ (recursion)*
 
-If you are not new to programming, then it is probably familiar and you could skip this chapter.
+ถ้าเขียนโปรแกรมมาบ้างแล้ว อาจจะคุ้นเคยกับเรื่องนี้อยู่ ข้ามบทนี้ไปได้เลย
 
-Recursion is a programming pattern that is useful in situations when a task can be naturally split into several tasks of the same kind, but simpler. Or when a task can be simplified into an easy action plus a simpler variant of the same task. Or, as we'll see soon, to deal with certain data structures.
+การเรียกซ้ำเป็นรูปแบบการเขียนโปรแกรมที่มีประโยชน์เวลาที่โจทย์สามารถแตกออกเป็นโจทย์ย่อยที่เหมือนกันแต่ง่ายกว่า หรือเวลาที่โจทย์หนึ่งสามารถลดรูปเป็น "การกระทำง่ายๆ + โจทย์เดิมที่เล็กลง" หรืออย่างที่เราจะได้เห็นในบทนี้ ใช้จัดการโครงสร้างข้อมูลบางประเภทได้ดี
 
-When a function solves a task, in the process it can call many other functions. A partial case of this is when a function calls *itself*. That's called *recursion*.
+ในขั้นตอนการทำงานของฟังก์ชัน อาจมีการเรียกฟังก์ชันอื่นๆ อีกหลายตัว กรณีพิเศษอย่างหนึ่งก็คือเมื่อฟังก์ชัน *เรียกตัวเอง* นั่นแหละที่เราเรียกว่า *การเรียกซ้ำ (recursion)*
 
-## Two ways of thinking
+## สองวิธีคิด
 
-For something simple to start with -- let's write a function `pow(x, n)` that raises `x` to a natural power of `n`. In other words, multiplies `x` by itself `n` times.
+เริ่มจากเรื่องง่ายๆ กันก่อน -- มาเขียนฟังก์ชัน `pow(x, n)` ที่ยกกำลัง `x` ด้วยจำนวนเต็มบวก `n` พูดง่ายๆ ก็คือ คูณ `x` ด้วยตัวเอง `n` ครั้ง
 
 ```js
 pow(2, 2) = 4
@@ -20,15 +20,15 @@ pow(2, 3) = 8
 pow(2, 4) = 16
 ```
 
-There are two ways to implement it.
+มีสองวิธีในการเขียน
 
-1. Iterative thinking: the `for` loop:
+1. คิดแบบวนลูป: ใช้ `for` loop
 
     ```js run
     function pow(x, n) {
       let result = 1;
 
-      // multiply result by x n times in the loop
+      // คูณ result ด้วย x จำนวน n ครั้งในลูป
       for (let i = 0; i < n; i++) {
         result *= x;
       }
@@ -39,7 +39,7 @@ There are two ways to implement it.
     alert( pow(2, 3) ); // 8
     ```
 
-2. Recursive thinking: simplify the task and call self:
+2. คิดแบบเรียกซ้ำ: ลดรูปโจทย์แล้วเรียกตัวเอง
 
     ```js run
     function pow(x, n) {
@@ -53,9 +53,9 @@ There are two ways to implement it.
     alert( pow(2, 3) ); // 8
     ```
 
-Please note how the recursive variant is fundamentally different.
+สังเกตว่าวิธีเรียกซ้ำนั้นแตกต่างจากวิธีแรกโดยสิ้นเชิง
 
-When `pow(x, n)` is called, the execution splits into two branches:
+เมื่อเรียก `pow(x, n)` การทำงานจะแยกออกเป็นสองทาง:
 
 ```js
               if n==1  = x
@@ -65,27 +65,27 @@ pow(x, n) =
               else     = x * pow(x, n - 1)
 ```
 
-1. If `n == 1`, then everything is trivial. It is called *the base* of recursion, because it immediately produces the obvious result: `pow(x, 1)` equals `x`.
-2. Otherwise, we can represent `pow(x, n)` as `x * pow(x, n - 1)`. In maths, one would write <code>x<sup>n</sup> = x * x<sup>n-1</sup></code>. This is called *a recursive step*: we transform the task into a simpler action (multiplication by `x`) and a simpler call of the same task (`pow` with lower `n`). Next steps simplify it further and further until `n` reaches `1`.
+1. ถ้า `n == 1` ก็ง่ายเลย เราเรียกกรณีนี้ว่า *ฐานของการเรียกซ้ำ (base of recursion)* เพราะให้ผลลัพธ์ทันที: `pow(x, 1)` เท่ากับ `x`
+2. กรณีอื่น เราสามารถเขียน `pow(x, n)` ในรูป `x * pow(x, n - 1)` ได้ ในทางคณิตศาสตร์คือ <code>x<sup>n</sup> = x * x<sup>n-1</sup></code> ตรงนี้เรียกว่า *ขั้นตอนการเรียกซ้ำ (recursive step)* — เราแปลงโจทย์ให้ง่ายลงโดยเหลือแค่การคูณด้วย `x` บวกกับการเรียก `pow` ที่ `n` ลดลง แล้วก็ลดลงเรื่อยๆ จนกว่า `n` จะถึง `1`
 
-We can also say that `pow` *recursively calls itself* till `n == 1`.
+พูดอีกอย่างก็คือ `pow` *เรียกตัวเองซ้ำไปเรื่อยๆ* จนกว่า `n == 1`
 
 ![recursive diagram of pow](recursion-pow.svg)
 
 
-For example, to calculate `pow(2, 4)` the recursive variant does these steps:
+ยกตัวอย่าง การคำนวณ `pow(2, 4)` ด้วยวิธีเรียกซ้ำจะมีขั้นตอนดังนี้:
 
 1. `pow(2, 4) = 2 * pow(2, 3)`
 2. `pow(2, 3) = 2 * pow(2, 2)`
 3. `pow(2, 2) = 2 * pow(2, 1)`
 4. `pow(2, 1) = 2`
 
-So, the recursion reduces a function call to a simpler one, and then -- to even more simpler, and so on, until the result becomes obvious.
+การเรียกซ้ำจะลดรูปการเรียกฟังก์ชันให้ง่ายลงเรื่อยๆ จนกระทั่งผลลัพธ์ชัดเจน
 
-````smart header="Recursion is usually shorter"
-A recursive solution is usually shorter than an iterative one.
+````smart header="การเรียกซ้ำมักเขียนได้สั้นกว่า"
+โค้ดแบบเรียกซ้ำมักสั้นกว่าแบบใช้ลูป
 
-Here we can rewrite the same using the conditional operator `?` instead of `if` to make `pow(x, n)` more terse and still very readable:
+ตรงนี้เราเขียนใหม่ได้โดยใช้ตัวดำเนินการเงื่อนไข `?` แทน `if` ทำให้ `pow(x, n)` กระชับขึ้นแต่ยังอ่านง่าย:
 
 ```js run
 function pow(x, n) {
@@ -94,36 +94,36 @@ function pow(x, n) {
 ```
 ````
 
-The maximal number of nested calls (including the first one) is called *recursion depth*. In our case, it will be exactly `n`.
+จำนวนการเรียกซ้อนสูงสุด (รวมการเรียกครั้งแรกด้วย) เรียกว่า *ความลึกของการเรียกซ้ำ (recursion depth)* ในกรณีของเรา จะเท่ากับ `n` พอดี
 
-The maximal recursion depth is limited by JavaScript engine. We can rely on it being 10000, some engines allow more, but 100000 is probably out of limit for the majority of them. There are automatic optimizations that help alleviate this ("tail calls optimizations"), but they are not yet supported everywhere and work only in simple cases.
+JavaScript engine จำกัดความลึกของการเรียกซ้ำไว้ โดยทั่วไปเชื่อถือได้ที่ 10000 ชั้น บาง engine รองรับมากกว่านั้น แต่ 100000 ชั้นน่าจะเกินขีดจำกัดของ engine ส่วนใหญ่ มีการปรับแต่งประสิทธิภาพอัตโนมัติที่ช่วยได้ (เรียกว่า "tail calls optimizations") แต่ยังไม่รองรับทุกที่ และใช้ได้เฉพาะกรณีง่ายๆ เท่านั้น
 
-That limits the application of recursion, but it still remains very wide. There are many tasks where recursive way of thinking gives simpler code, easier to maintain.
+ข้อจำกัดนี้ทำให้ใช้การเรียกซ้ำได้ไม่ทุกกรณี แต่ก็ยังมีประโยชน์อยู่มาก หลายโจทย์ที่ใช้วิธีคิดแบบเรียกซ้ำจะได้โค้ดที่เรียบง่ายและดูแลรักษาง่ายกว่า
 
-## The execution context and stack
+## Execution context และสแต็ก
 
-Now let's examine how recursive calls work. For that we'll look under the hood of functions.
+ทีนี้มาดูกันว่าการเรียกซ้ำทำงานอย่างไร เราจะเจาะลึกเข้าไปดูเบื้องหลังของฟังก์ชัน
 
-The information about the process of execution of a running function is stored in its *execution context*.
+ข้อมูลเกี่ยวกับการทำงานของฟังก์ชันที่กำลังรันอยู่จะถูกเก็บไว้ใน *execution context*
 
-The [execution context](https://tc39.github.io/ecma262/#sec-execution-contexts) is an internal data structure that contains details about the execution of a function: where the control flow is now, the current variables, the value of `this` (we don't use it here) and few other internal details.
+[Execution context](https://tc39.github.io/ecma262/#sec-execution-contexts) เป็นโครงสร้างข้อมูลภายในที่เก็บรายละเอียดการทำงานของฟังก์ชัน เช่น ตอนนี้ทำงานถึงบรรทัดไหนแล้ว ตัวแปรมีค่าอะไรบ้าง `this` ชี้ไปที่ไหน (ในตัวอย่างนี้ยังไม่ใช้) และรายละเอียดภายในอื่นๆ
 
-One function call has exactly one execution context associated with it.
+การเรียกฟังก์ชันหนึ่งครั้ง จะมี execution context หนึ่งตัวผูกอยู่เสมอ
 
-When a function makes a nested call, the following happens:
+เมื่อฟังก์ชันเรียกฟังก์ชันซ้อน จะเกิดขั้นตอนดังนี้:
 
-- The current function is paused.
-- The execution context associated with it is remembered in a special data structure called *execution context stack*.
-- The nested call executes.
-- After it ends, the old execution context is retrieved from the stack, and the outer function is resumed from where it stopped.
+- ฟังก์ชันปัจจุบันถูกพักไว้ก่อน
+- Execution context ของฟังก์ชันนั้นจะถูกเก็บไว้ในโครงสร้างข้อมูลพิเศษที่เรียกว่า *execution context stack*
+- ฟังก์ชันซ้อนเริ่มทำงาน
+- เมื่อทำงานเสร็จ execution context เดิมจะถูกดึงกลับมาจากสแต็ก แล้วฟังก์ชันเดิมก็ทำงานต่อจากจุดที่ค้างไว้
 
-Let's see what happens during the `pow(2, 3)` call.
+มาดูกันว่าเกิดอะไรขึ้นระหว่างการเรียก `pow(2, 3)`
 
 ### pow(2, 3)
 
-In the beginning of the call `pow(2, 3)` the execution context will store variables: `x = 2, n = 3`, the execution flow is at line `1` of the function.
+ตอนเริ่มเรียก `pow(2, 3)` execution context จะเก็บตัวแปร `x = 2, n = 3` และการทำงานอยู่ที่บรรทัด `1` ของฟังก์ชัน
 
-We can sketch it as:
+วาดออกมาเป็นแผนภาพได้แบบนี้:
 
 <ul class="function-execution-context-list">
   <li>
@@ -132,7 +132,7 @@ We can sketch it as:
   </li>
 </ul>
 
-That's when the function starts to execute. The condition `n == 1` is falsy, so the flow continues into the second branch of `if`:
+นี่คือจุดที่ฟังก์ชันเริ่มทำงาน เงื่อนไข `n == 1` เป็นเท็จ จึงเข้าสู่สาขาที่สองของ `if`:
 
 ```js run
 function pow(x, n) {
@@ -149,7 +149,7 @@ alert( pow(2, 3) );
 ```
 
 
-The variables are same, but the line changes, so the context is now:
+ตัวแปรยังเหมือนเดิม แต่บรรทัดเปลี่ยนไป ตอนนี้ context เป็นแบบนี้:
 
 <ul class="function-execution-context-list">
   <li>
@@ -158,19 +158,19 @@ The variables are same, but the line changes, so the context is now:
   </li>
 </ul>
 
-To calculate `x * pow(x, n - 1)`, we need to make a subcall of `pow` with new arguments `pow(2, 2)`.
+ในการคำนวณ `x * pow(x, n - 1)` เราต้องเรียก `pow` ซ้อนด้วยอาร์กิวเมนต์ใหม่ `pow(2, 2)`
 
 ### pow(2, 2)
 
-To do a nested call, JavaScript remembers the current execution context in the *execution context stack*.
+ก่อนเรียกฟังก์ชันซ้อน JavaScript จะจำ execution context ปัจจุบันไว้ใน *execution context stack*
 
-Here we call the same function `pow`, but it absolutely doesn't matter. The process is the same for all functions:
+ตรงนี้เราเรียกฟังก์ชัน `pow` ตัวเดิม แต่ไม่ต่างจากการเรียกฟังก์ชันอื่นเลย ขั้นตอนเหมือนกันหมดสำหรับทุกฟังก์ชัน:
 
-1. The current context is "remembered" on top of the stack.
-2. The new context is created for the subcall.
-3. When the subcall is finished -- the previous context is popped from the stack, and its execution continues.
+1. Context ปัจจุบันถูก "จดจำ" ไว้บนสุดของสแต็ก
+2. สร้าง context ใหม่สำหรับการเรียกซ้อน
+3. เมื่อการเรียกซ้อนเสร็จ -- context เดิมจะถูกดึงออกจากสแต็ก แล้วทำงานต่อ
 
-Here's the context stack when we entered the subcall `pow(2, 2)`:
+นี่คือ context stack เมื่อเข้าสู่การเรียก `pow(2, 2)`:
 
 <ul class="function-execution-context-list">
   <li>
@@ -183,21 +183,21 @@ Here's the context stack when we entered the subcall `pow(2, 2)`:
   </li>
 </ul>
 
-The new current execution context is on top (and bold), and previous remembered contexts are below.
+Execution context ปัจจุบัน (ตัวใหม่) อยู่บนสุด (ตัวหนา) ส่วน context ที่เก็บไว้ก่อนหน้าอยู่ข้างล่าง
 
-When we finish the subcall -- it is easy to resume the previous context, because it keeps both variables and the exact place of the code where it stopped.
+เมื่อการเรียกซ้อนเสร็จ เราสามารถกลับไปทำงานต่อใน context เดิมได้ง่ายๆ เพราะ context เก็บทั้งตัวแปรและตำแหน่งที่ค้างไว้
 
 ```smart
-Here in the picture we use the word "line", as in our example there's only one subcall in line, but generally a single line of code may contain multiple subcalls, like `pow(…) + pow(…) + somethingElse(…)`.
+ในภาพเราใช้คำว่า "บรรทัด" (line) เพราะตัวอย่างของเรามีการเรียกซ้อนแค่ครั้งเดียวต่อบรรทัด แต่โดยทั่วไปบรรทัดเดียวอาจมีการเรียกซ้อนหลายครั้ง เช่น `pow(…) + pow(…) + somethingElse(…)`
 
-So it would be more precise to say that the execution resumes "immediately after the subcall".
+พูดให้ถูกต้องกว่าก็คือ การทำงานจะกลับมาทำต่อ "ทันทีหลังจากการเรียกซ้อนเสร็จ"
 ```
 
 ### pow(2, 1)
 
-The process repeats: a new subcall is made at line `5`, now with arguments `x=2`, `n=1`.
+กระบวนการเดิมซ้ำอีกครั้ง: เรียกซ้อนที่บรรทัด `5` ด้วยอาร์กิวเมนต์ `x=2`, `n=1`
 
-A new execution context is created, the previous one is pushed on top of the stack:
+สร้าง execution context ใหม่ ส่วนตัวก่อนหน้าถูกดันไปไว้บนสแต็ก:
 
 <ul class="function-execution-context-list">
   <li>
@@ -214,11 +214,11 @@ A new execution context is created, the previous one is pushed on top of the sta
   </li>
 </ul>
 
-There are 2 old contexts now and 1 currently running for `pow(2, 1)`.
+ตอนนี้มี context เก่าอยู่ 2 ตัว และอีก 1 ตัวที่กำลังทำงานอยู่คือ `pow(2, 1)`
 
-### The exit
+### ขาออก (The exit)
 
-During the execution of `pow(2, 1)`, unlike before, the condition `n == 1` is truthy, so the first branch of `if` works:
+ระหว่างที่ `pow(2, 1)` ทำงาน คราวนี้ต่างจากก่อนหน้า เงื่อนไข `n == 1` เป็นจริง จึงเข้าสู่สาขาแรกของ `if`:
 
 ```js
 function pow(x, n) {
@@ -232,9 +232,9 @@ function pow(x, n) {
 }
 ```
 
-There are no more nested calls, so the function finishes, returning `2`.
+ไม่มีการเรียกซ้อนอีกแล้ว ฟังก์ชันจึงทำงานเสร็จและคืนค่า `2`
 
-As the function finishes, its execution context is not needed anymore, so it's removed from the memory. The previous one is restored off the top of the stack:
+เมื่อฟังก์ชันทำงานเสร็จ execution context ของมันก็ไม่จำเป็นอีกต่อไป จึงถูกลบออกจากหน่วยความจำ แล้ว context ก่อนหน้าจะถูกดึงกลับมาจากสแต็ก:
 
 
 <ul class="function-execution-context-list">
@@ -248,9 +248,9 @@ As the function finishes, its execution context is not needed anymore, so it's r
   </li>
 </ul>
 
-The execution of `pow(2, 2)` is resumed. It has the result of the subcall `pow(2, 1)`, so it also can finish the evaluation of `x * pow(x, n - 1)`, returning `4`.
+`pow(2, 2)` กลับมาทำงานต่อ ตอนนี้ได้ผลลัพธ์จากการเรียก `pow(2, 1)` แล้ว จึงคำนวณ `x * pow(x, n - 1)` ได้ ซึ่งคืนค่า `4`
 
-Then the previous context is restored:
+จากนั้น context ก่อนหน้าถูกดึงกลับมา:
 
 <ul class="function-execution-context-list">
   <li>
@@ -259,15 +259,15 @@ Then the previous context is restored:
   </li>
 </ul>
 
-When it finishes, we have a result of `pow(2, 3) = 8`.
+เมื่อทำงานเสร็จ เราได้ผลลัพธ์ `pow(2, 3) = 8`
 
-The recursion depth in this case was: **3**.
+ความลึกของการเรียกซ้ำในกรณีนี้คือ **3**
 
-As we can see from the illustrations above, recursion depth equals the maximal number of context in the stack.
+จากภาพประกอบข้างต้นจะเห็นว่า ความลึกของการเรียกซ้ำเท่ากับจำนวน context สูงสุดในสแต็ก
 
-Note the memory requirements. Contexts take memory. In our case, raising to the power of `n` actually requires the memory for `n` contexts, for all lower values of `n`.
+สังเกตเรื่องการใช้หน่วยความจำด้วย แต่ละ context ต้องใช้หน่วยความจำ ในกรณีของเรา การยกกำลัง `n` ต้องใช้หน่วยความจำสำหรับ `n` context ครบทุกค่าของ `n` ที่ลดลงมา
 
-A loop-based algorithm is more memory-saving:
+อัลกอริทึมแบบใช้ลูปประหยัดหน่วยความจำกว่า:
 
 ```js
 function pow(x, n) {
@@ -281,19 +281,19 @@ function pow(x, n) {
 }
 ```
 
-The iterative `pow` uses a single context changing `i` and `result` in the process. Its memory requirements are small, fixed and do not depend on `n`.
+`pow` แบบใช้ลูปใช้ context เดียว โดยเปลี่ยนค่า `i` กับ `result` ไปเรื่อยๆ ใช้หน่วยความจำน้อย คงที่ และไม่ขึ้นกับค่า `n`
 
-**Any recursion can be rewritten as a loop. The loop variant usually can be made more effective.**
+**การเรียกซ้ำทุกแบบสามารถเขียนใหม่เป็นลูปได้ และแบบลูปมักจะมีประสิทธิภาพดีกว่า**
 
-...But sometimes the rewrite is non-trivial, especially when a function uses different recursive subcalls depending on conditions and merges their results or when the branching is more intricate. And the optimization may be unneeded and totally not worth the efforts.
+...แต่บางทีการเขียนใหม่เป็นลูปก็ไม่ง่าย โดยเฉพาะเมื่อฟังก์ชันเรียกซ้ำหลายทางตามเงื่อนไขต่างๆ แล้วรวมผลลัพธ์กัน หรือเมื่อการแตกกิ่งซับซ้อน อีกทั้งการปรับแต่งประสิทธิภาพอาจไม่จำเป็นและไม่คุ้มค่ากับความพยายาม
 
-Recursion can give a shorter code, easier to understand and support. Optimizations are not required in every place, mostly we need a good code, that's why it's used.
+การเรียกซ้ำให้โค้ดที่สั้นกว่า เข้าใจง่ายกว่า และดูแลง่ายกว่า ไม่จำเป็นต้องปรับแต่งประสิทธิภาพทุกจุด สิ่งที่ต้องการจริงๆ คือโค้ดที่ดี นั่นจึงเป็นเหตุผลที่เรานิยมใช้การเรียกซ้ำ
 
-## Recursive traversals
+## การท่องข้อมูลแบบเรียกซ้ำ (Recursive traversals)
 
-Another great application of the recursion is a recursive traversal.
+การเรียกซ้ำมีประโยชน์อีกอย่างหนึ่งคือการท่องข้อมูลแบบเรียกซ้ำ
 
-Imagine, we have a company. The staff structure can be presented as an object:
+สมมติว่าเรามีบริษัทแห่งหนึ่ง โครงสร้างพนักงานสามารถแสดงเป็นออบเจ็กต์ได้แบบนี้:
 
 ```js
 let company = {
@@ -322,34 +322,34 @@ let company = {
 };
 ```
 
-In other words, a company has departments.
+พูดง่ายๆ ก็คือ บริษัทมีหลายแผนก
 
-- A department may have an array of staff. For instance, `sales` department has 2 employees: John and Alice.
-- Or a department may split into subdepartments, like `development` has two branches: `sites` and `internals`. Each of them has their own staff.
-- It is also possible that when a subdepartment grows, it divides into subsubdepartments (or teams).
+- แผนกหนึ่งอาจมีอาร์เรย์ของพนักงาน เช่น แผนก `sales` มีพนักงาน 2 คน คือ John กับ Alice
+- หรือแผนกหนึ่งอาจแบ่งออกเป็นแผนกย่อย เช่น `development` มี 2 สาขาคือ `sites` กับ `internals` แต่ละสาขาก็มีพนักงานของตัวเอง
+- นอกจากนี้ เมื่อแผนกย่อยเติบโตขึ้น ก็อาจแบ่งออกเป็นแผนกย่อยลงไปอีก (หรือเป็นทีม)
 
-    For instance, the `sites` department in the future may be split into teams for `siteA` and `siteB`. And they, potentially, can split even more. That's not on the picture, just something to have in mind.
+    ยกตัวอย่าง แผนก `sites` ในอนาคตอาจแยกเป็นทีม `siteA` กับ `siteB` แล้วก็อาจแยกออกไปอีก ตรงนี้ยังไม่ได้อยู่ในภาพ แค่ให้จินตนาการไว้
 
-Now let's say we want a function to get the sum of all salaries. How can we do that?
+ทีนี้ สมมติเราต้องการฟังก์ชันที่รวมเงินเดือนทั้งหมด จะทำยังไงดี?
 
-An iterative approach is not easy, because the structure is not simple. The first idea may be to make a `for` loop over `company` with nested subloop over 1st level departments. But then we need more nested subloops to iterate over the staff in 2nd level departments like `sites`... And then another subloop inside those for 3rd level departments that might appear in the future? If we put 3-4 nested subloops in the code to traverse a single object, it becomes rather ugly.
+ถ้าใช้วิธีวนลูปจะไม่ง่ายเลย เพราะโครงสร้างซับซ้อน ความคิดแรกอาจเป็นการใช้ `for` ลูปวนผ่าน `company` แล้วซ้อนลูปย่อยสำหรับแผนกระดับที่ 1 แต่แล้วก็ต้องซ้อนลูปอีกเพื่อวนพนักงานในแผนกระดับที่ 2 อย่าง `sites`... แล้วก็ต้องซ้อนอีกสำหรับแผนกระดับที่ 3 ที่อาจเกิดขึ้นในอนาคต? ถ้าซ้อนลูป 3-4 ชั้นเพื่อท่องข้อมูลในออบเจ็กต์เดียว โค้ดจะดูรกมาก
 
-Let's try recursion.
+ลองใช้การเรียกซ้ำดีกว่า
 
-As we can see, when our function gets a department to sum, there are two possible cases:
+จะเห็นว่าเมื่อฟังก์ชันรับแผนกมาเพื่อรวมเงินเดือน จะมีสองกรณี:
 
-1. Either it's a "simple" department with an *array* of people -- then we can sum the salaries in a simple loop.
-2. Or it's *an object* with `N` subdepartments -- then we can make `N` recursive calls to get the sum for each of the subdeps and combine the results.
+1. เป็นแผนก "ธรรมดา" ที่มี *อาร์เรย์* ของพนักงาน -- ก็รวมเงินเดือนด้วยลูปง่ายๆ ได้เลย
+2. เป็น *ออบเจ็กต์* ที่มีแผนกย่อย `N` แผนก -- ก็เรียกซ้ำ `N` ครั้งเพื่อรวมเงินเดือนของแต่ละแผนกย่อย แล้วนำผลลัพธ์มารวมกัน
 
-The 1st case is the base of recursion, the trivial case, when we get an array.
+กรณีที่ 1 คือฐานของการเรียกซ้ำ เป็นกรณีง่ายๆ เมื่อได้รับอาร์เรย์
 
-The 2nd case when we get an object is the recursive step. A complex task is split into subtasks for smaller departments. They may in turn split again, but sooner or later the split will finish at (1).
+กรณีที่ 2 ที่ได้รับออบเจ็กต์คือขั้นตอนการเรียกซ้ำ โจทย์ที่ซับซ้อนจะถูกแตกออกเป็นโจทย์ย่อยตามแผนกต่างๆ ซึ่งอาจแตกย่อยออกไปอีก แต่สุดท้ายก็จะจบที่กรณีที่ (1)
 
-The algorithm is probably even easier to read from the code:
+อัลกอริทึมนี้อ่านจากโค้ดน่าจะเข้าใจง่ายกว่า:
 
 
 ```js run
-let company = { // the same object, compressed for brevity
+let company = { // ออบเจ็กต์เดิม ย่อให้กระชับ
   sales: [{name: 'John', salary: 1000}, {name: 'Alice', salary: 1600 }],
   development: {
     sites: [{name: 'Peter', salary: 2000}, {name: 'Alex', salary: 1800 }],
@@ -357,15 +357,15 @@ let company = { // the same object, compressed for brevity
   }
 };
 
-// The function to do the job
+// ฟังก์ชันทำงาน
 *!*
 function sumSalaries(department) {
-  if (Array.isArray(department)) { // case (1)
-    return department.reduce((prev, current) => prev + current.salary, 0); // sum the array
-  } else { // case (2)
+  if (Array.isArray(department)) { // กรณีที่ (1)
+    return department.reduce((prev, current) => prev + current.salary, 0); // รวมค่าในอาร์เรย์
+  } else { // กรณีที่ (2)
     let sum = 0;
     for (let subdep of Object.values(department)) {
-      sum += sumSalaries(subdep); // recursively call for subdepartments, sum the results
+      sum += sumSalaries(subdep); // เรียกซ้ำสำหรับแผนกย่อย แล้วรวมผลลัพธ์
     }
     return sum;
   }
@@ -375,62 +375,62 @@ function sumSalaries(department) {
 alert(sumSalaries(company)); // 7700
 ```
 
-The code is short and easy to understand (hopefully?). That's the power of recursion. It also works for any level of subdepartment nesting.
+โค้ดสั้นและเข้าใจง่ายใช่ไหม? นี่แหละพลังของการเรียกซ้ำ โค้ดนี้ใช้ได้กับแผนกย่อยกี่ระดับก็ได้
 
-Here's the diagram of calls:
+นี่คือแผนภาพการเรียก:
 
 ![recursive salaries](recursive-salaries.svg)
 
-We can easily see the principle: for an object `{...}` subcalls are made, while arrays `[...]` are the "leaves" of the recursion tree, they give immediate result.
+หลักการเห็นได้ชัดเลย: เมื่อเจอออบเจ็กต์ `{...}` ก็เรียกซ้ำต่อ ส่วนอาร์เรย์ `[...]` คือ "ใบ" ของต้นไม้การเรียกซ้ำ ซึ่งให้ผลลัพธ์ทันที
 
-Note that the code uses smart features that we've covered before:
+สังเกตว่าโค้ดนี้ใช้ฟีเจอร์ที่เราเรียนมาแล้ว:
 
-- Method `arr.reduce` explained in the chapter <info:array-methods> to get the sum of the array.
-- Loop `for(val of Object.values(obj))` to iterate over object values: `Object.values` returns an array of them.
+- เมธอด `arr.reduce` ที่อธิบายไว้ในบท <info:array-methods> สำหรับรวมค่าในอาร์เรย์
+- ลูป `for(val of Object.values(obj))` สำหรับวนผ่านค่าของออบเจ็กต์ โดย `Object.values` คืนค่าเป็นอาร์เรย์
 
 
-## Recursive structures
+## โครงสร้างข้อมูลแบบเรียกซ้ำ (Recursive structures)
 
-A recursive (recursively-defined) data structure is a structure that replicates itself in parts.
+โครงสร้างข้อมูลแบบเรียกซ้ำ คือโครงสร้างที่นิยามตัวเองซ้ำในส่วนย่อย
 
-We've just seen it in the example of a company structure above.
+เราเพิ่งเห็นตัวอย่างจากโครงสร้างบริษัทข้างต้น
 
-A company *department* is:
-- Either an array of people.
-- Or an object with *departments*.
+*แผนก* ของบริษัทอาจเป็น:
+- อาร์เรย์ของพนักงาน
+- หรือออบเจ็กต์ที่มี *แผนกย่อย* อยู่ภายใน
 
-For web-developers there are much better-known examples: HTML and XML documents.
+สำหรับเว็บเดเวลอปเปอร์ มีตัวอย่างที่คุ้นเคยกว่านี้อีก นั่นคือเอกสาร HTML และ XML
 
-In the HTML document, an *HTML-tag* may contain a list of:
-- Text pieces.
-- HTML-comments.
-- Other *HTML-tags* (that in turn may contain text pieces/comments or other tags etc).
+ในเอกสาร HTML *แท็ก HTML* หนึ่งตัวอาจมี:
+- ข้อความ
+- คอมเมนต์ HTML
+- *แท็ก HTML* ตัวอื่นๆ (ซึ่งก็อาจมีข้อความ/คอมเมนต์/แท็กอื่นซ้อนลงไปอีก)
 
-That's once again a recursive definition.
+นี่ก็เป็นนิยามแบบเรียกซ้ำเช่นกัน
 
-For better understanding, we'll cover one more recursive structure named "Linked list" that might be a better alternative for arrays in some cases.
+เพื่อให้เข้าใจมากขึ้น เราจะมาดูโครงสร้างแบบเรียกซ้ำอีกตัวหนึ่งชื่อว่า "Linked list" ซึ่งบางกรณีอาจเป็นทางเลือกที่ดีกว่าอาร์เรย์
 
 ### Linked list
 
-Imagine, we want to store an ordered list of objects.
+สมมติเราต้องการเก็บรายการออบเจ็กต์ที่มีลำดับ
 
-The natural choice would be an array:
+ทางเลือกที่นึกถึงก่อนก็คืออาร์เรย์:
 
 ```js
 let arr = [obj1, obj2, obj3];
 ```
 
-...But there's a problem with arrays. The "delete element" and "insert element" operations are expensive. For instance, `arr.unshift(obj)` operation has to renumber all elements to make room for a new `obj`, and if the array is big, it takes time. Same with `arr.shift()`.
+...แต่อาร์เรย์มีปัญหาอยู่อย่างหนึ่ง การ "ลบสมาชิก" และ "แทรกสมาชิก" นั้นค่อนข้างช้า เช่น `arr.unshift(obj)` ต้องขยับหมายเลขของสมาชิกทุกตัวเพื่อเปิดที่ว่างให้ `obj` ใหม่ ถ้าอาร์เรย์ใหญ่ก็กินเวลามาก `arr.shift()` ก็เช่นกัน
 
-The only structural modifications that do not require mass-renumbering are those that operate with the end of array: `arr.push/pop`. So an array can be quite slow for big queues, when we have to work with the beginning.
+การเปลี่ยนแปลงโครงสร้างที่ไม่ต้องขยับหมายเลขทั้งหมดมีแค่ตัวที่ทำงานกับท้ายอาร์เรย์ คือ `arr.push/pop` ดังนั้น อาร์เรย์อาจช้ามากสำหรับคิวขนาดใหญ่ที่ต้องทำงานกับด้านหน้าบ่อยๆ
 
-Alternatively, if we really need fast insertion/deletion, we can choose another data structure called a [linked list](https://en.wikipedia.org/wiki/Linked_list).
+ถ้าต้องการแทรก/ลบที่รวดเร็วจริงๆ เราเลือกใช้โครงสร้างข้อมูลอีกแบบที่เรียกว่า [linked list](https://en.wikipedia.org/wiki/Linked_list)
 
-The *linked list element* is recursively defined as an object with:
-- `value`.
-- `next` property referencing the next *linked list element* or `null` if that's the end.
+*สมาชิกของ linked list* ถูกนิยามแบบเรียกซ้ำเป็นออบเจ็กต์ที่มี:
+- `value` — ค่าที่เก็บไว้
+- พร็อพเพอร์ตี้ `next` ที่ชี้ไปยัง *สมาชิกตัวถัดไป* ใน linked list หรือ `null` ถ้าเป็นตัวสุดท้าย
 
-For instance:
+ตัวอย่าง:
 
 ```js
 let list = {
@@ -448,11 +448,11 @@ let list = {
 };
 ```
 
-Graphical representation of the list:
+แสดงเป็นภาพได้แบบนี้:
 
 ![linked list](linked-list.svg)
 
-An alternative code for creation:
+อีกวิธีหนึ่งในการสร้าง:
 
 ```js no-beautify
 let list = { value: 1 };
@@ -462,9 +462,9 @@ list.next.next.next = { value: 4 };
 list.next.next.next.next = null;
 ```
 
-Here we can even more clearly see that there are multiple objects, each one has the `value` and `next` pointing to the neighbour. The `list` variable is the first object in the chain, so following `next` pointers from it we can reach any element.
+แบบนี้เห็นชัดเจนขึ้นว่ามีออบเจ็กต์หลายตัว แต่ละตัวมี `value` และ `next` ชี้ไปหาตัวถัดไป ตัวแปร `list` คือออบเจ็กต์แรกในสาย เราสามารถตาม `next` ไปเรื่อยๆ จนถึงสมาชิกตัวไหนก็ได้
 
-The list can be easily split into multiple parts and later joined back:
+Linked list แบ่งออกเป็นหลายส่วนได้ง่าย แล้วเชื่อมกลับทีหลังก็ได้:
 
 ```js
 let secondList = list.next.next;
@@ -473,15 +473,15 @@ list.next.next = null;
 
 ![linked list split](linked-list-split.svg)
 
-To join:
+เชื่อมกลับ:
 
 ```js
 list.next.next = secondList;
 ```
 
-And surely we can insert or remove items in any place.
+แน่นอนว่าเราแทรกหรือลบสมาชิกตรงไหนก็ได้
 
-For instance, to prepend a new value, we need to update the head of the list:
+เช่น ถ้าจะเพิ่มค่าใหม่ไว้ข้างหน้า ก็แค่อัปเดตหัวของ list:
 
 ```js
 let list = { value: 1 };
@@ -490,14 +490,14 @@ list.next.next = { value: 3 };
 list.next.next.next = { value: 4 };
 
 *!*
-// prepend the new value to the list
+// เพิ่มค่าใหม่ไว้ข้างหน้า list
 list = { value: "new item", next: list };
 */!*
 ```
 
 ![linked list](linked-list-0.svg)
 
-To remove a value from the middle, change `next` of the previous one:
+ถ้าจะลบค่าตรงกลาง ก็เปลี่ยน `next` ของตัวก่อนหน้า:
 
 ```js
 list.next = list.next.next;
@@ -505,38 +505,38 @@ list.next = list.next.next;
 
 ![linked list](linked-list-remove-1.svg)
 
-We made `list.next` jump over `1` to value `2`. The value `1` is now excluded from the chain. If it's not stored anywhere else, it will be automatically removed from the memory.
+เราทำให้ `list.next` ข้ามจากค่า `1` ไปที่ค่า `2` ค่า `1` ถูกตัดออกจากสายแล้ว ถ้าไม่มีที่ไหนอ้างอิงถึงอีก ก็จะถูกลบออกจากหน่วยความจำโดยอัตโนมัติ
 
-Unlike arrays, there's no mass-renumbering, we can easily rearrange elements.
+ต่างจากอาร์เรย์ตรงที่ไม่ต้องขยับหมายเลขทั้งหมด เราจัดเรียงสมาชิกใหม่ได้ง่ายๆ
 
-Naturally, lists are not always better than arrays. Otherwise everyone would use only lists.
+แน่นอนว่า linked list ไม่ได้ดีกว่าอาร์เรย์เสมอไป ไม่อย่างนั้นทุกคนคงใช้แต่ list กันแล้ว
 
-The main drawback is that we can't easily access an element by its number. In an array that's easy: `arr[n]` is a direct reference. But in the list we need to start from the first item and go `next` `N` times to get the Nth element.
+ข้อเสียหลักคือเราเข้าถึงสมาชิกตามหมายเลขลำดับไม่ได้ง่ายๆ ถ้าเป็นอาร์เรย์ก็แค่ `arr[n]` ได้เลย แต่ใน linked list ต้องเริ่มจากตัวแรกแล้วตาม `next` ไป `N` ครั้งถึงจะได้สมาชิกตัวที่ N
 
-...But we don't always need such operations. For instance, when we need a queue or even a [deque](https://en.wikipedia.org/wiki/Double-ended_queue) -- the ordered structure that must allow very fast adding/removing elements from both ends, but access to its middle is not needed.
+...แต่ไม่ใช่ว่าเราต้องการแบบนั้นเสมอไป เช่น เมื่อต้องการคิว (queue) หรือ [deque](https://en.wikipedia.org/wiki/Double-ended_queue) ซึ่งเป็นโครงสร้างที่ต้องเพิ่ม/ลบสมาชิกจากทั้งสองด้านได้เร็วมาก แต่ไม่ต้องเข้าถึงตรงกลาง
 
-Lists can be enhanced:
-- We can add property `prev` in addition to `next` to reference the previous element, to move back easily.
-- We can also add a variable named `tail` referencing the last element of the list (and update it when adding/removing elements from the end).
-- ...The data structure may vary according to our needs.
+Linked list ยังปรับปรุงเพิ่มเติมได้อีก:
+- เพิ่มพร็อพเพอร์ตี้ `prev` ควบคู่กับ `next` เพื่อชี้ไปยังสมาชิกก่อนหน้า ให้ย้อนกลับได้ง่าย
+- เพิ่มตัวแปรชื่อ `tail` ที่ชี้ไปยังสมาชิกตัวสุดท้ายของ list (และอัปเดตเมื่อเพิ่ม/ลบสมาชิกจากท้าย list)
+- ...โครงสร้างข้อมูลปรับเปลี่ยนได้ตามความต้องการ
 
-## Summary
+## สรุป
 
-Terms:
-- *Recursion*  is a programming term that means calling a function from itself. Recursive functions can be used to solve tasks in elegant ways.
+คำศัพท์:
+- *การเรียกซ้ำ (Recursion)* คือศัพท์ทางโปรแกรมมิ่งที่หมายถึงฟังก์ชันเรียกตัวเอง ฟังก์ชันแบบเรียกซ้ำใช้แก้โจทย์ได้อย่างกระชับ
 
-    When a function calls itself, that's called a *recursion step*. The *basis* of recursion is function arguments that make the task so simple that the function does not make further calls.
+    เมื่อฟังก์ชันเรียกตัวเอง เรียกว่า *ขั้นตอนการเรียกซ้ำ (recursion step)* ส่วน *ฐานของการเรียกซ้ำ (basis)* คือกรณีที่อาร์กิวเมนต์ทำให้โจทย์ง่ายพอจนฟังก์ชันไม่ต้องเรียกต่อ
 
-- A [recursively-defined](https://en.wikipedia.org/wiki/Recursive_data_type) data structure is a data structure that can be defined using itself.
+- [โครงสร้างข้อมูลแบบเรียกซ้ำ](https://en.wikipedia.org/wiki/Recursive_data_type) คือโครงสร้างข้อมูลที่นิยามตัวเองได้
 
-    For instance, the linked list can be defined as a data structure consisting of an object referencing a list (or null).
+    ยกตัวอย่าง linked list สามารถนิยามเป็นโครงสร้างข้อมูลที่ประกอบด้วยออบเจ็กต์ที่อ้างอิงไปยัง list อีกตัว (หรือ null)
 
     ```js
     list = { value, next -> list }
     ```
 
-    Trees like HTML elements tree or the department tree from this chapter are also naturally recursive: they have branches and every branch can have other branches.
+    ต้นไม้ (tree) เช่น ต้นไม้ของ HTML elements หรือต้นไม้แผนกในบทนี้ ก็เป็นโครงสร้างแบบเรียกซ้ำโดยธรรมชาติ — แต่ละกิ่งสามารถมีกิ่งย่อยซ้อนลงไปได้อีก
 
-    Recursive functions can be used to walk them as we've seen in the `sumSalary` example.
+    ฟังก์ชันแบบเรียกซ้ำใช้ท่องข้อมูลเหล่านี้ได้ ดังที่เห็นในตัวอย่าง `sumSalary`
 
-Any recursive function can be rewritten into an iterative one. And that's sometimes required to optimize stuff. But for many tasks a recursive solution is fast enough and easier to write and support.
+ฟังก์ชันแบบเรียกซ้ำทุกตัวสามารถเขียนใหม่เป็นแบบวนลูปได้ และบางครั้งก็จำเป็นเพื่อปรับแต่งประสิทธิภาพ แต่ในหลายๆ โจทย์ วิธีเรียกซ้ำเร็วพอ เขียนง่ายกว่า และดูแลง่ายกว่า

@@ -1,4 +1,3 @@
-The answer: `undefined`.
+คำตอบ: `undefined`
 
-The result of `bind` is another object. It does not have the `test` property.
-
+ผลลัพธ์ของ `bind` คือออบเจ็กต์ตัวใหม่ ซึ่งไม่มีพร็อพเพอร์ตี้ `test`

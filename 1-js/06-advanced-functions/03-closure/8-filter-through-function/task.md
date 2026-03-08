@@ -2,24 +2,24 @@ importance: 5
 
 ---
 
-# Filter through function
+# กรองข้อมูลผ่านฟังก์ชัน
 
-We have a built-in method `arr.filter(f)` for arrays. It filters all elements through the function `f`. If it returns `true`, then that element is returned in the resulting array.
+เรามีเมธอด `arr.filter(f)` สำหรับอาร์เรย์ ซึ่งกรองสมาชิกทั้งหมดผ่านฟังก์ชัน `f` ถ้าคืนค่า `true` สมาชิกนั้นจะถูกรวมไว้ในอาร์เรย์ผลลัพธ์
 
-Make a set of "ready to use" filters:
+จงสร้างชุดฟังก์ชันกรอง "สำเร็จรูป" ดังนี้:
 
-- `inBetween(a, b)` -- between `a` and `b` or equal to them (inclusively).
-- `inArray([...])` -- in the given array.
+- `inBetween(a, b)` -- กรองค่าที่อยู่ระหว่าง `a` ถึง `b` รวมค่าขอบด้วย
+- `inArray([...])` -- กรองค่าที่อยู่ในอาร์เรย์ที่กำหนด
 
-The usage must be like this:
+ใช้งานแบบนี้:
 
-- `arr.filter(inBetween(3,6))` -- selects only values between 3 and 6.
-- `arr.filter(inArray([1,2,3]))` -- selects only elements matching with one of the members of `[1,2,3]`.
+- `arr.filter(inBetween(3,6))` -- เลือกเฉพาะค่าที่อยู่ระหว่าง 3 ถึง 6
+- `arr.filter(inArray([1,2,3]))` -- เลือกเฉพาะสมาชิกที่ตรงกับค่าใน `[1,2,3]`
 
-For instance:
+ยกตัวอย่าง:
 
 ```js
-/* .. your code for inBetween and inArray */
+/* .. โค้ดของ inBetween และ inArray */
 let arr = [1, 2, 3, 4, 5, 6, 7];
 
 alert( arr.filter(inBetween(3, 6)) ); // 3,4,5,6

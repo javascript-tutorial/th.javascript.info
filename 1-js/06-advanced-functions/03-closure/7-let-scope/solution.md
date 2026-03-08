@@ -1,6 +1,6 @@
-The result is: **error**.
+ผลลัพธ์คือ: **error**
 
-Try running it:
+ลองรันดู:
 
 ```js run
 let x = 1;
@@ -15,20 +15,20 @@ function func() {
 func();
 ```
 
-In this example we can observe the peculiar difference between a "non-existing" and "uninitialized" variable.
+ตัวอย่างนี้แสดงให้เห็นความแตกต่างระหว่างตัวแปรที่ "ไม่มีอยู่" กับ "ยังไม่ได้ initialize"
 
-As you may have read in the article [](info:closure), a variable starts in the "uninitialized" state from the moment when the execution enters a code block (or a function). And it stays uninitalized until the corresponding `let` statement.
+อย่างที่อาจอ่านมาแล้วในบทความ [](info:closure) ตัวแปรจะเริ่มต้นในสถานะ "uninitialized" ตั้งแต่เมื่อการทำงานเข้าสู่บล็อกโค้ด (หรือฟังก์ชัน) และจะอยู่ในสถานะนี้จนกว่าจะถึงคำสั่ง `let` ที่ประกาศมัน
 
-In other words, a variable technically exists, but can't be used before `let`.
+พูดง่ายๆ ก็คือ ตัวแปรมีอยู่ในทางเทคนิค แต่ยังใช้ไม่ได้จนกว่าจะถึงบรรทัด `let`
 
-The code above demonstrates it.
+โค้ดด้านบนแสดงให้เห็นจุดนี้
 
 ```js
 function func() {
 *!*
-  // the local variable x is known to the engine from the beginning of the function,
-  // but "uninitialized" (unusable) until let ("dead zone")
-  // hence the error
+  // engine รู้ว่ามีตัวแปร x ตั้งแต่เริ่มฟังก์ชัน
+  // แต่อยู่ในสถานะ "uninitialized" (ใช้ไม่ได้) จนกว่าจะถึง let ("dead zone")
+  // จึงเกิด error
 */!*
 
   console.log(x); // ReferenceError: Cannot access 'x' before initialization
@@ -37,4 +37,4 @@ function func() {
 }
 ```
 
-This zone of temporary unusability of a variable (from the beginning of the code block till `let`) is sometimes called the "dead zone".
+โซนที่ตัวแปรใช้ไม่ได้ชั่วคราวนี้ (ตั้งแต่ต้นบล็อกจนถึง `let`) บางทีเรียกว่า "dead zone"

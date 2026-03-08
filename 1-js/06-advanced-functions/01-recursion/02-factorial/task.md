@@ -2,17 +2,17 @@ importance: 4
 
 ---
 
-# Calculate factorial
+# คำนวณแฟกทอเรียล
 
-The [factorial](https://en.wikipedia.org/wiki/Factorial) of a natural number is a number multiplied by `"number minus one"`, then by `"number minus two"`, and so on till `1`. The factorial of `n` is denoted as `n!`
+[แฟกทอเรียล](https://en.wikipedia.org/wiki/Factorial)ของจำนวนธรรมชาติ คือการนำจำนวนนั้นคูณกับ "จำนวนนั้นลบหนึ่ง" แล้วคูณกับ "จำนวนนั้นลบสอง" ไปเรื่อยๆ จนถึง `1` แฟกทอเรียลของ `n` เขียนแทนด้วย `n!`
 
-We can write a definition of factorial like this:
+เขียนเป็นนิยามได้แบบนี้:
 
 ```js
 n! = n * (n - 1) * (n - 2) * ...*1
 ```
 
-Values of factorials for different `n`:
+ค่าแฟกทอเรียลของ `n` ค่าต่างๆ:
 
 ```js
 1! = 1
@@ -22,10 +22,10 @@ Values of factorials for different `n`:
 5! = 5 * 4 * 3 * 2 * 1 = 120
 ```
 
-The task is to write a function `factorial(n)` that calculates `n!` using recursive calls.
+โจทย์คือเขียนฟังก์ชัน `factorial(n)` ที่คำนวณ `n!` โดยใช้การเรียกซ้ำ
 
 ```js
 alert( factorial(5) ); // 120
 ```
 
-P.S. Hint: `n!` can be written as `n * (n-1)!` For instance: `3! = 3*2! = 3*2*1! = 6`
+P.S. คำใบ้: `n!` เขียนในรูป `n * (n-1)!` ได้ เช่น `3! = 3*2! = 3*2*1! = 6`

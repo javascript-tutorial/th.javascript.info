@@ -2,24 +2,24 @@ importance: 5
 
 ---
 
-# Fibonacci numbers
+# ตัวเลขฟีโบนักชี
 
-The sequence of [Fibonacci numbers](https://en.wikipedia.org/wiki/Fibonacci_number) has the formula <code>F<sub>n</sub> = F<sub>n-1</sub> + F<sub>n-2</sub></code>. In other words, the next number is a sum of the two preceding ones.
+ลำดับ[ตัวเลขฟีโบนักชี](https://en.wikipedia.org/wiki/Fibonacci_number)มีสูตรว่า <code>F<sub>n</sub> = F<sub>n-1</sub> + F<sub>n-2</sub></code> พูดง่ายๆ ก็คือ ตัวเลขถัดไปเป็นผลรวมของสองตัวก่อนหน้า
 
-First two numbers are `1`, then `2(1+1)`, then `3(1+2)`, `5(2+3)` and so on: `1, 1, 2, 3, 5, 8, 13, 21...`.
+สองตัวแรกคือ `1` จากนั้นก็เป็น `2(1+1)` แล้วก็ `3(1+2)`, `5(2+3)` ไปเรื่อยๆ: `1, 1, 2, 3, 5, 8, 13, 21...`
 
-Fibonacci numbers are related to the [Golden ratio](https://en.wikipedia.org/wiki/Golden_ratio) and many natural phenomena around us.
+ตัวเลขฟีโบนักชีมีความเกี่ยวข้องกับ[อัตราส่วนทอง](https://en.wikipedia.org/wiki/Golden_ratio)และปรากฏการณ์ทางธรรมชาติมากมายรอบตัวเรา
 
-Write a function `fib(n)` that returns the `n-th` Fibonacci number.
+เขียนฟังก์ชัน `fib(n)` ที่คืนค่าตัวเลขฟีโบนักชีลำดับที่ `n`
 
-An example of work:
+ตัวอย่างการทำงาน:
 
 ```js
-function fib(n) { /* your code */ }
+function fib(n) { /* โค้ดของคุณ */ }
 
 alert(fib(3)); // 2
 alert(fib(7)); // 13
 alert(fib(77)); // 5527939700884757
 ```
 
-P.S. The function should be fast. The call to `fib(77)` should take no more than a fraction of a second.
+P.S. ฟังก์ชันต้องทำงานเร็ว การเรียก `fib(77)` ควรใช้เวลาไม่ถึงวินาที

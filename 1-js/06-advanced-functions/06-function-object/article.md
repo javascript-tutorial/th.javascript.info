@@ -1,20 +1,20 @@
 
-# Function object, NFE
+# ออบเจ็กต์ฟังก์ชัน, NFE
 
-As we already know, a function in JavaScript is a value.
+อย่างที่เราทราบกันแล้ว ฟังก์ชันใน JavaScript ก็คือค่า (value) ค่าหนึ่ง
 
-Every value in JavaScript has a type. What type is a function?
+แล้วค่าทุกตัวใน JavaScript ก็มีชนิดข้อมูล (type) คำถามคือ ฟังก์ชันเป็นชนิดอะไร?
 
-In JavaScript, functions are objects.
+ใน JavaScript ฟังก์ชันคือออบเจ็กต์
 
-A good way to imagine functions is as callable "action objects". We can not only call them, but also treat them as objects: add/remove properties, pass by reference etc.
+ลองนึกภาพว่าฟังก์ชันก็คือ "ออบเจ็กต์ที่เรียกใช้ได้" นั่นเอง เราไม่ได้แค่เรียกฟังก์ชันได้อย่างเดียว แต่ยังใช้มันเหมือนออบเจ็กต์ทั่วไปได้ด้วย เช่น เพิ่ม/ลบพร็อพเพอร์ตี้ ส่งต่อเป็น reference ฯลฯ
 
 
-## The "name" property
+## พร็อพเพอร์ตี้ "name"
 
-Function objects contain some useable properties.
+ออบเจ็กต์ฟังก์ชันมีพร็อพเพอร์ตี้ที่ใช้งานได้หลายตัว
 
-For instance, a function's name is accessible as the "name" property:
+ตัวอย่างเช่น ชื่อของฟังก์ชันสามารถเข้าถึงได้ผ่านพร็อพเพอร์ตี้ "name":
 
 ```js run
 function sayHi() {
@@ -24,29 +24,29 @@ function sayHi() {
 alert(sayHi.name); // sayHi
 ```
 
-What's kind of funny, the name-assigning logic is smart. It also assigns the correct name to a function even if it's created without one, and then immediately assigned:
+สิ่งที่น่าสนใจคือ ระบบตั้งชื่อฉลาดมาก แม้ฟังก์ชันจะถูกสร้างโดยไม่มีชื่อ แล้วนำไปกำหนดค่าให้ตัวแปรทันที JavaScript ก็ยังตั้งชื่อให้ถูกต้อง:
 
 ```js run
 let sayHi = function() {
   alert("Hi");
 };
 
-alert(sayHi.name); // sayHi (there's a name!)
+alert(sayHi.name); // sayHi (มีชื่อนะ!)
 ```
 
-It also works if the assignment is done via a default value:
+กลไกนี้ใช้ได้แม้กำหนดค่าผ่าน default value:
 
 ```js run
 function f(sayHi = function() {}) {
-  alert(sayHi.name); // sayHi (works!)
+  alert(sayHi.name); // sayHi (ใช้ได้!)
 }
 
 f();
 ```
 
-In the specification, this feature is called a "contextual name". If the function does not provide one, then in an assignment it is figured out from the context.
+ใน specification เรียกฟีเจอร์นี้ว่า "contextual name" หมายความว่าถ้าฟังก์ชันไม่ได้กำหนดชื่อเอง ก็จะดึงชื่อจากบริบทมาใช้แทน
 
-Object methods have names too:
+เมธอดของออบเจ็กต์ก็มีชื่อเช่นกัน:
 
 ```js run
 let user = {
@@ -65,21 +65,21 @@ alert(user.sayHi.name); // sayHi
 alert(user.sayBye.name); // sayBye
 ```
 
-There's no magic though. There are cases when there's no way to figure out the right name. In that case, the name property is empty, like here:
+แต่ก็ไม่ได้วิเศษทุกกรณี บางครั้ง JavaScript ก็หาชื่อที่ถูกต้องไม่ได้ พร็อพเพอร์ตี้ name จะเป็นสตริงว่างแบบนี้:
 
 ```js run
-// function created inside array
+// ฟังก์ชันที่สร้างภายในอาร์เรย์
 let arr = [function() {}];
 
-alert( arr[0].name ); // <empty string>
-// the engine has no way to set up the right name, so there is none
+alert( arr[0].name ); // <สตริงว่าง>
+// engine ไม่มีทางรู้ว่าควรตั้งชื่ออะไร จึงเป็นค่าว่าง
 ```
 
-In practice, however, most functions do have a name.
+แต่ในทางปฏิบัติ ฟังก์ชันส่วนใหญ่มักจะมีชื่ออยู่แล้ว
 
-## The "length" property
+## พร็อพเพอร์ตี้ "length"
 
-There is another built-in property "length" that returns the number of function parameters, for instance:
+มีพร็อพเพอร์ตี้ built-in อีกตัวหนึ่งคือ "length" ที่คืนค่าจำนวนพารามิเตอร์ของฟังก์ชัน เช่น:
 
 ```js run
 function f1(a) {}
@@ -91,20 +91,20 @@ alert(f2.length); // 2
 alert(many.length); // 2
 ```
 
-Here we can see that rest parameters are not counted.
+จะเห็นว่า rest parameter ไม่ถูกนับรวมด้วย
 
-The `length` property is sometimes used for [introspection](https://en.wikipedia.org/wiki/Type_introspection) in functions that operate on other functions.
+พร็อพเพอร์ตี้ `length` บางครั้งถูกนำมาใช้ในการทำ [introspection](https://en.wikipedia.org/wiki/Type_introspection) กับฟังก์ชันที่ต้องทำงานกับฟังก์ชันอื่นๆ
 
-For instance, in the code below the `ask` function accepts a `question` to ask and an arbitrary number of `handler` functions to call.
+ยกตัวอย่าง ในโค้ดด้านล่าง ฟังก์ชัน `ask` รับ `question` ที่จะถาม และฟังก์ชัน `handler` จำนวนกี่ตัวก็ได้
 
-Once a user provides their answer, the function calls the handlers. We can pass two kinds of handlers:
+เมื่อผู้ใช้ตอบ ฟังก์ชันจะเรียก handler ทั้งหมด โดยเราส่ง handler ได้ 2 แบบ:
 
-- A zero-argument function, which is only called when the user gives a positive answer.
-- A function with arguments, which is called in either case and returns an answer.
+- ฟังก์ชันที่ไม่รับอาร์กิวเมนต์ จะถูกเรียกเฉพาะเมื่อผู้ใช้ตอบ "ใช่" เท่านั้น
+- ฟังก์ชันที่รับอาร์กิวเมนต์ จะถูกเรียกทุกกรณีและคืนค่าคำตอบ
 
-To call `handler` the right way, we examine the `handler.length` property.
+เราใช้ `handler.length` เพื่อเลือกวิธีเรียก handler ให้ถูกต้อง
 
-The idea is that we have a simple, no-arguments handler syntax for positive cases (most frequent variant), but are able to support universal handlers as well:
+แนวคิดก็คือ สำหรับกรณีที่ผู้ใช้ตอบ "ใช่" (ซึ่งเกิดบ่อยที่สุด) เราจะมี handler แบบง่ายที่ไม่รับอาร์กิวเมนต์ แต่ก็ยังรองรับ handler แบบครอบจักรวาลที่ใช้ได้ทุกกรณีด้วย:
 
 ```js run
 function ask(question, ...handlers) {
@@ -120,47 +120,47 @@ function ask(question, ...handlers) {
 
 }
 
-// for positive answer, both handlers are called
-// for negative answer, only the second one
-ask("Question?", () => alert('You said yes'), result => alert(result));
+// ถ้าตอบ "ใช่" จะเรียก handler ทั้งสองตัว
+// ถ้าตอบ "ไม่ใช่" จะเรียกแค่ตัวที่สอง
+ask("คำถาม?", () => alert('คุณตอบใช่'), result => alert(result));
 ```
 
-This is a particular case of so-called [polymorphism](https://en.wikipedia.org/wiki/Polymorphism_(computer_science)) -- treating arguments differently depending on their type or, in our case depending on the `length`. The idea does have a use in JavaScript libraries.
+นี่คือตัวอย่างของ [polymorphism](https://en.wikipedia.org/wiki/Polymorphism_(computer_science)) -- ซึ่งก็คือการจัดการอาร์กิวเมนต์ต่างกันตามชนิดหรือในกรณีนี้คือตาม `length` แนวคิดนี้ถูกนำไปใช้จริงในไลบรารี JavaScript หลายตัว
 
-## Custom properties
+## พร็อพเพอร์ตี้ที่กำหนดเอง
 
-We can also add properties of our own.
+เราสามารถเพิ่มพร็อพเพอร์ตี้ของเราเองให้ฟังก์ชันได้ด้วย
 
-Here we add the `counter` property to track the total calls count:
+ตัวอย่างนี้เราเพิ่มพร็อพเพอร์ตี้ `counter` เพื่อนับจำนวนครั้งที่ฟังก์ชันถูกเรียก:
 
 ```js run
 function sayHi() {
   alert("Hi");
 
   *!*
-  // let's count how many times we run
+  // นับว่าเรียกฟังก์ชันนี้ไปกี่ครั้งแล้ว
   sayHi.counter++;
   */!*
 }
-sayHi.counter = 0; // initial value
+sayHi.counter = 0; // ค่าเริ่มต้น
 
 sayHi(); // Hi
 sayHi(); // Hi
 
-alert( `Called ${sayHi.counter} times` ); // Called 2 times
+alert( `เรียกไปทั้งหมด ${sayHi.counter} ครั้ง` ); // เรียกไปทั้งหมด 2 ครั้ง
 ```
 
-```warn header="A property is not a variable"
-A property assigned to a function like `sayHi.counter = 0` does *not* define a local variable `counter` inside it. In other words, a property `counter` and a variable `let counter` are two unrelated things.
+```warn header="พร็อพเพอร์ตี้ ≠ ตัวแปร"
+พร็อพเพอร์ตี้ที่กำหนดให้ฟังก์ชัน เช่น `sayHi.counter = 0` *ไม่ได้* สร้างตัวแปรภายในฟังก์ชัน `counter` ขึ้นมา พูดง่ายๆ คือ พร็อพเพอร์ตี้ `counter` กับตัวแปร `let counter` เป็นคนละตัวกันโดยสิ้นเชิง
 
-We can treat a function as an object, store properties in it, but that has no effect on its execution. Variables are not function properties and vice versa. These are just parallel worlds.
+เราสามารถใช้ฟังก์ชันเหมือนออบเจ็กต์ เก็บพร็อพเพอร์ตี้ไว้ในนั้นได้ แต่จะไม่มีผลต่อการทำงานของฟังก์ชันเลย ตัวแปรไม่ใช่พร็อพเพอร์ตี้ของฟังก์ชัน และพร็อพเพอร์ตี้ก็ไม่ใช่ตัวแปร ทั้งสองอย่างแยกจากกันอย่างสิ้นเชิง
 ```
 
-Function properties can replace closures sometimes. For instance, we can rewrite the counter function example from the chapter <info:closure> to use a function property:
+พร็อพเพอร์ตี้ของฟังก์ชันสามารถนำมาใช้แทนคลอเชอร์ได้ในบางกรณี ตัวอย่างเช่น เราสามารถเขียนตัวอย่างฟังก์ชันนับจากบท <info:closure> ใหม่โดยใช้พร็อพเพอร์ตี้ของฟังก์ชันแทน:
 
 ```js run
 function makeCounter() {
-  // instead of:
+  // แทนที่จะใช้:
   // let count = 0
 
   function counter() {
@@ -177,11 +177,11 @@ alert( counter() ); // 0
 alert( counter() ); // 1
 ```
 
-The `count` is now stored in the function directly, not in its outer Lexical Environment.
+ตอนนี้ `count` ถูกเก็บไว้ในตัวฟังก์ชันโดยตรง ไม่ได้อยู่ใน Lexical Environment ภายนอก
 
-Is it better or worse than using a closure?
+แล้วแบบไหนดีกว่ากัน ระหว่างใช้คลอเชอร์กับใช้พร็อพเพอร์ตี้?
 
-The main difference is that if the value of `count` lives in an outer variable, then external code is unable to access it. Only nested functions may modify it. And if it's bound to a function, then such a thing is possible:
+ข้อแตกต่างหลักคือ ถ้าค่า `count` อยู่ในตัวแปรภายนอก โค้ดข้างนอกจะเข้าถึงไม่ได้ มีเฉพาะฟังก์ชันซ้อนเท่านั้นที่แก้ไขค่าได้ แต่ถ้าผูกไว้เป็นพร็อพเพอร์ตี้ของฟังก์ชัน โค้ดข้างนอกก็เข้ามาแก้ไขได้:
 
 ```js run
 function makeCounter() {
@@ -203,13 +203,13 @@ alert( counter() ); // 10
 */!*
 ```
 
-So the choice of implementation depends on our aims.
+การเลือกใช้แบบไหนจึงขึ้นอยู่กับว่าต้องการอะไร
 
 ## Named Function Expression
 
-Named Function Expression, or NFE, is a term for Function Expressions that have a name.
+Named Function Expression หรือ NFE คือ Function Expression ที่มีชื่อกำกับ
 
-For instance, let's take an ordinary Function Expression:
+ลองดู Function Expression ธรรมดาก่อน:
 
 ```js
 let sayHi = function(who) {
@@ -217,7 +217,7 @@ let sayHi = function(who) {
 };
 ```
 
-And add a name to it:
+แล้วเพิ่มชื่อเข้าไป:
 
 ```js
 let sayHi = function *!*func*/!*(who) {
@@ -225,13 +225,13 @@ let sayHi = function *!*func*/!*(who) {
 };
 ```
 
-Did we achieve anything here? What's the purpose of that additional `"func"` name?
+การเพิ่มชื่อ `"func"` นี้ทำอะไรได้บ้าง?
 
-First let's note, that we still have a Function Expression. Adding the name `"func"` after `function` did not make it a Function Declaration, because it is still created as a part of an assignment expression.
+ก่อนอื่นต้องบอกว่า มันยังคงเป็น Function Expression เหมือนเดิม การเพิ่มชื่อ `"func"` หลังคำว่า `function` ไม่ได้ทำให้กลายเป็น Function Declaration เพราะมันยังถูกสร้างเป็นส่วนหนึ่งของ assignment expression อยู่
 
-Adding such a name also did not break anything.
+และการเพิ่มชื่อก็ไม่ได้ทำให้อะไรพัง
 
-The function is still available as `sayHi()`:
+ฟังก์ชันยังคงเรียกใช้ผ่าน `sayHi()` ได้ปกติ:
 
 ```js run
 let sayHi = function *!*func*/!*(who) {
@@ -241,12 +241,12 @@ let sayHi = function *!*func*/!*(who) {
 sayHi("John"); // Hello, John
 ```
 
-There are two special things about the name `func`, that are the reasons for it:
+ชื่อ `func` มีความพิเศษอยู่ 2 อย่าง:
 
-1. It allows the function to reference itself internally.
-2. It is not visible outside of the function.
+1. ทำให้ฟังก์ชันสามารถอ้างอิงถึงตัวเองจากภายในได้
+2. ชื่อนี้มองไม่เห็นจากภายนอกฟังก์ชัน
 
-For instance, the function `sayHi` below calls itself again with `"Guest"` if no `who` is provided:
+ตัวอย่างเช่น ฟังก์ชัน `sayHi` ด้านล่างจะเรียกตัวเองซ้ำด้วยค่า `"Guest"` ถ้าไม่มีการส่ง `who` เข้ามา:
 
 ```js run
 let sayHi = function *!*func*/!*(who) {
@@ -254,21 +254,21 @@ let sayHi = function *!*func*/!*(who) {
     alert(`Hello, ${who}`);
   } else {
 *!*
-    func("Guest"); // use func to re-call itself
+    func("Guest"); // ใช้ func เพื่อเรียกตัวเองซ้ำ
 */!*
   }
 };
 
 sayHi(); // Hello, Guest
 
-// But this won't work:
-func(); // Error, func is not defined (not visible outside of the function)
+// แต่แบบนี้ใช้ไม่ได้:
+func(); // Error, func is not defined (มองไม่เห็นจากภายนอก)
 ```
 
-Why do we use `func`? Maybe just use `sayHi` for the nested call?
+ทำไมต้องใช้ `func`? ใช้ `sayHi` เรียกตัวเองไม่ได้เหรอ?
 
 
-Actually, in most cases we can:
+จริงๆ ในกรณีส่วนใหญ่ก็ทำได้:
 
 ```js
 let sayHi = function(who) {
@@ -282,7 +282,7 @@ let sayHi = function(who) {
 };
 ```
 
-The problem with that code is that `sayHi` may change in the outer code. If the function gets assigned to another variable instead, the code will start to give errors:
+แต่ปัญหาคือ `sayHi` อาจถูกเปลี่ยนจากโค้ดภายนอก ถ้าฟังก์ชันถูกกำหนดให้ตัวแปรอื่นแล้ว โค้ดจะเริ่มมี error:
 
 ```js run
 let sayHi = function(who) {
@@ -298,14 +298,14 @@ let sayHi = function(who) {
 let welcome = sayHi;
 sayHi = null;
 
-welcome(); // Error, the nested sayHi call doesn't work any more!
+welcome(); // Error, การเรียก sayHi ซ้อนข้างในใช้ไม่ได้อีกแล้ว!
 ```
 
-That happens because the function takes `sayHi` from its outer lexical environment. There's no local `sayHi`, so the outer variable is used. And at the moment of the call that outer `sayHi` is `null`.
+เหตุที่เป็นแบบนี้เพราะฟังก์ชันดึง `sayHi` มาจาก Lexical Environment ภายนอก ไม่มี `sayHi` ภายใน จึงใช้ตัวแปรภายนอก แต่ตอนที่เรียกใช้ `sayHi` ภายนอกกลายเป็น `null` ไปแล้ว
 
-The optional name which we can put into the Function Expression is meant to solve exactly these kinds of problems.
+ชื่อที่เราใส่ให้ Function Expression มีไว้แก้ปัญหานี้โดยเฉพาะ
 
-Let's use it to fix our code:
+ลองมาแก้โค้ดกัน:
 
 ```js run
 let sayHi = function *!*func*/!*(who) {
@@ -313,7 +313,7 @@ let sayHi = function *!*func*/!*(who) {
     alert(`Hello, ${who}`);
   } else {
 *!*
-    func("Guest"); // Now all fine
+    func("Guest"); // ทำงานได้ปกติ
 */!*
   }
 };
@@ -321,33 +321,33 @@ let sayHi = function *!*func*/!*(who) {
 let welcome = sayHi;
 sayHi = null;
 
-welcome(); // Hello, Guest (nested call works)
+welcome(); // Hello, Guest (การเรียกซ้อนทำงานได้)
 ```
 
-Now it works, because the name `"func"` is function-local. It is not taken from outside (and not visible there). The specification guarantees that it will always reference the current function.
+ตอนนี้ใช้ได้แล้ว เพราะชื่อ `"func"` เป็นชื่อที่อยู่ภายในฟังก์ชันเท่านั้น ไม่ได้ดึงมาจากภายนอก (และมองไม่เห็นจากภายนอกด้วย) specification รับประกันว่าชื่อนี้จะอ้างอิงถึงฟังก์ชันปัจจุบันเสมอ
 
-The outer code still has its variable `sayHi` or `welcome`. And `func` is an "internal function name", the way for the function to call itself reliably.
+ส่วนโค้ดภายนอกก็ยังมีตัวแปร `sayHi` หรือ `welcome` ตามปกติ และ `func` เป็น "ชื่อภายในฟังก์ชัน" ที่ทำให้ฟังก์ชันเรียกตัวเองได้อย่างมั่นใจ
 
-```smart header="There's no such thing for Function Declaration"
-The "internal name" feature described here is only available for Function Expressions, not for Function Declarations. For Function Declarations, there is no syntax for adding an "internal" name.
+```smart header="Function Declaration ไม่มีฟีเจอร์นี้"
+ฟีเจอร์ "ชื่อภายใน" ที่อธิบายไปนี้ ใช้ได้เฉพาะกับ Function Expression เท่านั้น ไม่มีให้ใน Function Declaration เพราะ Function Declaration ไม่มี syntax สำหรับเพิ่มชื่อภายใน
 
-Sometimes, when we need a reliable internal name, it's the reason to rewrite a Function Declaration to Named Function Expression form.
+บางครั้งที่ต้องการชื่อภายในที่เชื่อถือได้ ก็เป็นเหตุผลหนึ่งที่เราเขียน Function Declaration เป็น Named Function Expression แทน
 ```
 
-## Summary
+## สรุป
 
-Functions are objects.
+ฟังก์ชันคือออบเจ็กต์
 
-Here we covered their properties:
+พร็อพเพอร์ตี้ที่มีมาให้ ได้แก่:
 
-- `name` -- the function name. Usually taken from the function definition, but if there's none, JavaScript tries to guess it from the context (e.g. an assignment).
-- `length` -- the number of arguments in the function definition. Rest parameters are not counted.
+- `name` -- ชื่อของฟังก์ชัน ปกติจะดึงมาจากตอนที่ประกาศ แต่ถ้าไม่มีชื่อ JavaScript จะพยายามเดาจากบริบท (เช่น จากการกำหนดค่า)
+- `length` -- จำนวนพารามิเตอร์ในตอนประกาศฟังก์ชัน โดย rest parameter ไม่ถูกนับรวม
 
-If the function is declared as a Function Expression (not in the main code flow), and it carries the name, then it is called a Named Function Expression. The name can be used inside to reference itself, for recursive calls or such.
+ถ้าฟังก์ชันถูกประกาศเป็น Function Expression (ไม่ได้อยู่ในโฟลว์หลักของโค้ด) และมีชื่อกำกับ จะเรียกว่า Named Function Expression ชื่อนี้ใช้ภายในฟังก์ชันเพื่ออ้างอิงตัวเอง เช่น สำหรับการเรียกซ้ำ (recursive call) เป็นต้น
 
-Also, functions may carry additional properties. Many well-known JavaScript libraries make great use of this feature.
+นอกจากนี้ ฟังก์ชันยังสามารถเก็บพร็อพเพอร์ตี้เพิ่มเติมได้ ไลบรารี JavaScript ที่มีชื่อเสียงหลายตัวใช้ประโยชน์จากฟีเจอร์นี้
 
-They create a "main" function and attach many other "helper" functions to it. For instance, the [jQuery](https://jquery.com) library creates a function named `$`. The [lodash](https://lodash.com) library creates a function `_`, and then adds `_.clone`, `_.keyBy` and other properties to it (see the [docs](https://lodash.com/docs) when you want to learn more about them). Actually, they do it to lessen their pollution of the global space, so that a single library gives only one global variable. That reduces the possibility of naming conflicts.
+โดยจะสร้างฟังก์ชัน "หลัก" ขึ้นมาตัวหนึ่ง แล้วผูกฟังก์ชัน "ผู้ช่วย" ไว้เป็นพร็อพเพอร์ตี้ ตัวอย่างเช่น ไลบรารี [jQuery](https://jquery.com) สร้างฟังก์ชันชื่อ `$` ส่วนไลบรารี [lodash](https://lodash.com) สร้างฟังก์ชัน `_` แล้วเพิ่ม `_.clone`, `_.keyBy` เป็นต้น (ดู[เอกสาร](https://lodash.com/docs)เพิ่มเติม) วิธีนี้ช่วยลดการใช้ global space เพราะไลบรารีทั้งหมดใช้ตัวแปร global แค่ตัวเดียว ทำให้โอกาสที่ชื่อจะชนกันน้อยลง
 
 
-So, a function can do a useful job by itself and also carry a bunch of other functionality in properties.
+สรุปแล้ว ฟังก์ชันไม่ได้แค่ทำงานได้อย่างเดียว แต่ยังเก็บฟังก์ชันอื่นๆ ไว้เป็นพร็อพเพอร์ตี้ได้ด้วย

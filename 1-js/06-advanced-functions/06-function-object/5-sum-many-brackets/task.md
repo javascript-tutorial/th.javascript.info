@@ -2,9 +2,9 @@ importance: 2
 
 ---
 
-# Sum with an arbitrary amount of brackets
+# ผลรวมที่เรียกต่อกันกี่วงเล็บก็ได้
 
-Write function `sum` that would work like this:
+เขียนฟังก์ชัน `sum` ที่ทำงานได้แบบนี้:
 
 ```js
 sum(1)(2) == 3; // 1 + 2
@@ -14,4 +14,4 @@ sum(6)(-1)(-2)(-3) == 0
 sum(0)(1)(2)(3)(4)(5) == 15
 ```
 
-P.S. Hint: you may need to setup custom object to primitive conversion for your function.
+P.S. คำใบ้: อาจต้องกำหนดการแปลงออบเจ็กต์เป็นค่า primitive ให้ฟังก์ชันของคุณ

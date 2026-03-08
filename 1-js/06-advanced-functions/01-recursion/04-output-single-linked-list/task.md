@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# Output a single-linked list
+# แสดงผล linked list
 
-Let's say we have a single-linked list (as described in the chapter <info:recursion>):
+สมมติเรามี linked list (ตามที่อธิบายในบท <info:recursion>):
 
 ```js
 let list = {
@@ -22,8 +22,8 @@ let list = {
 };
 ```
 
-Write a function `printList(list)` that outputs list items one-by-one.
+เขียนฟังก์ชัน `printList(list)` ที่แสดงสมาชิกใน list ทีละตัว
 
-Make two variants of the solution: using a loop and using recursion.
+เขียนคำตอบ 2 แบบ: ใช้ลูป และใช้การเรียกซ้ำ
 
-What's better: with recursion or without it?
+แบบไหนดีกว่ากัน? แบบเรียกซ้ำ หรือไม่เรียกซ้ำ?

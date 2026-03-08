@@ -1,35 +1,35 @@
 
-# Variable scope, closure
+# สโคปของตัวแปรและคลอเชอร์ (Closure)
 
-JavaScript is a very function-oriented language. It gives us a lot of freedom. A function can be created at any moment, passed as an argument to another function, and then called from a totally different place of code later.
+JavaScript เป็นภาษาที่เน้นการใช้งานฟังก์ชันเป็นหลัก เราสร้างฟังก์ชันได้ทุกเมื่อ ส่งผ่านเป็นอาร์กิวเมนต์ให้ฟังก์ชันอื่น แล้วค่อยเรียกใช้ทีหลังจากที่อื่นในโค้ดก็ได้
 
-We already know that a function can access variables outside of it ("outer" variables).
+จากที่เราเรียนมาแล้ว ฟังก์ชันสามารถเข้าถึงตัวแปรภายนอก ("outer" variables) ได้
 
-But what happens if outer variables change since a function is created? Will the function get newer values or the old ones?
+แต่ถ้าตัวแปรภายนอกเปลี่ยนค่าไปหลังจากสร้างฟังก์ชันแล้วล่ะ? ฟังก์ชันจะได้ค่าใหม่หรือค่าเก่า?
 
-And what if a function is passed along as an argument and called from another place of code, will it get access to outer variables at the new place?
+แล้วถ้าส่งฟังก์ชันไปเป็นอาร์กิวเมนต์ แล้วเรียกใช้จากที่อื่นในโค้ด จะยังเข้าถึงตัวแปรภายนอกจากที่ใหม่ได้ไหม?
 
-Let's expand our knowledge to understand these scenarios and more complex ones.
+มาขยายความรู้เพื่อทำความเข้าใจสถานการณ์เหล่านี้ รวมถึงกรณีที่ซับซ้อนกว่ากัน
 
-```smart header="We'll talk about `let/const` variables here"
-In JavaScript, there are 3 ways to declare a variable: `let`, `const` (the modern ones), and `var` (the remnant of the past).
+```smart header="บทความนี้จะพูดถึงตัวแปร `let/const`"
+ใน JavaScript มีวิธีประกาศตัวแปรอยู่ 3 แบบ คือ `let`, `const` (แบบใหม่) และ `var` (ตกค้างจากยุคเก่า)
 
-- In this article we'll use `let` variables in examples.
-- Variables, declared with `const`, behave the same, so this article is about `const` too.
-- The old `var` has some notable differences, they will be covered in the article <info:var>.
+- ในบทความนี้เราจะใช้ `let` ในตัวอย่างเป็นหลัก
+- ตัวแปรที่ประกาศด้วย `const` ก็ทำงานเหมือนกัน ดังนั้นบทความนี้ครอบคลุม `const` ด้วยเช่นกัน
+- `var` แบบเก่ามีความแตกต่างที่สำคัญบางประการ จะอธิบายเพิ่มในบทความ <info:var>
 ```
 
-## Code blocks
+## บล็อกของโค้ด (Code blocks)
 
-If a variable is declared inside a code block `{...}`, it's only visible inside that block.
+ถ้าประกาศตัวแปรภายในบล็อกโค้ด `{...}` ตัวแปรนั้นจะมองเห็นได้แค่ภายในบล็อกนั้นเท่านั้น
 
-For example:
+ยกตัวอย่าง:
 
 ```js run
 {
-  // do some job with local variables that should not be seen outside
+  // ทำงานบางอย่างกับตัวแปรภายในที่ไม่ควรเห็นจากข้างนอก
 
-  let message = "Hello"; // only visible in this block
+  let message = "Hello"; // มองเห็นได้แค่ในบล็อกนี้
 
   alert(message); // Hello
 }
@@ -37,31 +37,31 @@ For example:
 alert(message); // Error: message is not defined
 ```
 
-We can use this to isolate a piece of code that does its own task, with variables that only belong to it:
+เราใช้วิธีนี้เพื่อแยกส่วนของโค้ดที่ทำงานเฉพาะของมันออกมา โดยมีตัวแปรที่ใช้เฉพาะภายในบล็อกนั้น:
 
 ```js run
 {
-  // show message
+  // แสดงข้อความ
   let message = "Hello";
   alert(message);
 }
 
 {
-  // show another message
+  // แสดงข้อความอีกอัน
   let message = "Goodbye";
   alert(message);
 }
 ```
 
-````smart header="There'd be an error without blocks"
-Please note, without separate blocks there would be an error, if we use `let` with the existing variable name:
+````smart header="ถ้าไม่มีบล็อกจะเกิด error"
+โปรดสังเกตว่า ถ้าไม่แยกเป็นบล็อก จะเกิด error เมื่อใช้ `let` กับชื่อตัวแปรที่มีอยู่แล้ว:
 
 ```js run
-// show message
+// แสดงข้อความ
 let message = "Hello";
 alert(message);
 
-// show another message
+// แสดงข้อความอีกอัน
 *!*
 let message = "Goodbye"; // Error: variable already declared
 */!*
@@ -69,7 +69,7 @@ alert(message);
 ```
 ````
 
-For `if`, `for`, `while` and so on, variables declared in `{...}` are also only visible inside:
+สำหรับ `if`, `for`, `while` และอื่นๆ ตัวแปรที่ประกาศใน `{...}` ก็มองเห็นได้แค่ข้างในเช่นกัน:
 
 ```js run
 if (true) {
@@ -81,35 +81,35 @@ if (true) {
 alert(phrase); // Error, no such variable!
 ```
 
-Here, after `if` finishes, the `alert` below won't see the `phrase`, hence the error.
+ในที่นี้ หลังจาก `if` ทำงานเสร็จ `alert` ด้านล่างจะมองไม่เห็น `phrase` จึงเกิด error
 
-That's great, as it allows us to create block-local variables, specific to an `if` branch.
+นี่เป็นสิ่งที่ดี เพราะช่วยให้เราสร้างตัวแปรที่ใช้เฉพาะภายในบล็อก เช่น ตัวแปรที่ใช้เฉพาะในสาขาของ `if`
 
-The similar thing holds true for `for` and `while` loops:
+หลักการเดียวกันนี้ใช้ได้กับลูป `for` และ `while` ด้วย:
 
 ```js run
 for (let i = 0; i < 3; i++) {
-  // the variable i is only visible inside this for
-  alert(i); // 0, then 1, then 2
+  // ตัวแปร i มองเห็นได้แค่ภายใน for นี้
+  alert(i); // 0, จากนั้น 1, จากนั้น 2
 }
 
 alert(i); // Error, no such variable
 ```
 
-Visually, `let i` is outside of `{...}`. But the `for` construct is special here: the variable, declared inside it, is considered a part of the block.
+ถึงแม้ `let i` จะดูเหมือนอยู่นอก `{...}` แต่โครงสร้าง `for` เป็นกรณีพิเศษ ตัวแปรที่ประกาศข้างในถือว่าเป็นส่วนหนึ่งของบล็อก
 
-## Nested functions
+## ฟังก์ชันซ้อน (Nested functions)
 
-A function is called "nested" when it is created inside another function.
+ฟังก์ชันที่สร้างขึ้นภายในฟังก์ชันอื่น เราเรียกว่า "ฟังก์ชันซ้อน" (nested function)
 
-It is easily possible to do this with JavaScript.
+ใน JavaScript ทำแบบนี้ได้ง่ายมาก
 
-We can use it to organize our code, like this:
+เราใช้เพื่อจัดระเบียบโค้ดได้ เช่นแบบนี้:
 
 ```js
 function sayHiBye(firstName, lastName) {
 
-  // helper nested function to use below
+  // ฟังก์ชันซ้อนที่เป็นตัวช่วย
   function getFullName() {
     return firstName + " " + lastName;
   }
@@ -120,11 +120,11 @@ function sayHiBye(firstName, lastName) {
 }
 ```
 
-Here the *nested* function `getFullName()` is made for convenience. It can access the outer variables and so can return the full name. Nested functions are quite common in JavaScript.
+ตรงนี้ฟังก์ชันซ้อน `getFullName()` ถูกสร้างขึ้นเพื่อความสะดวก มันเข้าถึงตัวแปรภายนอกได้ จึงคืนค่าชื่อเต็มได้ ฟังก์ชันซ้อนเป็นสิ่งที่พบได้บ่อยมากใน JavaScript
 
-What's much more interesting, a nested function can be returned: either as a property of a new object or as a result by itself. It can then be used somewhere else. No matter where, it still has access to the same outer variables.
+สิ่งที่น่าสนใจกว่านั้นคือ ฟังก์ชันซ้อนสามารถถูก return ออกมาได้ ไม่ว่าจะเป็นพร็อพเพอร์ตี้ของออบเจ็กต์ใหม่ หรือเป็นผลลัพธ์โดยตรง จากนั้นจะนำไปใช้ที่อื่นก็ได้ ไม่ว่าจะเรียกจากที่ไหน มันยังเข้าถึงตัวแปรภายนอกเดิมได้เสมอ
 
-Below, `makeCounter` creates the "counter" function that returns the next number on each invocation:
+ตัวอย่างด้านล่าง `makeCounter` สร้างฟังก์ชัน "ตัวนับ" ที่คืนค่าตัวเลขถัดไปทุกครั้งที่เรียก:
 
 ```js run
 function makeCounter() {
@@ -142,87 +142,87 @@ alert( counter() ); // 1
 alert( counter() ); // 2
 ```
 
-Despite being simple, slightly modified variants of that code have practical uses, for instance, as a [random number generator](https://en.wikipedia.org/wiki/Pseudorandom_number_generator) to generate random values for automated tests.
+แม้จะเป็นโค้ดง่ายๆ แต่ถ้าดัดแปลงนิดหน่อยก็นำไปใช้งานจริงได้ เช่น เป็น[ตัวสร้างเลขสุ่ม](https://en.wikipedia.org/wiki/Pseudorandom_number_generator)สำหรับสร้างค่าสุ่มในการทดสอบอัตโนมัติ
 
-How does this work? If we create multiple counters, will they be independent? What's going on with the variables here?
+โค้ดนี้ทำงานยังไง? ถ้าสร้างตัวนับหลายตัว แต่ละตัวจะเป็นอิสระจากกันไหม? เกิดอะไรขึ้นกับตัวแปรในนี้?
 
-Understanding such things is great for the overall knowledge of JavaScript and beneficial for more complex scenarios. So let's go a bit in-depth.
+การเข้าใจเรื่องพวกนี้เป็นพื้นฐานสำคัญของ JavaScript และจะมีประโยชน์มากเมื่อเจอสถานการณ์ที่ซับซ้อนขึ้น ดังนั้นมาเจาะลึกกันเลย
 
 ## Lexical Environment
 
-```warn header="Here be dragons!"
-The in-depth technical explanation lies ahead.
+```warn header="เนื้อหาเชิงลึกอยู่ข้างหน้า!"
+เราจะอธิบายรายละเอียดเชิงเทคนิคกันต่อไป
 
-As far as I'd like to avoid low-level language details, any understanding without them would be lacking and incomplete, so get ready.
+แม้จะอยากหลีกเลี่ยงรายละเอียดภาษาระดับต่ำ แต่ถ้าไม่เข้าใจตรงนี้ ความรู้จะไม่ครบถ้วน ดังนั้นเตรียมตัวให้พร้อม
 ```
 
-For clarity, the explanation is split into multiple steps.
+เพื่อให้อธิบายได้ชัดเจน จะแบ่งเป็นหลายขั้นตอน
 
-### Step 1. Variables
+### ขั้นตอนที่ 1: ตัวแปร
 
-In JavaScript, every running function, code block `{...}`, and the script as a whole have an internal (hidden) associated object known as the *Lexical Environment*.
+ใน JavaScript ทุกฟังก์ชันที่กำลังทำงาน ทุกบล็อกโค้ด `{...}` และทั้งสคริปต์ จะมีออบเจ็กต์ภายใน (ซ่อนอยู่) ที่เรียกว่า *Lexical Environment*
 
-The Lexical Environment object consists of two parts:
+ออบเจ็กต์ Lexical Environment ประกอบด้วย 2 ส่วน:
 
-1. *Environment Record* -- an object that stores all local variables as its properties (and some other information like the value of `this`).
-2. A reference to the *outer lexical environment*, the one associated with the outer code.
+1. *Environment Record* -- ออบเจ็กต์ที่เก็บตัวแปรภายในทั้งหมดเป็นพร็อพเพอร์ตี้ (รวมถึงข้อมูลอื่นๆ เช่น ค่าของ `this`)
+2. การอ้างอิงไปยัง *Lexical Environment ภายนอก* ที่เชื่อมกับโค้ดชั้นนอก
 
-**A "variable" is just a property of the special internal object, `Environment Record`. "To get or change a variable" means "to get or change a property of that object".**
+**"ตัวแปร" ก็คือพร็อพเพอร์ตี้หนึ่งของออบเจ็กต์ภายในพิเศษที่ชื่อ `Environment Record` นั่นเอง "การอ่านหรือเปลี่ยนค่าตัวแปร" ก็คือ "การอ่านหรือเปลี่ยนพร็อพเพอร์ตี้ของออบเจ็กต์ตัวนั้น"**
 
-In this simple code without functions, there is only one Lexical Environment:
+ในโค้ดง่ายๆ ที่ไม่มีฟังก์ชัน จะมี Lexical Environment แค่ตัวเดียว:
 
 ![lexical environment](lexical-environment-global.svg)
 
-This is the so-called *global* Lexical Environment, associated with the whole script.
+นี่คือ Lexical Environment แบบ *global* ที่เชื่อมกับทั้งสคริปต์
 
-On the picture above, the rectangle means Environment Record (variable store) and the arrow means the outer reference. The global Lexical Environment has no outer reference, that's why the arrow points to `null`.
+ในรูปด้านบน สี่เหลี่ยมคือ Environment Record (ที่เก็บตัวแปร) และลูกศรคือการอ้างอิงไปยังภายนอก Lexical Environment แบบ global ไม่มีการอ้างอิงภายนอก ลูกศรจึงชี้ไปที่ `null`
 
-As the code starts executing and goes on, the Lexical Environment changes.
+เมื่อโค้ดเริ่มทำงานและดำเนินต่อไป Lexical Environment จะเปลี่ยนแปลงไปเรื่อยๆ
 
-Here's a little bit longer code:
+ลองดูโค้ดที่ยาวขึ้นหน่อย:
 
 ![lexical environment](closure-variable-phrase.svg)
 
-Rectangles on the right-hand side demonstrate how the global Lexical Environment changes during the execution:
+สี่เหลี่ยมด้านขวาแสดงให้เห็นว่า Lexical Environment แบบ global เปลี่ยนแปลงอย่างไรระหว่างการทำงาน:
 
-1. When the script starts, the Lexical Environment is pre-populated with all declared variables.
-    - Initially, they are in the "Uninitialized" state. That's a special internal state, it means that the engine knows about the variable, but it cannot be referenced until it has been declared with `let`. It's almost the same as if the variable didn't exist.
-2. Then `let phrase` definition appears. There's no assignment yet, so its value is `undefined`. We can use the variable from this point forward.
-3. `phrase` is assigned a value.
-4. `phrase` changes the value.
+1. เมื่อสคริปต์เริ่มทำงาน Lexical Environment จะถูกเติมด้วยตัวแปรที่ประกาศไว้ทั้งหมด
+    - ตอนแรกตัวแปรจะอยู่ในสถานะ "Uninitialized" ซึ่งเป็นสถานะภายในพิเศษ หมายความว่า engine รู้ว่ามีตัวแปรนี้อยู่ แต่ยังอ้างอิงไม่ได้จนกว่าจะประกาศด้วย `let` เหมือนกับว่าตัวแปรยังไม่มีอยู่
+2. จากนั้น `let phrase` ปรากฏขึ้น ยังไม่มีการกำหนดค่า จึงเป็น `undefined` ตั้งแต่จุดนี้เป็นต้นไปเราใช้ตัวแปรนี้ได้
+3. `phrase` ถูกกำหนดค่า
+4. `phrase` เปลี่ยนค่า
 
-Everything looks simple for now, right?
+ดูง่ายใช่ไหม?
 
-- A variable is a property of a special internal object, associated with the currently executing block/function/script.
-- Working with variables is actually working with the properties of that object.
+- ตัวแปรคือพร็อพเพอร์ตี้ของออบเจ็กต์ภายในพิเศษ ที่เชื่อมกับบล็อก/ฟังก์ชัน/สคริปต์ที่กำลังทำงานอยู่
+- การทำงานกับตัวแปรก็คือการทำงานกับพร็อพเพอร์ตี้ของออบเจ็กต์ตัวนั้น
 
-```smart header="Lexical Environment is a specification object"
-"Lexical Environment" is a specification object: it only exists "theoretically" in the [language specification](https://tc39.es/ecma262/#sec-lexical-environments) to describe how things work. We can't get this object in our code and manipulate it directly.
+```smart header="Lexical Environment เป็นออบเจ็กต์ตามสเปก"
+"Lexical Environment" เป็นออบเจ็กต์ตามสเปกของภาษา (specification object) มีอยู่แค่ "ในทางทฤษฎี" ตาม[สเปกของภาษา](https://tc39.es/ecma262/#sec-lexical-environments)เพื่ออธิบายว่าสิ่งต่างๆ ทำงานอย่างไร เราไม่สามารถเข้าถึงออบเจ็กต์นี้ในโค้ดและจัดการโดยตรงได้
 
-JavaScript engines also may optimize it, discard variables that are unused to save memory and perform other internal tricks, as long as the visible behavior remains as described.
+JavaScript engine อาจปรับแต่งการทำงาน เช่น ตัดตัวแปรที่ไม่ได้ใช้ออกเพื่อประหยัดหน่วยความจำ หรือทำเทคนิคอื่นๆ ภายใน ตราบใดที่พฤติกรรมที่มองเห็นยังคงเป็นไปตามที่อธิบายไว้
 ```
 
-### Step 2. Function Declarations
+### ขั้นตอนที่ 2: Function Declaration
 
-A function is also a value, like a variable.
+ฟังก์ชันก็เป็นค่าตัวหนึ่ง เหมือนกับตัวแปร
 
-**The difference is that a Function Declaration is instantly fully initialized.**
+**ข้อแตกต่างคือ Function Declaration จะถูกเตรียมพร้อมใช้งานทันที**
 
-When a Lexical Environment is created, a Function Declaration immediately becomes a ready-to-use function (unlike `let`, that is unusable till the declaration).
+เมื่อสร้าง Lexical Environment ขึ้นมา Function Declaration จะกลายเป็นฟังก์ชันที่พร้อมใช้ทันที (ต่างจาก `let` ที่ใช้ไม่ได้จนกว่าจะถึงบรรทัดที่ประกาศ)
 
-That's why we can use a function, declared as Function Declaration, even before the declaration itself.
+นั่นเป็นเหตุผลว่าทำไมเราถึงเรียกใช้ฟังก์ชันที่ประกาศแบบ Function Declaration ได้ก่อนที่จะถึงบรรทัดประกาศ
 
-For example, here's the initial state of the global Lexical Environment when we add a function:
+ตัวอย่างเช่น สถานะเริ่มต้นของ Lexical Environment แบบ global เมื่อเราเพิ่มฟังก์ชันเข้ามา:
 
 ![](closure-function-declaration.svg)
 
-Naturally, this behavior only applies to Function Declarations, not Function Expressions where we assign a function to a variable, such as `let say = function(name)...`.
+แน่นอนว่าพฤติกรรมนี้ใช้ได้กับ Function Declaration เท่านั้น ไม่ใช่ Function Expression ที่เราใส่ฟังก์ชันให้กับตัวแปร เช่น `let say = function(name)...`
 
-### Step 3. Inner and outer Lexical Environment
+### ขั้นตอนที่ 3: Lexical Environment ชั้นในและชั้นนอก
 
-When a function runs, at the beginning of the call, a new Lexical Environment is created automatically to store local variables and parameters of the call.
+เมื่อฟังก์ชันทำงาน ณ ตอนเริ่มต้นการเรียก จะมี Lexical Environment ใหม่ถูกสร้างขึ้นโดยอัตโนมัติเพื่อเก็บตัวแปรภายในฟังก์ชันและพารามิเตอร์
 
-For instance, for `say("John")`, it looks like this (the execution is at the line, labelled with an arrow):
+ยกตัวอย่าง เมื่อเรียก `say("John")` จะเป็นแบบนี้ (การทำงานอยู่ที่บรรทัดที่มีลูกศรกำกับ):
 
 <!--
     ```js
@@ -237,28 +237,28 @@ For instance, for `say("John")`, it looks like this (the execution is at the lin
 
 ![](lexical-environment-simple.svg)
 
-During the function call we have two Lexical Environments: the inner one (for the function call) and the outer one (global):
+ระหว่างที่ฟังก์ชันทำงาน จะมี Lexical Environment 2 ตัว คือ ตัวชั้นใน (ของฟังก์ชัน) กับตัวชั้นนอก (global):
 
-- The inner Lexical Environment corresponds to the current execution of `say`. It has a single property: `name`, the function argument. We called `say("John")`, so the value of the `name` is `"John"`.
-- The outer Lexical Environment is the global Lexical Environment. It has the `phrase` variable and the function itself.
+- Lexical Environment ชั้นในตรงกับการทำงานปัจจุบันของ `say` มีพร็อพเพอร์ตี้ตัวเดียวคือ `name` ซึ่งเป็นอาร์กิวเมนต์ของฟังก์ชัน เราเรียก `say("John")` ดังนั้นค่าของ `name` จึงเป็น `"John"`
+- Lexical Environment ชั้นนอกคือ Lexical Environment แบบ global ที่มีตัวแปร `phrase` และตัวฟังก์ชันเอง
 
-The inner Lexical Environment has a reference to the `outer` one.
+Lexical Environment ชั้นในมีการอ้างอิงไปยัง `outer` (ชั้นนอก)
 
-**When the code wants to access a variable -- the inner Lexical Environment is searched first, then the outer one, then the more outer one and so on until the global one.**
+**เมื่อโค้ดต้องการเข้าถึงตัวแปร จะค้นหาจาก Lexical Environment ชั้นในก่อน จากนั้นชั้นนอก แล้วก็ชั้นนอกถัดไปเรื่อยๆ จนถึงระดับ global**
 
-If a variable is not found anywhere, that's an error in strict mode (without `use strict`, an assignment to a non-existing variable creates a new global variable, for compatibility with old code).
+ถ้าหาตัวแปรไม่เจอเลย ในโหมด strict จะเกิด error (ถ้าไม่ได้ใช้ `use strict` การกำหนดค่าให้ตัวแปรที่ไม่มีอยู่จะสร้างตัวแปร global ขึ้นมาใหม่ เพื่อรองรับโค้ดเก่า)
 
-In this example the search proceeds as follows:
+ในตัวอย่างนี้ การค้นหาเป็นดังนี้:
 
-- For the `name` variable, the `alert` inside `say` finds it immediately in the inner Lexical Environment.
-- When it wants to access `phrase`, then there is no `phrase` locally, so it follows the reference to the outer Lexical Environment and finds it there.
+- ตัวแปร `name` -- `alert` ภายใน `say` พบได้ทันทีใน Lexical Environment ชั้นใน
+- ตัวแปร `phrase` -- ไม่มีอยู่ในชั้นใน จึงไล่ตามการอ้างอิงไปยัง Lexical Environment ชั้นนอก และพบที่นั่น
 
 ![lexical environment lookup](lexical-environment-simple-lookup.svg)
 
 
-### Step 4. Returning a function
+### ขั้นตอนที่ 4: การ return ฟังก์ชัน
 
-Let's return to the `makeCounter` example.
+กลับมาที่ตัวอย่าง `makeCounter` กัน
 
 ```js
 function makeCounter() {
@@ -272,53 +272,53 @@ function makeCounter() {
 let counter = makeCounter();
 ```
 
-At the beginning of each `makeCounter()` call, a new Lexical Environment object is created, to store variables for this `makeCounter` run.
+ทุกครั้งที่เรียก `makeCounter()` จะสร้าง Lexical Environment ใหม่ขึ้นมาเพื่อเก็บตัวแปรของการเรียกครั้งนั้น
 
-So we have two nested Lexical Environments, just like in the example above:
+เราจึงมี Lexical Environment ซ้อนกัน 2 ชั้น เหมือนตัวอย่างก่อนหน้า:
 
 ![](closure-makecounter.svg)
 
-What's different is that, during the execution of `makeCounter()`, a tiny nested function is created of only one line: `return count++`. We don't run it yet, only create.
+สิ่งที่ต่างออกไปคือ ระหว่างที่ `makeCounter()` ทำงาน จะสร้างฟังก์ชันเล็กๆ แค่บรรทัดเดียว `return count++` ขึ้นมา แต่ยังไม่ได้รัน แค่สร้างเฉยๆ
 
-All functions remember the Lexical Environment in which they were made. Technically, there's no magic here: all functions have the hidden property named `[[Environment]]`, that keeps the reference to the Lexical Environment where the function was created:
+ฟังก์ชันทุกตัวจะจดจำ Lexical Environment ที่มันถูกสร้างขึ้น ไม่มีอะไรมหัศจรรย์ ฟังก์ชันทุกตัวมีพร็อพเพอร์ตี้ซ่อน `[[Environment]]` ที่เก็บการอ้างอิงไปยัง Lexical Environment ที่ฟังก์ชันถูกสร้าง:
 
 ![](closure-makecounter-environment.svg)
 
-So, `counter.[[Environment]]` has the reference to `{count: 0}` Lexical Environment. That's how the function remembers where it was created, no matter where it's called. The `[[Environment]]` reference is set once and forever at function creation time.
+ดังนั้น `counter.[[Environment]]` จึงอ้างอิงไปยัง Lexical Environment `{count: 0}` นี่คือวิธีที่ฟังก์ชันจดจำว่ามันถูกสร้างที่ไหน ไม่ว่าจะเรียกจากที่ใดก็ตาม การอ้างอิง `[[Environment]]` ถูกตั้งค่าครั้งเดียวตอนสร้างฟังก์ชันแล้วไม่เปลี่ยนอีก
 
-Later, when `counter()` is called, a new Lexical Environment is created for the call, and its outer Lexical Environment reference is taken from `counter.[[Environment]]`:
+ต่อมาเมื่อเรียก `counter()` จะสร้าง Lexical Environment ใหม่สำหรับการเรียกครั้งนั้น และการอ้างอิง Lexical Environment ชั้นนอกจะมาจาก `counter.[[Environment]]`:
 
 ![](closure-makecounter-nested-call.svg)
 
-Now when the code inside `counter()` looks for `count` variable, it first searches its own Lexical Environment (empty, as there are no local variables there), then the Lexical Environment of the outer `makeCounter()` call, where it finds and changes it.
+เมื่อโค้ดภายใน `counter()` หาตัวแปร `count` จะค้นหาจาก Lexical Environment ของตัวเองก่อน (ว่างเปล่า เพราะไม่มีตัวแปรภายใน) จากนั้นจึงค้นหาจาก Lexical Environment ของ `makeCounter()` ชั้นนอก ซึ่งพบและแก้ไขค่าที่นั่น
 
-**A variable is updated in the Lexical Environment where it lives.**
+**ตัวแปรจะถูกอัปเดตใน Lexical Environment ที่มันอาศัยอยู่**
 
-Here's the state after the execution:
+นี่คือสถานะหลังทำงานเสร็จ:
 
 ![](closure-makecounter-nested-call-2.svg)
 
-If we call `counter()` multiple times, the `count` variable will be increased to `2`, `3` and so on, at the same place.
+ถ้าเรียก `counter()` หลายครั้ง ตัวแปร `count` จะเพิ่มเป็น `2`, `3` ไปเรื่อยๆ ที่ตำแหน่งเดิม
 
-```smart header="Closure"
-There is a general programming term "closure", that developers generally should know.
+```smart header="คลอเชอร์ (Closure)"
+มีศัพท์ทั่วไปในการเขียนโปรแกรมคำหนึ่งคือ "คลอเชอร์" (closure) ที่นักพัฒนาควรรู้จัก
 
-A [closure](https://en.wikipedia.org/wiki/Closure_(computer_programming)) is a function that remembers its outer variables and can access them. In some languages, that's not possible, or a function should be written in a special way to make it happen. But as explained above, in JavaScript, all functions are naturally closures (there is only one exception, to be covered in <info:new-function>).
+[คลอเชอร์](https://en.wikipedia.org/wiki/Closure_(computer_programming)) คือฟังก์ชันที่จดจำตัวแปรภายนอกและเข้าถึงได้ ในบางภาษาทำแบบนี้ไม่ได้ หรือต้องเขียนฟังก์ชันแบบพิเศษถึงจะทำได้ แต่ใน JavaScript ฟังก์ชันทุกตัวเป็นคลอเชอร์โดยธรรมชาติ (มีข้อยกเว้นเดียวที่จะอธิบายใน <info:new-function>)
 
-That is: they automatically remember where they were created using a hidden `[[Environment]]` property, and then their code can access outer variables.
+กล่าวคือ ฟังก์ชันจดจำว่าถูกสร้างที่ไหนโดยอัตโนมัติผ่านพร็อพเพอร์ตี้ซ่อน `[[Environment]]` แล้วโค้ดของมันก็เข้าถึงตัวแปรภายนอกได้
 
-When on an interview, a frontend developer gets a question about "what's a closure?", a valid answer would be a definition of the closure and an explanation that all functions in JavaScript are closures, and maybe a few more words about technical details: the `[[Environment]]` property and how Lexical Environments work.
+เวลาสัมภาษณ์งาน ถ้าถูกถามว่า "คลอเชอร์คืออะไร?" คำตอบที่ดีคือ อธิบายนิยามของคลอเชอร์ พร้อมกับบอกว่าฟังก์ชันทุกตัวใน JavaScript เป็นคลอเชอร์ แล้วอาจเสริมรายละเอียดทางเทคนิคเกี่ยวกับพร็อพเพอร์ตี้ `[[Environment]]` และการทำงานของ Lexical Environment อีกเล็กน้อย
 ```
 
-## Garbage collection
+## การเก็บขยะ (Garbage collection)
 
-Usually, a Lexical Environment is removed from memory with all the variables after the function call finishes. That's because there are no references to it. As any JavaScript object, it's only kept in memory while it's reachable.
+โดยปกติ Lexical Environment จะถูกลบออกจากหน่วยความจำพร้อมกับตัวแปรทั้งหมด หลังจากฟังก์ชันทำงานเสร็จ เพราะไม่มีการอ้างอิงถึงอีกแล้ว เหมือนกับออบเจ็กต์ JavaScript ทั่วไปที่จะอยู่ในหน่วยความจำก็ต่อเมื่อยังมีการอ้างอิงถึง
 
-However, if there's a nested function that is still reachable after the end of a function, then it has `[[Environment]]` property that references the lexical environment.
+อย่างไรก็ตาม ถ้ามีฟังก์ชันซ้อนที่ยังเข้าถึงได้หลังจากฟังก์ชันหลักทำงานเสร็จ มันจะมีพร็อพเพอร์ตี้ `[[Environment]]` ที่อ้างอิงไปยัง Lexical Environment
 
-In that case the Lexical Environment is still reachable even after the completion of the function, so it stays alive.
+ในกรณีนั้น Lexical Environment ยังคงเข้าถึงได้แม้ฟังก์ชันจะทำงานเสร็จแล้ว จึงยังคงอยู่ในหน่วยความจำ
 
-For example:
+ยกตัวอย่าง:
 
 ```js
 function f() {
@@ -329,11 +329,11 @@ function f() {
   }
 }
 
-let g = f(); // g.[[Environment]] stores a reference to the Lexical Environment
-// of the corresponding f() call
+let g = f(); // g.[[Environment]] เก็บการอ้างอิงไปยัง Lexical Environment
+// ของการเรียก f() ครั้งนั้น
 ```
 
-Please note that if `f()` is called many times, and resulting functions are saved, then all corresponding Lexical Environment objects will also be retained in memory. In the code below, all 3 of them:
+สังเกตว่าถ้าเรียก `f()` หลายครั้ง แล้วเก็บฟังก์ชันที่ได้ไว้ Lexical Environment ของแต่ละครั้งก็จะยังคงอยู่ในหน่วยความจำด้วย ในโค้ดด้านล่างมีทั้งหมด 3 ตัว:
 
 ```js
 function f() {
@@ -342,14 +342,14 @@ function f() {
   return function() { alert(value); };
 }
 
-// 3 functions in array, every one of them links to Lexical Environment
-// from the corresponding f() run
+// ฟังก์ชัน 3 ตัวในอาร์เรย์ แต่ละตัวเชื่อมไปยัง Lexical Environment
+// ของการเรียก f() แต่ละครั้ง
 let arr = [f(), f(), f()];
 ```
 
-A Lexical Environment object dies when it becomes unreachable (just like any other object). In other words, it exists only while there's at least one nested function referencing it.
+ออบเจ็กต์ Lexical Environment จะถูกลบเมื่อไม่มีอะไรอ้างอิงถึงอีกแล้ว (เหมือนออบเจ็กต์ทั่วไป) พูดง่ายๆ ก็คือ มันจะมีอยู่ตราบใดที่ยังมีฟังก์ชันซ้อนอย่างน้อยหนึ่งตัวที่อ้างอิงถึง
 
-In the code below, after the nested function is removed, its enclosing Lexical Environment (and hence the `value`) is cleaned from memory:
+ในโค้ดด้านล่าง หลังจากลบฟังก์ชันซ้อนออก Lexical Environment ที่ห่อหุ้มอยู่ (รวมถึง `value`) ก็จะถูกล้างออกจากหน่วยความจำ:
 
 ```js
 function f() {
@@ -360,29 +360,29 @@ function f() {
   }
 }
 
-let g = f(); // while g function exists, the value stays in memory
+let g = f(); // ตราบใดที่ฟังก์ชัน g ยังอยู่ value ก็จะอยู่ในหน่วยความจำ
 
-g = null; // ...and now the memory is cleaned up
+g = null; // ...พอไม่มีการอ้างอิงแล้ว หน่วยความจำก็ถูกล้าง
 ```
 
-### Real-life optimizations
+### การปรับแต่งในการใช้งานจริง
 
-As we've seen, in theory while a function is alive, all outer variables are also retained.
+อย่างที่เราเห็น ในทางทฤษฎี ตราบใดที่ฟังก์ชันยังอยู่ ตัวแปรภายนอกทั้งหมดก็จะถูกเก็บไว้ด้วย
 
-But in practice, JavaScript engines try to optimize that. They analyze variable usage and if it's obvious from the code that an outer variable is not used -- it is removed.
+แต่ในทางปฏิบัติ JavaScript engine พยายามปรับแต่งตรงนี้ โดยวิเคราะห์การใช้งานตัวแปร ถ้าเห็นชัดว่าตัวแปรภายนอกไม่ได้ถูกใช้ ก็จะลบออก
 
-**An important side effect in V8 (Chrome, Edge, Opera) is that such variable will become unavailable in debugging.**
+**ผลข้างเคียงที่สำคัญใน V8 (Chrome, Edge, Opera) คือ ตัวแปรที่ถูกลบจะใช้ไม่ได้ขณะ debug**
 
-Try running the example below in Chrome with the Developer Tools open.
+ลองรันตัวอย่างด้านล่างใน Chrome โดยเปิด Developer Tools
 
-When it pauses, in the console type `alert(value)`.
+เมื่อหยุดที่ debugger ให้ลองพิมพ์ `alert(value)` ในคอนโซล
 
 ```js run
 function f() {
   let value = Math.random();
 
   function g() {
-    debugger; // in console: type alert(value); No such variable!
+    debugger; // ในคอนโซล: พิมพ์ alert(value); จะบอกว่าไม่มีตัวแปรนี้!
   }
 
   return g;
@@ -392,9 +392,9 @@ let g = f();
 g();
 ```
 
-As you could see -- there is no such variable! In theory, it should be accessible, but the engine optimized it out.
+อย่างที่เห็น ตัวแปรหายไป! ในทางทฤษฎีควรเข้าถึงได้ แต่ engine ปรับแต่งออกไปแล้ว
 
-That may lead to funny (if not such time-consuming) debugging issues. One of them -- we can see a same-named outer variable instead of the expected one:
+ปัญหานี้อาจนำไปสู่เรื่องน่าเวียนหัว (ที่อาจเสียเวลา debug) ตอน debug ตัวอย่างเช่น เราอาจเห็นตัวแปรภายนอกที่ชื่อเดียวกันแต่คนละตัวกับที่คาดไว้:
 
 ```js run global
 let value = "Surprise!";
@@ -403,7 +403,7 @@ function f() {
   let value = "the closest value";
 
   function g() {
-    debugger; // in console: type alert(value); Surprise!
+    debugger; // ในคอนโซล: พิมพ์ alert(value); จะได้ Surprise!
   }
 
   return g;
@@ -413,6 +413,6 @@ let g = f();
 g();
 ```
 
-This feature of V8 is good to know. If you are debugging with Chrome/Edge/Opera, sooner or later you will meet it.
+ฟีเจอร์นี้ของ V8 เป็นสิ่งที่ควรรู้ไว้ ถ้า debug ด้วย Chrome/Edge/Opera ไม่ช้าก็เร็วจะเจอ
 
-That is not a bug in the debugger, but rather a special feature of V8. Perhaps it will be changed sometime. You can always check for it by running the examples on this page.
+นี่ไม่ใช่บั๊กของ debugger แต่เป็นฟีเจอร์ของ V8 บางทีในอนาคตอาจมีการเปลี่ยนแปลง สามารถทดสอบได้เสมอโดยรันตัวอย่างในหน้านี้

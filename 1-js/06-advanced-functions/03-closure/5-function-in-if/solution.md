@@ -1,3 +1,3 @@
-The result is **an error**.
+ผลลัพธ์คือ **error**
 
-The function `sayHi` is declared inside the `if`, so it only lives inside it. There is no `sayHi` outside.
+ฟังก์ชัน `sayHi` ถูกประกาศภายในบล็อก `if` จึงมีอยู่แค่ภายในบล็อกนั้น ข้างนอกไม่มี `sayHi`

@@ -2,8 +2,8 @@ importance: 5
 
 ---
 
-# Output a single-linked list in the reverse order
+# แสดงผล linked list แบบย้อนกลับ
 
-Output a single-linked list from the previous task <info:task/output-single-linked-list> in the reverse order.
+แสดงผล linked list จากโจทย์ก่อนหน้า <info:task/output-single-linked-list> แบบย้อนกลับ
 
-Make two solutions: using a loop and using a recursion.
+เขียนคำตอบ 2 แบบ: ใช้ลูป และใช้การเรียกซ้ำ

@@ -3,17 +3,17 @@ libs:
 
 ---
 
-# Function binding
+# การผูกฟังก์ชัน (Function binding)
 
-When passing object methods as callbacks, for instance to `setTimeout`, there's a known problem: "losing `this`".
+เวลาส่งเมธอดของออบเจ็กต์ไปเป็นคอลแบ็ก เช่น ส่งให้ `setTimeout` จะมีปัญหาที่เจอบ่อยอย่างหนึ่งคือ "this หาย"
 
-In this chapter we'll see the ways to fix it.
+ในบทนี้เราจะมาดูวิธีแก้ปัญหานี้กัน
 
-## Losing "this"
+## this หายได้อย่างไร
 
-We've already seen examples of losing `this`. Once a method is passed somewhere separately from the object -- `this` is lost.
+เราเคยเห็นตัวอย่างที่ `this` หายไปมาก่อนแล้ว พอส่งเมธอดออกไปจากออบเจ็กต์ `this` ก็จะหายตามไปด้วย
 
-Here's how it may happen with `setTimeout`:
+ลองดูตัวอย่างกับ `setTimeout`:
 
 ```js run
 let user = {
@@ -28,22 +28,22 @@ setTimeout(user.sayHi, 1000); // Hello, undefined!
 */!*
 ```
 
-As we can see, the output shows not "John" as `this.firstName`, but `undefined`!
+จะเห็นว่าผลลัพธ์ไม่ได้แสดง "John" อย่างที่คาดหวัง แต่กลับได้ `undefined` แทน!
 
-That's because `setTimeout` got the function `user.sayHi`, separately from the object. The last line can be rewritten as:
+ทั้งนี้เพราะ `setTimeout` ได้รับแค่ฟังก์ชัน `user.sayHi` ไปลอยๆ โดยไม่ได้ผูกกับออบเจ็กต์ บรรทัดสุดท้ายเขียนใหม่ได้แบบนี้:
 
 ```js
 let f = user.sayHi;
-setTimeout(f, 1000); // lost user context
+setTimeout(f, 1000); // สูญเสีย context ของ user
 ```
 
-The method `setTimeout` in-browser is a little special: it sets `this=window` for the function call (for Node.js, `this` becomes the timer object, but doesn't really matter here). So for `this.firstName` it tries to get `window.firstName`, which does not exist. In other similar cases, usually `this` just becomes `undefined`.
+เมธอด `setTimeout` ในเบราว์เซอร์มีพฤติกรรมพิเศษอยู่อย่างหนึ่ง คือจะตั้งค่า `this=window` ให้กับฟังก์ชันที่เรียก (ส่วน Node.js จะได้ timer object แทน แต่ไม่สำคัญในตอนนี้) ดังนั้น `this.firstName` จึงพยายามดึง `window.firstName` ซึ่งไม่มีอยู่จริง กรณีอื่นๆ ที่คล้ายกัน `this` มักจะกลายเป็น `undefined` ไปเลย
 
-The task is quite typical -- we want to pass an object method somewhere else (here -- to the scheduler) where it will be called. How to make sure that it will be called in the right context?
+โจทย์แบบนี้เจอได้บ่อย คือเราอยากส่งเมธอดของออบเจ็กต์ไปให้ที่อื่น (ในที่นี้คือ scheduler) เรียกใช้ แล้วจะทำยังไงให้ context ถูกต้อง?
 
-## Solution 1: a wrapper
+## วิธีที่ 1: ใช้ wrapper function
 
-The simplest solution is to use a wrapping function:
+วิธีง่ายที่สุดคือครอบด้วยฟังก์ชัน:
 
 ```js run
 let user = {
@@ -60,17 +60,17 @@ setTimeout(function() {
 */!*
 ```
 
-Now it works, because it receives `user` from the outer lexical environment, and then calls the method normally.
+ทีนี้ก็ใช้ได้แล้ว เพราะฟังก์ชันที่ครอบไว้จะเข้าถึง `user` จาก Lexical Environment ภายนอก แล้วเรียกเมธอดตามปกติ
 
-The same, but shorter:
+เขียนสั้นลงด้วย arrow function ก็ได้:
 
 ```js
 setTimeout(() => user.sayHi(), 1000); // Hello, John!
 ```
 
-Looks fine, but a slight vulnerability appears in our code structure.
+ดูดีแล้ว แต่มีจุดอ่อนอยู่นิดหนึ่ง
 
-What if before `setTimeout` triggers (there's one second delay!) `user` changes value? Then, suddenly, it will call the wrong object!
+ถ้า `user` เปลี่ยนค่าก่อนที่ `setTimeout` จะทำงาน (มีดีเลย์ 1 วินาทีนะ!) ก็จะเรียกผิดออบเจ็กต์ไปเลย!
 
 
 ```js run
@@ -83,7 +83,7 @@ let user = {
 
 setTimeout(() => user.sayHi(), 1000);
 
-// ...the value of user changes within 1 second
+// ...ค่าของ user เปลี่ยนภายใน 1 วินาที
 user = {
   sayHi() { alert("Another user in setTimeout!"); }
 };
@@ -91,26 +91,26 @@ user = {
 // Another user in setTimeout!
 ```
 
-The next solution guarantees that such thing won't happen.
+วิธีถัดไปจะช่วยป้องกันปัญหานี้ได้
 
-## Solution 2: bind
+## วิธีที่ 2: bind
 
-Functions provide a built-in method [bind](mdn:js/Function/bind) that allows to fix `this`.
+ฟังก์ชันมีเมธอดในตัวชื่อ [bind](mdn:js/Function/bind) ที่ช่วยล็อก `this` ไว้ได้
 
-The basic syntax is:
+ไวยากรณ์เบื้องต้น:
 
 ```js
-// more complex syntax will come a little later
+// ไวยากรณ์แบบเต็มจะอธิบายทีหลัง
 let boundFunc = func.bind(context);
 ```
 
-The result of `func.bind(context)` is a special function-like "exotic object", that is callable as function and transparently passes the call to `func` setting `this=context`.
+ผลลัพธ์จาก `func.bind(context)` คือ "exotic object" พิเศษที่เรียกใช้ได้เหมือนฟังก์ชัน โดยจะส่งต่อการเรียกไปยัง `func` พร้อมตั้ง `this=context` ให้
 
-In other words, calling `boundFunc` is like `func` with fixed `this`.
+พูดง่ายๆ คือ เรียก `boundFunc` ก็เหมือนเรียก `func` แต่ `this` ถูกล็อกไว้แล้ว
 
-For instance, here `funcUser` passes a call to `func` with `this=user`:
+ยกตัวอย่าง `funcUser` จะส่งต่อการเรียกไปยัง `func` พร้อมตั้ง `this=user`:
 
-```js run  
+```js run
 let user = {
   firstName: "John"
 };
@@ -121,15 +121,15 @@ function func() {
 
 *!*
 let funcUser = func.bind(user);
-funcUser(); // John  
+funcUser(); // John
 */!*
 ```
 
-Here `func.bind(user)` is a "bound variant" of `func`, with fixed `this=user`.
+ตรงนี้ `func.bind(user)` สร้าง "เวอร์ชันที่ผูกแล้ว" ของ `func` โดยล็อก `this=user` ไว้
 
-All arguments are passed to the original `func` "as is", for instance:
+อาร์กิวเมนต์ทั้งหมดจะถูกส่งต่อไปยัง `func` ตามเดิม เช่น:
 
-```js run  
+```js run
 let user = {
   firstName: "John"
 };
@@ -138,15 +138,15 @@ function func(phrase) {
   alert(phrase + ', ' + this.firstName);
 }
 
-// bind this to user
+// ผูก this ไว้กับ user
 let funcUser = func.bind(user);
 
 *!*
-funcUser("Hello"); // Hello, John (argument "Hello" is passed, and this=user)
+funcUser("Hello"); // Hello, John (อาร์กิวเมนต์ "Hello" ถูกส่งต่อ และ this=user)
 */!*
 ```
 
-Now let's try with an object method:
+ทีนี้มาลองกับเมธอดของออบเจ็กต์ดู:
 
 
 ```js run
@@ -161,21 +161,21 @@ let user = {
 let sayHi = user.sayHi.bind(user); // (*)
 */!*
 
-// can run it without an object
+// เรียกได้โดยไม่ต้องมีออบเจ็กต์
 sayHi(); // Hello, John!
 
 setTimeout(sayHi, 1000); // Hello, John!
 
-// even if the value of user changes within 1 second
-// sayHi uses the pre-bound value which is reference to the old user object
+// ถึง user จะเปลี่ยนค่าภายใน 1 วินาที
+// sayHi ก็ยังใช้ค่าที่ผูกไว้ตั้งแต่แรก ซึ่งอ้างอิงไปยังออบเจ็กต์ user ตัวเดิม
 user = {
   sayHi() { alert("Another user in setTimeout!"); }
 };
 ```
 
-In the line `(*)` we take the method `user.sayHi` and bind it to `user`. The `sayHi` is a "bound" function, that can be called alone or passed to `setTimeout` -- doesn't matter, the context will be right.
+ที่บรรทัด `(*)` เราดึงเมธอด `user.sayHi` มาแล้วผูกกับ `user` ด้วย `bind` ตัว `sayHi` ที่ได้จึงเป็นฟังก์ชันที่ "ผูก" ไว้แล้ว จะเรียกเดี่ยวๆ หรือส่งให้ `setTimeout` ก็ได้ context จะถูกต้องเสมอ
 
-Here we can see that arguments are passed "as is", only `this` is fixed by `bind`:
+ตัวอย่างนี้แสดงให้เห็นว่าอาร์กิวเมนต์ถูกส่งต่อตามเดิม มีแค่ `this` เท่านั้นที่ `bind` ล็อกไว้:
 
 ```js run
 let user = {
@@ -187,12 +187,12 @@ let user = {
 
 let say = user.say.bind(user);
 
-say("Hello"); // Hello, John! ("Hello" argument is passed to say)
-say("Bye"); // Bye, John! ("Bye" is passed to say)
+say("Hello"); // Hello, John! (อาร์กิวเมนต์ "Hello" ถูกส่งให้ say)
+say("Bye"); // Bye, John! ("Bye" ถูกส่งให้ say)
 ```
 
-````smart header="Convenience method: `bindAll`"
-If an object has many methods and we plan to actively pass it around, then we could bind them all in a loop:
+````smart header="เมธอดสะดวก: `bindAll`"
+ถ้าออบเจ็กต์มีหลายเมธอดและเราจะส่งออบเจ็กต์นี้ไปใช้ที่อื่นบ่อยๆ ก็ผูกทุกเมธอดด้วยลูปได้เลย:
 
 ```js
 for (let key in user) {
@@ -202,24 +202,24 @@ for (let key in user) {
 }
 ```
 
-JavaScript libraries also provide functions for convenient mass binding , e.g. [_.bindAll(object, methodNames)](https://lodash.com/docs#bindAll) in lodash.
+ไลบรารี JavaScript อย่าง lodash ก็มีฟังก์ชันสำหรับผูกเมธอดทีเดียวหลายตัว เช่น [_.bindAll(object, methodNames)](https://lodash.com/docs#bindAll)
 ````
 
 ## Partial functions
 
-Until now we have only been talking about binding `this`. Let's take it a step further.
+ที่ผ่านมาเราพูดถึงแค่การผูก `this` ทีนี้มาดูเรื่องที่ลึกขึ้นอีกนิดกัน
 
-We can bind not only `this`, but also arguments. That's rarely done, but sometimes can be handy.
+เราสามารถผูกไม่ใช่แค่ `this` แต่ยังผูกอาร์กิวเมนต์ได้ด้วย ไม่ค่อยได้ใช้บ่อย แต่บางทีก็มีประโยชน์
 
-The full syntax of `bind`:
+ไวยากรณ์แบบเต็มของ `bind`:
 
 ```js
 let bound = func.bind(context, [arg1], [arg2], ...);
 ```
 
-It allows to bind context as `this` and starting arguments of the function.
+ช่วยให้เราผูกทั้ง context (`this`) และอาร์กิวเมนต์ตัวแรกๆ ของฟังก์ชันได้
 
-For instance, we have a multiplication function `mul(a, b)`:
+ยกตัวอย่าง สมมติมีฟังก์ชันคูณเลข `mul(a, b)`:
 
 ```js
 function mul(a, b) {
@@ -227,7 +227,7 @@ function mul(a, b) {
 }
 ```
 
-Let's use `bind` to create a function `double` on its base:
+มาลองใช้ `bind` สร้างฟังก์ชัน `double` จากฟังก์ชัน `mul`:
 
 ```js run
 function mul(a, b) {
@@ -243,13 +243,13 @@ alert( double(4) ); // = mul(2, 4) = 8
 alert( double(5) ); // = mul(2, 5) = 10
 ```
 
-The call to `mul.bind(null, 2)` creates a new function `double` that passes calls to `mul`, fixing `null` as the context and `2` as the first argument. Further arguments are passed "as is".
+`mul.bind(null, 2)` สร้างฟังก์ชันใหม่ `double` ที่ส่งต่อการเรียกไปยัง `mul` โดยล็อก `null` เป็น context และ `2` เป็นอาร์กิวเมนต์ตัวแรก อาร์กิวเมนต์ที่เหลือจะส่งต่อตามเดิม
 
-That's called [partial function application](https://en.wikipedia.org/wiki/Partial_application) -- we create a new function by fixing some parameters of the existing one.
+เทคนิคนี้เรียกว่า [partial function application](https://en.wikipedia.org/wiki/Partial_application) คือการสร้างฟังก์ชันใหม่โดยกำหนดพารามิเตอร์บางตัวของฟังก์ชันเดิมไว้ล่วงหน้า
 
-Please note that we actually don't use `this` here. But `bind` requires it, so we must put in something like `null`.
+สังเกตว่าตรงนี้เราไม่ได้ใช้ `this` เลย แต่ `bind` บังคับให้ใส่ จึงต้องส่ง `null` ไปแทน
 
-The function `triple` in the code below triples the value:
+ฟังก์ชัน `triple` ด้านล่างนี้ทำหน้าที่คูณค่าด้วย 3:
 
 ```js run
 function mul(a, b) {
@@ -265,23 +265,21 @@ alert( triple(4) ); // = mul(3, 4) = 12
 alert( triple(5) ); // = mul(3, 5) = 15
 ```
 
-Why do we usually make a partial function?
+ทำไมถึงนิยมสร้าง partial function?
 
-The benefit is that we can create an independent function with a readable name (`double`, `triple`). We can use it and not provide the first argument every time as it's fixed with `bind`.
+ข้อดีคือเราได้ฟังก์ชันแยกออกมาพร้อมชื่อที่อ่านเข้าใจง่าย (`double`, `triple`) เรียกใช้ได้เลยโดยไม่ต้องส่งอาร์กิวเมนต์ตัวแรกทุกครั้ง เพราะ `bind` ล็อกไว้ให้แล้ว
 
-In other cases, partial application is useful when we have a very generic function and want a less universal variant of it for convenience.
+นอกจากนี้ partial application ยังมีประโยชน์ตอนที่เรามีฟังก์ชันกว้างๆ แล้วอยากสร้างเวอร์ชันเฉพาะทางที่ใช้สะดวกกว่า
 
-For instance, we have a function `send(from, to, text)`. Then, inside a `user` object we may want to use a partial variant of it: `sendTo(to, text)` that sends from the current user.
+เช่น สมมติมีฟังก์ชัน `send(from, to, text)` ถ้าอยู่ในออบเจ็กต์ `user` เราอาจสร้าง partial เป็น `sendTo(to, text)` ที่ล็อก `from` เป็นผู้ใช้ปัจจุบันไว้เลย
 
-## Going partial without context
+## สร้าง partial โดยไม่ผูก context
 
-What if we'd like to fix some arguments, but not the context `this`? For example, for an object method.
+จะทำยังไงถ้าอยากล็อกแค่อาร์กิวเมนต์บางตัว แต่ไม่ต้องการผูก context (`this`)? เช่น กรณีที่ใช้กับเมธอดของออบเจ็กต์
 
-The native `bind` does not allow that. We can't just omit the context and jump to arguments.
+`bind` ตัวเดิมทำไม่ได้ เพราะเราไม่สามารถข้ามพารามิเตอร์ context ไปใส่แค่อาร์กิวเมนต์ได้
 
-Fortunately, a function `partial` for binding only arguments can be easily implemented.
-
-Like this:
+แต่เราเขียนฟังก์ชัน `partial` ที่ผูกแค่อาร์กิวเมนต์อย่างเดียวได้ไม่ยาก:
 
 ```js run
 *!*
@@ -292,7 +290,7 @@ function partial(func, ...argsBound) {
 }
 */!*
 
-// Usage:
+// การใช้งาน:
 let user = {
   firstName: "John",
   say(time, phrase) {
@@ -300,29 +298,29 @@ let user = {
   }
 };
 
-// add a partial method with fixed time
+// เพิ่มเมธอด partial ที่ล็อกเวลาไว้แล้ว
 user.sayNow = partial(user.say, new Date().getHours() + ':' + new Date().getMinutes());
 
 user.sayNow("Hello");
-// Something like:
+// ผลลัพธ์ประมาณนี้:
 // [10:00] John: Hello!
 ```
 
-The result of `partial(func[, arg1, arg2...])` call is a wrapper `(*)` that calls `func` with:
-- Same `this` as it gets (for `user.sayNow` call it's `user`)
-- Then gives it `...argsBound` -- arguments from the `partial` call (`"10:00"`)
-- Then gives it `...args` -- arguments given to the wrapper (`"Hello"`)
+ผลลัพธ์จาก `partial(func[, arg1, arg2...])` คือ wrapper `(*)` ที่เรียก `func` โดย:
+- ใช้ `this` เดียวกับที่ได้รับ (กรณีเรียก `user.sayNow` ก็คือ `user`)
+- จากนั้นส่ง `...argsBound` ซึ่งเป็นอาร์กิวเมนต์จากตอนเรียก `partial` (เช่น `"10:00"`)
+- แล้วก็ส่ง `...args` ซึ่งเป็นอาร์กิวเมนต์ที่ส่งให้ wrapper (เช่น `"Hello"`)
 
-So easy to do it with the spread syntax, right?
+ใช้ spread syntax ทำได้ง่ายเลยใช่ไหม?
 
-Also there's a ready [_.partial](https://lodash.com/docs#partial) implementation from lodash library.
+นอกจากนี้ไลบรารี lodash ก็มี [_.partial](https://lodash.com/docs#partial) ให้ใช้ได้เลยเช่นกัน
 
-## Summary
+## สรุป
 
-Method `func.bind(context, ...args)` returns a "bound variant" of function `func` that fixes the context `this` and first arguments if given.
+เมธอด `func.bind(context, ...args)` คืนค่า "เวอร์ชันที่ผูกแล้ว" ของฟังก์ชัน `func` โดยล็อก `this` และอาร์กิวเมนต์ตัวแรกๆ ไว้ (ถ้ามีการระบุ)
 
-Usually we apply `bind` to fix `this` for an object method, so that we can pass it somewhere. For example, to `setTimeout`.
+โดยทั่วไปเราใช้ `bind` เพื่อล็อก `this` ให้เมธอดของออบเจ็กต์ เพื่อจะได้ส่งไปใช้ที่อื่นได้ เช่น ส่งให้ `setTimeout`
 
-When we fix some arguments of an existing function, the resulting (less universal) function is called *partially applied* or *partial*.
+เมื่อเราล็อกอาร์กิวเมนต์บางตัวของฟังก์ชันเดิมไว้ ฟังก์ชันที่ได้จะเรียกว่า *partially applied* หรือ *partial*
 
-Partials are convenient when we don't want to repeat the same argument over and over again. Like if we have a `send(from, to)` function, and `from` should always be the same for our task, we can get a partial and go on with it.
+Partial มีประโยชน์ตอนที่เราไม่อยากส่งอาร์กิวเมนต์ตัวเดิมซ้ำแล้วซ้ำอีก เช่น ถ้ามีฟังก์ชัน `send(from, to)` และ `from` ควรเป็นค่าเดิมเสมอ ก็สร้าง partial แล้วใช้ต่อได้เลย

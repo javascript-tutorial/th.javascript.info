@@ -2,13 +2,13 @@ importance: 5
 
 ---
 
-# Fix a function that loses "this"
+# แก้ฟังก์ชันที่ this หาย
 
-The call to `askPassword()` in the code below should check the password and then call `user.loginOk/loginFail` depending on the answer.
+การเรียก `askPassword()` ในโค้ดด้านล่างควรเช็ครหัสผ่าน แล้วเรียก `user.loginOk/loginFail` ตามผลลัพธ์
 
-But it leads to an error. Why?
+แต่กลับเกิดข้อผิดพลาด ทำไม?
 
-Fix the highlighted line for everything to start working right (other lines are not to be changed).
+ให้แก้บรรทัดที่ไฮไลต์ให้ทุกอย่างทำงานถูกต้อง (ห้ามแก้บรรทัดอื่น)
 
 ```js run
 function askPassword(ok, fail) {

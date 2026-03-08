@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# Sort by field
+# เรียงลำดับตามฟิลด์
 
-We've got an array of objects to sort:
+เรามีอาร์เรย์ของออบเจ็กต์ที่ต้องการเรียงลำดับ:
 
 ```js
 let users = [
@@ -14,23 +14,23 @@ let users = [
 ];
 ```
 
-The usual way to do that would be:
+วิธีปกติที่ทำกันคือ:
 
 ```js
-// by name (Ann, John, Pete)
+// เรียงตามชื่อ (Ann, John, Pete)
 users.sort((a, b) => a.name > b.name ? 1 : -1);
 
-// by age (Pete, Ann, John)
+// เรียงตามอายุ (Pete, Ann, John)
 users.sort((a, b) => a.age > b.age ? 1 : -1);
 ```
 
-Can we make it even less verbose, like this?
+จะทำให้กระชับกว่านี้ได้ไหม แบบนี้?
 
 ```js
 users.sort(byField('name'));
 users.sort(byField('age'));
 ```
 
-So, instead of writing a function, just put `byField(fieldName)`.
+คือแทนที่จะเขียนฟังก์ชันเอง แค่ใส่ `byField(fieldName)` ไปเลย
 
-Write the function `byField` that can be used for that.
+จงเขียนฟังก์ชัน `byField` ที่ใช้แบบนี้ได้

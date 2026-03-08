@@ -1,6 +1,6 @@
-# Loop-based solution
+# วิธีใช้ลูป
 
-The loop-based variant of the solution:
+คำตอบแบบใช้ลูป:
 
 ```js run
 let list = {
@@ -30,7 +30,7 @@ function printList(list) {
 printList(list);
 ```
 
-Please note that we use a temporary variable `tmp` to walk over the list. Technically, we could use a function parameter `list` instead:
+สังเกตว่าเราใช้ตัวแปรชั่วคราว `tmp` ในการท่องผ่าน list ในทางเทคนิค เราใช้พารามิเตอร์ `list` โดยตรงก็ได้:
 
 ```js
 function printList(list) {
@@ -43,15 +43,15 @@ function printList(list) {
 }
 ```
 
-...But that would be unwise. In the future we may need to extend a function, do something else with the list. If we change `list`, then we lose such ability.
+...แต่นั่นไม่ใช่ความคิดที่ดี เพราะในอนาคตเราอาจต้องขยายฟังก์ชัน หรือทำอะไรอย่างอื่นกับ list ถ้าเปลี่ยนค่า `list` ไปแล้ว จะทำไม่ได้
 
-Talking about good variable names, `list` here is the list itself. The first element of it. And it should remain like that. That's clear and reliable.
+ในแง่ชื่อตัวแปรที่ดี `list` ตรงนี้คือตัว list เอง คือสมาชิกตัวแรก ควรคงค่าไว้แบบนั้น เพื่อความชัดเจนและเชื่อถือได้
 
-From the other side, the role of `tmp` is exclusively a list traversal, like `i` in the `for` loop.
+ส่วน `tmp` มีหน้าที่แค่ท่องผ่าน list เท่านั้น เหมือน `i` ในลูป `for`
 
-# Recursive solution
+# วิธีใช้การเรียกซ้ำ
 
-The recursive variant of `printList(list)` follows a simple logic: to output a list we should output the current element `list`, then do the same for `list.next`:
+คำตอบแบบเรียกซ้ำของ `printList(list)` ใช้หลักคิดง่ายๆ คือ แสดงสมาชิกปัจจุบัน `list` แล้วทำแบบเดียวกันกับ `list.next`:
 
 ```js run
 let list = {
@@ -70,10 +70,10 @@ let list = {
 
 function printList(list) {
 
-  alert(list.value); // output the current item
+  alert(list.value); // แสดงสมาชิกปัจจุบัน
 
   if (list.next) {
-    printList(list.next); // do the same for the rest of the list
+    printList(list.next); // ทำแบบเดียวกันกับสมาชิกที่เหลือ
   }
 
 }
@@ -81,8 +81,8 @@ function printList(list) {
 printList(list);
 ```
 
-Now what's better?
+แล้วแบบไหนดีกว่ากัน?
 
-Technically, the loop is more effective. These two variants do the same, but the loop does not spend resources for nested function calls.
+ในทางเทคนิค ลูปมีประสิทธิภาพดีกว่า ทั้งสองวิธีทำงานเหมือนกัน แต่ลูปไม่เปลืองทรัพยากรในการเรียกฟังก์ชันซ้อน
 
-From the other side, the recursive variant is shorter and sometimes easier to understand.
+อีกด้านหนึ่ง แบบเรียกซ้ำเขียนสั้นกว่า และบางครั้งก็เข้าใจง่ายกว่า

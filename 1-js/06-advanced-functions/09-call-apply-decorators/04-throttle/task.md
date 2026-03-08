@@ -4,50 +4,50 @@ importance: 5
 
 # Throttle decorator
 
-Create a "throttling" decorator `throttle(f, ms)` -- that returns a wrapper.
+สร้าง "throttling" decorator `throttle(f, ms)` ที่คืนค่า wrapper
 
-When it's called multiple times, it passes the call to `f` at maximum once per `ms` milliseconds.
+เมื่อถูกเรียกหลายครั้ง จะส่งต่อการเรียกไปยัง `f` ได้มากสุดครั้งเดียวต่อ `ms` มิลลิวินาที
 
-Compared to the debounce decorator, the behavior is completely different:
-- `debounce` runs the function once after the "cooldown" period. Good for processing the final result.
-- `throttle` runs it not more often than given `ms` time. Good for regular updates that shouldn't be very often.
+เมื่อเทียบกับ debounce decorator แล้ว พฤติกรรมต่างกันโดยสิ้นเชิง:
+- `debounce` รันฟังก์ชันหนึ่งครั้งหลังช่วง "พักเย็น" เหมาะสำหรับประมวลผลลัพธ์สุดท้าย
+- `throttle` รันฟังก์ชันไม่เกินหนึ่งครั้งต่อ `ms` ที่กำหนด เหมาะสำหรับอัปเดตเป็นระยะๆ ที่ไม่ต้องการให้ถี่เกินไป
 
-In other words, `throttle` is like a secretary that accepts phone calls, but bothers the boss (calls the actual `f`) not more often than once per `ms` milliseconds.
+พูดง่ายๆ `throttle` ก็เหมือนเลขาที่รับสายโทรศัพท์ แต่จะรบกวนเจ้านาย (เรียก `f` จริง) ได้ไม่เกินหนึ่งครั้งต่อ `ms` มิลลิวินาที
 
-Let's check the real-life application to better understand that requirement and to see where it comes from.
+มาดูตัวอย่างจากชีวิตจริงเพื่อทำความเข้าใจให้ดีขึ้น
 
-**For instance, we want to track mouse movements.**
+**ยกตัวอย่าง เราต้องการติดตามการเลื่อนเมาส์**
 
-In a browser we can setup a function to run at every mouse movement and get the pointer location as it moves. During an active mouse usage, this function usually runs very frequently, can be something like 100 times per second (every 10 ms).
-**We'd like to update some information on the web-page when the pointer moves.**
+ในเบราว์เซอร์เราตั้งฟังก์ชันให้ทำงานทุกครั้งที่เมาส์ขยับได้ และดึงตำแหน่งเคอร์เซอร์ขณะเลื่อน ขณะใช้เมาส์อยู่ ฟังก์ชันนี้จะถูกเรียกถี่มาก อาจถึง 100 ครั้งต่อวินาที (ทุก 10ms)
+**แต่เราแค่ต้องการอัปเดตข้อมูลบนหน้าเว็บเมื่อเมาส์ขยับ**
 
-...But updating function `update()` is too heavy to do it on every micro-movement. There is also no sense in updating more often than once per 100ms.
+...แต่ฟังก์ชัน `update()` นั้นหนักเกินกว่าจะรันทุกครั้งที่เมาส์ขยับนิดเดียว และไม่จำเป็นต้องอัปเดตบ่อยเกินกว่าหนึ่งครั้งต่อ 100ms
 
-So we'll wrap it into the decorator: use `throttle(update, 100)` as the function to run on each mouse move instead of the original `update()`. The decorator will be called often, but forward the call to `update()` at maximum once per 100ms.
+เราจึงครอบมันด้วย decorator: ใช้ `throttle(update, 100)` เป็นฟังก์ชันที่จะรันทุกครั้งที่เมาส์ขยับ แทนที่จะเรียก `update()` ตรงๆ โดย decorator จะถูกเรียกบ่อยแต่ส่งต่อไปยัง `update()` ได้มากสุดครั้งเดียวต่อ 100ms
 
-Visually, it will look like this:
+ถ้ามองเป็นภาพจะเป็นแบบนี้:
 
-1. For the first mouse movement the decorated variant immediately passes the call to `update`. That's important, the user sees our reaction to their move immediately.
-2. Then as the mouse moves on, until `100ms` nothing happens. The decorated variant ignores calls.
-3. At the end of `100ms` -- one more `update` happens with the last coordinates.
-4. Then, finally, the mouse stops somewhere. The decorated variant waits until `100ms` expire and then runs `update` with last coordinates. So, quite important, the final mouse coordinates are processed.
+1. เมื่อเมาส์ขยับครั้งแรก decorated variant จะส่งต่อไปยัง `update` ทันที ซึ่งสำคัญมาก เพราะผู้ใช้จะเห็นผลตอบสนองจากการขยับเมาส์ทันที
+2. จากนั้นเมื่อเมาส์ขยับต่อ จนกว่าจะผ่าน `100ms` จะไม่มีอะไรเกิดขึ้น decorated variant จะเพิกเฉยการเรียกทั้งหมด
+3. เมื่อครบ `100ms` -- จะเรียก `update` อีกครั้งด้วยพิกัดล่าสุด
+4. สุดท้าย เมื่อเมาส์หยุดนิ่ง decorated variant จะรอจนครบ `100ms` แล้วเรียก `update` ครั้งสุดท้ายด้วยพิกัดล่าสุด สิ่งสำคัญคือ พิกัดสุดท้ายของเมาส์จะถูกประมวลผลเสมอ
 
-A code example:
+ตัวอย่างโค้ด:
 
 ```js
 function f(a) {
   console.log(a);
 }
 
-// f1000 passes calls to f at maximum once per 1000 ms
+// f1000 ส่งต่อการเรียกไปยัง f ได้มากสุดครั้งเดียวต่อ 1000ms
 let f1000 = throttle(f, 1000);
 
-f1000(1); // shows 1
-f1000(2); // (throttling, 1000ms not out yet)
-f1000(3); // (throttling, 1000ms not out yet)
+f1000(1); // แสดง 1
+f1000(2); // (ถูก throttle, ยังไม่ครบ 1000ms)
+f1000(3); // (ถูก throttle, ยังไม่ครบ 1000ms)
 
-// when 1000 ms time out...
-// ...outputs 3, intermediate value 2 was ignored
+// เมื่อครบ 1000ms...
+// ...แสดง 3 ส่วนค่า 2 ที่อยู่ระหว่างกลางถูกข้ามไป
 ```
 
-P.S. Arguments and the context `this` passed to `f1000` should be passed to the original `f`.
+P.S. อาร์กิวเมนต์และ context `this` ที่ส่งให้ `f1000` ต้องถูกส่งต่อไปยัง `f` ดั้งเดิมด้วย

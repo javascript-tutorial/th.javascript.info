@@ -1,5 +1,5 @@
-The answer is: **Pete**.
+คำตอบคือ: **Pete**
 
-A function gets outer variables as they are now, it uses the most recent values.
+ฟังก์ชันจะดึงค่าตัวแปรภายนอก ณ ตอนที่เรียกใช้ โดยใช้ค่าล่าสุดเสมอ
 
-Old variable values are not saved anywhere. When a function wants a variable, it takes the current value from its own Lexical Environment or the outer one.
+ค่าเก่าจะไม่ถูกเก็บไว้ที่ไหน เมื่อฟังก์ชันต้องการตัวแปร จะดึงค่าปัจจุบันจาก Lexical Environment ของตัวเองหรือชั้นนอก

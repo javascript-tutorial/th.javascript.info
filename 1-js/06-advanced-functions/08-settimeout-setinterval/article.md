@@ -1,35 +1,35 @@
-# Scheduling: setTimeout and setInterval
+# การตั้งเวลา: setTimeout และ setInterval
 
-We may decide to execute a function not right now, but at a certain time later. That's called "scheduling a call".
+บางครั้งเราไม่ได้ต้องการให้ฟังก์ชันทำงานทันที แต่ต้องการให้ทำงานในอีกสักพักหนึ่ง ซึ่งก็คือ "การตั้งเวลาเรียกฟังก์ชัน" (scheduling a call) นั่นเอง
 
-There are two methods for it:
+เมธอดที่ใช้กันมี 2 ตัวด้วยกัน:
 
-- `setTimeout` allows us to run a function once after the interval of time.
-- `setInterval` allows us to run a function repeatedly, starting after the interval of time, then repeating continuously at that interval.
+- `setTimeout` ใช้เรียกฟังก์ชัน **ครั้งเดียว** หลังจากผ่านไปตามเวลาที่กำหนด
+- `setInterval` ใช้เรียกฟังก์ชัน **ซ้ำไปเรื่อยๆ** ตามช่วงเวลาที่กำหนด
 
-These methods are not a part of JavaScript specification. But most environments have the internal scheduler and provide these methods. In particular, they are supported in all browsers and Node.js.
+เมธอดเหล่านี้ไม่ได้อยู่ในสเปกของ JavaScript โดยตรง แต่สภาพแวดล้อมส่วนใหญ่ก็มี internal scheduler และรองรับเมธอดเหล่านี้ โดยเฉพาะเบราว์เซอร์ทุกตัวและ Node.js
 
 ## setTimeout
 
-The syntax:
+ไวยากรณ์:
 
 ```js
 let timerId = setTimeout(func|code, [delay], [arg1], [arg2], ...)
 ```
 
-Parameters:
+พารามิเตอร์:
 
 `func|code`
-: Function or a string of code to execute.
-Usually, that's a function. For historical reasons, a string of code can be passed, but that's not recommended.
+: ฟังก์ชันหรือสตริงของโค้ดที่ต้องการเรียก
+โดยปกติจะส่งเป็นฟังก์ชัน ส่งเป็นสตริงก็ได้เหมือนกัน (เนื่องจากเหตุผลทางประวัติศาสตร์) แต่ไม่แนะนำ
 
 `delay`
-: The delay before run, in milliseconds (1000 ms = 1 second), by default 0.
+: ระยะเวลาหน่วงก่อนเรียก หน่วยเป็นมิลลิวินาที (1000 ms = 1 วินาที) ค่าเริ่มต้นคือ 0
 
 `arg1`, `arg2`...
-: Arguments for the function
+: อาร์กิวเมนต์ที่จะส่งให้ฟังก์ชัน
 
-For instance, this code calls `sayHi()` after one second:
+ตัวอย่างนี้จะเรียก `sayHi()` หลังจากผ่านไป 1 วินาที:
 
 ```js run
 function sayHi() {
@@ -41,7 +41,7 @@ setTimeout(sayHi, 1000);
 */!*
 ```
 
-With arguments:
+พร้อมส่งอาร์กิวเมนต์:
 
 ```js run
 function sayHi(phrase, who) {
@@ -53,93 +53,93 @@ setTimeout(sayHi, 1000, "Hello", "John"); // Hello, John
 */!*
 ```
 
-If the first argument is a string, then JavaScript creates a function from it.
+ถ้าอาร์กิวเมนต์ตัวแรกเป็นสตริง JavaScript จะสร้างฟังก์ชันขึ้นมาจากสตริงนั้น
 
-So, this will also work:
+ดังนั้นโค้ดนี้ก็ใช้ได้เหมือนกัน:
 
 ```js run no-beautify
 setTimeout("alert('Hello')", 1000);
 ```
 
-But using strings is not recommended, use arrow functions instead of them, like this:
+แต่ไม่แนะนำให้ส่งเป็นสตริง ให้ใช้ arrow function แทนแบบนี้:
 
 ```js run no-beautify
 setTimeout(() => alert('Hello'), 1000);
 ```
 
-````smart header="Pass a function, but don't run it"
-Novice developers sometimes make a mistake by adding brackets `()` after the function:
+````smart header="ส่งฟังก์ชันเข้าไป ไม่ใช่เรียกฟังก์ชัน"
+มือใหม่มักพลาดตรงที่ใส่วงเล็บ `()` ต่อท้ายฟังก์ชัน:
 
 ```js
-// wrong!
+// ผิด!
 setTimeout(sayHi(), 1000);
 ```
-That doesn't work, because `setTimeout` expects a reference to a function. And here `sayHi()` runs the function, and the *result of its execution* is passed to `setTimeout`. In our case the result of `sayHi()` is `undefined` (the function returns nothing), so nothing is scheduled.
+แบบนี้ไม่ทำงาน เพราะ `setTimeout` ต้องการ **reference** ไปยังฟังก์ชัน แต่ `sayHi()` คือการเรียกฟังก์ชันทันที แล้วส่ง *ผลลัพธ์ที่ได้* ไปให้ `setTimeout` ซึ่งในกรณีนี้ `sayHi()` คืนค่า `undefined` (เพราะไม่ได้ return อะไร) จึงไม่มีอะไรถูกตั้งเวลาไว้เลย
 ````
 
-### Canceling with clearTimeout
+### ยกเลิกด้วย clearTimeout
 
-A call to `setTimeout` returns a "timer identifier" `timerId` that we can use to cancel the execution.
+เมื่อเรียก `setTimeout` จะได้ "ตัวระบุ timer" (`timerId`) กลับมา ซึ่งใช้ยกเลิกการทำงานได้
 
-The syntax to cancel:
+ไวยากรณ์สำหรับยกเลิก:
 
 ```js
 let timerId = setTimeout(...);
 clearTimeout(timerId);
 ```
 
-In the code below, we schedule the function and then cancel it (changed our mind). As a result, nothing happens:
+โค้ดด้านล่างตั้งเวลาเรียกฟังก์ชัน แล้วยกเลิกทิ้ง (เปลี่ยนใจ) ผลคือไม่มีอะไรเกิดขึ้น:
 
 ```js run no-beautify
 let timerId = setTimeout(() => alert("never happens"), 1000);
-alert(timerId); // timer identifier
+alert(timerId); // ตัวระบุ timer
 
 clearTimeout(timerId);
-alert(timerId); // same identifier (doesn't become null after canceling)
+alert(timerId); // ตัวระบุเดิม (ไม่ได้กลายเป็น null หลังยกเลิก)
 ```
 
-As we can see from `alert` output, in a browser the timer identifier is a number. In other environments, this can be something else. For instance, Node.js returns a timer object with additional methods.
+จะเห็นจาก `alert` ว่าในเบราว์เซอร์ ตัวระบุ timer จะเป็นตัวเลข ส่วนสภาพแวดล้อมอื่นอาจเป็นอย่างอื่นก็ได้ เช่น Node.js จะคืนค่าเป็น timer object ที่มีเมธอดเพิ่มเติม
 
-Again, there is no universal specification for these methods, so that's fine.
+เมธอดเหล่านี้ไม่มีสเปกกลาง จึงไม่มีปัญหาอะไร
 
-For browsers, timers are described in the [timers section](https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#timers) of HTML Living Standard.
+สำหรับเบราว์เซอร์ timer อธิบายไว้ใน [ส่วน timers](https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#timers) ของ HTML Living Standard
 
 ## setInterval
 
-The `setInterval` method has the same syntax as `setTimeout`:
+เมธอด `setInterval` มีไวยากรณ์เหมือน `setTimeout`:
 
 ```js
 let timerId = setInterval(func|code, [delay], [arg1], [arg2], ...)
 ```
 
-All arguments have the same meaning. But unlike `setTimeout` it runs the function not only once, but regularly after the given interval of time.
+อาร์กิวเมนต์ทุกตัวมีความหมายเหมือนกัน แต่ต่างจาก `setTimeout` ตรงที่ `setInterval` จะเรียกฟังก์ชัน **ซ้ำไปเรื่อยๆ** ตามช่วงเวลาที่กำหนด ไม่ใช่แค่ครั้งเดียว
 
-To stop further calls, we should call `clearInterval(timerId)`.
+หยุดการเรียกซ้ำได้ด้วย `clearInterval(timerId)`
 
-The following example will show the message every 2 seconds. After 5 seconds, the output is stopped:
+ตัวอย่างนี้จะแสดงข้อความทุกๆ 2 วินาที แล้วหยุดหลังจาก 5 วินาที:
 
 ```js run
-// repeat with the interval of 2 seconds
+// ทำซ้ำทุก 2 วินาที
 let timerId = setInterval(() => alert('tick'), 2000);
 
-// after 5 seconds stop
+// หยุดหลังจาก 5 วินาที
 setTimeout(() => { clearInterval(timerId); alert('stop'); }, 5000);
 ```
 
-```smart header="Time goes on while `alert` is shown"
-In most browsers, including Chrome and Firefox the internal timer continues "ticking" while showing `alert/confirm/prompt`.
+```smart header="เวลายังเดินต่อขณะที่ `alert` แสดงอยู่"
+ในเบราว์เซอร์ส่วนใหญ่ รวมถึง Chrome และ Firefox ตัวจับเวลาภายในจะยังคง "เดิน" อยู่ขณะที่แสดง `alert/confirm/prompt`
 
-So if you run the code above and don't dismiss the `alert` window for some time, then the next `alert` will be shown immediately as you do it. The actual interval between alerts will be shorter than 2 seconds.
+ดังนั้น ถ้ารันโค้ดด้านบนแล้วไม่ปิดหน้าต่าง `alert` สักพัก พอปิดปุ๊บ `alert` ถัดไปจะแสดงขึ้นมาทันที ทำให้ช่วงเวลาระหว่าง alert แต่ละครั้งสั้นกว่า 2 วินาที
 ```
 
-## Nested setTimeout
+## setTimeout แบบซ้อน
 
-There are two ways of running something regularly.
+การทำอะไรสักอย่างซ้ำๆ ตามเวลาทำได้ 2 วิธี
 
-One is `setInterval`. The other one is a nested `setTimeout`, like this:
+วิธีแรกคือใช้ `setInterval` อีกวิธีคือใช้ `setTimeout` แบบซ้อน แบบนี้:
 
 ```js
-/** instead of:
+/** แทนที่จะใช้:
 let timerId = setInterval(() => alert('tick'), 2000);
 */
 
@@ -151,13 +151,13 @@ let timerId = setTimeout(function tick() {
 }, 2000);
 ```
 
-The `setTimeout` above schedules the next call right at the end of the current one `(*)`.
+`setTimeout` ด้านบนจะตั้งเวลาเรียกครั้งถัดไปตรงท้ายของการเรียกปัจจุบัน `(*)`
 
-The nested `setTimeout` is a more flexible method than `setInterval`. This way the next call may be scheduled differently, depending on the results of the current one.
+`setTimeout` แบบซ้อนยืดหยุ่นกว่า `setInterval` ตรงที่เราปรับเวลาของการเรียกครั้งถัดไปได้ตามผลลัพธ์ของครั้งปัจจุบัน
 
-For instance, we need to write a service that sends a request to the server every 5 seconds asking for data, but in case the server is overloaded, it should increase the interval to 10, 20, 40 seconds...
+สมมติว่าเราต้องเขียนเซอร์วิสที่ส่ง request ไปยังเซิร์ฟเวอร์ทุกๆ 5 วินาทีเพื่อขอข้อมูล แต่ถ้าเซิร์ฟเวอร์โหลดหนัก ก็ค่อยๆ ยืดช่วงเวลาออกเป็น 10, 20, 40 วินาที...
 
-Here's the pseudocode:
+pseudocode จะเป็นแบบนี้:
 ```js
 let delay = 5000;
 
@@ -165,7 +165,7 @@ let timerId = setTimeout(function request() {
   ...send request...
 
   if (request failed due to server overload) {
-    // increase the interval to the next run
+    // ยืดช่วงเวลาสำหรับการเรียกครั้งถัดไป
     delay *= 2;
   }
 
@@ -175,11 +175,11 @@ let timerId = setTimeout(function request() {
 ```
 
 
-And if the functions that we're scheduling are CPU-hungry, then we can measure the time taken by the execution and plan the next call sooner or later.
+นอกจากนี้ ถ้าฟังก์ชันที่ตั้งเวลาไว้ใช้ CPU หนัก เราก็สามารถวัดเวลาที่ใช้ในการประมวลผลแล้วปรับเวลาเรียกครั้งถัดไปได้อีกด้วย
 
-**Nested `setTimeout` allows to set the delay between the executions more precisely than `setInterval`.**
+**`setTimeout` แบบซ้อนช่วยให้กำหนดเวลาหน่วงระหว่างการเรียกแต่ละครั้งได้แม่นยำกว่า `setInterval`**
 
-Let's compare two code fragments. The first one uses `setInterval`:
+มาเปรียบเทียบโค้ด 2 แบบกัน แบบแรกใช้ `setInterval`:
 
 ```js
 let i = 1;
@@ -188,7 +188,7 @@ setInterval(function() {
 }, 100);
 ```
 
-The second one uses nested `setTimeout`:
+แบบที่สองใช้ `setTimeout` แบบซ้อน:
 
 ```js
 let i = 1;
@@ -198,52 +198,52 @@ setTimeout(function run() {
 }, 100);
 ```
 
-For `setInterval` the internal scheduler will run `func(i++)` every 100ms:
+สำหรับ `setInterval` ตัว internal scheduler จะเรียก `func(i++)` ทุกๆ 100ms:
 
 ![](setinterval-interval.svg)
 
-Did you notice?
+สังเกตเห็นอะไรไหม?
 
-**The real delay between `func` calls for `setInterval` is less than in the code!**
+**เวลาหน่วงจริงระหว่างการเรียก `func` แต่ละครั้งของ `setInterval` จะ *น้อยกว่า* ที่กำหนดไว้ในโค้ด!**
 
-That's normal, because the time taken by `func`'s execution "consumes" a part of the interval.
+เป็นเรื่องปกติ เพราะเวลาที่ `func` ใช้ประมวลผลจะ "กินเวลา" ส่วนหนึ่งของช่วงเวลาที่กำหนดไว้
 
-It is possible that `func`'s execution turns out to be longer than we expected and takes more than 100ms.
+อาจเกิดกรณีที่ `func` ใช้เวลาประมวลผลนานกว่าที่คาดไว้ คือเกิน 100ms
 
-In this case the engine waits for `func` to complete, then checks the scheduler and if the time is up, runs it again *immediately*.
+ในกรณีนี้ engine จะรอให้ `func` ทำงานเสร็จก่อน แล้วค่อยเช็ค scheduler ถ้าถึงเวลาแล้วก็จะเรียกอีกครั้ง *ทันที*
 
-In the edge case, if the function always executes longer than `delay` ms, then the calls will happen without a pause at all.
+ในกรณีสุดโต่ง ถ้าฟังก์ชันทำงานนานกว่า `delay` ทุกครั้ง ก็จะถูกเรียกซ้ำโดยไม่มีช่วงหยุดเลย
 
-And here is the picture for the nested `setTimeout`:
+สำหรับ `setTimeout` แบบซ้อน ภาพจะเป็นแบบนี้:
 
 ![](settimeout-interval.svg)
 
-**The nested `setTimeout` ensures a minimum delay (100ms here) between the end of one call and the beginning of the subsequent one.**
+**`setTimeout` แบบซ้อนรับประกันว่าจะมีเวลาหน่วงขั้นต่ำ (100ms ในตัวอย่างนี้) ระหว่างจุดสิ้นสุดของการเรียกครั้งหนึ่งกับจุดเริ่มต้นของการเรียกครั้งถัดไป**
 
-That's because a new call is planned at the end of the previous one.
+เนื่องจากการเรียกครั้งใหม่จะถูกตั้งเวลาไว้ตอนท้ายของการเรียกครั้งก่อนเสมอ
 
-````smart header="Garbage collection and setInterval/setTimeout callback"
-When a function is passed in `setInterval/setTimeout`, an internal reference is created to it and saved in the scheduler. It prevents the function from being garbage collected, even if there are no other references to it.
+````smart header="การเก็บขยะกับคอลแบ็กของ setInterval/setTimeout"
+เมื่อส่งฟังก์ชันเข้าไปใน `setInterval/setTimeout` ระบบจะสร้าง internal reference ไปยังฟังก์ชันนั้นและเก็บไว้ใน scheduler ซึ่งป้องกันไม่ให้ฟังก์ชันถูกเก็บขยะ แม้จะไม่มี reference อื่นไปยังฟังก์ชันนั้นอยู่เลย
 
 ```js
-// the function stays in memory until the scheduler calls it
+// ฟังก์ชันจะอยู่ในหน่วยความจำจนกว่า scheduler จะเรียก
 setTimeout(function() {...}, 100);
 ```
 
-For `setInterval` the function stays in memory until `clearInterval` is called.
+สำหรับ `setInterval` ฟังก์ชันจะอยู่ในหน่วยความจำจนกว่าจะเรียก `clearInterval`
 
-There's a side effect. A function references the outer lexical environment, so, while it lives, outer variables live too. They may take much more memory than the function itself. So when we don't need the scheduled function anymore, it's better to cancel it, even if it's very small.
+แต่มีผลข้างเคียงอยู่ ฟังก์ชันจะอ้างอิงถึง outer Lexical Environment ด้วย ดังนั้นตราบใดที่ฟังก์ชันยังอยู่ ตัวแปรภายนอกก็จะยังอยู่เช่นกัน ซึ่งอาจกินหน่วยความจำมากกว่าตัวฟังก์ชันเสียอีก เพราะฉะนั้นเมื่อไม่ต้องการฟังก์ชันที่ตั้งเวลาไว้แล้ว ควรยกเลิกทิ้ง แม้ว่าฟังก์ชันจะเล็กก็ตาม
 ````
 
-## Zero delay setTimeout
+## setTimeout แบบหน่วงศูนย์
 
-There's a special use case: `setTimeout(func, 0)`, or just `setTimeout(func)`.
+มีกรณีพิเศษคือ `setTimeout(func, 0)` หรือเขียนสั้นๆ ว่า `setTimeout(func)`
 
-This schedules the execution of `func` as soon as possible. But the scheduler will invoke it only after the currently executing script is complete.
+วิธีนี้จะตั้งเวลาให้ `func` ทำงานเร็วที่สุดเท่าที่จะเป็นไปได้ แต่ scheduler จะเรียกฟังก์ชันหลังจากสคริปต์ปัจจุบันทำงานเสร็จแล้วเท่านั้น
 
-So the function is scheduled to run "right after" the current script.
+พูดง่ายๆ ก็คือ ฟังก์ชันจะถูกเรียก "ทันที" หลังจากโค้ดปัจจุบันจบ
 
-For instance, this outputs "Hello", then immediately "World":
+ตัวอย่างนี้จะแสดง "Hello" ก่อน แล้วตามด้วย "World" ทันที:
 
 ```js run
 setTimeout(() => alert("World"));
@@ -251,52 +251,52 @@ setTimeout(() => alert("World"));
 alert("Hello");
 ```
 
-The first line "puts the call into calendar after 0ms". But the scheduler will only "check the calendar" after the current script is complete, so `"Hello"` is first, and `"World"` -- after it.
+บรรทัดแรก "จองคิวเรียกฟังก์ชันหลังจาก 0ms" แต่ scheduler จะ "เช็คคิว" หลังจากสคริปต์ปัจจุบันเสร็จแล้วเท่านั้น ดังนั้น `"Hello"` จึงแสดงก่อน แล้ว `"World"` ถึงจะตามมา
 
-There are also advanced browser-related use cases of zero-delay timeout, that we'll discuss in the chapter <info:event-loop>.
+กรณีใช้งาน setTimeout แบบหน่วงศูนย์ในเบราว์เซอร์ขั้นสูงขึ้นจะกล่าวถึงในบท <info:event-loop>
 
-````smart header="Zero delay is in fact not zero (in a browser)"
-In the browser, there's a limitation of how often nested timers can run. The [HTML Living Standard](https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#timers) says: "after five nested timers, the interval is forced to be at least 4 milliseconds.".
+````smart header="หน่วงศูนย์จริงๆ แล้วไม่ใช่ศูนย์ (ในเบราว์เซอร์)"
+ในเบราว์เซอร์มีข้อจำกัดเรื่องความถี่ที่ timer ซ้อนกันจะทำงานได้ ตาม [HTML Living Standard](https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#timers) ระบุว่า: "หลังจาก timer ซ้อนกัน 5 ชั้น ช่วงเวลาจะถูกบังคับให้เป็นอย่างน้อย 4 มิลลิวินาที"
 
-Let's demonstrate what it means with the example below. The `setTimeout` call in it re-schedules itself with zero delay. Each call remembers the real time from the previous one in the `times` array. What do the real delays look like? Let's see:
+มาดูว่าหมายความว่าอย่างไรจากตัวอย่างด้านล่าง `setTimeout` ในโค้ดนี้จะตั้งเวลาเรียกตัวเองซ้ำด้วย delay เป็นศูนย์ แต่ละครั้งจะบันทึกเวลาจริงจากการเรียกครั้งก่อนไว้ในอาร์เรย์ `times` มาดูกันว่า delay จริงๆ เป็นเท่าไหร่:
 
 ```js run
 let start = Date.now();
 let times = [];
 
 setTimeout(function run() {
-  times.push(Date.now() - start); // remember delay from the previous call
+  times.push(Date.now() - start); // บันทึก delay จากการเรียกครั้งก่อน
 
-  if (start + 100 < Date.now()) alert(times); // show the delays after 100ms
-  else setTimeout(run); // else re-schedule
+  if (start + 100 < Date.now()) alert(times); // แสดง delay ทั้งหมดหลังจากผ่านไป 100ms
+  else setTimeout(run); // ถ้ายังไม่ถึง ตั้งเวลาเรียกใหม่
 });
 
-// an example of the output:
+// ตัวอย่างผลลัพธ์:
 // 1,1,1,1,9,15,20,24,30,35,40,45,50,55,59,64,70,75,80,85,90,95,100
 ```
 
-First timers run immediately (just as written in the spec), and then we see `9, 15, 20, 24...`. The 4+ ms obligatory delay between invocations comes into play.
+timer รอบแรกๆ จะทำงานทันที (ตามที่สเปกระบุไว้) หลังจากนั้นจะเริ่มเห็น `9, 15, 20, 24...` ซึ่งเป็นผลจาก delay บังคับขั้นต่ำ 4ms ขึ้นไปนั่นเอง
 
-The similar thing happens if we use `setInterval` instead of `setTimeout`: `setInterval(f)` runs `f` few times with zero-delay, and afterwards with 4+ ms delay.
+ใช้ `setInterval` แทน `setTimeout` ก็ได้ผลเหมือนกัน: `setInterval(f)` จะเรียก `f` รอบแรกๆ ด้วย delay เป็นศูนย์ แล้วหลังจากนั้นจะมี delay 4ms ขึ้นไป
 
-That limitation comes from ancient times and many scripts rely on it, so it exists for historical reasons.
+ข้อจำกัดนี้มีมาตั้งแต่สมัยก่อน และสคริปต์จำนวนมากพึ่งพาพฤติกรรมนี้อยู่ จึงยังคงอยู่ด้วยเหตุผลทางประวัติศาสตร์
 
-For server-side JavaScript, that limitation does not exist, and there exist other ways to schedule an immediate asynchronous job, like [setImmediate](https://nodejs.org/api/timers.html#timers_setimmediate_callback_args) for Node.js. So this note is browser-specific.
+สำหรับ JavaScript ฝั่งเซิร์ฟเวอร์ไม่มีข้อจำกัดนี้ และยังมีวิธีอื่นในการตั้งเวลา asynchronous job แบบทันทีอีกด้วย เช่น [setImmediate](https://nodejs.org/api/timers.html#timers_setimmediate_callback_args) ใน Node.js ข้อจำกัดนี้จึงเป็นเรื่องเฉพาะเบราว์เซอร์เท่านั้น
 ````
 
-## Summary
+## สรุป
 
-- Methods `setTimeout(func, delay, ...args)` and `setInterval(func, delay, ...args)` allow us to run the `func` once/regularly after `delay` milliseconds.
-- To cancel the execution, we should call `clearTimeout/clearInterval` with the value returned by `setTimeout/setInterval`.
-- Nested `setTimeout` calls are a more flexible alternative to `setInterval`, allowing us to set the time *between* executions more precisely.
-- Zero delay scheduling with `setTimeout(func, 0)` (the same as `setTimeout(func)`) is used to schedule the call "as soon as possible, but after the current script is complete".
-- The browser limits the minimal delay for five or more nested calls of `setTimeout` or for `setInterval` (after 5th call) to 4ms. That's for historical reasons.
+- เมธอด `setTimeout(func, delay, ...args)` และ `setInterval(func, delay, ...args)` ช่วยให้เรียกฟังก์ชันครั้งเดียว/ซ้ำๆ หลังจากผ่านไป `delay` มิลลิวินาที
+- ยกเลิกการทำงานได้ด้วย `clearTimeout/clearInterval` โดยส่งค่าที่ได้จาก `setTimeout/setInterval` เข้าไป
+- `setTimeout` แบบซ้อนเป็นทางเลือกที่ยืดหยุ่นกว่า `setInterval` และยังกำหนดเวลา *ระหว่าง* การเรียกแต่ละครั้งได้แม่นยำกว่าด้วย
+- การตั้งเวลาแบบหน่วงศูนย์ด้วย `setTimeout(func, 0)` (หรือ `setTimeout(func)`) ใช้เมื่อต้องการเรียกฟังก์ชัน "เร็วที่สุดเท่าที่จะได้ แต่ต้องรอให้สคริปต์ปัจจุบันเสร็จก่อน"
+- เบราว์เซอร์จำกัด delay ขั้นต่ำของ `setTimeout` หรือ `setInterval` ที่ซ้อนกันตั้งแต่ 5 ชั้นขึ้นไปไว้ที่ 4ms ด้วยเหตุผลทางประวัติศาสตร์
 
-Please note that all scheduling methods do not *guarantee* the exact delay.
+อย่าลืมว่าเมธอดตั้งเวลาทั้งหมดไม่ได้ *รับประกัน* ว่า delay จะตรงเป๊ะ
 
-For example, the in-browser timer may slow down for a lot of reasons:
-- The CPU is overloaded.
-- The browser tab is in the background mode.
-- The laptop is on battery saving mode.
+ตัวอย่างเช่น timer ในเบราว์เซอร์อาจช้าลงได้จากหลายสาเหตุ:
+- CPU โหลดหนัก
+- แท็บเบราว์เซอร์อยู่ในโหมดพื้นหลัง
+- แล็ปท็อปอยู่ในโหมดประหยัดแบตเตอรี่
 
-All that may increase the minimal timer resolution (the minimal delay) to 300ms or even 1000ms depending on the browser and OS-level performance settings.
+ทั้งหมดนี้อาจทำให้ความละเอียดขั้นต่ำของ timer (delay ขั้นต่ำ) เพิ่มขึ้นเป็น 300ms หรือแม้แต่ 1000ms ขึ้นอยู่กับเบราว์เซอร์และการตั้งค่าประสิทธิภาพระดับ OS

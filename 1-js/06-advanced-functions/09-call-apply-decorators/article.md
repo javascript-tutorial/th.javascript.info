@@ -1,20 +1,20 @@
-# Decorators and forwarding, call/apply
+# Decorator และการส่งต่อด้วย call/apply
 
-JavaScript gives exceptional flexibility when dealing with functions. They can be passed around, used as objects, and now we'll see how to *forward* calls between them and *decorate* them.
+JavaScript มีความยืดหยุ่นสูงมากเวลาจัดการกับฟังก์ชัน เราสามารถส่งฟังก์ชันไปมา ใช้เป็นออบเจ็กต์ได้ และในบทนี้เราจะมาดูวิธี *ส่งต่อ* การเรียกฟังก์ชัน (forwarding) และ *ตกแต่ง* ฟังก์ชัน (decorating) กัน
 
 ## Transparent caching
 
-Let's say we have a function `slow(x)` which is CPU-heavy, but its results are stable. In other words, for the same `x` it always returns the same result.
+สมมติว่าเรามีฟังก์ชัน `slow(x)` ที่ใช้ CPU หนักมาก แต่ผลลัพธ์คงที่ — สำหรับค่า `x` เดิมจะได้ผลลัพธ์เดิมเสมอ
 
-If the function is called often, we may want to cache (remember) the results to avoid spending extra-time on recalculations.
+ถ้าฟังก์ชันนี้ถูกเรียกบ่อยๆ เราอาจจะอยากแคช (จดจำ) ผลลัพธ์เอาไว้ จะได้ไม่ต้องคำนวณซ้ำ
 
-But instead of adding that functionality into `slow()` we'll create a wrapper function, that adds caching. As we'll see, there are many benefits of doing so.
+แต่แทนที่จะไปเพิ่มฟีเจอร์นี้เข้าไปใน `slow()` ตรงๆ เราจะสร้างฟังก์ชัน wrapper ครอบอีกที เพื่อเพิ่มความสามารถด้านการแคชเข้าไป ซึ่งวิธีนี้มีข้อดีหลายอย่างอย่างที่เราจะได้เห็นกัน
 
-Here's the code, and explanations follow:
+มาดูโค้ดกัน แล้วค่อยอธิบายทีหลัง:
 
 ```js run
 function slow(x) {
-  // there can be a heavy CPU-intensive job here
+  // อาจมีงานหนักๆ ที่ใช้ CPU สูงอยู่ตรงนี้
   alert(`Called with ${x}`);
   return x;
 }
@@ -23,65 +23,65 @@ function cachingDecorator(func) {
   let cache = new Map();
 
   return function(x) {
-    if (cache.has(x)) {    // if there's such key in cache
-      return cache.get(x); // read the result from it
+    if (cache.has(x)) {    // ถ้ามี key นี้ในแคชแล้ว
+      return cache.get(x); // ก็อ่านผลลัพธ์จากแคชเลย
     }
 
-    let result = func(x);  // otherwise call func
+    let result = func(x);  // ถ้ายังไม่มี ก็เรียกฟังก์ชันจริง
 
-    cache.set(x, result);  // and cache (remember) the result
+    cache.set(x, result);  // แล้วเก็บผลลัพธ์ลงแคช
     return result;
   };
 }
 
 slow = cachingDecorator(slow);
 
-alert( slow(1) ); // slow(1) is cached and the result returned
-alert( "Again: " + slow(1) ); // slow(1) result returned from cache
+alert( slow(1) ); // slow(1) ถูกแคชไว้ แล้วคืนค่าผลลัพธ์
+alert( "Again: " + slow(1) ); // คืนค่าผลลัพธ์ของ slow(1) จากแคช
 
-alert( slow(2) ); // slow(2) is cached and the result returned
-alert( "Again: " + slow(2) ); // slow(2) result returned from cache
+alert( slow(2) ); // slow(2) ถูกแคชไว้ แล้วคืนค่าผลลัพธ์
+alert( "Again: " + slow(2) ); // คืนค่าผลลัพธ์ของ slow(2) จากแคช
 ```
 
-In the code above `cachingDecorator` is a *decorator*: a special function that takes another function and alters its behavior.
+จากโค้ดด้านบน `cachingDecorator` คือ *decorator* — ฟังก์ชันพิเศษที่รับฟังก์ชันอื่นเข้ามาแล้วปรับเปลี่ยนพฤติกรรมของมัน
 
-The idea is that we can call `cachingDecorator` for any function, and it will return the caching wrapper. That's great, because we can have many functions that could use such a feature, and all we need to do is to apply `cachingDecorator` to them.
+แนวคิดก็คือ เราสามารถเรียก `cachingDecorator` กับฟังก์ชันไหนก็ได้ แล้วมันจะคืน wrapper ที่มีการแคชให้ สะดวกมากเพราะถ้ามีหลายฟังก์ชันที่ต้องการฟีเจอร์นี้ เราแค่เอา `cachingDecorator` ไปครอบมันก็พอ
 
-By separating caching from the main function code we also keep the main code simpler.
+นอกจากนี้ การแยกโลจิกการแคชออกจากฟังก์ชันหลัก ยังทำให้โค้ดของฟังก์ชันหลักเรียบง่ายขึ้นด้วย
 
-The result of `cachingDecorator(func)` is a "wrapper": `function(x)` that "wraps" the call of `func(x)` into caching logic:
+ผลลัพธ์ของ `cachingDecorator(func)` คือ "wrapper" — `function(x)` ที่ "ครอบ" การเรียก `func(x)` ด้วยโลจิกการแคช:
 
 ![](decorator-makecaching-wrapper.svg)
 
-From an outside code, the wrapped `slow` function still does the same. It just got a caching aspect added to its behavior.
+จากมุมมองของโค้ดภายนอก ฟังก์ชัน `slow` ที่ถูกครอบแล้วยังทำงานเหมือนเดิม แค่เพิ่มความสามารถด้านการแคชเข้ามา
 
-To summarize, there are several benefits of using a separate `cachingDecorator` instead of altering the code of `slow` itself:
+สรุปแล้ว การใช้ `cachingDecorator` แยกต่างหากแทนที่จะไปแก้โค้ดของ `slow` โดยตรง มีข้อดีหลายอย่าง:
 
-- The `cachingDecorator` is reusable. We can apply it to another function.
-- The caching logic is separate, it did not increase the complexity of `slow` itself (if there was any).
-- We can combine multiple decorators if needed (other decorators will follow).
+- `cachingDecorator` นำกลับมาใช้ซ้ำได้ เอาไปใช้กับฟังก์ชันอื่นได้เลย
+- โลจิกการแคชแยกออกมาต่างหาก ไม่ไปเพิ่มความซับซ้อนให้กับ `slow`
+- สามารถรวม decorator หลายตัวเข้าด้วยกันได้ ถ้าต้องการ (จะเห็นตัวอย่างเพิ่มเติมภายหลัง)
 
-## Using "func.call" for the context
+## ใช้ "func.call" เพื่อกำหนด context
 
-The caching decorator mentioned above is not suited to work with object methods.
+decorator สำหรับแคชที่เราสร้างไว้ด้านบน ยังใช้กับเมธอดของออบเจ็กต์ไม่ได้
 
-For instance, in the code below `worker.slow()` stops working after the decoration:
+ตัวอย่างเช่น ในโค้ดด้านล่าง `worker.slow()` จะพังหลังจากถูก decorate:
 
 ```js run
-// we'll make worker.slow caching
+// เราจะเพิ่มแคชให้ worker.slow
 let worker = {
   someMethod() {
     return 1;
   },
 
   slow(x) {
-    // scary CPU-heavy task here  
+    // งานหนักที่ใช้ CPU สูงอยู่ตรงนี้
     alert("Called with " + x);
     return x * this.someMethod(); // (*)
   }
 };
 
-// same code as before
+// โค้ดเหมือนเดิม
 function cachingDecorator(func) {
   let cache = new Map();
   return function(x) {
@@ -96,49 +96,49 @@ function cachingDecorator(func) {
   };
 }
 
-alert( worker.slow(1) ); // the original method works
+alert( worker.slow(1) ); // เมธอดเดิมทำงานได้ปกติ
 
-worker.slow = cachingDecorator(worker.slow); // now make it caching
+worker.slow = cachingDecorator(worker.slow); // เพิ่มแคชเข้าไป
 
 *!*
-alert( worker.slow(2) ); // Whoops! Error: Cannot read property 'someMethod' of undefined
+alert( worker.slow(2) ); // เกิดข้อผิดพลาด! Cannot read property 'someMethod' of undefined
 */!*
 ```
 
-The error occurs in the line `(*)` that tries to access `this.someMethod` and fails. Can you see why?
+error เกิดขึ้นที่บรรทัด `(*)` ตอนที่พยายามเข้าถึง `this.someMethod` แล้วล้มเหลว เห็นสาเหตุไหม?
 
-The reason is that the wrapper calls the original function as `func(x)` in the line `(**)`. And, when called like that, the function gets `this = undefined`.
+เหตุผลก็เพราะ wrapper เรียกฟังก์ชันเดิมด้วย `func(x)` ที่บรรทัด `(**)` ซึ่งเมื่อเรียกแบบนี้ ฟังก์ชันจะได้ `this = undefined`
 
-We would observe a similar symptom if we tried to run:
+จะเห็นอาการเดียวกันถ้าลองรัน:
 
 ```js
 let func = worker.slow;
 func(2);
 ```
 
-So, the wrapper passes the call to the original method, but without the context `this`. Hence the error.
+wrapper ส่งต่อการเรียกไปยังเมธอดเดิม แต่ไม่ได้ส่ง context `this` ไปด้วย จึงเกิด error
 
-Let's fix it.
+มาแก้ปัญหานี้กัน
 
-There's a special built-in function method [func.call(context, ...args)](mdn:js/Function/call) that allows to call a function explicitly setting `this`.
+มีเมธอด built-in อยู่ตัวหนึ่งคือ [func.call(context, ...args)](mdn:js/Function/call) ที่ช่วยให้เราเรียกฟังก์ชันพร้อมกำหนดค่า `this` ได้เอง
 
-The syntax is:
+ไวยากรณ์คือ:
 
 ```js
 func.call(context, arg1, arg2, ...)
 ```
 
-It runs `func` providing the first argument as `this`, and the next as the arguments.
+มันจะรัน `func` โดยกำหนด `this` เป็นอาร์กิวเมนต์ตัวแรก และตัวถัดไปเป็นอาร์กิวเมนต์ของฟังก์ชัน
 
-To put it simply, these two calls do almost the same:
+พูดง่ายๆ ก็คือ สองบรรทัดนี้ทำงานเกือบเหมือนกัน:
 ```js
 func(1, 2, 3);
 func.call(obj, 1, 2, 3)
 ```
 
-They both call `func` with arguments `1`, `2` and `3`. The only difference is that `func.call` also sets `this` to `obj`.
+ทั้งสองเรียก `func` ด้วยอาร์กิวเมนต์ `1`, `2` และ `3` ต่างกันแค่ `func.call` จะกำหนด `this` เป็น `obj` ด้วย
 
-As an example, in the code below we call `sayHi` in the context of different objects: `sayHi.call(user)` runs `sayHi` providing `this=user`, and the next line sets `this=admin`:
+ลองดูตัวอย่าง เราเรียก `sayHi` ในบริบทของออบเจ็กต์ต่างกัน: `sayHi.call(user)` จะรัน `sayHi` โดยกำหนด `this=user` และบรรทัดถัดไปกำหนด `this=admin`:
 
 ```js run
 function sayHi() {
@@ -148,12 +148,12 @@ function sayHi() {
 let user = { name: "John" };
 let admin = { name: "Admin" };
 
-// use call to pass different objects as "this"
+// ใช้ call เพื่อส่งออบเจ็กต์ต่างๆ เข้าไปเป็น "this"
 sayHi.call( user ); // John
 sayHi.call( admin ); // Admin
 ```
 
-And here we use `call` to call `say` with the given context and phrase:
+และตรงนี้เราใช้ `call` เพื่อเรียก `say` พร้อมกำหนด context และข้อความ:
 
 
 ```js run
@@ -163,11 +163,11 @@ function say(phrase) {
 
 let user = { name: "John" };
 
-// user becomes this, and "Hello" becomes the first argument
+// user กลายเป็น this และ "Hello" เป็นอาร์กิวเมนต์ตัวแรก
 say.call( user, "Hello" ); // John: Hello
 ```
 
-In our case, we can use `call` in the wrapper to pass the context to the original function:
+ในกรณีของเรา สามารถใช้ `call` ใน wrapper เพื่อส่ง context ไปยังฟังก์ชันเดิมได้แบบนี้:
 
 ```js run
 let worker = {
@@ -188,57 +188,57 @@ function cachingDecorator(func) {
       return cache.get(x);
     }
 *!*
-    let result = func.call(this, x); // "this" is passed correctly now
+    let result = func.call(this, x); // ตอนนี้ "this" ถูกส่งต่อไปอย่างถูกต้องแล้ว
 */!*
     cache.set(x, result);
     return result;
   };
 }
 
-worker.slow = cachingDecorator(worker.slow); // now make it caching
+worker.slow = cachingDecorator(worker.slow); // เพิ่มแคชเข้าไป
 
-alert( worker.slow(2) ); // works
-alert( worker.slow(2) ); // works, doesn't call the original (cached)
+alert( worker.slow(2) ); // ทำงานได้แล้ว
+alert( worker.slow(2) ); // ทำงานได้ ไม่ได้เรียกฟังก์ชันเดิม (ใช้จากแคช)
 ```
 
-Now everything is fine.
+ตอนนี้ทุกอย่างทำงานได้ถูกต้องแล้ว
 
-To make it all clear, let's see more deeply how `this` is passed along:
+เพื่อให้เห็นภาพชัดๆ มาดูกันว่า `this` ถูกส่งต่อไปอย่างไร:
 
-1. After the decoration `worker.slow` is now the wrapper `function (x) { ... }`.
-2. So when `worker.slow(2)` is executed, the wrapper gets `2` as an argument and `this=worker` (it's the object before dot).
-3. Inside the wrapper, assuming the result is not yet cached, `func.call(this, x)` passes the current `this` (`=worker`) and the current argument (`=2`) to the original method.
+1. หลังจาก decorate แล้ว `worker.slow` จะกลายเป็น wrapper `function (x) { ... }`
+2. เมื่อเรียก `worker.slow(2)` wrapper จะได้ `2` เป็นอาร์กิวเมนต์ และ `this=worker` (เป็นออบเจ็กต์ที่อยู่ก่อนจุด)
+3. ภายใน wrapper ถ้ายังไม่มีผลลัพธ์ในแคช `func.call(this, x)` จะส่ง `this` ปัจจุบัน (`=worker`) และอาร์กิวเมนต์ (`=2`) ไปยังเมธอดเดิม
 
-## Going multi-argument
+## รองรับหลายอาร์กิวเมนต์
 
-Now let's make `cachingDecorator` even more universal. Till now it was working only with single-argument functions.
+ทีนี้มาทำให้ `cachingDecorator` ใช้งานได้หลากหลายขึ้น ตอนนี้มันรองรับแค่ฟังก์ชันที่รับอาร์กิวเมนต์ตัวเดียว
 
-Now how to cache the multi-argument `worker.slow` method?
+แล้วถ้าต้องการแคชเมธอด `worker.slow` ที่รับหลายอาร์กิวเมนต์ล่ะ?
 
 ```js
 let worker = {
   slow(min, max) {
-    return min + max; // scary CPU-hogger is assumed
+    return min + max; // สมมติว่าเป็นงานหนัก
   }
 };
 
-// should remember same-argument calls
+// ต้องจำผลลัพธ์สำหรับอาร์กิวเมนต์ชุดเดียวกัน
 worker.slow = cachingDecorator(worker.slow);
 ```
 
-Previously, for a single argument `x` we could just `cache.set(x, result)` to save the result and `cache.get(x)` to retrieve it. But now we need to remember the result for a *combination of arguments* `(min,max)`. The native `Map` takes single value only as the key.
+ก่อนหน้านี้ เราแค่ใช้ `cache.set(x, result)` เพื่อบันทึกผลลัพธ์ และ `cache.get(x)` เพื่อดึงมาใช้ แต่ตอนนี้เราต้องจำผลลัพธ์สำหรับ *การรวมกัน* ของอาร์กิวเมนต์ `(min,max)` ซึ่ง `Map` รับค่าเดียวเป็น key เท่านั้น
 
-There are many solutions possible:
+มีวิธีแก้หลายทาง:
 
-1. Implement a new (or use a third-party) map-like data structure that is more versatile and allows multi-keys.
-2. Use nested maps: `cache.set(min)` will be a `Map` that stores the pair `(max, result)`. So we can get `result` as `cache.get(min).get(max)`.
-3. Join two values into one. In our particular case we can just use a string `"min,max"` as the `Map` key. For flexibility, we can allow to provide a *hashing function* for the decorator, that knows how to make one value from many.
+1. สร้างโครงสร้างข้อมูลแบบ map-like ใหม่ (หรือใช้ third-party) ที่รองรับหลาย key
+2. ใช้ map ซ้อนกัน: `cache.set(min)` จะเป็น `Map` ที่เก็บคู่ `(max, result)` แล้วดึงผลลัพธ์ด้วย `cache.get(min).get(max)`
+3. รวมสองค่าเป็นค่าเดียว ในกรณีนี้เราใช้สตริง `"min,max"` เป็น key ของ `Map` ได้เลย และเพื่อความยืดหยุ่น เราสามารถให้ decorator รับ *hashing function* ที่ช่วยรวมหลายค่าเป็นค่าเดียว
 
-For many practical applications, the 3rd variant is good enough, so we'll stick to it.
+สำหรับงานจริงส่วนใหญ่ วิธีที่ 3 ก็เพียงพอแล้ว เราจะใช้วิธีนี้
 
-Also we need to pass not just `x`, but all arguments in `func.call`. Let's recall that in a `function()` we can get a pseudo-array of its arguments as `arguments`, so `func.call(this, x)` should be replaced with `func.call(this, ...arguments)`.
+อีกอย่างที่ต้องแก้คือ แทนที่จะส่งแค่ `x` เราต้องส่งอาร์กิวเมนต์ทั้งหมดเข้า `func.call` ใน `function()` เราสามารถดึง pseudo-array ของอาร์กิวเมนต์ได้จาก `arguments` ดังนั้น `func.call(this, x)` จะเปลี่ยนเป็น `func.call(this, ...arguments)`
 
-Here's a more powerful `cachingDecorator`:
+นี่คือ `cachingDecorator` เวอร์ชันที่ทรงพลังขึ้น:
 
 ```js run
 let worker = {
@@ -273,50 +273,50 @@ function hash(args) {
 
 worker.slow = cachingDecorator(worker.slow, hash);
 
-alert( worker.slow(3, 5) ); // works
-alert( "Again " + worker.slow(3, 5) ); // same (cached)
+alert( worker.slow(3, 5) ); // ทำงานได้
+alert( "Again " + worker.slow(3, 5) ); // เหมือนเดิม (จากแคช)
 ```
 
-Now it works with any number of arguments (though the hash function would also need to be adjusted to allow any number of arguments. An interesting way to handle this will be covered below).
+ตอนนี้รองรับอาร์กิวเมนต์กี่ตัวก็ได้แล้ว (แต่ hash function ต้องปรับให้รองรับด้วย ซึ่งเราจะพูดถึงวิธีที่น่าสนใจด้านล่าง)
 
-There are two changes:
+มีการเปลี่ยนแปลงสองจุด:
 
-- In the line `(*)` it calls `hash` to create a single key from `arguments`. Here we use a simple "joining" function that turns arguments `(3, 5)` into the key `"3,5"`. More complex cases may require other hashing functions.
-- Then `(**)` uses `func.call(this, ...arguments)` to pass both the context and all arguments the wrapper got (not just the first one) to the original function.
+- บรรทัด `(*)` เรียก `hash` เพื่อสร้าง key เดียวจาก `arguments` ตรงนี้เราใช้ฟังก์ชัน "joining" ง่ายๆ ที่แปลงอาร์กิวเมนต์ `(3, 5)` เป็น key `"3,5"` กรณีที่ซับซ้อนกว่านี้อาจต้องใช้ hashing function แบบอื่น
+- จากนั้นบรรทัด `(**)` ใช้ `func.call(this, ...arguments)` เพื่อส่งทั้ง context และอาร์กิวเมนต์ทั้งหมดที่ wrapper ได้รับ (ไม่ใช่แค่ตัวแรก) ไปยังฟังก์ชันเดิม
 
 ## func.apply
 
-Instead of `func.call(this, ...arguments)` we could use `func.apply(this, arguments)`.
+แทนที่จะใช้ `func.call(this, ...arguments)` เราสามารถใช้ `func.apply(this, arguments)` ก็ได้
 
-The syntax of built-in method [func.apply](mdn:js/Function/apply) is:
+ไวยากรณ์ของเมธอด built-in [func.apply](mdn:js/Function/apply) คือ:
 
 ```js
 func.apply(context, args)
 ```
 
-It runs the `func` setting `this=context` and using an array-like object `args` as the list of arguments.
+มันจะรัน `func` โดยกำหนด `this=context` และใช้ออบเจ็กต์แบบ array-like `args` เป็นรายการอาร์กิวเมนต์
 
-The only syntax difference between `call` and `apply` is that `call` expects a list of arguments, while `apply` takes an array-like object with them.
+ข้อแตกต่างทางไวยากรณ์ระหว่าง `call` กับ `apply` มีแค่อย่างเดียว — `call` รับอาร์กิวเมนต์เป็นรายการ ส่วน `apply` รับเป็นออบเจ็กต์แบบ array-like
 
-So these two calls are almost equivalent:
+ดังนั้นสองบรรทัดนี้จึงเกือบเหมือนกัน:
 
 ```js
 func.call(context, ...args);
 func.apply(context, args);
 ```
 
-They perform the same call of `func` with given context and arguments.
+ทั้งสองเรียก `func` ด้วย context และอาร์กิวเมนต์เดียวกัน
 
-There's only a subtle difference regarding `args`:
+มีข้อแตกต่างเล็กน้อยเกี่ยวกับ `args`:
 
-- The spread syntax `...` allows to pass *iterable* `args` as the list to `call`.
-- The `apply` accepts only *array-like* `args`.
+- spread syntax `...` สามารถส่ง *iterable* `args` เป็นรายการให้ `call` ได้
+- `apply` รับเฉพาะ *array-like* `args` เท่านั้น
 
-...And for objects that are both iterable and array-like, such as a real array, we can use any of them, but `apply` will probably be faster, because most JavaScript engines internally optimize it better.
+...สำหรับออบเจ็กต์ที่เป็นทั้ง iterable และ array-like (เช่นอาร์เรย์จริงๆ) จะใช้ตัวไหนก็ได้ แต่ `apply` น่าจะเร็วกว่า เพราะ JavaScript engine ส่วนใหญ่ optimize ไว้ดีกว่า
 
-Passing all arguments along with the context to another function is called *call forwarding*.
+การส่งต่ออาร์กิวเมนต์ทั้งหมดพร้อม context ไปยังอีกฟังก์ชันหนึ่ง เรียกว่า *call forwarding*
 
-That's the simplest form of it:
+รูปแบบที่ง่ายที่สุดก็คือ:
 
 ```js
 let wrapper = function() {
@@ -324,11 +324,11 @@ let wrapper = function() {
 };
 ```
 
-When an external code calls such `wrapper`, it is indistinguishable from the call of the original function `func`.
+เมื่อโค้ดภายนอกเรียก `wrapper` ดังกล่าว จะแยกไม่ออกเลยว่ากำลังเรียก wrapper หรือฟังก์ชันเดิม `func`
 
-## Borrowing a method [#method-borrowing]
+## ยืมเมธอดมาใช้ (Method borrowing) [#method-borrowing]
 
-Now let's make one more minor improvement in the hashing function:
+ทีนี้มาปรับปรุง hashing function กันอีกนิด:
 
 ```js
 function hash(args) {
@@ -336,9 +336,9 @@ function hash(args) {
 }
 ```
 
-As of now, it works only on two arguments. It would be better if it could glue any number of `args`.
+ตอนนี้มันรองรับแค่สองอาร์กิวเมนต์ ถ้าทำให้รวมอาร์กิวเมนต์กี่ตัวก็ได้จะดีกว่า
 
-The natural solution would be to use [arr.join](mdn:js/Array/join) method:
+วิธีที่น่าจะนึกออกก่อนคือใช้เมธอด [arr.join](mdn:js/Array/join):
 
 ```js
 function hash(args) {
@@ -346,9 +346,9 @@ function hash(args) {
 }
 ```
 
-...Unfortunately, that won't work. Because we are calling `hash(arguments)`, and `arguments` object is both iterable and array-like, but not a real array.
+...แต่ว่าใช้ไม่ได้ เพราะเราเรียก `hash(arguments)` ซึ่งออบเจ็กต์ `arguments` เป็นทั้ง iterable และ array-like แต่ไม่ใช่อาร์เรย์จริงๆ
 
-So calling `join` on it would fail, as we can see below:
+การเรียก `join` จึงล้มเหลว ดังที่เห็นด้านล่าง:
 
 ```js run
 function hash() {
@@ -360,7 +360,7 @@ function hash() {
 hash(1, 2);
 ```
 
-Still, there's an easy way to use array join:
+แต่ก็ยังมีวิธีง่ายๆ ที่จะใช้ array join ได้:
 
 ```js run
 function hash() {
@@ -372,48 +372,48 @@ function hash() {
 hash(1, 2);
 ```
 
-The trick is called *method borrowing*.
+เทคนิคนี้เรียกว่า *method borrowing* (การยืมเมธอด)
 
-We take (borrow) a join method from a regular array (`[].join`) and use `[].join.call` to run it in the context of `arguments`.
+เราหยิบ (ยืม) เมธอด join มาจากอาร์เรย์ธรรมดา (`[].join`) แล้วใช้ `[].join.call` เพื่อรันมันในบริบทของ `arguments`
 
-Why does it work?
+ทำไมถึงใช้ได้?
 
-That's because the internal algorithm of the native method `arr.join(glue)` is very simple.
+เพราะอัลกอริทึมภายในของเมธอด `arr.join(glue)` นั้นเรียบง่ายมาก
 
-Taken from the specification almost "as-is":
+ตามสเปกคร่าวๆ ทำงานดังนี้:
 
-1. Let `glue` be the first argument or, if no arguments, then a comma `","`.
-2. Let `result` be an empty string.
-3. Append `this[0]` to `result`.
-4. Append `glue` and `this[1]`.
-5. Append `glue` and `this[2]`.
-6. ...Do so until `this.length` items are glued.
-7. Return `result`.
+1. กำหนดให้ `glue` เป็นอาร์กิวเมนต์ตัวแรก หรือถ้าไม่มีก็ใช้จุลภาค `","`
+2. กำหนดให้ `result` เป็นสตริงว่าง
+3. ต่อ `this[0]` เข้ากับ `result`
+4. ต่อ `glue` และ `this[1]`
+5. ต่อ `glue` และ `this[2]`
+6. ...ทำแบบนี้ไปจนถึง `this.length` รายการ
+7. คืนค่า `result`
 
-So, technically it takes `this` and joins `this[0]`, `this[1]` ...etc together. It's intentionally written in a way that allows any array-like `this` (not a coincidence, many methods follow this practice). That's why it also works with `this=arguments`.
+จะเห็นว่า join เอา `this` มาเชื่อม `this[0]`, `this[1]` ...เข้าด้วยกัน มันถูกเขียนมาให้รองรับ array-like `this` ตัวใดก็ได้ (ไม่ใช่เรื่องบังเอิญ เมธอดหลายตัวก็ทำแบบนี้) จึงใช้กับ `this=arguments` ได้เช่นกัน
 
-## Decorators and function properties
+## Decorator กับพร็อพเพอร์ตี้ของฟังก์ชัน
 
-It is generally safe to replace a function or a method with a decorated one, except for one little thing. If the original function had properties on it, like `func.calledCount` or whatever, then the decorated one will not provide them. Because that is a wrapper. So one needs to be careful if one uses them.
+โดยทั่วไปการแทนที่ฟังก์ชันหรือเมธอดด้วยเวอร์ชันที่ decorate แล้วจะปลอดภัย ยกเว้นอยู่อย่างหนึ่ง — ถ้าฟังก์ชันเดิมมีพร็อพเพอร์ตี้ติดอยู่ เช่น `func.calledCount` หรืออะไรก็ตาม ตัว decorator จะไม่มีพร็อพเพอร์ตี้เหล่านั้น เพราะมันเป็นแค่ wrapper จึงต้องระวังตรงนี้ด้วย
 
-E.g. in the example above if `slow` function had any properties on it, then `cachingDecorator(slow)` is a wrapper without them.
+ยกตัวอย่าง ถ้า `slow` มีพร็อพเพอร์ตี้ติดอยู่ `cachingDecorator(slow)` ที่ได้มาจะเป็น wrapper ที่ไม่มีพร็อพเพอร์ตี้เหล่านั้น
 
-Some decorators may provide their own properties. E.g. a decorator may count how many times a function was invoked and how much time it took, and expose this information via wrapper properties.
+decorator บางตัวอาจมีพร็อพเพอร์ตี้ของตัวเอง เช่น decorator ที่นับจำนวนครั้งที่ฟังก์ชันถูกเรียก หรือใช้เวลานานเท่าไหร่ แล้วเปิดให้เข้าถึงข้อมูลเหล่านี้ผ่านพร็อพเพอร์ตี้ของ wrapper
 
-There exists a way to create decorators that keep access to function properties, but this requires using a special `Proxy` object to wrap a function. We'll discuss it later in the article <info:proxy#proxy-apply>.
+มีวิธีสร้าง decorator ที่เข้าถึงพร็อพเพอร์ตี้ของฟังก์ชันเดิมได้ แต่ต้องใช้ออบเจ็กต์ `Proxy` พิเศษมาครอบฟังก์ชัน ซึ่งเราจะพูดถึงในบทความ <info:proxy#proxy-apply>
 
-## Summary
+## สรุป
 
-*Decorator* is a wrapper around a function that alters its behavior. The main job is still carried out by the function.
+*Decorator* คือ wrapper ที่ครอบฟังก์ชันเพื่อปรับเปลี่ยนพฤติกรรม โดยงานหลักยังคงเป็นของฟังก์ชันเดิม
 
-Decorators can be seen as "features" or "aspects" that can be added to a function. We can add one or add many. And all this without changing its code!
+มองว่า decorator เป็น "ฟีเจอร์" หรือ "ความสามารถ" ที่เพิ่มเข้าไปในฟังก์ชันก็ได้ จะเพิ่มกี่ตัวก็ได้ โดยไม่ต้องแก้โค้ดเดิมเลย!
 
-To implement `cachingDecorator`, we studied methods:
+ในการสร้าง `cachingDecorator` เราได้เรียนรู้เมธอดเหล่านี้:
 
-- [func.call(context, arg1, arg2...)](mdn:js/Function/call) -- calls `func` with given context and arguments.
-- [func.apply(context, args)](mdn:js/Function/apply) -- calls `func` passing `context` as `this` and array-like `args` into a list of arguments.
+- [func.call(context, arg1, arg2...)](mdn:js/Function/call) -- เรียก `func` ด้วย context และอาร์กิวเมนต์ที่กำหนด
+- [func.apply(context, args)](mdn:js/Function/apply) -- เรียก `func` โดยส่ง `context` เป็น `this` และ array-like `args` เป็นรายการอาร์กิวเมนต์
 
-The generic *call forwarding* is usually done with `apply`:
+*call forwarding* ทั่วไปจะใช้ `apply`:
 
 ```js
 let wrapper = function() {
@@ -421,6 +421,6 @@ let wrapper = function() {
 };
 ```
 
-We also saw an example of *method borrowing* when we take a method from an object and `call` it in the context of another object. It is quite common to take array methods and apply them to `arguments`. The alternative is to use rest parameters object that is a real array.
+เรายังได้เห็นตัวอย่างของ *method borrowing* ที่เราหยิบเมธอดจากออบเจ็กต์หนึ่งมา `call` ในบริบทของอีกออบเจ็กต์หนึ่ง การหยิบเมธอดของอาร์เรย์มาใช้กับ `arguments` เป็นเรื่องที่พบได้บ่อย อีกทางเลือกหนึ่งคือใช้ rest parameters ซึ่งเป็นอาร์เรย์จริง
 
-There are many decorators there in the wild. Check how well you got them by solving the tasks of this chapter.
+Decorator มีอีกหลายรูปแบบนอกจากนี้ ลองทดสอบความเข้าใจด้วยโจทย์ฝึกหัดในบทนี้กัน

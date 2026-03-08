@@ -1,12 +1,12 @@
-For the second parentheses to work, the first ones must return a function.
+วงเล็บชั้นที่สองจะทำงานได้ วงเล็บชั้นแรกต้องคืนค่าเป็นฟังก์ชัน
 
-Like this:
+แบบนี้:
 
 ```js run
 function sum(a) {
 
   return function(b) {
-    return a + b; // takes "a" from the outer lexical environment
+    return a + b; // ดึงค่า "a" จาก Lexical Environment ชั้นนอก
   };
 
 }

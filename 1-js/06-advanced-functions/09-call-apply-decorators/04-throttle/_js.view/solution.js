@@ -7,23 +7,23 @@ function throttle(func, ms) {
   function wrapper() {
 
     if (isThrottled) {
-      // memo last arguments to call after the cooldown
+      // จำอาร์กิวเมนต์ล่าสุดไว้เรียกหลังช่วงพักเย็น
       savedArgs = arguments;
       savedThis = this;
       return;
     }
 
-    // otherwise go to cooldown state
+    // ถ้าไม่ได้อยู่ในช่วงพักเย็น ให้เข้าสู่สถานะพักเย็น
     func.apply(this, arguments);
 
     isThrottled = true;
 
-    // plan to reset isThrottled after the delay
+    // วางแผนรีเซ็ต isThrottled หลังจากหน่วงเวลา
     setTimeout(function() {
       isThrottled = false;
       if (savedArgs) {
-        // if there were calls, savedThis/savedArgs have the last one
-        // recursive call runs the function and sets cooldown again
+        // ถ้ามีการเรียกที่ถูกเพิกเฉย savedThis/savedArgs จะเก็บค่าล่าสุดไว้
+        // เรียก wrapper แบบ recursive เพื่อรันฟังก์ชันและตั้งช่วงพักเย็นอีกครั้ง
         wrapper.apply(savedThis, savedArgs);
         savedArgs = savedThis = null;
       }

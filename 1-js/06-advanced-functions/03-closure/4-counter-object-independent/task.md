@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Counter object
+# ออบเจ็กต์ตัวนับ
 
-Here a counter object is made with the help of the constructor function.
+ตัวนับด้านล่างสร้างจากคอนสตรักเตอร์ฟังก์ชัน
 
-Will it work? What will it show?
+มันจะทำงานได้ไหม? จะแสดงอะไร?
 
 ```js
 function Counter() {
