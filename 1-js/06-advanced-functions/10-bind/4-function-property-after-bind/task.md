@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# Function property after bind
+# พร็อพเพอร์ตี้ของฟังก์ชันหลัง bind
 
-There's a value in the property of a function. Will it change after `bind`? Why, or why not?
+ฟังก์ชันมีค่าเก็บอยู่ในพร็อพเพอร์ตี้ หลังจาก `bind` แล้วค่านั้นจะเปลี่ยนไหม? เพราะอะไร?
 
 ```js run
 function sayHi() {
@@ -17,7 +17,7 @@ let bound = sayHi.bind({
   name: "John"
 });
 
-alert( bound.test ); // what will be the output? why?
+alert( bound.test ); // ผลลัพธ์จะเป็นอะไร? ทำไม?
 */!*
 ```
 

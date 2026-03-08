@@ -2,26 +2,26 @@ importance: 5
 
 ---
 
-# What will setTimeout show?
+# setTimeout จะแสดงผลอะไร?
 
-In the code below there's a `setTimeout` call scheduled, then a heavy calculation is run, that takes more than 100ms to finish.
+ในโค้ดด้านล่างมีการตั้ง `setTimeout` ไว้ จากนั้นก็มีการคำนวณหนักๆ ที่ใช้เวลามากกว่า 100ms
 
-When will the scheduled function run?
+ฟังก์ชันที่ตั้งเวลาไว้จะทำงานเมื่อไหร่?
 
-1. After the loop.
-2. Before the loop.
-3. In the beginning of the loop.
+1. หลังลูปจบ
+2. ก่อนลูปเริ่ม
+3. ตอนลูปเริ่มต้น
 
 
-What is `alert` going to show?
+`alert` จะแสดงค่าอะไร?
 
 ```js
 let i = 0;
 
 setTimeout(() => alert(i), 100); // ?
 
-// assume that the time to execute this function is >100ms
+// สมมติว่าโค้ดในฟังก์ชันนี้ใช้เวลาทำงานมากกว่า 100ms
 for(let j = 0; j < 100000000; j++) {
-  i++; 
+  i++;
 }
 ```

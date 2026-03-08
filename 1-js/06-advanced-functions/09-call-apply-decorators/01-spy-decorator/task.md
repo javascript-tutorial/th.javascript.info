@@ -4,15 +4,15 @@ importance: 5
 
 # Spy decorator
 
-Create a decorator `spy(func)` that should return a wrapper that saves all calls to function in its `calls` property.
+สร้าง decorator `spy(func)` ที่คืนค่า wrapper ซึ่งบันทึกทุกการเรียกใช้ฟังก์ชันไว้ในพร็อพเพอร์ตี้ `calls`
 
-Every call is saved as an array of arguments.
+แต่ละการเรียกจะถูกบันทึกเป็นอาร์เรย์ของอาร์กิวเมนต์
 
-For instance:
+ตัวอย่าง:
 
 ```js
 function work(a, b) {
-  alert( a + b ); // work is an arbitrary function or method
+  alert( a + b ); // work เป็นฟังก์ชันหรือเมธอดอะไรก็ได้
 }
 
 *!*
@@ -27,4 +27,4 @@ for (let args of work.calls) {
 }
 ```
 
-P.S. That decorator is sometimes useful for unit-testing. Its advanced form is `sinon.spy` in [Sinon.JS](http://sinonjs.org/) library.
+P.S. decorator ตัวนี้มีประโยชน์สำหรับ unit testing บางครั้ง รูปแบบขั้นสูงของมันคือ `sinon.spy` ในไลบรารี [Sinon.JS](http://sinonjs.org/)

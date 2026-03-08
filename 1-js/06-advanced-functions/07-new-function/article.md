@@ -1,19 +1,20 @@
 
-# The "new Function" syntax
 
-There's one more way to create a function. It's rarely used, but sometimes there's no alternative.
+# ไวยากรณ์ "new Function"
 
-## Syntax
+มีอีกวิธีหนึ่งในการสร้างฟังก์ชัน ไม่ค่อยได้ใช้บ่อยนัก แต่บางครั้งก็ไม่มีทางเลือกอื่น
 
-The syntax for creating a function:
+## ไวยากรณ์
+
+ไวยากรณ์สำหรับสร้างฟังก์ชัน:
 
 ```js
 let func = new Function ([arg1, arg2, ...argN], functionBody);
 ```
 
-The function is created with the arguments `arg1...argN` and the given `functionBody`.
+ฟังก์ชันจะถูกสร้างขึ้นโดยรับอาร์กิวเมนต์ `arg1...argN` และ `functionBody` ที่กำหนดให้
 
-It's easier to understand by looking at an example. Here's a function with two arguments:
+ลองดูตัวอย่างจะเข้าใจง่ายกว่า นี่คือฟังก์ชันที่มีพารามิเตอร์สองตัว:
 
 ```js run
 let sum = new Function('a', 'b', 'return a + b');
@@ -21,7 +22,7 @@ let sum = new Function('a', 'b', 'return a + b');
 alert( sum(1, 2) ); // 3
 ```
 
-And here there's a function without arguments, with only the function body:
+แล้วนี่คือฟังก์ชันที่ไม่มีพารามิเตอร์ มีแค่ส่วน body:
 
 ```js run
 let sayHi = new Function('alert("Hello")');
@@ -29,11 +30,11 @@ let sayHi = new Function('alert("Hello")');
 sayHi(); // Hello
 ```
 
-The major difference from other ways we've seen is that the function is created literally from a string, that is passed at run time.
+ข้อแตกต่างหลักจากวิธีอื่นๆ ที่เราเคยเห็นมา คือฟังก์ชันนี้ถูกสร้างจากสตริงโดยตรง ซึ่งส่งเข้ามาตอนรันไทม์
 
-All previous declarations required us, programmers, to write the function code in the script.
+วิธีประกาศฟังก์ชันแบบเดิมๆ ทั้งหมดนั้น เราต้องเขียนโค้ดของฟังก์ชันไว้ในสคริปต์ล่วงหน้า
 
-But `new Function` allows to turn any string into a function. For example, we can receive a new function from a server and then execute it:
+แต่ `new Function` ช่วยให้เราเปลี่ยนสตริงอะไรก็ได้ให้กลายเป็นฟังก์ชัน เช่น เราอาจรับฟังก์ชันใหม่จากเซิร์ฟเวอร์แล้วนำมารันได้เลย:
 
 ```js
 let str = ... receive the code from a server dynamically ...
@@ -42,15 +43,15 @@ let func = new Function(str);
 func();
 ```
 
-It is used in very specific cases, like when we receive code from a server, or to dynamically compile a function from a template, in complex web-applications.
+วิธีนี้ใช้ในกรณีเฉพาะทางมากๆ เช่น เมื่อต้องรับโค้ดจากเซิร์ฟเวอร์ หรือต้องคอมไพล์ฟังก์ชันจาก template แบบไดนามิกในเว็บแอปพลิเคชันที่ซับซ้อน
 
-## Closure
+## คลอเชอร์
 
-Usually, a function remembers where it was born in the special property `[[Environment]]`. It references the Lexical Environment from where it's created  (we covered that in the chapter <info:closure>).
+ปกติแล้วฟังก์ชันจะจดจำว่าตัวเองถูกสร้างที่ไหน ผ่านพร็อพเพอร์ตี้พิเศษ `[[Environment]]` ซึ่งอ้างอิงไปยัง Lexical Environment ของที่ที่ฟังก์ชันถูกสร้างขึ้นมา (เราเคยอธิบายเรื่องนี้ไปในบท <info:closure>)
 
-But when a function is created using `new Function`, its `[[Environment]]` is set to reference not the current Lexical Environment, but the global one.
+แต่เมื่อสร้างฟังก์ชันด้วย `new Function` ตัว `[[Environment]]` จะถูกตั้งค่าให้อ้างอิงไปยัง Lexical Environment ระดับ global แทน ไม่ใช่ตัวที่อยู่รอบๆ
 
-So, such function doesn't have access to outer variables, only to the global ones.
+ดังนั้นฟังก์ชันแบบนี้จะเข้าถึงตัวแปรภายนอกไม่ได้ เข้าถึงได้แค่ตัวแปร global เท่านั้น
 
 ```js run
 function getFunc() {
@@ -66,7 +67,7 @@ function getFunc() {
 getFunc()(); // error: value is not defined
 ```
 
-Compare it with the regular behavior:
+ลองเทียบกับพฤติกรรมปกติดู:
 
 ```js run
 function getFunc() {
@@ -79,45 +80,45 @@ function getFunc() {
   return func;
 }
 
-getFunc()(); // *!*"test"*/!*, from the Lexical Environment of getFunc
+getFunc()(); // *!*"test"*/!*, จาก Lexical Environment ของ getFunc
 ```
 
-This special feature of `new Function` looks strange, but appears very useful in practice.
+ฟีเจอร์พิเศษของ `new Function` ตรงนี้อาจดูแปลกๆ แต่ในทางปฏิบัติกลับมีประโยชน์มาก
 
-Imagine that we must create a function from a string. The code of that function is not known at the time of writing the script (that's why we don't use regular functions), but will be known in the process of execution. We may receive it from the server or from another source.
+ลองนึกภาพว่าเราต้องสร้างฟังก์ชันจากสตริง โดยที่โค้ดของฟังก์ชันนั้นยังไม่รู้ตอนเขียนสคริปต์ (จึงใช้ฟังก์ชันแบบปกติไม่ได้) แต่จะรู้ตอนรันโปรแกรมจริง อาจรับมาจากเซิร์ฟเวอร์หรือแหล่งอื่นก็ได้
 
-Our new function needs to interact with the main script.
+ฟังก์ชันใหม่ของเราจำเป็นต้องทำงานร่วมกับสคริปต์หลัก
 
-What if it could access the outer variables?
+แล้วถ้ามันเข้าถึงตัวแปรภายนอกได้ล่ะ จะเกิดอะไรขึ้น?
 
-The problem is that before JavaScript is published to production, it's compressed using a *minifier* -- a special program that shrinks code by removing extra comments, spaces and -- what's important, renames local variables into shorter ones.
+ปัญหาคือ ก่อนที่ JavaScript จะถูกนำไปใช้งานจริง (production) โค้ดจะถูกบีบอัดด้วย *minifier* ซึ่งเป็นโปรแกรมที่ย่อโค้ดให้เล็กลง โดยตัดคอมเมนต์ ช่องว่าง และที่สำคัญคือ เปลี่ยนชื่อตัวแปรภายในฟังก์ชันให้สั้นลง
 
-For instance, if a function has `let userName`, minifier replaces it with `let a` (or another letter if this one is occupied), and does it everywhere. That's usually a safe thing to do, because the variable is local, nothing outside the function can access it. And inside the function, minifier replaces every mention of it. Minifiers are smart, they analyze the code structure, so they don't break anything. They're not just a dumb find-and-replace.
+ยกตัวอย่างเช่น ถ้าฟังก์ชันมี `let userName` ตัว minifier จะเปลี่ยนเป็น `let a` (หรือตัวอักษรอื่นถ้า a ถูกใช้ไปแล้ว) และเปลี่ยนทุกที่ที่ใช้ตัวแปรนี้ด้วย ปกติทำแบบนี้ปลอดภัย เพราะตัวแปรเป็นแบบ local ไม่มีอะไรข้างนอกฟังก์ชันเข้าถึงได้ ส่วนภายในฟังก์ชัน minifier ก็เปลี่ยนชื่อทุกจุดที่ใช้ตัวแปรนั้น Minifier ฉลาดพอที่จะวิเคราะห์โครงสร้างโค้ดได้ จึงไม่ทำอะไรพัง ไม่ใช่แค่ find-and-replace แบบสุ่มสี่สุ่มห้า
 
-So if `new Function` had access to outer variables, it would be unable to find renamed  `userName`.
+ดังนั้นถ้า `new Function` เข้าถึงตัวแปรภายนอกได้ มันก็จะหา `userName` ที่ถูกเปลี่ยนชื่อแล้วไม่เจอ
 
-**If `new Function` had access to outer variables, it would have problems with minifiers.**
+**ถ้า `new Function` เข้าถึงตัวแปรภายนอกได้ จะเกิดปัญหากับ minifier**
 
-Besides, such code would be architecturally bad and prone to errors.
+นอกจากนี้ โค้ดแบบนั้นยังออกแบบมาไม่ดีและมีโอกาสเกิดข้อผิดพลาดสูงอีกด้วย
 
-To pass something to a function, created as `new Function`, we should use its arguments.
+หากต้องการส่งข้อมูลเข้าไปในฟังก์ชันที่สร้างด้วย `new Function` ให้ส่งผ่านอาร์กิวเมนต์แทน
 
-## Summary
+## สรุป
 
-The syntax:
+ไวยากรณ์:
 
 ```js
 let func = new Function ([arg1, arg2, ...argN], functionBody);
 ```
 
-For historical reasons, arguments can also be given as a comma-separated list.
+ด้วยเหตุผลทางประวัติศาสตร์ อาร์กิวเมนต์สามารถส่งเป็นรายการคั่นด้วยจุลภาคก็ได้
 
-These three declarations mean the same:
+ทั้งสามแบบนี้มีความหมายเหมือนกัน:
 
 ```js
-new Function('a', 'b', 'return a + b'); // basic syntax
-new Function('a,b', 'return a + b'); // comma-separated
-new Function('a , b', 'return a + b'); // comma-separated with spaces
+new Function('a', 'b', 'return a + b'); // ไวยากรณ์พื้นฐาน
+new Function('a,b', 'return a + b'); // คั่นด้วยจุลภาค
+new Function('a , b', 'return a + b'); // คั่นด้วยจุลภาคและช่องว่าง
 ```
 
-Functions created with `new Function`, have `[[Environment]]` referencing the global Lexical Environment, not the outer one. Hence, they cannot use outer variables. But that's actually good, because it insures us from errors. Passing parameters explicitly is a much better method architecturally and causes no problems with minifiers.
+ฟังก์ชันที่สร้างด้วย `new Function` จะมี `[[Environment]]` อ้างอิงไปยัง Lexical Environment ระดับ global ไม่ใช่ตัวภายนอก ดังนั้นจึงใช้ตัวแปรภายนอกไม่ได้ ซึ่งจริงๆ แล้วเป็นเรื่องดี เพราะช่วยป้องกันข้อผิดพลาด การส่งพารามิเตอร์เข้าไปอย่างชัดเจนนั้นเป็นวิธีที่ดีกว่าทั้งในแง่สถาปัตยกรรม และไม่มีปัญหากับ minifier ด้วย

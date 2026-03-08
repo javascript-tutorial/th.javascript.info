@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# Bound function as a method
+# ฟังก์ชันที่ผูกแล้วใช้เป็นเมธอด
 
-What will be the output?
+ผลลัพธ์จะเป็นอะไร?
 
 ```js
 function f() {

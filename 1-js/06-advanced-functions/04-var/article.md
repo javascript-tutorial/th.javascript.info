@@ -1,54 +1,54 @@
 
-# The old "var"
+# "var" แบบเก่า
 
-```smart header="This article is for understanding old scripts"
-The information in this article is useful for understanding old scripts.
+```smart header="บทความนี้มีไว้สำหรับทำความเข้าใจโค้ดเก่า"
+ข้อมูลในบทความนี้จะช่วยให้เข้าใจสคริปต์เก่าๆ ได้
 
-That's not how we write new code.
+แต่ไม่ใช่วิธีที่เราจะเขียนโค้ดใหม่แล้วนะ
 ```
 
-In the very first chapter about [variables](info:variables), we mentioned three ways of variable declaration:
+ในบทแรกๆ เรื่อง[ตัวแปร](info:variables) เราเคยพูดถึงวิธีประกาศตัวแปร 3 แบบด้วยกัน คือ
 
 1. `let`
 2. `const`
 3. `var`
 
-The `var` declaration is similar to `let`. Most of the time we can replace `let` by `var` or vice-versa and expect things to work:
+การประกาศด้วย `var` คล้ายกับ `let` ส่วนใหญ่แล้วเราสามารถสลับใช้ `let` กับ `var` แทนกันได้ และทำงานได้เหมือนกัน:
 
 ```js run
 var message = "Hi";
 alert(message); // Hi
 ```
 
-But internally `var` is a very different beast, that originates from very old times. It's generally not used in modern scripts, but still lurks in the old ones.
+แต่เบื้องหลังแล้ว `var` แตกต่างจาก `let` อย่างมาก เพราะเป็นสิ่งที่หลงเหลือมาจากยุคเก่าของ JavaScript ปัจจุบันไม่ค่อยมีใครใช้ในโค้ดใหม่แล้ว แต่ยังพบได้ในโค้ดเก่าๆ อยู่
 
-If you don't plan on meeting such scripts you may even skip this chapter or postpone it.
+ถ้าไม่ได้วางแผนจะทำงานกับโค้ดเก่าๆ ก็ข้ามบทนี้ไปก่อนได้เลย หรือจะเก็บไว้อ่านทีหลังก็ได้
 
-On the other hand, it's important to understand differences when migrating old scripts from `var` to `let`, to avoid odd errors.
+แต่ถ้าต้องแก้ไขสคริปต์เก่าที่ใช้ `var` ให้เปลี่ยนมาเป็น `let` สิ่งสำคัญคือต้องเข้าใจความแตกต่าง ไม่งั้นอาจเจอ error แปลกๆ ได้
 
-## "var" has no block scope
+## "var" ไม่มีบล็อกสโคป
 
-Variables, declared with `var`, are either function-scoped or global-scoped. They are visible through blocks.
+ตัวแปรที่ประกาศด้วย `var` จะมีสโคปอยู่ระดับฟังก์ชัน หรือไม่ก็เป็นตัวแปร global ทั้งนี้ `var` จะมองทะลุบล็อกไปเลย
 
-For instance:
+ลองดูตัวอย่างนี้:
 
 ```js run
 if (true) {
-  var test = true; // use "var" instead of "let"
+  var test = true; // ใช้ "var" แทน "let"
 }
 
 *!*
-alert(test); // true, the variable lives after if
+alert(test); // true, ตัวแปรยังอยู่หลังจบ if
 */!*
 ```
 
-As `var` ignores code blocks, we've got a global variable `test`.
+เนื่องจาก `var` ไม่สนใจบล็อกโค้ด ตัวแปร `test` จึงกลายเป็นตัวแปร global ไป
 
-If we used `let test` instead of `var test`, then the variable would only be visible inside `if`:
+ถ้าเราใช้ `let test` แทน `var test` ตัวแปรจะมองเห็นได้แค่ภายใน `if` เท่านั้น:
 
 ```js run
 if (true) {
-  let test = true; // use "let"
+  let test = true; // ใช้ "let"
 }
 
 *!*
@@ -56,7 +56,7 @@ alert(test); // ReferenceError: test is not defined
 */!*
 ```
 
-The same thing for loops: `var` cannot be block- or loop-local:
+เช่นเดียวกันกับลูป `var` ไม่สามารถเป็นตัวแปรภายในบล็อกหรือภายในลูปได้:
 
 ```js run
 for (var i = 0; i < 10; i++) {
@@ -65,12 +65,12 @@ for (var i = 0; i < 10; i++) {
 }
 
 *!*
-alert(i);   // 10, "i" is visible after loop, it's a global variable
-alert(one); // 1, "one" is visible after loop, it's a global variable
+alert(i);   // 10, "i" ยังเห็นอยู่หลังจบลูป เพราะเป็นตัวแปร global
+alert(one); // 1, "one" ก็ยังเห็นอยู่หลังจบลูปเช่นกัน
 */!*
 ```
 
-If a code block is inside a function, then `var` becomes a function-level variable:
+แต่ถ้าบล็อกโค้ดอยู่ภายในฟังก์ชัน `var` จะกลายเป็นตัวแปรระดับฟังก์ชัน:
 
 ```js run
 function sayHi() {
@@ -78,42 +78,42 @@ function sayHi() {
     var phrase = "Hello";
   }
 
-  alert(phrase); // works
+  alert(phrase); // ใช้งานได้
 }
 
 sayHi();
 alert(phrase); // ReferenceError: phrase is not defined
 ```
 
-As we can see, `var` pierces through `if`, `for` or other code blocks. That's because a long time ago in JavaScript, blocks had no Lexical Environments, and `var` is a remnant of that.
+จะเห็นว่า `var` ทะลุผ่าน `if`, `for` และบล็อกโค้ดอื่นๆ ได้หมด ที่เป็นแบบนี้เพราะในอดีต JavaScript ไม่มี Lexical Environment ในระดับบล็อก และ `var` ก็เป็นสิ่งที่หลงเหลือจากยุคนั้น
 
-## "var" tolerates redeclarations
+## "var" ประกาศซ้ำได้
 
-If we declare the same variable with `let` twice in the same scope, that's an error:
+ถ้าเราประกาศตัวแปรด้วย `let` สองครั้งในสโคปเดียวกัน จะเกิด error ทันที:
 
 ```js run
 let user;
 let user; // SyntaxError: 'user' has already been declared
 ```
 
-With `var`, we can redeclare a variable any number of times. If we use `var` with an already-declared variable, it's just ignored:
+แต่ `var` ประกาศซ้ำกี่ครั้งก็ได้ ถ้าใช้ `var` กับตัวแปรที่ประกาศไว้แล้ว มันจะข้ามไปเฉยๆ:
 
 ```js run
 var user = "Pete";
 
-var user = "John"; // this "var" does nothing (already declared)
-// ...it doesn't trigger an error
+var user = "John"; // "var" นี้ไม่ทำอะไร (ประกาศไว้แล้ว)
+// ...ไม่เกิด error
 
 alert(user); // John
 ```
 
-## "var" variables can be declared below their use
+## ประกาศตัวแปร "var" ทีหลังก็ได้
 
-`var` declarations are processed when the function starts (or script starts for globals).
+การประกาศ `var` จะถูกประมวลผลตอนเริ่มต้นฟังก์ชัน (หรือตอนเริ่มต้นสคริปต์ สำหรับตัวแปร global)
 
-In other words, `var` variables are defined from the beginning of the function, no matter where the definition is (assuming that the definition is not in the nested function).
+พูดง่ายๆ ก็คือ ตัวแปร `var` จะถูกกำหนดตั้งแต่ต้นฟังก์ชัน ไม่ว่าจะเขียนการประกาศไว้ตรงไหนก็ตาม (ยกเว้นอยู่ในฟังก์ชันซ้อน)
 
-So this code:
+ลองดูโค้ดนี้:
 
 ```js run
 function sayHi() {
@@ -128,7 +128,7 @@ function sayHi() {
 sayHi();
 ```
 
-...Is technically the same as this (moved `var phrase` above):
+...จริงๆ แล้วทำงานเหมือนกับโค้ดนี้ (ย้าย `var phrase` ขึ้นไปข้างบน):
 
 ```js run
 function sayHi() {
@@ -143,7 +143,7 @@ function sayHi() {
 sayHi();
 ```
 
-...Or even as this (remember, code blocks are ignored):
+...หรือแม้แต่โค้ดนี้ (อย่าลืมว่า `var` มองทะลุบล็อก):
 
 ```js run
 function sayHi() {
@@ -160,13 +160,13 @@ function sayHi() {
 sayHi();
 ```
 
-People also call such behavior "hoisting" (raising), because all `var` are "hoisted" (raised) to the top of the function.
+พฤติกรรมแบบนี้เรียกว่า "hoisting" (การยกขึ้น) เพราะ `var` ทุกตัวจะถูก "ยก" ขึ้นไปอยู่ด้านบนสุดของฟังก์ชัน
 
-So in the example above, `if (false)` branch never executes, but that doesn't matter. The `var` inside it is processed in the beginning of the function, so at the moment of `(*)` the variable exists.
+ในตัวอย่างข้างบน `if (false)` ไม่มีทางถูกรันเลย แต่ไม่เป็นไร เพราะ `var` ที่อยู่ข้างในจะถูกประมวลผลตั้งแต่เริ่มต้นฟังก์ชัน ดังนั้นตอนที่ถึงบรรทัด `(*)` ตัวแปรก็มีอยู่แล้ว
 
-**Declarations are hoisted, but assignments are not.**
+**การประกาศถูก hoist แต่การกำหนดค่าไม่ได้ถูก hoist**
 
-That's best demonstrated with an example:
+มาดูตัวอย่างให้ชัดเจนกัน:
 
 ```js run
 function sayHi() {
@@ -180,40 +180,40 @@ function sayHi() {
 sayHi();
 ```
 
-The line `var phrase = "Hello"` has two actions in it:
+บรรทัด `var phrase = "Hello"` ทำ 2 อย่างด้วยกัน:
 
-1. Variable declaration `var`
-2. Variable assignment `=`.
+1. ประกาศตัวแปร `var`
+2. กำหนดค่าให้ตัวแปร `=`
 
-The declaration is processed at the start of function execution ("hoisted"), but the assignment always works at the place where it appears. So the code works essentially like this:
+ส่วนของการประกาศจะถูกประมวลผลตั้งแต่เริ่มต้นฟังก์ชัน ("hoist" ขึ้นไป) แต่การกำหนดค่าจะทำงานตรงจุดที่เขียนไว้เสมอ โค้ดจึงทำงานเหมือนกับเขียนแบบนี้:
 
 ```js run
 function sayHi() {
 *!*
-  var phrase; // declaration works at the start...
+  var phrase; // การประกาศถูกประมวลผลตั้งแต่ต้น...
 */!*
 
   alert(phrase); // undefined
 
 *!*
-  phrase = "Hello"; // ...assignment - when the execution reaches it.
+  phrase = "Hello"; // ...การกำหนดค่าทำงานตอนที่รันถึงบรรทัดนี้
 */!*
 }
 
 sayHi();
 ```
 
-Because all `var` declarations are processed at the function start, we can reference them at any place. But variables are undefined until the assignments.
+เนื่องจากการประกาศ `var` ทุกตัวถูกประมวลผลตั้งแต่เริ่มต้นฟังก์ชัน เราจึงอ้างถึงตัวแปรได้ทุกที่ แต่ค่าของตัวแปรจะเป็น undefined จนกว่าจะถึงบรรทัดที่กำหนดค่า
 
-In both examples above, `alert` runs without an error, because the variable `phrase` exists. But its value is not yet assigned, so it shows `undefined`.
+ในทั้งสองตัวอย่างข้างต้น `alert` ทำงานได้โดยไม่เกิด error เพราะตัวแปร `phrase` มีอยู่แล้ว แต่ยังไม่ได้กำหนดค่า จึงแสดง `undefined`
 
 ## IIFE
 
-In the past, as there was only `var`, and it has no block-level visibility, programmers invented a way to emulate it. What they did was called "immediately-invoked function expressions" (abbreviated as IIFE).
+ในอดีตมีแค่ `var` เท่านั้น และ `var` ไม่มีสโคประดับบล็อก โปรแกรมเมอร์จึงคิดวิธีจำลองบล็อกสโคปขึ้นมา เรียกว่า "immediately-invoked function expressions" หรือเรียกสั้นๆ ว่า IIFE
 
-That's not something we should use nowadays, but you can find them in old scripts.
+ปัจจุบันไม่มีความจำเป็นต้องใช้แล้ว แต่ยังเจอได้ในโค้ดเก่าๆ
 
-An IIFE looks like this:
+IIFE มีหน้าตาแบบนี้:
 
 ```js run
 (function() {
@@ -225,12 +225,12 @@ An IIFE looks like this:
 })();
 ```
 
-Here, a Function Expression is created and immediately called. So the code executes right away and has its own private variables.
+ตรงนี้เราสร้าง Function Expression แล้วเรียกใช้ทันที โค้ดจึงทำงานเลยและมีตัวแปรส่วนตัวของตัวเอง
 
-The Function Expression is wrapped with parenthesis `(function {...})`, because when JavaScript engine encounters `"function"` in the main code, it understands it as the start of a Function Declaration. But a Function Declaration must have a name, so this kind of code will give an error:
+Function Expression ถูกครอบด้วยวงเล็บ `(function {...})` เพราะเมื่อ JavaScript engine เจอคำว่า `"function"` ในโค้ดหลัก มันจะตีความว่าเป็นจุดเริ่มต้นของ Function Declaration แต่ Function Declaration ต้องมีชื่อ ดังนั้นโค้ดแบบนี้จะเกิด error:
 
 ```js run
-// Tries to declare and immediately call a function
+// พยายามประกาศฟังก์ชันแล้วเรียกใช้ทันที
 function() { // <-- SyntaxError: Function statements require a function name
 
   var message = "Hello";
@@ -240,48 +240,48 @@ function() { // <-- SyntaxError: Function statements require a function name
 }();
 ```
 
-Even if we say: "okay, let's add a name", that won't work, as JavaScript does not allow Function Declarations to be called immediately:
+แม้จะลองใส่ชื่อเข้าไป ก็ยังไม่ได้ เพราะ JavaScript ไม่อนุญาตให้เรียก Function Declaration ทันทีแบบนี้:
 
 ```js run
-// syntax error because of parentheses below
+// syntax error เพราะวงเล็บด้านล่าง
 function go() {
 
-}(); // <-- can't call Function Declaration immediately
+}(); // <-- เรียก Function Declaration ทันทีไม่ได้
 ```
 
-So, the parentheses around the function is a trick to show JavaScript that the function is created in the context of another expression, and hence it's a Function Expression: it needs no name and can be called immediately.
+วงเล็บที่ครอบฟังก์ชันจึงเป็นเทคนิคบอก JavaScript ว่าฟังก์ชันนี้ถูกสร้างขึ้นในบริบทของนิพจน์ (expression) ดังนั้นจึงเป็น Function Expression ไม่จำเป็นต้องมีชื่อ และเรียกใช้ทันทีได้เลย
 
-There exist other ways besides parentheses to tell JavaScript that we mean a Function Expression:
+นอกจากวงเล็บแล้ว ยังมีวิธีอื่นๆ ที่บอก JavaScript ว่านี่คือ Function Expression:
 
 ```js run
-// Ways to create IIFE
+// วิธีสร้าง IIFE
 
 *!*(*/!*function() {
-  alert("Parentheses around the function");
+  alert("ครอบวงเล็บรอบฟังก์ชัน");
 }*!*)*/!*();
 
 *!*(*/!*function() {
-  alert("Parentheses around the whole thing");
+  alert("ครอบวงเล็บรอบทั้งหมด");
 }()*!*)*/!*;
 
 *!*!*/!*function() {
-  alert("Bitwise NOT operator starts the expression");
+  alert("เริ่มนิพจน์ด้วย Bitwise NOT operator");
 }();
 
 *!*+*/!*function() {
-  alert("Unary plus starts the expression");
+  alert("เริ่มนิพจน์ด้วย Unary plus");
 }();
 ```
 
-In all the above cases we declare a Function Expression and run it immediately. Let's note again: nowadays there's no reason to write such code.
+ทุกวิธีข้างต้นล้วนประกาศ Function Expression แล้วเรียกใช้ทันที ย้ำอีกครั้งว่า ปัจจุบันไม่มีเหตุผลที่ต้องเขียนโค้ดแบบนี้แล้ว
 
-## Summary
+## สรุป
 
-There are two main differences of `var` compared to `let/const`:
+`var` แตกต่างจาก `let/const` อยู่ 2 ประเด็นหลัก:
 
-1. `var` variables have no block scope, their visibility is scoped to current function, or global, if declared outside function.
-2. `var` declarations are processed at function start (script start for globals).
+1. ตัวแปร `var` ไม่มีบล็อกสโคป สโคปของมันจะอยู่ระดับฟังก์ชัน หรือถ้าประกาศนอกฟังก์ชันก็จะเป็น global
+2. การประกาศ `var` จะถูกประมวลผลตั้งแต่เริ่มต้นฟังก์ชัน (หรือเริ่มต้นสคริปต์ สำหรับตัวแปร global)
 
-There's one more very minor difference related to the global object, that we'll cover in the next chapter.
+ยังมีความแตกต่างเล็กน้อยอีกเรื่องหนึ่งเกี่ยวกับ global object ซึ่งเราจะพูดถึงในบทถัดไป
 
-These differences make `var` worse than `let` most of the time. Block-level variables is such a great thing. That's why `let` was introduced in the standard long ago, and is now a major way (along with `const`) to declare a variable.
+ความแตกต่างเหล่านี้ทำให้ `var` ด้อยกว่า `let` ในเกือบทุกกรณี การมีสโคประดับบล็อกเป็นสิ่งที่ดีมาก นั่นจึงเป็นเหตุผลว่าทำไม `let` ถึงถูกเพิ่มเข้ามาในมาตรฐานตั้งนานแล้ว และปัจจุบันเป็นวิธีหลัก (คู่กับ `const`) ในการประกาศตัวแปร

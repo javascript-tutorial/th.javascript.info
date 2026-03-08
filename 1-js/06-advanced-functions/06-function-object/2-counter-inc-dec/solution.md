@@ -1,2 +1,2 @@
 
-The solution uses `count` in the local variable, but addition methods are written right into the `counter`. They share the same outer lexical environment and also can access the current `count`.
+วิธีนี้ใช้ `count` เป็นตัวแปรภายใน ส่วนเมธอดเพิ่มเติมถูกเขียนไว้ใน `counter` โดยตรง ทั้งหมดแชร์ Lexical Environment ภายนอกเดียวกัน จึงเข้าถึง `count` ปัจจุบันได้

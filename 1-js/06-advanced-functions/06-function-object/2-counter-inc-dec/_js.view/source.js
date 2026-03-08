@@ -1,7 +1,7 @@
 function makeCounter() {
   let count = 0;
 
-  // ... your code ...
+  // ... โค้ดของคุณ ...
 }
 
 let counter = makeCounter();
@@ -9,10 +9,10 @@ let counter = makeCounter();
 alert( counter() ); // 0
 alert( counter() ); // 1
 
-counter.set(10); // set the new count
+counter.set(10); // ตั้งค่าตัวนับใหม่
 
 alert( counter() ); // 10
 
-counter.decrease(); // decrease the count by 1
+counter.decrease(); // ลดค่าตัวนับลง 1
 
-alert( counter() ); // 10 (instead of 11)
+alert( counter() ); // 10 (แทนที่จะเป็น 11)

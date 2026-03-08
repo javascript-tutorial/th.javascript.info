@@ -1,16 +1,16 @@
 
 
-1. Either use a wrapper function, an arrow to be concise:
+1. ใช้ wrapper function หรือ arrow function ก็ได้:
 
-    ```js 
-    askPassword(() => user.login(true), () => user.login(false)); 
+    ```js
+    askPassword(() => user.login(true), () => user.login(false));
     ```
 
-    Now it gets `user` from outer variables and runs it the normal way.
+    วิธีนี้จะเข้าถึง `user` จากตัวแปรภายนอก แล้วเรียกเมธอดตามปกติ
 
-2. Or create a partial function from `user.login` that uses `user` as the context and has the correct first argument:
+2. หรือสร้าง partial function จาก `user.login` โดยผูก `user` เป็น context พร้อมกำหนดอาร์กิวเมนต์ตัวแรกไว้:
 
 
-    ```js 
-    askPassword(user.login.bind(user, true), user.login.bind(user, false)); 
+    ```js
+    askPassword(user.login.bind(user, true), user.login.bind(user, false));
     ```

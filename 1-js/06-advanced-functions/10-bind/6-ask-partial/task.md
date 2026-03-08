@@ -2,13 +2,13 @@ importance: 5
 
 ---
 
-# Partial application for login
+# Partial application สำหรับ login
 
-The task is a little more complex variant of <info:task/question-use-bind>. 
+โจทย์นี้เป็นเวอร์ชันที่ซับซ้อนขึ้นจาก <info:task/question-use-bind>
 
-The `user` object was modified. Now instead of two functions `loginOk/loginFail`, it has a single function `user.login(true/false)`.
+ออบเจ็กต์ `user` ถูกแก้ไข ตอนนี้แทนที่จะมีสองฟังก์ชัน `loginOk/loginFail` กลับมีฟังก์ชันเดียวคือ `user.login(true/false)`
 
-What should we pass `askPassword` in the code below, so that it calls `user.login(true)` as `ok` and `user.login(false)` as `fail`?
+เราควรส่งอะไรให้ `askPassword` ในโค้ดด้านล่าง เพื่อให้เรียก `user.login(true)` เมื่อรหัสถูก และ `user.login(false)` เมื่อรหัสผิด?
 
 ```js
 function askPassword(ok, fail) {
@@ -30,5 +30,5 @@ askPassword(?, ?); // ?
 */!*
 ```
 
-Your changes should only modify the highlighted fragment.
+ให้แก้เฉพาะส่วนที่ไฮไลต์เท่านั้น
 

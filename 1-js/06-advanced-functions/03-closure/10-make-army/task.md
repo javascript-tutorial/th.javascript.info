@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Army of functions
+# กองทัพของฟังก์ชัน
 
-The following code creates an array of `shooters`.
+โค้ดด้านล่างสร้างอาร์เรย์ของ `shooters`
 
-Every function is meant to output its number. But something is wrong...
+ฟังก์ชันแต่ละตัวควรจะแสดงหมายเลขของมัน แต่มีบางอย่างผิดพลาด...
 
 ```js run
 function makeArmy() {
@@ -14,28 +14,28 @@ function makeArmy() {
 
   let i = 0;
   while (i < 10) {
-    let shooter = function() { // create a shooter function,
-      alert( i ); // that should show its number
+    let shooter = function() { // สร้างฟังก์ชัน shooter
+      alert( i ); // ที่ควรแสดงหมายเลขของมัน
     };
-    shooters.push(shooter); // and add it to the array
+    shooters.push(shooter); // แล้วเพิ่มเข้าไปในอาร์เรย์
     i++;
   }
 
-  // ...and return the array of shooters
+  // ...แล้วคืนค่าอาร์เรย์ของ shooters
   return shooters;
 }
 
 let army = makeArmy();
 
 *!*
-// all shooters show 10 instead of their numbers 0, 1, 2, 3...
-army[0](); // 10 from the shooter number 0
-army[1](); // 10 from the shooter number 1
-army[2](); // 10 ...and so on.
+// shooters ทุกตัวแสดง 10 แทนที่จะเป็นหมายเลข 0, 1, 2, 3...
+army[0](); // 10 จาก shooter หมายเลข 0
+army[1](); // 10 จาก shooter หมายเลข 1
+army[2](); // 10 ...เป็นแบบนี้ไปเรื่อยๆ
 */!*
 ```
 
-Why do all of the shooters show the same value? 
+ทำไม shooters ทุกตัวถึงแสดงค่าเดียวกัน?
 
-Fix the code so that they work as intended.
+จงแก้โค้ดให้ทำงานตามที่ต้องการ
 

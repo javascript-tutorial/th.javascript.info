@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# Does a function pickup latest changes?
+# ฟังก์ชันจะเห็นค่าล่าสุดไหม?
 
-The function sayHi uses an external variable name. When the function runs, which value is it going to use?
+ฟังก์ชัน sayHi ใช้ตัวแปรภายนอก name เมื่อฟังก์ชันทำงาน จะใช้ค่าไหน?
 
 ```js
 let name = "John";
@@ -15,9 +15,9 @@ function sayHi() {
 
 name = "Pete";
 
-sayHi(); // what will it show: "John" or "Pete"?
+sayHi(); // จะแสดงอะไร: "John" หรือ "Pete"?
 ```
 
-Such situations are common both in browser and server-side development. A function may be scheduled to execute later than it is created, for instance after a user action or a network request.
+สถานการณ์แบบนี้พบได้บ่อยทั้งในฝั่ง browser และ server ฟังก์ชันอาจถูกตั้งเวลาให้ทำงานทีหลัง เช่น หลังจากผู้ใช้กดปุ่มหรือหลังจากรับข้อมูลจากเครือข่าย
 
-So, the question is: does it pick up the latest changes?
+คำถามคือ: ฟังก์ชันจะใช้ค่าล่าสุดไหม?

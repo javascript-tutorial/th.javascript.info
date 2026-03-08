@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Output every second
+# แสดงผลทุกวินาที
 
-Write a function `printNumbers(from, to)` that outputs a number every second, starting from `from` and ending with `to`.
+เขียนฟังก์ชัน `printNumbers(from, to)` ที่แสดงตัวเลขทุกๆ หนึ่งวินาที เริ่มจาก `from` ไปจนถึง `to`
 
-Make two variants of the solution.
+ให้เขียนคำตอบสองแบบ
 
-1. Using `setInterval`.
-2. Using nested `setTimeout`.
+1. ใช้ `setInterval`
+2. ใช้ `setTimeout` แบบซ้อน

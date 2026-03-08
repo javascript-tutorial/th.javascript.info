@@ -1,9 +1,9 @@
 
-1. For the whole thing to work *anyhow*, the result of `sum` must be function.
-2. That function must keep in memory the current value between calls.
-3. According to the task, the function must become the number when used in `==`. Functions are objects, so the conversion happens as described in the chapter <info:object-toprimitive>, and we can provide our own method that returns the number.
+1. ผลลัพธ์ของ `sum` ต้องเป็นฟังก์ชัน ไม่งั้นทั้งหมดนี้จะทำงานไม่ได้เลย
+2. ฟังก์ชันนั้นต้องจำค่าปัจจุบันไว้ระหว่างการเรียกแต่ละครั้ง
+3. ตามโจทย์ ฟังก์ชันต้องกลายเป็นตัวเลขเมื่อใช้กับ `==` เนื่องจากฟังก์ชันเป็นออบเจ็กต์ การแปลงจึงเกิดขึ้นตามที่อธิบายในบท <info:object-toprimitive> โดยเรากำหนดเมธอดของเราเองที่คืนค่าตัวเลขได้
 
-Now the code:
+โค้ดเป็นแบบนี้:
 
 ```js demo run
 function sum(a) {
@@ -28,28 +28,28 @@ alert( sum(6)(-1)(-2)(-3) ); // 0
 alert( sum(0)(1)(2)(3)(4)(5) ); // 15
 ```
 
-Please note that the `sum` function actually works only once. It returns function `f`.
+สังเกตว่าฟังก์ชัน `sum` ทำงานจริงแค่ครั้งเดียว คือคืนค่าฟังก์ชัน `f` ออกมา
 
-Then, on each subsequent call, `f` adds its parameter to the sum `currentSum`, and returns itself.
+จากนั้นในการเรียกครั้งถัดๆ ไป `f` จะบวกพารามิเตอร์เข้าไปใน `currentSum` แล้วคืนค่าตัวเองออกมา
 
-**There is no recursion in the last line of `f`.**
+**บรรทัดสุดท้ายของ `f` ไม่ใช่ recursion**
 
-Here is what recursion looks like:
-
-```js
-function f(b) {
-  currentSum += b;
-  return f(); // <-- recursive call
-}
-```
-
-And in our case, we just return the function, without calling it:
+ถ้าเป็น recursion จะหน้าตาแบบนี้:
 
 ```js
 function f(b) {
   currentSum += b;
-  return f; // <-- does not call itself, returns itself
+  return f(); // <-- เรียกตัวเองซ้ำ
 }
 ```
 
-This `f` will be used in the next call, again return itself, as many times as needed. Then, when used as a number or a string -- the `toString` returns the `currentSum`. We could also use `Symbol.toPrimitive` or `valueOf` here for the conversion.
+แต่ในกรณีของเรา แค่คืนค่าฟังก์ชันออกมาโดยไม่ได้เรียก:
+
+```js
+function f(b) {
+  currentSum += b;
+  return f; // <-- ไม่ได้เรียกตัวเอง แค่คืนค่าตัวเองออกมา
+}
+```
+
+ฟังก์ชัน `f` นี้จะถูกใช้ในการเรียกครั้งถัดไป แล้วก็คืนค่าตัวเองออกมาอีก ต่อไปเรื่อยๆ กี่ครั้งก็ได้ จากนั้นเมื่อถูกใช้เป็นตัวเลขหรือสตริง `toString` จะคืนค่า `currentSum` ออกมา เราสามารถใช้ `Symbol.toPrimitive` หรือ `valueOf` แทนก็ได้เช่นกัน

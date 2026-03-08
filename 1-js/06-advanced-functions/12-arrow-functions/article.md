@@ -1,26 +1,26 @@
-# Arrow functions revisited
+# ทบทวนเรื่อง Arrow function
 
-Let's revisit arrow functions.
+มาทบทวนเรื่อง arrow function กันอีกครั้ง
 
-Arrow functions are not just a "shorthand" for writing small stuff. They have some very specific and useful features.
+Arrow function ไม่ได้เป็นแค่ "ชื่อย่อ" สำหรับเขียนฟังก์ชันสั้นๆ เท่านั้น แต่ยังมีคุณลักษณะเฉพาะตัวที่น่าสนใจอีกด้วย
 
-JavaScript is full of situations where we need to write a small function that's executed somewhere else.
+JavaScript เต็มไปด้วยสถานการณ์ที่เราต้องเขียนฟังก์ชันเล็กๆ แล้วส่งไปทำงานที่อื่น
 
-For instance:
+ยกตัวอย่างเช่น:
 
-- `arr.forEach(func)` -- `func` is executed by `forEach` for every array item.
-- `setTimeout(func)` -- `func` is executed by the built-in scheduler.
-- ...there are more.
+- `arr.forEach(func)` -- `func` จะถูกเรียกโดย `forEach` สำหรับทุกสมาชิกในอาร์เรย์
+- `setTimeout(func)` -- `func` จะถูกเรียกโดยตัวจัดกำหนดเวลาที่มีอยู่ในตัว
+- ...และอื่นๆ อีกมาก
 
-It's in the very spirit of JavaScript to create a function and pass it somewhere.
+การสร้างฟังก์ชันแล้วส่งไปใช้ที่อื่นถือเป็นหัวใจสำคัญของ JavaScript เลยก็ว่าได้
 
-And in such functions we usually don't want to leave the current context. That's where arrow functions come in handy.
+และในฟังก์ชันเหล่านั้น เรามักไม่อยากให้บริบท (context) เปลี่ยนไป นี่แหละคือจุดที่ arrow function เข้ามาช่วยได้อย่างดี
 
-## Arrow functions have no "this"
+## Arrow function ไม่มี "this"
 
-As we remember from the chapter <info:object-methods>, arrow functions do not have `this`. If `this` is accessed, it is taken from the outside.
+อย่างที่เราจำได้จากบท <info:object-methods> ว่า arrow function ไม่มี `this` เป็นของตัวเอง ถ้ามีการเข้าถึง `this` จะไปดึงค่ามาจากสโคปภายนอกแทน
 
-For instance, we can use it to iterate inside an object method:
+ลองดูตัวอย่างการใช้งานภายในเมธอดของออบเจ็กต์:
 
 ```js run
 let group = {
@@ -39,9 +39,9 @@ let group = {
 group.showList();
 ```
 
-Here in `forEach`, the arrow function is used, so `this.title` in it is exactly the same as in the outer method `showList`. That is: `group.title`.
+ใน `forEach` ตรงนี้ เราใช้ arrow function ทำให้ `this.title` ข้างในอ้างอิงไปยัง `this` ตัวเดียวกับเมธอด `showList` ภายนอก ซึ่งก็คือ `group.title` นั่นเอง
 
-If we used a "regular" function, there would be an error:
+แต่ถ้าเราใช้ฟังก์ชันแบบปกติ จะเกิด error ขึ้น:
 
 ```js run
 let group = {
@@ -61,28 +61,28 @@ let group = {
 group.showList();
 ```
 
-The error occurs because `forEach` runs functions with `this=undefined` by default, so the attempt to access `undefined.title` is made.
+error เกิดขึ้นเพราะ `forEach` จะรันฟังก์ชันโดยกำหนด `this=undefined` เป็นค่าเริ่มต้น จึงเกิดการเข้าถึง `undefined.title` ขึ้น
 
-That doesn't affect arrow functions, because they just don't have `this`.
+แต่ arrow function ไม่ได้รับผลกระทบ เพราะไม่มี `this` เป็นของตัวเองตั้งแต่แรก
 
-```warn header="Arrow functions can't run with `new`"
-Not having `this` naturally means another limitation: arrow functions can't be used as constructors. They can't be called with `new`.
+```warn header="Arrow function ใช้กับ `new` ไม่ได้"
+เนื่องจาก arrow function ไม่มี `this` จึงไม่สามารถใช้เป็นคอนสตรักเตอร์ได้ ดังนั้นจึงเรียกด้วย `new` ไม่ได้
 ```
 
-```smart header="Arrow functions VS bind"
-There's a subtle difference between an arrow function `=>` and a regular function called with `.bind(this)`:
+```smart header="Arrow function กับ bind ต่างกันอย่างไร"
+มีความแตกต่างเล็กน้อยระหว่าง arrow function `=>` กับฟังก์ชันปกติที่เรียกผ่าน `.bind(this)`:
 
-- `.bind(this)` creates a "bound version" of the function.
-- The arrow `=>` doesn't create any binding. The function simply doesn't have `this`. The lookup of `this` is made exactly the same way as a regular variable search: in the outer lexical environment.
+- `.bind(this)` สร้าง "เวอร์ชันที่ผูก this ไว้แล้ว" ของฟังก์ชัน
+- Arrow function `=>` ไม่ได้สร้างการผูกใดๆ ทั้งสิ้น ฟังก์ชันนี้ไม่มี `this` เป็นของตัวเอง การค้นหา `this` จะทำเหมือนกับการค้นหาตัวแปรทั่วไป คือไล่หาใน lexical environment ภายนอก
 ```
 
-## Arrows have no "arguments"
+## Arrow function ไม่มี "arguments"
 
-Arrow functions also have no `arguments` variable.
+Arrow function ไม่มีตัวแปร `arguments` เช่นกัน
 
-That's great for decorators, when we need to forward a call with the current `this` and `arguments`.
+สิ่งนี้มีประโยชน์มากสำหรับ decorator เพราะเราสามารถส่งต่อการเรียกพร้อมกับ `this` และ `arguments` ของบริบทปัจจุบันได้เลย
 
-For instance, `defer(f, ms)` gets a function and returns a wrapper around it that delays the call by `ms` milliseconds:
+ยกตัวอย่าง `defer(f, ms)` รับฟังก์ชันเข้ามาแล้วคืนค่า wrapper ที่หน่วงเวลาการเรียกไป `ms` มิลลิวินาที:
 
 ```js run
 function defer(f, ms) {
@@ -96,10 +96,10 @@ function sayHi(who) {
 }
 
 let sayHiDeferred = defer(sayHi, 2000);
-sayHiDeferred("John"); // Hello, John after 2 seconds
+sayHiDeferred("John"); // Hello, John หลังจากผ่านไป 2 วินาที
 ```
 
-The same without an arrow function would look like:
+ถ้าเขียนแบบเดียวกันโดยไม่ใช้ arrow function จะได้แบบนี้:
 
 ```js
 function defer(f, ms) {
@@ -112,15 +112,15 @@ function defer(f, ms) {
 }
 ```
 
-Here we had to create additional variables `args` and `ctx` so that the function inside `setTimeout` could take them.
+สังเกตว่าเราต้องสร้างตัวแปร `args` และ `ctx` เพิ่มเพื่อให้ฟังก์ชันใน `setTimeout` เข้าถึงค่าเหล่านี้ได้
 
-## Summary
+## สรุป
 
-Arrow functions:
+Arrow function:
 
-- Do not have `this`
-- Do not have `arguments`
-- Can't be called with `new`
-- They also don't have `super`, but we didn't study it yet. We will on the chapter <info:class-inheritance>
+- ไม่มี `this`
+- ไม่มี `arguments`
+- เรียกด้วย `new` ไม่ได้
+- ไม่มี `super` เช่นกัน แต่เรายังไม่ได้เรียนเรื่องนี้ จะได้เรียนในบท <info:class-inheritance>
 
-That's because they are meant for short pieces of code that do not have their own "context", but rather work in the current one. And they really shine in that use case.
+ทั้งหมดนี้เป็นเพราะ arrow function ถูกออกแบบมาสำหรับโค้ดสั้นๆ ที่ไม่ต้องการ "บริบท" เป็นของตัวเอง แต่ใช้บริบทจากที่ที่มันอยู่แทน และ arrow function ก็ทำหน้าที่นี้ได้ดีมากจริงๆ

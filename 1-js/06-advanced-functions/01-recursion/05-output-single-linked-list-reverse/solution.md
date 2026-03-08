@@ -1,8 +1,8 @@
-# Using a recursion
+# วิธีใช้การเรียกซ้ำ
 
-The recursive logic is a little bit tricky here.
+หลักคิดแบบเรียกซ้ำตรงนี้ต้องคิดสักนิด
 
-We need to first output the rest of the list and *then* output the current one:
+เราต้องแสดงผลสมาชิกที่เหลือของ list ก่อน *แล้วค่อย* แสดงสมาชิกปัจจุบัน:
 
 ```js run
 let list = {
@@ -31,13 +31,13 @@ function printReverseList(list) {
 printReverseList(list);
 ```
 
-# Using a loop
+# วิธีใช้ลูป
 
-The loop variant is also a little bit more complicated than the direct output.
+วิธีลูปก็ซับซ้อนกว่าการแสดงผลตามลำดับปกติเล็กน้อย
 
-There is no way to get the last value in our `list`. We also can't "go back".
+ไม่มีทางดึงค่าตัวสุดท้ายของ `list` ได้โดยตรง และไม่สามารถ "ย้อนกลับ" ได้
 
-So what we can do is to first go through the items in the direct order and remember them in an array, and then output what we remembered in the reverse order:
+ดังนั้น สิ่งที่ทำได้คือท่องผ่านสมาชิกตามลำดับปกติก่อน แล้วเก็บไว้ในอาร์เรย์ จากนั้นค่อยแสดงผลจากท้ายมาหน้า:
 
 ```js run
 let list = {
@@ -71,4 +71,4 @@ function printReverseList(list) {
 printReverseList(list);
 ```
 
-Please note that the recursive solution actually does exactly the same: it follows the list, remembers the items in the chain of nested calls (in the execution context stack), and then outputs them. 
+สังเกตว่าวิธีเรียกซ้ำทำงานเหมือนกันทุกประการ — ท่องผ่าน list แล้วจำสมาชิกไว้ในสายการเรียกซ้อน (ใน execution context stack) จากนั้นค่อยแสดงผลออกมา

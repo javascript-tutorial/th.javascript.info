@@ -2,13 +2,13 @@ importance: 4
 
 ---
 
-# Sum with closures
+# บวกเลขด้วยคลอเชอร์
 
-Write function `sum` that works like this: `sum(a)(b) = a+b`.
+เขียนฟังก์ชัน `sum` ที่ทำงานแบบนี้: `sum(a)(b) = a+b`
 
-Yes, exactly this way, using double parentheses (not a mistype).
+ใช่แล้ว เรียกด้วยวงเล็บสองชั้นแบบนี้เลย (ไม่ได้พิมพ์ผิด)
 
-For instance:
+ยกตัวอย่าง:
 
 ```js
 sum(1)(2) = 3

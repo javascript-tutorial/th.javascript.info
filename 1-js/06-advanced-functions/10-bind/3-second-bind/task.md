@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Second bind
+# bind ซ้ำ
 
-Can we change `this` by additional binding?
+เราสามารถเปลี่ยน `this` ด้วยการ bind ซ้ำอีกครั้งได้ไหม?
 
-What will be the output?
+ผลลัพธ์จะเป็นอะไร?
 
 ```js no-beautify
 function f() {

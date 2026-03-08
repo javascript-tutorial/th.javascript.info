@@ -1,5 +1,5 @@
 
-Using `setInterval`:
+ใช้ `setInterval`:
 
 ```js run
 function printNumbers(from, to) {
@@ -14,11 +14,11 @@ function printNumbers(from, to) {
   }, 1000);
 }
 
-// usage:
+// ตัวอย่างการใช้งาน:
 printNumbers(5, 10);
 ```
 
-Using nested `setTimeout`:
+ใช้ `setTimeout` แบบซ้อน:
 
 
 ```js run
@@ -34,13 +34,13 @@ function printNumbers(from, to) {
   }, 1000);
 }
 
-// usage:
+// ตัวอย่างการใช้งาน:
 printNumbers(5, 10);
 ```
 
-Note that in both solutions, there is an initial delay before the first output. The function is called after `1000ms` the first time.
+สังเกตว่าทั้งสองแบบจะมีการหน่วงเวลาก่อนแสดงผลครั้งแรก เพราะฟังก์ชันจะถูกเรียกหลังจากผ่านไป `1000ms` ในครั้งแรก
 
-If we also want the function to run immediately, then we can add an additional call on a separate line, like this:
+ถ้าต้องการให้ฟังก์ชันทำงานทันทีด้วย ก็เพิ่มการเรียกอีกครั้งแยกออกมาแบบนี้:
 
 ```js run
 function printNumbers(from, to) {

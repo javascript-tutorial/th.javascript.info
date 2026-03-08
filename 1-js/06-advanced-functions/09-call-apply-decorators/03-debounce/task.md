@@ -4,19 +4,19 @@ importance: 5
 
 # Debounce decorator
 
-The result of `debounce(f, ms)` decorator is a wrapper that suspends calls to `f` until there's `ms` milliseconds of inactivity (no calls, "cooldown period"), then invokes `f` once with the latest arguments.
+ผลลัพธ์ของ decorator `debounce(f, ms)` คือ wrapper ที่จะระงับการเรียก `f` จนกว่าจะผ่านไป `ms` มิลลิวินาทีโดยไม่มีการเรียกเข้ามาอีก (ช่วง "พักเย็น") จากนั้นจึงเรียก `f` หนึ่งครั้งด้วยอาร์กิวเมนต์ล่าสุด
 
-In other words, `debounce` is like a secretary that accepts "phone calls", and waits until there's `ms` milliseconds of being quiet. And only then it transfers the latest call information to "the boss" (calls the actual `f`).
+พูดง่ายๆ `debounce` ก็เหมือนเลขาที่รับ "สายโทรศัพท์" แล้วรอจนกว่าจะเงียบไป `ms` มิลลิวินาที จากนั้นจึงส่งต่อข้อมูลจากสายล่าสุดให้ "เจ้านาย" (เรียกฟังก์ชัน `f` จริงๆ)
 
-For instance, we had a function `f` and replaced it with `f = debounce(f, 1000)`.
+ยกตัวอย่าง สมมติเรามีฟังก์ชัน `f` แล้วแทนที่ด้วย `f = debounce(f, 1000)`
 
-Then if the wrapped function is called at 0ms, 200ms and 500ms, and then there are no calls, then the actual `f` will be only called once, at 1500ms. That is: after the cooldown period of 1000ms from the last call.
+ถ้า wrapped function ถูกเรียกที่ 0ms, 200ms และ 500ms แล้วไม่มีการเรียกอีก ฟังก์ชัน `f` จริงจะถูกเรียกแค่ครั้งเดียวที่ 1500ms คือหลังจากช่วงพักเย็น 1000ms นับจากการเรียกครั้งสุดท้าย
 
 ![](debounce.svg)
 
-...And it will get the arguments of the very last call, other calls are ignored.
+...และจะได้รับอาร์กิวเมนต์ของการเรียกครั้งสุดท้ายเท่านั้น การเรียกก่อนหน้าจะถูกเพิกเฉย
 
-Here's the code for it (uses the debounce decorator from the [Lodash library](https://lodash.com/docs/4.17.15#debounce)):
+นี่คือตัวอย่างโค้ด (ใช้ debounce decorator จาก[ไลบรารี Lodash](https://lodash.com/docs/4.17.15#debounce)):
 
 ```js
 let f = _.debounce(alert, 1000);
@@ -24,28 +24,28 @@ let f = _.debounce(alert, 1000);
 f("a");
 setTimeout( () => f("b"), 200);
 setTimeout( () => f("c"), 500);
-// debounced function waits 1000ms after the last call and then runs: alert("c")
+// debounced function รอ 1000ms หลังการเรียกครั้งสุดท้าย แล้วจึงรัน: alert("c")
 ```
 
-Now a practical example. Let's say, the user types something, and we'd like to send a request to the server when the input is finished.
+ทีนี้มาดูตัวอย่างจริง สมมติผู้ใช้กำลังพิมพ์อะไรบางอย่าง แล้วเราต้องการส่ง request ไปเซิร์ฟเวอร์เมื่อพิมพ์เสร็จ
 
-There's no point in sending the request for every character typed. Instead we'd like to wait, and then process the whole result.
+ไม่มีประโยชน์ที่จะส่ง request ทุกครั้งที่กดตัวอักษร เราควรรอ แล้วค่อยส่งผลลัพธ์ทั้งหมดไปทีเดียว
 
-In a web-browser, we can setup an event handler -- a function that's called on every change of an input field. Normally, an event handler is called very often, for every typed key. But if we `debounce` it by 1000ms, then it will be only called once, after 1000ms after the last input.
+ในเว็บเบราว์เซอร์ เราตั้ง event handler ได้ ซึ่งก็คือฟังก์ชันที่ถูกเรียกทุกครั้งที่ input field เปลี่ยนแปลง ปกติ event handler จะถูกเรียกถี่มาก ทุกครั้งที่กดปุ่ม แต่ถ้าเรา `debounce` มันด้วย 1000ms จะถูกเรียกแค่ครั้งเดียว หลังจาก 1000ms นับจากการพิมพ์ครั้งสุดท้าย
 
 ```online
 
-In this live example, the handler puts the result into a box below, try it:
+ในตัวอย่าง live นี้ handler จะแสดงผลลัพธ์ในกล่องด้านล่าง ลองพิมพ์ดู:
 
 [iframe border=1 src="debounce" height=200]
 
-See? The second input calls the debounced function, so its content is processed after 1000ms from the last input.
+เห็นไหม? input ช่องที่สองเรียก debounced function ดังนั้นเนื้อหาจะถูกประมวลผลหลังจาก 1000ms นับจากการพิมพ์ครั้งสุดท้าย
 ```
 
-So, `debounce` is a great way to process a sequence of events: be it a sequence of key presses, mouse movements or something else.
+สรุปแล้ว `debounce` เหมาะสำหรับจัดการเหตุการณ์ที่มาต่อเนื่อง ไม่ว่าจะเป็นการกดปุ่ม การเลื่อนเมาส์ หรืออื่นๆ
 
-It waits the given time after the last call, and then runs its function, that can process the result.
+มันจะรอตามเวลาที่กำหนดหลังจากการเรียกครั้งสุดท้าย แล้วจึงรันฟังก์ชันเพื่อประมวลผลลัพธ์
 
-The task is to implement `debounce` decorator.
+โจทย์คือให้เขียน `debounce` decorator
 
-Hint: that's just a few lines if you think about it :)
+คำใบ้: ถ้าคิดดีๆ แล้วใช้แค่ไม่กี่บรรทัดเอง :)

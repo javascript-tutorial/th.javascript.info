@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Which variables are available?
+# ตัวแปรไหนเข้าถึงได้บ้าง?
 
-The function `makeWorker` below makes another function and returns it. That new function can be called from somewhere else.
+ฟังก์ชัน `makeWorker` ด้านล่างสร้างฟังก์ชันอีกตัวหนึ่งแล้ว return ออกมา ฟังก์ชันใหม่นี้สามารถเรียกจากที่อื่นได้
 
-Will it have access to the outer variables from its creation place, or the invocation place, or both?
+คำถามคือ มันจะเข้าถึงตัวแปรภายนอกจากตอนที่สร้าง หรือจากตอนที่เรียกใช้ หรือทั้งคู่?
 
 ```js
 function makeWorker() {
@@ -19,11 +19,11 @@ function makeWorker() {
 
 let name = "John";
 
-// create a function
+// สร้างฟังก์ชัน
 let work = makeWorker();
 
-// call it
-work(); // what will it show?
+// เรียกใช้
+work(); // จะแสดงอะไร?
 ```
 
-Which value it will show? "Pete" or "John"?
+จะแสดง "Pete" หรือ "John"?
