@@ -1,3 +1,3 @@
-# Object properties configuration
+# การตั้งค่าพร็อพเพอร์ตี้ของออบเจ็กต์
 
-In this section we return to objects and study their properties even more in-depth.
+ในส่วนนี้เราจะกลับมาศึกษาเรื่องออบเจ็กต์ โดยเจาะลึกเรื่องพร็อพเพอร์ตี้ให้มากขึ้น
