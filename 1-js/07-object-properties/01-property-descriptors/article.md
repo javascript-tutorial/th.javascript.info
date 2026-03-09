@@ -1,40 +1,39 @@
+# แฟล็กและ descriptor ของพร็อพเพอร์ตี้
 
-# Property flags and descriptors
+อย่างที่เรารู้กัน ออบเจ็กต์สามารถเก็บพร็อพเพอร์ตี้ต่างๆ ได้
 
-As we know, objects can store properties.
+ที่ผ่านมาเราเข้าใจว่าพร็อพเพอร์ตี้ก็แค่คู่ "key-value" ธรรมดาๆ แต่จริงๆ แล้วพร็อพเพอร์ตี้ของออบเจ็กต์มีความสามารถมากกว่านั้น
 
-Until now, a property was a simple "key-value" pair to us. But an object property is actually a more flexible and powerful thing.
+ในบทนี้เราจะมาเรียนรู้ตัวเลือกการตั้งค่าเพิ่มเติม และในบทถัดไปจะมาดูว่าเราเปลี่ยนพร็อพเพอร์ตี้ให้เป็นฟังก์ชัน getter/setter ได้อย่างไร
 
-In this chapter we'll study additional configuration options, and in the next we'll see how to invisibly turn them into getter/setter functions.
+## แฟล็กของพร็อพเพอร์ตี้
 
-## Property flags
+พร็อพเพอร์ตี้ของออบเจ็กต์ นอกจากจะมี **`value`** แล้ว ยังมีแอตทริบิวต์พิเศษอีก 3 ตัว (เรียกว่า "แฟล็ก"):
 
-Object properties, besides a **`value`**, have three special attributes (so-called "flags"):
+- **`writable`** -- ถ้าเป็น `true` จะเปลี่ยนแปลงค่าได้ ไม่งั้นจะเป็นแบบอ่านอย่างเดียว
+- **`enumerable`** -- ถ้าเป็น `true` จะถูกแสดงผลเมื่อวนลูป ไม่งั้นจะไม่แสดง
+- **`configurable`** -- ถ้าเป็น `true` จะลบพร็อพเพอร์ตี้หรือแก้ไขแอตทริบิวต์เหล่านี้ได้ ไม่งั้นจะทำไม่ได้
 
-- **`writable`** -- if `true`, the value can be changed, otherwise it's read-only.
-- **`enumerable`** -- if `true`, then listed in loops, otherwise not listed.
-- **`configurable`** -- if `true`, the property can be deleted and these attributes can be modified, otherwise not.
+ปกติเราจะไม่ค่อยเห็นแฟล็กเหล่านี้ เพราะเวลาสร้างพร็อพเพอร์ตี้ "แบบปกติ" แฟล็กทั้งหมดจะเป็น `true` โดยอัตโนมัติ แต่เราสามารถเปลี่ยนค่าแฟล็กเหล่านี้ได้ตลอดเวลา
 
-We didn't see them yet, because generally they do not show up. When we create a property "the usual way", all of them are `true`. But we also can change them anytime.
+มาดูกันว่าจะดึงค่าแฟล็กเหล่านี้ได้อย่างไร
 
-First, let's see how to get those flags.
+เมธอด [Object.getOwnPropertyDescriptor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor) ใช้สำหรับดูข้อมูล*ทั้งหมด*ของพร็อพเพอร์ตี้
 
-The method [Object.getOwnPropertyDescriptor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptor) allows to query the *full* information about a property.
-
-The syntax is:
+รูปแบบการใช้งานคือ:
 ```js
 let descriptor = Object.getOwnPropertyDescriptor(obj, propertyName);
 ```
 
 `obj`
-: The object to get information from.
+: ออบเจ็กต์ที่ต้องการดูข้อมูล
 
 `propertyName`
-: The name of the property.
+: ชื่อของพร็อพเพอร์ตี้
 
-The returned value is a so-called "property descriptor" object: it contains the value and all the flags.
+ค่าที่ได้กลับมาเรียกว่า "property descriptor" ซึ่งเป็นออบเจ็กต์ที่เก็บทั้ง value และแฟล็กทั้งหมด
 
-For instance:
+ตัวอย่าง:
 
 ```js run
 let user = {
@@ -54,23 +53,23 @@ alert( JSON.stringify(descriptor, null, 2 ) );
 */
 ```
 
-To change the flags, we can use [Object.defineProperty](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty).
+ถ้าต้องการเปลี่ยนแฟล็ก เราใช้ [Object.defineProperty](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty)
 
-The syntax is:
+รูปแบบการใช้งานคือ:
 
 ```js
 Object.defineProperty(obj, propertyName, descriptor)
 ```
 
 `obj`, `propertyName`
-: The object and its property to apply the descriptor.
+: ออบเจ็กต์และชื่อพร็อพเพอร์ตี้ที่ต้องการกำหนด descriptor
 
 `descriptor`
-: Property descriptor object to apply.
+: ออบเจ็กต์ property descriptor ที่ต้องการนำไปใช้
 
-If the property exists, `defineProperty` updates its flags. Otherwise, it creates the property with the given value and flags; in that case, if a flag is not supplied, it is assumed `false`.
+ถ้าพร็อพเพอร์ตี้นั้นมีอยู่แล้ว `defineProperty` จะอัพเดตแฟล็กให้ แต่ถ้ายังไม่มีจะสร้างพร็อพเพอร์ตี้ใหม่ด้วยค่าและแฟล็กที่กำหนด โดยถ้าไม่ได้ระบุแฟล็กไหนไว้ จะถือว่าเป็น `false`
 
-For instance, here a property `name` is created with all falsy flags:
+ตัวอย่างนี้สร้างพร็อพเพอร์ตี้ `name` โดยแฟล็กทุกตัวเป็น falsy:
 
 ```js run
 let user = {};
@@ -96,13 +95,13 @@ alert( JSON.stringify(descriptor, null, 2 ) );
  */
 ```
 
-Compare it with "normally created" `user.name` above: now all flags are falsy. If that's not what we want then we'd better set them to `true` in `descriptor`.
+ลองเปรียบเทียบกับ `user.name` ที่สร้าง "แบบปกติ" ด้านบน จะเห็นว่าตอนนี้แฟล็กทุกตัวเป็น falsy ถ้าไม่ต้องการแบบนั้น ก็ต้องกำหนดให้เป็น `true` เองใน `descriptor`
 
-Now let's see effects of the flags by example.
+ทีนี้มาดูกันว่าแต่ละแฟล็กมีผลอย่างไรบ้าง
 
 ## Non-writable
 
-Let's make `user.name` non-writable (can't be reassigned) by changing `writable` flag:
+มาลองทำให้ `user.name` เป็นแบบ non-writable (เปลี่ยนค่าไม่ได้) โดยเปลี่ยนแฟล็ก `writable`:
 
 ```js run
 let user = {
@@ -120,13 +119,13 @@ user.name = "Pete"; // Error: Cannot assign to read only property 'name'
 */!*
 ```
 
-Now no one can change the name of our user, unless they apply their own `defineProperty` to override ours.
+ตอนนี้ไม่มีใครเปลี่ยนชื่อของ user ได้แล้ว ยกเว้นจะเรียก `defineProperty` มาเขียนทับ descriptor ของเรา
 
-```smart header="Errors appear only in strict mode"
-In non-strict mode, no errors occur when writing to non-writable properties and such. But the operation still won't succeed. Flag-violating actions are just silently ignored in non-strict.
+```smart header="error จะแสดงเฉพาะใน strict mode เท่านั้น"
+ในโหมดที่ไม่ใช่ strict mode การเขียนค่าลงในพร็อพเพอร์ตี้ที่เป็น non-writable จะไม่ฟ้อง error แต่ก็จะไม่สำเร็จเช่นกัน การกระทำที่ฝ่าฝืนแฟล็กจะถูกเพิกเฉยอย่างเงียบๆ ในโหมดที่ไม่ใช่ strict
 ```
 
-Here's the same example, but the property is created from scratch:
+นี่คือตัวอย่างเดียวกัน แต่สร้างพร็อพเพอร์ตี้ขึ้นมาใหม่ตั้งแต่ต้น:
 
 ```js run
 let user = { };
@@ -134,7 +133,7 @@ let user = { };
 Object.defineProperty(user, "name", {
 *!*
   value: "John",
-  // for new properties we need to explicitly list what's true
+  // สำหรับพร็อพเพอร์ตี้ใหม่ ต้องระบุว่าแฟล็กไหนเป็น true
   enumerable: true,
   configurable: true
 */!*
@@ -146,9 +145,9 @@ user.name = "Pete"; // Error
 
 ## Non-enumerable
 
-Now let's add a custom `toString` to `user`.
+คราวนี้มาลองเพิ่ม `toString` แบบกำหนดเองให้ `user` กัน
 
-Normally, a built-in `toString` for objects is non-enumerable, it does not show up in `for..in`. But if we add a `toString` of our own, then by default it shows up in `for..in`, like this:
+ปกติ `toString` ที่มากับออบเจ็กต์จะเป็น non-enumerable คือไม่แสดงใน `for..in` แต่ถ้าเราเพิ่ม `toString` ของเราเอง โดยปกติมันจะแสดงใน `for..in` แบบนี้:
 
 ```js run
 let user = {
@@ -158,11 +157,11 @@ let user = {
   }
 };
 
-// By default, both our properties are listed:
+// ปกติพร็อพเพอร์ตี้ของเราจะแสดงทั้งคู่:
 for (let key in user) alert(key); // name, toString
 ```
 
-If we don't like it, then we can set `enumerable:false`. Then it won't appear in a `for..in` loop, just like the built-in one:
+ถ้าไม่ต้องการ ก็ตั้งค่า `enumerable:false` แล้ว `toString` จะไม่แสดงในลูป `for..in` เหมือนกับ `toString` ตัวเดิมที่มากับออบเจ็กต์:
 
 ```js run
 let user = {
@@ -179,12 +178,12 @@ Object.defineProperty(user, "toString", {
 });
 
 *!*
-// Now our toString disappears:
+// ตอนนี้ toString ของเราหายไปแล้ว:
 */!*
 for (let key in user) alert(key); // name
 ```
 
-Non-enumerable properties are also excluded from `Object.keys`:
+พร็อพเพอร์ตี้ที่เป็น non-enumerable จะไม่แสดงใน `Object.keys` ด้วยเช่นกัน:
 
 ```js
 alert(Object.keys(user)); // name
@@ -192,11 +191,11 @@ alert(Object.keys(user)); // name
 
 ## Non-configurable
 
-The non-configurable flag (`configurable:false`) is sometimes preset for built-in objects and properties.
+แฟล็ก non-configurable (`configurable:false`) บางครั้งถูกตั้งค่ามาล่วงหน้าสำหรับออบเจ็กต์และพร็อพเพอร์ตี้ที่มีอยู่แล้วในภาษา
 
-A non-configurable property can't be deleted, its attributes can't be modified.
+พร็อพเพอร์ตี้ที่เป็น non-configurable จะลบไม่ได้ และแก้ไขแอตทริบิวต์ไม่ได้
 
-For instance, `Math.PI` is non-writable, non-enumerable and non-configurable:
+ยกตัวอย่าง `Math.PI` ที่เป็นทั้ง non-writable, non-enumerable และ non-configurable:
 
 ```js run
 let descriptor = Object.getOwnPropertyDescriptor(Math, 'PI');
@@ -211,28 +210,28 @@ alert( JSON.stringify(descriptor, null, 2 ) );
 }
 */
 ```
-So, a programmer is unable to change the value of `Math.PI` or overwrite it.
+เพราะฉะนั้นจะเปลี่ยนค่าของ `Math.PI` หรือเขียนทับไม่ได้เลย
 
 ```js run
-Math.PI = 3; // Error, because it has writable: false
+Math.PI = 3; // Error เพราะ writable: false
 
-// delete Math.PI won't work either
+// delete Math.PI ก็ทำไม่ได้เช่นกัน
 ```
 
-We also can't change `Math.PI` to be `writable` again:
+เราเปลี่ยน `Math.PI` ให้กลับมาเป็น `writable` อีกครั้งก็ไม่ได้:
 
 ```js run
-// Error, because of configurable: false
+// Error เพราะ configurable: false
 Object.defineProperty(Math, "PI", { writable: true });
 ```
 
-There's absolutely nothing we can do with `Math.PI`.
+ไม่มีทางทำอะไรกับ `Math.PI` ได้เลย
 
-Making a property non-configurable is a one-way road. We cannot change it back with `defineProperty`.
+การตั้งค่าพร็อพเพอร์ตี้ให้เป็น non-configurable เป็นทางเดียว ไม่สามารถเปลี่ยนกลับด้วย `defineProperty` ได้
 
-**Please note: `configurable: false` prevents changes of property flags and its deletion, while allowing to change its value.**
+**สิ่งที่ควรรู้: `configurable: false` ป้องกันการเปลี่ยนแฟล็กและการลบพร็อพเพอร์ตี้ แต่ยังเปลี่ยนค่า value ได้**
 
-Here `user.name` is non-configurable, but we can still change it (as it's writable):
+ตัวอย่างนี้ `user.name` เป็น non-configurable แต่ยังเปลี่ยนค่าได้ (เพราะยังเป็น writable):
 
 ```js run
 let user = {
@@ -243,11 +242,11 @@ Object.defineProperty(user, "name", {
   configurable: false
 });
 
-user.name = "Pete"; // works fine
+user.name = "Pete"; // ทำได้ปกติ
 delete user.name; // Error
 ```
 
-And here we make `user.name` a "forever sealed" constant, just like the built-in `Math.PI`:
+ตัวอย่างนี้เราทำให้ `user.name` กลายเป็นค่าคงที่ถาวร คล้ายกับ `Math.PI`:
 
 ```js run
 let user = {
@@ -259,24 +258,24 @@ Object.defineProperty(user, "name", {
   configurable: false
 });
 
-// won't be able to change user.name or its flags
-// all this won't work:
+// จะเปลี่ยน user.name หรือแฟล็กของมันไม่ได้อีกแล้ว
+// ทั้งหมดนี้ทำไม่ได้:
 user.name = "Pete";
 delete user.name;
 Object.defineProperty(user, "name", { value: "Pete" });
 ```
 
-```smart header="The only attribute change possible: writable true -> false"
-There's a minor exception about changing flags.
+```smart header="ข้อยกเว้นเดียวคือ: เปลี่ยน writable จาก true เป็น false ได้"
+มีข้อยกเว้นเล็กน้อยเกี่ยวกับการเปลี่ยนแฟล็ก
 
-We can change `writable: true` to `false` for a non-configurable property, thus preventing its value modification (to add another layer of protection). Not the other way around though.
+สำหรับพร็อพเพอร์ตี้ที่เป็น non-configurable เราสามารถเปลี่ยน `writable: true` เป็น `false` ได้ เพื่อเพิ่มชั้นการป้องกันอีกขั้น แต่จะเปลี่ยนจาก `false` กลับเป็น `true` ไม่ได้
 ```
 
 ## Object.defineProperties
 
-There's a method [Object.defineProperties(obj, descriptors)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperties) that allows to define many properties at once.
+มีเมธอด [Object.defineProperties(obj, descriptors)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperties) ที่ช่วยให้กำหนดหลายพร็อพเพอร์ตี้พร้อมกันได้
 
-The syntax is:
+รูปแบบการใช้งานคือ:
 
 ```js
 Object.defineProperties(obj, {
@@ -286,7 +285,7 @@ Object.defineProperties(obj, {
 });
 ```
 
-For instance:
+ตัวอย่าง:
 
 ```js
 Object.defineProperties(user, {
@@ -296,19 +295,19 @@ Object.defineProperties(user, {
 });
 ```
 
-So, we can set many properties at once.
+จึงสามารถกำหนดหลายพร็อพเพอร์ตี้ได้ในครั้งเดียว
 
 ## Object.getOwnPropertyDescriptors
 
-To get all property descriptors at once, we can use the method [Object.getOwnPropertyDescriptors(obj)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptors).
+ถ้าต้องการดึง property descriptor ของทุกพร็อพเพอร์ตี้พร้อมกัน ใช้เมธอด [Object.getOwnPropertyDescriptors(obj)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyDescriptors)
 
-Together with `Object.defineProperties` it can be used as a "flags-aware" way of cloning an object:
+เมื่อใช้ร่วมกับ `Object.defineProperties` จะเป็นวิธีโคลนออบเจ็กต์ที่ "รักษาแฟล็กไว้ครบ":
 
 ```js
 let clone = Object.defineProperties({}, Object.getOwnPropertyDescriptors(obj));
 ```
 
-Normally when we clone an object, we use an assignment to copy properties, like this:
+ปกติเวลาโคลนออบเจ็กต์ เราใช้การ assign เพื่อคัดลอกพร็อพเพอร์ตี้แบบนี้:
 
 ```js
 for (let key in user) {
@@ -316,34 +315,34 @@ for (let key in user) {
 }
 ```
 
-...But that does not copy flags. So if we want a "better" clone then `Object.defineProperties` is preferred.
+...แต่วิธีนี้ไม่ได้คัดลอกแฟล็กไปด้วย ถ้าต้องการโคลนที่ "สมบูรณ์กว่า" ต้องใช้ `Object.defineProperties`
 
-Another difference is that `for..in` ignores symbolic and non-enumerable properties, but `Object.getOwnPropertyDescriptors` returns *all* property descriptors including symbolic and non-enumerable ones.
+อีกจุดที่ต่างกันคือ `for..in` จะข้ามพร็อพเพอร์ตี้ที่เป็น symbolic และ non-enumerable แต่ `Object.getOwnPropertyDescriptors` จะคืนค่า descriptor ของ*ทุก*พร็อพเพอร์ตี้ รวมถึง symbolic และ non-enumerable ด้วย
 
-## Sealing an object globally
+## การล็อกออบเจ็กต์ทั้งตัว
 
-Property descriptors work at the level of individual properties.
+Property descriptor ทำงานในระดับพร็อพเพอร์ตี้แต่ละตัว
 
-There are also methods that limit access to the *whole* object:
+แต่ยังมีเมธอดที่จำกัดการเข้าถึง*ออบเจ็กต์ทั้งตัว*ด้วย:
 
 [Object.preventExtensions(obj)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/preventExtensions)
-: Forbids the addition of new properties to the object.
+: ห้ามเพิ่มพร็อพเพอร์ตี้ใหม่เข้าไปในออบเจ็กต์
 
 [Object.seal(obj)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/seal)
-: Forbids adding/removing of properties. Sets `configurable: false` for all existing properties.
+: ห้ามเพิ่ม/ลบพร็อพเพอร์ตี้ และตั้งค่า `configurable: false` ให้พร็อพเพอร์ตี้ทุกตัว
 
 [Object.freeze(obj)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze)
-: Forbids adding/removing/changing of properties. Sets `configurable: false, writable: false` for all existing properties.
+: ห้ามเพิ่ม/ลบ/เปลี่ยนพร็อพเพอร์ตี้ และตั้งค่า `configurable: false, writable: false` ให้พร็อพเพอร์ตี้ทุกตัว
 
-And also there are tests for them:
+นอกจากนี้ยังมีเมธอดสำหรับตรวจสอบด้วย:
 
 [Object.isExtensible(obj)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/isExtensible)
-: Returns `false` if adding properties is forbidden, otherwise `true`.
+: คืนค่า `false` ถ้าห้ามเพิ่มพร็อพเพอร์ตี้ใหม่ ไม่งั้นคืนค่า `true`
 
 [Object.isSealed(obj)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/isSealed)
-: Returns `true` if adding/removing properties is forbidden, and all existing properties have `configurable: false`.
+: คืนค่า `true` ถ้าห้ามเพิ่ม/ลบพร็อพเพอร์ตี้ และพร็อพเพอร์ตี้ทุกตัวมีค่า `configurable: false`
 
 [Object.isFrozen(obj)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/isFrozen)
-: Returns `true` if adding/removing/changing properties is forbidden, and all current properties are `configurable: false, writable: false`.
+: คืนค่า `true` ถ้าห้ามเพิ่ม/ลบ/เปลี่ยนพร็อพเพอร์ตี้ และพร็อพเพอร์ตี้ทุกตัวมีค่า `configurable: false, writable: false`
 
-These methods are rarely used in practice.
+เมธอดเหล่านี้ไม่ค่อยได้ใช้ในงานจริงสักเท่าไหร่
