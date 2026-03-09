@@ -72,8 +72,13 @@ JavaScript ในเบราว์เซอร์มีข้อจำกัด
 
     การจะแลกเปลี่ยนข้อมูลระหว่างหน้าเว็บได้นั้น *ทั้งสองฝ่ายต้องตกลงยินยอม* และต้องมีโค้ด JavaScript พิเศษเพื่อจัดการ ซึ่งเราจะพูดถึงในบทเรียนข้างหน้า
 
+<<<<<<< HEAD
     ข้อจำกัดนี้ก็เพื่อความปลอดภัยของผู้ใช้เช่นกัน ลองนึกดูว่าจะเป็นอย่างไรถ้าหน้า `http://anysite.com` ที่เปิดอยู่ในแท็บหนึ่งแอบเข้าถึง `http://gmail.com` ในอีกแท็บแล้วขโมยข้อมูลออกไป
 - JavaScript ติดต่อกับเซิร์ฟเวอร์ต้นทางของหน้านั้นได้สะดวก แต่การรับข้อมูลจากโดเมนหรือไซต์อื่นมีข้อจำกัดเข้มงวด จะทำได้ก็ต่อเมื่อได้รับความยินยอมชัดเจนจากเซิร์ฟเวอร์ปลายทาง (ผ่าน HTTP header) ซึ่งก็เป็นมาตรการด้านความปลอดภัยอีกเช่นกัน
+=======
+    This limitation is, again, for the user's safety. A page from `http://anysite.com` which a user has opened must not be able to access another browser tab with the URL `http://gmail.com`, for example, and steal information from there.
+- JavaScript can easily communicate over the net to the server where the current page came from. But its ability to receive data from other sites/domains is severely limited. Though possible, it requires explicit agreement (expressed in HTTP headers) from the remote side. Once again, that's a safety limitation.
+>>>>>>> 52c1e61915bc8970a950a3f59bd845827e49b4bf
 
 ![](limitations.svg)
 
