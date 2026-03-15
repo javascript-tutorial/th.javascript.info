@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Working with prototype
+# ทดลองใช้โปรโตไทป์
 
-Here's the code that creates a pair of objects, then modifies them.
+โค้ดด้านล่างสร้างออบเจ็กต์ขึ้นมาคู่หนึ่ง แล้วแก้ไขมัน
 
-Which values are shown in the process?
+ในแต่ละขั้นตอน ค่าที่แสดงจะเป็นอะไร?
 
 ```js
 let animal = {
@@ -28,4 +28,4 @@ delete animal.jumps;
 alert( rabbit.jumps ); // ? (3)
 ```
 
-There should be 3 answers.
+ต้องตอบให้ได้ 3 ข้อ

@@ -1,1 +1,1 @@
-# Prototypes, inheritance
+# โปรโตไทป์และการสืบทอด

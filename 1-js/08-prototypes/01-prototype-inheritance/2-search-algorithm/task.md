@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Searching algorithm
+# อัลกอริทึมการค้นหา
 
-The task has two parts.
+โจทย์นี้มี 2 ส่วน
 
-Given the following objects:
+กำหนดออบเจ็กต์ต่อไปนี้:
 
 ```js
 let head = {
@@ -27,5 +27,5 @@ let pockets = {
 };
 ```
 
-1. Use `__proto__` to assign prototypes in a way that any property lookup will follow the path: `pockets` -> `bed` -> `table` -> `head`. For instance, `pockets.pen` should be `3` (found in `table`), and `bed.glasses` should be `1` (found in `head`).
-2. Answer the question: is it faster to get `glasses` as `pockets.glasses` or `head.glasses`? Benchmark if needed.
+1. ใช้ `__proto__` กำหนดโปรโตไทป์ให้การค้นหาพร็อพเพอร์ตี้ไล่ตามลำดับ: `pockets` -> `bed` -> `table` -> `head` เช่น `pockets.pen` ควรเป็น `3` (หาเจอใน `table`) และ `bed.glasses` ควรเป็น `1` (หาเจอใน `head`)
+2. ตอบคำถาม: ระหว่าง `pockets.glasses` กับ `head.glasses` อันไหนเร็วกว่ากัน? ลอง benchmark ดูถ้าจำเป็น

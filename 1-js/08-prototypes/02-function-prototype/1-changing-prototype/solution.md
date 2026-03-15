@@ -1,20 +1,20 @@
 
-Answers:
+คำตอบ:
 
-1. `true`. 
+1. `true`
 
-    The assignment to `Rabbit.prototype` sets up `[[Prototype]]` for new objects, but it does not affect the existing ones. 
+    การกำหนดค่าใหม่ให้ `Rabbit.prototype` จะมีผลกับออบเจ็กต์ที่สร้างใหม่หลังจากนี้เท่านั้น ออบเจ็กต์ที่สร้างไปแล้วยังคงอ้างอิงไปยัง `[[Prototype]]` เดิม
 
-2. `false`. 
+2. `false`
 
-    Objects are assigned by reference. The object from `Rabbit.prototype` is not duplicated, it's still a single object referenced both by `Rabbit.prototype` and by the `[[Prototype]]` of `rabbit`. 
+    ออบเจ็กต์ถูกกำหนดค่าโดยการอ้างอิง (by reference) ออบเจ็กต์จาก `Rabbit.prototype` ไม่ได้ถูกคัดลอก แต่เป็นออบเจ็กต์ตัวเดียวกันที่ถูกอ้างอิงทั้งจาก `Rabbit.prototype` และจาก `[[Prototype]]` ของ `rabbit`
 
-    So when we change its content through one reference, it is visible through the other one.
+    ดังนั้นเมื่อเราเปลี่ยนเนื้อหาผ่านทางการอ้างอิงข้างหนึ่ง อีกข้างก็จะเห็นการเปลี่ยนแปลงด้วย
 
-3. `true`.
+3. `true`
 
-    All `delete` operations are applied directly to the object. Here `delete rabbit.eats` tries to remove `eats` property from `rabbit`, but it doesn't have it. So the operation won't have any effect.
+    คำสั่ง `delete` ทำงานโดยตรงกับตัวออบเจ็กต์นั้นๆ เอง `delete rabbit.eats` พยายามลบพร็อพเพอร์ตี้ `eats` จาก `rabbit` แต่ `rabbit` เองไม่มีพร็อพเพอร์ตี้นี้ (มันมาจาก prototype) จึงไม่มีผลอะไรเกิดขึ้น
 
-4. `undefined`.
+4. `undefined`
 
-    The property `eats` is deleted from the prototype, it doesn't exist any more.
+    พร็อพเพอร์ตี้ `eats` ถูกลบออกจาก prototype ไปแล้ว จึงไม่มีอยู่อีกต่อไป

@@ -1,13 +1,13 @@
 
-The method can take all enumerable keys using `Object.keys` and output their list.
+เมธอดนี้สามารถดึง key ที่เป็น enumerable ทั้งหมดด้วย `Object.keys` แล้วแสดงผลเป็นรายการ
 
-To make `toString` non-enumerable, let's define it using a property descriptor. The syntax of `Object.create` allows us to provide an object with property descriptors as the second argument.
+เพื่อให้ `toString` ไม่เป็น enumerable ก็กำหนดด้วย property descriptor ซึ่ง `Object.create` รับ descriptor เป็นอาร์กิวเมนต์ตัวที่สองได้เลย
 
 ```js run
 *!*
 let dictionary = Object.create(null, {
-  toString: { // define toString property
-    value() { // the value is a function
+  toString: { // กำหนดพร็อพเพอร์ตี้ toString
+    value() { // ค่าเป็นฟังก์ชัน
       return Object.keys(this).join();
     }
   }
@@ -17,15 +17,15 @@ let dictionary = Object.create(null, {
 dictionary.apple = "Apple";
 dictionary.__proto__ = "test";
 
-// apple and __proto__ is in the loop
+// apple กับ __proto__ อยู่ในลูป
 for(let key in dictionary) {
-  alert(key); // "apple", then "__proto__"
-}  
+  alert(key); // "apple" แล้วก็ "__proto__"
+}
 
-// comma-separated list of properties by toString
+// รายการพร็อพเพอร์ตี้คั่นด้วยจุลภาค จาก toString
 alert(dictionary); // "apple,__proto__"
 ```
 
-When we create a property using a descriptor, its flags are `false` by default. So in the code above, `dictionary.toString` is non-enumerable.
+เมื่อสร้างพร็อพเพอร์ตี้ด้วย descriptor แฟล็กทั้งหมดจะเป็น `false` โดยปริยาย ดังนั้นในโค้ดด้านบน `dictionary.toString` จึงไม่เป็น enumerable
 
-See the chapter [](info:property-descriptors) for review.
+ทบทวนเพิ่มเติมได้ในบท [](info:property-descriptors)

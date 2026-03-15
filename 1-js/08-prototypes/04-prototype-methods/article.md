@@ -1,31 +1,31 @@
 
-# Prototype methods, objects without __proto__
+# เมธอดของโปรโตไทป์ และออบเจ็กต์ที่ไม่มี __proto__
 
-In the first chapter of this section, we mentioned that there are modern methods to setup a prototype.
+ในบทแรกของหมวดนี้ เราได้กล่าวไปว่ามีเมธอดสมัยใหม่สำหรับกำหนดโปรโตไทป์
 
-Setting or reading the prototype with `obj.__proto__` is considered outdated and somewhat deprecated (moved to the so-called "Annex B" of the JavaScript standard, meant for browsers only).
+การกำหนดหรืออ่านค่าโปรโตไทป์ด้วย `obj.__proto__` ถือว่าล้าสมัยไปแล้ว และอยู่ในสถานะค่อนข้างจะ deprecated (ถูกย้ายไปอยู่ใน "Annex B" ของมาตรฐาน JavaScript ซึ่งมีไว้สำหรับเบราว์เซอร์เท่านั้น)
 
-The modern methods to get/set a prototype are:
+เมธอดสมัยใหม่สำหรับอ่าน/กำหนดโปรโตไทป์มีดังนี้:
 
-- [Object.getPrototypeOf(obj)](mdn:js/Object/getPrototypeOf) -- returns the `[[Prototype]]` of `obj`.
-- [Object.setPrototypeOf(obj, proto)](mdn:js/Object/setPrototypeOf) -- sets the `[[Prototype]]` of `obj` to `proto`.
+- [Object.getPrototypeOf(obj)](mdn:js/Object/getPrototypeOf) -- คืนค่า `[[Prototype]]` ของ `obj`
+- [Object.setPrototypeOf(obj, proto)](mdn:js/Object/setPrototypeOf) -- กำหนด `[[Prototype]]` ของ `obj` ให้เป็น `proto`
 
-The only usage of `__proto__`, that's not frowned upon, is as a property when creating a new object: `{ __proto__: ... }`.
+การใช้ `__proto__` ที่ยังถือว่ายอมรับได้ มีเพียงกรณีเดียว คือใช้เป็นพร็อพเพอร์ตี้ตอนสร้างออบเจ็กต์ใหม่: `{ __proto__: ... }`
 
-Although, there's a special method for this too:
+แม้กระนั้น ก็ยังมีเมธอดเฉพาะสำหรับเรื่องนี้เช่นกัน:
 
-- [Object.create(proto[, descriptors])](mdn:js/Object/create) -- creates an empty object with given `proto` as `[[Prototype]]` and optional property descriptors.
+- [Object.create(proto[, descriptors])](mdn:js/Object/create) -- สร้างออบเจ็กต์ว่างโดยมี `proto` เป็น `[[Prototype]]` พร้อมทั้งกำหนด property descriptor เพิ่มเติมได้
 
-For instance:
+ตัวอย่างเช่น:
 
 ```js run
 let animal = {
   eats: true
 };
 
-// create a new object with animal as a prototype
+// สร้างออบเจ็กต์ใหม่โดยมี animal เป็นโปรโตไทป์
 *!*
-let rabbit = Object.create(animal); // same as {__proto__: animal}
+let rabbit = Object.create(animal); // เหมือนกับ {__proto__: animal}
 */!*
 
 alert(rabbit.eats); // true
@@ -35,13 +35,13 @@ alert(Object.getPrototypeOf(rabbit) === animal); // true
 */!*
 
 *!*
-Object.setPrototypeOf(rabbit, {}); // change the prototype of rabbit to {}
+Object.setPrototypeOf(rabbit, {}); // เปลี่ยนโปรโตไทป์ของ rabbit เป็น {}
 */!*
 ```
 
-The `Object.create` method is a bit more powerful, as it has an optional second argument: property descriptors.
+`Object.create` มีความสามารถมากกว่านั้น เพราะรับอาร์กิวเมนต์ตัวที่สองได้ด้วย คือ property descriptor
 
-We can provide additional properties to the new object there, like this:
+เราสามารถกำหนดพร็อพเพอร์ตี้เพิ่มเติมให้ออบเจ็กต์ใหม่ได้แบบนี้:
 
 ```js run
 let animal = {
@@ -57,9 +57,9 @@ let rabbit = Object.create(animal, {
 alert(rabbit.jumps); // true
 ```
 
-The descriptors are in the same format as described in the chapter <info:property-descriptors>.
+รูปแบบของ descriptor เหมือนกับที่อธิบายไว้ในบท <info:property-descriptors>
 
-We can use `Object.create` to perform an object cloning more powerful than copying properties in `for..in`:
+นอกจากนี้ `Object.create` ยังใช้โคลนออบเจ็กต์ได้ละเอียดกว่าการคัดลอกพร็อพเพอร์ตี้ด้วย `for..in`:
 
 ```js
 let clone = Object.create(
@@ -67,43 +67,43 @@ let clone = Object.create(
 );
 ```
 
-This call makes a truly exact copy of `obj`, including all properties: enumerable and non-enumerable, data properties and setters/getters -- everything, and with the right `[[Prototype]]`.
+การเรียกแบบนี้จะสร้างสำเนาที่เหมือน `obj` ทุกประการ ไม่ว่าจะเป็นพร็อพเพอร์ตี้แบบ enumerable หรือ non-enumerable, data property หรือ getter/setter ทุกอย่างรวมถึง `[[Prototype]]` ที่ถูกต้องด้วย
 
 
-## Brief history
+## ประวัติย่อ
 
-There're so many ways to manage `[[Prototype]]`. How did that happen? Why?
+มีวิธีจัดการ `[[Prototype]]` มากมายหลายแบบ เป็นอย่างนี้ได้อย่างไร? ทำไมถึงซับซ้อนขนาดนี้?
 
-That's for historical reasons.
+คำตอบก็คือเรื่องของประวัติศาสตร์
 
-The prototypal inheritance was in the language since its dawn, but the ways to manage it evolved over time.
+การสืบทอดแบบโปรโตไทป์มีอยู่ในภาษาตั้งแต่แรกเริ่ม แต่วิธีจัดการมันค่อยๆ เปลี่ยนไปตามกาลเวลา:
 
-- The `prototype` property of a constructor function has worked since very ancient times. It's the oldest way to create objects with a given prototype.
-- Later, in the year 2012, `Object.create` appeared in the standard. It gave the ability to create objects with a given prototype, but did not provide the ability to get/set it. Some browsers implemented the non-standard `__proto__` accessor that allowed the user to get/set a prototype at any time, to give more flexibility to developers.
-- Later, in the year 2015, `Object.setPrototypeOf` and `Object.getPrototypeOf` were added to the standard, to perform the same functionality as `__proto__`. As `__proto__` was de-facto implemented everywhere, it was kind-of deprecated and made its way to the Annex B of the standard, that is: optional for non-browser environments.
-- Later, in the year 2022, it was officially allowed to use `__proto__` in object literals `{...}` (moved out of Annex B), but not as a getter/setter `obj.__proto__` (still in Annex B).
+- พร็อพเพอร์ตี้ `prototype` ของคอนสตรักเตอร์ฟังก์ชันใช้งานได้มาตั้งแต่ยุคแรกๆ เลย เป็นวิธีดั้งเดิมที่สุดในการสร้างออบเจ็กต์พร้อมกำหนดโปรโตไทป์
+- ต่อมาในปี 2012 `Object.create` ถูกเพิ่มเข้ามาในมาตรฐาน ทำให้สร้างออบเจ็กต์พร้อมกำหนดโปรโตไทป์ได้ แต่ยังอ่าน/เปลี่ยนโปรโตไทป์ไม่ได้ เบราว์เซอร์บางตัวจึงทำ accessor `__proto__` ที่ไม่เป็นมาตรฐานขึ้นมา เพื่อให้อ่าน/เปลี่ยนโปรโตไทป์ได้ทุกเมื่อ
+- ต่อมาในปี 2015 `Object.setPrototypeOf` และ `Object.getPrototypeOf` ถูกเพิ่มเข้ามาในมาตรฐาน ให้ทำงานเดียวกับ `__proto__` ได้ เนื่องจาก `__proto__` ถูกใช้ไปทั่วแล้ว จึงถูกทำเป็น deprecated และถูกย้ายไปอยู่ใน Annex B ของมาตรฐาน ซึ่งเป็นตัวเลือกสำหรับสภาพแวดล้อมที่ไม่ใช่เบราว์เซอร์
+- ต่อมาในปี 2022 `__proto__` ได้รับอนุญาตให้ใช้ใน object literal `{...}` อย่างเป็นทางการ (ย้ายออกจาก Annex B) แต่ห้ามใช้ในรูปแบบ getter/setter อย่าง `obj.__proto__` (ยังอยู่ใน Annex B)
 
-Why was `__proto__` replaced by the functions `getPrototypeOf/setPrototypeOf`?
+ทำไม `__proto__` ถึงถูกแทนที่ด้วยฟังก์ชัน `getPrototypeOf/setPrototypeOf`?
 
-Why was `__proto__` partially rehabilitated and its usage allowed in `{...}`, but not as a getter/setter?
+ทำไม `__proto__` ถึงถูก "ฟื้นฟู" เพียงบางส่วน โดยอนุญาตให้ใช้ใน `{...}` ได้ แต่ห้ามใช้เป็น getter/setter?
 
-That's an interesting question, requiring us to understand why `__proto__` is bad.
+คำถามนี้น่าสนใจทีเดียว ก่อนจะตอบได้ เราต้องเข้าใจก่อนว่า `__proto__` มีปัญหาอะไร
 
-And soon we'll get the answer.
+คำตอบจะมาในหัวข้อถัดไปเลย
 
-```warn header="Don't change `[[Prototype]]` on existing objects if speed matters"
-Technically, we can get/set `[[Prototype]]` at any time. But usually we only set it once at the object creation time and don't modify it anymore: `rabbit` inherits from `animal`, and that is not going to change.
+```warn header="อย่าเปลี่ยน `[[Prototype]]` ของออบเจ็กต์ที่มีอยู่แล้ว ถ้าความเร็วเป็นเรื่องสำคัญ"
+ในทางเทคนิค เราอ่าน/กำหนด `[[Prototype]]` ได้ทุกเมื่อ แต่โดยปกติเรากำหนดแค่ครั้งเดียวตอนสร้างออบเจ็กต์ แล้วไม่แก้ไขอีก เช่น `rabbit` สืบทอดจาก `animal` แล้วก็จะเป็นอย่างนั้นตลอดไป
 
-And JavaScript engines are highly optimized for this. Changing a prototype "on-the-fly" with `Object.setPrototypeOf` or `obj.__proto__=` is a very slow operation as it breaks internal optimizations for object property access operations. So avoid it unless you know what you're doing, or JavaScript speed totally doesn't matter for you.
+JavaScript engine ถูกปรับแต่งให้ทำงานได้ดีสำหรับกรณีนี้ การเปลี่ยนโปรโตไทป์ "ระหว่างทาง" ด้วย `Object.setPrototypeOf` หรือ `obj.__proto__=` เป็นการดำเนินการที่ช้ามาก เพราะทำให้การ optimize ภายในของ engine สำหรับการเข้าถึงพร็อพเพอร์ตี้เสียหาย ดังนั้นควรหลีกเลี่ยง ยกเว้นจะรู้ว่ากำลังทำอะไรอยู่ หรือความเร็วไม่ใช่เรื่องสำคัญสำหรับงานนั้น
 ```
 
-## "Very plain" objects [#very-plain]
+## ออบเจ็กต์ "ว่างเปล่าจริงๆ" [#very-plain]
 
-As we know, objects can be used as associative arrays to store key/value pairs.
+อย่างที่เราทราบ ออบเจ็กต์สามารถใช้เป็น associative array สำหรับเก็บคู่ key/value ได้
 
-...But if we try to store *user-provided* keys in it (for instance, a user-entered dictionary), we can see an interesting glitch: all keys work fine except `"__proto__"`.
+...แต่ถ้าลองเก็บ key ที่*ผู้ใช้ป้อนเข้ามา* (เช่น พจนานุกรมที่ผู้ใช้พิมพ์เอง) จะพบปัญหาแปลกๆ อย่างหนึ่ง: key ทุกตัวใช้ได้ปกติ ยกเว้น `"__proto__"`
 
-Check out the example:
+ลองดูตัวอย่างนี้:
 
 ```js run
 let obj = {};
@@ -111,24 +111,24 @@ let obj = {};
 let key = prompt("What's the key?", "__proto__");
 obj[key] = "some value";
 
-alert(obj[key]); // [object Object], not "some value"!
+alert(obj[key]); // [object Object] ไม่ใช่ "some value"!
 ```
 
-Here, if the user types in `__proto__`, the assignment in line 4 is ignored!
+ถ้าผู้ใช้พิมพ์ `__proto__` การกำหนดค่าในบรรทัดที่ 4 จะถูกเพิกเฉย!
 
-That could surely be surprising for a non-developer, but pretty understandable for us. The `__proto__` property is special: it must be either an object or `null`. A string can not become a prototype. That's why assigning a string to `__proto__` is ignored.
+คนทั่วไปอาจแปลกใจ แต่สำหรับเราเข้าใจได้ไม่ยาก เพราะพร็อพเพอร์ตี้ `__proto__` มีลักษณะพิเศษ — ค่าของมันต้องเป็นออบเจ็กต์หรือ `null` เท่านั้น สตริงจะเป็นโปรโตไทป์ไม่ได้ การกำหนดค่าสตริงให้ `__proto__` จึงถูกเพิกเฉย
 
-But we didn't *intend* to implement such behavior, right? We want to store key/value pairs, and the key named `"__proto__"` was not properly saved. So that's a bug!
+แต่เราไม่ได้*ตั้งใจ*จะทำแบบนี้ ใช่ไหม? เราแค่อยากเก็บคู่ key/value แต่ key ชื่อ `"__proto__"` กลับเก็บไม่ได้ นี่คือบั๊กชัดๆ!
 
-Here the consequences are not terrible. But in other cases we may be storing objects instead of strings in `obj`, and then the prototype will indeed be changed. As a result, the execution will go wrong in totally unexpected ways.
+ในตัวอย่างนี้ผลกระทบอาจยังไม่ร้ายแรง แต่ในกรณีอื่นเราอาจเก็บออบเจ็กต์แทนที่จะเป็นสตริง ซึ่งจะทำให้โปรโตไทป์ถูกเปลี่ยนจริงๆ และโปรแกรมจะทำงานผิดพลาดอย่างคาดไม่ถึง
 
-What's worse -- usually developers do not think about such possibility at all. That makes such bugs hard to notice and even turn them into vulnerabilities, especially when JavaScript is used on server-side.
+ที่แย่กว่านั้นคือ นักพัฒนาส่วนใหญ่ไม่คิดถึงความเป็นไปได้นี้เลย ทำให้บั๊กแบบนี้สังเกตได้ยาก และอาจกลายเป็นช่องโหว่ด้านความปลอดภัยได้ โดยเฉพาะเมื่อใช้ JavaScript ฝั่งเซิร์ฟเวอร์
 
-Unexpected things also may happen when assigning to `obj.toString`, as it's a built-in object method.
+ปัญหาเดียวกันอาจเกิดขึ้นเมื่อกำหนดค่าให้ `obj.toString` เพราะเป็นเมธอดที่มีอยู่แล้วในออบเจ็กต์
 
-How can we avoid this problem?
+แล้วจะหลีกเลี่ยงปัญหานี้ได้อย่างไร?
 
-First, we can just switch to using `Map` for storage instead of plain objects, then everything's fine:
+วิธีแรก เปลี่ยนไปใช้ `Map` แทนออบเจ็กต์ธรรมดา แค่นี้ก็หมดปัญหา:
 
 ```js run
 let map = new Map();
@@ -136,27 +136,27 @@ let map = new Map();
 let key = prompt("What's the key?", "__proto__");
 map.set(key, "some value");
 
-alert(map.get(key)); // "some value" (as intended)
+alert(map.get(key)); // "some value" (ตามที่ตั้งใจไว้)
 ```
 
-...But `Object` syntax is often more appealing, as it's more concise.
+...แต่ไวยากรณ์ของ `Object` ก็ดึงดูดใจกว่า เพราะเขียนได้กระชับ
 
-Fortunately, we *can* use objects, because language creators gave thought to that problem long ago.
+โชคดีที่เรา*ยังใช้*ออบเจ็กต์ได้ เพราะผู้สร้างภาษาได้คิดเรื่องนี้ไว้นานแล้ว
 
-As we know, `__proto__` is not a property of an object, but an accessor property of `Object.prototype`:
+อย่างที่ทราบ `__proto__` ไม่ได้เป็นพร็อพเพอร์ตี้ของออบเจ็กต์โดยตรง แต่เป็น accessor property ของ `Object.prototype`:
 
 ![](object-prototype-2.svg)
 
-So, if `obj.__proto__` is read or set, the corresponding getter/setter is called from its prototype, and it gets/sets `[[Prototype]]`.
+ดังนั้นเวลาอ่านหรือเขียน `obj.__proto__` จริงๆ แล้วมันไปเรียก getter/setter จากโปรโตไทป์ ซึ่งจะอ่าน/กำหนดค่า `[[Prototype]]`
 
-As it was said in the beginning of this tutorial section: `__proto__` is a way to access `[[Prototype]]`, it is not `[[Prototype]]` itself.
+อย่างที่กล่าวไว้ตอนต้นของหมวดนี้: `__proto__` เป็นแค่ทางเข้าถึง `[[Prototype]]` ไม่ใช่ตัว `[[Prototype]]` เอง
 
-Now, if we intend to use an object as an associative array and be free of such problems, we can do it with a little trick:
+ทีนี้ ถ้าเราต้องการใช้ออบเจ็กต์เป็น associative array โดยไม่มีปัญหาเหล่านี้ ก็ทำได้ด้วยเทคนิคเล็กๆ:
 
 ```js run
 *!*
 let obj = Object.create(null);
-// or: obj = { __proto__: null }
+// หรือ: obj = { __proto__: null }
 */!*
 
 let key = prompt("What's the key?", "__proto__");
@@ -165,27 +165,27 @@ obj[key] = "some value";
 alert(obj[key]); // "some value"
 ```
 
-`Object.create(null)` creates an empty object without a prototype (`[[Prototype]]` is `null`):
+`Object.create(null)` สร้างออบเจ็กต์ว่างที่ไม่มีโปรโตไทป์ (`[[Prototype]]` เป็น `null`):
 
 ![](object-prototype-null.svg)
 
-So, there is no inherited getter/setter for `__proto__`. Now it is processed as a regular data property, so the example above works right.
+เมื่อไม่มี getter/setter ที่สืบทอดมาสำหรับ `__proto__` มันจะถูกจัดการเป็น data property ธรรมดา ตัวอย่างข้างต้นจึงทำงานได้ถูกต้อง
 
-We can call such objects "very plain" or "pure dictionary" objects, because they are even simpler than the regular plain object `{...}`.
+ออบเจ็กต์แบบนี้เรียกว่า "very plain" หรือ "pure dictionary" เพราะมันเรียบง่ายกว่าออบเจ็กต์ธรรมดา `{...}` เสียอีก
 
-A downside is that such objects lack any built-in object methods, e.g. `toString`:
+ข้อเสียคือ ออบเจ็กต์แบบนี้ไม่มีเมธอดมาตรฐานของออบเจ็กต์เลย เช่น `toString`:
 
 ```js run
 *!*
 let obj = Object.create(null);
 */!*
 
-alert(obj); // Error (no toString)
+alert(obj); // Error (ไม่มี toString)
 ```
 
-...But that's usually fine for associative arrays.
+...แต่สำหรับ associative array แล้วก็ไม่เป็นปัญหาอะไร
 
-Note that most object-related methods are `Object.something(...)`, like `Object.keys(obj)` -- they are not in the prototype, so they will keep working on such objects:
+สังเกตว่าเมธอดส่วนใหญ่ที่เกี่ยวกับออบเจ็กต์จะอยู่ในรูป `Object.something(...)` เช่น `Object.keys(obj)` ซึ่งไม่ได้อยู่ในโปรโตไทป์ จึงยังใช้กับออบเจ็กต์แบบนี้ได้ปกติ:
 
 
 ```js run
@@ -196,28 +196,28 @@ chineseDictionary.bye = "再见";
 alert(Object.keys(chineseDictionary)); // hello,bye
 ```
 
-## Summary
+## สรุป
 
-- To create an object with the given prototype, use:
+- สร้างออบเจ็กต์พร้อมกำหนดโปรโตไทป์ได้ 2 วิธี:
 
-    - literal syntax: `{ __proto__: ... }`, allows to specify multiple properties
-    - or [Object.create(proto[, descriptors])](mdn:js/Object/create), allows to specify property descriptors.
+    - ใช้ literal syntax: `{ __proto__: ... }` กำหนดพร็อพเพอร์ตี้หลายตัวพร้อมกันได้
+    - หรือใช้ [Object.create(proto[, descriptors])](mdn:js/Object/create) กำหนด property descriptor ได้
 
-    The `Object.create` provides an easy way to shallow-copy an object with all descriptors:
+    `Object.create` ยังช่วยให้ shallow-copy ออบเจ็กต์พร้อม descriptor ทั้งหมดได้ง่ายๆ:
 
     ```js
     let clone = Object.create(Object.getPrototypeOf(obj), Object.getOwnPropertyDescriptors(obj));
     ```
 
-- Modern methods to get/set the prototype are:
+- เมธอดสมัยใหม่สำหรับอ่าน/กำหนดโปรโตไทป์:
 
-    - [Object.getPrototypeOf(obj)](mdn:js/Object/getPrototypeOf) -- returns the `[[Prototype]]` of `obj` (same as `__proto__` getter).
-    - [Object.setPrototypeOf(obj, proto)](mdn:js/Object/setPrototypeOf) -- sets the `[[Prototype]]` of `obj` to `proto` (same as `__proto__` setter).
+    - [Object.getPrototypeOf(obj)](mdn:js/Object/getPrototypeOf) -- คืนค่า `[[Prototype]]` ของ `obj` (ทำงานเหมือน `__proto__` getter)
+    - [Object.setPrototypeOf(obj, proto)](mdn:js/Object/setPrototypeOf) -- กำหนด `[[Prototype]]` ของ `obj` เป็น `proto` (ทำงานเหมือน `__proto__` setter)
 
-- Getting/setting the prototype using the built-in `__proto__` getter/setter isn't recommended, it's now in the Annex B of the specification.
+- ไม่แนะนำให้ใช้ `__proto__` getter/setter ที่ built-in มาให้ ตอนนี้มันอยู่ใน Annex B ของมาตรฐานแล้ว
 
-- We also covered prototype-less objects, created with `Object.create(null)` or `{__proto__: null}`.
+- เรายังได้เรียนรู้ออบเจ็กต์ที่ไม่มีโปรโตไทป์ สร้างด้วย `Object.create(null)` หรือ `{__proto__: null}`
 
-    These objects are used as dictionaries, to store any (possibly user-generated) keys.
+    ออบเจ็กต์เหล่านี้ใช้เป็น dictionary สำหรับเก็บ key อะไรก็ได้ (รวมถึง key ที่ผู้ใช้ป้อนเข้ามา)
 
-    Normally, objects inherit built-in methods and `__proto__` getter/setter from `Object.prototype`, making corresponding keys "occupied" and potentially causing side effects. With `null` prototype, objects are truly empty.
+    ปกติแล้วออบเจ็กต์จะสืบทอดเมธอด built-in และ `__proto__` getter/setter มาจาก `Object.prototype` ทำให้ key เหล่านั้นถูก "จอง" ไว้แล้ว และอาจทำให้เกิดผลข้างเคียงที่ไม่ต้องการ แต่ถ้าโปรโตไทป์เป็น `null` ออบเจ็กต์จะว่างเปล่าจริงๆ

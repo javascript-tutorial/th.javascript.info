@@ -1,22 +1,22 @@
-# Prototypal inheritance
+# การสืบทอดแบบโปรโตไทป์ (Prototypal inheritance)
 
-In programming, we often want to take something and extend it.
+ในการเขียนโปรแกรม เรามักต้องการนำสิ่งที่มีอยู่แล้วมาต่อยอด
 
-For instance, we have a `user` object with its properties and methods, and want to make `admin` and `guest` as slightly modified variants of it. We'd like to reuse what we have in `user`, not copy/reimplement its methods, just build a new object on top of it.
+ยกตัวอย่างเช่น เรามีออบเจ็กต์ `user` ที่มีพร็อพเพอร์ตี้และเมธอดต่างๆ แล้วอยากจะสร้าง `admin` กับ `guest` ที่ปรับเปลี่ยนจาก `user` เล็กน้อย เราอยากนำสิ่งที่มีอยู่ใน `user` มาใช้ซ้ำได้เลย ไม่ต้องก๊อปปี้หรือเขียนเมธอดใหม่ แค่สร้างออบเจ็กต์ใหม่ต่อยอดจากมัน
 
-*Prototypal inheritance* is a language feature that helps in that.
+*การสืบทอดแบบโปรโตไทป์ (Prototypal inheritance)* เป็นฟีเจอร์ของภาษาที่ช่วยเรื่องนี้ได้พอดี
 
 ## [[Prototype]]
 
-In JavaScript, objects have a special hidden property `[[Prototype]]` (as named in the specification), that is either `null` or references another object. That object is called "a prototype":
+ออบเจ็กต์ใน JavaScript มีพร็อพเพอร์ตี้พิเศษที่ซ่อนอยู่ชื่อ `[[Prototype]]` (ตามชื่อในสเปค) ซึ่งมีค่าเป็น `null` หรือเป็นการอ้างอิงไปยังออบเจ็กต์อีกตัวหนึ่ง ออบเจ็กต์ตัวนั้นเราเรียกว่า "โปรโตไทป์" (prototype):
 
 ![prototype](object-prototype-empty.svg)
 
-When we read a property from `object`, and it's missing, JavaScript automatically takes it from the prototype. In programming, this is called "prototypal inheritance". And soon we'll study many examples of such inheritance, as well as cooler language features built upon it.
+เวลาอ่านพร็อพเพอร์ตี้จาก `object` แล้วหาไม่เจอ JavaScript จะไปหาจากโปรโตไทป์ให้โดยอัตโนมัติ ในการเขียนโปรแกรมเราเรียกกลไกนี้ว่า "การสืบทอดแบบโปรโตไทป์" (prototypal inheritance) ต่อจากนี้เราจะได้เห็นตัวอย่างมากมาย รวมถึงฟีเจอร์เจ๋งๆ ที่สร้างอยู่บนพื้นฐานของกลไกนี้
 
-The property `[[Prototype]]` is internal and hidden, but there are many ways to set it.
+`[[Prototype]]` เป็นพร็อพเพอร์ตี้ภายในที่ซ่อนอยู่ แต่มีหลายวิธีในการกำหนดค่าให้มัน
 
-One of them is to use the special name `__proto__`, like this:
+วิธีหนึ่งคือใช้ชื่อพิเศษ `__proto__` แบบนี้:
 
 ```js run
 let animal = {
@@ -27,13 +27,13 @@ let rabbit = {
 };
 
 *!*
-rabbit.__proto__ = animal; // sets rabbit.[[Prototype]] = animal
+rabbit.__proto__ = animal; // กำหนดให้ rabbit.[[Prototype]] = animal
 */!*
 ```
 
-Now if we read a property from `rabbit`, and it's missing, JavaScript will automatically take it from `animal`.
+ทีนี้ถ้าเราอ่านพร็อพเพอร์ตี้จาก `rabbit` แล้วหาไม่เจอ JavaScript จะไปดึงจาก `animal` ให้เอง
 
-For instance:
+ลองดูตัวอย่าง:
 
 ```js
 let animal = {
@@ -47,24 +47,24 @@ let rabbit = {
 rabbit.__proto__ = animal; // (*)
 */!*
 
-// we can find both properties in rabbit now:
+// ตอนนี้เราหาพร็อพเพอร์ตี้ทั้งสองตัวได้จาก rabbit:
 *!*
 alert( rabbit.eats ); // true (**)
 */!*
 alert( rabbit.jumps ); // true
 ```
 
-Here the line `(*)` sets `animal` to be the prototype of `rabbit`.
+บรรทัด `(*)` กำหนดให้ `animal` เป็นโปรโตไทป์ของ `rabbit`
 
-Then, when `alert` tries to read property `rabbit.eats` `(**)`, it's not in `rabbit`, so JavaScript follows the `[[Prototype]]` reference and finds it in `animal` (look from the bottom up):
+จากนั้นเมื่อ `alert` พยายามอ่านพร็อพเพอร์ตี้ `rabbit.eats` `(**)` ซึ่งไม่มีอยู่ใน `rabbit` JavaScript จะไล่ตาม `[[Prototype]]` ขึ้นไปจนเจอใน `animal` (ดูจากล่างขึ้นบน):
 
 ![](proto-animal-rabbit.svg)
 
-Here we can say that "`animal` is the prototype of `rabbit`" or "`rabbit` prototypically inherits from `animal`".
+ตรงนี้เราพูดได้ว่า "`animal` เป็นโปรโตไทป์ของ `rabbit`" หรือ "`rabbit` สืบทอดมาจาก `animal` ผ่านโปรโตไทป์"
 
-So if `animal` has a lot of useful properties and methods, then they become automatically available in `rabbit`. Such properties are called "inherited".
+ดังนั้นถ้า `animal` มีพร็อพเพอร์ตี้และเมธอดที่มีประโยชน์อยู่เยอะ สิ่งเหล่านั้นจะใช้ได้จาก `rabbit` โดยอัตโนมัติ พร็อพเพอร์ตี้แบบนี้เรียกว่า "สืบทอดมา" (inherited)
 
-If we have a method in `animal`, it can be called on `rabbit`:
+ถ้า `animal` มีเมธอดอยู่ เราก็เรียกใช้จาก `rabbit` ได้เลย:
 
 ```js run
 let animal = {
@@ -81,17 +81,17 @@ let rabbit = {
   __proto__: animal
 };
 
-// walk is taken from the prototype
+// walk ถูกดึงมาจากโปรโตไทป์
 *!*
 rabbit.walk(); // Animal walk
 */!*
 ```
 
-The method is automatically taken from the prototype, like this:
+เมธอดถูกดึงมาจากโปรโตไทป์โดยอัตโนมัติ ตามภาพนี้:
 
 ![](proto-animal-rabbit-walk.svg)
 
-The prototype chain can be longer:
+ห่วงโซ่โปรโตไทป์ (prototype chain) ยาวกว่านี้ก็ได้:
 
 ```js run
 let animal = {
@@ -115,47 +115,47 @@ let longEar = {
 */!*
 };
 
-// walk is taken from the prototype chain
+// walk ถูกดึงมาจากห่วงโซ่โปรโตไทป์
 longEar.walk(); // Animal walk
-alert(longEar.jumps); // true (from rabbit)
+alert(longEar.jumps); // true (มาจาก rabbit)
 ```
 
 ![](proto-animal-rabbit-chain.svg)
 
-Now if we read something from `longEar`, and it's missing, JavaScript will look for it in `rabbit`, and then in `animal`.
+ตอนนี้ถ้าเราอ่านอะไรจาก `longEar` แล้วหาไม่เจอ JavaScript จะไปหาใน `rabbit` ก่อน แล้วค่อยไปหาใน `animal` ต่อ
 
-There are only two limitations:
+มีข้อจำกัดอยู่ 2 ข้อ:
 
-1. The references can't go in circles. JavaScript will throw an error if we try to assign `__proto__` in a circle.
-2. The value of `__proto__` can be either an object or `null`. Other types are ignored.
+1. การอ้างอิงจะวนเป็นวงกลมไม่ได้ ถ้าพยายามกำหนด `__proto__` ให้เป็นวง JavaScript จะฟ้อง error
+2. ค่าของ `__proto__` ต้องเป็นออบเจ็กต์หรือ `null` เท่านั้น ชนิดอื่นจะถูกเพิกเฉย
 
-Also it may be obvious, but still: there can be only one `[[Prototype]]`. An object may not inherit from two others.
+อีกอย่างที่ค่อนข้างชัดอยู่แล้ว แต่อยากบอกไว้: ออบเจ็กต์หนึ่งตัวมี `[[Prototype]]` ได้แค่ตัวเดียว จะสืบทอดจากสองออบเจ็กต์พร้อมกันไม่ได้
 
-```smart header="`__proto__` is a historical getter/setter for `[[Prototype]]`"
-It's a common mistake of novice developers not to know the difference between these two.
+```smart header="`__proto__` เป็น getter/setter เก่าแก่ของ `[[Prototype]]`"
+ข้อผิดพลาดที่พบบ่อยสำหรับนักพัฒนามือใหม่คือสับสนระหว่างสองสิ่งนี้
 
-Please note that `__proto__` is *not the same* as the internal `[[Prototype]]` property. It's a getter/setter for `[[Prototype]]`. Later we'll see situations where it matters, for now let's just keep it in mind, as we build our understanding of JavaScript language.
+ควรรู้ว่า `__proto__` *ไม่ใช่สิ่งเดียวกัน*กับพร็อพเพอร์ตี้ภายใน `[[Prototype]]` แต่เป็น getter/setter ของ `[[Prototype]]` ต่างหาก ต่อไปเราจะเจอสถานการณ์ที่ความแตกต่างนี้สำคัญ ตอนนี้แค่จำไว้ก่อนนะ
 
-The `__proto__` property is a bit outdated. It exists for historical reasons, modern JavaScript suggests that we should use `Object.getPrototypeOf/Object.setPrototypeOf` functions instead that get/set the prototype. We'll also cover these functions later.
+`__proto__` ถือว่าเก่าไปแล้ว มีอยู่ด้วยเหตุผลทางประวัติศาสตร์ JavaScript สมัยใหม่แนะนำให้ใช้ `Object.getPrototypeOf/Object.setPrototypeOf` แทน ซึ่งเราจะพูดถึงภายหลัง
 
-By the specification, `__proto__` must only be supported by browsers. In fact though, all environments including server-side support `__proto__`, so we're quite safe using it.
+ตามสเปค `__proto__` ต้องซัพพอร์ตในเบราว์เซอร์เท่านั้น แต่ในทางปฏิบัติทุกสภาพแวดล้อมรวมถึงฝั่งเซิร์ฟเวอร์ก็ซัพพอร์ต `__proto__` ด้วย จึงใช้ได้อย่างปลอดภัย
 
-As the `__proto__` notation is a bit more intuitively obvious, we use it in the examples.
+เนื่องจาก `__proto__` อ่านเข้าใจง่ายกว่า เราจึงใช้ในตัวอย่างต่างๆ
 ```
 
-## Writing doesn't use prototype
+## การเขียนค่าไม่ผ่านโปรโตไทป์
 
-The prototype is only used for reading properties.
+โปรโตไทป์ถูกใช้เฉพาะตอน*อ่าน*พร็อพเพอร์ตี้เท่านั้น
 
-Write/delete operations work directly with the object.
+การเขียนหรือลบจะทำกับตัวออบเจ็กต์โดยตรง
 
-In the example below, we assign its own `walk` method to `rabbit`:
+ในตัวอย่างด้านล่าง เรากำหนดเมธอด `walk` ของ `rabbit` เอง:
 
 ```js run
 let animal = {
   eats: true,
   walk() {
-    /* this method won't be used by rabbit */  
+    /* rabbit จะไม่ใช้เมธอดนี้ */
   }
 };
 
@@ -172,13 +172,13 @@ rabbit.walk = function() {
 rabbit.walk(); // Rabbit! Bounce-bounce!
 ```
 
-From now on, `rabbit.walk()` call finds the method immediately in the object and executes it, without using the prototype:
+จากนี้ไป การเรียก `rabbit.walk()` จะเจอเมธอดในตัวออบเจ็กต์ทันทีและรันเลย โดยไม่ต้องไปหาจากโปรโตไทป์:
 
 ![](proto-animal-rabbit-walk-2.svg)
 
-Accessor properties are an exception, as assignment is handled by a setter function. So writing to such a property is actually the same as calling a function.
+แต่มีข้อยกเว้นสำหรับ accessor property เนื่องจากการกำหนดค่าจะถูกจัดการโดยฟังก์ชัน setter ดังนั้นการเขียนค่าให้พร็อพเพอร์ตี้แบบนี้ก็เหมือนกับการเรียกฟังก์ชันนั่นเอง
 
-For that reason `admin.fullName` works correctly in the code below:
+ด้วยเหตุนี้ `admin.fullName` จึงทำงานได้ถูกต้องในโค้ดด้านล่าง:
 
 ```js run
 let user = {
@@ -201,33 +201,33 @@ let admin = {
 
 alert(admin.fullName); // John Smith (*)
 
-// setter triggers!
+// setter ทำงาน!
 admin.fullName = "Alice Cooper"; // (**)
 
-alert(admin.fullName); // Alice Cooper, state of admin modified
-alert(user.fullName); // John Smith, state of user protected
+alert(admin.fullName); // Alice Cooper, สถานะของ admin เปลี่ยน
+alert(user.fullName); // John Smith, สถานะของ user ไม่ถูกแตะต้อง
 ```
 
-Here in the line `(*)` the property `admin.fullName` has a getter in the prototype `user`, so it is called. And in the line `(**)` the property has a setter in the prototype, so it is called.
+ในบรรทัด `(*)` พร็อพเพอร์ตี้ `admin.fullName` มี getter อยู่ในโปรโตไทป์ `user` จึงเรียก getter ตัวนั้น ส่วนบรรทัด `(**)` มี setter อยู่ในโปรโตไทป์ จึงเรียก setter แทน
 
-## The value of "this"
+## ค่าของ "this"
 
-An interesting question may arise in the example above: what's the value of `this` inside `set fullName(value)`? Where are the properties `this.name` and `this.surname` written: into `user` or `admin`?
+คำถามที่น่าสนใจจากตัวอย่างข้างบนคือ: ค่าของ `this` ใน `set fullName(value)` คืออะไร? พร็อพเพอร์ตี้ `this.name` กับ `this.surname` ถูกเขียนลงใน `user` หรือ `admin` กันแน่?
 
-The answer is simple: `this` is not affected by prototypes at all.
+คำตอบง่ายมาก: โปรโตไทป์ไม่ส่งผลต่อ `this` เลย
 
-**No matter where the method is found: in an object or its prototype. In a method call, `this` is always the object before the dot.**
+**ไม่ว่าจะเจอเมธอดที่ไหน จะอยู่ในตัวออบเจ็กต์หรือโปรโตไทป์ก็ตาม เวลาเรียกเมธอด `this` จะเป็นออบเจ็กต์ที่อยู่หน้าจุดเสมอ**
 
-So, the setter call `admin.fullName=` uses `admin` as `this`, not `user`.
+ดังนั้นเมื่อเรียก setter ด้วย `admin.fullName=` ค่า `this` จะเป็น `admin` ไม่ใช่ `user`
 
-That is actually a super-important thing, because we may have a big object with many methods, and have objects that inherit from it. And when the inheriting objects run the inherited methods, they will modify only their own states, not the state of the big object.
+เรื่องนี้สำคัญมากๆ เพราะเราอาจมีออบเจ็กต์ใหญ่ที่มีเมธอดเยอะ แล้วมีออบเจ็กต์อื่นสืบทอดมาจากมัน เวลาออบเจ็กต์ลูกเรียกใช้เมธอดที่สืบทอดมา จะแก้ไขแค่สถานะของตัวเองเท่านั้น ไม่กระทบออบเจ็กต์ต้นทาง
 
-For instance, here `animal` represents a "method storage", and `rabbit` makes use of it.
+ยกตัวอย่าง ที่นี่ `animal` ทำหน้าที่เป็น "คลังเก็บเมธอด" แล้ว `rabbit` ก็มาใช้เมธอดเหล่านั้น
 
-The call `rabbit.sleep()` sets `this.isSleeping` on the `rabbit` object:
+การเรียก `rabbit.sleep()` จะกำหนดค่า `this.isSleeping` บนออบเจ็กต์ `rabbit`:
 
 ```js run
-// animal has methods
+// animal มีเมธอดต่างๆ
 let animal = {
   walk() {
     if (!this.isSleeping) {
@@ -244,26 +244,26 @@ let rabbit = {
   __proto__: animal
 };
 
-// modifies rabbit.isSleeping
+// แก้ไขค่า rabbit.isSleeping
 rabbit.sleep();
 
 alert(rabbit.isSleeping); // true
-alert(animal.isSleeping); // undefined (no such property in the prototype)
+alert(animal.isSleeping); // undefined (ไม่มีพร็อพเพอร์ตี้นี้ในโปรโตไทป์)
 ```
 
-The resulting picture:
+ผลลัพธ์เป็นภาพแบบนี้:
 
 ![](proto-animal-rabbit-walk-3.svg)
 
-If we had other objects, like `bird`, `snake`, etc., inheriting from `animal`, they would also gain access to methods of `animal`. But `this` in each method call would be the corresponding object, evaluated at the call-time (before dot), not `animal`. So when we write data into `this`, it is stored into these objects.
+ถ้ามีออบเจ็กต์อื่นอย่าง `bird`, `snake` ฯลฯ สืบทอดมาจาก `animal` พวกมันก็จะเข้าถึงเมธอดของ `animal` ได้เหมือนกัน แต่ `this` ในแต่ละการเรียกเมธอดจะเป็นออบเจ็กต์ตัวที่เรียก (ตัวหน้าจุด) ไม่ใช่ `animal` ดังนั้นเวลาเขียนข้อมูลลง `this` ข้อมูลจะถูกเก็บในออบเจ็กต์แต่ละตัว
 
-As a result, methods are shared, but the object state is not.
+สรุปก็คือ เมธอดแชร์กันได้ แต่สถานะของแต่ละออบเจ็กต์แยกกัน
 
-## for..in loop
+## ลูป for..in
 
-The `for..in` loop iterates over inherited properties too.
+ลูป `for..in` จะวนรวมพร็อพเพอร์ตี้ที่สืบทอดมาด้วย
 
-For instance:
+ลองดูตัวอย่าง:
 
 ```js run
 let animal = {
@@ -276,19 +276,19 @@ let rabbit = {
 };
 
 *!*
-// Object.keys only returns own keys
+// Object.keys คืนเฉพาะ key ของตัวเอง
 alert(Object.keys(rabbit)); // jumps
 */!*
 
 *!*
-// for..in loops over both own and inherited keys
-for(let prop in rabbit) alert(prop); // jumps, then eats
+// for..in วนทั้ง key ของตัวเองและ key ที่สืบทอดมา
+for(let prop in rabbit) alert(prop); // jumps, แล้วก็ eats
 */!*
 ```
 
-If that's not what we want, and we'd like to exclude inherited properties, there's a built-in method [obj.hasOwnProperty(key)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwnProperty): it returns `true` if `obj` has its own (not inherited) property named `key`.
+ถ้าไม่ต้องการแบบนั้น และอยากตัดพร็อพเพอร์ตี้ที่สืบทอดมาออก มีเมธอดสำเร็จรูป [obj.hasOwnProperty(key)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwnProperty) ซึ่งจะคืนค่า `true` ถ้า `obj` มีพร็อพเพอร์ตี้ชื่อ `key` เป็นของตัวเอง (ไม่ได้สืบทอดมา)
 
-So we can filter out inherited properties (or do something else with them):
+เราจึงกรองพร็อพเพอร์ตี้ที่สืบทอดมาออกได้ (หรือจะทำอะไรอื่นกับมันก็ได้):
 
 ```js run
 let animal = {
@@ -304,35 +304,35 @@ for(let prop in rabbit) {
   let isOwn = rabbit.hasOwnProperty(prop);
 
   if (isOwn) {
-    alert(`Our: ${prop}`); // Our: jumps
+    alert(`ของเรา: ${prop}`); // ของเรา: jumps
   } else {
-    alert(`Inherited: ${prop}`); // Inherited: eats
+    alert(`สืบทอดมา: ${prop}`); // สืบทอดมา: eats
   }
 }
 ```
 
-Here we have the following inheritance chain: `rabbit` inherits from `animal`, that inherits from `Object.prototype` (because `animal` is a literal object `{...}`, so it's by default), and then `null` above it:
+ห่วงโซ่การสืบทอดในที่นี้เป็นแบบนี้: `rabbit` สืบทอดจาก `animal` ซึ่งสืบทอดจาก `Object.prototype` (เพราะ `animal` เป็นออบเจ็กต์ลิเทอรัล `{...}` จึงเป็นค่าเริ่มต้น) แล้วถัดขึ้นไปก็เป็น `null`:
 
 ![](rabbit-animal-object.svg)
 
-Note, there's one funny thing. Where is the method `rabbit.hasOwnProperty` coming from? We did not define it. Looking at the chain we can see that the method is provided by `Object.prototype.hasOwnProperty`. In other words, it's inherited.
+ลองสังเกตสิ่งที่น่าสนใจอย่างหนึ่ง เมธอด `rabbit.hasOwnProperty` มาจากไหน? เราไม่ได้ประกาศมันเอง ไล่ดูตามห่วงโซ่ก็จะเห็นว่าเมธอดนี้มาจาก `Object.prototype.hasOwnProperty` พูดง่ายๆ ก็คือสืบทอดมานั่นเอง
 
-...But why does `hasOwnProperty` not appear in the `for..in` loop like `eats` and `jumps` do, if `for..in` lists inherited properties?
+...แต่ทำไม `hasOwnProperty` ไม่โผล่ในลูป `for..in` เหมือน `eats` กับ `jumps` ล่ะ ในเมื่อ `for..in` วนรวมพร็อพเพอร์ตี้ที่สืบทอดมาด้วย?
 
-The answer is simple: it's not enumerable. Just like all other properties of `Object.prototype`, it has `enumerable:false` flag. And `for..in` only lists enumerable properties. That's why it and the rest of the `Object.prototype` properties are not listed.
+คำตอบง่ายมาก: เพราะมันไม่ใช่ enumerable เหมือนพร็อพเพอร์ตี้อื่นๆ ทั้งหมดของ `Object.prototype` มันมี flag `enumerable:false` อยู่ และ `for..in` จะวนเฉพาะพร็อพเพอร์ตี้ที่เป็น enumerable เท่านั้น จึงไม่แสดง `hasOwnProperty` และพร็อพเพอร์ตี้อื่นๆ ของ `Object.prototype`
 
-```smart header="Almost all other key/value-getting methods ignore inherited properties"
-Almost all other key/value-getting methods, such as `Object.keys`, `Object.values` and so on ignore inherited properties.
+```smart header="เมธอดดึง key/value อื่นๆ เกือบทั้งหมดจะข้ามพร็อพเพอร์ตี้ที่สืบทอดมา"
+เมธอดดึง key/value อื่นๆ เกือบทั้งหมด เช่น `Object.keys`, `Object.values` ฯลฯ จะข้ามพร็อพเพอร์ตี้ที่สืบทอดมา
 
-They only operate on the object itself. Properties from the prototype are *not* taken into account.
+เมธอดเหล่านี้ทำงานกับตัวออบเจ็กต์เองเท่านั้น พร็อพเพอร์ตี้จากโปรโตไทป์*ไม่ถูกนับรวม*
 ```
 
-## Summary
+## สรุป
 
-- In JavaScript, all objects have a hidden `[[Prototype]]` property that's either another object or `null`.
-- We can use `obj.__proto__` to access it (a historical getter/setter, there are other ways, to be covered soon).
-- The object referenced by `[[Prototype]]` is called a "prototype".
-- If we want to read a property of `obj` or call a method, and it doesn't exist, then JavaScript tries to find it in the prototype.
-- Write/delete operations act directly on the object, they don't use the prototype (assuming it's a data property, not a setter).
-- If we call `obj.method()`, and the `method` is taken from the prototype, `this` still references `obj`. So methods always work with the current object even if they are inherited.
-- The `for..in` loop iterates over both its own and its inherited properties. All other key/value-getting methods only operate on the object itself.
+- ออบเจ็กต์ทุกตัวใน JavaScript มีพร็อพเพอร์ตี้ซ่อน `[[Prototype]]` ซึ่งมีค่าเป็นออบเจ็กต์อีกตัวหรือ `null`
+- เราเข้าถึงได้ผ่าน `obj.__proto__` (เป็น getter/setter เก่าแก่ ยังมีวิธีอื่นที่จะพูดถึงเร็วๆ นี้)
+- ออบเจ็กต์ที่ `[[Prototype]]` อ้างอิงถึงเรียกว่า "โปรโตไทป์"
+- ถ้าเราอ่านพร็อพเพอร์ตี้ของ `obj` หรือเรียกเมธอดแล้วหาไม่เจอ JavaScript จะไปหาจากโปรโตไทป์ให้
+- การเขียนหรือลบจะทำกับตัวออบเจ็กต์โดยตรง ไม่ผ่านโปรโตไทป์ (ยกเว้นกรณีที่เป็น setter)
+- ถ้าเรียก `obj.method()` แล้วเมธอดมาจากโปรโตไทป์ `this` ก็ยังอ้างถึง `obj` อยู่ดี ดังนั้นเมธอดจะทำงานกับออบเจ็กต์ปัจจุบันเสมอ แม้จะเป็นเมธอดที่สืบทอดมา
+- ลูป `for..in` จะวนทั้งพร็อพเพอร์ตี้ของตัวเองและที่สืบทอดมา ส่วนเมธอดดึง key/value อื่นๆ จะทำงานกับตัวออบเจ็กต์เองเท่านั้น

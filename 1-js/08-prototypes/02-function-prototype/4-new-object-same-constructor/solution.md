@@ -1,6 +1,6 @@
-We can use such approach if we are sure that `"constructor"` property has the correct value.
+วิธีนี้ใช้ได้ก็ต่อเมื่อเรามั่นใจว่าพร็อพเพอร์ตี้ `"constructor"` ชี้ไปยังค่าที่ถูกต้อง
 
-For instance, if we don't touch the default `"prototype"`, then this code works for sure:
+ยกตัวอย่าง ถ้าเราไม่ไปแตะ `"prototype"` เริ่มต้น โค้ดนี้ก็จะทำงานได้:
 
 ```js run
 function User(name) {
@@ -10,14 +10,14 @@ function User(name) {
 let user = new User('John');
 let user2 = new user.constructor('Pete');
 
-alert( user2.name ); // Pete (worked!)
+alert( user2.name ); // Pete (ทำงานได้!)
 ```
 
-It worked, because `User.prototype.constructor == User`.
+ทำงานได้เพราะ `User.prototype.constructor == User`
 
-..But if someone, so to speak, overwrites `User.prototype` and forgets to recreate `constructor` to reference `User`, then it would fail.
+..แต่ถ้ามีใครไปเขียนทับ `User.prototype` แล้วลืมกำหนด `constructor` ให้ชี้กลับไปที่ `User` โค้ดก็จะพังทันที
 
-For instance:
+ยกตัวอย่าง:
 
 ```js run
 function User(name) {
@@ -33,17 +33,17 @@ let user2 = new user.constructor('Pete');
 alert( user2.name ); // undefined
 ```
 
-Why `user2.name` is `undefined`?
+ทำไม `user2.name` ถึงเป็น `undefined`?
 
-Here's how `new user.constructor('Pete')` works:
+มาดูกันว่า `new user.constructor('Pete')` ทำงานอย่างไร:
 
-1. First, it looks for `constructor` in `user`. Nothing.
-2. Then it follows the prototype chain. The prototype of `user` is `User.prototype`, and it also has no `constructor` (because we "forgot" to set it right!).
-3. Going further up the chain, `User.prototype` is a plain object, its prototype is the built-in `Object.prototype`. 
-4. Finally, for the built-in `Object.prototype`, there's a built-in `Object.prototype.constructor == Object`. So it is used.
+1. แรกสุดมันหา `constructor` ใน `user` ก่อน -- ไม่เจอ
+2. จากนั้นก็ไล่ขึ้นไปตาม prototype chain โปรโตไทป์ของ `user` คือ `User.prototype` ซึ่งก็ไม่มี `constructor` เช่นกัน (เพราะเรา "ลืม" กำหนดไว้)
+3. ไล่ขึ้นไปอีก `User.prototype` เป็นออบเจ็กต์ธรรมดา โปรโตไทป์ของมันคือ `Object.prototype` ที่มีมาในตัว
+4. สุดท้ายก็ไปเจอ `Object.prototype.constructor == Object` จึงใช้ตัวนี้แทน
 
-Finally, at the end, we have `let user2 = new Object('Pete')`. 
+สรุปแล้วสิ่งที่เกิดขึ้นคือ `let user2 = new Object('Pete')`
 
-Probably, that's not what we want. We'd like to create `new User`, not `new Object`. That's the outcome of the missing `constructor`.
+ซึ่งไม่ใช่สิ่งที่เราต้องการ เราอยากสร้าง `new User` ไม่ใช่ `new Object` ทั้งหมดนี้เกิดจากการที่ `constructor` หายไป
 
-(Just in case you're curious, the `new Object(...)` call converts its argument to an object. That's a theoretical thing, in practice no one calls `new Object` with a value, and generally we don't use `new Object` to make objects at all).
+(เกร็ดเล็กๆ: `new Object(...)` จะแปลงอาร์กิวเมนต์ให้เป็นออบเจ็กต์ แต่เป็นแค่ความรู้ทางทฤษฎี ในทางปฏิบัติไม่มีใครเรียก `new Object` โดยส่งค่าเข้าไป และโดยทั่วไปเราก็ไม่ใช้ `new Object` ในการสร้างออบเจ็กต์อยู่แล้ว)

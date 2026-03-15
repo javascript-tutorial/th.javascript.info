@@ -2,14 +2,14 @@ importance: 5
 
 ---
 
-# Create an object with the same constructor
+# สร้างออบเจ็กต์ด้วยคอนสตรักเตอร์ตัวเดิม
 
-Imagine, we have an arbitrary object `obj`, created by a constructor function -- we don't know which one, but we'd like to create a new object using it.
+สมมติว่าเรามีออบเจ็กต์ `obj` ตัวหนึ่ง ที่ถูกสร้างจากคอนสตรักเตอร์ฟังก์ชัน แต่เราไม่รู้ว่าตัวไหน แล้วเราต้องการสร้างออบเจ็กต์ใหม่จากคอนสตรักเตอร์เดียวกัน
 
-Can we do it like that?
+เราเขียนแบบนี้ได้ไหม?
 
 ```js
 let obj2 = new obj.constructor();
 ```
 
-Give an example of a constructor function for `obj` which lets such code work right. And an example that makes it work wrong.
+ลองยกตัวอย่างคอนสตรักเตอร์ฟังก์ชันของ `obj` ที่ทำให้โค้ดข้างบนทำงานได้ถูกต้อง และอีกตัวอย่างที่ทำให้ทำงานผิดพลาด

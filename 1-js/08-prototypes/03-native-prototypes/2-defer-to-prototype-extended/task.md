@@ -2,18 +2,18 @@ importance: 4
 
 ---
 
-# Add the decorating "defer()" to functions
+# เพิ่ม "defer()" แบบ decorator ให้ฟังก์ชัน
 
-Add to the prototype of all functions the method `defer(ms)`, that returns a wrapper, delaying the call by `ms` milliseconds.
+ให้เพิ่มเมธอด `defer(ms)` เข้าไปในโปรโตไทป์ของฟังก์ชันทั้งหมด โดยเมธอดนี้จะคืนค่า wrapper ที่หน่วงเวลาการเรียกฟังก์ชันออกไป `ms` มิลลิวินาที
 
-Here's an example of how it should work:
+ตัวอย่างการใช้งาน:
 
 ```js
 function f(a, b) {
   alert( a + b );
 }
 
-f.defer(1000)(1, 2); // shows 3 after 1 second
+f.defer(1000)(1, 2); // แสดง 3 หลังจาก 1 วินาที
 ```
 
-Please note that the arguments should be passed to the original function.
+อย่าลืมว่าอาร์กิวเมนต์ต้องถูกส่งต่อไปยังฟังก์ชันตัวเดิมด้วย
