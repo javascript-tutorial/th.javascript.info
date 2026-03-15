@@ -1,7 +1,7 @@
-**The answer: `rabbit`.**
+**คำตอบ: `rabbit`**
 
-That's because `this` is an object before the dot, so `rabbit.eat()` modifies `rabbit`.
+เพราะ `this` คือออบเจ็กต์ที่อยู่หน้าจุด ดังนั้น `rabbit.eat()` จึงแก้ไข `rabbit`
 
-Property lookup and execution are two different things.
+การค้นหาพร็อพเพอร์ตี้กับการเรียกใช้เป็นคนละขั้นตอนกัน
 
-The method `rabbit.eat` is first found in the prototype, then executed with `this=rabbit`.
+เมธอด `rabbit.eat` ถูกค้นพบในโปรโตไทป์ก่อน จากนั้นจึงรันด้วย `this=rabbit`

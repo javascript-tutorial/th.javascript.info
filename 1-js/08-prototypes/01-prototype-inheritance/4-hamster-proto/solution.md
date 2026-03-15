@@ -1,18 +1,18 @@
-Let's look carefully at what's going on in the call `speedy.eat("apple")`.
+มาดูกันให้ละเอียดว่าเกิดอะไรขึ้นตอนเรียก `speedy.eat("apple")`
 
-1. The method `speedy.eat` is found in the prototype (`=hamster`), then executed with `this=speedy` (the object before the dot).
+1. เมธอด `speedy.eat` ถูกค้นพบในโปรโตไทป์ (`=hamster`) แล้วรันด้วย `this=speedy` (ออบเจ็กต์ที่อยู่หน้าจุด)
 
-2. Then `this.stomach.push()` needs to find `stomach` property and call `push` on it. It looks for `stomach` in `this` (`=speedy`), but nothing found.
+2. จากนั้น `this.stomach.push()` ต้องหาพร็อพเพอร์ตี้ `stomach` เพื่อเรียก `push` โดยไปหาใน `this` (`=speedy`) ก่อน แต่ไม่เจอ
 
-3. Then it follows the prototype chain and finds `stomach` in `hamster`.
+3. จึงไล่ตามห่วงโซ่โปรโตไทป์ขึ้นไป แล้วเจอ `stomach` ใน `hamster`
 
-4. Then it calls `push` on it, adding the food into *the stomach of the prototype*.
+4. จากนั้นเรียก `push` บนมัน ซึ่งก็คือเพิ่มอาหารเข้าไปใน *stomach ของโปรโตไทป์*
 
-So all hamsters share a single stomach!
+แฮมสเตอร์ทุกตัวจึงใช้ stomach เดียวกัน!
 
-Both for `lazy.stomach.push(...)` and `speedy.stomach.push()`, the property `stomach` is found in the prototype (as it's not in the object itself), then the new data is pushed into it.
+ไม่ว่าจะเป็น `lazy.stomach.push(...)` หรือ `speedy.stomach.push()` พร็อพเพอร์ตี้ `stomach` ล้วนถูกค้นพบในโปรโตไทป์ (เพราะไม่ได้อยู่ในตัวออบเจ็กต์เอง) แล้วข้อมูลใหม่ก็ถูก push เข้าไปในนั้น
 
-Please note that such thing doesn't happen in case of a simple assignment `this.stomach=`:
+สังเกตว่าปัญหานี้จะไม่เกิดขึ้น ถ้าใช้การ assign ตรงๆ แบบ `this.stomach=`:
 
 ```js run
 let hamster = {
@@ -20,7 +20,7 @@ let hamster = {
 
   eat(food) {
 *!*
-    // assign to this.stomach instead of this.stomach.push
+    // ใช้ assign แทน this.stomach.push
     this.stomach = [food];
 */!*
   }
@@ -34,17 +34,17 @@ let lazy = {
   __proto__: hamster
 };
 
-// Speedy one found the food
+// ตัวเร็วหาอาหารเจอ
 speedy.eat("apple");
 alert( speedy.stomach ); // apple
 
-// Lazy one's stomach is empty
-alert( lazy.stomach ); // <nothing>
+// ตัวขี้เกียจท้องยังว่าง
+alert( lazy.stomach ); // <ไม่มีอะไร>
 ```
 
-Now all works fine, because `this.stomach=` does not perform a lookup of `stomach`. The value is written directly into `this` object.
+ตอนนี้ทำงานถูกต้องแล้ว เพราะ `this.stomach=` ไม่ได้ไปค้นหา `stomach` จากโปรโตไทป์ แต่เขียนค่าลงในตัว `this` โดยตรง
 
-Also we can totally avoid the problem by making sure that each hamster has their own stomach:
+อีกวิธีหนึ่งคือกำหนดให้แฮมสเตอร์แต่ละตัวมี stomach ของตัวเอง:
 
 ```js run
 let hamster = {
@@ -69,12 +69,12 @@ let lazy = {
 */!*
 };
 
-// Speedy one found the food
+// ตัวเร็วหาอาหารเจอ
 speedy.eat("apple");
 alert( speedy.stomach ); // apple
 
-// Lazy one's stomach is empty
-alert( lazy.stomach ); // <nothing>
+// ตัวขี้เกียจท้องยังว่าง
+alert( lazy.stomach ); // <ไม่มีอะไร>
 ```
 
-As a common solution, all properties that describe the state of a particular object, like `stomach` above, should be written into that object. That prevents such problems.
+โดยทั่วไป พร็อพเพอร์ตี้ที่เก็บสถานะเฉพาะของแต่ละออบเจ็กต์ เช่น `stomach` ข้างต้น ควรประกาศไว้ในตัวออบเจ็กต์นั้นเลย จะได้ไม่เกิดปัญหาแบบนี้
