@@ -1,7 +1,7 @@
-Yeah, looks strange indeed.
+ใช่ ดูแปลกจริงๆ
 
-But `instanceof` does not care about the function, but rather about its `prototype`, that it matches against the prototype chain.
+แต่ `instanceof` ไม่ได้สนใจตัวฟังก์ชัน สิ่งที่มันตรวจสอบคือพร็อพเพอร์ตี้ `prototype` ว่าตรงกับโปรโตไทป์ตัวไหนใน prototype chain หรือไม่
 
-And here `a.__proto__ == B.prototype`, so `instanceof` returns `true`.
+ในกรณีนี้ `a.__proto__ == B.prototype` จึงทำให้ `instanceof` คืนค่า `true`
 
-So, by the logic of `instanceof`, the `prototype` actually defines the type, not the constructor function.
+สรุปก็คือ ตามตรรกะของ `instanceof` แล้ว สิ่งที่กำหนด "ชนิด" คือ `prototype` ไม่ใช่คอนสตรักเตอร์ฟังก์ชัน

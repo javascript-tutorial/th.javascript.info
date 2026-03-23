@@ -1,14 +1,14 @@
-First, let's see why the latter code doesn't work.
+มาดูกันก่อนว่าทำไมโค้ดด้านบนถึงใช้ไม่ได้
 
-The reason becomes obvious if we try to run it. An inheriting class constructor must call `super()`. Otherwise `"this"` won't be "defined".
+สาเหตุจะเห็นชัดเมื่อลองรันดู คลาสลูกที่สืบทอดมาจำเป็นต้องเรียก `super()` ในคอนสตรักเตอร์ ไม่อย่างนั้น `"this"` จะยังไม่ถูกกำหนดค่า
 
-So here's the fix:
+แก้ไขได้ดังนี้:
 
 ```js run
 class Rabbit extends Object {
   constructor(name) {
 *!*
-    super(); // need to call the parent constructor when inheriting
+    super(); // ต้องเรียกคอนสตรักเตอร์ของคลาสแม่เมื่อมีการสืบทอด
 */!*
     this.name = name;
   }
@@ -19,16 +19,16 @@ let rabbit = new Rabbit("Rab");
 alert( rabbit.hasOwnProperty('name') ); // true
 ```
 
-But that's not all yet.
+แต่ยังไม่จบแค่นี้
 
-Even after the fix, there's still an important difference between `"class Rabbit extends Object"` and `class Rabbit`.
+แม้แก้ไขแล้ว ยังมีความแตกต่างสำคัญระหว่าง `"class Rabbit extends Object"` กับ `class Rabbit` ธรรมดา
 
-As we know, the "extends" syntax sets up two prototypes:
+อย่างที่เราทราบ ไวยากรณ์ "extends" สร้างการเชื่อมโยงโปรโตไทป์ 2 จุด:
 
-1. Between `"prototype"` of the constructor functions (for methods).
-2. Between the constructor functions themselves (for static methods).
+1. ระหว่าง `"prototype"` ของคอนสตรักเตอร์ (สำหรับเมธอดปกติ)
+2. ระหว่างตัวคอนสตรักเตอร์เอง (สำหรับเมธอด static)
 
-In the case of `class Rabbit extends Object` it means:
+ในกรณีของ `class Rabbit extends Object` จะเป็นแบบนี้:
 
 ```js run
 class Rabbit extends Object {}
@@ -37,45 +37,45 @@ alert( Rabbit.prototype.__proto__ === Object.prototype ); // (1) true
 alert( Rabbit.__proto__ === Object ); // (2) true
 ```
 
-So `Rabbit` now provides access to the static methods of `Object` via `Rabbit`, like this:
+ดังนั้น `Rabbit` จึงเข้าถึงเมธอด static ของ `Object` ผ่านตัว `Rabbit` ได้เลย เช่น:
 
 ```js run
 class Rabbit extends Object {}
 
 *!*
-// normally we call Object.getOwnPropertyNames
+// ปกติเราเรียก Object.getOwnPropertyNames
 alert ( Rabbit.getOwnPropertyNames({a: 1, b: 2})); // a,b
 */!*
 ```
 
-But if we don't have `extends Object`, then `Rabbit.__proto__` is not set to `Object`.
+แต่ถ้าไม่มี `extends Object` ค่า `Rabbit.__proto__` จะไม่ชี้ไปที่ `Object`
 
-Here's the demo:
+ลองดูตัวอย่าง:
 
 ```js run
 class Rabbit {}
 
 alert( Rabbit.prototype.__proto__ === Object.prototype ); // (1) true
 alert( Rabbit.__proto__ === Object ); // (2) false (!)
-alert( Rabbit.__proto__ === Function.prototype ); // as any function by default
+alert( Rabbit.__proto__ === Function.prototype ); // เป็นค่าเริ่มต้นของทุกฟังก์ชัน
 
 *!*
-// error, no such function in Rabbit
+// ไม่มีฟังก์ชันนี้ใน Rabbit
 alert ( Rabbit.getOwnPropertyNames({a: 1, b: 2})); // Error
 */!*
 ```
 
-So `Rabbit` doesn't provide access to static methods of `Object` in that case.
+ในกรณีนี้ `Rabbit` จึงเข้าถึงเมธอด static ของ `Object` ไม่ได้
 
-By the way, `Function.prototype` also has "generic" function methods, like `call`, `bind` etc. They are ultimately available in both cases, because for the built-in `Object` constructor, `Object.__proto__ === Function.prototype`.
+อีกอย่าง `Function.prototype` ก็มีเมธอดทั่วไปของฟังก์ชัน เช่น `call`, `bind` เป็นต้น ซึ่งใช้ได้ทั้งสองกรณี เพราะคอนสตรักเตอร์ `Object` ในตัวก็มี `Object.__proto__ === Function.prototype` เช่นกัน
 
-Here's the picture:
+ภาพประกอบ:
 
 ![](rabbit-extends-object.svg)
 
-So, to put it short, there are two differences:
+สรุปสั้นๆ ความแตกต่างมีสองข้อ:
 
 | class Rabbit | class Rabbit extends Object  |
 |--------------|------------------------------|
-| --             | needs to call `super()` in constructor |
+| --             | ต้องเรียก `super()` ในคอนสตรักเตอร์ |
 | `Rabbit.__proto__ === Function.prototype` | `Rabbit.__proto__ === Object` |

@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Error creating an instance
+# Error ตอนสร้างอินสแตนซ์
 
-Here's the code with `Rabbit` extending `Animal`.
+โค้ดด้านล่างมี `Rabbit` สืบทอดจาก `Animal`
 
-Unfortunately, `Rabbit` objects can't be created. What's wrong? Fix it.
+แต่น่าเสียดาย ออบเจ็กต์ `Rabbit` สร้างไม่ได้ อะไรผิดพลาด? ลองแก้ดู
 ```js run
 class Animal {
 
@@ -17,7 +17,7 @@ class Animal {
 }
 
 class Rabbit extends Animal {
-  constructor(name) {  
+  constructor(name) {
     this.name = name;
     this.created = Date.now();
   }

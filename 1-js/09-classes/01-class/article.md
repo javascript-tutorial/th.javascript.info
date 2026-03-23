@@ -1,22 +1,21 @@
-
-# Class basic syntax
+# ไวยากรณ์พื้นฐานของคลาส
 
 ```quote author="Wikipedia"
-In object-oriented programming, a *class* is an extensible program-code-template for creating objects, providing initial values for state (member variables) and implementations of behavior (member functions or methods).
+ในแนวคิดการเขียนโปรแกรมเชิงวัตถุ (OOP) *คลาส* คือแม่แบบของโค้ดสำหรับสร้างออบเจ็กต์ โดยกำหนดค่าเริ่มต้นของสถานะ (ตัวแปรสมาชิก) และพฤติกรรม (ฟังก์ชันสมาชิกหรือเมธอด)
 ```
 
-In practice, we often need to create many objects of the same kind, like users, or goods or whatever.
+ในทางปฏิบัติ เรามักจะต้องสร้างออบเจ็กต์จำนวนมากที่มีโครงสร้างเหมือนกัน ไม่ว่าจะเป็นผู้ใช้ สินค้า หรืออะไรก็ตาม
 
-As we already know from the chapter <info:constructor-new>, `new function` can help with that.
+อย่างที่เรารู้จากบท <info:constructor-new> แล้วว่า `new function` ช่วยจัดการเรื่องนี้ได้
 
-But in the modern JavaScript, there's a more advanced "class" construct, that introduces great new features which are useful for object-oriented programming.
+แต่ใน JavaScript ยุคใหม่ มีไวยากรณ์ "class" ที่ทำได้มากกว่า และเพิ่มฟีเจอร์ใหม่ๆ ที่มีประโยชน์สำหรับการเขียนโปรแกรมเชิงวัตถุ
 
-## The "class" syntax
+## ไวยากรณ์ "class"
 
-The basic syntax is:
+โครงสร้างพื้นฐานเป็นแบบนี้:
 ```js
 class MyClass {
-  // class methods
+  // เมธอดของคลาส
   constructor() { ... }
   method1() { ... }
   method2() { ... }
@@ -25,11 +24,11 @@ class MyClass {
 }
 ```
 
-Then use `new MyClass()` to create a new object with all the listed methods.
+จากนั้นใช้ `new MyClass()` เพื่อสร้างออบเจ็กต์ใหม่ที่มีเมธอดทั้งหมดตามที่ระบุไว้
 
-The `constructor()` method is called automatically by `new`, so we can initialize the object there.
+เมธอด `constructor()` จะถูกเรียกโดยอัตโนมัติเมื่อใช้ `new` ทำให้เรากำหนดค่าเริ่มต้นให้ออบเจ็กต์ได้ตรงนี้
 
-For example:
+ยกตัวอย่าง:
 
 ```js run
 class User {
@@ -44,33 +43,33 @@ class User {
 
 }
 
-// Usage:
+// วิธีใช้งาน:
 let user = new User("John");
 user.sayHi();
 ```
 
-When `new User("John")` is called:
-1. A new object is created.
-2. The `constructor` runs with the given argument and assigns it to `this.name`.
+เมื่อเรียก `new User("John")` สิ่งที่เกิดขึ้นคือ:
+1. สร้างออบเจ็กต์ใหม่ขึ้นมา
+2. `constructor` ทำงานโดยรับอาร์กิวเมนต์ที่ส่งมา แล้วกำหนดให้ `this.name`
 
-...Then we can call object methods, such as `user.sayHi()`.
+...หลังจากนั้นก็เรียกเมธอดของออบเจ็กต์ได้เลย เช่น `user.sayHi()`
 
 
-```warn header="No comma between class methods"
-A common pitfall for novice developers is to put a comma between class methods, which would result in a syntax error.
+```warn header="ห้ามใส่จุลภาคระหว่างเมธอดของคลาส"
+ข้อผิดพลาดที่มักพบบ่อยสำหรับนักพัฒนามือใหม่คือการใส่จุลภาค (comma) ระหว่างเมธอดของคลาส ซึ่งจะทำให้เกิด syntax error
 
-The notation here is not to be confused with object literals. Within the class, no commas are required.
+ไวยากรณ์ตรงนี้ต่างจาก object literal นะ — ภายในคลาสไม่ต้องมีจุลภาคคั่นระหว่างเมธอด
 ```
 
-## What is a class?
+## คลาสคืออะไรกันแน่?
 
-So, what exactly is a `class`? That's not an entirely new language-level entity, as one might think.
+แล้ว `class` จริงๆ คืออะไร? มันไม่ได้เป็นสิ่งใหม่ในระดับภาษาอย่างที่หลายคนอาจเข้าใจ
 
-Let's unveil any magic and see what a class really is. That'll help in understanding many complex aspects.
+มาเปิดเผยเบื้องหลังกันว่าคลาสจริงๆ แล้วเป็นอะไร เข้าใจตรงนี้แล้วจะช่วยให้เข้าใจเรื่องซับซ้อนอื่นๆ ได้ง่ายขึ้น
 
-In JavaScript, a class is a kind of function.
+ใน JavaScript คลาสก็คือฟังก์ชันชนิดหนึ่งนั่นเอง
 
-Here, take a look:
+ลองดู:
 
 ```js run
 class User {
@@ -78,24 +77,24 @@ class User {
   sayHi() { alert(this.name); }
 }
 
-// proof: User is a function
+// พิสูจน์: User เป็นฟังก์ชัน
 *!*
 alert(typeof User); // function
 */!*
 ```
 
-What `class User {...}` construct really does is:
+สิ่งที่ `class User {...}` ทำจริงๆ มีดังนี้:
 
-1. Creates a function named `User`, that becomes the result of the class declaration. The function code is taken from the `constructor` method (assumed empty if we don't write such method).
-2. Stores class methods, such as `sayHi`, in `User.prototype`.
+1. สร้างฟังก์ชันชื่อ `User` ซึ่งเป็นผลลัพธ์ของการประกาศคลาส โดยโค้ดภายในฟังก์ชันมาจากเมธอด `constructor` (ถ้าไม่ได้เขียน `constructor` ไว้ ก็จะเป็นฟังก์ชันว่างๆ)
+2. เก็บเมธอดทั้งหมด เช่น `sayHi` ไว้ใน `User.prototype`
 
-After `new User` object is created, when we call its method, it's taken from the prototype, just as described in the chapter <info:function-prototype>. So the object has access to class methods.
+เมื่อสร้างออบเจ็กต์ด้วย `new User` แล้วเรียกเมธอด เมธอดนั้นจะถูกดึงมาจากโปรโตไทป์ ตามหลักการที่อธิบายไว้ในบท <info:function-prototype> ทำให้ออบเจ็กต์เข้าถึงเมธอดของคลาสได้
 
-We can illustrate the result of `class User` declaration as:
+ผลลัพธ์ของการประกาศ `class User` แสดงเป็นภาพได้ดังนี้:
 
 ![](class-user.svg)
 
-Here's the code to introspect it:
+ลองตรวจสอบด้วยโค้ดกัน:
 
 ```js run
 class User {
@@ -103,50 +102,50 @@ class User {
   sayHi() { alert(this.name); }
 }
 
-// class is a function
+// คลาสก็คือฟังก์ชัน
 alert(typeof User); // function
 
-// ...or, more precisely, the constructor method
+// ...ถ้าจะพูดให้ชัดกว่านั้น ก็คือเมธอด constructor นั่นเอง
 alert(User === User.prototype.constructor); // true
 
-// The methods are in User.prototype, e.g:
-alert(User.prototype.sayHi); // the code of the sayHi method
+// เมธอดต่างๆ อยู่ใน User.prototype เช่น:
+alert(User.prototype.sayHi); // โค้ดของเมธอด sayHi
 
-// there are exactly two methods in the prototype
+// มีเมธอดอยู่ 2 ตัวใน prototype
 alert(Object.getOwnPropertyNames(User.prototype)); // constructor, sayHi
 ```
 
-## Not just a syntactic sugar
+## ไม่ใช่แค่น้ำตาลทางไวยากรณ์
 
-Sometimes people say that `class` is a "syntactic sugar" (syntax that is designed to make things easier to read, but doesn't introduce anything new), because we could actually declare the same thing without using the `class` keyword at all:
+บางคนบอกว่า `class` เป็นแค่ "น้ำตาลทางไวยากรณ์ (syntactic sugar)" (ไวยากรณ์ที่ออกแบบมาเพื่อให้อ่านง่ายขึ้น แต่ไม่ได้เพิ่มความสามารถใหม่) เพราะเราสามารถทำสิ่งเดียวกันได้โดยไม่ต้องใช้คีย์เวิร์ด `class` เลย:
 
 ```js run
-// rewriting class User in pure functions
+// เขียน class User ใหม่ด้วยฟังก์ชันล้วนๆ
 
-// 1. Create constructor function
+// 1. สร้าง constructor function
 function User(name) {
   this.name = name;
 }
-// a function prototype has "constructor" property by default,
-// so we don't need to create it
+// function prototype มีพร็อพเพอร์ตี้ "constructor" อยู่แล้วโดยค่าเริ่มต้น
+// จึงไม่ต้องสร้างเพิ่ม
 
-// 2. Add the method to prototype
+// 2. เพิ่มเมธอดเข้าไปที่ prototype
 User.prototype.sayHi = function() {
   alert(this.name);
 };
 
-// Usage:
+// วิธีใช้งาน:
 let user = new User("John");
 user.sayHi();
 ```
 
-The result of this definition is about the same. So, there are indeed reasons why `class` can be considered a syntactic sugar to define a constructor together with its prototype methods.
+ผลลัพธ์ที่ได้จากการเขียนแบบนี้ก็แทบจะเหมือนกัน จึงมีเหตุผลที่จะมองว่า `class` เป็นแค่น้ำตาลทางไวยากรณ์สำหรับการนิยาม constructor พร้อมกับเมธอดบน prototype
 
-Still, there are important differences.
+แต่จริงๆ แล้วมีความแตกต่างที่สำคัญอยู่
 
-1. First, a function created by `class` is labelled by a special internal property `[[IsClassConstructor]]: true`. So it's not entirely the same as creating it manually.
+1. ประการแรก ฟังก์ชันที่สร้างจาก `class` จะถูกติดป้ายด้วยพร็อพเพอร์ตี้ภายในพิเศษ `[[IsClassConstructor]]: true` จึงไม่เหมือนกับการสร้างฟังก์ชันเองทั้งหมด
 
-    The language checks for that property in a variety of places. For example, unlike a regular function, it must be called with `new`:
+    JavaScript ตรวจสอบพร็อพเพอร์ตี้นี้ในหลายจุด ยกตัวอย่างเช่น ต่างจากฟังก์ชันปกติตรงที่ต้องเรียกด้วย `new` เสมอ:
 
     ```js run
     class User {
@@ -157,7 +156,7 @@ Still, there are important differences.
     User(); // Error: Class constructor User cannot be invoked without 'new'
     ```
 
-    Also, a string representation of a class constructor in most JavaScript engines starts with the "class..."
+    นอกจากนี้ เมื่อแปลง class constructor เป็นสตริง ใน JavaScript engine ส่วนใหญ่จะขึ้นต้นด้วยคำว่า "class..."
 
     ```js run
     class User {
@@ -166,23 +165,23 @@ Still, there are important differences.
 
     alert(User); // class User { ... }
     ```
-    There are other differences, we'll see them soon.
+    ยังมีความแตกต่างอื่นๆ อีก ซึ่งเราจะได้เห็นในไม่ช้า
 
-2. Class methods are non-enumerable.
-    A class definition sets `enumerable` flag to `false` for all methods in the `"prototype"`.
+2. เมธอดของคลาสจะ enumerate ไม่ได้
+    การประกาศคลาสจะตั้งค่า flag `enumerable` เป็น `false` ให้กับเมธอดทุกตัวใน `"prototype"`
 
-    That's good, because if we `for..in` over an object, we usually don't want its class methods.
+    ซึ่งเป็นเรื่องดี เพราะถ้าใช้ `for..in` วนลูปออบเจ็กต์ เราก็ไม่อยากให้เมธอดของคลาสโผล่มาด้วย
 
-3. Classes always `use strict`.
-    All code inside the class construct is automatically in strict mode.
+3. คลาสจะใช้ `use strict` เสมอ
+    โค้ดทั้งหมดภายในคลาสจะอยู่ใน strict mode โดยอัตโนมัติ
 
-Besides, `class` syntax brings many other features that we'll explore later.
+นอกจากนี้ ไวยากรณ์ `class` ยังมีฟีเจอร์อื่นๆ อีกมากที่เราจะศึกษาในบทถัดๆ ไป
 
 ## Class Expression
 
-Just like functions, classes can be defined inside another expression, passed around, returned, assigned, etc.
+เช่นเดียวกับฟังก์ชัน คลาสก็สามารถนิยามไว้ภายในนิพจน์ ส่งต่อไปเป็นค่า คืนค่าออกมา หรือกำหนดให้ตัวแปรได้
 
-Here's an example of a class expression:
+ลองดูตัวอย่าง class expression:
 
 ```js
 let User = class {
@@ -192,29 +191,29 @@ let User = class {
 };
 ```
 
-Similar to Named Function Expressions, class expressions may have a name.
+คล้ายกับ Named Function Expression ตรงที่ class expression ก็สามารถมีชื่อได้เช่นกัน
 
-If a class expression has a name, it's visible inside the class only:
+ถ้า class expression มีชื่อ ชื่อนั้นจะมองเห็นได้แค่ภายในคลาสเท่านั้น:
 
 ```js run
 // "Named Class Expression"
-// (no such term in the spec, but that's similar to Named Function Expression)
+// (ไม่ได้มีคำนี้ใน spec แต่คล้ายกับ Named Function Expression)
 let User = class *!*MyClass*/!* {
   sayHi() {
-    alert(MyClass); // MyClass name is visible only inside the class
+    alert(MyClass); // ชื่อ MyClass มองเห็นได้แค่ภายในคลาส
   }
 };
 
-new User().sayHi(); // works, shows MyClass definition
+new User().sayHi(); // ทำงานได้ แสดงนิยามของ MyClass
 
-alert(MyClass); // error, MyClass name isn't visible outside of the class
+alert(MyClass); // error, ชื่อ MyClass มองไม่เห็นจากภายนอกคลาส
 ```
 
-We can even make classes dynamically "on-demand", like this:
+เรายังสร้างคลาสแบบไดนามิก "ตามต้องการ" ได้ด้วย:
 
 ```js run
 function makeClass(phrase) {
-  // declare a class and return it
+  // ประกาศคลาสแล้วคืนค่าออกไป
   return class {
     sayHi() {
       alert(phrase);
@@ -222,24 +221,24 @@ function makeClass(phrase) {
   };
 }
 
-// Create a new class
+// สร้างคลาสใหม่
 let User = makeClass("Hello");
 
 new User().sayHi(); // Hello
 ```
 
 
-## Getters/setters
+## Getter/Setter
 
-Just like literal objects, classes may include getters/setters, computed properties etc.
+เช่นเดียวกับ object literal คลาสก็สามารถมี getter/setter และ computed property ได้
 
-Here's an example for `user.name` implemented using `get/set`:
+ลองดูตัวอย่างการใช้ `get/set` กับ `user.name`:
 
 ```js run
 class User {
 
   constructor(name) {
-    // invokes the setter
+    // เรียกใช้ setter
     this.name = name;
   }
 
@@ -253,7 +252,7 @@ class User {
   set name(value) {
 */!*
     if (value.length < 4) {
-      alert("Name is too short.");
+      alert("ชื่อสั้นเกินไป");
       return;
     }
     this._name = value;
@@ -264,14 +263,14 @@ class User {
 let user = new User("John");
 alert(user.name); // John
 
-user = new User(""); // Name is too short.
+user = new User(""); // ชื่อสั้นเกินไป
 ```
 
-Technically, such class declaration works by creating getters and setters in `User.prototype`.
+ในทางเทคนิค การประกาศคลาสแบบนี้ทำงานโดยสร้าง getter และ setter ไว้ใน `User.prototype`
 
-## Computed names [...]
+## Computed Name [...]
 
-Here's an example with a computed method name using brackets `[...]`:
+ลองดูตัวอย่างการใช้ชื่อเมธอดแบบ computed ด้วยวงเล็บเหลี่ยม `[...]`:
 
 ```js run
 class User {
@@ -287,19 +286,19 @@ class User {
 new User().sayHi();
 ```
 
-Such features are easy to remember, as they resemble that of literal objects.
+ฟีเจอร์นี้จำง่าย เพราะคล้ายกับ object literal เลย
 
-## Class fields
+## Class Field
 
-```warn header="Old browsers may need a polyfill"
-Class fields are a recent addition to the language.
+```warn header="เบราว์เซอร์เก่าอาจต้องใช้ polyfill"
+Class field เป็นฟีเจอร์ที่เพิ่มเข้ามาไม่นาน
 ```
 
-Previously, our classes only had methods.
+ก่อนหน้านี้คลาสของเรามีแต่เมธอด
 
-"Class fields" is a syntax that allows to add any properties.
+"Class field" คือไวยากรณ์สำหรับเพิ่มพร็อพเพอร์ตี้ใดๆ เข้าไปในคลาสได้
 
-For instance, let's add `name` property to `class User`:
+ยกตัวอย่าง ลองเพิ่มพร็อพเพอร์ตี้ `name` ใน `class User`:
 
 ```js run
 class User {
@@ -315,9 +314,9 @@ class User {
 new User().sayHi(); // Hello, John!
 ```
 
-So, we just write "<property name> = <value>" in the declaration, and that's it.
+เขียนง่ายมาก แค่ใส่ " = " ตามด้วยค่าในการประกาศ
 
-The important difference of class fields is that they are set on individual objects, not `User.prototype`:
+สิ่งสำคัญที่ต่างจากเมธอดคือ class field จะถูกกำหนดในแต่ละออบเจ็กต์โดยตรง ไม่ได้อยู่ใน `User.prototype`:
 
 ```js run
 class User {
@@ -331,7 +330,7 @@ alert(user.name); // John
 alert(User.prototype.name); // undefined
 ```
 
-We can also assign values using more complex expressions and function calls:
+เรายังสามารถกำหนดค่าโดยใช้นิพจน์ที่ซับซ้อนหรือเรียกฟังก์ชันได้ด้วย:
 
 ```js run
 class User {
@@ -345,13 +344,13 @@ alert(user.name); // John
 ```
 
 
-### Making bound methods with class fields
+### สร้าง bound method ด้วย class field
 
-As demonstrated in the chapter <info:bind> functions in JavaScript have a dynamic `this`. It depends on the context of the call.
+อย่างที่เราเห็นจากบท <info:bind> ฟังก์ชันใน JavaScript มี `this` ที่เปลี่ยนไปตามบริบทของการเรียกใช้
 
-So if an object method is passed around and called in another context, `this` won't be a reference to its object any more.
+ดังนั้น ถ้านำเมธอดของออบเจ็กต์ไปใช้ในบริบทอื่น `this` จะไม่ชี้กลับไปที่ออบเจ็กต์เดิมอีกต่อไป
 
-For instance, this code will show `undefined`:
+ยกตัวอย่าง โค้ดนี้จะแสดง `undefined`:
 
 ```js run
 class Button {
@@ -371,14 +370,14 @@ setTimeout(button.click, 1000); // undefined
 */!*
 ```
 
-The problem is called "losing `this`".
+ปัญหานี้เรียกว่า "การสูญเสีย `this`"
 
-There are two approaches to fixing it, as discussed in the chapter <info:bind>:
+มี 2 วิธีแก้ไข ตามที่อธิบายไว้ในบท <info:bind>:
 
-1. Pass a wrapper-function, such as `setTimeout(() => button.click(), 1000)`.
-2. Bind the method to object, e.g. in the constructor.
+1. ส่งฟังก์ชันห่อหุ้ม (wrapper function) เช่น `setTimeout(() => button.click(), 1000)`
+2. ผูกเมธอดกับออบเจ็กต์ เช่น ทำใน constructor
 
-Class fields provide another, quite elegant syntax:
+class field มีอีกวิธีที่กระชับดี:
 
 ```js run
 class Button {
@@ -397,32 +396,32 @@ let button = new Button("hello");
 setTimeout(button.click, 1000); // hello
 ```
 
-The class field `click = () => {...}` is created on a per-object basis, there's a separate function for each `Button` object, with `this` inside it referencing that object. We can pass `button.click` around anywhere, and the value of `this` will always be correct.
+class field `click = () => {...}` จะถูกสร้างขึ้นในแต่ละออบเจ็กต์ แยกฟังก์ชันกันสำหรับ `Button` แต่ละตัว โดย `this` ภายในจะชี้ไปที่ออบเจ็กต์นั้นเสมอ เราจึงส่ง `button.click` ไปที่ไหนก็ได้ และ `this` จะถูกต้องเสมอ
 
-That's especially useful in browser environment, for event listeners.
+ฟีเจอร์นี้มีประโยชน์มากโดยเฉพาะในเบราว์เซอร์ สำหรับจัดการ event listener
 
-## Summary
+## สรุป
 
-The basic class syntax looks like this:
+ไวยากรณ์พื้นฐานของคลาสเป็นดังนี้:
 
 ```js
 class MyClass {
-  prop = value; // property
+  prop = value; // พร็อพเพอร์ตี้
 
-  constructor(...) { // constructor
+  constructor(...) { // คอนสตรักเตอร์
     // ...
   }
 
-  method(...) {} // method
+  method(...) {} // เมธอด
 
-  get something(...) {} // getter method
-  set something(...) {} // setter method
+  get something(...) {} // getter
+  set something(...) {} // setter
 
-  [Symbol.iterator]() {} // method with computed name (symbol here)
+  [Symbol.iterator]() {} // เมธอดที่ใช้ computed name (ในที่นี้เป็น symbol)
   // ...
 }
 ```
 
-`MyClass` is technically a function (the one that we provide as `constructor`), while methods, getters and setters are written to `MyClass.prototype`.
+`MyClass` ในทางเทคนิคแล้วก็คือฟังก์ชัน (ตัวที่เราเขียนใน `constructor`) ส่วนเมธอด getter และ setter จะถูกเขียนไว้ใน `MyClass.prototype`
 
-In the next chapters we'll learn more about classes, including inheritance and other features.
+ในบทถัดๆ ไป เราจะเรียนรู้เพิ่มเติมเกี่ยวกับคลาส รวมถึงการสืบทอดและฟีเจอร์อื่นๆ

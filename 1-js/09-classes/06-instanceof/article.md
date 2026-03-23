@@ -1,42 +1,42 @@
-# Class checking: "instanceof"
+# การตรวจสอบคลาส: "instanceof"
 
-The `instanceof` operator allows to check whether an object belongs to a certain class. It also takes inheritance into account.
+ตัวดำเนินการ `instanceof` ใช้ตรวจสอบว่าออบเจ็กต์นั้นเป็นอินสแตนซ์ของคลาสใดคลาสหนึ่งหรือไม่ โดยตรวจสอบรวมถึงการสืบทอดด้วย
 
-Such a check may be necessary in many cases. For example, it can be used for building a *polymorphic* function, the one that treats arguments differently depending on their type.
+การตรวจสอบแบบนี้จำเป็นในหลายสถานการณ์ ยกตัวอย่างเช่น ใช้สร้างฟังก์ชันแบบ *polymorphic* ที่จัดการอาร์กิวเมนต์ต่างกันตามชนิดของข้อมูล
 
-## The instanceof operator [#ref-instanceof]
+## ตัวดำเนินการ instanceof [#ref-instanceof]
 
-The syntax is:
+รูปแบบการเขียนเป็นดังนี้:
 ```js
 obj instanceof Class
 ```
 
-It returns `true` if `obj` belongs to the `Class` or a class inheriting from it.
+จะคืนค่า `true` ถ้า `obj` เป็นอินสแตนซ์ของ `Class` หรือคลาสที่สืบทอดมาจากคลาสนั้น
 
-For instance:
+ตัวอย่างเช่น:
 
 ```js run
 class Rabbit {}
 let rabbit = new Rabbit();
 
-// is it an object of Rabbit class?
+// rabbit เป็นออบเจ็กต์ของคลาส Rabbit ไหม?
 *!*
 alert( rabbit instanceof Rabbit ); // true
 */!*
 ```
 
-It also works with constructor functions:
+ใช้ได้กับคอนสตรักเตอร์ฟังก์ชันเช่นกัน:
 
 ```js run
 *!*
-// instead of class
+// ใช้ฟังก์ชันแทนคลาส
 function Rabbit() {}
 */!*
 
 alert( new Rabbit() instanceof Rabbit ); // true
 ```
 
-...And with built-in classes like `Array`:
+...รวมถึงคลาสมาตรฐานอย่าง `Array` ด้วย:
 
 ```js run
 let arr = [1, 2, 3];
@@ -44,19 +44,19 @@ alert( arr instanceof Array ); // true
 alert( arr instanceof Object ); // true
 ```
 
-Please note that `arr` also belongs to the `Object` class. That's because `Array` prototypically inherits from `Object`.
+สังเกตว่า `arr` จัดอยู่ในคลาส `Object` ด้วยเช่นกัน เพราะ `Array` สืบทอดมาจาก `Object` ผ่านทางโปรโตไทป์นั่นเอง
 
-Normally, `instanceof` examines the prototype chain for the check. We can also set a custom logic in the static method `Symbol.hasInstance`.
+ปกติแล้ว `instanceof` จะตรวจสอบโดยไล่ดูตาม prototype chain แต่เราสามารถกำหนดตรรกะเองได้ผ่าน static method `Symbol.hasInstance`
 
-The algorithm of `obj instanceof Class` works roughly as follows:
+อัลกอริทึมของ `obj instanceof Class` ทำงานคร่าวๆ ดังนี้:
 
-1. If there's a static method `Symbol.hasInstance`, then just call it: `Class[Symbol.hasInstance](obj)`. It should return either `true` or `false`, and we're done. That's how we can customize the behavior of `instanceof`.
+1. ถ้ามี static method `Symbol.hasInstance` อยู่ ก็เรียกใช้เลย: `Class[Symbol.hasInstance](obj)` ซึ่งจะคืนค่า `true` หรือ `false` แค่นี้ก็จบ นี่คือวิธีที่เราปรับแต่งพฤติกรรมของ `instanceof` ได้
 
-    For example:
+    ตัวอย่างเช่น:
 
     ```js run
-    // set up instanceof check that assumes that
-    // anything with canEat property is an animal
+    // กำหนดให้ instanceof ถือว่า
+    // ถ้ามีพร็อพเพอร์ตี้ canEat แสดงว่าเป็นสัตว์
     class Animal {
       static [Symbol.hasInstance](obj) {
         if (obj.canEat) return true;
@@ -65,24 +65,24 @@ The algorithm of `obj instanceof Class` works roughly as follows:
 
     let obj = { canEat: true };
 
-    alert(obj instanceof Animal); // true: Animal[Symbol.hasInstance](obj) is called
+    alert(obj instanceof Animal); // true: เรียก Animal[Symbol.hasInstance](obj)
     ```
 
-2. Most classes do not have `Symbol.hasInstance`. In that case, the standard logic is used: `obj instanceof Class` checks whether `Class.prototype` is equal to one of the prototypes in the `obj` prototype chain.
+2. คลาสส่วนใหญ่ไม่มี `Symbol.hasInstance` กรณีนี้จะใช้ตรรกะปกติ คือ `obj instanceof Class` จะตรวจว่า `Class.prototype` ตรงกับโปรโตไทป์ตัวใดตัวหนึ่งใน prototype chain ของ `obj` หรือไม่
 
-    In other words, compare one after another:
+    พูดง่ายๆ ก็คือเปรียบเทียบทีละตัวตามลำดับ:
     ```js
     obj.__proto__ === Class.prototype?
     obj.__proto__.__proto__ === Class.prototype?
     obj.__proto__.__proto__.__proto__ === Class.prototype?
     ...
-    // if any answer is true, return true
-    // otherwise, if we reached the end of the chain, return false
+    // ถ้าตรงกับตัวไหนก็คืนค่า true
+    // แต่ถ้าไล่จนสุดสายแล้วไม่ตรงสักตัว ก็คืนค่า false
     ```
 
-    In the example above `rabbit.__proto__ === Rabbit.prototype`, so that gives the answer immediately.
+    จากตัวอย่างข้างต้น `rabbit.__proto__ === Rabbit.prototype` ตรงกันเลยตั้งแต่ขั้นแรก จึงได้คำตอบทันที
 
-    In the case of an inheritance, the match will be at the second step:
+    แต่ถ้ามีการสืบทอด จะตรงกันที่ขั้นที่สอง:
 
     ```js run
     class Animal {}
@@ -93,76 +93,76 @@ The algorithm of `obj instanceof Class` works roughly as follows:
     alert(rabbit instanceof Animal); // true
     */!*
 
-    // rabbit.__proto__ === Animal.prototype (no match)
+    // rabbit.__proto__ === Animal.prototype (ไม่ตรง)
     *!*
-    // rabbit.__proto__.__proto__ === Animal.prototype (match!)
+    // rabbit.__proto__.__proto__ === Animal.prototype (ตรง!)
     */!*
     ```
 
-Here's the illustration of what `rabbit instanceof Animal` compares with `Animal.prototype`:
+นี่คือภาพแสดงสิ่งที่ `rabbit instanceof Animal` เปรียบเทียบกับ `Animal.prototype`:
 
 ![](instanceof.svg)
 
-By the way, there's also a method [objA.isPrototypeOf(objB)](mdn:js/object/isPrototypeOf), that returns `true` if `objA` is somewhere in the chain of prototypes for `objB`. So the test of `obj instanceof Class` can be rephrased as `Class.prototype.isPrototypeOf(obj)`.
+นอกจากนี้ยังมีเมธอด [objA.isPrototypeOf(objB)](mdn:js/object/isPrototypeOf) ที่คืนค่า `true` ถ้า `objA` อยู่ใน prototype chain ของ `objB` ดังนั้น `obj instanceof Class` จึงเขียนอีกแบบได้เป็น `Class.prototype.isPrototypeOf(obj)`
 
-It's funny, but the `Class` constructor itself does not participate in the check! Only the chain of prototypes and `Class.prototype` matters.
+ที่น่าสนใจคือ ตัวคอนสตรักเตอร์ `Class` เองไม่ได้มีส่วนร่วมในการตรวจสอบเลย! สิ่งที่มีผลคือ prototype chain และ `Class.prototype` เท่านั้น
 
-That can lead to interesting consequences when a `prototype` property is changed after the object is created.
+เรื่องนี้อาจทำให้เกิดผลลัพธ์ที่น่าแปลกใจ เมื่อพร็อพเพอร์ตี้ `prototype` ถูกเปลี่ยนหลังจากสร้างออบเจ็กต์ไปแล้ว
 
-Like here:
+ลองดูตัวอย่างนี้:
 
 ```js run
 function Rabbit() {}
 let rabbit = new Rabbit();
 
-// changed the prototype
+// เปลี่ยน prototype
 Rabbit.prototype = {};
 
-// ...not a rabbit any more!
+// ...ไม่ใช่กระต่ายอีกต่อไปแล้ว!
 *!*
 alert( rabbit instanceof Rabbit ); // false
 */!*
 ```
 
-## Bonus: Object.prototype.toString for the type
+## โบนัส: Object.prototype.toString สำหรับตรวจชนิดข้อมูล
 
-We already know that plain objects are converted to string as `[object Object]`:
+เรารู้แล้วว่าออบเจ็กต์ธรรมดาเมื่อแปลงเป็นสตริงจะได้ `[object Object]`:
 
 ```js run
 let obj = {};
 
 alert(obj); // [object Object]
-alert(obj.toString()); // the same
+alert(obj.toString()); // เหมือนกัน
 ```
 
-That's their implementation of `toString`. But there's a hidden feature that makes `toString` actually much more powerful than that. We can use it as an extended `typeof` and an alternative for `instanceof`.
+นี่คือการทำงานของ `toString` ของออบเจ็กต์ แต่จริงๆ แล้วมีความสามารถซ่อนอยู่ที่ทำให้ `toString` ทรงพลังกว่าที่คิดมาก เราสามารถใช้มันเป็น `typeof` เวอร์ชันอัปเกรด และเป็นตัวเลือกแทน `instanceof` ได้เลย
 
-Sounds strange? Indeed. Let's demystify.
+ฟังดูแปลกใช่ไหม? มาดูกันว่าทำได้อย่างไร
 
-By [specification](https://tc39.github.io/ecma262/#sec-object.prototype.tostring), the built-in `toString` can be extracted from the object and executed in the context of any other value. And its result depends on that value.
+ตาม[สเปก](https://tc39.github.io/ecma262/#sec-object.prototype.tostring) เราสามารถดึงเมธอด `toString` มาตรฐานออกมาจากออบเจ็กต์ แล้วเรียกใช้กับค่าอะไรก็ได้ ผลลัพธ์ที่ได้จะขึ้นอยู่กับค่าที่ส่งเข้าไป
 
-- For a number, it will be `[object Number]`
-- For a boolean, it will be `[object Boolean]`
-- For `null`: `[object Null]`
-- For `undefined`: `[object Undefined]`
-- For arrays: `[object Array]`
-- ...etc (customizable).
+- ถ้าเป็นตัวเลข จะได้ `[object Number]`
+- ถ้าเป็นบูลีน จะได้ `[object Boolean]`
+- ถ้าเป็น `null`: `[object Null]`
+- ถ้าเป็น `undefined`: `[object Undefined]`
+- ถ้าเป็นอาร์เรย์: `[object Array]`
+- ...และอื่นๆ (ปรับแต่งได้)
 
-Let's demonstrate:
+ลองดูตัวอย่าง:
 
 ```js run
-// copy toString method into a variable for convenience
+// คัดลอกเมธอด toString มาเก็บไว้ในตัวแปรเพื่อความสะดวก
 let objectToString = Object.prototype.toString;
 
-// what type is this?
+// ข้อมูลนี้เป็นชนิดอะไร?
 let arr = [];
 
 alert( objectToString.call(arr) ); // [object *!*Array*/!*]
 ```
 
-Here we used [call](mdn:js/function/call) as described in the chapter [](info:call-apply-decorators) to execute the function `objectToString` in the context `this=arr`.
+ตรงนี้เราใช้ [call](mdn:js/function/call) ตามที่อธิบายไว้ในบท [](info:call-apply-decorators) เพื่อเรียกฟังก์ชัน `objectToString` โดยกำหนดให้ `this=arr`
 
-Internally, the `toString` algorithm examines `this` and returns the corresponding result. More examples:
+ภายในอัลกอริทึม `toString` จะตรวจสอบค่า `this` แล้วคืนผลลัพธ์ที่สอดคล้องกัน ลองดูตัวอย่างเพิ่มเติม:
 
 ```js run
 let s = Object.prototype.toString;
@@ -174,9 +174,9 @@ alert( s.call(alert) ); // [object Function]
 
 ### Symbol.toStringTag
 
-The behavior of Object `toString` can be customized using a special object property `Symbol.toStringTag`.
+พฤติกรรมของ `toString` ของ Object สามารถปรับแต่งได้ผ่านพร็อพเพอร์ตี้พิเศษ `Symbol.toStringTag`
 
-For instance:
+ตัวอย่างเช่น:
 
 ```js run
 let user = {
@@ -186,10 +186,10 @@ let user = {
 alert( {}.toString.call(user) ); // [object User]
 ```
 
-For most environment-specific objects, there is such a property. Here are some browser specific examples:
+ออบเจ็กต์เฉพาะของแต่ละสภาพแวดล้อมก็มีพร็อพเพอร์ตี้นี้เช่นกัน ตัวอย่างจากเบราว์เซอร์:
 
 ```js run
-// toStringTag for the environment-specific object and class:
+// toStringTag ของออบเจ็กต์และคลาสเฉพาะสภาพแวดล้อม:
 alert( window[Symbol.toStringTag]); // Window
 alert( XMLHttpRequest.prototype[Symbol.toStringTag] ); // XMLHttpRequest
 
@@ -197,22 +197,22 @@ alert( {}.toString.call(window) ); // [object Window]
 alert( {}.toString.call(new XMLHttpRequest()) ); // [object XMLHttpRequest]
 ```
 
-As you can see, the result is exactly `Symbol.toStringTag` (if exists), wrapped into `[object ...]`.
+จะเห็นว่าผลลัพธ์คือค่าของ `Symbol.toStringTag` (ถ้ามี) ครอบด้วย `[object ...]`
 
-At the end we have "typeof on steroids" that not only works for primitive data types, but also for built-in objects and even can be customized.
+สรุปแล้วเรามี "typeof เวอร์ชันอัปเกรด" ที่ใช้ได้ไม่ใช่แค่กับชนิดข้อมูลพื้นฐาน แต่ยังใช้กับออบเจ็กต์มาตรฐาน และปรับแต่งเองได้ด้วย
 
-We can use `{}.toString.call` instead of `instanceof` for built-in objects when we want to get the type as a string rather than just to check.
+เราสามารถใช้ `{}.toString.call` แทน `instanceof` สำหรับออบเจ็กต์มาตรฐาน เมื่อต้องการได้ชนิดข้อมูลเป็นสตริง แทนที่จะแค่ตรวจสอบว่าจริงหรือเท็จ
 
-## Summary
+## สรุป
 
-Let's summarize the type-checking methods that we know:
+มาสรุปวิธีตรวจสอบชนิดข้อมูลที่เรารู้จักกัน:
 
-|               | works for   |  returns      |
+|               | ใช้กับ   |  คืนค่า      |
 |---------------|-------------|---------------|
-| `typeof`      | primitives  |  string       |
-| `{}.toString` | primitives, built-in objects, objects with `Symbol.toStringTag`   |       string |
-| `instanceof`  | objects     |  true/false   |
+| `typeof`      | ค่าพื้นฐาน (primitives)  |  สตริง       |
+| `{}.toString` | ค่าพื้นฐาน, ออบเจ็กต์มาตรฐาน, ออบเจ็กต์ที่มี `Symbol.toStringTag`   |       สตริง |
+| `instanceof`  | ออบเจ็กต์     |  true/false   |
 
-As we can see, `{}.toString` is technically a "more advanced" `typeof`.
+จะเห็นว่า `{}.toString` เป็น `typeof` เวอร์ชันอัปเกรดที่ทำได้มากกว่า
 
-And `instanceof` operator really shines when we are working with a class hierarchy and want to check for the class taking into account inheritance.
+ส่วน `instanceof` จะเหมาะมากเมื่อทำงานกับลำดับชั้นของคลาส และต้องการตรวจสอบคลาสโดยนับรวมการสืบทอดด้วย

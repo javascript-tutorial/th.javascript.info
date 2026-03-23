@@ -1,13 +1,13 @@
 
-# Class inheritance
+# การสืบทอดคลาส (Class Inheritance)
 
-Class inheritance is a way for one class to extend another class.
+การสืบทอดคลาสเป็นวิธีที่ทำให้คลาสหนึ่งสามารถขยายความสามารถจากอีกคลาสหนึ่งได้
 
-So we can create new functionality on top of the existing.
+เราจึงสร้างฟีเจอร์ใหม่ต่อยอดจากสิ่งที่มีอยู่แล้วได้
 
-## The "extends" keyword
+## คีย์เวิร์ด "extends"
 
-Let's say we have class `Animal`:
+สมมติว่าเรามีคลาส `Animal` แบบนี้:
 
 ```js
 class Animal {
@@ -17,61 +17,61 @@ class Animal {
   }
   run(speed) {
     this.speed = speed;
-    alert(`${this.name} runs with speed ${this.speed}.`);
+    alert(`${this.name} วิ่งด้วยความเร็ว ${this.speed}.`);
   }
   stop() {
     this.speed = 0;
-    alert(`${this.name} stands still.`);
+    alert(`${this.name} หยุดนิ่ง.`);
   }
 }
 
 let animal = new Animal("My animal");
 ```
 
-Here's how we can represent `animal` object and `Animal` class graphically:
+ถ้าวาดเป็นรูป ออบเจ็กต์ `animal` กับคลาส `Animal` จะหน้าตาแบบนี้:
 
 ![](rabbit-animal-independent-animal.svg)
 
-...And we would like to create another `class Rabbit`.
+...แล้วเราอยากสร้างอีกคลาสหนึ่งชื่อ `class Rabbit`
 
-As rabbits are animals, `Rabbit` class should be based on `Animal`, have access to animal methods, so that rabbits can do what "generic" animals can do.
+เนื่องจากกระต่ายก็เป็นสัตว์ชนิดหนึ่ง คลาส `Rabbit` จึงควรสร้างต่อยอดจาก `Animal` โดยเข้าถึงเมธอดของ Animal ได้ เพื่อให้กระต่ายทำทุกอย่างที่สัตว์ทั่วไปทำได้
 
-The syntax to extend another class is: `class Child extends Parent`.
+ไวยากรณ์สำหรับขยายจากอีกคลาสหนึ่งคือ: `class Child extends Parent`
 
-Let's create `class Rabbit` that inherits from `Animal`:
+มาสร้าง `class Rabbit` ที่สืบทอดจาก `Animal` กัน:
 
 ```js
 *!*
 class Rabbit extends Animal {
 */!*
   hide() {
-    alert(`${this.name} hides!`);
+    alert(`${this.name} ซ่อนตัว!`);
   }
 }
 
 let rabbit = new Rabbit("White Rabbit");
 
-rabbit.run(5); // White Rabbit runs with speed 5.
-rabbit.hide(); // White Rabbit hides!
+rabbit.run(5); // White Rabbit วิ่งด้วยความเร็ว 5.
+rabbit.hide(); // White Rabbit ซ่อนตัว!
 ```
 
-Object of `Rabbit` class have access both to `Rabbit` methods, such as `rabbit.hide()`, and also to `Animal` methods, such as `rabbit.run()`.
+ออบเจ็กต์ของคลาส `Rabbit` สามารถเรียกใช้ได้ทั้งเมธอดของ `Rabbit` เอง เช่น `rabbit.hide()` และเมธอดของ `Animal` เช่น `rabbit.run()` ด้วย
 
-Internally, `extends` keyword works using the good old prototype mechanics. It sets `Rabbit.prototype.[[Prototype]]` to `Animal.prototype`. So, if a method is not found in `Rabbit.prototype`, JavaScript takes it from `Animal.prototype`.
+เบื้องหลังการทำงาน คีย์เวิร์ด `extends` ใช้กลไกโปรโตไทป์ที่เรารู้จักดีอยู่แล้ว มันตั้งค่า `Rabbit.prototype.[[Prototype]]` ให้ชี้ไปที่ `Animal.prototype` ดังนั้นถ้าหาเมธอดใน `Rabbit.prototype` ไม่เจอ JavaScript ก็จะไปหาต่อใน `Animal.prototype`
 
 ![](animal-rabbit-extends.svg)
 
-For instance, to find `rabbit.run` method, the engine checks (bottom-up on the picture):
-1. The `rabbit` object (has no `run`).
-2. Its prototype, that is `Rabbit.prototype` (has `hide`, but not `run`).
-3. Its prototype, that is (due to `extends`) `Animal.prototype`, that finally has the `run` method.
+ยกตัวอย่างเช่น การค้นหาเมธอด `rabbit.run` เอนจินจะตรวจสอบตามลำดับ (จากล่างขึ้นบนในรูป):
+1. ออบเจ็กต์ `rabbit` (ไม่มี `run`)
+2. โปรโตไทป์ของมัน คือ `Rabbit.prototype` (มี `hide` แต่ไม่มี `run`)
+3. โปรโตไทป์ถัดขึ้นไป คือ `Animal.prototype` (ซึ่งเป็นผลจาก `extends`) ในที่สุดก็เจอเมธอด `run` ที่นี่
 
-As we can recall from the chapter <info:native-prototypes>, JavaScript itself uses prototypal inheritance for built-in objects. E.g. `Date.prototype.[[Prototype]]` is `Object.prototype`. That's why dates have access to generic object methods.
+อย่างที่เราเรียนรู้มาจากบท <info:native-prototypes> ตัว JavaScript เองก็ใช้ prototypal inheritance กับออบเจ็กต์ที่มีมาให้เช่นกัน เช่น `Date.prototype.[[Prototype]]` คือ `Object.prototype` ทำให้ Date เข้าถึงเมธอดทั่วไปของออบเจ็กต์ได้
 
-````smart header="Any expression is allowed after `extends`"
-Class syntax allows to specify not just a class, but any expression after `extends`.
+````smart header="หลัง `extends` ใส่ expression อะไรก็ได้"
+ไวยากรณ์ของคลาสอนุญาตให้ระบุไม่เฉพาะแค่ชื่อคลาส แต่ใส่ expression อะไรก็ได้หลัง `extends`
 
-For instance, a function call that generates the parent class:
+ยกตัวอย่าง การเรียกฟังก์ชันที่สร้างคลาสแม่ขึ้นมา:
 
 ```js run
 function f(phrase) {
@@ -86,34 +86,34 @@ class User extends f("Hello") {}
 
 new User().sayHi(); // Hello
 ```
-Here `class User` inherits from the result of `f("Hello")`.
+ในที่นี้ `class User` สืบทอดจากผลลัพธ์ของ `f("Hello")`
 
-That may be useful for advanced programming patterns when we use functions to generate classes depending on many conditions and can inherit from them.
+เทคนิคนี้มีประโยชน์สำหรับรูปแบบการเขียนโปรแกรมขั้นสูง เมื่อเราต้องการใช้ฟังก์ชันสร้างคลาสตามเงื่อนไขต่างๆ แล้วค่อยสืบทอดจากคลาสเหล่านั้น
 ````
 
-## Overriding a method
+## การ Override เมธอด
 
-Now let's move forward and override a method. By default, all methods that are not specified in `class Rabbit` are taken directly "as is" from `class Animal`.
+ทีนี้มาดูเรื่องการ override เมธอดกัน โดยปกติแล้ว เมธอดใดที่ไม่ได้กำหนดไว้ใน `class Rabbit` จะถูกนำมาจาก `class Animal` ตรงๆ เลย
 
-But if we specify our own method in `Rabbit`, such as `stop()` then it will be used instead:
+แต่ถ้าเรากำหนดเมธอดชื่อเดียวกันไว้ใน `Rabbit` เช่น `stop()` ตัวนี้จะถูกใช้แทน:
 
 ```js
 class Rabbit extends Animal {
   stop() {
-    // ...now this will be used for rabbit.stop()
-    // instead of stop() from class Animal
+    // ...ตอนนี้เมธอดนี้จะถูกเรียกเมื่อใช้ rabbit.stop()
+    // แทนที่ stop() จากคลาส Animal
   }
 }
 ```
 
-Usually, however, we don't want to totally replace a parent method, but rather to build on top of it to tweak or extend its functionality. We do something in our method, but call the parent method before/after it or in the process.
+แต่โดยทั่วไปแล้ว เรามักไม่ต้องการแทนที่เมธอดจากคลาสแม่ทั้งหมด แต่อยากต่อยอดจากเมธอดเดิม ปรับแต่งหรือเพิ่มความสามารถเข้าไป เราอาจทำอะไรบางอย่างในเมธอดของเรา แล้วเรียกเมธอดของคลาสแม่ก่อน/หลัง หรือระหว่างการทำงาน
 
-Classes provide `"super"` keyword for that.
+คลาสมีคีย์เวิร์ด `"super"` ไว้ใช้สำหรับกรณีนี้
 
-- `super.method(...)` to call a parent method.
-- `super(...)` to call a parent constructor (inside our constructor only).
+- `super.method(...)` เรียกเมธอดของคลาสแม่
+- `super(...)` เรียกคอนสตรักเตอร์ของคลาสแม่ (ใช้ได้เฉพาะภายในคอนสตรักเตอร์เท่านั้น)
 
-For instance, let our rabbit autohide when stopped:
+ยกตัวอย่าง ให้กระต่ายซ่อนตัวอัตโนมัติเมื่อหยุด:
 
 ```js run
 class Animal {
@@ -125,51 +125,51 @@ class Animal {
 
   run(speed) {
     this.speed = speed;
-    alert(`${this.name} runs with speed ${this.speed}.`);
+    alert(`${this.name} วิ่งด้วยความเร็ว ${this.speed}.`);
   }
 
   stop() {
     this.speed = 0;
-    alert(`${this.name} stands still.`);
+    alert(`${this.name} หยุดนิ่ง.`);
   }
 
 }
 
 class Rabbit extends Animal {
   hide() {
-    alert(`${this.name} hides!`);
+    alert(`${this.name} ซ่อนตัว!`);
   }
 
 *!*
   stop() {
-    super.stop(); // call parent stop
-    this.hide(); // and then hide
+    super.stop(); // เรียก stop ของคลาสแม่
+    this.hide(); // แล้วค่อยซ่อนตัว
   }
 */!*
 }
 
 let rabbit = new Rabbit("White Rabbit");
 
-rabbit.run(5); // White Rabbit runs with speed 5.
-rabbit.stop(); // White Rabbit stands still. White Rabbit hides!
+rabbit.run(5); // White Rabbit วิ่งด้วยความเร็ว 5.
+rabbit.stop(); // White Rabbit หยุดนิ่ง. White Rabbit ซ่อนตัว!
 ```
 
-Now `Rabbit` has the `stop` method that calls the parent `super.stop()` in the process.
+ตอนนี้ `Rabbit` มีเมธอด `stop` ที่เรียกเมธอด `super.stop()` ของคลาสแม่ระหว่างทำงาน
 
-````smart header="Arrow functions have no `super`"
-As was mentioned in the chapter <info:arrow-functions>, arrow functions do not have `super`.
+````smart header="Arrow function ไม่มี `super`"
+ดังที่กล่าวไว้ในบท <info:arrow-functions> arrow function ไม่มี `super` เป็นของตัวเอง
 
-If accessed, it's taken from the outer function. For instance:
+ถ้ามีการเข้าถึง `super` ภายใน arrow function จะไปหยิบมาจากฟังก์ชันภายนอก เช่น:
 
 ```js
 class Rabbit extends Animal {
   stop() {
-    setTimeout(() => super.stop(), 1000); // call parent stop after 1sec
+    setTimeout(() => super.stop(), 1000); // เรียก stop ของคลาสแม่หลังผ่านไป 1 วินาที
   }
 }
 ```
 
-The `super` in the arrow function is the same as in `stop()`, so it works as intended. If we specified a "regular" function here, there would be an error:
+`super` ใน arrow function จึงเป็นตัวเดียวกับใน `stop()` ทำให้ทำงานได้ถูกต้อง แต่ถ้าใช้ฟังก์ชันปกติจะเกิด error:
 
 ```js
 // Unexpected super
@@ -177,17 +177,17 @@ setTimeout(function() { super.stop() }, 1000);
 ```
 ````
 
-## Overriding constructor
+## การ Override คอนสตรักเตอร์
 
-With constructors it gets a little bit tricky.
+เรื่องคอนสตรักเตอร์นี้ค่อนข้างมีรายละเอียดหน่อย
 
-Until now, `Rabbit` did not have its own `constructor`.
+จนถึงตอนนี้ `Rabbit` ยังไม่มีคอนสตรักเตอร์เป็นของตัวเอง
 
-According to the [specification](https://tc39.github.io/ecma262/#sec-runtime-semantics-classdefinitionevaluation), if a class extends another class and has no `constructor`, then the following "empty" `constructor` is generated:
+ตาม [สเปค](https://tc39.github.io/ecma262/#sec-runtime-semantics-classdefinitionevaluation) ถ้าคลาสสืบทอดจากคลาสอื่นแล้วไม่มี `constructor` จะมีคอนสตรักเตอร์ "เปล่าๆ" ถูกสร้างขึ้นให้อัตโนมัติดังนี้:
 
 ```js
 class Rabbit extends Animal {
-  // generated for extending classes without own constructors
+  // สร้างให้อัตโนมัติสำหรับคลาสลูกที่ไม่มีคอนสตรักเตอร์ของตัวเอง
 *!*
   constructor(...args) {
     super(...args);
@@ -196,9 +196,9 @@ class Rabbit extends Animal {
 }
 ```
 
-As we can see, it basically calls the parent `constructor` passing it all the arguments. That happens if we don't write a constructor of our own.
+จะเห็นว่าคอนสตรักเตอร์นี้แค่เรียกคอนสตรักเตอร์ของคลาสแม่แล้วส่ง argument ทั้งหมดต่อให้ ซึ่งจะเกิดขึ้นเมื่อเราไม่ได้เขียนคอนสตรักเตอร์เอง
 
-Now let's add a custom constructor to `Rabbit`. It will specify the `earLength` in addition to `name`:
+ทีนี้มาลองเพิ่มคอนสตรักเตอร์ของเราเองให้ `Rabbit` โดยกำหนด `earLength` เพิ่มจาก `name`:
 
 ```js run
 class Animal {
@@ -223,31 +223,31 @@ class Rabbit extends Animal {
 }
 
 *!*
-// Doesn't work!
+// ใช้ไม่ได้!
 let rabbit = new Rabbit("White Rabbit", 10); // Error: this is not defined.
 */!*
 ```
 
-Whoops! We've got an error. Now we can't create rabbits. What went wrong?
+โอ้โห! เกิด error ขึ้นมา ตอนนี้สร้างกระต่ายไม่ได้แล้ว เกิดอะไรขึ้น?
 
-The short answer is:
+คำตอบสั้นๆ คือ:
 
-- **Constructors in inheriting classes must call `super(...)`, and (!) do it before using `this`.**
+- **คอนสตรักเตอร์ของคลาสลูกต้องเรียก `super(...)` และ (!) ต้องเรียก *ก่อน* ที่จะใช้ `this`**
 
-...But why? What's going on here? Indeed, the requirement seems strange.
+...แต่ทำไมล่ะ? ที่เป็นแบบนี้เพราะอะไร? ข้อกำหนดนี้ฟังดูแปลกๆ ใช่ไหม?
 
-Of course, there's an explanation. Let's get into details, so you'll really understand what's going on.
+แน่นอนว่ามีคำอธิบาย มาลงรายละเอียดกัน เพื่อจะได้เข้าใจจริงๆ ว่าเกิดอะไรขึ้น
 
-In JavaScript, there's a distinction between a constructor function of an inheriting class (so-called "derived constructor") and other functions. A derived constructor has a special internal property `[[ConstructorKind]]:"derived"`. That's a special internal label.
+ใน JavaScript มีความแตกต่างระหว่างคอนสตรักเตอร์ของคลาสลูก (เรียกว่า "derived constructor") กับคอนสตรักเตอร์ทั่วไป โดยคอนสตรักเตอร์ของคลาสลูกจะมีพร็อพเพอร์ตี้ภายในพิเศษ `[[ConstructorKind]]:"derived"` ที่ทำให้พฤติกรรมแตกต่างออกไป
 
-That label affects its behavior with `new`.
+พร็อพเพอร์ตี้นี้ส่งผลต่อพฤติกรรมเมื่อใช้กับ `new`
 
-- When a regular function is executed with `new`, it creates an empty object and assigns it to `this`.
-- But when a derived constructor runs, it doesn't do this. It expects the parent constructor to do this job.
+- เมื่อฟังก์ชันปกติถูกเรียกด้วย `new` จะสร้างออบเจ็กต์เปล่าขึ้นมาแล้วกำหนดให้ `this`
+- แต่เมื่อ derived constructor ทำงาน จะ *ไม่ได้* สร้างออบเจ็กต์เอง แต่คาดหวังให้คอนสตรักเตอร์ของคลาสแม่เป็นคนสร้างให้
 
-So a derived constructor must call `super` in order to execute its parent (base) constructor, otherwise the object for `this` won't be created. And we'll get an error.
+ดังนั้น derived constructor จึงต้องเรียก `super` เพื่อให้คอนสตรักเตอร์ของคลาสแม่ (base) ทำงาน ไม่เช่นนั้นออบเจ็กต์สำหรับ `this` จะไม่ถูกสร้างขึ้น แล้วก็จะเกิด error
 
-For the `Rabbit` constructor to work, it needs to call `super()` before using `this`, like here:
+เพื่อให้คอนสตรักเตอร์ของ `Rabbit` ทำงานได้ ต้องเรียก `super()` ก่อนใช้ `this` แบบนี้:
 
 ```js run
 class Animal {
@@ -273,28 +273,28 @@ class Rabbit extends Animal {
 }
 
 *!*
-// now fine
+// ตอนนี้ใช้ได้แล้ว
 let rabbit = new Rabbit("White Rabbit", 10);
 alert(rabbit.name); // White Rabbit
 alert(rabbit.earLength); // 10
 */!*
 ```
 
-### Overriding class fields: a tricky note
+### การ Override ฟิลด์ของคลาส: จุดที่ต้องระวัง
 
-```warn header="Advanced note"
-This note assumes you have a certain experience with classes, maybe in other programming languages.
+```warn header="หมายเหตุขั้นสูง"
+หมายเหตุนี้เหมาะสำหรับผู้ที่มีประสบการณ์ใช้คลาสมาบ้างแล้ว อาจเป็นจากภาษาอื่นก็ได้
 
-It provides better insight into the language and also explains the behavior that might be a source of bugs (but not very often).
+เนื้อหาส่วนนี้จะช่วยให้เข้าใจภาษาลึกขึ้น และอธิบายพฤติกรรมที่อาจเป็นแหล่งที่มาของ bug (แม้จะไม่บ่อยนัก)
 
-If you find it difficult to understand, just go on, continue reading, then return to it some time later.
+ถ้ารู้สึกว่ายากเกินไป ข้ามไปก่อนได้เลย แล้วค่อยกลับมาอ่านทีหลัง
 ```
 
-We can override not only methods, but also class fields.
+เรา override ได้ไม่เฉพาะเมธอด แต่ override ฟิลด์ของคลาสได้ด้วย
 
-Although, there's a tricky behavior when we access an overridden field in parent constructor, quite different from most other programming languages.
+แต่มีพฤติกรรมที่ค่อนข้างแปลก เมื่อเข้าถึงฟิลด์ที่ถูก override ภายในคอนสตรักเตอร์ของคลาสแม่ ซึ่งต่างจากภาษาโปรแกรมอื่นๆ มาก
 
-Consider this example:
+ลองดูตัวอย่างนี้:
 
 ```js run
 class Animal {
@@ -315,28 +315,28 @@ new Rabbit(); // animal
 */!*
 ```
 
-Here, class `Rabbit` extends `Animal` and overrides the `name` field with its own value.
+ในที่นี้ คลาส `Rabbit` สืบทอดจาก `Animal` แล้ว override ฟิลด์ `name` ด้วยค่าของตัวเอง
 
-There's no own constructor in `Rabbit`, so `Animal` constructor is called.
+`Rabbit` ไม่มีคอนสตรักเตอร์ของตัวเอง จึงเรียกคอนสตรักเตอร์ของ `Animal` แทน
 
-What's interesting is that in both cases: `new Animal()` and `new Rabbit()`, the `alert` in the line `(*)` shows `animal`.
+สิ่งที่น่าสนใจคือ ทั้ง `new Animal()` และ `new Rabbit()` ต่าง `alert` ในบรรทัด `(*)` แสดงผลเป็น `animal` ทั้งคู่
 
-**In other words, the parent constructor always uses its own field value, not the overridden one.**
+**พูดอีกอย่างก็คือ คอนสตรักเตอร์ของคลาสแม่จะใช้ค่าฟิลด์ของตัวเองเสมอ ไม่ใช่ค่าที่ถูก override**
 
-What's odd about it?
+แปลกไหม?
 
-If it's not clear yet, please compare with methods.
+ถ้ายังไม่ชัด ลองเปรียบเทียบกับเมธอดดู
 
-Here's the same code, but instead of `this.name` field we call `this.showName()` method:
+โค้ดด้านล่างเหมือนกัน แต่เปลี่ยนจากฟิลด์ `this.name` เป็นการเรียกเมธอด `this.showName()` แทน:
 
 ```js run
 class Animal {
-  showName() {  // instead of this.name = 'animal'
+  showName() {  // แทน this.name = 'animal'
     alert('animal');
   }
 
   constructor() {
-    this.showName(); // instead of alert(this.name);
+    this.showName(); // แทน alert(this.name);
   }
 }
 
@@ -352,55 +352,55 @@ new Rabbit(); // rabbit
 */!*
 ```
 
-Please note: now the output is different.
+สังเกตว่าผลลัพธ์ต่างกันแล้ว
 
-And that's what we naturally expect. When the parent constructor is called in the derived class, it uses the overridden method.
+และนี่คือสิ่งที่เราคาดหวัง เมื่อคอนสตรักเตอร์ของคลาสแม่ถูกเรียกในคลาสลูก จะใช้เมธอดที่ถูก override แล้ว
 
-...But for class fields it's not so. As said, the parent constructor always uses the parent field.
+...แต่กับฟิลด์กลับไม่เป็นเช่นนั้น ดังที่กล่าวไป คอนสตรักเตอร์ของคลาสแม่จะใช้ฟิลด์ของคลาสแม่เสมอ
 
-Why is there a difference?
+ทำไมถึงแตกต่างกัน?
 
-Well, the reason is the field initialization order. The class field is initialized:
-- Before constructor for the base class (that doesn't extend anything),
-- Immediately after `super()` for the derived class.
+เหตุผลก็คือลำดับการ initialize ฟิลด์ต่างกัน โดยฟิลด์ของคลาสจะถูก initialize ดังนี้:
+- *ก่อน* คอนสตรักเตอร์ สำหรับคลาสฐาน (base class) ที่ไม่ได้สืบทอดจากใคร
+- *ทันทีหลัง* `super()` สำหรับคลาสลูก (derived class)
 
-In our case, `Rabbit` is the derived class. There's no `constructor()` in it. As said previously, that's the same as if there was an empty constructor with only `super(...args)`.
+ในกรณีของเรา `Rabbit` เป็นคลาสลูก ไม่มี `constructor()` ของตัวเอง ซึ่งก็เหมือนกับมีคอนสตรักเตอร์เปล่าๆ ที่มีแค่ `super(...args)` อยู่ข้างใน
 
-So, `new Rabbit()` calls `super()`, thus executing the parent constructor, and (per the rule for derived classes) only after that its class fields are initialized. At the time of the parent constructor execution, there are no `Rabbit` class fields yet, that's why `Animal` fields are used.
+ดังนั้นเมื่อ `new Rabbit()` เรียก `super()` ก็จะเข้าสู่คอนสตรักเตอร์ของคลาสแม่ และ (ตามกฎของคลาสลูก) ฟิลด์ของ `Rabbit` จะถูก initialize หลังจากนั้น ขณะที่คอนสตรักเตอร์ของคลาสแม่ทำงาน ฟิลด์ของ `Rabbit` จึงยังไม่มี จึงต้องใช้ฟิลด์ของ `Animal` แทน
 
-This subtle difference between fields and methods is specific to JavaScript.
+ความแตกต่างอันละเอียดอ่อนระหว่างฟิลด์กับเมธอดนี้ เป็นพฤติกรรมเฉพาะของ JavaScript
 
-Luckily, this behavior only reveals itself if an overridden field is used in the parent constructor. Then it may be difficult to understand what's going on, so we're explaining it here.
+โชคดีที่พฤติกรรมนี้จะเป็นปัญหาก็ต่อเมื่อใช้ฟิลด์ที่ถูก override ภายในคอนสตรักเตอร์ของคลาสแม่เท่านั้น ซึ่งอาจทำให้สับสนได้ จึงอธิบายไว้ตรงนี้
 
-If it becomes a problem, one can fix it by using methods or getters/setters instead of fields.
+ถ้าเจอปัญหานี้ แก้ได้โดยใช้เมธอดหรือ getter/setter แทนฟิลด์
 
-## Super: internals, [[HomeObject]]
+## Super: เบื้องลึก, [[HomeObject]]
 
-```warn header="Advanced information"
-If you're reading the tutorial for the first time - this section may be skipped.
+```warn header="ข้อมูลขั้นสูง"
+ถ้าอ่าน tutorial นี้เป็นครั้งแรก อาจข้ามส่วนนี้ไปก่อนได้
 
-It's about the internal mechanisms behind inheritance and `super`.
+เนื้อหาส่วนนี้เจาะลึกเรื่องกลไกภายในของการสืบทอดและ `super`
 ```
 
-Let's get a little deeper under the hood of `super`. We'll see some interesting things along the way.
+มาเจาะลึกเบื้องหลังการทำงานของ `super` กัน จะได้เห็นสิ่งน่าสนใจระหว่างทาง
 
-First to say, from all that we've learned till now, it's impossible for `super` to work at all!
+อันดับแรกต้องบอกว่า จากทุกอย่างที่เราเรียนมา `super` ไม่น่าจะทำงานได้เลย!
 
-Yeah, indeed, let's ask ourselves, how it should technically work? When an object method runs, it gets the current object as `this`. If we call `super.method()` then, the engine needs to get the `method` from the prototype of the current object. But how?
+จริงๆ นะ ลองคิดดูว่ามันควรทำงานอย่างไร เมื่อเมธอดของออบเจ็กต์ทำงาน จะได้ออบเจ็กต์ปัจจุบันเป็น `this` ถ้าเราเรียก `super.method()` เอนจินก็ต้องหา `method` จากโปรโตไทป์ของออบเจ็กต์ปัจจุบัน แต่ทำยังไงล่ะ?
 
-The task may seem simple, but it isn't. The engine knows the current object `this`, so it could get the parent `method` as `this.__proto__.method`. Unfortunately, such a "naive" solution won't work.
+ดูเหมือนง่าย แต่ไม่ง่ายเลย เอนจินรู้จักออบเจ็กต์ปัจจุบัน `this` ก็จริง จึงน่าจะหาเมธอดจากคลาสแม่ได้ด้วย `this.__proto__.method` แต่น่าเสียดาย วิธี "ซื่อๆ" แบบนี้ใช้ไม่ได้
 
-Let's demonstrate the problem. Without classes, using plain objects for the sake of simplicity.
+มาดูตัวอย่างปัญหากัน ใช้ออบเจ็กต์ธรรมดาแทนคลาสเพื่อให้เข้าใจง่ายขึ้น
 
-You may skip this part and go below to the `[[HomeObject]]` subsection if you don't want to know the details. That won't harm. Or read on if you're interested in understanding things in-depth.
+ถ้าไม่อยากรู้รายละเอียด ข้ามไปที่หัวข้อย่อย `[[HomeObject]]` ด้านล่างได้เลย จะไม่มีผลอะไร หรือถ้าสนใจเจาะลึกก็อ่านต่อได้
 
-In the example below, `rabbit.__proto__ = animal`. Now let's try: in `rabbit.eat()` we'll call `animal.eat()`, using `this.__proto__`:
+ในตัวอย่างด้านล่าง `rabbit.__proto__ = animal` ทีนี้ลองมาดูว่า ถ้าใน `rabbit.eat()` เราเรียก `animal.eat()` ผ่าน `this.__proto__` จะเป็นอย่างไร:
 
 ```js run
 let animal = {
   name: "Animal",
   eat() {
-    alert(`${this.name} eats.`);
+    alert(`${this.name} กินอาหาร.`);
   }
 };
 
@@ -409,33 +409,33 @@ let rabbit = {
   name: "Rabbit",
   eat() {
 *!*
-    // that's how super.eat() could presumably work
+    // super.eat() น่าจะทำงานแบบนี้
     this.__proto__.eat.call(this); // (*)
 */!*
   }
 };
 
-rabbit.eat(); // Rabbit eats.
+rabbit.eat(); // Rabbit กินอาหาร.
 ```
 
-At the line `(*)` we take `eat` from the prototype (`animal`) and call it in the context of the current object. Please note that `.call(this)` is important here, because a simple `this.__proto__.eat()` would execute parent `eat` in the context of the prototype, not the current object.
+ที่บรรทัด `(*)` เราหยิบ `eat` จากโปรโตไทป์ (`animal`) แล้วเรียกในบริบทของออบเจ็กต์ปัจจุบัน สังเกตว่า `.call(this)` สำคัญมาก เพราะถ้าเรียกแค่ `this.__proto__.eat()` จะรันเมธอด `eat` ในบริบทของโปรโตไทป์ ไม่ใช่ออบเจ็กต์ปัจจุบัน
 
-And in the code above it actually works as intended: we have the correct `alert`.
+และในโค้ดข้างต้นก็ทำงานได้ถูกต้อง `alert` แสดงผลตามที่ต้องการ
 
-Now let's add one more object to the chain. We'll see how things break:
+ทีนี้ลองเพิ่มออบเจ็กต์อีกตัวเข้าไปในสาย chain แล้วจะเห็นว่ามีปัญหา:
 
 ```js run
 let animal = {
   name: "Animal",
   eat() {
-    alert(`${this.name} eats.`);
+    alert(`${this.name} กินอาหาร.`);
   }
 };
 
 let rabbit = {
   __proto__: animal,
   eat() {
-    // ...bounce around rabbit-style and call parent (animal) method
+    // ...ทำอะไรบางอย่างแบบกระต่าย แล้วเรียกเมธอดของคลาสแม่ (animal)
     this.__proto__.eat.call(this); // (*)
   }
 };
@@ -443,7 +443,7 @@ let rabbit = {
 let longEar = {
   __proto__: rabbit,
   eat() {
-    // ...do something with long ears and call parent (rabbit) method
+    // ...ทำอะไรบางอย่างกับหูยาว แล้วเรียกเมธอดของคลาสแม่ (rabbit)
     this.__proto__.eat.call(this); // (**)
   }
 };
@@ -453,55 +453,55 @@ longEar.eat(); // Error: Maximum call stack size exceeded
 */!*
 ```
 
-The code doesn't work anymore! We can see the error trying to call `longEar.eat()`.
+โค้ดใช้ไม่ได้แล้ว! เกิด error เมื่อเรียก `longEar.eat()`
 
-It may be not that obvious, but if we trace `longEar.eat()` call, then we can see why. In both lines `(*)` and `(**)` the value of `this` is the current object (`longEar`). That's essential: all object methods get the current object as `this`, not a prototype or something.
+อาจไม่เห็นชัดนัก แต่ถ้าไล่การทำงานของ `longEar.eat()` จะเข้าใจว่าทำไม ทั้งบรรทัด `(*)` และ `(**)` ค่าของ `this` คือออบเจ็กต์ปัจจุบัน (`longEar`) ทั้งคู่ จุดนี้สำคัญมาก เพราะเมธอดของออบเจ็กต์ทุกตัวจะได้ออบเจ็กต์ปัจจุบันเป็น `this` ไม่ใช่โปรโตไทป์
 
-So, in both lines `(*)` and `(**)` the value of `this.__proto__` is exactly the same: `rabbit`. They both call `rabbit.eat` without going up the chain in the endless loop.
+ดังนั้น ทั้งบรรทัด `(*)` และ `(**)` ค่าของ `this.__proto__` จึงเป็น `rabbit` เหมือนกัน ทำให้ทั้งคู่เรียก `rabbit.eat` โดยไม่เคยไปถึงขั้นที่สูงกว่าใน chain วนลูปไม่รู้จบ
 
-Here's the picture of what happens:
+นี่คือรูปแสดงสิ่งที่เกิดขึ้น:
 
 ![](this-super-loop.svg)
 
-1. Inside `longEar.eat()`, the line `(**)` calls `rabbit.eat` providing it with `this=longEar`.
+1. ภายใน `longEar.eat()` บรรทัด `(**)` เรียก `rabbit.eat` โดยส่ง `this=longEar`
     ```js
-    // inside longEar.eat() we have this = longEar
+    // ภายใน longEar.eat() เรามี this = longEar
     this.__proto__.eat.call(this) // (**)
-    // becomes
+    // กลายเป็น
     longEar.__proto__.eat.call(this)
-    // that is
+    // ซึ่งก็คือ
     rabbit.eat.call(this);
     ```
-2. Then in the line `(*)` of `rabbit.eat`, we'd like to pass the call even higher in the chain, but `this=longEar`, so `this.__proto__.eat` is again `rabbit.eat`!
+2. จากนั้นในบรรทัด `(*)` ของ `rabbit.eat` เราต้องการส่งการเรียกขึ้นไปอีกขั้น แต่ `this=longEar` ทำให้ `this.__proto__.eat` ก็เป็น `rabbit.eat` อีก!
 
     ```js
-    // inside rabbit.eat() we also have this = longEar
+    // ภายใน rabbit.eat() เรามี this = longEar เช่นกัน
     this.__proto__.eat.call(this) // (*)
-    // becomes
+    // กลายเป็น
     longEar.__proto__.eat.call(this)
-    // or (again)
+    // หรือ (อีกครั้ง)
     rabbit.eat.call(this);
     ```
 
-3. ...So `rabbit.eat` calls itself in the endless loop, because it can't ascend any further.
+3. ...`rabbit.eat` จึงเรียกตัวเองซ้ำไปเรื่อยๆ เพราะไม่สามารถขึ้นไปอีกขั้นได้
 
-The problem can't be solved by using `this` alone.
+ปัญหานี้แก้ไม่ได้ด้วย `this` เพียงอย่างเดียว
 
 ### `[[HomeObject]]`
 
-To provide the solution, JavaScript adds one more special internal property for functions: `[[HomeObject]]`.
+เพื่อแก้ปัญหานี้ JavaScript จึงเพิ่มพร็อพเพอร์ตี้ภายในพิเศษอีกตัวหนึ่งให้กับฟังก์ชัน ชื่อว่า `[[HomeObject]]`
 
-When a function is specified as a class or object method, its `[[HomeObject]]` property becomes that object.
+เมื่อฟังก์ชันถูกกำหนดให้เป็นเมธอดของคลาสหรือออบเจ็กต์ พร็อพเพอร์ตี้ `[[HomeObject]]` จะชี้ไปที่ออบเจ็กต์นั้น
 
-Then `super` uses it to resolve the parent prototype and its methods.
+จากนั้น `super` จะใช้ `[[HomeObject]]` เพื่อค้นหาโปรโตไทป์ของคลาสแม่และเมธอดที่ต้องการ
 
-Let's see how it works, first with plain objects:
+มาดูวิธีการทำงานกัน เริ่มจากออบเจ็กต์ธรรมดา:
 
 ```js run
 let animal = {
   name: "Animal",
   eat() {         // animal.eat.[[HomeObject]] == animal
-    alert(`${this.name} eats.`);
+    alert(`${this.name} กินอาหาร.`);
   }
 };
 
@@ -522,31 +522,31 @@ let longEar = {
 };
 
 *!*
-// works correctly
-longEar.eat();  // Long Ear eats.
+// ทำงานได้ถูกต้อง
+longEar.eat();  // Long Ear กินอาหาร.
 */!*
 ```
 
-It works as intended, due to `[[HomeObject]]` mechanics. A method, such as `longEar.eat`, knows its `[[HomeObject]]` and takes the parent method from its prototype. Without any use of `this`.
+ทำงานได้ถูกต้อง เพราะกลไก `[[HomeObject]]` แต่ละเมธอด เช่น `longEar.eat` จะรู้จัก `[[HomeObject]]` ของตัวเอง แล้วหยิบเมธอดจากคลาสแม่ผ่านโปรโตไทป์ โดยไม่ต้องใช้ `this` เลย
 
-### Methods are not "free"
+### เมธอดไม่ได้ "อิสระ"
 
-As we've known before, generally functions are "free", not bound to objects in JavaScript. So they can be copied between objects and called with another `this`.
+ก่อนหน้านี้เราเรียนรู้มาว่า ฟังก์ชันใน JavaScript โดยปกติแล้ว "อิสระ" ไม่ได้ผูกกับออบเจ็กต์ใด จึงก็อปปี้ไปมาระหว่างออบเจ็กต์และเรียกด้วย `this` ตัวอื่นได้
 
-The very existence of `[[HomeObject]]` violates that principle, because methods remember their objects. `[[HomeObject]]` can't be changed, so this bond is forever.
+แต่การมีอยู่ของ `[[HomeObject]]` ทำลายหลักการนั้น เพราะเมธอดจำออบเจ็กต์ของตัวเองไว้ `[[HomeObject]]` เปลี่ยนไม่ได้ การผูกนี้จึงเป็นตลอดไป
 
-The only place in the language where `[[HomeObject]]` is used -- is `super`. So, if a method does not use `super`, then we can still consider it free and copy between objects. But with `super` things may go wrong.
+ที่เดียวในภาษาที่ใช้ `[[HomeObject]]` ก็คือ `super` ดังนั้นถ้าเมธอดไม่ได้ใช้ `super` ก็ยังถือว่าอิสระและก็อปปี้ไปมาได้ตามปกติ แต่ถ้ามี `super` อาจมีปัญหาได้
 
-Here's the demo of a wrong `super` result after copying:
+ลองดูตัวอย่างที่ `super` ทำงานผิดหลังจากก็อปปี้เมธอด:
 
 ```js run
 let animal = {
   sayHi() {
-    alert(`I'm an animal`);
+    alert(`ฉันเป็นสัตว์`);
   }
 };
 
-// rabbit inherits from animal
+// rabbit สืบทอดจาก animal
 let rabbit = {
   __proto__: animal,
   sayHi() {
@@ -556,11 +556,11 @@ let rabbit = {
 
 let plant = {
   sayHi() {
-    alert("I'm a plant");
+    alert("ฉันเป็นพืช");
   }
 };
 
-// tree inherits from plant
+// tree สืบทอดจาก plant
 let tree = {
   __proto__: plant,
 *!*
@@ -569,32 +569,32 @@ let tree = {
 };
 
 *!*
-tree.sayHi();  // I'm an animal (?!?)
+tree.sayHi();  // ฉันเป็นสัตว์ (?!?)
 */!*
 ```
 
-A call to `tree.sayHi()` shows "I'm an animal". Definitely wrong.
+เมื่อเรียก `tree.sayHi()` ได้ผลว่า "ฉันเป็นสัตว์" ซึ่งผิดอย่างแน่นอน
 
-The reason is simple:
-- In the line `(*)`, the method `tree.sayHi` was copied from `rabbit`. Maybe we just wanted to avoid code duplication?
-- Its `[[HomeObject]]` is `rabbit`, as it was created in `rabbit`. There's no way to change `[[HomeObject]]`.
-- The code of `tree.sayHi()` has `super.sayHi()` inside. It goes up from `rabbit` and takes the method from `animal`.
+เหตุผลก็ง่ายๆ:
+- ที่บรรทัด `(*)` เมธอด `tree.sayHi` ถูกก็อปปี้มาจาก `rabbit` อาจจะแค่ต้องการลดโค้ดซ้ำ?
+- `[[HomeObject]]` ของเมธอดนี้คือ `rabbit` เพราะถูกสร้างไว้ใน `rabbit` และ `[[HomeObject]]` เปลี่ยนไม่ได้
+- โค้ดของ `tree.sayHi()` มี `super.sayHi()` อยู่ข้างใน ซึ่งไล่ขึ้นไปจาก `rabbit` จึงหยิบเมธอดจาก `animal` มา
 
-Here's the diagram of what happens:
+นี่คือไดอะแกรมแสดงสิ่งที่เกิดขึ้น:
 
 ![](super-homeobject-wrong.svg)
 
-### Methods, not function properties
+### ต้องเป็นเมธอด ไม่ใช่ function property
 
-`[[HomeObject]]` is defined for methods both in classes and in plain objects. But for objects, methods must be specified exactly as `method()`, not as `"method: function()"`.
+`[[HomeObject]]` ถูกกำหนดให้กับเมธอดทั้งในคลาสและออบเจ็กต์ธรรมดา แต่สำหรับออบเจ็กต์ต้องเขียนในรูปแบบ `method()` ไม่ใช่ `"method: function()"`
 
-The difference may be non-essential for us, but it's important for JavaScript.
+ความแตกต่างนี้อาจไม่สำคัญสำหรับเรา แต่สำคัญสำหรับ JavaScript
 
-In the example below a non-method syntax is used for comparison. `[[HomeObject]]` property is not set and the inheritance doesn't work:
+ในตัวอย่างด้านล่างใช้ไวยากรณ์แบบ non-method เพื่อเปรียบเทียบ พร็อพเพอร์ตี้ `[[HomeObject]]` จะไม่ถูกกำหนด ทำให้การสืบทอดไม่ทำงาน:
 
 ```js run
 let animal = {
-  eat: function() { // intentionally writing like this instead of eat() {...
+  eat: function() { // ตั้งใจเขียนแบบนี้แทน eat() {...
     // ...
   }
 };
@@ -607,21 +607,21 @@ let rabbit = {
 };
 
 *!*
-rabbit.eat();  // Error calling super (because there's no [[HomeObject]])
+rabbit.eat();  // Error calling super (เพราะไม่มี [[HomeObject]])
 */!*
 ```
 
-## Summary
+## สรุป
 
-1. To extend a class: `class Child extends Parent`:
-    - That means `Child.prototype.__proto__` will be `Parent.prototype`, so methods are inherited.
-2. When overriding a constructor:
-    - We must call parent constructor as `super()` in `Child` constructor before using `this`.
-3. When overriding another method:
-    - We can use `super.method()` in a `Child` method to call `Parent` method.
-4. Internals:
-    - Methods remember their class/object in the internal `[[HomeObject]]` property. That's how `super` resolves parent methods.
-    - So it's not safe to copy a method with `super` from one object to another.
+1. การขยายคลาส: `class Child extends Parent`:
+    - หมายความว่า `Child.prototype.__proto__` จะเป็น `Parent.prototype` ทำให้เมธอดถูกสืบทอดลงมา
+2. เมื่อ override คอนสตรักเตอร์:
+    - ต้องเรียกคอนสตรักเตอร์ของคลาสแม่ด้วย `super()` ภายในคอนสตรักเตอร์ของ `Child` ก่อนที่จะใช้ `this`
+3. เมื่อ override เมธอดอื่น:
+    - ใช้ `super.method()` ในเมธอดของ `Child` เพื่อเรียกเมธอดของ `Parent`
+4. เบื้องหลัง:
+    - เมธอดจำคลาส/ออบเจ็กต์ของตัวเองไว้ในพร็อพเพอร์ตี้ภายใน `[[HomeObject]]` นี่คือวิธีที่ `super` ค้นหาเมธอดของคลาสแม่
+    - ดังนั้นการก็อปปี้เมธอดที่มี `super` ไปยังออบเจ็กต์อื่นจึงไม่ปลอดภัย
 
-Also:
-- Arrow functions don't have their own `this` or `super`, so they transparently fit into the surrounding context.
+นอกจากนี้:
+- Arrow function ไม่มี `this` หรือ `super` ของตัวเอง จึงกลมกลืนไปกับบริบทรอบข้างได้อย่างเป็นธรรมชาติ

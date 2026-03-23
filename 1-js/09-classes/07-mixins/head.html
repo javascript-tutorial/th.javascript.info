@@ -2,7 +2,7 @@
 let eventMixin = {
 
   /**
-   * Subscribe to event, usage:
+   * ติดตามอีเวนต์ ตัวอย่างการใช้งาน:
    *  menu.on('select', function(item) { ... }
   */
   on(eventName, handler) {
@@ -14,7 +14,7 @@ let eventMixin = {
   },
 
   /**
-   * Cancel the subscription, usage:
+   * ยกเลิกการติดตาม ตัวอย่างการใช้งาน:
    *  menu.off('select', handler)
    */
   off(eventName, handler) {
@@ -28,15 +28,15 @@ let eventMixin = {
   },
 
   /**
-   * Generate the event and attach the data to it
+   * สร้างอีเวนต์พร้อมแนบข้อมูล
    *  this.trigger('select', data1, data2);
    */
   trigger(eventName, ...args) {
     if (!this._eventHandlers || !this._eventHandlers[eventName]) {
-      return; // no handlers for that event name
+      return; // ไม่มี handler สำหรับอีเวนต์นี้
     }
 
-    // call the handlers
+    // เรียก handler ทั้งหมด
     this._eventHandlers[eventName].forEach(handler => handler.apply(this, args));
   }
 };

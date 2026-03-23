@@ -2,8 +2,8 @@ importance: 5
 
 ---
 
-# Rewrite to class
+# เขียนใหม่ด้วยคลาส
 
-The `Clock` class (see the sandbox) is written in functional style. Rewrite it in the "class" syntax.
+คลาส `Clock` (ดูใน sandbox) เขียนไว้แบบ functional style ให้เขียนใหม่โดยใช้ไวยากรณ์ "class"
 
-P.S. The clock ticks in the console, open it to see.
+P.S. นาฬิกาจะเดินอยู่ใน console ลองเปิดดู

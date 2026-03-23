@@ -1,9 +1,9 @@
 
-# Static properties and methods
+# พร็อพเพอร์ตี้และเมธอดแบบ Static
 
-We can also assign a method to the class as a whole. Such methods are called *static*.
+นอกจากเมธอดปกติแล้ว เรายังกำหนดเมธอดให้กับตัวคลาสโดยตรงได้ด้วย เมธอดแบบนี้เรียกว่า *static*
 
-In a class declaration, they are prepended by `static` keyword, like this:
+วิธีประกาศก็แค่เติมคีย์เวิร์ด `static` ไว้หน้าเมธอดในคลาส แบบนี้:
 
 ```js run
 class User {
@@ -17,7 +17,7 @@ class User {
 User.staticMethod(); // true
 ```
 
-That actually does the same as assigning it as a property directly:
+ซึ่งให้ผลเหมือนกับการกำหนดเมธอดเป็นพร็อพเพอร์ตี้ของคลาสโดยตรง:
 
 ```js run
 class User { }
@@ -29,13 +29,13 @@ User.staticMethod = function() {
 User.staticMethod(); // true
 ```
 
-The value of `this` in `User.staticMethod()` call is the class constructor `User` itself (the "object before dot" rule).
+ค่า `this` ในการเรียก `User.staticMethod()` คือตัวคอนสตรักเตอร์ `User` เอง (ตามกฎ "ออบเจ็กต์ก่อนจุด")
 
-Usually, static methods are used to implement functions that belong to the class as a whole, but not to any particular object of it.
+โดยทั่วไปแล้ว เมธอดแบบ static ใช้สำหรับฟังก์ชันที่เกี่ยวข้องกับ "คลาสโดยรวม" ไม่ได้เกี่ยวกับออบเจ็กต์ตัวใดตัวหนึ่ง
 
-For instance, we have `Article` objects and need a function to compare them.
+สมมติเรามีออบเจ็กต์ `Article` หลายตัว แล้วต้องการฟังก์ชันเปรียบเทียบ
 
-A natural solution would be to add `Article.compare` static method:
+วิธีที่เป็นธรรมชาติคือสร้างเมธอด static ชื่อ `Article.compare`:
 
 ```js run
 class Article {
@@ -51,7 +51,7 @@ class Article {
 */!*
 }
 
-// usage
+// การใช้งาน
 let articles = [
   new Article("HTML", new Date(2019, 1, 1)),
   new Article("CSS", new Date(2019, 0, 1)),
@@ -65,19 +65,19 @@ articles.sort(Article.compare);
 alert( articles[0].title ); // CSS
 ```
 
-Here `Article.compare` method stands "above" articles, as a means to compare them. It's not a method of an article, but rather of the whole class.
+ตรงนี้เมธอด `Article.compare` ทำหน้าที่เปรียบเทียบบทความจาก "ระดับคลาส" ไม่ใช่เมธอดของบทความตัวใดตัวหนึ่ง แต่เป็นเมธอดของคลาสทั้งคลาส
 
-Another example would be a so-called "factory" method.
+อีกตัวอย่างหนึ่งคือสิ่งที่เรียกว่า "factory method"
 
-Let's say, we need multiple ways to create an article:
+สมมติว่าเราต้องการสร้าง article ได้หลายวิธี:
 
-1. Create by given parameters (`title`, `date` etc).
-2. Create an empty article with today's date.
-3. ...or else somehow.
+1. สร้างจากพารามิเตอร์ที่กำหนด (`title`, `date` ฯลฯ)
+2. สร้าง article เปล่าที่มีวันที่วันนี้
+3. ...หรือวิธีอื่นๆ
 
-The first way can be implemented by the constructor. And for the second one we can make a static method of the class.
+วิธีแรกทำได้ผ่านคอนสตรักเตอร์ ส่วนวิธีที่สองทำได้ด้วยเมธอด static ของคลาส
 
-Such as `Article.createTodays()` here:
+เช่น `Article.createTodays()` ในตัวอย่างนี้:
 
 ```js run
 class Article {
@@ -88,7 +88,7 @@ class Article {
 
 *!*
   static createTodays() {
-    // remember, this = Article
+    // จำไว้ว่า this = Article
     return new this("Today's digest", new Date());
   }
 */!*
@@ -99,20 +99,20 @@ let article = Article.createTodays();
 alert( article.title ); // Today's digest
 ```
 
-Now every time we need to create a today's digest, we can call `Article.createTodays()`. Once again, that's not a method of an article, but a method of the whole class.
+ทีนี้ทุกครั้งที่ต้องการสร้างบทความวันนี้ แค่เรียก `Article.createTodays()` ได้เลย อีกครั้ง นี่ไม่ใช่เมธอดของ article ตัวใดตัวหนึ่ง แต่เป็นเมธอดของคลาสทั้งคลาส
 
-Static methods are also used in database-related classes to search/save/remove entries from the database, like this:
+เมธอด static ยังใช้กับคลาสที่ทำงานกับฐานข้อมูลด้วย เช่น ค้นหา/บันทึก/ลบข้อมูล:
 
 ```js
-// assuming Article is a special class for managing articles
-// static method to remove the article by id:
+// สมมติว่า Article เป็นคลาสสำหรับจัดการบทความ
+// เมธอด static สำหรับลบบทความตาม id:
 Article.remove({id: 12345});
 ```
 
-````warn header="Static methods aren't available for individual objects"
-Static methods are callable on classes, not on individual objects.
+````warn header="เมธอด static ใช้กับออบเจ็กต์แต่ละตัวไม่ได้"
+เมธอด static เรียกได้จากคลาสเท่านั้น ไม่ใช่จากออบเจ็กต์แต่ละตัว
 
-E.g. such code won't work:
+เช่น โค้ดนี้จะใช้ไม่ได้:
 
 ```js
 // ...
@@ -120,11 +120,11 @@ article.createTodays(); /// Error: article.createTodays is not a function
 ```
 ````
 
-## Static properties
+## พร็อพเพอร์ตี้แบบ Static
 
 [recent browser=Chrome]
 
-Static properties are also possible, they look like regular class properties, but prepended by `static`:
+นอกจากเมธอดแล้ว พร็อพเพอร์ตี้ก็ประกาศเป็น static ได้เช่นกัน หน้าตาเหมือนพร็อพเพอร์ตี้ปกติ แค่เติม `static` ไว้ข้างหน้า:
 
 ```js run
 class Article {
@@ -134,17 +134,17 @@ class Article {
 alert( Article.publisher ); // Ilya Kantor
 ```
 
-That is the same as a direct assignment to `Article`:
+ซึ่งให้ผลเหมือนกับการกำหนดค่าให้ `Article` โดยตรง:
 
 ```js
 Article.publisher = "Ilya Kantor";
 ```
 
-## Inheritance of static properties and methods [#statics-and-inheritance]
+## การสืบทอดพร็อพเพอร์ตี้และเมธอดแบบ Static [#statics-and-inheritance]
 
-Static properties and methods are inherited.
+พร็อพเพอร์ตี้และเมธอดแบบ static สืบทอดได้ด้วย
 
-For instance, `Animal.compare` and `Animal.planet` in the code below are inherited and accessible as `Rabbit.compare` and `Rabbit.planet`:
+ตัวอย่างเช่น `Animal.compare` และ `Animal.planet` ในโค้ดด้านล่าง สืบทอดไปยังคลาสลูกและเข้าถึงได้ผ่าน `Rabbit.compare` และ `Rabbit.planet`:
 
 ```js run
 class Animal {
@@ -157,7 +157,7 @@ class Animal {
 
   run(speed = 0) {
     this.speed += speed;
-    alert(`${this.name} runs with speed ${this.speed}.`);
+    alert(`${this.name} วิ่งด้วยความเร็ว ${this.speed}.`);
   }
 
 *!*
@@ -168,10 +168,10 @@ class Animal {
 
 }
 
-// Inherit from Animal
+// สืบทอดจาก Animal
 class Rabbit extends Animal {
   hide() {
-    alert(`${this.name} hides!`);
+    alert(`${this.name} ซ่อนตัว!`);
   }
 }
 
@@ -184,48 +184,48 @@ let rabbits = [
 rabbits.sort(Rabbit.compare);
 */!*
 
-rabbits[0].run(); // Black Rabbit runs with speed 5.
+rabbits[0].run(); // Black Rabbit วิ่งด้วยความเร็ว 5.
 
 alert(Rabbit.planet); // Earth
 ```
 
-Now when we call `Rabbit.compare`, the inherited `Animal.compare` will be called.
+ตอนที่เราเรียก `Rabbit.compare` จะไปเรียก `Animal.compare` ที่สืบทอดมา
 
-How does it work? Again, using prototypes. As you might have already guessed, `extends` gives `Rabbit` the `[[Prototype]]` reference to `Animal`.
+แล้วมันทำงานอย่างไร? คำตอบคือโปรโตไทป์นั่นเอง อย่างที่คาดเดาได้ คีย์เวิร์ด `extends` ทำให้ `Rabbit` มีการอ้างอิง `[[Prototype]]` ไปยัง `Animal`
 
 ![](animal-rabbit-static.svg)
 
-So, `Rabbit extends Animal` creates two `[[Prototype]]` references:
+ดังนั้น `Rabbit extends Animal` สร้างการเชื่อมโยง `[[Prototype]]` ถึง 2 จุดด้วยกัน:
 
-1. `Rabbit` function prototypally inherits from `Animal` function.
-2. `Rabbit.prototype` prototypally inherits from `Animal.prototype`.
+1. ฟังก์ชัน `Rabbit` สืบทอดจากฟังก์ชัน `Animal` ผ่านโปรโตไทป์
+2. `Rabbit.prototype` สืบทอดจาก `Animal.prototype` ผ่านโปรโตไทป์
 
-As a result, inheritance works both for regular and static methods.
+ผลลัพธ์คือการสืบทอดทำงานได้ทั้งเมธอดปกติและเมธอด static
 
-Here, let's check that by code:
+มาลองพิสูจน์ด้วยโค้ดกัน:
 
 ```js run
 class Animal {}
 class Rabbit extends Animal {}
 
-// for statics
+// สำหรับ static
 alert(Rabbit.__proto__ === Animal); // true
 
-// for regular methods
+// สำหรับเมธอดปกติ
 alert(Rabbit.prototype.__proto__ === Animal.prototype); // true
 ```
 
-## Summary
+## สรุป
 
-Static methods are used for the functionality that belongs to the class "as a whole". It doesn't relate to a concrete class instance.
+เมธอด static ใช้สำหรับฟังก์ชันที่เกี่ยวข้องกับ "คลาสโดยรวม" ไม่ได้เกี่ยวกับอินสแตนซ์ใดอินสแตนซ์หนึ่ง
 
-For example, a method for comparison `Article.compare(article1, article2)` or a factory method `Article.createTodays()`.
+ตัวอย่างเช่น เมธอดเปรียบเทียบ `Article.compare(article1, article2)` หรือ factory method อย่าง `Article.createTodays()`
 
-They are labeled by the word `static` in class declaration.
+ประกาศได้โดยใส่คีย์เวิร์ด `static` ในคลาส
 
-Static properties are used when we'd like to store class-level data, also not bound to an instance.
+พร็อพเพอร์ตี้แบบ static ใช้เมื่อต้องการเก็บข้อมูลระดับคลาส ซึ่งไม่ได้ผูกกับอินสแตนซ์ใดเช่นกัน
 
-The syntax is:
+ไวยากรณ์มีดังนี้:
 
 ```js
 class MyClass {
@@ -237,13 +237,13 @@ class MyClass {
 }
 ```
 
-Technically, static declaration is the same as assigning to the class itself:
+ในทางเทคนิค การประกาศ static เหมือนกับการกำหนดค่าให้คลาสโดยตรง:
 
 ```js
 MyClass.property = ...
 MyClass.method = ...
 ```
 
-Static properties and methods are inherited.
+พร็อพเพอร์ตี้และเมธอดแบบ static สืบทอดได้
 
-For `class B extends A` the prototype of the class `B` itself points to `A`: `B.[[Prototype]] = A`. So if a field is not found in `B`, the search continues in `A`.
+เมื่อเขียน `class B extends A` โปรโตไทป์ของคลาส `B` จะชี้ไปยัง `A` นั่นคือ `B.[[Prototype]] = A` ดังนั้นถ้าหาฟิลด์ไม่พบใน `B` ก็จะไปค้นหาต่อใน `A`
