@@ -37,9 +37,9 @@ alert( user2.name ); // undefined
 
 มาดูกันว่า `new user.constructor('Pete')` ทำงานอย่างไร:
 
-1. แรกสุดมันหา `constructor` ใน `user` ก่อน -- ไม่เจอ
+1. แรกสุดจะหา `constructor` ใน `user` ก่อน -- ไม่เจอ
 2. จากนั้นก็ไล่ขึ้นไปตาม prototype chain โปรโตไทป์ของ `user` คือ `User.prototype` ซึ่งก็ไม่มี `constructor` เช่นกัน (เพราะเรา "ลืม" กำหนดไว้)
-3. ไล่ขึ้นไปอีก `User.prototype` เป็นออบเจ็กต์ธรรมดา โปรโตไทป์ของมันคือ `Object.prototype` ที่มีมาในตัว
+3. ไล่ขึ้นไปอีก `User.prototype` เป็นออบเจ็กต์ธรรมดา ซึ่งโปรโตไทป์คือ `Object.prototype` ที่มีมาในตัว
 4. สุดท้ายก็ไปเจอ `Object.prototype.constructor == Object` จึงใช้ตัวนี้แทน
 
 สรุปแล้วสิ่งที่เกิดขึ้นคือ `let user2 = new Object('Pete')`
