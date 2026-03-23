@@ -4,9 +4,9 @@ importance: 3
 
 # Class extends Object?
 
-As we know, all objects normally inherit from `Object.prototype` and get access to "generic" object methods like `hasOwnProperty` etc.
+อย่างที่เราทราบ ออบเจ็กต์ทุกตัวจะสืบทอดจาก `Object.prototype` โดยปกติ ทำให้เข้าถึงเมธอดทั่วไปของออบเจ็กต์ได้ เช่น `hasOwnProperty` เป็นต้น
 
-For instance:
+ตัวอย่าง:
 
 ```js run
 class Rabbit {
@@ -18,16 +18,16 @@ class Rabbit {
 let rabbit = new Rabbit("Rab");
 
 *!*
-// hasOwnProperty method is from Object.prototype
+// เมธอด hasOwnProperty มาจาก Object.prototype
 alert( rabbit.hasOwnProperty('name') ); // true
 */!*
 ```
 
-But if we spell it out explicitly like `"class Rabbit extends Object"`, then the result would be different from a simple `"class Rabbit"`?
+แต่ถ้าเราเขียนแบบระบุชัดเจนว่า `"class Rabbit extends Object"` ผลลัพธ์จะต่างจาก `"class Rabbit"` ธรรมดาไหม?
 
-What's the difference?
+ต่างกันตรงไหน?
 
-Here's an example of such code (it doesn't work -- why? fix it?):
+ลองดูตัวอย่างโค้ดนี้ (ซึ่งใช้ไม่ได้ -- ทำไม? แก้ยังไง?):
 
 ```js
 class Rabbit extends Object {

@@ -2,14 +2,14 @@ importance: 5
 
 ---
 
-# Extended clock
+# นาฬิกาแบบขยาย (Extended clock)
 
-We've got a `Clock` class. As of now, it prints the time every second.
+เรามีคลาส `Clock` อยู่แล้ว ซึ่งแสดงเวลาทุกวินาที
 
 
 [js src="source.view/clock.js"]
 
-Create a new class `ExtendedClock` that inherits from `Clock` and adds the parameter `precision` -- the number of `ms` between "ticks". Should be `1000` (1 second) by default.
+ให้สร้างคลาส `ExtendedClock` ที่สืบทอดจาก `Clock` แล้วเพิ่มพารามิเตอร์ `precision` ซึ่งเป็นจำนวนมิลลิวินาทีระหว่าง "ติ๊ก" แต่ละครั้ง ค่าเริ่มต้นคือ `1000` (1 วินาที)
 
-- Your code should be in the file `extended-clock.js`
-- Don't modify the original `clock.js`. Extend it.
+- เขียนโค้ดในไฟล์ `extended-clock.js`
+- อย่าแก้ไขไฟล์ `clock.js` เดิม ให้ขยายจากมันแทน
