@@ -2,13 +2,13 @@ importance: 5
 
 ---
 
-# Inherit from SyntaxError
+# สืบทอดจาก SyntaxError
 
-Create a class `FormatError` that inherits from the built-in `SyntaxError` class.
+สร้างคลาส `FormatError` ที่สืบทอดมาจากคลาส `SyntaxError` ซึ่งเป็นคลาส built-in
 
-It should support `message`, `name` and `stack` properties.
+คลาสนี้ต้องรองรับพร็อพเพอร์ตี้ `message`, `name` และ `stack`
 
-Usage example:
+ตัวอย่างการใช้งาน:
 
 ```js
 let err = new FormatError("formatting error");
@@ -18,5 +18,5 @@ alert( err.name ); // FormatError
 alert( err.stack ); // stack
 
 alert( err instanceof FormatError ); // true
-alert( err instanceof SyntaxError ); // true (because inherits from SyntaxError)
+alert( err instanceof SyntaxError ); // true (เพราะสืบทอดจาก SyntaxError)
 ```

@@ -1,42 +1,42 @@
-# Custom errors, extending Error
+# สร้าง error class เอง ด้วยการ extend Error
 
-When we develop something, we often need our own error classes to reflect specific things that may go wrong in our tasks. For errors in network operations we may need `HttpError`, for database operations `DbError`, for searching operations `NotFoundError` and so on.
+ตอนพัฒนาแอปจริง เราจะต้องมี error class เป็นของตัวเอง เพื่อบอกว่าเกิดปัญหาอะไรขึ้นในแต่ละจุด เช่น error เรื่อง network อาจต้องใช้ `HttpError` เรื่องฐานข้อมูลก็ `DbError` หาข้อมูลไม่เจอก็ `NotFoundError`
 
-Our errors should support basic error properties like `message`, `name` and, preferably, `stack`. But they also may have other properties of their own, e.g. `HttpError` objects may have a `statusCode` property with a value like `404` or `403` or `500`.
+error ที่เราสร้างขึ้นเองก็ควรมีพร็อพเพอร์ตี้พื้นฐานอย่าง `message`, `name` และ `stack` ด้วย แต่ยังเพิ่มพร็อพเพอร์ตี้เฉพาะของตัวเองได้ เช่น ออบเจ็กต์ `HttpError` อาจมี `statusCode` เก็บค่า `404` หรือ `403` หรือ `500`
 
-JavaScript allows to use `throw` with any argument, so technically our custom error classes don't need to inherit from `Error`. But if we inherit, then it becomes possible to use `obj instanceof Error` to identify error objects. So it's better to inherit from it.
+JavaScript ยอมให้ throw อะไรก็ได้ — error class ที่สร้างเองจึงไม่จำเป็นต้อง extend จาก `Error` แต่ถ้า extend ไว้ เราจะเช็คด้วย `obj instanceof Error` ได้เลย เป็นท่าที่ดีกว่า
 
-As the application grows, our own errors naturally form a hierarchy. For instance, `HttpTimeoutError` may inherit from `HttpError`, and so on.
+พอแอปโตขึ้น error class ต่างๆ ก็จะค่อยๆ แตกกิ่งเป็นลำดับชั้นอย่างเป็นธรรมชาติ เช่น `HttpTimeoutError` extend จาก `HttpError` อีกที
 
-## Extending Error
+## ต่อยอดจาก Error
 
-As an example, let's consider a function `readUser(json)` that should read JSON with user data.
+ลองดูตัวอย่างจริงกัน สมมติเรามีฟังก์ชัน `readUser(json)` ที่รับ JSON แล้วอ่านข้อมูลผู้ใช้ออกมา
 
-Here's an example of how a valid `json` may look:
+JSON ที่ถูกต้องจะหน้าตาประมาณนี้:
 ```js
 let json = `{ "name": "John", "age": 30 }`;
 ```
 
-Internally, we'll use `JSON.parse`. If it receives malformed `json`, then it throws `SyntaxError`. But even if `json` is syntactically correct, that doesn't mean that it's a valid user, right? It may miss the necessary data. For instance, it may not have `name` and `age` properties that are essential for our users.
+ภายในฟังก์ชันเราใช้ `JSON.parse` ซึ่งถ้ารับ `json` ที่มีรูปแบบผิดจะ throw `SyntaxError` ออกมา แต่ถึง `json` จะถูกไวยากรณ์แล้ว ก็ไม่ได้แปลว่าข้อมูลถูกต้องเสมอไปนะ — อาจจะขาดฟิลด์สำคัญ เช่น ไม่มี `name` หรือ `age` ก็ได้
 
-Our function `readUser(json)` will not only read JSON, but check ("validate") the data. If there are no required fields, or the format is wrong, then that's an error. And that's not a `SyntaxError`, because the data is syntactically correct, but another kind of error. We'll call it `ValidationError` and create a class for it. An error of that kind should also carry the information about the offending field.
+ฟังก์ชัน `readUser(json)` จะไม่ได้แค่อ่าน JSON อย่างเดียว แต่ต้องเช็ค ("validate") ข้อมูลด้วย ถ้าฟิลด์ที่จำเป็นหายไป หรือรูปแบบผิด ก็ถือว่าเป็น error — แต่ไม่ใช่ `SyntaxError` นะ เพราะตัว JSON ถูกไวยากรณ์อยู่ เป็น error คนละท่ากัน เราจะเรียกว่า `ValidationError` แล้วสร้างเป็นคลาสขึ้นมา error แบบนี้ควรบอกด้วยว่าฟิลด์ไหนมีปัญหา
 
-Our `ValidationError` class should inherit from the `Error` class.
+คลาส `ValidationError` ของเราควร extend จากคลาส `Error`
 
-The `Error` class is built-in, but here's its approximate code so we can understand what we're extending:
+คลาส `Error` เป็นคลาส built-in แต่ลองดูโค้ดจำลองกันก่อนว่าข้างในมีอะไรบ้าง:
 
 ```js
-// The "pseudocode" for the built-in Error class defined by JavaScript itself
+// "pseudocode" ของคลาส Error ที่ JavaScript สร้างไว้ให้
 class Error {
   constructor(message) {
     this.message = message;
-    this.name = "Error"; // (different names for different built-in error classes)
-    this.stack = <call stack>; // non-standard, but most environments support it
+    this.name = "Error"; // (คลาส error ที่ built-in มาจะมีชื่อต่างกันไป)
+    this.stack = <call stack>; // ไม่ใช่มาตรฐาน แต่เกือบทุกเอนจินรองรับ
   }
 }
 ```
 
-Now let's inherit `ValidationError` from it and try it in action:
+ทีนี้มาสร้าง `ValidationError` โดย extend จาก `Error` แล้วลองเรียกใช้ดู:
 
 ```js run
 *!*
@@ -49,23 +49,23 @@ class ValidationError extends Error {
 }
 
 function test() {
-  throw new ValidationError("Whoops!");
+  throw new ValidationError("อุ๊ปส์!");
 }
 
 try {
   test();
 } catch(err) {
-  alert(err.message); // Whoops!
+  alert(err.message); // อุ๊ปส์!
   alert(err.name); // ValidationError
-  alert(err.stack); // a list of nested calls with line numbers for each
+  alert(err.stack); // รายการเรียกฟังก์ชันซ้อนกัน พร้อมเลขบรรทัด
 }
 ```
 
-Please note: in the line `(1)` we call the parent constructor. JavaScript requires us to call `super` in the child constructor, so that's obligatory. The parent constructor sets the `message` property.
+สังเกตบรรทัด `(1)` — เราเรียก `super` เพื่อเรียกคอนสตรักเตอร์ของคลาสแม่ JavaScript บังคับว่าคลาสลูกต้องเรียก `super` เสมอ ซึ่งคอนสตรักเตอร์ของคลาสแม่จะตั้งค่า `message` ให้
 
-The parent constructor also sets the `name` property to `"Error"`, so in the line `(2)` we reset it to the right value.
+คลาสแม่ยังตั้ง `name` เป็น `"Error"` ด้วย เราเลยต้องเปลี่ยนเป็นค่าที่ถูกต้องในบรรทัด `(2)`
 
-Let's try to use it in `readUser(json)`:
+มาลองใช้กับ `readUser(json)` จริงๆ กัน:
 
 ```js run
 class ValidationError extends Error {
@@ -75,57 +75,57 @@ class ValidationError extends Error {
   }
 }
 
-// Usage
+// ใช้งานจริง
 function readUser(json) {
   let user = JSON.parse(json);
 
   if (!user.age) {
-    throw new ValidationError("No field: age");
+    throw new ValidationError("ไม่มีฟิลด์: age");
   }
   if (!user.name) {
-    throw new ValidationError("No field: name");
+    throw new ValidationError("ไม่มีฟิลด์: name");
   }
 
   return user;
 }
 
-// Working example with try..catch
+// ตัวอย่างการใช้ try..catch
 
 try {
   let user = readUser('{ "age": 25 }');
 } catch (err) {
   if (err instanceof ValidationError) {
 *!*
-    alert("Invalid data: " + err.message); // Invalid data: No field: name
+    alert("ข้อมูลไม่ถูกต้อง: " + err.message); // ข้อมูลไม่ถูกต้อง: ไม่มีฟิลด์: name
 */!*
   } else if (err instanceof SyntaxError) { // (*)
     alert("JSON Syntax Error: " + err.message);
   } else {
-    throw err; // unknown error, rethrow it (**)
+    throw err; // error ที่ไม่รู้จัก โยนต่อออกไป (**)
   }
 }
 ```
 
-The `try..catch` block in the code above handles both our `ValidationError` and the built-in `SyntaxError` from `JSON.parse`.
+บล็อก `try..catch` ในโค้ดด้านบนจัดการได้ทั้ง `ValidationError` ที่เราสร้างเองและ `SyntaxError` ที่มาจาก `JSON.parse`
 
-Please take a look at how we use `instanceof` to check for the specific error type in the line `(*)`.
+ลองสังเกตบรรทัด `(*)` ดู — เราใช้ `instanceof` เพื่อเช็คว่า error เป็นชนิดไหน
 
-We could also look at `err.name`, like this:
+จะใช้ `err.name` แทนก็ได้ แบบนี้:
 
 ```js
 // ...
-// instead of (err instanceof SyntaxError)
+// แทนที่จะใช้ (err instanceof SyntaxError)
 } else if (err.name == "SyntaxError") { // (*)
 // ...
 ```
 
-The `instanceof` version is much better, because in the future we are going to extend `ValidationError`, make subtypes of it, like `PropertyRequiredError`. And `instanceof` check will continue to work for new inheriting classes. So that's future-proof.
+แต่ `instanceof` ดีกว่ามากนะ เพราะถ้าอนาคตเราแตกคลาสย่อยจาก `ValidationError` อีก เช่น `PropertyRequiredError` ท่า `instanceof` จะยังใช้ได้กับคลาสลูกทั้งหมด ถือว่ารองรับอนาคตดี
 
-Also it's important that if `catch` meets an unknown error, then it rethrows it in the line `(**)`. The `catch` block only knows how to handle validation and syntax errors, other kinds (caused by a typo in the code or other unknown reasons) should fall through.
+จุดสำคัญอีกอย่าง — ถ้า `catch` เจอ error ที่ไม่รู้จัก ต้องโยนต่อออกไปเหมือนในบรรทัด `(**)` เพราะ `catch` ของเราจัดการได้แค่ validation error กับ syntax error เท่านั้น error ชนิดอื่น (เช่น พิมพ์ตัวแปรผิด หรือเหตุผลอื่นที่คาดไม่ถึง) ต้องปล่อยให้หลุดออกไป
 
-## Further inheritance
+## สืบทอดต่ออีกชั้น
 
-The `ValidationError` class is very generic. Many things may go wrong. The property may be absent or it may be in a wrong format (like a string value for `age` instead of a number). Let's make a more concrete class `PropertyRequiredError`, exactly for absent properties. It will carry additional information about the property that's missing.
+คลาส `ValidationError` ของเราค่อนข้างกว้าง ปัญหาที่เจอได้มีหลายแบบ — พร็อพเพอร์ตี้อาจหายไป หรืออาจเป็นรูปแบบผิด (เช่น `age` เป็นสตริงแทนที่จะเป็นตัวเลข) มาสร้างคลาสที่เจาะจงกว่ากัน คือ `PropertyRequiredError` สำหรับกรณีที่พร็อพเพอร์ตี้หายไปโดยเฉพาะ พร้อมเก็บข้อมูลว่าพร็อพเพอร์ตี้ไหนที่หายไปด้วย
 
 ```js run
 class ValidationError extends Error {
@@ -145,7 +145,7 @@ class PropertyRequiredError extends ValidationError {
 }
 */!*
 
-// Usage
+// ใช้งานจริง
 function readUser(json) {
   let user = JSON.parse(json);
 
@@ -159,32 +159,32 @@ function readUser(json) {
   return user;
 }
 
-// Working example with try..catch
+// ตัวอย่างการใช้ try..catch
 
 try {
   let user = readUser('{ "age": 25 }');
 } catch (err) {
   if (err instanceof ValidationError) {
 *!*
-    alert("Invalid data: " + err.message); // Invalid data: No property: name
+    alert("ข้อมูลไม่ถูกต้อง: " + err.message); // ข้อมูลไม่ถูกต้อง: No property: name
     alert(err.name); // PropertyRequiredError
     alert(err.property); // name
 */!*
   } else if (err instanceof SyntaxError) {
     alert("JSON Syntax Error: " + err.message);
   } else {
-    throw err; // unknown error, rethrow it
+    throw err; // error ที่ไม่รู้จัก โยนต่อออกไป
   }
 }
 ```
 
-The new class `PropertyRequiredError` is easy to use: we only need to pass the property name: `new PropertyRequiredError(property)`. The human-readable `message` is generated by the constructor.
+คลาส `PropertyRequiredError` ใช้งานง่ายมาก — แค่ส่งชื่อพร็อพเพอร์ตี้เข้าไป: `new PropertyRequiredError(property)` ส่วน `message` ที่อ่านรู้เรื่องนั้น คอนสตรักเตอร์สร้างให้เอง
 
-Please note that `this.name` in `PropertyRequiredError` constructor is again assigned manually. That may become a bit tedious -- to assign `this.name = <class name>` in every custom error class. We can avoid it by making our own "basic error" class that assigns `this.name = this.constructor.name`. And then inherit all our custom errors from it.
+สังเกตไหมว่า `this.name` ใน `PropertyRequiredError` ก็ต้องกำหนดเองเหมือนกัน? ทำแบบนี้ทุกคลาสก็น่าเบื่อเหมือนกันนะ — ต้องมานั่งเขียน `this.name = <ชื่อคลาส>` ทุกครั้ง แก้ได้ง่ายๆ โดยสร้างคลาส "base error" ของเราเอง ที่กำหนด `this.name = this.constructor.name` ให้อัตโนมัติ แล้วให้ error class อื่นๆ extend จากมันอีกที
 
-Let's call it `MyError`.
+ลองตั้งชื่อว่า `MyError` ดู
 
-Here's the code with `MyError` and other custom error classes, simplified:
+โค้ดที่ใช้ `MyError` เป็นฐาน จะกระชับขึ้นแบบนี้:
 
 ```js run
 class MyError extends Error {
@@ -205,51 +205,51 @@ class PropertyRequiredError extends ValidationError {
   }
 }
 
-// name is correct
+// name ถูกต้องเลย
 alert( new PropertyRequiredError("field").name ); // PropertyRequiredError
 ```
 
-Now custom errors are much shorter, especially `ValidationError`, as we got rid of the `"this.name = ..."` line in the constructor.
+ตอนนี้ error class ที่สร้างเองสั้นลงมาก โดยเฉพาะ `ValidationError` ที่ไม่ต้องมีบรรทัด `"this.name = ..."` ในคอนสตรักเตอร์อีกแล้ว
 
-## Wrapping exceptions
+## การห่อหุ้ม exception (Wrapping exceptions)
 
-The purpose of the function `readUser` in the code above is "to read the user data". There may occur different kinds of errors in the process. Right now we have `SyntaxError` and `ValidationError`, but in the future `readUser` function may grow and probably generate other kinds of errors.
+ฟังก์ชัน `readUser` ข้างบนมีหน้าที่ "อ่านข้อมูลผู้ใช้" ระหว่างทำงานอาจเจ๊งได้หลายแบบ ตอนนี้เรามี `SyntaxError` กับ `ValidationError` แต่อนาคตฟังก์ชันนี้อาจเพิ่มเข้ามาอีก
 
-The code which calls `readUser` should handle these errors. Right now it uses multiple `if`s in the `catch` block, that check the class and handle known errors and rethrow the unknown ones.
+โค้ดที่เรียก `readUser` ต้องจัดการ error เหล่านี้ทั้งหมด ตอนนี้ใช้ `if` หลายตัวใน `catch` เพื่อเช็คทีละชนิด จัดการ error ที่รู้จัก ส่วนที่ไม่รู้จักก็โยนต่อ
 
-The scheme is like this:
+ท่าที่ใช้อยู่หน้าตาแบบนี้:
 
 ```js
 try {
   ...
-  readUser()  // the potential error source
+  readUser()  // แหล่งที่อาจเกิด error
   ...
 } catch (err) {
   if (err instanceof ValidationError) {
-    // handle validation errors
+    // จัดการ validation error
   } else if (err instanceof SyntaxError) {
-    // handle syntax errors
+    // จัดการ syntax error
   } else {
-    throw err; // unknown error, rethrow it
+    throw err; // error ที่ไม่รู้จัก โยนต่อ
   }
 }
 ```
 
-In the code above we can see two types of errors, but there can be more.
+ในโค้ดนี้มี error 2 ชนิด แต่จริงๆ อาจมีมากกว่านี้
 
-If the `readUser` function generates several kinds of errors, then we should ask ourselves: do we really want to check for all error types one-by-one every time?
+ถ้า `readUser` ยิง error ออกมาหลายชนิด ถามว่าเราอยากมานั่งเช็คทีละชนิดทุกครั้งจริงหรือเปล่า?
 
-Often the answer is "No": we'd like to be "one level above all that". We just want to know if there was a "data reading error" -- why exactly it happened is often irrelevant (the error message describes it). Or, even better, we'd like to have a way to get the error details, but only if we need to.
+ส่วนใหญ่คำตอบคือ "ไม่" — เราแค่อยากรู้ว่า "อ่านข้อมูลเจ๊ง" ส่วนรายละเอียดว่าเจ๊งเพราะอะไรนั้น ดูจาก error message ได้ หรือถ้าอยากรู้ลึกก็ค่อยเจาะเข้าไปดูทีหลัง
 
-The technique that we describe here is called "wrapping exceptions".
+เทคนิคนี้เรียกว่า "การห่อหุ้ม exception" (wrapping exceptions)
 
-1. We'll make a new class `ReadError` to represent a generic "data reading" error.
-2. The function `readUser` will catch data reading errors that occur inside it, such as `ValidationError` and `SyntaxError`, and generate a `ReadError` instead.
-3. The `ReadError` object will keep the reference to the original error in its `cause` property.
+1. สร้างคลาส `ReadError` ขึ้นมาเป็นตัวแทนของ error ทุกชนิดที่เกี่ยวกับ "การอ่านข้อมูล"
+2. ฟังก์ชัน `readUser` จะจับ error ที่เกิดภายใน (ทั้ง `ValidationError` และ `SyntaxError`) แล้วสร้าง `ReadError` ขึ้นมาแทน
+3. ออบเจ็กต์ `ReadError` จะเก็บ error ต้นทางไว้ในพร็อพเพอร์ตี้ `cause`
 
-Then the code that calls `readUser` will only have to check for `ReadError`, not for every kind of data reading errors. And if it needs more details of an error, it can check its `cause` property.
+โค้ดที่เรียก `readUser` ก็แค่เช็ค `ReadError` อย่างเดียว ไม่ต้องไล่เช็คทุกชนิดอีกต่อไป ถ้าต้องการรายละเอียดก็ดูจาก `cause` ได้เลย
 
-Here's the code that defines `ReadError` and demonstrates its use in `readUser` and `try..catch`:
+มาดูโค้ดเต็มๆ กัน:
 
 ```js run
 class ReadError extends Error {
@@ -317,14 +317,14 @@ try {
 }
 ```
 
-In the code above, `readUser` works exactly as described -- catches syntax and validation errors and throws `ReadError` errors instead (unknown errors are rethrown as usual).
+โค้ดนี้ `readUser` ทำตามที่อธิบายไว้ — จับ syntax error กับ validation error แล้ว throw เป็น `ReadError` แทน (error ที่ไม่รู้จักก็โยนต่อตามปกติ)
 
-So the outer code checks `instanceof ReadError` and that's it. No need to list all possible error types.
+โค้ดข้างนอกก็แค่เช็ค `instanceof ReadError` อย่างเดียวเป็นอันจบ ไม่ต้องมาไล่เช็คทุกชนิดของ error อีก
 
-The approach is called "wrapping exceptions", because we take "low level" exceptions and "wrap" them into `ReadError` that is more abstract. It is widely used in object-oriented programming.
+ท่านี้เรียกว่า "การห่อหุ้ม exception" (wrapping exceptions) — เอา error ระดับล่างมา "ห่อ" ไว้ใน `ReadError` ที่เป็น error ระดับสูงกว่า เป็นเทคนิคที่ใช้กันเยอะมากใน object-oriented programming
 
-## Summary
+## สรุป
 
-- We can inherit from `Error` and other built-in error classes normally. We just need to take care of the `name` property and don't forget to call `super`.
-- We can use `instanceof` to check for particular errors. It also works with inheritance. But sometimes we have an error object coming from a 3rd-party library and there's no easy way to get its class. Then `name` property can be used for such checks.
-- Wrapping exceptions is a widespread technique: a function handles low-level exceptions and creates higher-level errors instead of various low-level ones. Low-level exceptions sometimes become properties of that object like `err.cause` in the examples above, but that's not strictly required.
+- เราสร้าง error class เองได้โดย extend จาก `Error` หรือคลาส built-in error อื่นๆ แค่อย่าลืมตั้ง `name` และเรียก `super` ให้เรียบร้อย
+- ใช้ `instanceof` เช็คชนิดของ error ได้ ใช้กับคลาสลูกก็ได้เหมือนกัน แต่บางทีได้ error จากไลบรารีภายนอก ไม่มีทางเข้าถึงคลาส — ก็เช็คจากพร็อพเพอร์ตี้ `name` แทนได้
+- การห่อหุ้ม exception เป็นเทคนิคที่ใช้บ่อย — ฟังก์ชันจับ error ระดับล่าง แล้วสร้าง error ระดับสูงขึ้นมาแทน error ต้นทางจะเก็บไว้ในพร็อพเพอร์ตี้อย่าง `err.cause` แต่จะไม่เก็บก็ได้ ไม่ได้บังคับ

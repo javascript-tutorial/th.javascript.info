@@ -1,8 +1,8 @@
-The difference becomes obvious when we look at the code inside a function.
+ความแตกต่างจะเห็นชัดเมื่อดูโค้ดที่อยู่ภายในฟังก์ชัน
 
-The behavior is different if there's a "jump out" of `try...catch`.
+สองแบบนี้ทำงานต่างกันเมื่อมีการ "กระโดดออก" จาก `try...catch`
 
-For instance, when there's a `return` inside `try...catch`. The `finally` clause works in case of *any* exit from `try...catch`, even via the `return` statement: right after `try...catch` is done, but before the calling code gets the control.
+ยกตัวอย่างเช่น เมื่อมี `return` อยู่ใน `try...catch` บล็อก `finally` จะทำงานเสมอไม่ว่าจะออกจาก `try...catch` ด้วยวิธีไหน รวมถึง `return` ด้วย โดยจะรันหลังจาก `try...catch` ทำงานเสร็จ แต่ก่อนที่โค้ดที่เรียกฟังก์ชันจะได้รับค่ากลับ
 
 ```js run
 function f() {
@@ -21,7 +21,7 @@ function f() {
 f(); // cleanup!
 ```
 
-...Or when there's a `throw`, like here:
+...หรือเมื่อมี `throw` แบบนี้:
 
 ```js run
 function f() {
@@ -44,4 +44,4 @@ function f() {
 f(); // cleanup!
 ```
 
-It's `finally` that guarantees the cleanup here. If we just put the code at the end of `f`, it wouldn't run in these situations.
+`finally` นี่แหละที่รับประกันว่าจะเคลียร์งานได้เสมอ ถ้าเราแค่เขียนโค้ดไว้ต่อท้ายฟังก์ชัน `f` เฉยๆ โค้ดส่วนนั้นจะไม่ทำงานในสถานการณ์เหล่านี้

@@ -1,118 +1,118 @@
-# Error handling, "try...catch"
+# การจัดการ error ด้วย "try...catch"
 
-No matter how great we are at programming, sometimes our scripts have errors. They may occur because of our mistakes, an unexpected user input, an erroneous server response, and for a thousand other reasons.
+เขียนโค้ดเก่งแค่ไหน บางทีก็ยังมี error อยู่ดี — อาจเป็นเพราะเราเอง ผู้ใช้กรอกข้อมูลผิด เซิร์ฟเวอร์ตอบมาแปลกๆ หรืออีกร้อยแปดเหตุผล
 
-Usually, a script "dies" (immediately stops) in case of an error, printing it to console.
+ปกติพอเจอ error สคริปต์จะ "ตาย" ทันที แล้วพ่น error ออกมาที่คอนโซล
 
-But there's a syntax construct `try...catch` that allows us to "catch" errors so the script can, instead of dying, do something more reasonable.
+แต่ JavaScript มีท่าช่วยชีวิตอยู่ — `try...catch` ช่วยให้เรา "จับ" error ได้ แทนที่จะปล่อยให้สคริปต์ตายเฉยๆ ก็เอามาจัดการต่อได้เลย
 
-## The "try...catch" syntax
+## ไวยากรณ์ "try...catch"
 
-The `try...catch` construct has two main blocks: `try`, and then `catch`:
+เขียนง่ายๆ แค่ครอบโค้ดด้วย `try` กับ `catch`:
 
 ```js
 try {
 
-  // code...
+  // โค้ด...
 
 } catch (err) {
 
-  // error handling
+  // จัดการ error
 
 }
 ```
 
-It works like this:
+ทำงานยังไงล่ะ?
 
-1. First, the code in `try {...}` is executed.
-2. If there were no errors, then `catch (err)` is ignored: the execution reaches the end of `try` and goes on, skipping `catch`.
-3. If an error occurs, then the `try` execution is stopped, and control flows to the beginning of `catch (err)`. The `err` variable (we can use any name for it) will contain an error object with details about what happened.
+1. รันโค้ดใน `try {...}` ก่อน
+2. ถ้าไม่มี error — ข้าม `catch` ไปเลย รันต่อข้างล่างตามปกติ
+3. แต่ถ้าเกิด error — `try` หยุดทันที แล้วกระโดดไปที่ `catch (err)` แทน ตัวแปร `err` (ตั้งชื่ออะไรก็ได้) จะเก็บรายละเอียดของ error ไว้ให้
 
 ![](try-catch-flow.svg)
 
-So, an error inside the `try {...}` block does not kill the script -- we have a chance to handle it in `catch`.
+พูดง่ายๆ ก็คือ error ที่เกิดใน `try {...}` จะไม่ทำให้สคริปต์ตาย — เราจับมาจัดการได้ใน `catch`
 
-Let's look at some examples.
+ลองดูตัวอย่างกัน
 
-- An errorless example: shows `alert` `(1)` and `(2)`:
+- ตัวอย่างที่ไม่มี error: จะแสดง `alert` ที่ `(1)` กับ `(2)`:
 
     ```js run
     try {
 
-      alert('Start of try runs');  // *!*(1) <--*/!*
+      alert('เริ่มรัน try');  // *!*(1) <--*/!*
 
-      // ...no errors here
+      // ...ไม่มี error
 
-      alert('End of try runs');   // *!*(2) <--*/!*
+      alert('รัน try จบ');   // *!*(2) <--*/!*
 
     } catch (err) {
 
-      alert('Catch is ignored, because there are no errors'); // (3)
+      alert('ข้าม catch ไป เพราะไม่มี error'); // (3)
 
     }
     ```
-- An example with an error: shows `(1)` and `(3)`:
+- ตัวอย่างที่มี error: จะแสดง `(1)` กับ `(3)`:
 
     ```js run
     try {
 
-      alert('Start of try runs');  // *!*(1) <--*/!*
+      alert('เริ่มรัน try');  // *!*(1) <--*/!*
 
     *!*
-      lalala; // error, variable is not defined!
+      lalala; // เกิด error เพราะตัวแปรยังไม่ได้ประกาศ!
     */!*
 
-      alert('End of try (never reached)');  // (2)
+      alert('รัน try จบ (ไม่มีทางถึงบรรทัดนี้)');  // (2)
 
     } catch (err) {
 
-      alert(`Error has occurred!`); // *!*(3) <--*/!*
+      alert(`เกิด error ขึ้น!`); // *!*(3) <--*/!*
 
     }
     ```
 
 
-````warn header="`try...catch` only works for runtime errors"
-For `try...catch` to work, the code must be runnable. In other words, it should be valid JavaScript.
+````warn header="`try...catch` ใช้ได้กับ runtime error เท่านั้นนะ"
+`try...catch` จะทำงานได้ก็ต่อเมื่อโค้ดนั้นถูกไวยากรณ์ก่อน
 
-It won't work if the code is syntactically wrong, for instance it has unmatched curly braces:
+ถ้าโค้ดมีปัญหาเรื่องไวยากรณ์ เช่น ปีกกาไม่ครบคู่ จะจับ error ไม่ได้:
 
 ```js run
 try {
   {{{{{{{{{{{{
 } catch (err) {
-  alert("The engine can't understand this code, it's invalid");
+  alert("เอนจินอ่านโค้ดนี้ไม่รู้เรื่อง เพราะไวยากรณ์ผิด");
 }
 ```
 
-The JavaScript engine first reads the code, and then runs it. The errors that occur on the reading phase are called "parse-time" errors and are unrecoverable (from inside that code). That's because the engine can't understand the code.
+เพราะ JavaScript engine จะอ่านโค้ดทั้งหมดก่อนแล้วค่อยรัน ถ้าอ่านไม่ออกตั้งแต่แรก (เรียกว่า "parse-time" error) ก็จับไม่ได้เลย
 
-So, `try...catch` can only handle errors that occur in valid code. Such errors are called "runtime errors" or, sometimes, "exceptions".
+`try...catch` เลยจับได้แค่ error ที่เกิดตอนรันโค้ดที่ถูกไวยากรณ์แล้วเท่านั้น — พวกนี้เรียกว่า "runtime error" หรือ "exception"
 ````
 
 
-````warn header="`try...catch` works synchronously"
-If an exception happens in "scheduled" code, like in `setTimeout`, then `try...catch` won't catch it:
+````warn header="`try...catch` ทำงานแบบ synchronous นะ"
+มีจุดสำคัญอีกอย่าง — ถ้า error เกิดในโค้ดที่ "ตั้งเวลาไว้" เช่น `setTimeout` ตัว `try...catch` จะจับไม่ได้:
 
 ```js run
 try {
   setTimeout(function() {
-    noSuchVariable; // script will die here
+    noSuchVariable; // สคริปต์จะตายตรงนี้
   }, 1000);
 } catch (err) {
-  alert( "won't work" );
+  alert( "จับไม่ได้" );
 }
 ```
 
-That's because the function itself is executed later, when the engine has already left the `try...catch` construct.
+ทำไมล่ะ? ก็เพราะฟังก์ชันข้างในจะรันทีหลัง ตอนนั้น engine ผ่านพ้น `try...catch` ไปแล้ว
 
-To catch an exception inside a scheduled function, `try...catch` must be inside that function:
+ทางแก้ก็คือใส่ `try...catch` ไว้ข้างในฟังก์ชันนั้นเลย:
 ```js run
 setTimeout(function() {
-  try {    
-    noSuchVariable; // try...catch handles the error!
+  try {
+    noSuchVariable; // try...catch จับ error ได้!
   } catch {
-    alert( "error is caught here!" );
+    alert( "จับ error ได้แล้ว!" );
   }
 }, 1000);
 ```
@@ -120,92 +120,88 @@ setTimeout(function() {
 
 ## Error object
 
-When an error occurs, JavaScript generates an object containing the details about it. The object is then passed as an argument to `catch`:
+พอเกิด error JavaScript จะสร้างออบเจ็กต์ที่บรรจุรายละเอียดไว้ให้ แล้วโยนเข้ามาใน `catch`:
 
 ```js
 try {
   // ...
-} catch (err) { // <-- the "error object", could use another word instead of err
+} catch (err) { // <-- "error object" จะตั้งชื่อเป็นอะไรก็ได้ ไม่จำเป็นต้องเป็น err
   // ...
 }
 ```
 
-For all built-in errors, the error object has two main properties:
+error built-in ทุกตัวจะมีพร็อพเพอร์ตี้หลักอยู่ 2 ตัว:
 
 `name`
-: Error name. For instance, for an undefined variable that's `"ReferenceError"`.
+: ชื่อของ error เช่น ถ้าใช้ตัวแปรที่ยังไม่ได้ประกาศ จะได้ `"ReferenceError"`
 
 `message`
-: Textual message about error details.
+: ข้อความอธิบายรายละเอียดของ error
 
-There are other non-standard properties available in most environments. One of most widely used and supported is:
+นอกจากนี้ยังมีอีกตัวที่ไม่ได้อยู่ในมาตรฐาน แต่เกือบทุกที่รองรับ:
 
 `stack`
-: Current call stack: a string with information about the sequence of nested calls that led to the error. Used for debugging purposes.
+: call stack ณ ขณะนั้น เป็นสตริงที่บอกลำดับการเรียกฟังก์ชันซ้อนกันจนนำไปสู่ error นั้น ใช้ประโยชน์ในการดีบัก
 
-For instance:
+ตัวอย่าง:
 
 ```js run untrusted
 try {
 *!*
-  lalala; // error, variable is not defined!
+  lalala; // เกิด error เพราะตัวแปรยังไม่ได้ประกาศ!
 */!*
 } catch (err) {
   alert(err.name); // ReferenceError
   alert(err.message); // lalala is not defined
   alert(err.stack); // ReferenceError: lalala is not defined at (...call stack)
 
-  // Can also show an error as a whole
-  // The error is converted to string as "name: message"
+  // แสดง error ทั้งก้อนก็ได้
+  // ตัว error จะถูกแปลงเป็นสตริงในรูปแบบ "name: message"
   alert(err); // ReferenceError: lalala is not defined
 }
 ```
 
-## Optional "catch" binding
+## ละ "catch" binding ก็ได้ (Optional "catch" binding)
 
 [recent browser=new]
 
-If we don't need error details, `catch` may omit it:
+ถ้าไม่สนรายละเอียดของ error ก็ละตัวแปรได้เลย:
 
 ```js
 try {
   // ...
-} catch { // <-- without (err)
+} catch { // <-- ไม่ใส่ (err)
   // ...
 }
 ```
 
-## Using "try...catch"
+## ลองใช้ "try...catch" กับงานจริง
 
-Let's explore a real-life use case of `try...catch`.
+มาดูเคสจริงๆ กันบ้าง
 
-As we already know, JavaScript supports the [JSON.parse(str)](mdn:js/JSON/parse) method to read JSON-encoded values.
+JavaScript มีเมธอด [JSON.parse(str)](mdn:js/JSON/parse) ที่ใช้อ่านค่า JSON เราเจอมันบ่อยมากตอนรับข้อมูลจากเซิร์ฟเวอร์
 
-Usually it's used to decode data received over the network, from the server or another source.
-
-We receive it and call `JSON.parse` like this:
+ปกติก็เรียกใช้แบบนี้:
 
 ```js run
-let json = '{"name":"John", "age": 30}'; // data from the server
+let json = '{"name":"John", "age": 30}'; // ข้อมูลจากเซิร์ฟเวอร์
 
 *!*
-let user = JSON.parse(json); // convert the text representation to JS object
+let user = JSON.parse(json); // แปลงข้อความเป็นออบเจ็กต์ JS
 */!*
 
-// now user is an object with properties from the string
+// ตอนนี้ user เป็นออบเจ็กต์ที่มีพร็อพเพอร์ตี้ตามสตริงแล้ว
 alert( user.name ); // John
 alert( user.age );  // 30
 ```
 
-You can find more detailed information about JSON in the <info:json> chapter.
+อ่านเพิ่มเรื่อง JSON ได้ที่ <info:json>
 
-**If `json` is malformed, `JSON.parse` generates an error, so the script "dies".**
+**แต่ถ้า `json` มีรูปแบบผิดล่ะ? `JSON.parse` จะโยน error ออกมาแล้วสคริปต์ก็ตายเลย**
 
-Should we be satisfied with that? Of course not!
+จะปล่อยแบบนี้เหรอ? ไม่ได้สิ! ผู้ใช้จะไม่รู้อะไรเลยว่าเกิดอะไรขึ้น (ยกเว้นเปิดคอนโซลดู) ไม่มีใครชอบเวลาของหายไปเฉยๆ โดยไม่บอกอะไรสักคำ
 
-This way, if something's wrong with the data, the visitor will never know that (unless they open the developer console). And people really don't like when something "just dies" without any error message.
-
-Let's use `try...catch` to handle the error:
+เอา `try...catch` มาช่วยเลย:
 
 ```js run
 let json = "{ bad json }";
@@ -213,74 +209,68 @@ let json = "{ bad json }";
 try {
 
 *!*
-  let user = JSON.parse(json); // <-- when an error occurs...
+  let user = JSON.parse(json); // <-- เมื่อเกิด error...
 */!*
-  alert( user.name ); // doesn't work
+  alert( user.name ); // ไม่ทำงาน
 
 } catch (err) {
 *!*
-  // ...the execution jumps here
-  alert( "Our apologies, the data has errors, we'll try to request it one more time." );
+  // ...การทำงานจะกระโดดมาที่นี่
+  alert( "ขออภัย ข้อมูลมีปัญหา เราจะลองโหลดข้อมูลใหม่อีกครั้ง" );
   alert( err.name );
   alert( err.message );
 */!*
 }
 ```
 
-Here we use the `catch` block only to show the message, but we can do much more: send a new network request, suggest an alternative to the visitor, send information about the error to a logging facility, ... . All much better than just dying.
+ตรงนี้เราแค่แสดงข้อความ แต่จริงๆ ทำได้อีกเยอะ — ส่ง request ใหม่ เสนอทางเลือกอื่นให้ผู้ใช้ หรือส่ง error ไปเก็บ log ก็ได้ ดีกว่าปล่อยให้สคริปต์ตายเฉยๆ เป็นไหนๆ
 
-## Throwing our own errors
+## โยน error เองก็ได้
 
-What if `json` is syntactically correct, but doesn't have a required `name` property?
+แต่ถ้า `json` ไวยากรณ์ถูกหมด แต่ไม่มี `name` ที่เราต้องการล่ะ?
 
-Like this:
+แบบนี้:
 
 ```js run
-let json = '{ "age": 30 }'; // incomplete data
+let json = '{ "age": 30 }'; // ข้อมูลไม่ครบ
 
 try {
 
-  let user = JSON.parse(json); // <-- no errors
+  let user = JSON.parse(json); // <-- ไม่มี error
 *!*
-  alert( user.name ); // no name!
+  alert( user.name ); // ไม่มี name!
 */!*
 
 } catch (err) {
-  alert( "doesn't execute" );
+  alert( "ไม่ทำงาน" );
 }
 ```
 
-Here `JSON.parse` runs normally, but the absence of `name` is actually an error for us.
+`JSON.parse` ไม่ได้ฟ้อง error อะไร แต่สำหรับเราแล้ว ไม่มี `name` ก็ถือว่าข้อมูลไม่ครบ — ต้องเป็น error เหมือนกัน
 
-To unify error handling, we'll use the `throw` operator.
+เราจะใช้ `throw` โยน error ออกมาเอง
 
-### "Throw" operator
+### ตัวดำเนินการ "throw"
 
-The `throw` operator generates an error.
-
-The syntax is:
+`throw` ใช้สร้าง error ขึ้นมาเอง เขียนแค่:
 
 ```js
 throw <error object>
 ```
 
-Technically, we can use anything as an error object. That may be even a primitive, like a number or a string, but it's better to use objects, preferably with `name` and `message` properties (to stay somewhat compatible with built-in errors).
+จริงๆ จะโยนอะไรก็ได้ ตัวเลข สตริงก็ยังได้ แต่ควรใช้ออบเจ็กต์ที่มี `name` กับ `message` จะดีกว่า — จะได้สอดคล้องกับ error ที่ JavaScript สร้างเอง
 
-JavaScript has many built-in constructors for standard errors: `Error`, `SyntaxError`, `ReferenceError`, `TypeError` and others. We can use them to create error objects as well.
-
-Their syntax is:
+JavaScript เตรียมคอนสตรักเตอร์ error มาให้หลายตัว เช่น `Error`, `SyntaxError`, `ReferenceError`, `TypeError` เอาไปใช้สร้าง error ได้เลย:
 
 ```js
 let error = new Error(message);
-// or
+// หรือ
 let error = new SyntaxError(message);
 let error = new ReferenceError(message);
 // ...
 ```
 
-For built-in errors (not for any objects, just for errors), the `name` property is exactly the name of the constructor. And `message` is taken from the argument.
-
-For instance:
+error built-in พวกนี้ `name` จะตรงกับชื่อคอนสตรักเตอร์เป๊ะ ส่วน `message` ก็มาจากอาร์กิวเมนต์ที่ส่งเข้าไป:
 
 ```js run
 let error = new Error("Things happen o_O");
@@ -289,7 +279,7 @@ alert(error.name); // Error
 alert(error.message); // Things happen o_O
 ```
 
-Let's see what kind of error `JSON.parse` generates:
+ลองดูว่า `JSON.parse` โยน error ชนิดไหนออกมา:
 
 ```js run
 try {
@@ -302,18 +292,16 @@ try {
 }
 ```
 
-As we can see, that's a `SyntaxError`.
+เห็นไหม — เป็น `SyntaxError` เลย
 
-And in our case, the absence of `name` is an error, as users must have a `name`.
-
-So let's throw it:
+ในกรณีของเราไม่มี `name` ก็ต้องถือว่า error เหมือนกัน งั้นก็ throw เลย:
 
 ```js run
-let json = '{ "age": 30 }'; // incomplete data
+let json = '{ "age": 30 }'; // ข้อมูลไม่ครบ
 
 try {
 
-  let user = JSON.parse(json); // <-- no errors
+  let user = JSON.parse(json); // <-- ไม่มี error
 
   if (!user.name) {
 *!*
@@ -328,44 +316,44 @@ try {
 }
 ```
 
-In the line `(*)`, the `throw` operator generates a `SyntaxError` with the given `message`, the same way as JavaScript would generate it itself. The execution of `try` immediately stops and the control flow jumps into `catch`.
+บรรทัด `(*)` `throw` สร้าง `SyntaxError` พร้อม `message` ที่เรากำหนด — เหมือนกับที่ JavaScript สร้างเองเลย พอ throw ปุ๊บ `try` ก็หยุดทันทีแล้วกระโดดไป `catch`
 
-Now `catch` became a single place for all error handling: both for `JSON.parse` and other cases.
+ดูดีใช่ไหม? ตอนนี้ `catch` กลายเป็นจุดเดียวที่จัดการ error ทั้งหมด ไม่ว่าจะเป็น `JSON.parse` หรือ error ที่เราโยนเอง
 
-## Rethrowing
+## Rethrowing — โยนต่อ
 
-In the example above we use `try...catch` to handle incorrect data. But is it possible that *another unexpected error* occurs within the `try {...}` block? Like a programming error (variable is not defined) or something else, not just this "incorrect data" thing.
+แต่เดี๋ยวก่อน ถ้าใน `try {...}` เกิด *error อื่นที่เราไม่ได้คาดไว้* ล่ะ? เช่น พิมพ์ชื่อตัวแปรผิด หรือ bug อื่นๆ ที่ไม่เกี่ยวกับ "ข้อมูลไม่ถูกต้อง" เลย
 
-For example:
+ตัวอย่าง:
 
 ```js run
-let json = '{ "age": 30 }'; // incomplete data
+let json = '{ "age": 30 }'; // ข้อมูลไม่ครบ
 
 try {
-  user = JSON.parse(json); // <-- forgot to put "let" before user
+  user = JSON.parse(json); // <-- ลืมใส่ "let" หน้า user
 
   // ...
 } catch (err) {
   alert("JSON Error: " + err); // JSON Error: ReferenceError: user is not defined
-  // (no JSON Error actually)
+  // (จริงๆ ไม่ใช่ JSON Error เลย)
 }
 ```
 
-Of course, everything's possible! Programmers do make mistakes. Even in open-source utilities used by millions for decades -- suddenly a bug may be discovered that leads to terrible hacks.
+เกิดขึ้นได้แน่นอน! โปรแกรมเมอร์ก็พลาดกัน แม้แต่ไลบรารีที่คนใช้เป็นล้านก็ยังมีบั๊กโผล่ทีหลังได้
 
-In our case, `try...catch` is placed to catch "incorrect data" errors. But by its nature, `catch` gets *all* errors from `try`. Here it gets an unexpected error, but still shows the same `"JSON Error"` message. That's wrong and also makes the code more difficult to debug.
+ปัญหาคือ `catch` จะจับ error *ทุกชนิด* จาก `try` ไม่เลือกหน้า เลยจับ error ที่เราไม่ได้คาดไว้มาแสดงเป็น `"JSON Error"` ซึ่งผิด แถมทำให้ดีบักยากอีก
 
-To avoid such problems, we can employ the "rethrowing" technique. The rule is simple:
+ทางแก้คือเทคนิค "rethrowing" — หลักการง่ายมาก:
 
-**Catch should only process errors that it knows and "rethrow" all others.**
+**`catch` ควรจัดการแค่ error ที่รู้จัก ที่เหลือก็โยนต่อออกไป**
 
-The "rethrowing" technique can be explained in more detail as:
+ทำแบบนี้:
 
-1. Catch gets all errors.
-2. In the `catch (err) {...}` block we analyze the error object `err`.
-3. If we don't know how to handle it, we do `throw err`.
+1. `catch` รับ error มาทุกตัว
+2. ในบล็อก `catch (err) {...}` เราวิเคราะห์ออบเจ็กต์ error `err`
+3. ถ้าเป็น error ที่จัดการไม่เป็น ก็ `throw err` ออกไป
 
-Usually, we can check the error type using the `instanceof` operator:
+ใช้ `instanceof` เช็คชนิด error ได้:
 
 ```js run
 try {
@@ -374,17 +362,17 @@ try {
 *!*
   if (err instanceof ReferenceError) {
 */!*
-    alert('ReferenceError'); // "ReferenceError" for accessing an undefined variable
+    alert('ReferenceError'); // "ReferenceError" — เข้าถึงตัวแปรที่ยังไม่ได้ประกาศ
   }
 }
 ```
 
-We can also get the error class name from `err.name` property. All native errors have it. Another option is to read `err.constructor.name`.
+หรือจะดูจาก `err.name` หรือ `err.constructor.name` ก็ได้
 
-In the code below, we use rethrowing so that `catch` only handles `SyntaxError`:
+ลองดูโค้ดที่ใช้ rethrowing — `catch` จัดการแค่ `SyntaxError` ที่เหลือโยนต่อออกไป:
 
 ```js run
-let json = '{ "age": 30 }'; // incomplete data
+let json = '{ "age": 30 }'; // ข้อมูลไม่ครบ
 try {
 
   let user = JSON.parse(json);
@@ -394,7 +382,7 @@ try {
   }
 
 *!*
-  blabla(); // unexpected error
+  blabla(); // error ที่ไม่คาดคิด
 */!*
 
   alert( user.name );
@@ -405,18 +393,18 @@ try {
   if (err instanceof SyntaxError) {
     alert( "JSON Error: " + err.message );
   } else {
-    throw err; // rethrow (*)
+    throw err; // โยนต่อ (*)
   }
 */!*
 
 }
 ```
 
-The error throwing on line `(*)` from inside `catch` block "falls out" of `try...catch` and can be either caught by an outer `try...catch` construct (if it exists), or it kills the script.
+error ที่ throw ออกจาก `catch` ในบรรทัด `(*)` จะ "หลุด" ออกจาก `try...catch` นี้ ไปให้ `try...catch` ชั้นนอกจับ (ถ้ามี) หรือไม่ก็ทำให้สคริปต์ตาย
 
-So the `catch` block actually handles only errors that it knows how to deal with and "skips" all others.
+แบบนี้ `catch` จัดการแค่ error ที่รู้จัก ที่เหลือก็ปล่อยผ่านไป
 
-The example below demonstrates how such errors can be caught by one more level of `try...catch`:
+ลองดูตัวอย่างที่มี `try...catch` ซ้อน 2 ชั้น:
 
 ```js run
 function readData() {
@@ -431,7 +419,7 @@ function readData() {
     // ...
     if (!(err instanceof SyntaxError)) {
 *!*
-      throw err; // rethrow (don't know how to deal with it)
+      throw err; // โยนต่อ (จัดการไม่เป็น)
 */!*
     }
   }
@@ -441,42 +429,40 @@ try {
   readData();
 } catch (err) {
 *!*
-  alert( "External catch got: " + err ); // caught it!
+  alert( "catch ชั้นนอกจับได้: " + err ); // จับได้แล้ว!
 */!*
 }
 ```
 
-Here `readData` only knows how to handle `SyntaxError`, while the outer `try...catch` knows how to handle everything.
+`readData` จัดการได้แค่ `SyntaxError` — error อื่นๆ หลุดออกไปให้ `try...catch` ชั้นนอกจับแทน
 
 ## try...catch...finally
 
-Wait, that's not all.
+เดี๋ยวก่อน ยังมีอีกส่วนนะ — `finally`
 
-The `try...catch` construct may have one more code clause: `finally`.
+ถ้าเพิ่ม `finally` เข้าไป บล็อกนี้จะ **รันเสมอไม่ว่าจะเกิดอะไรขึ้น**:
 
-If it exists, it runs in all cases:
+- หลัง `try` ถ้าไม่มี error
+- หลัง `catch` ถ้ามี error
 
-- after `try`, if there were no errors,
-- after `catch`, if there were errors.
-
-The extended syntax looks like this:
+เขียนเต็มๆ เป็นแบบนี้:
 
 ```js
 *!*try*/!* {
-   ... try to execute the code ...
+   ... ลองรันโค้ด ...
 } *!*catch*/!* (err) {
-   ... handle errors ...
+   ... จัดการ error ...
 } *!*finally*/!* {
-   ... execute always ...
+   ... รันเสมอไม่ว่ายังไง ...
 }
 ```
 
-Try running this code:
+ลองรันโค้ดนี้ดู:
 
 ```js run
 try {
   alert( 'try' );
-  if (confirm('Make an error?')) BAD_CODE();
+  if (confirm('จะให้เกิด error ไหม?')) BAD_CODE();
 } catch (err) {
   alert( 'catch' );
 } finally {
@@ -484,27 +470,23 @@ try {
 }
 ```
 
-The code has two ways of execution:
+โค้ดนี้มีการทำงานได้ 2 ทาง:
 
-1. If you answer "Yes" to "Make an error?", then `try -> catch -> finally`.
-2. If you say "No", then `try -> finally`.
+1. ถ้าตอบ "Yes" ที่ "จะให้เกิด error ไหม?" จะได้ `try -> catch -> finally`
+2. ถ้าตอบ "No" จะได้ `try -> finally`
 
-The `finally` clause is often used when we start doing something and want to finalize it in any case of outcome.
+`finally` เหมาะมากเวลาเริ่มทำอะไรแล้วต้องปิดงานให้เรียบร้อย ไม่ว่าจะสำเร็จหรือเจ๊ง
 
-For instance, we want to measure the time that a Fibonacci numbers function `fib(n)` takes. Naturally, we can start measuring before it runs and finish afterwards. But what if there's an error during the function call? In particular, the implementation of `fib(n)` in the code below returns an error for negative or non-integer numbers.
-
-The `finally` clause is a great place to finish the measurements no matter what.
-
-Here `finally` guarantees that the time will be measured correctly in both situations -- in case of a successful execution of `fib` and in case of an error in it:
+ตัวอย่าง — จับเวลาฟังก์ชันหา Fibonacci ถ้า `fib(n)` ได้ค่าติดลบหรือไม่ใช่จำนวนเต็มก็จะ throw error แต่เราก็ยังอยากรู้ว่าใช้เวลาเท่าไหร่อยู่ดีใช่ไหม? `finally` ช่วยได้เลย:
 
 ```js run
-let num = +prompt("Enter a positive integer number?", 35)
+let num = +prompt("ใส่จำนวนเต็มบวก", 35)
 
 let diff, result;
 
 function fib(n) {
   if (n < 0 || Math.trunc(n) != n) {
-    throw new Error("Must not be negative, and also an integer.");
+    throw new Error("ต้องไม่ติดลบ และต้องเป็นจำนวนเต็ม");
   }
   return n <= 1 ? n : fib(n - 1) + fib(n - 2);
 }
@@ -521,26 +503,24 @@ try {
 }
 */!*
 
-alert(result || "error occurred");
+alert(result || "เกิด error");
 
-alert( `execution took ${diff}ms` );
+alert( `ใช้เวลา ${diff}ms` );
 ```
 
-You can check by running the code with entering `35` into `prompt` -- it executes normally, `finally` after `try`. And then enter `-1` -- there will be an immediate error, and the execution will take `0ms`. Both measurements are done correctly.
+ลองรันดู — ใส่ `35` ก็รันปกติ `finally` ทำงานหลัง `try` ใส่ `-1` ก็ error ทันทีแต่จับเวลาได้ถูกต้องเหมือนกัน ทั้งสองเคสผ่าน `finally` หมด
 
-In other words, the function may finish with `return` or `throw`, that doesn't matter. The `finally` clause executes in both cases.
+จะ `return` หรือ `throw` ก็ไม่สำคัญ — `finally` ทำงานทุกกรณี
 
 
-```smart header="Variables are local inside `try...catch...finally`"
-Please note that `result` and `diff` variables in the code above are declared *before* `try...catch`.
+```smart header="ตัวแปรใน `try...catch...finally` เป็นตัวแปรภายในนะ"
+สังเกตว่า `result` กับ `diff` ประกาศไว้ *ข้างนอก* `try...catch`
 
-Otherwise, if we declared `let` in `try` block, it would only be visible inside of it.
+เพราะถ้าประกาศ `let` ไว้ใน `try` จะใช้ได้แค่ข้างในบล็อกนั้นเท่านั้น
 ```
 
-````smart header="`finally` and `return`"
-The `finally` clause works for *any* exit from `try...catch`. That includes an explicit `return`.
-
-In the example below, there's a `return` in `try`. In this case, `finally` is executed just before the control returns to the outer code.
+````smart header="`finally` กับ `return`"
+แม้จะ `return` ออกจาก `try` ก็ยังเข้า `finally` ก่อนเสมอ — `finally` รันก่อนที่จะคืนค่าออกไป
 
 ```js run
 function func() {
@@ -559,40 +539,38 @@ function func() {
   }
 }
 
-alert( func() ); // first works alert from finally, and then this one
+alert( func() ); // alert จาก finally ขึ้นก่อน แล้วค่อยถึงอันนี้
 ```
 ````
 
 ````smart header="`try...finally`"
 
-The `try...finally` construct, without `catch` clause, is also useful. We apply it when we don't want to handle errors here (let them fall through), but want to be sure that processes that we started are finalized.
+เขียนแค่ `try...finally` โดยไม่มี `catch` ก็ได้ — ใช้ตอนที่ไม่ต้องการจัดการ error ตรงนี้ แต่ต้องการปิดงานให้เรียบร้อย
 
 ```js
 function func() {
-  // start doing something that needs completion (like measurements)
+  // เริ่มทำอะไรบางอย่างที่ต้องปิดงานให้เรียบร้อย (เช่น จับเวลา)
   try {
     // ...
   } finally {
-    // complete that thing even if all dies
+    // ปิดงานให้เรียบร้อย แม้ทุกอย่างจะพัง
   }
 }
 ```
-In the code above, an error inside `try` always falls out, because there's no `catch`. But `finally` works before the execution flow leaves the function.
+error ใน `try` จะหลุดออกไปเพราะไม่มี `catch` แต่ `finally` จะรันก่อนเสมอ
 ````
 
 ## Global catch
 
-```warn header="Environment-specific"
-The information from this section is not a part of the core JavaScript.
+```warn header="ขึ้นอยู่กับสภาพแวดล้อม"
+เนื้อหาในส่วนนี้ไม่ได้เป็นส่วนหนึ่งของ JavaScript หลัก
 ```
 
-Let's imagine we've got a fatal error outside of `try...catch`, and the script died. Like a programming error or some other terrible thing.
+แล้วถ้า error เกิดข้างนอก `try...catch` ล่ะ? สคริปต์ก็ตายเลยใช่ไหม?
 
-Is there a way to react on such occurrences? We may want to log the error, show something to the user (normally they don't see error messages), etc.
+จริงๆ มีทางดักจับได้นะ — ถึงแม้สเปก JavaScript ไม่ได้กำหนดไว้ แต่สภาพแวดล้อมส่วนใหญ่มีให้ใช้ เช่น Node.js มี [`process.on("uncaughtException")`](https://nodejs.org/api/process.html#process_event_uncaughtexception) ส่วนในเบราว์เซอร์ก็มี [window.onerror](mdn:api/GlobalEventHandlers/onerror) ที่จะทำงานเมื่อมี error ที่ไม่ได้ถูกจับ
 
-There is none in the specification, but environments usually provide it, because it's really useful. For instance, Node.js has [`process.on("uncaughtException")`](https://nodejs.org/api/process.html#process_event_uncaughtexception) for that. And in the browser we can assign a function to the special [window.onerror](mdn:api/GlobalEventHandlers/onerror) property, that will run in case of an uncaught error.
-
-The syntax:
+เขียนแบบนี้:
 
 ```js
 window.onerror = function(message, url, line, col, error) {
@@ -601,75 +579,71 @@ window.onerror = function(message, url, line, col, error) {
 ```
 
 `message`
-: Error message.
+: ข้อความ error
 
 `url`
-: URL of the script where error happened.
+: URL ของสคริปต์ที่เกิด error
 
 `line`, `col`
-: Line and column numbers where error happened.
+: หมายเลขบรรทัดและคอลัมน์ที่เกิด error
 
 `error`
-: Error object.
+: ออบเจ็กต์ error
 
-For instance:
+ตัวอย่าง:
 
 ```html run untrusted refresh height=1
 <script>
 *!*
   window.onerror = function(message, url, line, col, error) {
-    alert(`${message}\n At ${line}:${col} of ${url}`);
+    alert(`${message}\n ที่บรรทัด ${line}:${col} ของ ${url}`);
   };
 */!*
 
   function readData() {
-    badFunc(); // Whoops, something went wrong!
+    badFunc(); // อุ๊ย มีอะไรผิดพลาด!
   }
 
   readData();
 </script>
 ```
 
-The role of the global handler `window.onerror` is usually not to recover the script execution -- that's probably impossible in case of programming errors, but to send the error message to developers.
+`window.onerror` ไม่ได้มีไว้กู้ชีวิตสคริปต์นะ (error จากโค้ดผิดก็กู้ไม่ได้อยู่แล้ว) แต่มีไว้ส่ง error ไปให้นักพัฒนารับรู้
 
-There are also web-services that provide error-logging for such cases, like <https://muscula.com> or <https://www.sentry.io>.
+มีเว็บเซอร์วิสที่ช่วยเก็บ error ให้ด้วย เช่น <https://muscula.com> หรือ <https://www.sentry.io> ทำงานแบบนี้:
 
-They work like this:
+1. สมัครแล้วได้โค้ด JS มาแปะในเว็บ
+2. โค้ดนั้นจะตั้ง `window.onerror` ให้
+3. พอเกิด error ก็ส่ง request ไปเก็บไว้
+4. เราเข้าไปดู error ได้ผ่านหน้าเว็บของเซอร์วิส
 
-1. We register at the service and get a piece of JS (or a script URL) from them to insert on pages.
-2. That JS script sets a custom `window.onerror` function.
-3. When an error occurs, it sends a network request about it to the service.
-4. We can log in to the service web interface and see errors.
+## สรุป
 
-## Summary
-
-The `try...catch` construct allows to handle runtime errors. It literally allows to "try" running the code and "catch" errors that may occur in it.
-
-The syntax is:
+`try...catch` ช่วยให้เราจัดการ runtime error ได้ — "ลอง" รันโค้ดดู ถ้าเจ๊งก็ "จับ" error มาจัดการ
 
 ```js
 try {
-  // run this code
+  // รันโค้ดนี้
 } catch (err) {
-  // if an error happened, then jump here
-  // err is the error object
+  // ถ้าเกิด error ให้กระโดดมาที่นี่
+  // err คือออบเจ็กต์ error
 } finally {
-  // do in any case after try/catch
+  // รันเสมอหลังจาก try/catch
 }
 ```
 
-There may be no `catch` section or no `finally`, so shorter constructs `try...catch` and `try...finally` are also valid.
+ไม่มี `catch` หรือไม่มี `finally` ก็ได้ — เขียนแค่ `try...catch` หรือ `try...finally` ก็ใช้ได้
 
-Error objects have following properties:
+error object มีพร็อพเพอร์ตี้หลัก:
 
-- `message` -- the human-readable error message.
-- `name` -- the string with error name (error constructor name).
-- `stack` (non-standard, but well-supported) -- the stack at the moment of error creation.
+- `message` -- ข้อความ error
+- `name` -- ชื่อ error (ชื่อคอนสตรักเตอร์)
+- `stack` (ไม่มาตรฐาน แต่รองรับทั่วไป) -- call stack ตอนเกิด error
 
-If an error object is not needed, we can omit it by using `catch {` instead of `catch (err) {`.
+ไม่สน error details ก็เขียน `catch {` ไม่ต้องมี `(err)` ได้เลย
 
-We can also generate our own errors using the `throw` operator. Technically, the argument of `throw` can be anything, but usually it's an error object inheriting from the built-in `Error` class. More on extending errors in the next chapter.
+อยากสร้าง error เอง? ใช้ `throw` ได้เลย ส่วนใหญ่จะโยนออบเจ็กต์ที่สืบทอดจาก `Error` — อ่านเพิ่มได้ในบทถัดไป
 
-*Rethrowing* is a very important pattern of error handling: a `catch` block usually expects and knows how to handle the particular error type, so it should rethrow errors it doesn't know.
+*Rethrowing* เป็นเทคนิคสำคัญมาก: `catch` จัดการแค่ error ที่รู้จัก ที่เหลือโยนต่อออกไป
 
-Even if we don't have `try...catch`, most environments allow us to setup a "global" error handler to catch errors that "fall out". In-browser, that's `window.onerror`.
+ถึงไม่มี `try...catch` สภาพแวดล้อมส่วนใหญ่ก็มี global error handler ให้ใช้ ในเบราว์เซอร์ก็คือ `window.onerror`

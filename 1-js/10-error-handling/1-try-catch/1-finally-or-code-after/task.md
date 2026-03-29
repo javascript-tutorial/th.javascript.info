@@ -2,37 +2,37 @@ importance: 5
 
 ---
 
-# Finally or just the code?
+# ใช้ `finally` หรือเขียนโค้ดต่อท้ายดี?
 
-Compare the two code fragments.
+ลองเปรียบเทียบโค้ดสองแบบนี้
 
-1. The first one uses `finally` to execute the code after `try...catch`:
+1. แบบแรกใช้ `finally` รันโค้ดหลัง `try...catch`:
 
     ```js
     try {
-      work work
+      ทำงาน ทำงาน
     } catch (err) {
-      handle errors
+      จัดการ error
     } finally {
     *!*
-      cleanup the working space
+      เคลียร์งาน
     */!*
     }
     ```
-2. The second fragment puts the cleaning right after `try...catch`:
+2. แบบที่สองเขียนโค้ดเคลียร์งานไว้ต่อท้าย `try...catch` เลย:
 
     ```js
     try {
-      work work
+      ทำงาน ทำงาน
     } catch (err) {
-      handle errors
+      จัดการ error
     }
 
     *!*
-    cleanup the working space
+    เคลียร์งาน
     */!*
     ```
 
-We definitely need the cleanup after the work, doesn't matter if there was an error or not.
+เราต้องเคลียร์งานหลังทำงานเสร็จแน่นอน ไม่ว่าจะเกิด error หรือไม่ก็ตาม
 
-Is there an advantage here in using `finally` or both code fragments are equal? If there is such an advantage, then give an example when it matters.
+ถ้าอย่างนั้น ใช้ `finally` มีข้อได้เปรียบกว่าไหม หรือสองแบบนี้ให้ผลเหมือนกัน? ถ้ามีข้อได้เปรียบ ลองยกตัวอย่างกรณีที่มันสำคัญ
