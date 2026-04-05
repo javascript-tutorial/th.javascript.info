@@ -1,13 +1,13 @@
 
-# Promises chaining
+# Promise Chaining
 
-Let's return to the problem mentioned in the chapter <info:callbacks>: we have a sequence of asynchronous tasks to be performed one after another — for instance, loading scripts. How can we code it well?
+ย้อนกลับไปที่ปัญหาที่เราเจอใน <info:callbacks> กัน — ถ้าต้องรันงาน async หลายอย่างต่อกันเป็นลำดับ เช่น โหลด script ทีละไฟล์ เราจะจัดการยังไงให้โค้ดไม่พัง?
 
-Promises provide a couple of recipes to do that.
+promise มีท่าให้ใช้พอดี
 
-In this chapter we cover promise chaining.
+บทนี้เราจะคุยกันเรื่อง promise chaining โดยเฉพาะ
 
-It looks like this:
+หน้าตาประมาณนี้:
 
 ```js run
 new Promise(function(resolve, reject) {
@@ -32,25 +32,25 @@ new Promise(function(resolve, reject) {
 });
 ```
 
-The idea is that the result is passed through the chain of `.then` handlers.
+หลักก็คือ — ค่าผลลัพธ์จะวิ่งต่อไปเรื่อยๆ ตลอด chain ของ `.then`
 
-Here the flow is:
-1. The initial promise resolves in 1 second `(*)`,
-2. Then the `.then` handler is called `(**)`, which in turn creates a new promise (resolved with `2` value).
-3. The next `then` `(***)` gets the result of the previous one, processes it (doubles) and passes it to the next handler.
-4. ...and so on.
+ลำดับการทำงาน:
+1. promise ตัวแรก resolve หลังจาก 1 วินาที `(*)`
+2. จากนั้น `.then` handler ก็ทำงาน `(**)` แล้วคืนค่า promise ใหม่ (resolve ด้วยค่า `2`)
+3. `.then` ตัวถัดไป `(***)` รับค่าจากตัวก่อน แล้วส่งต่อให้ handler ถัดไปอีก
+4. ...ไปเรื่อยๆ แบบนี้
 
-As the result is passed along the chain of handlers, we can see a sequence of `alert` calls: `1` -> `2` -> `4`.
+ผลที่ได้คือ `alert` จะแสดงตามลำดับ: `1` -> `2` -> `4`
 
 ![](promise-then-chain.svg)
 
-The whole thing works, because every call to a `.then` returns a new promise, so that we can call the next `.then` on it.
+ที่ทำแบบนี้ได้เพราะ `.then` ทุกครั้งคืนค่าเป็น promise ใหม่เสมอ ทำให้เราต่อ `.then` ถัดไปต่อกันเป็นสายได้
 
-When a handler returns a value, it becomes the result of that promise, so the next `.then` is called with it.
+พอ handler คืนค่าอะไรออกมา ค่านั้นก็กลายเป็นผลลัพธ์ของ promise ตัวนั้น แล้ว `.then` ถัดไปก็รับค่านั้นไปทำต่อ
 
-**A classic newbie error: technically we can also add many `.then` to a single promise. This is not chaining.**
+**ข้อผิดพลาดยอดฮิตของมือใหม่: ต่อ `.then` หลายตัวเข้ากับ promise เดียวกัน — อันนี้ไม่ใช่ chaining นะ**
 
-For example:
+ตัวอย่าง:
 ```js run
 let promise = new Promise(function(resolve, reject) {
   setTimeout(() => resolve(1), 1000);
@@ -72,23 +72,23 @@ promise.then(function(result) {
 });
 ```
 
-What we did here is just adding several handlers to one promise. They don't pass the result to each other; instead they process it independently.
+สิ่งที่เราทำที่นี่คือแค่ผูก handler หลายตัวเข้ากับ promise เดียว แต่ละตัวไม่ได้รับค่าต่อจากกัน ต่างคนต่างทำงานแยก
 
-Here's the picture (compare it with the chaining above):
+ดูภาพเปรียบเทียบ (ต่างจาก chaining ด้านบนชัดเลย):
 
 ![](promise-then-many.svg)
 
-All `.then` on the same promise get the same result -- the result of that promise. So in the code above all `alert` show the same: `1`.
+`.then` ทุกตัวที่ผูกกับ promise เดียวกันจะได้ค่าเดิมหมด — ก็คือค่าที่ promise ตัวนั้น resolve มา โค้ดด้านบนเลย `alert` แสดง `1` ทุกตัว
 
-In practice we rarely need multiple handlers for one promise. Chaining is used much more often.
+ในทางปฏิบัติเราแทบไม่ค่อยต้องการ handler หลายตัวต่อ promise เดียวหรอก ใช้ chaining บ่อยกว่าเยอะ
 
-## Returning promises
+## คืนค่าเป็น Promise
 
-A handler, used in `.then(handler)` may create and return a promise.
+handler ใน `.then(handler)` คืนค่าเป็น promise ได้เช่นกัน
 
-In that case further handlers wait until it settles, and then get its result.
+ถ้าทำแบบนั้น handler ตัวถัดไปจะรอจนกว่า promise นั้นจะ settle ก่อน แล้วค่อยรับผลลัพธ์
 
-For instance:
+ดูตัวอย่าง:
 
 ```js run
 new Promise(function(resolve, reject) {
@@ -120,15 +120,17 @@ new Promise(function(resolve, reject) {
 });
 ```
 
-Here the first `.then` shows `1` and returns `new Promise(…)` in the line `(*)`. After one second it resolves, and the result (the argument of `resolve`, here it's `result * 2`) is passed on to the handler of the second `.then`. That handler is in the line `(**)`, it shows `2` and does the same thing.
+`.then` ตัวแรก alert แสดง `1` แล้วคืนค่า `new Promise(…)` ในบรรทัด `(*)` หลังจาก 1 วินาที promise นั้น resolve ค่า `result * 2` ก็ถูกส่งไปให้ handler ของ `.then` ตัวที่สอง
 
-So the output is the same as in the previous example: 1 -> 2 -> 4, but now with 1 second delay between `alert` calls.
+handler นั้นอยู่ที่บรรทัด `(**)` แสดง `2` แล้วก็ทำแบบเดียวกัน
 
-Returning promises allows us to build chains of asynchronous actions.
+ผลลัพธ์เหมือนตัวอย่างก่อนเลย: 1 -> 2 -> 4 แต่คราวนี้มีดีเลย์ 1 วินาทีระหว่างแต่ละ `alert`
 
-## Example: loadScript
+การคืนค่าเป็น promise แบบนี้ทำให้เราสร้าง chain ของงาน async ได้นั่นเอง
 
-Let's use this feature with the promisified `loadScript`, defined in the [previous chapter](info:promise-basics#loadscript), to load scripts one by one, in sequence:
+## ตัวอย่าง: loadScript
+
+ลองใช้ฟีเจอร์นี้กับ `loadScript` ที่แปลงเป็น promise ไว้แล้วใน[บทก่อน](info:promise-basics#loadscript) เพื่อโหลด script ทีละไฟล์ตามลำดับ:
 
 ```js run
 loadScript("/article/promise-chaining/one.js")
@@ -139,40 +141,39 @@ loadScript("/article/promise-chaining/one.js")
     return loadScript("/article/promise-chaining/three.js");
   })
   .then(function(script) {
-    // use functions declared in scripts
-    // to show that they indeed loaded
+    // ใช้ฟังก์ชันที่ประกาศไว้ใน script
+    // เพื่อพิสูจน์ว่าโหลดสำเร็จจริงๆ
     one();
     two();
     three();
   });
 ```
 
-This code can be made bit shorter with arrow functions:
+เขียนสั้นลงได้อีกด้วย arrow function:
 
 ```js run
 loadScript("/article/promise-chaining/one.js")
   .then(script => loadScript("/article/promise-chaining/two.js"))
   .then(script => loadScript("/article/promise-chaining/three.js"))
   .then(script => {
-    // scripts are loaded, we can use functions declared there
+    // script ทุกไฟล์โหลดแล้ว เรียกใช้ฟังก์ชันได้เลย
     one();
     two();
     three();
   });
 ```
 
+แต่ละ `loadScript` คืนค่าเป็น promise พอ promise resolve `.then` ถัดไปก็ทำงาน แล้วก็เริ่มโหลด script ไฟล์ต่อไป script เลยโหลดทีละไฟล์ตามลำดับ
 
-Here each `loadScript` call returns a promise, and the next `.then` runs when it resolves. Then it initiates the loading of the next script. So scripts are loaded one after another.
+เราเพิ่มงาน async เข้า chain ได้เรื่อยๆ สังเกตว่าโค้ดยัง "แบน" อยู่ — ยาวลงข้างล่าง ไม่โตไปทางขวา ไม่มีกลิ่น "pyramid of doom" เลย
 
-We can add more asynchronous actions to the chain. Please note that the code is still "flat" — it grows down, not to the right. There are no signs of the "pyramid of doom".
-
-Technically, we could add `.then` directly to each `loadScript`, like this:
+แต่ถ้าอยากเขียน `.then` แบบ nested ก็ทำได้นะ:
 
 ```js run
 loadScript("/article/promise-chaining/one.js").then(script1 => {
   loadScript("/article/promise-chaining/two.js").then(script2 => {
     loadScript("/article/promise-chaining/three.js").then(script3 => {
-      // this function has access to variables script1, script2 and script3
+      // ฟังก์ชันนี้เข้าถึงตัวแปร script1, script2, script3 ได้ทั้งหมด
       one();
       two();
       three();
@@ -181,19 +182,20 @@ loadScript("/article/promise-chaining/one.js").then(script1 => {
 });
 ```
 
-This code does the same: loads 3 scripts in sequence. But it "grows to the right". So we have the same problem as with callbacks.
+โค้ดนี้ทำงานเหมือนกัน: โหลด 3 script ตามลำดับ แต่มันโตไปทางขวา กลับมามีปัญหาเดิมเหมือน callback เลย
 
-People who start to use promises sometimes don't know about chaining, so they write it this way. Generally, chaining is preferred.
+คนที่เพิ่งเริ่มใช้ promise บางทีไม่รู้ว่ามี chaining เลยเขียนแบบ nested แทน โดยทั่วไปการ chain ดีกว่า
 
-Sometimes it's ok to write `.then` directly, because the nested function has access to the outer scope. In the example above the most nested callback has access to all variables `script1`, `script2`, `script3`. But that's an exception rather than a rule.
+แต่ก็มีบางกรณีที่เขียน `.then` แบบ nested โอเคนะ เพราะฟังก์ชันด้านในเข้าถึง scope ด้านนอกได้
 
+จากตัวอย่างด้านบน callback ที่ nested ลึกสุดเข้าถึง `script1`, `script2`, `script3` ได้ครบ — แต่นี่เป็นข้อยกเว้น ไม่ใช่กฎ
 
 ````smart header="Thenables"
-To be precise, a handler may return not exactly a promise, but a so-called "thenable" object - an arbitrary object that has a method `.then`. It will be treated the same way as a promise.
+จริงๆ แล้ว handler ไม่จำเป็นต้องคืนค่าเป็น promise ก็ได้ — คืนเป็น "thenable" object ก็พอ นั่นคือออบเจ็กต์ที่มีเมธอด `.then` JavaScript จะปฏิบัติกับมันเหมือน promise เลย
 
-The idea is that 3rd-party libraries may implement "promise-compatible" objects of their own. They can have an extended set of methods, but also be compatible with native promises, because they implement `.then`.
+แนวคิดคือ library ของคนอื่นอาจ implement "promise-compatible" object ของตัวเอง ซึ่งมีเมธอดเพิ่มเติมได้ แต่ยังใช้งานร่วมกับ promise มาตรฐานได้ เพราะ implement `.then` ไว้
 
-Here's an example of a thenable object:
+ดูตัวอย่าง thenable object:
 
 ```js run
 class Thenable {
@@ -202,7 +204,7 @@ class Thenable {
   }
   then(resolve, reject) {
     alert(resolve); // function() { native code }
-    // resolve with this.num*2 after the 1 second
+    // resolve ด้วย this.num*2 หลังจาก 1 วินาที
     setTimeout(() => resolve(this.num * 2), 1000); // (**)
   }
 }
@@ -213,70 +215,74 @@ new Promise(resolve => resolve(1))
     return new Thenable(result); // (*)
 */!*
   })
-  .then(alert); // shows 2 after 1000ms
+  .then(alert); // แสดง 2 หลังจาก 1000ms
 ```
 
-JavaScript checks the object returned by the `.then` handler in line `(*)`: if it has a callable method named `then`, then it calls that method providing native functions `resolve`, `reject` as arguments (similar to an executor) and waits until one of them is called. In the example above `resolve(2)` is called after 1 second `(**)`. Then the result is passed further down the chain.
+JavaScript เช็คออบเจ็กต์ที่ handler คืนมาในบรรทัด `(*)`: ถ้ามีเมธอด `then` ที่เรียกได้ ก็จะเรียกเมธอดนั้นโดยส่ง native `resolve` และ `reject` เป็น argument (เหมือน executor) แล้วรอจนกว่าจะมีการเรียกหนึ่งในนั้น
 
-This feature allows us to integrate custom objects with promise chains without having to inherit from `Promise`.
+จากตัวอย่าง `resolve(2)` ถูกเรียกหลัง 1 วินาที `(**)` แล้วค่าก็ถูกส่งต่อลง chain
+
+ฟีเจอร์นี้ทำให้เราผสาน custom object เข้ากับ promise chain ได้ โดยไม่ต้องสืบทอด (inherit) จาก `Promise` เลย
 ````
 
 
-## Bigger example: fetch
+## ตัวอย่างใหญ่: fetch
 
-In frontend programming, promises are often used for network requests. So let's see an extended example of that.
+ใน frontend เราใช้ promise กับ network request กันบ่อยมาก ลองดูตัวอย่างที่เจาะลึกขึ้นกัน
 
-We'll use the [fetch](info:fetch) method to load the information about the user from the remote server. It has a lot of optional parameters covered in [separate chapters](info:fetch), but the basic syntax is quite simple:
+เราจะใช้เมธอด [fetch](info:fetch) ดึงข้อมูล user จาก server มา พารามิเตอร์เสริมมีเยอะ (ดูใน[บทที่แยกออกมา](info:fetch)) แต่รูปแบบพื้นฐานง่ายมาก:
 
 ```js
 let promise = fetch(url);
 ```
 
-This makes a network request to the `url` and returns a promise. The promise resolves with a `response` object when the remote server responds with headers, but *before the full response is downloaded*.
+แค่นี้ก็ส่ง network request ไปที่ `url` แล้วคืนค่าเป็น promise
 
-To read the full response, we should call the method `response.text()`: it returns a promise that resolves when the full text is downloaded from the remote server, with that text as a result.
+promise นั้นจะ resolve ด้วย `response` object เมื่อ server ตอบกลับมาพร้อม header — แต่ยังไม่ได้ดาวน์โหลดข้อมูลทั้งหมดนะ
 
-The code below makes a request to `user.json` and loads its text from the server:
+ถ้าต้องการอ่านข้อมูลทั้งหมด ต้องเรียก `response.text()`: ซึ่งคืนค่าเป็น promise ที่จะ resolve เมื่อดาวน์โหลด text ครบแล้ว
+
+โค้ดนี้ request ไปที่ `user.json` แล้วโหลด text จาก server:
 
 ```js run
 fetch('/article/promise-chaining/user.json')
-  // .then below runs when the remote server responds
+  // .then ด้านล่างทำงานเมื่อ server ตอบกลับ
   .then(function(response) {
-    // response.text() returns a new promise that resolves with the full response text
-    // when it loads
+    // response.text() คืนค่าเป็น promise ใหม่ที่ resolve ด้วย text ทั้งหมด
+    // เมื่อโหลดเสร็จ
     return response.text();
   })
   .then(function(text) {
-    // ...and here's the content of the remote file
+    // ...นี่คือเนื้อหาของไฟล์บน server
     alert(text); // {"name": "iliakan", "isAdmin": true}
   });
 ```
 
-The `response` object returned from `fetch` also includes the method `response.json()` that reads the remote data and parses it as JSON. In our case that's even more convenient, so let's switch to it.
+`response` object ที่ได้จาก `fetch` มีเมธอด `response.json()` ด้วย — อ่านข้อมูลแล้ว parse เป็น JSON ให้เลย ในกรณีนี้สะดวกกว่า ลองเปลี่ยนไปใช้แทน
 
-We'll also use arrow functions for brevity:
+ใช้ arrow function ให้กระชับขึ้นด้วย:
 
 ```js run
-// same as above, but response.json() parses the remote content as JSON
+// เหมือนด้านบน แต่ response.json() parse เป็น JSON ให้เลย
 fetch('/article/promise-chaining/user.json')
   .then(response => response.json())
-  .then(user => alert(user.name)); // iliakan, got user name
+  .then(user => alert(user.name)); // iliakan, ได้ชื่อ user แล้ว
 ```
 
-Now let's do something with the loaded user.
+ทีนี้ลองทำอะไรกับ user ที่โหลดมาดูบ้าง
 
-For instance, we can make one more request to GitHub, load the user profile and show the avatar:
+เช่น ส่ง request อีกอันไปที่ GitHub โหลดโปรไฟล์ user แล้วแสดงรูป avatar:
 
 ```js run
-// Make a request for user.json
+// Request user.json
 fetch('/article/promise-chaining/user.json')
-  // Load it as json
+  // โหลดเป็น json
   .then(response => response.json())
-  // Make a request to GitHub
+  // Request ไปที่ GitHub
   .then(user => fetch(`https://api.github.com/users/${user.name}`))
-  // Load the response as json
+  // โหลด response เป็น json
   .then(response => response.json())
-  // Show the avatar image (githubUser.avatar_url) for 3 seconds (maybe animate it)
+  // แสดงรูป avatar (githubUser.avatar_url) นาน 3 วินาที (อาจเพิ่ม animation ด้วย)
   .then(githubUser => {
     let img = document.createElement('img');
     img.src = githubUser.avatar_url;
@@ -287,13 +293,13 @@ fetch('/article/promise-chaining/user.json')
   });
 ```
 
-The code works; see comments about the details. However, there's a potential problem in it, a typical error for those who begin to use promises.
+โค้ดทำงานได้ ดูคอมเมนต์สำหรับรายละเอียด แต่มีจุดพลาดแอบซ่อนอยู่ — เป็นกับดักยอดฮิตของคนที่เพิ่งหัดใช้ promise
 
-Look at the line `(*)`: how can we do something *after* the avatar has finished showing and gets removed? For instance, we'd like to show a form for editing that user or something else. As of now, there's no way.
+ดูบรรทัด `(*)` สิ: ถ้าอยากทำอะไรสักอย่าง *หลังจาก* รูป avatar แสดงครบแล้วและถูกลบออกไป จะทำได้ยังไง? เช่น อยากแสดง form แก้ไขข้อมูล user ตอนนี้ยังไม่มีทางทำได้เลย
 
-To make the chain extendable, we need to return a promise that resolves when the avatar finishes showing.
+ถ้าต้องการให้ chain ต่อได้ ต้องคืนค่าเป็น promise ที่ resolve ตอนที่ avatar แสดงครบแล้ว
 
-Like this:
+แบบนี้:
 
 ```js run
 fetch('/article/promise-chaining/user.json')
@@ -315,15 +321,17 @@ fetch('/article/promise-chaining/user.json')
 */!*
     }, 3000);
   }))
-  // triggers after 3 seconds
+  // ทำงานหลังจาก 3 วินาที
   .then(githubUser => alert(`Finished showing ${githubUser.name}`));
 ```
 
-That is, the `.then` handler in line `(*)` now returns `new Promise`, that becomes settled only after the call of `resolve(githubUser)` in `setTimeout` `(**)`. The next `.then` in the chain will wait for that.
+`.then` handler ในบรรทัด `(*)` คืนค่า `new Promise` ซึ่งจะ settled ก็ต่อเมื่อ `resolve(githubUser)` ใน `setTimeout` ถูกเรียกที่บรรทัด `(**)`
 
-As a good practice, an asynchronous action should always return a promise. That makes it possible to plan actions after it; even if we don't plan to extend the chain now, we may need it later.
+`.then` ถัดไปใน chain จะรอก่อนเสมอ
 
-Finally, we can split the code into reusable functions:
+แนวปฏิบัติที่ดีคือ งาน async ควรคืนค่าเป็น promise เสมอ ทำให้เราวางแผนงานต่อไปได้ แม้ตอนนี้ยังไม่ได้ต่อ chain แต่ก็อาจต้องการภายหลัง
+
+สุดท้าย แยกโค้ดออกเป็นฟังก์ชันที่นำกลับมาใช้ได้:
 
 ```js run
 function loadJson(url) {
@@ -349,7 +357,7 @@ function showAvatar(githubUser) {
   });
 }
 
-// Use them:
+// ใช้งาน:
 loadJson('/article/promise-chaining/user.json')
   .then(user => loadGithubUser(user.name))
   .then(showAvatar)
@@ -357,10 +365,10 @@ loadJson('/article/promise-chaining/user.json')
   // ...
 ```
 
-## Summary
+## สรุป
 
-If a `.then` (or `catch/finally`, doesn't matter) handler returns a promise, the rest of the chain waits until it settles. When it does, its result (or error) is passed further.
+ถ้า handler ใน `.then` (หรือ `catch/finally` ก็ตาม) คืนค่าเป็น promise ส่วนที่เหลือของ chain จะรอจนกว่ามันจะ settle แล้วค่อยรับผลลัพธ์ (หรือ error) ไปทำต่อ
 
-Here's a full picture:
+ดูภาพรวมทั้งหมดได้ที่นี่:
 
 ![](promise-handler-variants.svg)

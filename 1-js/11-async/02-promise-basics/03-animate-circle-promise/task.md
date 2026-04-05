@@ -1,9 +1,9 @@
 
-# Animated circle with promise
+# วงกลมเคลื่อนไหวด้วย promise
 
-Rewrite the `showCircle` function in the solution of the task <info:task/animate-circle-callback> so that it returns a promise instead of accepting a callback.
+เขียนฟังก์ชัน `showCircle` ใน solution ของโจทย์ <info:task/animate-circle-callback> ใหม่ โดยให้คืน promise แทนที่จะรับ callback
 
-The new usage:
+การใช้งานแบบใหม่:
 
 ```js
 showCircle(150, 150, 100).then(div => {
@@ -12,4 +12,4 @@ showCircle(150, 150, 100).then(div => {
 });
 ```
 
-Take the solution of the task <info:task/animate-circle-callback> as the base.
+ให้เอา solution ของโจทย์ <info:task/animate-circle-callback> เป็นฐาน

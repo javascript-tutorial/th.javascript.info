@@ -1,48 +1,54 @@
 
 # Microtasks
 
-Promise handlers `.then`/`.catch`/`.finally` are always asynchronous.
+handler ของ Promise อย่าง `.then`/`.catch`/`.finally` นั้น asynchronous เสมอ
 
-Even when a Promise is immediately resolved, the code on the lines *below* `.then`/`.catch`/`.finally` will still execute before these handlers.
+แม้ promise จะ resolve ทันทีตั้งแต่ต้น โค้ดที่อยู่ *ใต้* `.then`/`.catch`/`.finally` ก็ยังรันก่อน handler เสมอ
 
-Here's a demo:
+ลองดูตัวอย่างนี้:
 
 ```js run
 let promise = Promise.resolve();
 
 promise.then(() => alert("promise done!"));
 
-alert("code finished"); // this alert shows first
+alert("code finished"); // alert นี้โผล่ขึ้นมาก่อน
 ```
 
-If you run it, you see `code finished` first, and then `promise done!`.
+รันแล้วจะเห็น `code finished` ขึ้นมาก่อน แล้วค่อยตามมาด้วย `promise done!`
 
-That's strange, because the promise is definitely done from the beginning.
+แปลกดีใช่ไหม? ก็ promise นี้ resolve ไปแล้วตั้งแต่แรกนี่
 
-Why did the `.then` trigger afterwards? What's going on?
+แล้วทำไม `.then` ถึงยังรอก่อน? เกิดอะไรขึ้นล่ะ?
 
-## Microtasks queue
+## คิวของ Microtask
 
-Asynchronous tasks need proper management. For that, the ECMA standard specifies an internal queue `PromiseJobs`, more often referred to as the "microtask queue" (V8 term).
+งาน asynchronous ต้องการระบบจัดการที่ดีพอ มาตรฐาน ECMA จึงกำหนดให้มีคิว internal ชื่อ `PromiseJobs`
 
-As stated in the [specification](https://tc39.github.io/ecma262/#sec-jobs-and-job-queues):
+คนส่วนใหญ่เรียกกันสั้นๆ ว่า "microtask queue" — คำที่ใช้กันใน V8
 
-- The queue is first-in-first-out: tasks enqueued first are run first.
-- Execution of a task is initiated only when nothing else is running.
+ตาม [specification](https://tc39.github.io/ecma262/#sec-jobs-and-job-queues) บอกไว้ว่า:
 
-Or, to put it more simply, when a promise is ready, its `.then/catch/finally` handlers are put into the queue; they are not executed yet. When the JavaScript engine becomes free from the current code, it takes a task from the queue and executes it.
+- คิวเป็นแบบ first-in-first-out: งานที่เข้าคิวก่อนก็รันก่อน
+- งานชิ้นหนึ่งจะเริ่มรันได้ก็ต่อเมื่อไม่มีอะไรกำลังรันอยู่
 
-That's why "code finished" in the example above shows first.
+พูดง่ายๆ คือ พอ promise พร้อมแล้ว handler `.then/catch/finally` จะโดนโยนเข้าคิว — ยังไม่รันทันที
+
+รอจนกว่า JavaScript engine จะว่างจากโค้ดปัจจุบันก่อน แล้วถึงค่อยดึงงานจากคิวมารัน
+
+เลยเป็นเหตุผลว่าทำไม "code finished" ถึงโผล่ขึ้นมาก่อนในตัวอย่างข้างบน
 
 ![](promiseQueue.svg)
 
-Promise handlers always go through this internal queue.
+handler ของ promise ทุกตัวต้องผ่านคิว internal นี้เสมอ
 
-If there's a chain with multiple `.then/catch/finally`, then every one of them is executed asynchronously. That is, it first gets queued, then executed when the current code is complete and previously queued handlers are finished.
+ถ้ามี chain ที่ต่อ `.then/catch/finally` หลายตัว แต่ละตัวก็รัน asynchronous เหมือนกัน
 
-**What if the order matters for us? How can we make `code finished` appear after `promise done`?**
+เข้าคิวก่อน แล้วรอจนโค้ดปัจจุบันเสร็จและ handler ก่อนหน้ารันครบแล้วค่อยรัน
 
-Easy, just put it into the queue with `.then`:
+**แล้วถ้าเราต้องการให้ลำดับถูกต้องล่ะ? จะให้ `code finished` ขึ้นหลัง `promise done` ได้ยังไง?**
+
+ง่ายมาก — โยนเข้าคิวด้วย `.then` เลย:
 
 ```js run
 Promise.resolve()
@@ -50,17 +56,17 @@ Promise.resolve()
   .then(() => alert("code finished"));
 ```
 
-Now the order is as intended.
+ได้ลำดับตามที่ต้องการเลย
 
 ## Unhandled rejection
 
-Remember the `unhandledrejection` event from the article <info:promise-error-handling>?
+ยังจำ event `unhandledrejection` จากบทความ <info:promise-error-handling> ได้ไหม?
 
-Now we can see exactly how JavaScript finds out that there was an unhandled rejection.
+ทีนี้เราเข้าใจแล้วว่า JavaScript รู้ได้ยังไงว่ามี rejection ที่ไม่มีใครจัดการ
 
-**An "unhandled rejection" occurs when a promise error is not handled at the end of the microtask queue.**
+**"unhandled rejection" เกิดขึ้นเมื่อ error ใน promise ไม่ถูกจัดการก่อนที่คิว microtask จะหมด**
 
-Normally, if we expect an error, we add `.catch` to the promise chain to handle it:
+ปกติถ้าเราคาดว่าจะมี error ก็แค่ต่อ `.catch` เข้าไปใน promise chain:
 
 ```js run
 let promise = Promise.reject(new Error("Promise Failed!"));
@@ -68,11 +74,11 @@ let promise = Promise.reject(new Error("Promise Failed!"));
 promise.catch(err => alert('caught'));
 */!*
 
-// doesn't run: error handled
+// ไม่รัน: error ถูกจัดการแล้ว
 window.addEventListener('unhandledrejection', event => alert(event.reason));
 ```
 
-But if we forget to add `.catch`, then, after the microtask queue is empty, the engine triggers the event:
+แต่ถ้าลืมต่อ `.catch` เอาไว้ พอคิว microtask ว่าง engine จะยิง event นั้นขึ้นมา:
 
 ```js run
 let promise = Promise.reject(new Error("Promise Failed!"));
@@ -81,7 +87,7 @@ let promise = Promise.reject(new Error("Promise Failed!"));
 window.addEventListener('unhandledrejection', event => alert(event.reason));
 ```
 
-What if we handle the error later? Like this:
+แล้วถ้าเราจัดการ error ทีหลังล่ะ? แบบนี้:
 
 ```js run
 let promise = Promise.reject(new Error("Promise Failed!"));
@@ -93,20 +99,22 @@ setTimeout(() => promise.catch(err => alert('caught')), 1000);
 window.addEventListener('unhandledrejection', event => alert(event.reason));
 ```
 
-Now, if we run it, we'll see `Promise Failed!` first and then `caught`.
+รันแล้วจะเห็น `Promise Failed!` ขึ้นก่อน แล้วค่อยตามด้วย `caught`
 
-If we didn't know about the microtasks queue, we could wonder: "Why did `unhandledrejection` handler run? We did catch and handle the error!"
+ถ้าไม่รู้เรื่องคิว microtask ก็คงงงว่า "ทำไม `unhandledrejection` ถึงยิง? เราจัดการ error แล้วนี่!"
 
-But now we understand that `unhandledrejection` is generated when the microtask queue is complete: the engine examines promises and, if any of them is in the "rejected" state, then the event triggers.
+แต่ตอนนี้เราเข้าใจแล้ว — `unhandledrejection` จะยิงขึ้นมาตอนที่คิว microtask ว่างหมด
 
-In the example above, `.catch` added by `setTimeout` also triggers. But it does so later, after `unhandledrejection` has already occurred, so it doesn't change anything.
+engine จะสแกน promise ทั้งหมด ถ้าเจออันไหนยังอยู่ในสถานะ "rejected" ก็ยิง event ทันที
 
-## Summary
+ในตัวอย่างข้างบน `.catch` ที่ใส่ผ่าน `setTimeout` ก็รันได้นะ — แต่รันทีหลัง ตอน `unhandledrejection` เกิดขึ้นไปแล้ว เลยไม่เปลี่ยนอะไรทั้งนั้น
 
-Promise handling is always asynchronous, as all promise actions pass through the internal "promise jobs" queue, also called "microtask queue" (V8 term).
+## สรุป
 
-So `.then/catch/finally` handlers are always called after the current code is finished.
+การจัดการ promise นั้น asynchronous เสมอ — ทุก action ของ promise ต้องผ่านคิว internal "promise jobs" หรือที่เรียกว่า "microtask queue" (คำของ V8)
 
-If we need to guarantee that a piece of code is executed after `.then/catch/finally`, we can add it into a chained `.then` call.
+เลยแปลว่า handler `.then/catch/finally` จะรันหลังจากโค้ดปัจจุบันเสร็จสิ้นเสมอ
 
-In most Javascript engines, including browsers and Node.js, the concept of microtasks is closely tied with the "event loop" and "macrotasks". As these have no direct relation to promises, they are covered in another part of the tutorial, in the article <info:event-loop>.
+ถ้าต้องการให้โค้ดบางส่วนรันหลัง `.then/catch/finally` แน่นอน ก็ต่อ `.then` เพิ่มเข้าไปใน chain ได้เลย
+
+ใน JavaScript engine ส่วนใหญ่ ทั้งเบราว์เซอร์และ Node.js แนวคิดของ microtask ผูกติดกับ "event loop" และ "macrotasks" อย่างแนบแน่น แต่เรื่องพวกนั้นไม่ได้เกี่ยวกับ promise โดยตรง เราไปคุยกันต่อในบทความ <info:event-loop>

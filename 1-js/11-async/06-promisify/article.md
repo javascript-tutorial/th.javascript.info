@@ -1,12 +1,12 @@
 # Promisification
 
-"Promisification" is a long word for a simple transformation. It's the conversion of a function that accepts a callback into a function that returns a promise.
+ชื่อมันยาวหน่อย แต่ concept ง่ายมาก — Promisification แค่แปลงฟังก์ชันที่รับ callback ให้กลายเป็นฟังก์ชันที่คืนค่าเป็น promise แทน
 
-Such transformations are often required in real-life, as many functions and libraries are callback-based. But promises are more convenient, so it makes sense to promisify them.
+ทำไมต้องทำแบบนี้ล่ะ? ก็เพราะโค้ดในโลกจริงเต็มไปด้วย library และฟังก์ชันที่ใช้ callback-based อยู่เยอะมาก แต่ promise ใช้งานได้สะดวกกว่า — เลยต้อง promisify มันซะ
 
-For better understanding, let's see an example.
+มาดูตัวอย่างกัน
 
-For instance, we have `loadScript(src, callback)` from the chapter <info:callbacks>.
+เราเคยเห็นฟังก์ชัน `loadScript(src, callback)` จากบท <info:callbacks> กันมาแล้ว:
 
 ```js run
 function loadScript(src, callback) {
@@ -19,19 +19,18 @@ function loadScript(src, callback) {
   document.head.append(script);
 }
 
-// usage:
+// การใช้งาน:
 // loadScript('path/script.js', (err, script) => {...})
 ```
 
-The function loads a script with the given `src`, and then calls `callback(err)` in case of an error, or `callback(null, script)` in case of successful loading. That's a widespread agreement for using callbacks, we saw it before.
+ฟังก์ชันนี้โหลด script จาก `src` ที่กำหนด แล้วเรียก `callback(err)` ถ้า error หรือ `callback(null, script)` ถ้าโหลดสำเร็จ — เป็น pattern มาตรฐานของ callback-based ที่เราคุ้นเคยกันดี
 
-Let's promisify it.
+ทีนี้ลอง promisify มันดู
 
-We'll make a new function `loadScriptPromise(src)`, that does the same (loads the script), but returns a promise instead of using callbacks.
+เราจะสร้างฟังก์ชันใหม่ชื่อ `loadScriptPromise(src)` ที่ทำหน้าที่เดิม (โหลด script) แต่คืนค่าเป็น promise แทน ไม่รับ callback อีกต่อไป
 
-In other words, we pass it only `src` (no `callback`) and get a promise in return, that resolves with `script` when the load is successful, and rejects with the error otherwise.
+พูดง่ายๆ คือ — รับแค่ `src` เข้ามา แล้วได้ promise กลับออกไป promise จะ resolve พร้อม `script` ถ้าโหลดสำเร็จ หรือ reject พร้อม error ถ้าโหลดไม่ได้
 
-Here it is:
 ```js
 let loadScriptPromise = function(src) {
   return new Promise((resolve, reject) => {
@@ -42,23 +41,23 @@ let loadScriptPromise = function(src) {
   });
 };
 
-// usage:
+// การใช้งาน:
 // loadScriptPromise('path/script.js').then(...)
 ```
 
-As we can see, the new function is a wrapper around the original `loadScript` function. It calls it providing its own callback that translates to promise `resolve/reject`.
+จะเห็นว่าฟังก์ชันใหม่นี้เป็นแค่ wrapper ครอบ `loadScript` เดิมอีกที — เรียก `loadScript` แล้วใส่ callback ของตัวเองเข้าไป โดย callback นั้นจะแปลงผลลัพธ์ไปเป็น `resolve/reject` ของ promise
 
-Now `loadScriptPromise` fits well in promise-based code. If we like promises more than callbacks (and soon we'll see more reasons for that), then we will use it instead.
+`loadScriptPromise` เข้ากันได้ดีกับโค้ดแบบ promise เลย ถ้าชอบ promise มากกว่า callback (และเดี๋ยวจะเห็นเหตุผลอีกมากในบทต่อๆ ไป) เปลี่ยนมาใช้ตัวนี้ได้เลย
 
-In practice we may need to promisify more than one function, so it makes sense to use a helper.
+แต่ในชีวิตจริง เราคงต้อง promisify หลายฟังก์ชัน — เลยควรทำ helper ขึ้นมาแทน
 
-We'll call it `promisify(f)`: it accepts a to-promisify function `f` and returns a wrapper function.
+เรียกมันว่า `promisify(f)`: รับฟังก์ชัน `f` ที่อยากแปลง แล้วคืน wrapper function กลับมา
 
 ```js
 function promisify(f) {
-  return function (...args) { // return a wrapper-function (*)
+  return function (...args) { // คืน wrapper-function กลับไป (*)
     return new Promise((resolve, reject) => {
-      function callback(err, result) { // our custom callback for f (**)
+      function callback(err, result) { // callback ที่เราสร้างเองสำหรับ f (**)
         if (err) {
           reject(err);
         } else {
@@ -66,41 +65,41 @@ function promisify(f) {
         }
       }
 
-      args.push(callback); // append our custom callback to the end of f arguments
+      args.push(callback); // เอา callback ของเราต่อท้ายอาร์กิวเมนต์ของ f
 
-      f.call(this, ...args); // call the original function
+      f.call(this, ...args); // เรียกฟังก์ชันต้นฉบับ
     });
   };
 }
 
-// usage:
+// การใช้งาน:
 let loadScriptPromise = promisify(loadScript);
 loadScriptPromise(...).then(...);
 ```
 
-The code may look a bit complex, but it's essentially the same that we wrote above, while promisifying `loadScript` function.
+โค้ดอาจดูซับซ้อนหน่อย แต่จริงๆ แล้วทำเหมือนกับที่เราเขียน `loadScriptPromise` ด้านบนเลย เพียงแต่ครอบคลุมฟังก์ชันอื่นๆ ได้ทั่วไปมากกว่า
 
-A call to `promisify(f)` returns a wrapper around `f` `(*)`. That wrapper returns a promise and forwards the call to the original `f`, tracking the result in the custom callback `(**)`.
+ทำงานยังไงล่ะ? `promisify(f)` คืน wrapper รอบ `f` `(*)` ที่พอถูกเรียก จะสร้าง promise ขึ้น แล้ว forward การเรียกไปยัง `f` ต้นฉบับ โดยรับผลลัพธ์ผ่าน custom callback `(**)`
 
-Here, `promisify` assumes that the original function expects a callback with exactly two arguments `(err, result)`. That's what we encounter most often. Then our custom callback is in exactly the right format, and `promisify` works great for such a case.
+`promisify` ตัวนี้สมมติไว้ว่า — `f` ต้นฉบับรับ callback ที่มีอาร์กิวเมนต์แค่ 2 ตัวคือ `(err, result)` ซึ่งเป็น pattern ที่เจอบ่อยที่สุด ถ้าเจอแบบนี้ก็โอเคเลย
 
-But what if the original `f` expects a callback with more arguments `callback(err, res1, res2, ...)`?
+แต่ถ้า `f` ต้นฉบับส่งอาร์กิวเมนต์มากกว่านั้น เช่น `callback(err, res1, res2, ...)` ล่ะ?
 
-We can improve our helper. Let's make a more advanced version of `promisify`.
+ก็ต้องอัปเกรด helper นิดนึง มาทำ version ที่ดีกว่าเดิม:
 
-- When called as `promisify(f)` it should work similar to the version above.
-- When called as `promisify(f, true)`, it should return the promise that resolves with the array of callback results. That's exactly for callbacks with many arguments.
+- เรียก `promisify(f)` แบบปกติ → ทำงานเหมือนเดิม
+- เรียก `promisify(f, true)` → คืน promise ที่ resolve พร้อม *อาร์เรย์* ของผลลัพธ์ทั้งหมด เหมาะกับ callback ที่ส่งค่ากลับมาหลายตัว
 
 ```js
-// promisify(f, true) to get array of results
+// promisify(f, true) เพื่อรับผลลัพธ์เป็นอาร์เรย์
 function promisify(f, manyArgs = false) {
   return function (...args) {
     return new Promise((resolve, reject) => {
-      function *!*callback(err, ...results*/!*) { // our custom callback for f
+      function *!*callback(err, ...results*/!*) { // callback ที่เราสร้างเองสำหรับ f
         if (err) {
           reject(err);
         } else {
-          // resolve with all callback results if manyArgs is specified
+          // resolve ด้วยผลลัพธ์ทั้งหมด ถ้ากำหนด manyArgs ไว้
           *!*resolve(manyArgs ? results : results[0]);*/!*
         }
       }
@@ -112,21 +111,21 @@ function promisify(f, manyArgs = false) {
   };
 }
 
-// usage:
+// การใช้งาน:
 f = promisify(f, true);
 f(...).then(arrayOfResults => ..., err => ...);
 ```
 
-As you can see it's essentially the same as above, but `resolve` is called with only one or all arguments depending on whether `manyArgs` is truthy.
+โค้ดแทบไม่ต่างกันเลย ต่างแค่ตอน resolve — ถ้า `manyArgs` เป็น true จะ resolve ด้วย `results` ทั้งอาร์เรย์ ถ้าไม่ก็รับแค่ `results[0]` ตัวเดียว
 
-For more exotic callback formats, like those without `err` at all: `callback(result)`, we can promisify such functions manually without using the helper.
+สำหรับ callback แปลกๆ พิเศษ เช่น ไม่มี `err` เลย อย่าง `callback(result)` — แบบนี้ก็ promisify เองด้วยมือได้โดยไม่ต้องพึ่ง helper
 
-There are also modules with a bit more flexible promisification functions, e.g. [es6-promisify](https://github.com/digitaldesignlabs/es6-promisify). In Node.js, there's a built-in `util.promisify` function for that.
+แถมยังมี module ภายนอกที่ทำ promisification ได้ยืดหยุ่นกว่านี้อีก เช่น [es6-promisify](https://github.com/digitaldesignlabs/es6-promisify) และถ้าใช้ Node.js ก็มีฟังก์ชัน `util.promisify` ติดมาให้เลย ไม่ต้องติดตั้งเพิ่ม
 
 ```smart
-Promisification is a great approach, especially when you use `async/await` (covered later in the chapter <info:async-await>), but not a total replacement for callbacks.
+Promisification เป็นท่าที่ดีมาก โดยเฉพาะตอนใช้ `async/await` (ดูเพิ่มเติมในบท <info:async-await>) แต่ไม่ได้แทน callback ได้ทุกกรณีนะ
 
-Remember, a promise may have only one result, but a callback may technically be called many times.
+อย่าลืมว่า — promise มีผลลัพธ์ได้แค่ครั้งเดียว แต่ callback เรียกซ้ำกี่รอบก็ได้
 
-So promisification is only meant for functions that call the callback once. Further calls will be ignored.
+เพราะฉะนั้น promisification เหมาะกับฟังก์ชันที่เรียก callback แค่ครั้งเดียวเท่านั้น ถ้าเรียกซ้ำ ครั้งหลังๆ promise จะเพิกเฉยไป
 ```

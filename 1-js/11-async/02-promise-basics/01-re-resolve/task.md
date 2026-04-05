@@ -2,7 +2,7 @@
 # Re-resolve a promise?
 
 
-What's the output of the code below? 
+ผลลัพธ์ของโค้ดด้านล่างคืออะไร?
 
 ```js
 let promise = new Promise(function(resolve, reject) {

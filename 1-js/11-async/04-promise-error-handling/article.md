@@ -1,21 +1,21 @@
 
-# Error handling with promises
+# การจัดการ error ใน promise
 
-Promise chains are great at error handling. When a promise rejects, the control jumps to the closest rejection handler. That's very convenient in practice.
+promise chain เก่งเรื่อง error handling มาก — พอ promise reject ปุ๊บ handler ที่ใกล้ที่สุดจะรับงานต่อทันทีเลย
 
-For instance, in the code below the URL to `fetch` is wrong (no such site) and `.catch` handles the error:
+ลองดูตัวอย่าง URL ที่ `fetch` ไปไม่ถึง (เซิร์ฟเวอร์ไม่มีอยู่จริง) — `.catch` จัดการ error ให้เราได้เลย:
 
 ```js run
 *!*
 fetch('https://no-such-server.blabla') // rejects
 */!*
   .then(response => response.json())
-  .catch(err => alert(err)) // TypeError: failed to fetch (the text may vary)
+  .catch(err => alert(err)) // TypeError: failed to fetch (ข้อความอาจต่างกัน)
 ```
 
-As you can see, the `.catch` doesn't have to be immediate. It may appear after one or maybe several `.then`.
+จะเห็นว่า `.catch` ไม่ต้องอยู่ติดกัน — วางไว้หลัง `.then` หนึ่งตัวหรือหลายตัวก็ได้
 
-Or, maybe, everything is all right with the site, but the response is not valid JSON. The easiest way to catch all errors is to append `.catch` to the end of chain:
+อีกกรณีที่พบบ่อยคือเซิร์ฟเวอร์ตอบกลับปกติ แต่ข้อมูลที่ได้ไม่ใช่ JSON ที่ถูกต้อง วิธีที่ง่ายที่สุดคือเติม `.catch` ไว้ท้าย chain:
 
 ```js run
 fetch('/article/promise-chaining/user.json')
@@ -38,13 +38,15 @@ fetch('/article/promise-chaining/user.json')
 */!*
 ```
 
-Normally, such `.catch` doesn't trigger at all. But if any of the promises above rejects (a network problem or invalid json or whatever), then it would catch it.
+ปกติ `.catch` นี้จะไม่ทำงานเลย แต่ถ้า promise ตัวไหนตัวหนึ่ง reject — ไม่ว่าจะเป็นปัญหาเครือข่าย JSON ผิดรูปแบบ หรืออะไรก็แล้วแต่ — `.catch` ตัวเดียวนี้จะรับหมด
 
 ## Implicit try..catch
 
-The code of a promise executor and promise handlers has an "invisible `try..catch`" around it. If an exception happens, it gets caught and treated as a rejection.
+ลองคิดดูว่าถ้าเราโยน error ตรงๆ ใน executor มันจะเป็นยังไงล่ะ?
 
-For instance, this code:
+executor และ handler ของ promise มี `try..catch` "ล่องหน" ครอบอยู่ด้วยกันทุกตัว ถ้ามี exception เกิดขึ้น JavaScript จะดักจับแล้วแปลงเป็น rejected promise ให้อัตโนมัติ
+
+เช่น โค้ดนี้:
 
 ```js run
 new Promise((resolve, reject) => {
@@ -54,7 +56,7 @@ new Promise((resolve, reject) => {
 }).catch(alert); // Error: Whoops!
 ```
 
-...Works exactly the same as this:
+...ทำงานเหมือนกันทุกอย่างกับแบบนี้:
 
 ```js run
 new Promise((resolve, reject) => {
@@ -64,11 +66,9 @@ new Promise((resolve, reject) => {
 }).catch(alert); // Error: Whoops!
 ```
 
-The "invisible `try..catch`" around the executor automatically catches the error and turns it into rejected promise.
+`try..catch` ล่องหนใน executor จัดการ error แล้วเปลี่ยนเป็น rejected promise ให้เองเลย
 
-This happens not only in the executor function, but in its handlers as well. If we `throw` inside a `.then` handler, that means a rejected promise, so the control jumps to the nearest error handler.
-
-Here's an example:
+แต่ไม่ใช่แค่ใน executor — ใน handler ก็เช่นกัน ถ้าเรา `throw` ใน `.then` ตัวไหน promise ตัวนั้นจะกลาย reject แล้วโยนไปให้ error handler ที่ใกล้ที่สุด:
 
 ```js run
 new Promise((resolve, reject) => {
@@ -80,49 +80,49 @@ new Promise((resolve, reject) => {
 }).catch(alert); // Error: Whoops!
 ```
 
-This happens for all errors, not just those caused by the `throw` statement. For example, a programming error:
+ไม่ใช่แค่ `throw` ด้วย — error ที่เกิดจากโค้ดผิดพลาดก็โดนดักเหมือนกัน เช่น เรียกฟังก์ชันที่ไม่มีอยู่:
 
 ```js run
 new Promise((resolve, reject) => {
   resolve("ok");
 }).then((result) => {
 *!*
-  blabla(); // no such function
+  blabla(); // ไม่มีฟังก์ชันนี้
 */!*
 }).catch(alert); // ReferenceError: blabla is not defined
 ```
 
-The final `.catch` not only catches explicit rejections, but also accidental errors in the handlers above.
+`.catch` ตัวสุดท้ายรับได้ทั้ง rejection ที่ตั้งใจ throw และ error ที่เกิดขึ้นโดยไม่ตั้งใจในทุก handler ด้านบน
 
 ## Rethrowing
 
-As we already noticed, `.catch` at the end of the chain is similar to `try..catch`. We may have as many `.then` handlers as we want, and then use a single `.catch` at the end to handle errors in all of them.
+`.catch` ท้าย chain ก็คล้ายกับ `try..catch` ธรรมดานั่นเอง — เราจะมี `.then` กี่ตัวก็ได้ แล้วใส่ `.catch` ตัวเดียวตอนท้ายเพื่อรับ error ทั้งหมด
 
-In a regular `try..catch` we can analyze the error and maybe rethrow it if it can't be handled. The same thing is possible for promises.
+ใน `try..catch` ธรรมดา เราเช็ค error แล้วโยนต่อ (rethrow) ได้ถ้าจัดการเองไม่ได้ promise ก็ทำแบบเดียวกันได้
 
-If we `throw` inside `.catch`, then the control goes to the next closest error handler. And if we handle the error and finish normally, then it continues to the next closest successful `.then` handler.
+ถ้า `throw` ใน `.catch` การทำงานจะกระโดดไปหา error handler ตัวต่อไป แต่ถ้าจัดการ error ได้และทำงานปกติจนจบ การทำงานจะไหลต่อไปหา `.then` ที่ใกล้ที่สุด
 
-In the example below the `.catch` successfully handles the error:
+ตัวอย่างแรก — `.catch` จัดการ error ได้จบ:
 
 ```js run
-// the execution: catch -> then
+// การทำงาน: catch -> then
 new Promise((resolve, reject) => {
 
   throw new Error("Whoops!");
 
 }).catch(function(error) {
 
-  alert("The error is handled, continue normally");
+  alert("จัดการ error เรียบร้อยแล้ว ทำงานต่อได้เลย");
 
-}).then(() => alert("Next successful handler runs"));
+}).then(() => alert("handler ถัดไปที่สำเร็จทำงาน"));
 ```
 
-Here the `.catch` block finishes normally. So the next successful `.then` handler is called.
+`.catch` ทำงานจบปกติ เลย `.then` ถัดไปก็ทำงานต่อ
 
-In the example below we see the other situation with `.catch`. The handler `(*)` catches the error and just can't handle it (e.g. it only knows how to handle `URIError`), so it throws it again:
+ตัวอย่างที่สอง — handler `(*)` รับ error มาแต่จัดการไม่ได้ (รู้จักแค่ `URIError`) เลยโยนต่อ:
 
 ```js run
-// the execution: catch -> catch
+// การทำงาน: catch -> catch
 new Promise((resolve, reject) => {
 
   throw new Error("Whoops!");
@@ -130,76 +130,76 @@ new Promise((resolve, reject) => {
 }).catch(function(error) { // (*)
 
   if (error instanceof URIError) {
-    // handle it
+    // จัดการได้
   } else {
-    alert("Can't handle such error");
+    alert("จัดการ error แบบนี้ไม่ได้");
 
 *!*
-    throw error; // throwing this or another error jumps to the next catch
+    throw error; // โยน error นี้หรือ error อื่นต่อไปยัง catch ถัดไป
 */!*
   }
 
 }).then(function() {
-  /* doesn't run here */
+  /* ไม่ทำงานตรงนี้ */
 }).catch(error => { // (**)
 
-  alert(`The unknown error has occurred: ${error}`);
-  // don't return anything => execution goes the normal way
+  alert(`เกิด error ที่ไม่รู้จัก: ${error}`);
+  // ไม่ return อะไร => การทำงานเดินต่อตามปกติ
 
 });
 ```
 
-The execution jumps from the first `.catch` `(*)` to the next one `(**)` down the chain.
+การทำงานกระโดดจาก `.catch` ตัวแรก `(*)` ไปตัวที่สอง `(**)` ลงมาใน chain
 
 ## Unhandled rejections
 
-What happens when an error is not handled? For instance, we forgot to append `.catch` to the end of the chain, like here:
+แล้วถ้าไม่มีอะไรมาจัดการ error เลยล่ะ? เช่น เราลืมต่อ `.catch` ท้าย chain:
 
 ```js untrusted run refresh
 new Promise(function() {
-  noSuchFunction(); // Error here (no such function)
+  noSuchFunction(); // เกิด error ตรงนี้ (ไม่มีฟังก์ชันนี้)
 })
   .then(() => {
-    // successful promise handlers, one or more
-  }); // without .catch at the end!
+    // handler ที่สำเร็จ หนึ่งตัวหรือมากกว่า
+  }); // ไม่มี .catch ตอนท้าย!
 ```
 
-In case of an error, the promise becomes rejected, and the execution should jump to the closest rejection handler. But there is none. So the error gets "stuck". There's no code to handle it.
+พอเกิด error ขึ้น promise จะกลายเป็น rejected แล้วการทำงานควรกระโดดไปหา rejection handler ที่ใกล้ที่สุด — แต่ไม่มีเลย เลย error ค้างอยู่อย่างนั้น ไม่มีโค้ดใดมาจัดการ
 
-In practice, just like with regular unhandled errors in code, it means that something has gone terribly wrong.
+สถานการณ์แบบนี้ก็เหมือนกับ unhandled error ทั่วไปในโปรแกรม — แปลว่ามีอะไรผิดพลาดหนักมาก
 
-What happens when a regular error occurs and is not caught by `try..catch`? The script dies with a message in the console. A similar thing happens with unhandled promise rejections.
+ปกติถ้า error เกิดขึ้นโดยไม่มี `try..catch` รับ สคริปต์จะพังพร้อม error ใน console — promise rejection ที่ไม่มีใครจัดการก็คล้ายกัน
 
-The JavaScript engine tracks such rejections and generates a global error in that case. You can see it in the console if you run the example above.
+JavaScript engine ติดตาม rejection พวกนี้อยู่ และจะสร้าง global error ขึ้นมา ลองรันตัวอย่างด้านบนดูแล้วเช็ค console ได้เลย
 
-In the browser we can catch such errors using the event `unhandledrejection`:
+บน browser เราดักจับ error แบบนี้ได้ผ่านอีเวนต์ `unhandledrejection`:
 
 ```js run
 *!*
 window.addEventListener('unhandledrejection', function(event) {
-  // the event object has two special properties:
-  alert(event.promise); // [object Promise] - the promise that generated the error
-  alert(event.reason); // Error: Whoops! - the unhandled error object
+  // event object มีสองพร็อพเพอร์ตี้พิเศษ:
+  alert(event.promise); // [object Promise] - promise ที่ทำให้เกิด error
+  alert(event.reason); // Error: Whoops! - ออบเจ็กต์ error ที่ไม่มีใครจัดการ
 });
 */!*
 
 new Promise(function() {
   throw new Error("Whoops!");
-}); // no catch to handle the error
+}); // ไม่มี catch มารับ error
 ```
 
-The event is the part of the [HTML standard](https://html.spec.whatwg.org/multipage/webappapis.html#unhandled-promise-rejections).
+อีเวนต์นี้เป็นส่วนหนึ่งของ [HTML standard](https://html.spec.whatwg.org/multipage/webappapis.html#unhandled-promise-rejections)
 
-If an error occurs, and there's no `.catch`, the `unhandledrejection` handler triggers, and gets the `event` object with the information about the error, so we can do something.
+เมื่อเกิด error แล้วไม่มี `.catch` รับ handler `unhandledrejection` จะทำงานและได้รับออบเจ็กต์ `event` พร้อมข้อมูล error ครบ — เอาไปทำอะไรต่อก็ได้
 
-Usually such errors are unrecoverable, so our best way out is to inform the user about the problem and probably report the incident to the server.
+Error แบบนี้ส่วนใหญ่แก้ไขไม่ได้แล้ว ทางออกที่ดีที่สุดคือแจ้ง user และส่ง log ไปที่เซิร์ฟเวอร์
 
-In non-browser environments like Node.js there are other ways to track unhandled errors.
+สำหรับ Node.js และ environment อื่นที่ไม่ใช่ browser ก็มีวิธีติดตาม unhandled error เช่นกัน แต่รูปแบบต่างกัน
 
-## Summary
+## สรุป
 
-- `.catch` handles errors in promises of all kinds: be it a `reject()` call, or an error thrown in a handler.
-- `.then` also catches errors in the same manner, if given the second argument (which is the error handler).
-- We should place `.catch` exactly in places where we want to handle errors and know how to handle them. The handler should analyze errors (custom error classes help) and rethrow unknown ones (maybe they are programming mistakes).
-- It's ok not to use `.catch` at all, if there's no way to recover from an error.
-- In any case we should have the `unhandledrejection` event handler (for browsers, and analogs for other environments) to track unhandled errors and inform the user (and probably our server) about them, so that our app never "just dies".
+- `.catch` รับ error ได้ทุกแบบ — ทั้งจากการเรียก `reject()` และจาก error ที่โยนใน handler
+- `.then` ก็รับ error ได้เหมือนกัน ถ้าส่งฟังก์ชันรับ error เข้าไปเป็นอาร์กิวเมนต์ที่สอง
+- ควรวาง `.catch` ตรงจุดที่รู้วิธีจัดการ error และ handler ควรวิเคราะห์ error (คลาส error แบบ custom ช่วยได้) แล้วโยนต่อถ้าจัดการไม่ได้ (เผื่อเป็น programming bug)
+- ถ้าไม่มีทางกู้คืนจาก error ได้เลย จะไม่ใช้ `.catch` เลยก็โอเค
+- แต่ไม่ว่ากรณีไหน ควรมี handler สำหรับ `unhandledrejection` เสมอ (บน browser) หรือรูปแบบที่เทียบเท่าใน environment อื่น เพื่อติดตาม error ที่หลุดรอด แจ้ง user และบันทึก log ไปที่เซิร์ฟเวอร์ — เพื่อให้แอปไม่ "ดับเงียบ" โดยไม่มีใครรู้

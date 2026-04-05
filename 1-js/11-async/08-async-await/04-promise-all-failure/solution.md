@@ -1,52 +1,54 @@
 
-The root of the problem is that `Promise.all` immediately rejects when one of its promises rejects, but it do nothing to cancel the other promises.
+ต้นตอของปัญหาคือ `Promise.all` reject ทันทีเมื่อ promise ตัวใดตัวหนึ่ง reject แต่ไม่ได้ยกเลิก promise ตัวอื่นแต่อย่างใด
 
-In our case, the second query fails, so `Promise.all` rejects, and the `try...catch` block catches this error.Meanwhile, other promises are *not affected* - they independently continue their execution. In our case, the third query throws an error of its own after a bit of time. And that error is never caught, we can see it in the console.
+ในกรณีนี้ query ที่สองพัง `Promise.all` เลย reject แล้วบล็อก `try...catch` ดักจับ error นั้นได้
 
-The problem is especially dangerous in server-side environments, such as Node.js, when an uncaught error may cause the process to crash.
+แต่ขณะเดียวกัน promise ที่เหลือ *ยังไม่ได้รับผลกระทบ* — ยังทำงานต่อแบบอิสระ query ที่สามโยน error ของตัวเองออกมาหลังจากนั้นไม่นาน และ error นั้นไม่มีใครดักจับ เราเลยเห็นมันใน console
 
-How to fix it?
+ปัญหานี้อันตรายโดยเฉพาะในฝั่ง server อย่าง Node.js เพราะ uncaught error อาจทำให้ process พังได้เลย
 
-An ideal solution would be to cancel all unfinished queries when one of them fails. This way we avoid any potential errors.
+แก้ยังไงดี?
 
-However, the bad news is that service calls (such as `database.query`) are often implemented by a 3rd-party library which doesn't support cancellation. Then there's no way to cancel a call.
+ถ้าแก้ได้ดีที่สุดคือยกเลิก query ที่ยังค้างอยู่ทั้งหมดเมื่อ query ใดหนึ่งพัง วิธีนี้กำจัดโอกาสเกิด error ที่หลุดออกไปได้
 
-As an alternative, we can write our own wrapper function around `Promise.all` which adds a custom `then/catch` handler to each promise to track them: results are gathered and, if an error occurs, all subsequent promises are ignored.
+แต่ข่าวร้ายคือ service call อย่าง `database.query` มักมาจาก library ของ third-party ที่ไม่รองรับการยกเลิก เลยไม่มีทางยกเลิกการเรียกนั้นได้
+
+ทางเลือกอื่นคือเขียน wrapper function รอบ `Promise.all` ของเราเองที่เพิ่ม `then/catch` handler ให้กับแต่ละ promise เพื่อติดตามผล: รวบรวมผลลัพธ์ไว้ และถ้าเกิด error ขึ้น promise ที่เหลือก็จะถูกข้ามไป
 
 ```js
 function customPromiseAll(promises) {
   return new Promise((resolve, reject) => {
     const results = [];
     let resultsCount = 0;
-    let hasError = false; // we'll set it to true upon first error
+    let hasError = false; // จะเซ็ตเป็น true เมื่อเจอ error ครั้งแรก
 
     promises.forEach((promise, index) => {
       promise
         .then(result => {
-          if (hasError) return; // ignore the promise if already errored
+          if (hasError) return; // ละเว้น promise ถ้าเกิด error ไปแล้ว
           results[index] = result;
           resultsCount++;
           if (resultsCount === promises.length) {
-            resolve(results); // when all results are ready - successs
+            resolve(results); // เมื่อได้ผลลัพธ์ครบทุกตัว — สำเร็จ
           }
         })
         .catch(error => {
-          if (hasError) return; // ignore the promise if already errored
-          hasError = true; // wops, error!
-          reject(error); // fail with rejection
+          if (hasError) return; // ละเว้น promise ถ้าเกิด error ไปแล้ว
+          hasError = true; // โอ้โห มี error!
+          reject(error); // reject ด้วย error นั้น
         });
     });
   });
 }
 ```
 
-This approach has an issue of its own - it's often undesirable to `disconnect()` when queries are still in the process.
+แนวทางนี้ก็มีปัญหาของตัวเอง — มักไม่ต้องการให้ `disconnect()` ในขณะที่ query ยังค้างอยู่
 
-It may be important that all queries complete, especially if some of them make important updates.
+บางทีสำคัญมากที่ต้องให้ query ทุกตัวทำงานเสร็จ โดยเฉพาะถ้ามี query ที่อัปเดตข้อมูลสำคัญ
 
-So we should wait until all promises are settled before going further with the execution and eventually disconnecting.
+เลยควรรอจนกว่า promise ทั้งหมดจะ settle ก่อน ค่อยทำงานต่อแล้วค่อย disconnect
 
-Here's another implementation. It behaves similar to `Promise.all` - also resolves with the first error, but waits until all promises are settled.
+นี่คือ implementation อีกแบบ ทำงานคล้าย `Promise.all` — reject ด้วย error แรก แต่รอจนกว่า promise ทั้งหมดจะ settle ก่อน:
 
 ```js
 function customPromiseAllWait(promises) {
@@ -80,16 +82,16 @@ function customPromiseAllWait(promises) {
 }
 ```
 
-Now `await customPromiseAllWait(...)` will stall the execution until all queries are processed.
+ทีนี้ `await customPromiseAllWait(...)` จะหยุดรอจนกว่า query ทุกตัวจะประมวลผลเสร็จ
 
-This is a more reliable approach, as it guarantees a predictable execution flow.
+เป็นแนวทางที่เชื่อถือได้มากกว่า เพราะรับประกัน flow การทำงานที่คาดเดาได้
 
-Lastly, if we'd like to process all errors, we can use either use `Promise.allSettled` or write a wrapper around it to gathers all errors in a single [AggregateError](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/AggregateError) object and rejects with it.
+สุดท้าย ถ้าต้องการจัดการ error ทั้งหมด ใช้ `Promise.allSettled` หรือเขียน wrapper รอบมันเพื่อรวบรวม error ทั้งหมดไว้ใน [AggregateError](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/AggregateError) ตัวเดียวแล้ว reject ด้วยมัน:
 
 ```js
-// wait for all promises to settle
-// return results if no errors
-// throw AggregateError with all errors if any
+// รอให้ promise ทั้งหมด settle
+// คืนผลลัพธ์ถ้าไม่มี error
+// โยน AggregateError พร้อม error ทั้งหมดถ้ามี
 function allOrAggregateError(promises) {
   return Promise.allSettled(promises).then(results => {
     const errors = [];

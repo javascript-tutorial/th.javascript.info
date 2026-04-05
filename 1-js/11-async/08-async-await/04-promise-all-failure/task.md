@@ -1,17 +1,17 @@
 
-# Dangerous Promise.all
+# อันตรายของ Promise.all
 
-`Promise.all` is a great way to parallelize multiple operations. It's especially useful when we need to make parallel requests to multiple services.
+`Promise.all` เป็นท่าที่ดีมากสำหรับรัน operation หลายอย่างพร้อมกัน โดยเฉพาะเวลาต้องส่ง request ไปหลาย service พร้อมกัน
 
-However, there's a hidden danger. We'll see an example in this task and explore how to avoid it.
+แต่มันมีกับดักซ่อนอยู่ โจทย์นี้จะให้เห็นตัวอย่างและแนวทางแก้ไข
 
-Let's say we have a connection to a remote service, such as a database.
+สมมติเราเชื่อมต่อกับ remote service อย่างเช่น database
 
-There're two functions: `connect()` and `disconnect()`.
+มีสองฟังก์ชัน: `connect()` และ `disconnect()`
 
-When connected, we can send requests using `database.query(...)` - an async function which usually returns the result but also may throw an error.
+เมื่อเชื่อมต่อแล้ว ส่ง request ได้ด้วย `database.query(...)` — เป็น async function ที่ปกติจะคืนผลลัพธ์ แต่ก็อาจโยน error ได้
 
-Here's a simple implementation:
+implementation อย่างง่ายหน้าตาแบบนี้:
 
 ```js
 let database;
@@ -28,21 +28,21 @@ function disconnect() {
   database = null;
 }
 
-// intended usage:
+// วิธีใช้ที่ตั้งใจไว้:
 // connect()
 // ...
-// database.query(true) to emulate a successful call
-// database.query(false) to emulate a failed call
+// database.query(true) เพื่อจำลองการเรียกที่สำเร็จ
+// database.query(false) เพื่อจำลองการเรียกที่พัง
 // ...
 // disconnect()
 ```
 
-Now here's the problem.
+ทีนี้มาดูปัญหา
 
-We wrote the code to connect and send 3 queries in parallel (all of them take different time, e.g. 100, 200 and 300ms), then disconnect:
+เราเขียนโค้ดเชื่อมต่อแล้วส่ง 3 query พร้อมกัน (แต่ละอันใช้เวลาต่างกัน เช่น 100, 200 และ 300ms) แล้วค่อย disconnect:
 
 ```js
-// Helper function to call async function `fn` after `ms` milliseconds
+// ฟังก์ชัน helper สำหรับเรียก async function `fn` หลังจาก `ms` มิลลิวินาที
 function delay(fn, ms) {
   return new Promise((resolve, reject) => {
     setTimeout(() => fn().then(resolve, reject), ms);
@@ -54,8 +54,8 @@ async function run() {
 
   try {
     await Promise.all([
-      // these 3 parallel jobs take different time: 100, 200 and 300 ms
-      // we use the `delay` helper to achieve this effect
+      // 3 งานที่รันพร้อมกัน ใช้เวลา 100, 200 และ 300 ms ตามลำดับ
+      // ใช้ `delay` helper เพื่อจำลองเวลา
 *!*
       delay(() => database.query(true), 100),
       delay(() => database.query(false), 200),
@@ -72,8 +72,8 @@ async function run() {
 run();
 ```
 
-Two of these queries happen to be unsuccessful, but we're smart enough to wrap the `Promise.all` call into a `try..catch` block.
+สอง query เกิด error แต่เราฉลาดพอที่จะครอบ `Promise.all` ไว้ในบล็อก `try..catch`
 
-However, this doesn't help! This script actually leads to an uncaught error in console!
+แต่มันไม่ได้ช่วยเลย! สคริปต์นี้ยังเจอ uncaught error ใน console อยู่ดี!
 
-Why? How to avoid it?
+ทำไม? และจะแก้ยังไง?

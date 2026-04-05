@@ -1,4 +1,4 @@
-The answer is: **no, it won't**:
+คำตอบคือ: **ไม่ `.catch` จะไม่ทำงาน**:
 
 ```js run
 new Promise(function(resolve, reject) {
@@ -8,6 +8,6 @@ new Promise(function(resolve, reject) {
 }).catch(alert);
 ```
 
-As said in the chapter, there's an "implicit `try..catch`" around the function code. So all synchronous errors are handled.
+อย่างที่อธิบายไปในบท executor มี `try..catch` ล่องหนครอบอยู่ เลย error แบบ synchronous จะโดนดักจับได้หมด
 
-But here the error is generated not while the executor is running, but later. So the promise can't handle it. 
+แต่ตรงนี้ error ไม่ได้เกิดขึ้นตอนที่ executor กำลังทำงาน — มันเกิดทีหลัง ตอนที่ `setTimeout` callback รัน promise จึงจัดการ error ตัวนี้ไม่ได้

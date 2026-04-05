@@ -1,6 +1,6 @@
-# Error in setTimeout
+# Error ใน setTimeout
 
-What do you think? Will the `.catch` trigger? Explain your answer.
+ลองดูว่า `.catch` จะทำงานไหม? ช่วยอธิบายคำตอบด้วย
 
 ```js
 new Promise(function(resolve, reject) {

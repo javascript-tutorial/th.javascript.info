@@ -1,5 +1,5 @@
 
-The notes are below the code:
+โน้ตอธิบายอยู่ใต้โค้ด:
 
 ```js run
 async function loadJson(url) { // (1)
@@ -17,11 +17,11 @@ loadJson('https://javascript.info/no-such-user.json')
   .catch(alert); // Error: 404 (4)
 ```
 
-Notes:
+โน้ต:
 
-1. The function `loadJson` becomes `async`.
-2. All `.then` inside are replaced with `await`.
-3. We can `return response.json()` instead of awaiting for it, like this:
+1. ฟังก์ชัน `loadJson` กลายเป็น `async`
+2. แทนที่ `.then` ทั้งหมดด้วย `await`
+3. เขียน `return response.json()` แทนการ await ก็ได้ แบบนี้:
 
     ```js
     if (response.status == 200) {
@@ -29,5 +29,5 @@ Notes:
     }
     ```
 
-    Then the outer code would have to `await` for that promise to resolve. In our case it doesn't matter.
-4. The error thrown from `loadJson` is handled by `.catch`. We can't use `await loadJson(…)` there, because we're not in an `async` function.
+    โค้ดด้านนอกก็ต้อง `await` promise นั้นเองอยู่ดี ในกรณีนี้ผลไม่ต่างกัน
+4. error ที่โยนออกมาจาก `loadJson` ถูกจัดการด้วย `.catch` ที่ด้านนอก ใช้ `await loadJson(…)` ตรงนั้นไม่ได้ เพราะไม่ได้อยู่ใน `async` function

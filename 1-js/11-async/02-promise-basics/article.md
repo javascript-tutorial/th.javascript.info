@@ -1,92 +1,96 @@
 # Promise
 
-Imagine that you're a top singer, and fans ask day and night for your upcoming song.
+สมมติว่าเราเป็นนักร้องชื่อดัง แล้วแฟนๆ ทวงเพลงใหม่กันทั้งวันทั้งคืน
 
-To get some relief, you promise to send it to them when it's published. You give your fans a list. They can fill in their email addresses, so that when the song becomes available, all subscribed parties instantly receive it. And even if something goes very wrong, say, a fire in the studio, so that you can't publish the song, they will still be notified.
+แทนที่จะให้ทุกคนมารุมถามตลอด เราบอกว่า "ได้เลย พอเพลงออก จะส่งให้ทันที" แล้วแจกฟอร์มให้แฟนๆ กรอกอีเมลไว้ พอเพลงพร้อม — ทุกคนที่ลงชื่อจะได้รับพร้อมกัน
 
-Everyone is happy: you, because the people don't crowd you anymore, and fans, because they won't miss the song.
+ถ้าเกิดเหตุสุดวิสัยอย่างไฟไหม้สตูดิโอจนออกเพลงไม่ได้ ก็จะแจ้งให้รู้เช่นกัน
 
-This is a real-life analogy for things we often have in programming:
+ทุกคนพอใจ — แฟนๆ ไม่พลาดเพลง เราก็ไม่โดนรุมถาม
 
-1. A "producing code" that does something and takes time. For instance, some code that loads the data over a network. That's a "singer".
-2. A "consuming code" that wants the result of the "producing code" once it's ready. Many functions  may need that result. These are the "fans".
-3. A *promise* is a special JavaScript object that links the "producing code" and the "consuming code" together. In terms of our analogy: this is the "subscription list". The "producing code" takes whatever time it needs to produce the promised result, and the "promise" makes that result available to all of the subscribed code when it's ready.
+เรื่องนี้คล้ายกับสิ่งที่เราเจอบ่อยในโปรแกรมมิ่ง:
 
-The analogy isn't terribly accurate, because JavaScript promises are more complex than a simple subscription list: they have additional features and limitations. But it's fine to begin with.
+1. **"producing code"** คือโค้ดที่ทำงานบางอย่างและใช้เวลา เช่น โหลดข้อมูลจากเน็ต — นั่นคือ "นักร้อง"
+2. **"consuming code"** คือโค้ดที่ต้องการผลลัพธ์จาก producing code ตอนที่พร้อมแล้ว จะมีหลายฟังก์ชันก็ได้ที่รออยู่ — นั่นคือ "แฟนๆ"
+3. ***promise*** คือออบเจ็กต์ JavaScript พิเศษที่เชื่อม producing code กับ consuming code เข้าหากัน — นั่นคือ "รายชื่อผู้ติดตาม" นั่นเอง
 
-The constructor syntax for a promise object is:
+    producing code ใช้เวลาเท่าไรก็ได้เพื่อทำงานให้เสร็จ แล้ว promise จะส่งผลลัพธ์ไปให้ทุกโค้ดที่รออยู่พร้อมกัน
+
+การเปรียบเทียบนี้ไม่ได้ตรงแบบ 100% เพราะ promise ใน JavaScript ทำได้มากกว่าแค่รายชื่อผู้ติดตาม แต่ใช้เป็นภาพตั้งต้นก็พอ
+
+เขียน promise แบบนี้:
 
 ```js
 let promise = new Promise(function(resolve, reject) {
-  // executor (the producing code, "singer")
+  // executor (producing code, "นักร้อง")
 });
 ```
 
-The function passed to `new Promise` is called the *executor*. When `new Promise` is created, the executor runs automatically. It contains the producing code which should eventually produce the result. In terms of the analogy above: the executor is the "singer".
+ฟังก์ชันที่ส่งให้ `new Promise` เรียกว่า *executor* พอสร้าง `new Promise` ขึ้นมา executor จะรันทันทีเลย — มันคือโค้ดที่จะทำงานจนได้ผลลัพธ์ออกมา เปรียบได้กับ "นักร้อง" นั่นเอง
 
-Its arguments `resolve` and `reject` are callbacks provided by JavaScript itself. Our code is only inside the executor.
+พารามิเตอร์ `resolve` และ `reject` คือคอลแบ็กที่ JavaScript เตรียมให้เราเอง เราไม่ต้องสร้างเอง แค่เรียกใช้
 
-When the executor obtains the result, be it soon or late, doesn't matter, it should call one of these callbacks:
+พอ executor ทำงานเสร็จ ไม่ว่าจะเร็วหรือช้า ให้เรียกอันใดอันหนึ่ง:
 
-- `resolve(value)` — if the job is finished successfully, with result `value`.
-- `reject(error)` — if an error has occurred, `error` is the error object.
+- `resolve(value)` — ถ้าทำสำเร็จ โดย `value` คือผลลัพธ์
+- `reject(error)` — ถ้าเกิด error โดย `error` คือออบเจ็กต์ error
 
-So to summarize: the executor runs automatically and attempts to perform a job. When it is finished with the attempt, it calls `resolve` if it was successful or `reject` if there was an error.
+สรุปง่ายๆ คือ executor รันอัตโนมัติแล้วพยายามทำงาน พอเสร็จก็เรียก `resolve` ถ้าสำเร็จ หรือ `reject` ถ้าพัง
 
-The `promise` object returned by the `new Promise` constructor has these internal properties:
+ออบเจ็กต์ `promise` ที่ได้จาก `new Promise` มีพร็อพเพอร์ตี้ภายในดังนี้:
 
-- `state` — initially `"pending"`, then changes to either `"fulfilled"` when `resolve` is called or `"rejected"` when `reject` is called.
-- `result` — initially `undefined`, then changes to `value` when `resolve(value)` is called or `error` when `reject(error)` is called.
+- `state` — เริ่มต้นเป็น `"pending"` จากนั้นเปลี่ยนเป็น `"fulfilled"` เมื่อเรียก `resolve` หรือ `"rejected"` เมื่อเรียก `reject`
+- `result` — เริ่มต้นเป็น `undefined` จากนั้นเปลี่ยนเป็น `value` เมื่อเรียก `resolve(value)` หรือ `error` เมื่อเรียก `reject(error)`
 
-So the executor eventually moves `promise` to one of these states:
+executor จะพา promise ไปสู่สถานะใดสถานะหนึ่งในที่สุด:
 
 ![](promise-resolve-reject.svg)
 
-Later we'll see how "fans" can subscribe to these changes.
+แฟนๆ จะ subscribe การเปลี่ยนแปลงพวกนี้ยังไงล่ะ? เดี๋ยวดูกัน
 
-Here's an example of a promise constructor and a simple executor function with  "producing code" that takes time (via `setTimeout`):
+ลองดูตัวอย่าง promise ที่มี producing code ซึ่งใช้เวลา (ผ่าน `setTimeout`):
 
 ```js
 let promise = new Promise(function(resolve, reject) {
-  // the function is executed automatically when the promise is constructed
+  // ฟังก์ชันนี้รันอัตโนมัติตอนสร้าง promise
 
-  // after 1 second signal that the job is done with the result "done"
+  // หลัง 1 วินาที แจ้งว่าทำเสร็จแล้ว พร้อมผลลัพธ์ "done"
   setTimeout(() => *!*resolve("done")*/!*, 1000);
 });
 ```
 
-We can see two things by running the code above:
+รันโค้ดด้านบนแล้วจะเห็น 2 อย่าง:
 
-1. The executor is called automatically and immediately (by `new Promise`).
-2. The executor receives two arguments: `resolve` and `reject`. These functions are pre-defined by the JavaScript engine, so we don't need to create them. We should only call one of them when ready.
+1. `new Promise` เรียก executor ทันทีโดยอัตโนมัติ
+2. executor ได้รับ 2 อาร์กิวเมนต์ คือ `resolve` และ `reject` ซึ่ง JavaScript engine เตรียมไว้ให้แล้ว ไม่ต้องสร้างเอง แค่เรียกอันใดอันหนึ่งตอนพร้อม
 
-    After one second of "processing", the executor calls `resolve("done")` to produce the result. This changes the state of the `promise` object:
+    หลัง "ประมวลผล" ไป 1 วินาที executor เรียก `resolve("done")` เพื่อส่งผลลัพธ์ สถานะของ `promise` เปลี่ยนเป็น:
 
     ![](promise-resolve-1.svg)
 
-That was an example of a successful job completion, a "fulfilled promise".
+นั่นคือตัวอย่างที่ทำสำเร็จ — "fulfilled promise"
 
-And now an example of the executor rejecting the promise with an error:
+ทีนี้ดูตัวอย่างที่ executor reject promise ด้วย error:
 
 ```js
 let promise = new Promise(function(resolve, reject) {
-  // after 1 second signal that the job is finished with an error
+  // หลัง 1 วินาที แจ้งว่าเกิด error
   setTimeout(() => *!*reject(new Error("Whoops!"))*/!*, 1000);
 });
 ```
 
-The call to `reject(...)` moves the promise object to `"rejected"` state:
+การเรียก `reject(...)` จะพา promise ไปสู่สถานะ `"rejected"`:
 
 ![](promise-reject-1.svg)
 
-To summarize, the executor should perform a job (usually something that takes time) and then call `resolve` or `reject` to change the state of the corresponding promise object.
+สรุปแล้ว executor ทำงานบางอย่าง (มักใช้เวลา) จากนั้นเรียก `resolve` หรือ `reject` เพื่อเปลี่ยนสถานะของ promise
 
-A promise that is either resolved or rejected is called "settled", as opposed to an initially "pending" promise.
+promise ที่ resolve หรือ reject ไปแล้วเรียกว่า "settled" — ต่างจากตอนแรกที่ยัง "pending" อยู่
 
-````smart header="There can be only a single result or an error"
-The executor should call only one `resolve` or one `reject`. Any state change is final.
+````smart header="ได้แค่ผลลัพธ์เดียวหรือ error เดียวเท่านั้น"
+executor ควรเรียก `resolve` หรือ `reject` แค่ครั้งเดียว การเปลี่ยนสถานะจะเกิดขึ้นครั้งเดียวแล้วจบ
 
-All further calls of `resolve` and `reject` are ignored:
+การเรียก `resolve` และ `reject` ครั้งต่อๆ ไปจะถูกเพิกเฉย:
 
 ```js
 let promise = new Promise(function(resolve, reject) {
@@ -94,95 +98,97 @@ let promise = new Promise(function(resolve, reject) {
   resolve("done");
 */!*
 
-  reject(new Error("…")); // ignored
-  setTimeout(() => resolve("…")); // ignored
+  reject(new Error("…")); // ถูกเพิกเฉย
+  setTimeout(() => resolve("…")); // ถูกเพิกเฉย
 });
 ```
 
-The idea is that a job done by the executor may have only one result or an error.
+ก็เพราะงานที่ executor ทำนั้นมีได้แค่ผลลัพธ์เดียวหรือ error เดียวเท่านั้น
 
-Also, `resolve`/`reject` expect only one argument (or none) and will ignore additional arguments.
+แถม `resolve`/`reject` รับแค่อาร์กิวเมนต์เดียว (หรือไม่รับเลยก็ได้) อาร์กิวเมนต์เพิ่มเติมจะถูกเพิกเฉย
 ````
 
-```smart header="Reject with `Error` objects"
-In case something goes wrong, the executor should call `reject`. That can be done with any type of argument (just like `resolve`). But it is recommended to use `Error` objects (or objects that inherit from `Error`). The reasoning for that will soon become apparent.
+```smart header="Reject ด้วย Error objects"
+ถ้าเกิดอะไรผิดพลาด executor ควรเรียก `reject` โดยส่งอาร์กิวเมนต์ประเภทไหนก็ได้ (เหมือนกับ `resolve`) แต่แนะนำให้ใช้ออบเจ็กต์ `Error` (หรือออบเจ็กต์ที่ inherit จาก `Error`) เหตุผลจะชัดขึ้นในภายหลัง
 ```
 
-````smart header="Immediately calling `resolve`/`reject`"
-In practice, an executor usually does something asynchronously and calls `resolve`/`reject` after some time, but it doesn't have to. We also can call `resolve` or `reject` immediately, like this:
+````smart header="เรียก `resolve`/`reject` ได้ทันทีเลย"
+จริงๆ แล้ว executor มักทำงาน asynchronous แล้วค่อยเรียก `resolve`/`reject` ทีหลัง แต่ก็ไม่จำเป็นต้องรอ เรียกทันทีเลยก็ได้ แบบนี้:
 
 ```js
 let promise = new Promise(function(resolve, reject) {
-  // not taking our time to do the job
-  resolve(123); // immediately give the result: 123
+  // ไม่รอเลย resolve ทันที
+  resolve(123); // ส่งผลลัพธ์ทันที: 123
 });
 ```
 
-For instance, this might happen when we start to do a job but then see that everything has already been completed and cached.
+เช่น กรณีที่เริ่มทำงานแล้วพบว่าทุกอย่าง cache ไว้แล้ว resolve ทันทีก็ได้เลย
 
-That's fine. We immediately have a resolved promise.
+promise ก็จะ resolved ทันที
 ````
 
-```smart header="The `state` and `result` are internal"
-The properties `state` and `result` of the Promise object are internal. We can't directly access them. We can use the methods `.then`/`.catch`/`.finally` for that. They are described below.
+```smart header="`state` และ `result` เป็นพร็อพเพอร์ตี้ภายใน"
+พร็อพเพอร์ตี้ `state` และ `result` ของออบเจ็กต์ Promise เป็นพร็อพเพอร์ตี้ภายใน เข้าถึงตรงๆ ไม่ได้ ต้องใช้เมธอด `.then`/`.catch`/`.finally` แทน ซึ่งจะอธิบายด้านล่าง
 ```
 
 ## Consumers: then, catch
 
-A Promise object serves as a link between the executor (the "producing code" or "singer") and the consuming functions (the "fans"), which will receive the result or error. Consuming functions can be registered (subscribed) using the methods `.then` and `.catch`.
+ทำงานเสร็จแล้ว — แฟนๆ รับผลได้ยังไง?
+
+ฟังก์ชันที่รอรับผลลัพธ์หรือ error เรียกว่า consuming functions ลงทะเบียน (subscribe) ผ่านเมธอด `.then` และ `.catch` ได้เลย
 
 ### then
 
-The most important, fundamental one is `.then`.
+`.then` คือเมธอดที่สำคัญที่สุด
 
-The syntax is:
+เขียนแบบนี้:
 
 ```js
 promise.then(
-  function(result) { *!*/* handle a successful result */*/!* },
-  function(error) { *!*/* handle an error */*/!* }
+  function(result) { *!*/* จัดการกรณีสำเร็จ */*/!* },
+  function(error) { *!*/* จัดการกรณี error */*/!* }
 );
 ```
 
-The first argument of `.then` is a function that runs when the promise is resolved and receives the result.
+อาร์กิวเมนต์แรกของ `.then` คือฟังก์ชันที่รันเมื่อ promise resolved และรับผลลัพธ์มา
 
-The second argument of `.then` is a function that runs when the promise is rejected and receives the error.
+อาร์กิวเมนต์ที่สองคือฟังก์ชันที่รันเมื่อ promise rejected และรับ error มา
 
-For instance, here's a reaction to a successfully resolved promise:
+ตัวอย่างเมื่อ promise resolved สำเร็จ:
 
 ```js run
 let promise = new Promise(function(resolve, reject) {
   setTimeout(() => resolve("done!"), 1000);
 });
 
-// resolve runs the first function in .then
+// resolve จะรันฟังก์ชันแรกใน .then
 promise.then(
 *!*
-  result => alert(result), // shows "done!" after 1 second
+  result => alert(result), // แสดง "done!" หลัง 1 วินาที
 */!*
-  error => alert(error) // doesn't run
+  error => alert(error) // ไม่รัน
 );
 ```
 
-The first function was executed.
+ฟังก์ชันแรกทำงาน
 
-And in the case of a rejection, the second one:
+ส่วนกรณี rejection จะรันฟังก์ชันที่สอง:
 
 ```js run
 let promise = new Promise(function(resolve, reject) {
   setTimeout(() => reject(new Error("Whoops!")), 1000);
 });
 
-// reject runs the second function in .then
+// reject จะรันฟังก์ชันที่สองใน .then
 promise.then(
-  result => alert(result), // doesn't run
+  result => alert(result), // ไม่รัน
 *!*
-  error => alert(error) // shows "Error: Whoops!" after 1 second
+  error => alert(error) // แสดง "Error: Whoops!" หลัง 1 วินาที
 */!*
 );
 ```
 
-If we're interested only in successful completions, then we can provide only one function argument to `.then`:
+ถ้าสนใจแค่กรณีสำเร็จ ส่งแค่ฟังก์ชันเดียวเป็นอาร์กิวเมนต์ได้เลย:
 
 ```js run
 let promise = new Promise(resolve => {
@@ -190,13 +196,13 @@ let promise = new Promise(resolve => {
 });
 
 *!*
-promise.then(alert); // shows "done!" after 1 second
+promise.then(alert); // แสดง "done!" หลัง 1 วินาที
 */!*
 ```
 
 ### catch
 
-If we're interested only in errors, then we can use `null` as the first argument: `.then(null, errorHandlingFunction)`. Or we can use `.catch(errorHandlingFunction)`, which is exactly the same:
+ถ้าสนใจแค่ error อย่างเดียว ใช้ `null` เป็นอาร์กิวเมนต์แรกได้: `.then(null, errorHandlingFunction)` หรือจะใช้ `.catch(errorHandlingFunction)` ก็เหมือนกัน:
 
 
 ```js run
@@ -205,110 +211,106 @@ let promise = new Promise((resolve, reject) => {
 });
 
 *!*
-// .catch(f) is the same as promise.then(null, f)
-promise.catch(alert); // shows "Error: Whoops!" after 1 second
+// .catch(f) เหมือนกับ promise.then(null, f)
+promise.catch(alert); // แสดง "Error: Whoops!" หลัง 1 วินาที
 */!*
 ```
 
-The call `.catch(f)` is a complete analog of `.then(null, f)`, it's just a shorthand.
+`.catch(f)` เป็นแค่ shorthand ของ `.then(null, f)` นั่นเอง
 
 ## Cleanup: finally
 
-Just like there's a `finally` clause in a regular `try {...} catch {...}`, there's `finally` in promises.
+เหมือนกับที่มี `finally` ใน `try {...} catch {...}` promise ก็มี `finally` เช่นกัน
 
-The call `.finally(f)` is similar to `.then(f, f)` in the sense that `f` runs always, when the promise is settled: be it resolve or reject.
+`.finally(f)` คล้ายกับ `.then(f, f)` ตรงที่ `f` จะรันเสมอ ไม่ว่า promise จะ settled แบบ resolve หรือ reject
 
-The idea of `finally` is to set up a handler for performing cleanup/finalizing after the previous operations are complete.
+ไว้ใช้ทำ cleanup หลังจากงานเสร็จ ไม่ว่าจะสำเร็จหรือพัง
 
-E.g. stopping loading indicators, closing no longer needed connections, etc.
+ตัวอย่างเช่น — หยุด loading indicator ปิด connection ที่ไม่ใช้แล้ว ฯลฯ
 
-Think of it as a party finisher. Irresepective of whether a party was good or bad, how many friends were in it, we still need (or at least should) do a cleanup after it.
+นึกภาพว่าเหมือนคนที่มาเก็บงานปาร์ตี้ ไม่ว่าปาร์ตี้จะสนุกหรือเงียบเหงาแค่ไหน ก็ต้องเก็บกวาดทุกครั้ง
 
-The code may look like this:
+โค้ดหน้าตาแบบนี้:
 
 ```js
 new Promise((resolve, reject) => {
-  /* do something that takes time, and then call resolve or maybe reject */
+  /* ทำงานบางอย่างที่ใช้เวลา แล้วเรียก resolve หรือ reject */
 })
 *!*
-  // runs when the promise is settled, doesn't matter successfully or not
-  .finally(() => stop loading indicator)
-  // so the loading indicator is always stopped before we go on
+  // รันเมื่อ promise settled ไม่สนว่าสำเร็จหรือพัง
+  .finally(() => หยุด loading indicator)
+  // loading indicator จะหยุดก่อนเสมอ แล้วค่อยไปต่อ
 */!*
-  .then(result => show result, err => show error)
+  .then(result => แสดงผลลัพธ์, err => แสดง error)
 ```
 
-Please note that `finally(f)` isn't exactly an alias of `then(f,f)` though.
+แต่ `finally(f)` ไม่ได้เหมือน `then(f,f)` ซะทีเดียว มีข้อแตกต่างสำคัญ:
 
-There are important differences:
+1. `finally` handler ไม่รับอาร์กิวเมนต์ เพราะตอนที่อยู่ใน `finally` เราไม่รู้ว่า promise สำเร็จหรือพัง ก็โอเค เพราะงานของ `finally` คือทำ "cleanup ทั่วไป"
 
-1. A `finally` handler has no arguments. In `finally` we don't know whether the promise is successful or not. That's all right, as our task is usually to perform "general" finalizing procedures.
+    ดูตัวอย่างด้านบน จะเห็นว่า `finally` handler ไม่มีอาร์กิวเมนต์ และผลลัพธ์ของ promise จะผ่านไปถึง handler ตัวถัดไปเอง
+2. `finally` handler "ส่งต่อ" ผลลัพธ์หรือ error ไปให้ handler ตัวถัดไปที่เหมาะสม
 
-    Please take a look at the example above: as you can see, the `finally` handler has no arguments, and the promise outcome is handled by the next handler.
-2. A `finally` handler "passes through" the result or error to the next suitable handler.
-
-    For instance, here the result is passed through `finally` to `then`:
+    เช่น ผลลัพธ์จะผ่าน `finally` ไปถึง `then` โดยตรง:
 
     ```js run
     new Promise((resolve, reject) => {
       setTimeout(() => resolve("value"), 2000);
     })
-      .finally(() => alert("Promise ready")) // triggers first
-      .then(result => alert(result)); // <-- .then shows "value"
+      .finally(() => alert("Promise ready")) // รันก่อน
+      .then(result => alert(result)); // <-- .then แสดง "value"
     ```
 
-    As you can see, the `value` returned by the first promise is passed through `finally` to the next `then`.
+    จะเห็นว่า `value` จาก promise แรกผ่าน `finally` ไปถึง `then` ได้เลย
 
-    That's very convenient, because `finally` is not meant to process a promise result. As said, it's a place to do generic cleanup, no matter what the outcome was.
+    สะดวกมาก เพราะ `finally` ไม่ได้ไว้ประมวลผลลัพธ์ของ promise อยู่แล้ว — เป็นที่สำหรับ cleanup ทั่วๆ ไป ไม่ว่าผลจะออกมายังไง
 
-    And here's an example of an error, for us to see how it's passed through `finally` to `catch`:
+    ตัวอย่าง error ที่ผ่าน `finally` ไปถึง `catch`:
 
     ```js run
     new Promise((resolve, reject) => {
       throw new Error("error");
     })
-      .finally(() => alert("Promise ready")) // triggers first
-      .catch(err => alert(err));  // <-- .catch shows the error
+      .finally(() => alert("Promise ready")) // รันก่อน
+      .catch(err => alert(err));  // <-- .catch แสดง error
     ```
 
-3. A `finally` handler also shouldn't return anything. If it does, the returned value is silently ignored.
+3. `finally` handler ไม่ควร return อะไร ถ้า return ค่าที่ return ออกมาจะถูกเพิกเฉยเงียบๆ
 
-    The only exception to this rule is when a `finally` handler throws an error. Then this error goes to the next handler, instead of any previous outcome.
+    ยกเว้นกรณีเดียวคือถ้า `finally` handler throw error — error นั้นจะส่งต่อไปให้ handler ถัดไปแทน
 
-To summarize:
+สรุป:
 
-- A `finally` handler doesn't get the outcome of the previous handler (it has no arguments). This outcome is passed through instead, to the next suitable handler.
-- If a `finally` handler returns something, it's ignored.
-- When `finally` throws an error, then the execution goes to the nearest error handler.
+- `finally` handler ไม่รับผลลัพธ์จาก handler ก่อนหน้า (ไม่มีอาร์กิวเมนต์) แต่ผลลัพธ์นั้นจะผ่านไปถึง handler ที่เหมาะสมตัวถัดไปเอง
+- ถ้า `finally` return อะไร ค่านั้นจะถูกเพิกเฉย
+- ถ้า `finally` throw error จะไปถึง error handler ที่ใกล้ที่สุด
 
-These features are helpful and make things work just the right way if we use `finally` how it's supposed to be used: for generic cleanup procedures.
+พอใช้ `finally` ตามวัตถุประสงค์ — คือ cleanup ทั่วไป — ฟีเจอร์พวกนี้ก็จะเข้ากันได้พอดีเลย
 
-````smart header="We can attach handlers to settled promises"
-If a promise is pending, `.then/catch/finally` handlers wait for its outcome.
+````smart header="ใส่ handler กับ settled promise ได้"
+ถ้า promise ยัง pending อยู่ handler ของ `.then/catch/finally` จะรอจนกว่าผลลัพธ์จะออกมา
 
-Sometimes, it might be that a promise is already settled when we add a handler to it.
+แต่บางครั้ง promise อาจ settled แล้วตอนที่เราใส่ handler เข้าไป
 
-In such case, these handlers just run immediately:
+ในกรณีนั้น handler จะรันทันทีเลย:
 
 ```js run
-// the promise becomes resolved immediately upon creation
+// promise resolved ทันทีตอนสร้าง
 let promise = new Promise(resolve => resolve("done!"));
 
-promise.then(alert); // done! (shows up right now)
+promise.then(alert); // done! (แสดงทันที)
 ```
 
-Note that this makes promises more powerful than the real life "subscription list" scenario. If the singer has already released their song and then a person signs up on the subscription list, they probably won't receive that song. Subscriptions in real life must be done prior to the event.
-
-Promises are more flexible. We can add handlers any time: if the result is already there, they just execute.
+ต่างจากชีวิตจริงที่ถ้านักร้อง release เพลงไปแล้วแล้วมีคนมาสมัครหลัง ก็คงไม่ได้รับเพลงนั้น แต่ promise ยืดหยุ่นกว่า — ใส่ handler เมื่อไรก็ได้ ถ้าผลลัพธ์มีแล้ว handler จะรันทันที
 ````
 
-## Example: loadScript [#loadscript]
+## ตัวอย่าง: loadScript [#loadscript]
 
-Next, let's see more practical examples of how promises can help us write asynchronous code.
+มาดูตัวอย่างจริงๆ ว่า promise ช่วยเขียนโค้ด asynchronous ได้ยังไง
 
-We've got the `loadScript` function for loading a script from the previous chapter.
+เราใช้ฟังก์ชัน `loadScript` สำหรับโหลด script จากบทที่แล้ว
 
-Here's the callback-based variant, just to remind us of it:
+แบบเดิมที่ใช้ callback ดูอีกทีก่อน:
 
 ```js
 function loadScript(src, callback) {
@@ -322,9 +324,9 @@ function loadScript(src, callback) {
 }
 ```
 
-Let's rewrite it using Promises.
+ทีนี้เขียนใหม่ด้วย Promise:
 
-The new function `loadScript` will not require a callback. Instead, it will create and return a Promise object that resolves when the loading is complete. The outer code can add handlers (subscribing functions) to it using `.then`:
+ฟังก์ชัน `loadScript` แบบใหม่ไม่ต้องการ callback แล้ว แต่จะสร้างและคืน Promise object ที่ resolve เมื่อโหลดเสร็จ โค้ดภายนอกใส่ handler ผ่าน `.then` ได้เลย:
 
 ```js run
 function loadScript(src) {
@@ -340,7 +342,7 @@ function loadScript(src) {
 }
 ```
 
-Usage:
+การใช้งาน:
 
 ```js run
 let promise = loadScript("https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.js");
@@ -353,12 +355,11 @@ promise.then(
 promise.then(script => alert('Another handler...'));
 ```
 
-We can immediately see a few benefits over the callback-based pattern:
+เห็นข้อดีเมื่อเทียบกับแบบ callback ได้ชัดเลย:
 
-
-| Promises | Callbacks |
+| Promise | Callback |
 |----------|-----------|
-| Promises allow us to do things in the natural order. First, we run `loadScript(script)`, and `.then` we write what to do with the result. | We must have a `callback` function at our disposal when calling `loadScript(script, callback)`. In other words, we must know what to do with the result *before* `loadScript` is called. |
-| We can call `.then` on a Promise as many times as we want. Each time, we're adding a new "fan", a new subscribing function, to the "subscription list". More about this in the next chapter: [](info:promise-chaining). | There can be only one callback. |
+| Promise ให้เราทำตามลำดับที่เป็นธรรมชาติ — รัน `loadScript(script)` ก่อน แล้วค่อย `.then` บอกว่าจะทำอะไรกับผลลัพธ์ | ต้องมีฟังก์ชัน `callback` พร้อมก่อนเรียก `loadScript(script, callback)` พูดง่ายๆ คือต้องรู้ล่วงหน้าว่าจะทำอะไรกับผลลัพธ์ก่อนเรียกฟังก์ชัน |
+| เรียก `.then` บน Promise กี่ครั้งก็ได้ แต่ละครั้งก็เหมือนเพิ่ม "แฟน" คนใหม่เข้าใน "รายชื่อผู้ติดตาม" อ่านเพิ่มเติมใน <info:promise-chaining> | มี callback ได้แค่อันเดียว |
 
-So promises give us better code flow and flexibility. But there's more. We'll see that in the next chapters.
+Promise ให้ code flow ที่ดีกว่าและยืดหยุ่นกว่า ยังมีอีกมาก จะดูกันในบทต่อๆ ไป
