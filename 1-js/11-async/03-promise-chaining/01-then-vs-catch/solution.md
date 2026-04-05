@@ -1,6 +1,6 @@
-The short answer is: **no, they are not equal**:
+คำตอบสั้นๆ คือ: **ไม่เหมือนกัน**
 
-The difference is that if an error happens in `f1`, then it is handled by `.catch` here:
+ความต่างอยู่ที่ — ถ้า `f1` โยน error ออกมา `.catch` จะจัดการ error นั้นได้ในท่อนแรก:
 
 ```js run
 promise
@@ -8,13 +8,13 @@ promise
   .catch(f2);
 ```
 
-...But not here:
+...แต่ท่อนนี้ไม่ได้:
 
 ```js run
 promise
   .then(f1, f2);
 ```
 
-That's because an error is passed down the chain, and in the second code piece there's no chain below `f1`.
+เพราะ error จะถูกส่งต่อลงไปใน chain และในท่อนที่สองไม่มีอะไรต่อใต้ `f1` เลย
 
-In other words, `.then` passes results/errors to the next `.then/catch`. So in the first example, there's a `catch` below, and in the second one there isn't, so the error is unhandled.
+พูดง่ายๆ คือ `.then` ส่งทั้งผลลัพธ์และ error ต่อไปยัง `.then/.catch` ถัดไป ท่อนแรกมี `.catch` รออยู่ด้านล่าง เลยรับ error จาก `f1` ได้ แต่ท่อนที่สองไม่มี error เลยค้างไว้โดยไม่มีใครจัดการ

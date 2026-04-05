@@ -1,14 +1,14 @@
 
-# Delay with a promise
+# หน่วงเวลาด้วย promise
 
-The built-in function `setTimeout` uses callbacks. Create a promise-based alternative.
+ฟังก์ชัน `setTimeout` ในตัวใช้ callback ลองสร้างอีกแบบที่ใช้ promise แทน
 
-The function `delay(ms)` should return a promise. That promise should resolve after `ms` milliseconds, so that we can add `.then` to it, like this:
+ฟังก์ชัน `delay(ms)` ควรคืน promise โดย promise นั้นจะ resolve หลังจากผ่านไป `ms` มิลลิวินาที เพื่อให้เราต่อ `.then` ได้ แบบนี้:
 
 ```js
 function delay(ms) {
-  // your code
+  // โค้ดของเรา
 }
 
-delay(3000).then(() => alert('runs after 3 seconds'));
+delay(3000).then(() => alert('รันหลัง 3 วินาที'));
 ```

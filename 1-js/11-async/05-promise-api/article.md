@@ -1,40 +1,38 @@
 # Promise API
 
-There are 6 static methods in the `Promise` class. We'll quickly cover their use cases here.
+คลาส `Promise` มี static method อยู่ 6 ตัว แต่ละตัวออกแบบมาสำหรับสถานการณ์ต่างกัน มาดูกันทีละตัวเลย
 
 ## Promise.all
 
-Let's say we want many promises to execute in parallel and wait until all of them are ready.
+สมมติว่าเราต้องรัน promise หลายตัวพร้อมกัน แล้วรอให้ทุกตัวเสร็จก่อนค่อยทำต่อ
 
-For instance, download several URLs in parallel and process the content once they are all done.
+เช่น ดาวน์โหลดหลาย URL พร้อมกัน แล้วประมวลผลเมื่อได้ข้อมูลครบทุก URL — นี่คืองานของ `Promise.all` นั่นเอง
 
-That's what `Promise.all` is for.
-
-The syntax is:
+เขียนแบบนี้:
 
 ```js
 let promise = Promise.all(iterable);
 ```
 
-`Promise.all` takes an iterable (usually, an array of promises) and returns a new promise.
+`Promise.all` รับ iterable (ปกติคืออาร์เรย์ของ promise) แล้วคืนค่าเป็น promise ใหม่
 
-The new promise resolves when all listed promises are resolved, and the array of their results becomes its result.
+promise ใหม่นี้จะ resolve ก็ต่อเมื่อทุก promise ใน list resolve แล้ว และผลลัพธ์จะเป็นอาร์เรย์ของค่าที่แต่ละ promise คืนมา
 
-For instance, the `Promise.all` below settles after 3 seconds, and then its result is an array `[1, 2, 3]`:
+ลองดูตัวอย่าง — `Promise.all` นี้จะ settle หลังจาก 3 วินาที แล้วได้ผลลัพธ์เป็น `[1, 2, 3]`:
 
 ```js run
 Promise.all([
   new Promise(resolve => setTimeout(() => resolve(1), 3000)), // 1
   new Promise(resolve => setTimeout(() => resolve(2), 2000)), // 2
   new Promise(resolve => setTimeout(() => resolve(3), 1000))  // 3
-]).then(alert); // 1,2,3 when promises are ready: each promise contributes an array member
+]).then(alert); // 1,2,3 เมื่อ promise พร้อมแล้ว: แต่ละ promise จะกลายเป็นสมาชิกในอาร์เรย์
 ```
 
-Please note that the order of the resulting array members is the same as in its source promises. Even though the first promise takes the longest time to resolve, it's still first in the array of results.
+สังเกตว่าลำดับในอาร์เรย์ผลลัพธ์จะตรงกับลำดับ promise ต้นทางเสมอ แม้ promise ตัวแรกจะใช้เวลานานที่สุด ผลของมันก็ยังอยู่ตำแหน่งแรกในอาร์เรย์
 
-A common trick is to map an array of job data into an array of promises, and then wrap that into `Promise.all`.
+ท่าที่ใช้กันบ่อยคือ map อาร์เรย์ของข้อมูลเป็นอาร์เรย์ของ promise แล้วส่งเข้า `Promise.all` — เจ๋งและกระชับมาก
 
-For instance, if we have an array of URLs, we can fetch them all like this:
+เช่น ถ้ามีอาร์เรย์ของ URL อยู่ ก็ fetch ทุกตัวพร้อมกันได้แบบนี้:
 
 ```js run
 let urls = [
@@ -43,17 +41,17 @@ let urls = [
   'https://api.github.com/users/jeresig'
 ];
 
-// map every url to the promise of the fetch
+// map แต่ละ url ให้เป็น promise ของ fetch
 let requests = urls.map(url => fetch(url));
 
-// Promise.all waits until all jobs are resolved
+// Promise.all รอจนกว่าทุก job จะ resolve แล้ว
 Promise.all(requests)
   .then(responses => responses.forEach(
     response => alert(`${response.url}: ${response.status}`)
   ));
 ```
 
-A bigger example with fetching user information for an array of GitHub users by their names (we could fetch an array of goods by their ids, the logic is identical):
+ตัวอย่างใหญ่กว่านั้น คือดึงข้อมูล user ของ GitHub จากอาร์เรย์ชื่อ (ลอจิกเดียวกับการดึงสินค้าจาก id):
 
 ```js run
 let names = ['iliakan', 'remy', 'jeresig'];
@@ -62,22 +60,22 @@ let requests = names.map(name => fetch(`https://api.github.com/users/${name}`));
 
 Promise.all(requests)
   .then(responses => {
-    // all responses are resolved successfully
+    // ทุก response resolve เรียบร้อยแล้ว
     for(let response of responses) {
-      alert(`${response.url}: ${response.status}`); // shows 200 for every url
+      alert(`${response.url}: ${response.status}`); // แสดง 200 ทุก url
     }
 
     return responses;
   })
-  // map array of responses into an array of response.json() to read their content
+  // map อาร์เรย์ของ response เป็น response.json() เพื่ออ่านเนื้อหา
   .then(responses => Promise.all(responses.map(r => r.json())))
-  // all JSON answers are parsed: "users" is the array of them
+  // parse JSON ครบแล้ว: "users" คืออาร์เรย์ของข้อมูล user ทั้งหมด
   .then(users => users.forEach(user => alert(user.name)));
 ```
 
-**If any of the promises is rejected, the promise returned by `Promise.all` immediately rejects with that error.**
+**ถ้า promise ตัวไหนตัวหนึ่ง reject ขึ้นมา `Promise.all` จะ reject ทันทีพร้อม error นั้นเลย**
 
-For instance:
+เช่น:
 
 ```js run
 Promise.all([
@@ -89,20 +87,20 @@ Promise.all([
 ]).catch(alert); // Error: Whoops!
 ```
 
-Here the second promise rejects in two seconds. That leads to an immediate rejection of `Promise.all`, so `.catch` executes: the rejection error becomes the outcome of the entire `Promise.all`.
+promise ตัวที่สอง reject หลัง 2 วินาที ทำให้ `Promise.all` reject ทันทีแล้ว `.catch` ก็ทำงาน — error ตัวนั้นกลายเป็นผลลัพธ์สุดท้ายของ `Promise.all` ทั้งก้อนเลย
 
-```warn header="In case of an error, other promises are ignored"
-If one promise rejects, `Promise.all` immediately rejects, completely forgetting about the other ones in the list. Their results are ignored.
+```warn header="เมื่อ error เกิดขึ้น promise ตัวอื่นจะถูกมองข้ามหมด"
+ถ้า promise ตัวใดตัวหนึ่ง reject ขึ้นมา `Promise.all` จะ reject ทันที และหยุดสนใจ promise ตัวที่เหลือทั้งหมด ผลลัพธ์ของพวกนั้นจะถูกทิ้งไปเลย
 
-For example, if there are multiple `fetch` calls, like in the example above, and one fails, the others will still continue to execute, but `Promise.all` won't watch them anymore. They will probably settle, but their results will be ignored.
+เช่น ถ้ามีหลาย `fetch` กำลังทำงานอยู่แล้วตัวหนึ่งพัง ตัวที่เหลือก็ยังรันต่อไปได้ตามปกติ แต่ `Promise.all` จะไม่ติดตามผลของพวกนั้นอีกต่อไป ถึงจะ settle ก็ถูกเพิกเฉย
 
-`Promise.all` does nothing to cancel them, as there's no concept of "cancellation" in promises. In [another chapter](info:fetch-abort) we'll cover `AbortController` that can help with that, but it's not a part of the Promise API.
+`Promise.all` ไม่มีทางยกเลิก promise เหล่านั้นได้ เพราะ promise ไม่มี concept ของ "การยกเลิก" ถ้าต้องการ cancel ลองดู `AbortController` ใน[บทอื่น](info:fetch-abort) แต่นั่นไม่ใช่ส่วนหนึ่งของ Promise API
 ```
 
-````smart header="`Promise.all(iterable)` allows non-promise \"regular\" values in `iterable`"
-Normally, `Promise.all(...)` accepts an iterable (in most cases an array) of promises. But if any of those objects is not a promise, it's passed to the resulting array "as is".
+````smart header="`Promise.all(iterable)` รับค่าธรรมดาที่ไม่ใช่ promise ได้ด้วย"
+ปกติ `Promise.all(...)` รับ iterable ของ promise แต่ถ้าค่าไหนไม่ใช่ promise ก็จะส่งผ่านไปยังอาร์เรย์ผลลัพธ์ "ตามที่เป็น" เลย
 
-For instance, here the results are `[1, 2, 3]`:
+เช่น ผลลัพธ์ที่ได้คือ `[1, 2, 3]`:
 
 ```js run
 Promise.all([
@@ -114,31 +112,31 @@ Promise.all([
 ]).then(alert); // 1, 2, 3
 ```
 
-So we are able to pass ready values to `Promise.all` where convenient.
+ก็คือเราส่งค่าที่พร้อมใช้อยู่แล้วเข้าไปใน `Promise.all` ตรงๆ ได้เลย
 ````
 
 ## Promise.allSettled
 
 [recent browser="new"]
 
-`Promise.all` rejects as a whole if any promise rejects. That's good for "all or nothing" cases, when we need *all* results successful to proceed:
+`Promise.all` จะ reject ทันทีถ้า promise ตัวไหนพัง — เหมาะสำหรับงานแบบ "ได้ทั้งหมดหรือไม่ได้เลย" เช่นต้องมีครบทุกอย่างถึงจะเดินหน้าได้:
 
 ```js
 Promise.all([
   fetch('/template.html'),
   fetch('/style.css'),
   fetch('/data.json')
-]).then(render); // render method needs results of all fetches
+]).then(render); // เมธอด render ต้องการผลลัพธ์จากทุก fetch
 ```
 
-`Promise.allSettled` just waits for all promises to settle, regardless of the result. The resulting array has:
+แต่ถ้าต้องการรอให้ทุก promise จบ ไม่ว่าจะสำเร็จหรือพัง — ใช้ `Promise.allSettled` แทน
 
-- `{status:"fulfilled", value:result}` for successful responses,
-- `{status:"rejected", reason:error}` for errors.
+ผลลัพธ์ที่ได้จะเป็นอาร์เรย์โดยแต่ละตัวมีรูปแบบแบบนี้:
 
-For example, we'd like to fetch the information about multiple users. Even if one request fails, we're still interested in the others.
+- `{status:"fulfilled", value:result}` สำหรับ response ที่สำเร็จ
+- `{status:"rejected", reason:error}` สำหรับ error
 
-Let's use `Promise.allSettled`:
+ลองนึกสถานการณ์นี้ — เราอยากดึงข้อมูล user หลายคน แม้ request บางตัวจะพัง เราก็ยังอยากได้ข้อมูลของตัวที่รอดมาล่ะ:
 
 ```js run
 let urls = [
@@ -160,7 +158,7 @@ Promise.allSettled(urls.map(url => fetch(url)))
   });
 ```
 
-The `results` in the line `(*)` above will be:
+ค่าของ `results` ที่บรรทัด `(*)` จะหน้าตาแบบนี้:
 ```js
 [
   {status: 'fulfilled', value: ...response...},
@@ -169,11 +167,11 @@ The `results` in the line `(*)` above will be:
 ]
 ```
 
-So for each promise we get its status and `value/error`.
+แต่ละ promise ได้ทั้ง status และ `value` หรือ `reason` กลับมาครบเลย — เห็นไหมว่าต่างกับ `Promise.all` ยังไง?
 
 ### Polyfill
 
-If the browser doesn't support `Promise.allSettled`, it's easy to polyfill:
+ถ้าเบราว์เซอร์ยังไม่รองรับ `Promise.allSettled` ก็เขียน polyfill เองได้ไม่ยาก:
 
 ```js
 if (!Promise.allSettled) {
@@ -188,23 +186,23 @@ if (!Promise.allSettled) {
 }
 ```
 
-In this code, `promises.map` takes input values, turns them into promises (just in case a non-promise was passed) with `p => Promise.resolve(p)`, and then adds `.then` handler to every one.
+โค้ดนี้ใช้ `promises.map` รับค่าเข้ามาแล้วแปลงเป็น promise ทุกตัว (กันกรณีที่ส่งค่าธรรมดาเข้ามา) ด้วย `p => Promise.resolve(p)` จากนั้นเพิ่ม `.then` handler ให้ทุกตัว
 
-That handler turns a successful result `value` into `{status:'fulfilled', value}`, and an error `reason` into `{status:'rejected', reason}`. That's exactly the format of `Promise.allSettled`.
+handler นั้นจะแปลง value ที่สำเร็จให้เป็น `{status:'fulfilled', value}` และแปลง reason ที่พังให้เป็น `{status:'rejected', reason}` — ตรงกับ format ของ `Promise.allSettled` พอดี
 
-Now we can use `Promise.allSettled` to get the results of *all* given promises, even if some of them reject.
+ทีนี้เราก็ใช้ `Promise.allSettled` ดึงผลลัพธ์จาก *ทุก* promise ที่ให้มาได้แล้ว ไม่ว่าบางตัวจะ reject หรือไม่
 
 ## Promise.race
 
-Similar to `Promise.all`, but waits only for the first settled promise and gets its result (or error).
+คล้ายกับ `Promise.all` แต่รอแค่ promise *ตัวแรก* ที่ settle แล้วเอาผลลัพธ์ (หรือ error) ของตัวนั้น
 
-The syntax is:
+เขียนแบบนี้:
 
 ```js
 let promise = Promise.race(iterable);
 ```
 
-For instance, here the result will be `1`:
+เช่น ผลลัพธ์ที่ได้คือ `1`:
 
 ```js run
 Promise.race([
@@ -214,20 +212,22 @@ Promise.race([
 ]).then(alert); // 1
 ```
 
-The first promise here was fastest, so it became the result. After the first settled promise "wins the race", all further results/errors are ignored.
+promise ตัวแรกเร็วที่สุดเลยกลายเป็นผลลัพธ์ หลังจาก promise แรก "ชนะการแข่ง" แล้ว ผลลัพธ์และ error ของตัวที่เหลือก็โดนมองข้ามหมดเลย
 
 
 ## Promise.any
 
-Similar to `Promise.race`, but waits only for the first fulfilled promise and gets its result. If all of the given promises are rejected, then the returned promise is rejected with [`AggregateError`](mdn:js/AggregateError) - a special error object that stores all promise errors in its `errors` property.
+`Promise.race` รอ promise แรกที่ settle ไม่ว่าจะสำเร็จหรือพัง แต่ `Promise.any` ใจดีกว่า — รอแค่ promise *ตัวแรก* ที่ *fulfill* แล้วข้ามตัวที่ reject ไปเรื่อยๆ
 
-The syntax is:
+ถ้า promise ทุกตัว reject หมดเลย จะได้ [`AggregateError`](mdn:js/AggregateError) กลับมา — เป็น error object พิเศษที่เก็บ error ของทุก promise ไว้ใน property `errors`
+
+เขียนแบบนี้:
 
 ```js
 let promise = Promise.any(iterable);
 ```
 
-For instance, here the result will be `1`:
+เช่น ผลลัพธ์ที่ได้คือ `1`:
 
 ```js run
 Promise.any([
@@ -237,9 +237,9 @@ Promise.any([
 ]).then(alert); // 1
 ```
 
-The first promise here was fastest, but it was rejected, so the second promise became the result. After the first fulfilled promise "wins the race", all further results are ignored.
+promise ตัวแรกเร็วที่สุดก็จริง แต่ reject เลยข้ามไป — promise ตัวที่สองกลายเป็นผลลัพธ์แทน หลังจาก promise แรกที่ fulfill "ชนะการแข่ง" ตัวที่เหลือก็โดนมองข้ามหมด
 
-Here's an example when all promises fail:
+ทีนี้ลองดูกรณีที่ promise ทุกตัวพังพร้อมกัน:
 
 ```js run
 Promise.any([
@@ -252,27 +252,27 @@ Promise.any([
 });
 ```
 
-As you can see, error objects for failed promises are available in the `errors` property of the `AggregateError` object.
+จะเห็นว่า error ของแต่ละ promise ที่พังไปจะเก็บอยู่ใน property `errors` ของ `AggregateError`
 
 ## Promise.resolve/reject
 
-Methods `Promise.resolve` and `Promise.reject` are rarely needed in modern code, because `async/await` syntax (we'll cover it [a bit later](info:async-await)) makes them somewhat obsolete.
+`Promise.resolve` กับ `Promise.reject` นั้นแทบไม่ค่อยต้องใช้ในโค้ดยุคใหม่แล้ว เพราะ `async/await` (จะพูดถึง[ในบทถัดไป](info:async-await)) ทำให้สองตัวนี้ไม่ค่อยจำเป็นอีก
 
-We cover them here for completeness and for those who can't use `async/await` for some reason.
+แต่เรายังอธิบายไว้ให้ครบ สำหรับคนที่ยังใช้ `async/await` ไม่ได้ด้วยเหตุผลบางอย่าง
 
 ### Promise.resolve
 
-`Promise.resolve(value)` creates a resolved promise with the result `value`.
+`Promise.resolve(value)` สร้าง promise ที่ resolve แล้วพร้อมค่า `value`
 
-Same as:
+เทียบเท่ากับ:
 
 ```js
 let promise = new Promise(resolve => resolve(value));
 ```
 
-The method is used for compatibility, when a function is expected to return a promise.
+ใช้เพื่อความเข้ากันได้ (compatibility) ในกรณีที่ฟังก์ชันจำเป็นต้องคืนค่าเป็น promise เสมอ
 
-For example, the `loadCached` function below fetches a URL and remembers (caches) its content. For future calls with the same URL it immediately gets the previous content from cache, but uses `Promise.resolve` to make a promise of it, so the returned value is always a promise:
+ดูตัวอย่าง — ฟังก์ชัน `loadCached` ด้านล่างดึงข้อมูลจาก URL แล้ว cache ไว้ ถ้าเรียกซ้ำด้วย URL เดิม จะดึงจาก cache ทันที แต่ยังต้องคืนค่าเป็น promise ด้วย เลยใช้ `Promise.resolve` ห่อค่านั้นไว้:
 
 ```js
 let cache = new Map();
@@ -293,31 +293,31 @@ function loadCached(url) {
 }
 ```
 
-We can write `loadCached(url).then(…)`, because the function is guaranteed to return a promise. We can always use `.then` after `loadCached`. That's the purpose of `Promise.resolve` in the line `(*)`.
+ด้วยวิธีนี้ เราเขียน `loadCached(url).then(…)` ได้เสมอ เพราะฟังก์ชันการันตีว่าจะคืนค่าเป็น promise ทุกกรณี — นั่นคือจุดประสงค์ของ `Promise.resolve` ที่บรรทัด `(*)`
 
 ### Promise.reject
 
-`Promise.reject(error)` creates a rejected promise with `error`.
+`Promise.reject(error)` สร้าง promise ที่ reject แล้วพร้อม `error`
 
-Same as:
+เทียบเท่ากับ:
 
 ```js
 let promise = new Promise((resolve, reject) => reject(error));
 ```
 
-In practice, this method is almost never used.
+แทบไม่ได้ใช้จริงๆ ในทางปฏิบัติ
 
-## Summary
+## สรุป
 
-There are 6 static methods of `Promise` class:
+`Promise` class มี static method อยู่ 6 ตัว:
 
-1. `Promise.all(promises)` -- waits for all promises to resolve and returns an array of their results. If any of the given promises rejects, it becomes the error of `Promise.all`, and all other results are ignored.
-2. `Promise.allSettled(promises)` (recently added method) -- waits for all promises to settle and returns their results as an array of objects with:
-    - `status`: `"fulfilled"` or `"rejected"`
-    - `value` (if fulfilled) or `reason` (if rejected).
-3. `Promise.race(promises)` -- waits for the first promise to settle, and its result/error becomes the outcome.
-4. `Promise.any(promises)` (recently added method) -- waits for the first promise to fulfill, and its result becomes the outcome. If all of the given promises are rejected, [`AggregateError`](mdn:js/AggregateError) becomes the error of `Promise.any`.
-5. `Promise.resolve(value)` -- makes a resolved promise with the given value.
-6. `Promise.reject(error)` -- makes a rejected promise with the given error.
+1. `Promise.all(promises)` -- รอให้ promise ทุกตัว resolve แล้วคืนอาร์เรย์ผลลัพธ์ ถ้าตัวไหน reject จะกลายเป็น error ของ `Promise.all` และผลลัพธ์อื่นทั้งหมดถูกทิ้ง
+2. `Promise.allSettled(promises)` (method ที่เพิ่งเพิ่มมา) -- รอให้ promise ทุกตัว settle แล้วคืนผลลัพธ์เป็นอาร์เรย์ของออบเจ็กต์ที่มี:
+    - `status`: `"fulfilled"` หรือ `"rejected"`
+    - `value` (ถ้า fulfilled) หรือ `reason` (ถ้า rejected)
+3. `Promise.race(promises)` -- รอแค่ promise ตัวแรกที่ settle ผลลัพธ์หรือ error ของตัวนั้นกลายเป็นผลลัพธ์ทั้งหมด
+4. `Promise.any(promises)` (method ที่เพิ่งเพิ่มมา) -- รอแค่ promise ตัวแรกที่ fulfill แล้วผลลัพธ์ของตัวนั้นกลายเป็นผลลัพธ์ทั้งหมด ถ้าทุกตัว reject จะได้ [`AggregateError`](mdn:js/AggregateError) กลับมา
+5. `Promise.resolve(value)` -- สร้าง promise ที่ resolve แล้วด้วยค่าที่กำหนด
+6. `Promise.reject(error)` -- สร้าง promise ที่ reject แล้วด้วย error ที่กำหนด
 
-Of all these, `Promise.all` is probably the most common in practice.
+บรรดา 6 ตัวนี้ `Promise.all` น่าจะเป็นตัวที่ใช้บ่อยที่สุดในทางปฏิบัติ

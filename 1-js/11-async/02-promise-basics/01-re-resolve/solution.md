@@ -1,3 +1,3 @@
-The output is: `1`.
+ผลลัพธ์คือ `1`
 
-The second call to `resolve` is ignored, because only the first call of `reject/resolve` is taken into account. Further calls are ignored.
+การเรียก `resolve` ครั้งที่สองถูกเพิกเฉย เพราะจะนับแค่การเรียก `reject/resolve` ครั้งแรกเท่านั้น การเรียกครั้งต่อๆ ไปจะถูกเพิกเฉยทั้งหมด

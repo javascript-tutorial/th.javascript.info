@@ -1,68 +1,67 @@
 
+# บทนำ: callback
 
-# Introduction: callbacks
+```warn header="ตัวอย่างในบทนี้ใช้ browser methods"
+เพื่ออธิบาย callback, promise และ concept ที่เกี่ยวข้อง เราจะหยิบ browser methods มาใช้ โดยเฉพาะการโหลด script และจัดการ document เบื้องต้น
 
-```warn header="We use browser methods in examples here"
-To demonstrate the use of callbacks, promises and other abstract concepts, we'll be using some browser methods: specifically, loading scripts and performing simple document manipulations.
+ถ้ายังไม่คุ้นเคยกับพวกนี้และอ่านแล้วงง ลองข้ามไปอ่าน [ส่วนถัดไป](/document) ของ tutorial ก่อนก็ได้
 
-If you're not familiar with these methods, and their usage in the examples is confusing, you may want to read a few chapters from the [next part](/document) of the tutorial.
-
-Although, we'll try to make things clear anyway. There won't be anything really complex browser-wise.
+แต่เราจะพยายามอธิบายให้ชัดอยู่ดี — ไม่มีอะไรที่ซับซ้อนมากในแง่ browser
 ```
 
-Many functions are provided by JavaScript host environments that allow you to schedule *asynchronous* actions. In other words, actions that we initiate now, but they finish later.
+JavaScript host environment มีฟังก์ชันหลายตัวที่ช่วยให้เรา schedule งาน *asynchronous* ได้ — พูดง่ายๆ คือ "สั่งให้ทำ แต่ไม่ต้องรอ ทำเสร็จแล้วค่อยบอก"
 
-For instance, one such function is the `setTimeout` function.
+ตัวอย่างที่คุ้นกันดีที่สุดคือ `setTimeout`
 
-There are other real-world examples of asynchronous actions, e.g. loading scripts and modules (we'll cover them in later chapters).
+งาน asynchronous ในชีวิตจริงยังมีอีก เช่น การโหลด script หรือ module (จะพูดถึงในบทหลัง)
 
-Take a look at the function `loadScript(src)`, that loads a script with the given `src`:
+ลองดูฟังก์ชัน `loadScript(src)` ที่โหลด script จาก `src` ที่กำหนด:
 
 ```js
 function loadScript(src) {
-  // creates a <script> tag and append it to the page
-  // this causes the script with given src to start loading and run when complete
+  // สร้าง tag <script> แล้วแปะไว้ในหน้า
+  // พอแปะแล้ว browser จะเริ่มโหลด script ทันที และรันเมื่อโหลดเสร็จ
   let script = document.createElement('script');
   script.src = src;
   document.head.append(script);
 }
 ```
 
-It inserts into the document a new, dynamically created, tag `<script src="…">` with the given `src`. The browser automatically starts loading it and executes when complete.
+ฟังก์ชันนี้สร้าง tag `<script src="…">` แล้วแทรกเข้าไปใน document browser จะโหลดและรัน script นั้นให้เองโดยอัตโนมัติ
 
-We can use this function like this:
+เรียกใช้แบบนี้:
 
 ```js
-// load and execute the script at the given path
+// โหลดและรัน script จาก path ที่กำหนด
 loadScript('/my/script.js');
 ```
 
-The script is executed "asynchronously", as it starts loading now, but runs later, when the function has already finished.
+ประเด็นคือ script นี้รัน "แบบ asynchronous" — เริ่มโหลดตอนนี้ แต่รันจริงทีหลัง หลังจากโค้ดที่เหลือทำงานเสร็จแล้ว
 
-If there's any code below `loadScript(…)`, it doesn't wait until the script loading finishes.
+โค้ดที่เขียนหลัง `loadScript(…)` ไม่รอให้โหลดเสร็จก่อน:
 
 ```js
 loadScript('/my/script.js');
-// the code below loadScript
-// doesn't wait for the script loading to finish
+// โค้ดที่อยู่ต่อจาก loadScript
+// ไม่รอให้ script โหลดเสร็จ
 // ...
 ```
 
-Let's say we need to use the new script as soon as it loads. It declares new functions, and we want to run them.
+สมมติเราอยากใช้ฟังก์ชันใน script ที่โหลดมา ทันทีที่มันโหลดเสร็จ
 
-But if we do that immediately after the `loadScript(…)` call, that wouldn't work:
+แต่ถ้าเรียกมันต่อจาก `loadScript(…)` เลย มันจะเจ๊ง:
 
 ```js
-loadScript('/my/script.js'); // the script has "function newFunction() {…}"
+loadScript('/my/script.js'); // ใน script มี "function newFunction() {…}"
 
 *!*
-newFunction(); // no such function!
+newFunction(); // ไม่มีฟังก์ชันนี้!
 */!*
 ```
 
-Naturally, the browser probably didn't have time to load the script. As of now, the `loadScript` function doesn't provide a way to track the load completion. The script loads and eventually runs, that's all. But we'd like to know when it happens, to use new functions and variables from that script.
+เหตุผลก็ชัดเจน — browser ยังโหลดไม่เสร็จเลย ตอนนี้ `loadScript` ยังไม่มีทางบอกเราได้ว่า "โหลดเสร็จแล้วนะ" script จะโหลดเสร็จแล้วรัน แค่นั้น แต่เราไม่รู้ว่า "เมื่อไหร่" — เลยเรียกฟังก์ชันใน script นั้นไม่ได้
 
-Let's add a `callback` function as a second argument to `loadScript` that should execute when the script loads:
+แก้ได้ด้วยการเพิ่ม `callback` เป็นอาร์กิวเมนต์ตัวที่สองของ `loadScript` ฟังก์ชันนี้จะรันหลัง script โหลดเสร็จ:
 
 ```js
 function loadScript(src, *!*callback*/!*) {
@@ -77,21 +76,21 @@ function loadScript(src, *!*callback*/!*) {
 }
 ```
 
-The `onload` event is described in the article <info:onload-onerror#loading-a-script>, it basically executes a function after the script is loaded and executed.
+อีเวนต์ `onload` อธิบายไว้ในบทความ <info:onload-onerror#loading-a-script> — โดยย่อคือมันจะเรียกฟังก์ชันหลัง script โหลดและรันเสร็จ
 
-Now if we want to call new functions from the script, we should write that in the callback:
+ทีนี้ถ้าอยากเรียกฟังก์ชันจาก script ที่โหลดมา ก็เขียนไว้ใน callback:
 
 ```js
 loadScript('/my/script.js', function() {
-  // the callback runs after the script is loaded
-  newFunction(); // so now it works
+  // callback รันหลัง script โหลดเสร็จ
+  newFunction(); // ตอนนี้ใช้ได้แล้ว
   ...
 });
 ```
 
-That's the idea: the second argument is a function (usually anonymous) that runs when the action is completed.
+พูดง่ายๆ คือ อาร์กิวเมนต์ตัวที่สองเป็นฟังก์ชัน (มักเป็น anonymous function) ที่จะรันเมื่อ action นั้นทำเสร็จ
 
-Here's a runnable example with a real script:
+ลองดูตัวอย่างที่รันได้จริงกับ script จริงๆ:
 
 ```js run
 function loadScript(src, callback) {
@@ -103,39 +102,39 @@ function loadScript(src, callback) {
 
 *!*
 loadScript('https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js', script => {
-  alert(`Cool, the script ${script.src} is loaded`);
-  alert( _ ); // _ is a function declared in the loaded script
+  alert(`เยี่ยม! script ${script.src} โหลดเสร็จแล้ว`);
+  alert( _ ); // _ คือฟังก์ชันที่ประกาศไว้ใน script ที่เพิ่งโหลดมา
 });
 */!*
 ```
 
-That's called a "callback-based" style of asynchronous programming. A function that does something asynchronously should provide a `callback` argument where we put the function to run after it's complete.
+ท่านี้เรียกว่า "callback-based" style — ฟังก์ชันที่ทำงาน asynchronous จะรับ `callback` เป็นอาร์กิวเมนต์ไว้ เพื่อเรียกตอนทำเสร็จ
 
-Here we did it in `loadScript`, but of course it's a general approach.
+เราใช้แนวทางนี้กับ `loadScript` แต่จริงๆ เป็น pattern ทั่วไปที่ใช้กันในหลายที่มากๆ
 
-## Callback in callback
+## Callback ซ้อน callback
 
-How can we load two scripts sequentially: the first one, and then the second one after it?
+จะโหลด script สองตัวตามลำดับยังไงล่ะ? ตัวแรกก่อน แล้วค่อยโหลดตัวที่สอง
 
-The natural solution would be to put the second `loadScript` call inside the callback, like this:
+วิธีที่ตรงไปตรงมาคือเอา `loadScript` ตัวที่สองไปใส่ไว้ใน callback ของตัวแรก:
 
 ```js
 loadScript('/my/script.js', function(script) {
 
-  alert(`Cool, the ${script.src} is loaded, let's load one more`);
+  alert(`เยี่ยม! ${script.src} โหลดเสร็จแล้ว โหลดอีกตัวนึงเลย`);
 
 *!*
   loadScript('/my/script2.js', function(script) {
-    alert(`Cool, the second script is loaded`);
+    alert(`เยี่ยม! script ตัวที่สองโหลดเสร็จแล้ว`);
   });
 */!*
 
 });
 ```
 
-After the outer `loadScript` is complete, the callback initiates the inner one.
+พอ `loadScript` ตัวนอกทำเสร็จ callback ก็จะเรียก `loadScript` ตัวใน
 
-What if we want one more script...?
+แล้วถ้าต้องการโหลด script ตัวที่สามด้วยล่ะ...?
 
 ```js
 loadScript('/my/script.js', function(script) {
@@ -144,7 +143,7 @@ loadScript('/my/script.js', function(script) {
 
 *!*
     loadScript('/my/script3.js', function(script) {
-      // ...continue after all scripts are loaded
+      // ...ทำต่อหลังจากทุก script โหลดเสร็จ
     });
 */!*
 
@@ -153,13 +152,13 @@ loadScript('/my/script.js', function(script) {
 });
 ```
 
-So, every new action is inside a callback. That's fine for few actions, but not good for many, so we'll see other variants soon.
+action ใหม่ทุกอันก็ต้องซ้อนเข้าไปใน callback ถ้ามีแค่ 2-3 อันก็ยังพอไหว แต่ถ้าเยอะกว่านี้จะเริ่มมีปัญหา — เดี๋ยวจะเห็นกัน
 
-## Handling errors
+## จัดการ error
 
-In the above examples we didn't consider errors. What if the script loading fails? Our callback should be able to react on that.
+ตัวอย่างที่ผ่านมาไม่ได้คิดเรื่อง error เลย ถ้า script โหลดไม่ขึ้นล่ะ? callback ต้องรับมือกับกรณีนี้ได้ด้วย
 
-Here's an improved version of `loadScript` that tracks loading errors:
+นี่คือ `loadScript` เวอร์ชันที่จัดการ error ด้วย:
 
 ```js
 function loadScript(src, callback) {
@@ -175,32 +174,32 @@ function loadScript(src, callback) {
 }
 ```
 
-It calls `callback(null, script)` for successful load and `callback(error)` otherwise.
+โหลดสำเร็จก็เรียก `callback(null, script)` โหลดเจ๊งก็เรียก `callback(error)`
 
-The usage:
+การใช้งาน:
 ```js
 loadScript('/my/script.js', function(error, script) {
   if (error) {
-    // handle error
+    // จัดการ error
   } else {
-    // script loaded successfully
+    // script โหลดสำเร็จ
   }
 });
 ```
 
-Once again, the recipe that we used for `loadScript` is actually quite common. It's called the "error-first callback" style.
+pattern นี้ใช้กันบ่อยมากจนมีชื่อเรียกว่า "error-first callback"
 
-The convention is:
-1. The first argument of the `callback` is reserved for an error if it occurs. Then `callback(err)` is called.
-2. The second argument (and the next ones if needed) are for the successful result. Then `callback(null, result1, result2…)` is called.
+กฎก็คือ:
+1. อาร์กิวเมนต์ตัวแรกของ `callback` สงวนไว้สำหรับ error — ถ้ามีปัญหาก็เรียก `callback(err)`
+2. อาร์กิวเมนต์ตัวที่สอง (และตัวถัดๆ ไปถ้ามี) ไว้สำหรับผลลัพธ์เมื่อสำเร็จ — เรียก `callback(null, result1, result2…)`
 
-So the single `callback` function is used both for reporting errors and passing back results.
+`callback` ตัวเดียวเลยทำหน้าที่ได้ทั้งรายงาน error และส่งผลลัพธ์กลับ
 
 ## Pyramid of Doom
 
-At first glance, it looks like a viable approach to asynchronous coding. And indeed it is. For one or maybe two nested calls it looks fine.
+มองแวบแรก callback-based style ดูเป็นแนวทางที่ใช้ได้ — และก็ใช้ได้จริงถ้ามีแค่ 1-2 ชั้น
 
-But for multiple asynchronous actions that follow one after another, we'll have code like this:
+แต่พอมี async action หลายอันต่อกัน โค้ดจะหน้าตาแบบนี้:
 
 ```js
 loadScript('1.js', function(error, script) {
@@ -219,7 +218,7 @@ loadScript('1.js', function(error, script) {
             handleError(error);
           } else {
   *!*
-            // ...continue after all scripts are loaded (*)
+            // ...ทำต่อหลังจากทุก script โหลดเสร็จ (*)
   */!*
           }
         });
@@ -230,14 +229,14 @@ loadScript('1.js', function(error, script) {
 });
 ```
 
-In the code above:
-1. We load `1.js`, then if there's no error...
-2. We load `2.js`, then if there's no error...
-3. We load `3.js`, then if there's no error -- do something else `(*)`.
+ไล่ดูโค้ดข้างบน:
+1. โหลด `1.js` ถ้าไม่มี error...
+2. โหลด `2.js` ถ้าไม่มี error...
+3. โหลด `3.js` ถ้าไม่มี error — ค่อยทำอย่างอื่น `(*)`
 
-As calls become more nested, the code becomes deeper and increasingly more difficult to manage, especially if we have real code instead of `...` that may include more loops, conditional statements and so on.
+ยิ่ง callback ซ้อนกันเยอะ โค้ดก็ยิ่งลึกและจัดการยาก โดยเฉพาะถ้าแทน `...` ด้วยโค้ดจริงๆ ที่มีทั้ง loop, if/else ต่างๆ
 
-That's sometimes called "callback hell" or "pyramid of doom."
+นี่แหละที่เรียกว่า "callback hell" หรือ "pyramid of doom"
 
 <!--
 loadScript('1.js', function(error, script) {
@@ -265,11 +264,11 @@ loadScript('1.js', function(error, script) {
 
 ![](callback-hell.svg)
 
-The "pyramid" of nested calls grows to the right with every asynchronous action. Soon it spirals out of control.
+"พีระมิด" ของ callback ที่ซ้อนกันจะขยายออกทางขวาเรื่อยๆ ทุกครั้งที่มี async action เพิ่ม — ไม่นานก็เอาไม่อยู่
 
-So this way of coding isn't very good.
+วิธีนี้เลยไม่ดีนัก
 
-We can try to alleviate the problem by making every action a standalone function, like this:
+เราพอแก้ได้นิดหน่อยด้วยการแยกแต่ละ action ออกเป็นฟังก์ชัน top-level แบบนี้:
 
 ```js
 loadScript('1.js', step1);
@@ -296,17 +295,17 @@ function step3(error, script) {
   if (error) {
     handleError(error);
   } else {
-    // ...continue after all scripts are loaded (*)
+    // ...ทำต่อหลังจากทุก script โหลดเสร็จ (*)
   }
 }
 ```
 
-See? It does the same thing, and there's no deep nesting now because we made every action a separate top-level function.
+เห็นไหม? ทำได้เหมือนกัน และไม่ซ้อนลึกแล้ว เพราะแยกแต่ละ action เป็นฟังก์ชันของตัวเอง
 
-It works, but the code looks like a torn apart spreadsheet. It's difficult to read, and you probably noticed that one needs to eye-jump between pieces while reading it. That's inconvenient, especially if the reader is not familiar with the code and doesn't know where to eye-jump.
+แต่ก็มีปัญหา — โค้ดมันดูเหมือน spreadsheet ที่ถูกฉีกทิ้ง อ่านยาก ตาต้องกระโดดไปมาระหว่างฟังก์ชัน ยิ่งถ้าคนอ่านไม่คุ้นกับโค้ดนี้มาก่อน ยิ่งงงหนัก
 
-Also, the functions named `step*` are all of single use, they are created only to avoid the "pyramid of doom." No one is going to reuse them outside of the action chain. So there's a bit of namespace cluttering here.
+แถมฟังก์ชัน `step*` พวกนี้ใช้ครั้งเดียวทิ้ง สร้างขึ้นมาเพื่อหนี "pyramid of doom" โดยเฉพาะ ไม่มีใครเอาไปใช้ที่อื่นอีก — namespace ก็เลยรก
 
-We'd like to have something better.
+เราอยากได้วิธีที่ดีกว่านี้
 
-Luckily, there are other ways to avoid such pyramids. One of the best ways is to use "promises", described in the next chapter.
+โชคดีที่มีทางเลือกอื่น วิธีที่ดีที่สุดวิธีหนึ่งคือการใช้ promise ซึ่งจะพูดถึงในบทถัดไป
