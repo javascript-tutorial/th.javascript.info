@@ -1,7 +1,7 @@
 
-# Rewrite with arrow functions
+# เขียนใหม่ด้วย arrow function
 
-Replace Function Expressions with arrow functions in the code below:
+แทน Function Expression ด้วย arrow function ในโค้ดข้างล่าง:
 
 ```js run
 function ask(question, yes, no) {
