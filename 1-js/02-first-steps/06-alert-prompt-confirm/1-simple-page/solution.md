@@ -1,11 +1,11 @@
-JavaScript-code:
+โค้ด JavaScript:
 
 ```js demo run
 let name = prompt("What is your name?", "");
 alert(name);
 ```
 
-The full page:
+หน้าเว็บฉบับเต็ม:
 
 ```html
 <!DOCTYPE html>

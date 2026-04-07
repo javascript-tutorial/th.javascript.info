@@ -2,8 +2,8 @@ importance: 4
 
 ---
 
-# A simple page
+# หน้าเว็บง่ายๆ
 
-Create a web-page that asks for a name and outputs it.
+สร้างหน้าเว็บที่ถามชื่อผู้ใช้แล้วเอาชื่อนั้นมาโชว์
 
 [demo]
