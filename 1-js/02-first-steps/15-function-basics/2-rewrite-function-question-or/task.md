@@ -2,11 +2,11 @@ importance: 4
 
 ---
 
-# Rewrite the function using '?' or '||'
+# เขียนฟังก์ชันใหม่ด้วย '?' หรือ '||'
 
-The following function returns `true` if the parameter `age` is greater than `18`.
+ฟังก์ชันข้างล่างจะคืน `true` ถ้าพารามิเตอร์ `age` มากกว่า `18`
 
-Otherwise it asks for a confirmation and returns its result.
+ถ้าไม่ใช่ ก็จะถามให้ยืนยันแล้วคืนผลกลับมา
 
 ```js
 function checkAge(age) {
@@ -18,9 +18,9 @@ function checkAge(age) {
 }
 ```
 
-Rewrite it, to perform the same, but without `if`, in a single line.
+เขียนใหม่ให้ทำงานเหมือนเดิม แต่ไม่ใช้ `if` — เขียนในบรรทัดเดียว
 
-Make two variants of `checkAge`:
+ทำ `checkAge` 2 แบบ:
 
-1. Using a question mark operator `?`
-2. Using OR `||`
+1. ใช้ตัวดำเนินการ `?`
+2. ใช้ OR `||`

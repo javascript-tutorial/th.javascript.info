@@ -2,9 +2,9 @@ importance: 4
 
 ---
 
-# Function pow(x,n)
+# ฟังก์ชัน pow(x,n)
 
-Write a function `pow(x,n)` that returns `x` in power `n`. Or, in other words, multiplies `x` by itself `n` times and returns the result.
+เขียนฟังก์ชัน `pow(x,n)` ที่คืนค่า `x` ยกกำลัง `n` — พูดอีกอย่างคือ คูณ `x` กับตัวเอง `n` ครั้ง แล้วคืนผลลัพธ์
 
 ```js
 pow(3, 2) = 3 * 3 = 9
@@ -12,8 +12,8 @@ pow(3, 3) = 3 * 3 * 3 = 27
 pow(1, 100) = 1 * 1 * ...* 1 = 1
 ```
 
-Create a web-page that prompts for `x` and `n`, and then shows the result of `pow(x,n)`.
+สร้างหน้าเว็บที่ prompt ถามค่า `x` กับ `n` แล้วโชว์ผลลัพธ์ของ `pow(x,n)`
 
 [demo]
 
-P.S. In this task the function should support only natural values of `n`: integers up from `1`.
+ปล. ในข้อนี้ฟังก์ชันควรรองรับเฉพาะค่า `n` ที่เป็นจำนวนนับเท่านั้น — จำนวนเต็มตั้งแต่ `1` ขึ้นไป
