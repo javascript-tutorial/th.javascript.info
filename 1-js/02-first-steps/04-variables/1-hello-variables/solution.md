@@ -1,7 +1,7 @@
-โค้ดด้านล่างจะสัมพันธ์กับ รายการใน task list
+โค้ดข้างล่างนี้ทำตามที่โจทย์บอกทุกข้อ
 
 ```js run
-let admin, name; // can declare two variables at once
+let admin, name; // ประกาศสองตัวพร้อมกันได้
 
 name = "John";
 
