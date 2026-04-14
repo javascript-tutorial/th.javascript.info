@@ -1,29 +1,29 @@
 
 # Pseudo-random generator
 
-There are many areas where we need random data.
+มีหลายสถานการณ์ที่เราต้องการข้อมูลแบบสุ่ม
 
-One of them is testing. We may need random data: text, numbers, etc. to test things out well.
+ตัวอย่างที่พบบ่อยคือการทดสอบ — เราอาจต้องการข้อมูลสุ่มทั้งข้อความ ตัวเลข ฯลฯ เพื่อทดสอบให้ครอบคลุม
 
-In JavaScript, we could use `Math.random()`. But if something goes wrong, we'd like to be able to repeat the test, using exactly the same data.
+ใน JavaScript เราใช้ `Math.random()` ได้ แต่ถ้ามี bug เกิดขึ้น เราอยากทดสอบซ้ำด้วยข้อมูลชุดเดิมพอดี
 
-For that, so called "seeded pseudo-random generators" are used. They take a "seed", the first value, and then generate the next ones using a formula so that the same seed yields the same sequence, and hence the whole flow is easily reproducible. We only need to remember the seed to repeat it.
+สำหรับกรณีนี้จึงมีสิ่งที่เรียกว่า "seeded pseudo-random generator" — มันรับค่า "seed" เป็นค่าตั้งต้น แล้วสร้างค่าถัดไปตามสูตร ทำให้ seed เดิมให้ลำดับเดิมเสมอ อยากทดสอบซ้ำแค่จำ seed ไว้แค่นั้น
 
-An example of such formula, that generates somewhat uniformly distributed values:
+ตัวอย่างสูตรที่สร้างค่ากระจายสม่ำเสมอพอใช้ได้:
 
 ```
 next = previous * 16807 % 2147483647
 ```
 
-If we use `1` as the seed, the values will be:
+ถ้าใช้ `1` เป็น seed ค่าที่ได้จะเป็น:
 1. `16807`
 2. `282475249`
 3. `1622650073`
-4. ...and so on...
+4. ...และต่อไปเรื่อยๆ...
 
-The task is to create a generator function `pseudoRandom(seed)` that takes `seed` and creates the generator with this formula.
+โจทย์คือสร้าง generator function `pseudoRandom(seed)` ที่รับ `seed` แล้วสร้าง generator ตามสูตรนี้
 
-Usage example:
+ตัวอย่างการใช้งาน:
 
 ```js
 let generator = pseudoRandom(1);

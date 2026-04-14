@@ -1,15 +1,18 @@
 
-# Async iteration and generators
+# Async iteration และ generators
 
-Asynchronous iteration allow us to iterate over data that comes asynchronously, on-demand. Like, for instance, when we download something chunk-by-chunk over a network. And asynchronous generators make it even more convenient.
+บางทีข้อมูลไม่ได้พร้อมทันที — ต้องรอโหลดจากเน็ต ต้องรอ `setTimeout` หรือต้องมาทีละ chunk ถ้าใช้ iterator แบบปกติจะรับมือกับเคสแบบนี้ไม่ได้เลย
 
-Let's see a simple example first, to grasp the syntax, and then review a real-life use case.
+Async iteration คือทางออก — ให้เราวน loop ข้อมูลที่มาแบบ asynchronous ได้ แถม async generators ยังทำให้โค้ดกระชับขึ้นอีก
 
-## Recall iterables
+มาดูตัวอย่างง่ายๆ กันก่อน แล้วค่อยไปดูตัวอย่างจริงที่เจอบ่อยในงาน
 
-Let's recall the topic about iterables. 
+## ทบทวน iterables
 
-The idea is that we have an object, such as `range` here:
+ก่อนไปต่อ เอา iterables มาทบทวนกันนิดนึงก่อนนะ
+
+สมมติมีออบเจ็กต์ `range` แบบนี้:
+
 ```js
 let range = {
   from: 1,
@@ -17,17 +20,15 @@ let range = {
 };
 ```
 
-...And we'd like to use `for..of` loop on it, such as `for(value of range)`, to get values from `1` to `5`.
+แล้วเราอยากใช้ `for..of` วนดูค่าตั้งแต่ `1` ถึง `5` — พูดง่ายๆ คือต้องการ*ความสามารถในการวนซ้ำ* (iteration) ให้กับออบเจ็กต์นี้
 
-In other words, we want to add an *iteration ability* to the object.
+ทำได้โดยเพิ่มเมธอดพิเศษชื่อ `Symbol.iterator`:
 
-That can be implemented using a special method with the name `Symbol.iterator`:
+- `for..of` เรียกเมธอดนี้แค่ครั้งเดียวตอนเริ่มต้น และต้องคืนค่าออบเจ็กต์ที่มีเมธอด `next`
+- แต่ละรอบ loop จะเรียก `next()` เพื่อดึงค่าถัดไป
+- `next()` ต้องคืนค่าในรูป `{done: true/false, value: <ค่าในลูป>}` โดย `done: true` หมายถึงจบแล้ว
 
-- This method is called in by the `for..of` construct when the loop is started, and it should return an object with the `next` method.
-- For each iteration, the `next()` method is invoked for the next value.
-- The `next()` should return a value in the form `{done: true/false, value:<loop value>}`, where `done:true` means the end of the loop.
-
-Here's an implementation for the iterable `range`:
+ตัวอย่าง `range` ที่ใช้งาน iterable ได้:
 
 ```js run
 let range = {
@@ -35,14 +36,14 @@ let range = {
   to: 5,
 
 *!*
-  [Symbol.iterator]() { // called once, in the beginning of for..of
+  [Symbol.iterator]() { // เรียกครั้งเดียว ตอนเริ่ม for..of
 */!*
     return {
       current: this.from,
       last: this.to,
 
 *!*
-      next() { // called every iteration, to get the next value
+      next() { // เรียกทุกรอบ เพื่อดึงค่าถัดไป
 */!*
         if (this.current <= this.last) {
           return { done: false, value: this.current++ };
@@ -55,29 +56,27 @@ let range = {
 };
 
 for(let value of range) {
-  alert(value); // 1 then 2, then 3, then 4, then 5
+  alert(value); // 1 แล้วก็ 2, 3, 4, 5
 }
 ```
 
-If anything is unclear, please visit the chapter [](info:iterable), it gives all the details about regular iterables.
+ถ้าตรงไหนยังงงอยู่ ลองไปอ่านบทความ [](info:iterable) ที่อธิบาย iterables แบบปกติไว้ครบมากๆ
 
 ## Async iterables
 
-Asynchronous iteration is needed when values come asynchronously: after `setTimeout` or another kind of delay. 
+แล้วถ้าค่าที่ต้องการมันมาช้า ต้องรอ `setTimeout` หรือต้องยิง network request ก่อน ล่ะ?
 
-The most common case is that the object needs to make a network request to deliver the next value, we'll see a real-life example of it a bit later.
+เคสที่เจอบ่อยที่สุดคือต้องยิง request ไปดึงข้อมูลก่อน ถึงจะรู้ว่าค่าถัดไปคืออะไร — เดี๋ยวจะเห็นตัวอย่างจริงกัน
 
-To make an object iterable asynchronously:
+วิธีทำให้ออบเจ็กต์ iterable แบบ asynchronous:
 
-1. Use `Symbol.asyncIterator` instead of `Symbol.iterator`.
-2. The `next()` method should return a promise (to be fulfilled with the next value).
-    - The `async` keyword handles it, we can simply make `async next()`.
-3. To iterate over such an object, we should use a `for await (let item of iterable)` loop.
-    - Note the `await` word.
+1. ใช้ `Symbol.asyncIterator` แทน `Symbol.iterator`
+2. เมธอด `next()` ต้องคืนค่าเป็น promise (เพื่อ resolve เป็นค่าถัดไป)
+    - ใช้ keyword `async` ช่วยได้ — แค่เขียน `async next()` ก็พอ
+3. เวลาวน loop ต้องใช้ `for await (let item of iterable)`
+    - สังเกตว่ามี `await` ต่อท้าย `for`
 
-As a starting example, let's make an iterable `range` object, similar like the one before, but now it will return values asynchronously, one per second.
-
-All we need to do is to perform a few replacements in the code above:
+ลองทำ `range` ที่ให้ค่าแบบ asynchronous ทีละวินาที — แก้โค้ดเดิมแค่นิดเดียวก็ได้เลย:
 
 ```js run
 let range = {
@@ -96,7 +95,7 @@ let range = {
 */!*
 
 *!*
-        // note: we can use "await" inside the async next:
+        // หมายเหตุ: ใช้ "await" ใน async next ได้เลย:
         await new Promise(resolve => setTimeout(resolve, 1000)); // (3)
 */!*
 
@@ -121,43 +120,41 @@ let range = {
 })()
 ```
 
-As we can see, the structure is similar to regular iterators:
+โครงสร้างคล้าย iterator แบบปกติมาก เพิ่มแค่ตรงนี้:
 
-1. To make an object asynchronously iterable, it must have a method `Symbol.asyncIterator` `(1)`.
-2. This method must return the object with `next()` method returning a promise `(2)`.
-3. The `next()` method doesn't have to be `async`, it may be a regular method returning a promise, but `async` allows us to use `await`, so that's convenient. Here we just delay for a second `(3)`.
-4. To iterate, we use `for await(let value of range)` `(4)`, namely add "await" after "for". It calls `range[Symbol.asyncIterator]()` once, and then its `next()` for values.
+1. ออบเจ็กต์ที่จะ iterate แบบ async ต้องมีเมธอด `Symbol.asyncIterator` `(1)`
+2. เมธอดนี้ต้องคืนออบเจ็กต์ที่มี `next()` คืนค่าเป็น promise `(2)`
+3. `next()` ไม่จำเป็นต้องเป็น `async` ก็ได้ — แค่ให้คืน promise ก็พอ แต่ใช้ `async` แล้วเขียนสบายกว่า เพราะใช้ `await` ข้างในได้ ในตัวอย่างนี้แค่หน่วงเวลา 1 วินาที `(3)`
+4. ตอนวน loop ใช้ `for await(let value of range)` `(4)` — เติม `await` หลัง `for` ก็จบ JavaScript จะเรียก `range[Symbol.asyncIterator]()` ครั้งเดียว แล้วค่อยเรียก `next()` ทีละรอบ
 
-Here's a small table with the differences:
+สรุปความต่างในตาราง:
 
 |       | Iterators | Async iterators |
 |-------|-----------|-----------------|
-| Object method to provide iterator | `Symbol.iterator` | `Symbol.asyncIterator` |
-| `next()` return value is              | any value         | `Promise`  |
-| to loop, use                          | `for..of`         | `for await..of` |
+| เมธอดบนออบเจ็กต์ | `Symbol.iterator` | `Symbol.asyncIterator` |
+| `next()` คืนค่า | ค่าใดก็ได้         | `Promise`  |
+| ใช้ loop แบบ | `for..of`         | `for await..of` |
 
-````warn header="The spread syntax `...` doesn't work asynchronously"
-Features that require regular, synchronous iterators, don't work with asynchronous ones.
+````warn header="Spread syntax `...` ไม่รองรับ async"
+ฟีเจอร์ที่ต้องการ iterator แบบ synchronous จะใช้กับ async iterator ไม่ได้
 
-For instance, a spread syntax won't work:
+เช่น spread syntax จะพังทันที:
 ```js
 alert( [...range] ); // Error, no Symbol.iterator
 ```
 
-That's natural, as it expects to find `Symbol.iterator`, not `Symbol.asyncIterator`.
+เพราะ spread ไปหา `Symbol.iterator` ไม่ใช่ `Symbol.asyncIterator`
 
-It's also the case for `for..of`: the syntax without `await` needs `Symbol.iterator`.
+เช่นเดียวกับ `for..of` ธรรมดา: ถ้าไม่มี `await` ก็ต้องการ `Symbol.iterator` อยู่ดี
 ````
 
-## Recall generators
+## ทบทวน generators
 
-Now let's recall generators, as they allow to make iteration code much shorter. Most of the time, when we'd like to make an iterable, we'll use generators.
+ก่อนไปถึง async generators มาทบทวน generator แบบปกติกันก่อน — เพราะมันทำให้โค้ด iteration สั้นลงเยอะมาก
 
-For sheer simplicity, omitting some important stuff, they are "functions that generate (yield) values". They are explained in detail in the chapter [](info:generators).
+พูดสั้นๆ generator คือ "ฟังก์ชันที่ส่งค่าออกมาทีละตัว" รายละเอียดเต็มอยู่ที่บทความ [](info:generators)
 
-Generators are labelled with `function*` (note the star) and use `yield` to generate a value, then we can use `for..of` to loop over them.
-
-This example generates a sequence of values from `start` to `end`:
+Generator ใช้ `function*` (สังเกตมีดาว) และใช้ `yield` เพื่อส่งค่าออกมาทีละตัว จากนั้นใช้ `for..of` วนรับค่าได้เลย:
 
 ```js run
 function* generateSequence(start, end) {
@@ -167,11 +164,11 @@ function* generateSequence(start, end) {
 }
 
 for(let value of generateSequence(1, 5)) {
-  alert(value); // 1, then 2, then 3, then 4, then 5
+  alert(value); // 1, แล้วก็ 2, 3, 4, 5
 }
 ```
 
-As we already know, to make an object iterable, we should add `Symbol.iterator` to it.
+ถ้าอยากให้ออบเจ็กต์ iterable ได้ก็แค่ใส่ `Symbol.iterator`:
 
 ```js
 let range = {
@@ -179,20 +176,20 @@ let range = {
   to: 5,
 *!*
   [Symbol.iterator]() {
-    return <object with next to make range iterable>
+    return <ออบเจ็กต์ที่มี next เพื่อให้ range iterate ได้>
   }
 */!*
 }
 ```
 
-A common practice for `Symbol.iterator` is to return a generator, it makes the code shorter, as you can see:
+เทคนิคที่นิยมกันคือให้ `Symbol.iterator` คืน generator เลย โค้ดสั้นลงเห็นชัด:
 
 ```js run
 let range = {
   from: 1,
   to: 5,
 
-  *[Symbol.iterator]() { // a shorthand for [Symbol.iterator]: function*()
+  *[Symbol.iterator]() { // ย่อจาก [Symbol.iterator]: function*()
     for(let value = this.from; value <= this.to; value++) {
       yield value;
     }
@@ -200,25 +197,25 @@ let range = {
 };
 
 for(let value of range) {
-  alert(value); // 1, then 2, then 3, then 4, then 5
+  alert(value); // 1, แล้วก็ 2, 3, 4, 5
 }
 ```
 
-Please see the chapter [](info:generators) if you'd like more details.
+ดูรายละเอียดเพิ่มเติมได้ที่บทความ [](info:generators)
 
-In regular generators we can't use `await`. All values must come synchronously, as required by the `for..of` construct.
+แต่ generator แบบปกติใช้ `await` ไม่ได้นะ — ค่าทุกตัวต้องออกมาแบบ synchronous ตาม `for..of`
 
-What if we'd like to generate values asynchronously? From network requests, for instance. 
+แล้วถ้าอยากดึงค่าแบบ asynchronous ล่ะ? เช่น ต้องยิง network request ก่อน?
 
-Let's switch to asynchronous generators to make it possible.
+ตรงนี้แหละที่ async generators เข้ามาช่วย
 
-## Async generators (finally)
+## Async generators (ในที่สุด!)
 
-For most practical applications, when we'd like to make an object that asynchronously generates a sequence of values, we can use an asynchronous generator.
+ส่วนใหญ่ถ้าอยากได้ออบเจ็กต์ที่ส่งค่าแบบ asynchronous ก็ใช้ async generator ตรงๆ เลย
 
-The syntax is simple: prepend `function*` with `async`. That makes the generator asynchronous.
+วิธีเขียนง่ายมาก — แค่เติม `async` หน้า `function*` แค่นี้ก็ได้ async generator แล้ว
 
-And then use `for await (...)` to iterate over it, like this:
+จากนั้นใช้ `for await (...)` วน loop:
 
 ```js run
 *!*async*/!* function* generateSequence(start, end) {
@@ -226,7 +223,7 @@ And then use `for await (...)` to iterate over it, like this:
   for (let i = start; i <= end; i++) {
 
 *!*
-    // Wow, can use await!
+    // เจ๋งมาก ใช้ await ได้เลย!
     await new Promise(resolve => setTimeout(resolve, 1000));
 */!*
 
@@ -239,47 +236,45 @@ And then use `for await (...)` to iterate over it, like this:
 
   let generator = generateSequence(1, 5);
   for *!*await*/!* (let value of generator) {
-    alert(value); // 1, then 2, then 3, then 4, then 5 (with delay between)
+    alert(value); // 1, แล้วก็ 2, 3, 4, 5 (มีดีเลย์ระหว่างแต่ละค่า)
   }
 
 })();
 ```
 
-As the generator is asynchronous, we can use `await` inside it, rely on promises, perform network requests and so on.
+เพราะ generator นี้เป็น async เราก็ใช้ `await` ข้างในได้ รอ promise ได้ ยิง network request ได้ ทุกอย่างเลย
 
-````smart header="Under-the-hood difference"
-Technically, if you're an advanced reader who remembers the details about generators, there's an internal difference.
+````smart header="ความต่างภายใน"
+สำหรับคนที่จำรายละเอียด generators ได้แม่น — มีความต่างด้านใน
 
-For async generators, the `generator.next()` method is asynchronous, it returns promises.
+ใน async generator เมธอด `generator.next()` เป็น asynchronous คืนค่าเป็น promise
 
-In a regular generator we'd use `result = generator.next()` to get values. In an async generator, we should add `await`, like this:
+ใน generator ปกติเราใช้ `result = generator.next()` ดึงค่าได้เลย แต่ใน async generator ต้องเติม `await`:
 
 ```js
 result = await generator.next(); // result = {value: ..., done: true/false}
 ```
-That's why async generators work with `for await...of`.
+นั่นเองที่ทำให้ async generator ทำงานกับ `for await...of` ได้
 ````
 
 ### Async iterable range
 
-Regular generators can be used as `Symbol.iterator` to make the iteration code shorter.
+เหมือนกับที่ generator ปกติใช้แทน `Symbol.iterator` ได้ async generator ก็ใช้แทน `Symbol.asyncIterator` ได้เช่นกัน
 
-Similar to that, async generators can be used as `Symbol.asyncIterator` to implement the asynchronous iteration.
-
-For instance, we can make the `range` object generate values asynchronously, once per second, by replacing synchronous `Symbol.iterator` with asynchronous `Symbol.asyncIterator`:
+ยกตัวอย่าง — แปลง `range` ให้ส่งค่าแบบ async ทีละวินาที แค่เปลี่ยน `Symbol.iterator` เป็น `Symbol.asyncIterator` ก็จบ:
 
 ```js run
 let range = {
   from: 1,
   to: 5,
 
-  // this line is same as [Symbol.asyncIterator]: async function*() {
+  // บรรทัดนี้เหมือนกับ [Symbol.asyncIterator]: async function*() {
 *!*
   async *[Symbol.asyncIterator]() {
 */!*
     for(let value = this.from; value <= this.to; value++) {
 
-      // make a pause between values, wait for something  
+      // หน่วงระหว่างค่าแต่ละตัว รอก่อน
       await new Promise(resolve => setTimeout(resolve, 1000));
 
       yield value;
@@ -290,47 +285,45 @@ let range = {
 (async () => {
 
   for *!*await*/!* (let value of range) {
-    alert(value); // 1, then 2, then 3, then 4, then 5
+    alert(value); // 1, แล้วก็ 2, 3, 4, 5
   }
 
 })();
 ```
 
-Now values come with a delay of 1 second between them.
+ตอนนี้ค่าแต่ละตัวมีดีเลย์ 1 วินาทีระหว่างกัน
 
 ```smart
-Technically, we can add both `Symbol.iterator` and `Symbol.asyncIterator` to the object, so it's both synchronously (`for..of`) and asynchronously (`for await..of`) iterable.
+จริงๆ แล้วใส่ทั้ง `Symbol.iterator` และ `Symbol.asyncIterator` ในออบเจ็กต์เดียวกันก็ได้ — ทำให้รองรับทั้ง `for..of` และ `for await..of`
 
-In practice though, that would be a weird thing to do.
+แต่ในทางปฏิบัติ แทบไม่มีเหตุผลที่จะทำแบบนั้นเลย
 ```
 
-## Real-life example: paginated data
+## ตัวอย่างจริง: ข้อมูลแบบแบ่งหน้า (paginated data)
 
-So far we've seen basic examples, to gain understanding. Now let's review a real-life use case.
+ตัวอย่างที่ผ่านมาเป็นแค่ basic เพื่อให้เห็นภาพ ทีนี้มาดูของจริงกันบ้าง
 
-There are many online services that deliver paginated data. For instance, when we need a list of users, a request returns a pre-defined count (e.g. 100 users) - "one page", and provides a URL to the next page.
+API ออนไลน์หลายตัวส่งข้อมูลมาแบบแบ่งหน้า (paginated) เช่น ขอรายชื่อ user มา — ก็ได้มาครั้งละ 100 คน พร้อม URL ของหน้าถัดไป ต้องขอซ้ำเรื่อยๆ จนครบ
 
-This pattern is very common. It's not about users, but just about anything. 
+pattern นี้เจอทุกที่ ไม่ใช่แค่ user แต่คือเกือบทุกอย่าง
 
-For instance, GitHub allows us to retrieve commits in the same, paginated fashion:
+GitHub ก็ใช้ pattern นี้สำหรับดึง commit history:
 
-- We should make a request to `fetch` in the form `https://api.github.com/repos/<repo>/commits`.
-- It responds with a JSON of 30 commits, and also provides a link to the next page in the `Link` header.
-- Then we can use that link for the next request, to get more commits, and so on.
+- ยิง request ไปที่ `https://api.github.com/repos/<repo>/commits`
+- ได้ JSON กลับมา 30 commits พร้อม link หน้าถัดไปใน header `Link`
+- เอา link นั้นไปยิง request ต่อ วนซ้ำจนครบ
 
-For our code, we'd like to have a simpler way to get commits.
+เราอยากเขียนโค้ดที่ใช้งานง่าย ไม่ต้องคิดเรื่อง pagination เอง
 
-Let's make a function `fetchCommits(repo)` that gets commits for us, making requests whenever needed. And let it care about all pagination stuff. For us it'll be a simple async iteration `for await..of`.
-
-So the usage will be like this:
+ลองสร้างฟังก์ชัน `fetchCommits(repo)` ที่ดึง commit มาให้ รับผิดชอบเรื่อง pagination ทั้งหมด ส่วนคนเรียกใช้ก็แค่ `for await..of` ได้เลย:
 
 ```js
 for await (let commit of fetchCommits("username/repository")) {
-  // process commit
+  // จัดการ commit
 }
 ```
 
-Here's such function, implemented as async generator:
+ตัวฟังก์ชัน implement เป็น async generator:
 
 ```js
 async function* fetchCommits(repo) {
@@ -338,36 +331,36 @@ async function* fetchCommits(repo) {
 
   while (url) {
     const response = await fetch(url, { // (1)
-      headers: {'User-Agent': 'Our script'}, // github needs any user-agent header
+      headers: {'User-Agent': 'Our script'}, // github ต้องการ user-agent header
     });
 
-    const body = await response.json(); // (2) response is JSON (array of commits)
+    const body = await response.json(); // (2) response เป็น JSON (อาร์เรย์ของ commits)
 
-    // (3) the URL of the next page is in the headers, extract it
+    // (3) URL ของหน้าถัดไปอยู่ใน header ดึงออกมา
     let nextPage = response.headers.get('Link').match(/<(.*?)>; rel="next"/);
     nextPage = nextPage?.[1];
 
     url = nextPage;
 
-    for(let commit of body) { // (4) yield commits one by one, until the page ends
+    for(let commit of body) { // (4) yield commit ทีละตัวจนหมดหน้า
       yield commit;
     }
   }
 }
 ```
 
-More explanations about how it works:
+โค้ดทำงานยังไงล่ะ:
 
-1. We use the browser [fetch](info:fetch) method to download the commits.
+1. ใช้เมธอด [fetch](info:fetch) ของ browser ดึง commit มา
 
-    - The initial URL is `https://api.github.com/repos/<repo>/commits`, and the next page will be in the `Link` header of the response.
-    - The `fetch` method allows us to supply authorization and other headers if needed -- here GitHub requires `User-Agent`.
-2. The commits are returned in JSON format.
-3. We should get the next page URL from the `Link` header of the response. It has a special format, so we use a regular expression for that (we will learn this feature in [Regular expressions](info:regular-expressions)).
-    - The next page URL may look like `https://api.github.com/repositories/93253246/commits?page=2`. It's generated by GitHub itself.
-4. Then we yield the received commits one by one, and when they finish, the next `while(url)` iteration will trigger, making one more request.
+    - URL เริ่มต้นคือ `https://api.github.com/repos/<repo>/commits` URL หน้าถัดไปจะอยู่ใน header `Link` ของ response
+    - `fetch` รองรับการใส่ authorization หรือ header อื่นๆ ได้ตามต้องการ — GitHub บังคับให้ส่ง `User-Agent` มาด้วย
+2. commit กลับมาเป็น JSON
+3. ดึง URL หน้าถัดไปออกจาก header `Link` — format พิเศษ ต้องใช้ regular expression (ดูรายละเอียดได้ที่ [Regular expressions](info:regular-expressions))
+    - URL หน้าถัดไปอาจมีหน้าตาแบบนี้: `https://api.github.com/repositories/93253246/commits?page=2` — GitHub สร้างให้เอง
+4. yield commit ทีละตัวจนหมดหน้า แล้ว `while(url)` รอบต่อไปจะยิง request หน้าถัดไป
 
-An example of use (shows commit authors in console):
+ตัวอย่างการใช้งาน (แสดงชื่อ author ของ commit ใน console):
 
 ```js run
 (async () => {
@@ -378,40 +371,40 @@ An example of use (shows commit authors in console):
 
     console.log(commit.author.login);
 
-    if (++count == 100) { // let's stop at 100 commits
+    if (++count == 100) { // หยุดที่ 100 commits พอ
       break;
     }
   }
 
 })();
 
-// Note: If you are running this in an external sandbox, you'll need to paste here the function fetchCommits described above 
+// หมายเหตุ: ถ้ารันใน sandbox ภายนอก ต้องวางฟังก์ชัน fetchCommits ที่นิยามไว้ด้านบนไว้ในที่นี้ด้วย
 ```
 
-That's just what we wanted. 
+ได้ผลลัพธ์แบบที่ต้องการเลย
 
-The internal mechanics of paginated requests is invisible from the outside. For us it's just an async generator that returns commits.
+รายละเอียด pagination ทั้งหมดซ่อนอยู่ข้างใน คนใช้เห็นแค่ async generator ที่ส่ง commit มาทีละตัวเท่านั้น ไม่ต้องคิดเรื่องหน้าถัดไปเลย
 
-## Summary
+## สรุป
 
-Regular iterators and generators work fine with the data that doesn't take time to generate.
+Iterator และ generator แบบปกติใช้ได้ดีกับข้อมูลที่ไม่ต้องรอ
 
-When we expect the data to come asynchronously, with delays, their async counterparts can be used, and `for await..of` instead of `for..of`.
+ถ้าข้อมูลมาแบบ async มีดีเลย์ ก็ใช้คู่แฝด async ของมันแทน พร้อมกับเปลี่ยน `for..of` เป็น `for await..of`
 
-Syntax differences between async and regular iterators:
+ความต่างของ async และปกติสำหรับ iterables:
 
 |       | Iterable | Async Iterable |
 |-------|-----------|-----------------|
-| Method to provide iterator | `Symbol.iterator` | `Symbol.asyncIterator` |
-| `next()` return value is          | `{value:…, done: true/false}`         | `Promise` that resolves to `{value:…, done: true/false}`  |
+| เมธอดสำหรับ iterator | `Symbol.iterator` | `Symbol.asyncIterator` |
+| `next()` คืนค่า | `{value:…, done: true/false}`         | `Promise` ที่ resolve เป็น `{value:…, done: true/false}`  |
 
-Syntax differences between async and regular generators:
+ความต่างของ async และปกติสำหรับ generators:
 
 |       | Generators | Async generators |
 |-------|-----------|-----------------|
-| Declaration | `function*` | `async function*` |
-| `next()` return value is          | `{value:…, done: true/false}`         | `Promise` that resolves to `{value:…, done: true/false}`  |
+| การประกาศ | `function*` | `async function*` |
+| `next()` คืนค่า | `{value:…, done: true/false}`         | `Promise` ที่ resolve เป็น `{value:…, done: true/false}`  |
 
-In web-development we often meet streams of data, when it flows chunk-by-chunk. For instance, downloading or uploading a big file.
+ในงาน web development เจอ data stream บ่อยมาก — ข้อมูลที่มาทีละ chunk เช่น การดาวน์โหลดหรืออัพโหลดไฟล์ใหญ่
 
-We can use async generators to process such data. It's also noteworthy that in some environments, like in browsers, there's also another API called Streams, that provides special interfaces to work with such streams, to transform the data and to pass it from one stream to another (e.g. download from one place and immediately send elsewhere).
+async generator จัดการกับงานแบบนี้ได้ แถม browser ยังมี Streams API ด้วย ซึ่งมี interface เฉพาะสำหรับจัดการ stream แปลงข้อมูล และส่งต่อจาก stream หนึ่งไปอีก stream (เช่น ดาวน์โหลดจากที่หนึ่ง แล้วส่งต่อไปอีกที่ทันที)
