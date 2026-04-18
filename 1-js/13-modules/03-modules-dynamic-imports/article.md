@@ -1,61 +1,59 @@
 # Dynamic imports
 
-Export and import statements that we covered in previous chapters are called "static". The syntax is very simple and strict.
+คำสั่ง import และ export ที่เราคุ้นเคยกันมาตลอด เรียกว่า "static" — เขียนตอนไหนก็ตายตัวตอนนั้น ไม่เปลี่ยนแปลงตาม runtime
 
-First, we can't dynamically generate any parameters of `import`.
-
-The module path must be a primitive string, can't be a function call. This won't work:
+ข้อจำกัดแรกคือ path ของโมดูลต้องเป็น string ตรงๆ เรียกฟังก์ชันแทนไม่ได้:
 
 ```js
-import ... from *!*getModuleName()*/!*; // Error, only from "string" is allowed
+import ... from *!*getModuleName()*/!*; // Error รับแค่ string เท่านั้น
 ```
 
-Second, we can't import conditionally or at run-time:
+ข้อจำกัดที่สองคือ ใส่ใน if หรือบล็อกอื่นๆ ก็ไม่ได้:
 
 ```js
 if(...) {
-  import ...; // Error, not allowed!
+  import ...; // Error ใช้แบบนี้ไม่ได้!
 }
 
 {
-  import ...; // Error, we can't put import in any block
+  import ...; // Error ใส่ import ในบล็อกใดๆ ไม่ได้
 }
 ```
 
-That's because `import`/`export` aim to provide a backbone for the code structure. That's a good thing, as code structure can be analyzed, modules can be gathered and bundled into one file by special tools, unused exports can be removed ("tree-shaken"). That's possible only because the structure of imports/exports is simple and fixed.
+เหตุผลที่เป็นแบบนี้คือ `import`/`export` ออกแบบมาเพื่อให้โครงสร้างโค้ดชัดเจนและคาดเดาได้ ทำให้ tools พิเศษวิเคราะห์โค้ดได้ รวมโมดูลเป็นไฟล์เดียวได้ และตัด export ที่ไม่ใช้ออกได้ (เรียกว่า "tree-shaking") ทั้งหมดนี้ทำได้เพราะโครงสร้างของ import/export ไม่เปลี่ยนแปลง
 
-But how can we import a module dynamically, on-demand?
+แต่ถ้าต้องการโหลดโมดูลแบบ on-demand ตามสถานการณ์ล่ะ?
 
-## The import() expression
+## นิพจน์ import()
 
-The `import(module)` expression loads the module and returns a promise that resolves into a module object that contains all its exports. It can be called from any place in the code.
+`import(module)` โหลดโมดูลแล้วคืนค่าเป็น promise ที่ resolve เป็นออบเจ็กต์ของโมดูล ซึ่งมีทุก export อยู่ครบ — เรียกจากที่ไหนในโค้ดก็ได้
 
-We can use it dynamically in any place of the code, for instance:
+ตัวอย่างการใช้แบบ dynamic:
 
 ```js
-let modulePath = prompt("Which module to load?");
+let modulePath = prompt("จะโหลดโมดูลไหนดี?");
 
 import(modulePath)
   .then(obj => <module object>)
-  .catch(err => <loading error, e.g. if no such module>)
+  .catch(err => <โหลดพัง เช่น ไม่พบโมดูลที่ระบุ>)
 ```
 
-Or, we could use `let module = await import(modulePath)` if inside an async function.
+หรือถ้าอยู่ใน async function ก็ใช้ `let module = await import(modulePath)` ได้เลย
 
-For instance, if we have the following module `say.js`:
+สมมติเรามีโมดูล `say.js` แบบนี้:
 
 ```js
 // 📁 say.js
 export function hi() {
-  alert(`Hello`);
+  alert(`สวัสดี`);
 }
 
 export function bye() {
-  alert(`Bye`);
+  alert(`ลาก่อน`);
 }
 ```
 
-...Then dynamic import can be like this:
+...dynamic import ก็เขียนได้แบบนี้:
 
 ```js
 let {hi, bye} = await import('./say.js');
@@ -64,35 +62,35 @@ hi();
 bye();
 ```
 
-Or, if `say.js` has the default export:
+แต่ถ้า `say.js` ใช้ default export:
 
 ```js
 // 📁 say.js
 export default function() {
-  alert("Module loaded (export default)!");
+  alert("โหลดโมดูลแล้ว (export default)!");
 }
 ```
 
-...Then, in order to access it, we can use `default` property of the module object:
+...เราเข้าถึงมันผ่านพร็อพเพอร์ตี้ `default` ของออบเจ็กต์โมดูล:
 
 ```js
 let obj = await import('./say.js');
 let say = obj.default;
-// or, in one line: let {default: say} = await import('./say.js');
+// หรือเขียนบรรทัดเดียว: let {default: say} = await import('./say.js');
 
 say();
 ```
 
-Here's the full example:
+ลองดูตัวอย่างเต็มๆ:
 
 [codetabs src="say" current="index.html"]
 
 ```smart
-Dynamic imports work in regular scripts, they don't require `script type="module"`.
+Dynamic imports ใช้ได้กับ script ธรรมดาทั่วไป ไม่จำเป็นต้องใส่ `script type="module"` เลย
 ```
 
 ```smart
-Although `import()` looks like a function call, it's a special syntax that just happens to use parentheses (similar to `super()`).
+แม้ว่า `import()` จะหน้าตาเหมือนเรียกฟังก์ชัน แต่จริงๆ แล้วเป็น syntax พิเศษที่ใช้วงเล็บเฉยๆ (คล้ายกับ `super()`)
 
-So we can't copy `import` to a variable or use `call/apply` with it. It's not a function.
+เพราะฉะนั้นเอา `import` ไปเก็บในตัวแปร หรือใช้ `call/apply` ไม่ได้นะ — มันไม่ใช่ฟังก์ชัน
 ```

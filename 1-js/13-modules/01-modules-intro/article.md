@@ -1,75 +1,75 @@
 
-# Modules, introduction
+# โมดูล — บทนำ
 
-As our application grows bigger, we want to split it into multiple files, so called "modules". A module may contain a class or a library of functions for a specific purpose.
+แอปที่ใหญ่ขึ้นเรื่อยๆ จัดการยังไงดี? แตกโค้ดออกเป็นหลายไฟล์ไง — ไฟล์พวกนี้แหละที่เรียกว่า "โมดูล" แต่ละโมดูลอาจเก็บคลาส หรือชุดฟังก์ชันที่ทำงานด้านใดด้านหนึ่งโดยเฉพาะ
 
-For a long time, JavaScript existed without a language-level module syntax. That wasn't a problem, because initially scripts were small and simple, so there was no need.
+ย้อนไปไกลๆ JavaScript ไม่มี module syntax ในตัวภาษาเลย แต่ก็ไม่ใช่ปัญหา เพราะสมัยนั้นสคริปต์เล็กและง่ายมาก ไม่มีความจำเป็น
 
-But eventually scripts became more and more complex, so the community invented a variety of ways to organize code into modules, special libraries to load modules on demand.
+แต่พอสคริปต์โตขึ้นเรื่อยๆ ชุมชน developer ก็เลยประดิษฐ์ระบบจัดการโมดูลกันเอง — มีหลายแบบด้วย ทั้งไลบรารีพิเศษสำหรับโหลดโมดูลตามต้องการ
 
-To name some (for historical reasons):
+ระบบโมดูลที่เคยดังในอดีต (เล่าไว้เพื่อความรู้):
 
-- [AMD](https://en.wikipedia.org/wiki/Asynchronous_module_definition) -- one of the most ancient module systems, initially implemented by the library [require.js](https://requirejs.org/).
-- [CommonJS](https://wiki.commonjs.org/wiki/Modules/1.1) -- the module system created for Node.js server.
-- [UMD](https://github.com/umdjs/umd) -- one more module system, suggested as a universal one, compatible with AMD and CommonJS.
+- [AMD](https://en.wikipedia.org/wiki/Asynchronous_module_definition) -- หนึ่งในระบบโมดูลที่เก่าแก่ที่สุด เริ่มต้นจากไลบรารี [require.js](https://requirejs.org/)
+- [CommonJS](https://wiki.commonjs.org/wiki/Modules/1.1) -- ระบบโมดูลที่สร้างขึ้นมาสำหรับ Node.js โดยเฉพาะ
+- [UMD](https://github.com/umdjs/umd) -- อีกระบบหนึ่งที่พยายามเป็น universal รองรับทั้ง AMD และ CommonJS
 
-Now these all slowly became a part of history, but we still can find them in old scripts.
+ตอนนี้สิ่งพวกนี้ค่อยๆ กลายเป็นประวัติศาสตร์ แต่ยังเจอได้ในโค้ดเก่าๆ
 
-The language-level module system appeared in the standard in 2015, gradually evolved since then, and is now supported by all major browsers and in Node.js. So we'll study the modern JavaScript modules from now on.
+ระบบโมดูลในตัวภาษา JavaScript มาตรงๆ ในปี 2015 และค่อยๆ พัฒนามาเรื่อยๆ จนตอนนี้บราวเซอร์หลักๆ และ Node.js รองรับหมดแล้ว เราจะเรียนแบบ modern นี้เลย
 
-## What is a module?
+## โมดูลคืออะไร?
 
-A module is just a file. One script is one module. As simple as that.
+โมดูลก็คือไฟล์ธรรมดาๆ นั่นเอง — หนึ่งสคริปต์ หนึ่งโมดูล แค่นั้นเอง
 
-Modules can load each other and use special directives `export` and `import` to interchange functionality, call functions of one module from another one:
+โมดูลโหลดกันเองได้ และใช้ `export` กับ `import` ในการรับส่งฟังก์ชันระหว่างกัน:
 
-- `export` keyword labels variables and functions that should be accessible from outside the current module.
-- `import` allows the import of functionality from other modules.
+- `export` — ติดป้ายให้ตัวแปรหรือฟังก์ชันที่ต้องการให้ไฟล์อื่นเรียกใช้ได้
+- `import` — ดึงสิ่งที่ export ไว้มาใช้ในโมดูลนี้
 
-For instance, if we have a file `sayHi.js` exporting a function:
+ตัวอย่าง ไฟล์ `sayHi.js` export ฟังก์ชันออกมา:
 
 ```js
 // 📁 sayHi.js
 export function sayHi(user) {
-  alert(`Hello, ${user}!`);
+  alert(`สวัสดี, ${user}!`);
 }
 ```
 
-...Then another file may import and use it:
+...แล้วไฟล์อื่น import มาใช้ได้เลย:
 
 ```js
 // 📁 main.js
 import {sayHi} from './sayHi.js';
 
 alert(sayHi); // function...
-sayHi('John'); // Hello, John!
+sayHi('John'); // สวัสดี, John!
 ```
 
-The `import` directive loads the module by path `./sayHi.js` relative to the current file, and assigns exported function `sayHi` to the corresponding variable.
+`import` โหลดโมดูลจาก path `./sayHi.js` ที่นับจากไฟล์ปัจจุบัน แล้วเอาฟังก์ชัน `sayHi` ที่ export ไว้มาใส่ตัวแปร
 
-Let's run the example in-browser.
+ลองรันตัวอย่างในบราวเซอร์ดูกัน
 
-As modules support special keywords and features, we must tell the browser that a script should be treated as a module, by using the attribute `<script type="module">`.
+เนื่องจากโมดูลมี keyword และฟีเจอร์พิเศษ เราต้องบอกบราวเซอร์ว่านี่คือ module script โดยใส่ attribute `<script type="module">` ด้วย
 
-Like this:
+แบบนี้:
 
 [codetabs src="say" height="140" current="index.html"]
 
-The browser automatically fetches and evaluates the imported module (and its imports if needed), and then runs the script.
+บราวเซอร์จะโหลดและรันโมดูลที่ import มาให้เองโดยอัตโนมัติ (รวมถึง import ซ้อนด้วยถ้ามี)
 
-```warn header="Modules work only via HTTP(s), not locally"
-If you try to open a web-page locally, via `file://` protocol, you'll find that `import/export` directives don't work. Use a local web-server, such as [static-server](https://www.npmjs.com/package/static-server#getting-started) or use the "live server" capability of your editor, such as VS Code [Live Server Extension](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) to test modules.
+```warn header="โมดูลใช้ได้แค่ผ่าน HTTP(s) เท่านั้น ไม่ใช่เปิดไฟล์ตรงๆ"
+ถ้าลองเปิดหน้าเว็บผ่าน `file://` โดยตรง จะพบว่า `import/export` ใช้ไม่ได้ ต้องรันผ่าน web server เล็กๆ เช่น [static-server](https://www.npmjs.com/package/static-server#getting-started) หรือใช้ฟีเจอร์ "live server" ของ editor เช่น [Live Server Extension](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) ใน VS Code
 ```
 
-## Core module features
+## ฟีเจอร์หลักของโมดูล
 
-What's different in modules, compared to "regular" scripts?
+โมดูลต่างจากสคริปต์ธรรมดายังไงล่ะ?
 
-There are core features, valid both for browser and server-side JavaScript.
+มีจุดต่างหลักๆ ที่ใช้ได้ทั้งบราวเซอร์และ Node.js
 
-### Always "use strict"
+### ใช้ "use strict" เสมอ
 
-Modules always work in strict mode. E.g. assigning to an undeclared variable will give an error.
+โมดูลรัน strict mode ตลอด เช่น ถ้าพยายามกำหนดค่าให้ตัวแปรที่ยังไม่ได้ประกาศ จะได้ error ทันที
 
 ```html run
 <script type="module">
@@ -77,32 +77,32 @@ Modules always work in strict mode. E.g. assigning to an undeclared variable wil
 </script>
 ```
 
-### Module-level scope
+### สโคปแยกของแต่ละโมดูล
 
-Each module has its own top-level scope. In other words, top-level variables and functions from a module are not seen in other scripts.
+แต่ละโมดูลมีสโคประดับบนสุดเป็นของตัวเอง — ตัวแปรและฟังก์ชันที่ประกาศในโมดูลหนึ่ง ไฟล์อื่นมองไม่เห็น
 
-In the example below, two scripts are imported, and `hello.js` tries to use `user` variable declared in `user.js`. It fails, because it's a separate module (you'll see the error in the console):
+ตัวอย่างด้านล่างนี้ นำ script สอง script เข้ามา แล้ว `hello.js` พยายามใช้ตัวแปร `user` จาก `user.js` แต่ทำไม่ได้ เพราะเป็นคนละโมดูล (ดู error ใน console):
 
 [codetabs src="scopes" height="140" current="index.html"]
 
-Modules should `export` what they want to be accessible from outside and `import` what they need.
+โมดูลต้อง `export` สิ่งที่ต้องการให้ภายนอกเข้าถึง และ `import` สิ่งที่ต้องการใช้
 
-- `user.js` should export the `user` variable.
-- `hello.js` should import it from `user.js` module.
+- `user.js` ต้อง export ตัวแปร `user` ออกมา
+- `hello.js` ต้อง import จาก `user.js`
 
-In other words, with modules we use import/export instead of relying on global variables.
+พูดง่ายๆ คือ แทนที่จะพึ่งตัวแปร global เราใช้ import/export แทน
 
-This is the correct variant:
+นี่คือแบบที่ถูก:
 
 [codetabs src="scopes-working" height="140" current="hello.js"]
 
-In the browser, if we talk about HTML pages, independent top-level scope also exists for each `<script type="module">`.
+ในบราวเซอร์ ถ้าพูดถึงหน้า HTML แต่ละ `<script type="module">` ก็มีสโคประดับบนสุดแยกของตัวเองด้วย
 
-Here are two scripts on the same page, both `type="module"`. They don't see each other's top-level variables:
+สอง script ในหน้าเดียวกัน ต่างก็เป็น `type="module"` ก็มองไม่เห็นตัวแปรของกันและกัน:
 
 ```html run
 <script type="module">
-  // The variable is only visible in this module script
+  // ตัวแปรนี้มองเห็นได้แค่ใน module script นี้เท่านั้น
   let user = "John";
 </script>
 
@@ -114,45 +114,43 @@ Here are two scripts on the same page, both `type="module"`. They don't see each
 ```
 
 ```smart
-In the browser, we can make a variable window-level global by explicitly assigning it to a `window` property, e.g. `window.user = "John"`. 
+ถ้าจำเป็นต้องทำให้ตัวแปรเป็น global จริงๆ ในบราวเซอร์ก็ทำได้ด้วยการกำหนดค่าให้ `window` โดยตรง เช่น `window.user = "John"`
 
-Then all scripts will see it, both with `type="module"` and without it. 
+script ทุกตัวจะเห็นมัน ทั้งแบบ `type="module"` และแบบปกติ
 
-That said, making such global variables is frowned upon. Please try to avoid them.
+แต่พูดตรงๆ เลย ท่านี้ไม่แนะนำ ควรหลีกเลี่ยงถ้าทำได้
 ```
 
-### A module code is evaluated only the first time when imported
+### โค้ดของโมดูลรันแค่ครั้งเดียวตอน import ครั้งแรก
 
-If the same module is imported into multiple other modules, its code is executed only once, upon the first import. Then its exports are given to all further importers.
+ถ้า import โมดูลเดียวกันจากหลายที่ โค้ดในโมดูลนั้นรันแค่ครั้งเดียว — ตอน import ครั้งแรก จากนั้น export ที่สร้างไว้จะแชร์ไปให้ทุกคนที่ import ต่อมา
 
-The one-time evaluation has important consequences, that we should be aware of. 
+เรื่องนี้มีผลที่ต้องระวัง ลองดูตัวอย่างกัน
 
-Let's see a couple of examples.
-
-First, if executing a module code brings side-effects, like showing a message, then importing it multiple times will trigger it only once -- the first time:
+ถ้าโค้ดในโมดูลมี side-effect เช่น แสดงข้อความ การ import หลายครั้งจะทริกเกอร์แค่ครั้งแรกเท่านั้น:
 
 ```js
 // 📁 alert.js
-alert("Module is evaluated!");
+alert("โมดูล evaluate แล้ว!");
 ```
 
 ```js
-// Import the same module from different files
+// Import โมดูลเดียวกันจากหลายไฟล์
 
 // 📁 1.js
-import `./alert.js`; // Module is evaluated!
+import `./alert.js`; // โมดูล evaluate แล้ว!
 
 // 📁 2.js
-import `./alert.js`; // (shows nothing)
+import `./alert.js`; // (ไม่แสดงอะไร)
 ```
 
-The second import shows nothing, because the module has already been evaluated.
+การ import ครั้งที่สองไม่แสดงอะไร เพราะโมดูล evaluate ไปแล้ว
 
-There's a rule: top-level module code should be used for initialization, creation of module-specific internal data structures. If we need to make something callable multiple times - we should export it as a function, like we did with `sayHi` above.
+กฎง่ายๆ คือ: โค้ดระดับบนสุดของโมดูลเหมาะสำหรับ initialization หรือสร้างโครงสร้างข้อมูลภายใน ถ้าต้องการให้เรียกซ้ำได้หลายครั้ง ให้ export เป็นฟังก์ชัน เหมือนที่ทำกับ `sayHi` ข้างบน
 
-Now, let's consider a deeper example.
+ทีนี้ลองดูตัวอย่างที่ลึกขึ้น
 
-Let's say, a module exports an object:
+สมมติโมดูล export ออบเจ็กต์ออกมา:
 
 ```js
 // 📁 admin.js
@@ -161,9 +159,9 @@ export let admin = {
 };
 ```
 
-If this module is imported from multiple files, the module is only evaluated the first time, `admin` object is created, and then passed to all further importers.
+ถ้า import โมดูลนี้จากหลายไฟล์ โมดูลรันแค่ครั้งเดียว สร้างออบเจ็กต์ `admin` ทีเดียว แล้วส่งต่อให้ทุกคนที่ import
 
-All importers get exactly the one and only `admin` object:
+ทุกคนได้ `admin` ออบเจ็กต์อันเดียวกันทั้งหมด:
 
 ```js
 // 📁 1.js
@@ -175,38 +173,38 @@ import {admin} from './admin.js';
 alert(admin.name); // Pete
 
 *!*
-// Both 1.js and 2.js reference the same admin object
-// Changes made in 1.js are visible in 2.js
+// 1.js และ 2.js ต่างอ้างอิงถึง admin object อันเดียวกัน
+// การแก้ไขใน 1.js มองเห็นได้ใน 2.js
 */!*
 ```
 
-As you can see, when `1.js` changes the `name` property in the imported `admin`, then `2.js` can see the new `admin.name`.
+เห็นไหม? พอ `1.js` แก้พร็อพเพอร์ตี้ `name` ใน `admin` ที่ import มา `2.js` ก็เห็นค่าใหม่นั้นด้วย
 
-That's exactly because the module is executed only once. Exports are generated, and then they are shared between importers, so if something changes the `admin` object, other importers will see that.
+เหตุผลก็เพราะโมดูลรันครั้งเดียว — export สร้างขึ้นมาครั้งหนึ่งแล้วแชร์ ใครแก้ `admin` ทุกคนก็เห็นการเปลี่ยนแปลงนั้น
 
-**Such behavior is actually very convenient, because it allows us to *configure* modules.**
+**พฤติกรรมแบบนี้มีประโยชน์มาก เพราะให้เรา *configure* โมดูลได้**
 
-In other words, a module can provide a generic functionality that needs a setup. E.g. authentication needs credentials. Then it can export a configuration object expecting the outer code to assign to it.
+โมดูลหนึ่งอาจให้ฟังก์ชันการทำงานทั่วไปที่ต้องตั้งค่าก่อนใช้ เช่น ระบบ authentication ที่ต้องการ credentials แล้ว export config object ออกมาให้โค้ดภายนอกมาตั้งค่า
 
-Here's the classical pattern:
-1. A module exports some means of configuration, e.g. a configuration object.
-2. On the first import we initialize it, write to its properties. The top-level application script may do that.
-3. Further imports use the module.
+รูปแบบที่คลาสสิคมากๆ:
+1. โมดูล export ช่องทางสำหรับตั้งค่า เช่น config object
+2. ตอน import ครั้งแรก เราใส่ค่าเข้าไปในพร็อพเพอร์ตี้ — ปกติ application script ระดับบนสุดจะทำ
+3. การ import ต่อๆ มาใช้โมดูลได้เลย
 
-For instance, the `admin.js` module may provide certain functionality (e.g. authentication), but expect the credentials to come into the `config` object from outside:
+ตัวอย่าง `admin.js` ให้ฟังก์ชัน authentication แต่รอรับ credentials จากภายนอกผ่าน `config`:
 
 ```js
 // 📁 admin.js
 export let config = { };
 
 export function sayHi() {
-  alert(`Ready to serve, ${config.user}!`);
+  alert(`พร้อมรับใช้, ${config.user}!`);
 }
 ```
 
-Here, `admin.js` exports the `config` object (initially empty, but may have default properties too).
+`admin.js` export ออบเจ็กต์ `config` ออกมา (ตอนแรกว่างเปล่า แต่จะมี default properties ก็ได้)
 
-Then in `init.js`, the first script of our app, we import `config` from it and set `config.user`:
+แล้วใน `init.js` ซึ่งเป็น script แรกของแอป เรา import `config` มาแล้วกำหนดค่า `config.user`:
 
 ```js
 // 📁 init.js
@@ -214,38 +212,38 @@ import {config} from './admin.js';
 config.user = "Pete";
 ```
 
-...Now the module `admin.js` is configured. 
+...ตอนนี้ `admin.js` configure เรียบร้อย
 
-Further importers can call it, and it correctly shows the current user:
+ไฟล์อื่นที่ import มาทีหลังก็เรียกใช้ได้ แล้วแสดง user ที่ตั้งไว้ถูกต้อง:
 
 ```js
 // 📁 another.js
 import {sayHi} from './admin.js';
 
-sayHi(); // Ready to serve, *!*Pete*/!*!
+sayHi(); // พร้อมรับใช้, *!*Pete*/!*!
 ```
 
 
 ### import.meta
 
-The object `import.meta` contains the information about the current module.
+ออบเจ็กต์ `import.meta` เก็บข้อมูลเกี่ยวกับโมดูลปัจจุบัน
 
-Its content depends on the environment. In the browser, it contains the URL of the script, or a current webpage URL if inside HTML:
+เนื้อหาขึ้นอยู่กับ environment ในบราวเซอร์จะเก็บ URL ของ script หรือ URL ของหน้า HTML ถ้าเป็น inline script:
 
 ```html run height=0
 <script type="module">
-  alert(import.meta.url); // script URL
-  // for an inline script - the URL of the current HTML-page
+  alert(import.meta.url); // URL ของ script
+  // สำหรับ inline script — URL ของหน้า HTML ปัจจุบัน
 </script>
 ```
 
-### In a module, "this" is undefined
+### ใน module, this เป็น undefined
 
-That's kind of a minor feature, but for completeness we should mention it.
+จุดนี้เล็กน้อยหน่อย แต่ก็ควรรู้ไว้
 
-In a module, top-level `this` is undefined.
+ใน module, `this` ระดับบนสุดจะเป็น undefined
 
-Compare it to non-module scripts, where `this` is a global object:
+ต่างจาก script ธรรมดาที่ `this` คือ global object:
 
 ```html run height=0
 <script>
@@ -257,66 +255,68 @@ Compare it to non-module scripts, where `this` is a global object:
 </script>
 ```
 
-## Browser-specific features
+## ฟีเจอร์เฉพาะของบราวเซอร์
 
-There are also several browser-specific differences of scripts with `type="module"` compared to regular ones.
+ยังมีความแตกต่างอีกหลายจุดระหว่าง `type="module"` กับ script ธรรมดาในบราวเซอร์
 
-You may want to skip this section for now if you're reading for the first time, or if you don't use JavaScript in a browser.
+ถ้าเพิ่งอ่านครั้งแรก หรือยังไม่ได้ใช้ JavaScript ในบราวเซอร์ ข้ามส่วนนี้ไปก่อนก็ได้
 
-### Module scripts are deferred
+### Module script โหลดแบบ deferred
 
-Module scripts are *always* deferred, same effect as `defer` attribute (described in the chapter [](info:script-async-defer)), for both external and inline scripts.
+Module script เป็น deferred *เสมอ* — เหมือนกับการใส่ attribute `defer` (ดูเพิ่มใน <info:script-async-defer>) ใช้ได้ทั้ง external และ inline script
 
-In other words:
-- downloading external module scripts `<script type="module" src="...">` doesn't block HTML processing, they load in parallel with other resources.
-- module scripts wait until the HTML document is fully ready (even if they are tiny and load faster than HTML), and then run.
-- relative order of scripts is maintained: scripts that go first in the document, execute first.
+พูดง่ายๆ คือ:
+- การดาวน์โหลด external module script `<script type="module" src="...">` ไม่บล็อก HTML ให้โหลดคู่กันไปได้เลย
+- module script รอจนกว่า HTML document จะโหลดเสร็จสมบูรณ์ก่อน (แม้ script ตัวเองเล็กมากและโหลดเร็วกว่า HTML ก็ตาม)
+- ลำดับของ script ยังรักษาไว้ — script ที่อยู่ก่อนในเอกสารรันก่อน
 
-As a side effect, module scripts always "see" the fully loaded HTML-page, including HTML elements below them.
+ผลพลอยได้คือ module script "มองเห็น" HTML ทั้งหน้าที่โหลดเสร็จแล้ว รวมถึง element ที่อยู่ด้านล่างด้วย
 
-For instance:
+ตัวอย่าง:
 
 ```html run
 <script type="module">
 *!*
-  alert(typeof button); // object: the script can 'see' the button below
+  alert(typeof button); // object: script มองเห็น button ด้านล่างได้
 */!*
-  // as modules are deferred, the script runs after the whole page is loaded
+  // เพราะ module เป็น deferred script จึงรันหลังจาก page โหลดเสร็จ
 </script>
 
-Compare to regular script below:
+เปรียบกับ script ธรรมดาด้านล่าง:
 
 <script>
 *!*
-  alert(typeof button); // button is undefined, the script can't see elements below
+  alert(typeof button); // button คือ undefined, script มองไม่เห็น element ด้านล่าง
 */!*
-  // regular scripts run immediately, before the rest of the page is processed
+  // script ธรรมดารันทันที ก่อนที่ส่วนที่เหลือของหน้าจะถูกประมวลผล
 </script>
 
 <button id="button">Button</button>
 ```
 
-Please note: the second script actually runs before the first! So we'll see `undefined` first, and then `object`.
+สังเกตว่า: script ตัวที่สองรันก่อนตัวแรกด้วยซ้ำ เราจะเห็น `undefined` ก่อน แล้วจึง `object`
 
-That's because modules are deferred, so we wait for the document to be processed. The regular script runs immediately, so we see its output first.
+เพราะ module เป็น deferred จึงรอให้ document ประมวลผลก่อน ส่วน script ธรรมดารันทันที เลยเห็น output ของมันก่อน
 
-When using modules, we should be aware that the HTML page shows up as it loads, and JavaScript modules run after that, so the user may see the page before the JavaScript application is ready. Some functionality may not work yet. We should put "loading indicators", or otherwise ensure that the visitor won't be confused by that.
+ข้อควรระวัง: หน้า HTML จะแสดงให้เห็นก่อน แล้ว JavaScript module ค่อยรันทีหลัง
 
-### Async works on inline scripts
+ผู้ใช้อาจเห็นหน้าเว็บก่อนที่ JavaScript พร้อมใช้งาน เลยควรใส่ "loading indicator" หรือจัดการบางอย่างเพื่อไม่ให้ผู้ใช้งง
 
-For non-module scripts, the `async` attribute only works on external scripts. Async scripts run immediately when ready, independently of other scripts or the HTML document.
+### async ทำงานได้กับ inline script
 
-For module scripts, it works on inline scripts as well.
+สำหรับ script ธรรมดา attribute `async` ใช้ได้แค่กับ external script เท่านั้น Async script รันทันทีที่พร้อม ไม่สนใจ script อื่นหรือ HTML document
 
-For example, the inline script below has `async`, so it doesn't wait for anything.
+สำหรับ module script ใช้ได้กับ inline script ด้วย
 
-It performs the import (fetches `./analytics.js`) and runs when ready, even if the HTML document is not finished yet, or if other scripts are still pending.
+ตัวอย่าง inline script ด้านล่างใส่ `async` ไว้ เลยไม่รอใคร
 
-That's good for functionality that doesn't depend on anything, like counters, ads, document-level event listeners.
+จะ import (โหลด `./analytics.js`) แล้วรันทันทีที่พร้อม แม้ HTML document ยังไม่เสร็จ หรือ script อื่นยังค้างอยู่ก็ตาม
+
+เหมาะสำหรับฟังก์ชันที่ไม่ขึ้นอยู่กับอะไร เช่น ตัวนับ โฆษณา event listener ระดับ document
 
 ```html
-<!-- all dependencies are fetched (analytics.js), and the script runs -->
-<!-- doesn't wait for the document or other <script> tags -->
+<!-- โหลด dependency ทั้งหมด (analytics.js) แล้วรัน script -->
+<!-- ไม่รอ document หรือ <script> tag อื่น -->
 <script *!*async*/!* type="module">
   import {counter} from './analytics.js';
 
@@ -326,93 +326,93 @@ That's good for functionality that doesn't depend on anything, like counters, ad
 
 ### External scripts
 
-External scripts that have `type="module"` are different in two aspects:
+External script ที่มี `type="module"` ต่างออกไป 2 จุด:
 
-1. External scripts with the same `src` run only once:
+1. External script ที่มี `src` เดียวกัน รันแค่ครั้งเดียว:
     ```html
-    <!-- the script my.js is fetched and executed only once -->
+    <!-- script my.js จะถูกโหลดและรันแค่ครั้งเดียว -->
     <script type="module" src="my.js"></script>
     <script type="module" src="my.js"></script>
     ```
 
-2. External scripts that are fetched from another origin (e.g. another site) require [CORS](mdn:Web/HTTP/CORS) headers, as described in the chapter <info:fetch-crossorigin>. In other words, if a module script is fetched from another origin, the remote server must supply a header `Access-Control-Allow-Origin` allowing the fetch.
+2. External script ที่โหลดจาก origin อื่น (เช่น เว็บไซต์อื่น) ต้องมี header [CORS](mdn:Web/HTTP/CORS) ตามที่อธิบายไว้ในบท <info:fetch-crossorigin> พูดง่ายๆ คือถ้า module script โหลดจาก origin อื่น server ฝั่งนั้นต้องส่ง header `Access-Control-Allow-Origin` มาด้วย
     ```html
-    <!-- another-site.com must supply Access-Control-Allow-Origin -->
-    <!-- otherwise, the script won't execute -->
+    <!-- another-site.com ต้องส่ง Access-Control-Allow-Origin มาด้วย -->
+    <!-- ไม่งั้น script จะไม่รัน -->
     <script type="module" src="*!*http://another-site.com/their.js*/!*"></script>
     ```
 
-    That ensures better security by default.
+    ท่านี้ช่วยเพิ่มความปลอดภัยแบบ default
 
-### No "bare" modules allowed
+### ห้ามใช้ "bare" module
 
-In the browser, `import` must get either a relative or absolute URL. Modules without any path are called "bare" modules. Such modules are not allowed in `import`.
+ในบราวเซอร์ `import` ต้องได้รับ URL แบบ relative หรือ absolute เท่านั้น โมดูลที่ไม่มี path เลยเรียกว่า "bare" module ซึ่งใช้ใน `import` ไม่ได้
 
-For instance, this `import` is invalid:
+ตัวอย่าง `import` แบบนี้ใช้ไม่ได้:
 ```js
 import {sayHi} from 'sayHi'; // Error, "bare" module
-// the module must have a path, e.g. './sayHi.js' or wherever the module is
+// โมดูลต้องมี path เช่น './sayHi.js' หรือ path เต็มๆ
 ```
 
-Certain environments, like Node.js or bundle tools allow bare modules, without any path, as they have their own ways for finding modules and hooks to fine-tune them. But browsers do not support bare modules yet.
+บาง environment อย่าง Node.js หรือ bundle tool รองรับ bare module ได้ เพราะมีระบบหา module เป็นของตัวเอง แต่บราวเซอร์ยังไม่รองรับ
 
 ### Compatibility, "nomodule"
 
-Old browsers do not understand `type="module"`. Scripts of an unknown type are just ignored. For them, it's possible to provide a fallback using the `nomodule` attribute:
+บราวเซอร์เก่าๆ ไม่เข้าใจ `type="module"` script ที่มี type ที่ไม่รู้จักจะข้ามไปเฉยๆ เพื่อรองรับบราวเซอร์พวกนี้ ใช้ attribute `nomodule` เป็น fallback ได้:
 
 ```html run
 <script type="module">
-  alert("Runs in modern browsers");
+  alert("รันบนบราวเซอร์ modern");
 </script>
 
 <script nomodule>
-  alert("Modern browsers know both type=module and nomodule, so skip this")
-  alert("Old browsers ignore script with unknown type=module, but execute this.");
+  alert("บราวเซอร์ modern รู้จักทั้ง type=module และ nomodule เลยข้ามอันนี้")
+  alert("บราวเซอร์เก่าไม่รู้จัก type=module เลยข้าม แต่มารันอันนี้แทน");
 </script>
 ```
 
 ## Build tools
 
-In real-life, browser modules are rarely used in their "raw" form. Usually, we bundle them together with a special tool such as [Webpack](https://webpack.js.org/) and deploy to the production server.
+ในงาน real-world นั้น browser module แบบ raw ๆ ไม่ค่อยได้ใช้โดยตรง ส่วนใหญ่จะ bundle ไฟล์ทั้งหมดด้วยเครื่องมืออย่าง [Webpack](https://webpack.js.org/) แล้วค่อย deploy ขึ้น production server
 
-One of the benefits of using bundlers -- they give more control over how modules are resolved, allowing bare modules and much more, like CSS/HTML modules.
+ข้อดีของ bundler คือควบคุมการ resolve โมดูลได้ละเอียดขึ้น รองรับ bare module และอีกเยอะเลย เช่น CSS/HTML modules ด้วย
 
-Build tools do the following:
+Build tool ทำงานประมาณนี้:
 
-1. Take a "main" module, the one intended to be put in `<script type="module">` in HTML.
-2. Analyze its dependencies: imports and then imports of imports etc.
-3. Build a single file with all modules (or multiple files, that's tunable), replacing native `import` calls with bundler functions, so that it works. "Special" module types like HTML/CSS modules are also supported.
-4. In the process, other transformations and optimizations may be applied:
-    - Unreachable code removed.
-    - Unused exports removed ("tree-shaking").
-    - Development-specific statements like `console` and `debugger` removed.
-    - Modern, bleeding-edge JavaScript syntax may be transformed to older one with similar functionality using [Babel](https://babeljs.io/).
-    - The resulting file is minified (spaces removed, variables replaced with shorter names, etc).
+1. รับ "main" module ที่จะใส่ใน `<script type="module">` ใน HTML
+2. วิเคราะห์ dependency: import และ import ของ import ต่อไปเรื่อยๆ
+3. สร้างไฟล์เดียวรวมโมดูลทั้งหมด (หรือหลายไฟล์ ปรับได้) โดยแทนที่ `import` แบบ native ด้วยฟังก์ชันของ bundler รองรับโมดูลชนิดพิเศษอย่าง HTML/CSS module ด้วย
+4. ระหว่างนั้นอาจมีการ transform และ optimize ด้วย:
+    - ลบโค้ดที่ไม่มีทางถูกเรียกออก
+    - ลบ export ที่ไม่ได้ใช้ ("tree-shaking")
+    - ลบ statement ที่ใช้ตอน development เช่น `console` และ `debugger`
+    - แปลง JavaScript ที่เขียนด้วย syntax ใหม่สุดๆ ให้เป็น syntax เก่าที่ทำงานเหมือนกัน ผ่าน [Babel](https://babeljs.io/)
+    - minify ไฟล์ผลลัพธ์ (ลบช่องว่าง เปลี่ยนชื่อตัวแปรให้สั้น ฯลฯ)
 
-If we use bundle tools, then as scripts are bundled together into a single file (or few files), `import/export` statements inside those scripts are replaced by special bundler functions. So the resulting "bundled" script does not contain any `import/export`, it doesn't require `type="module"`, and we can put it into a regular script:
+พอใช้ bundle tool แล้ว script ทั้งหมดรวมเป็นไฟล์เดียว (หรือไม่กี่ไฟล์) statement `import/export` ภายในก็แทนที่ด้วยฟังก์ชันของ bundler สคริปต์ที่ได้ออกมาจะไม่มี `import/export` เลย ไม่ต้องการ `type="module"` ใส่เป็น script ธรรมดาได้เลย:
 
 ```html
-<!-- Assuming we got bundle.js from a tool like Webpack -->
+<!-- สมมติว่าได้ bundle.js มาจาก Webpack -->
 <script src="bundle.js"></script>
 ```
 
-That said, native modules are also usable. So we won't be using Webpack here: you can configure it later.
+แต่ native module ก็ยังใช้ได้นะ ในที่นี้เราจะไม่ใช้ Webpack — ค่อยไปตั้งค่าเองทีหลังได้
 
-## Summary
+## สรุป
 
-To summarize, the core concepts are:
+สรุป concept หลักๆ:
 
-1. A module is a file. To make `import/export` work, browsers need `<script type="module">`. Modules have several differences:
-    - Deferred by default.
-    - Async works on inline scripts.
-    - To load external scripts from another origin (domain/protocol/port), CORS headers are needed.
-    - Duplicate external scripts are ignored.
-2. Modules have their own, local top-level scope and interchange functionality via `import/export`.
-3. Modules always `use strict`.
-4. Module code is executed only once. Exports are created once and shared between importers.
+1. โมดูลคือไฟล์ ต้องการ `<script type="module">` ในบราวเซอร์เพื่อให้ `import/export` ทำงาน โมดูลมีจุดต่างหลายอย่าง:
+    - เป็น deferred แบบ default
+    - `async` ทำงานได้กับ inline script
+    - การโหลด external script จาก origin อื่น (domain/protocol/port) ต้องมี CORS headers
+    - External script ที่ซ้ำกันจะข้ามไป
+2. โมดูลมีสโคประดับบนสุดของตัวเอง และรับส่งฟังก์ชันผ่าน `import/export`
+3. โมดูลใช้ `use strict` เสมอ
+4. โค้ดในโมดูลรันแค่ครั้งเดียว export ถูกสร้างครั้งเดียวแล้วแชร์ให้ทุก import
 
-When we use modules, each module implements the functionality and exports it. Then we use `import` to directly import it where it's needed. The browser loads and evaluates the scripts automatically.
+เวลาใช้โมดูล แต่ละโมดูลจัดการฟังก์ชันของตัวเองแล้ว export ออกมา เราก็ `import` ตรงๆ ในที่ที่ต้องการ บราวเซอร์โหลดและ evaluate ให้เองอัตโนมัติ
 
-In production, people often use bundlers such as [Webpack](https://webpack.js.org) to bundle modules together for performance and other reasons.
+ใน production มักใช้ bundler อย่าง [Webpack](https://webpack.js.org) เพื่อ performance และเหตุผลอื่นๆ
 
-In the next chapter we'll see more examples of modules, and how things can be exported/imported.
+บทถัดไปเราจะดูตัวอย่างโมดูลเพิ่มเติม และวิธี export/import แบบต่างๆ

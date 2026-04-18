@@ -1,1 +1,1 @@
-alert(user); // no such variable (each module has independent variables)
+alert(user); // ไม่มีตัวแปรนี้ (แต่ละโมดูลมีตัวแปรแยกจากกัน)

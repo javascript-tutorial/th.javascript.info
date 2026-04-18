@@ -1,23 +1,23 @@
 # Export and Import
 
-Export and import directives have several syntax variants.
+คำสั่ง export และ import มีรูปแบบ syntax ให้เลือกใช้หลายแบบ
 
-In the previous article we saw a simple use, now let's explore more examples.
+บทที่แล้วเราดูตัวอย่างง่ายๆ ไปแล้ว คราวนี้มาลงรายละเอียดกันให้ครบ
 
-## Export before declarations
+## Export ก่อน declaration
 
-We can label any declaration as exported by placing `export` before it, be it a variable, function or a class.
+วางคำว่า `export` ไว้หน้า declaration ใดก็ได้ — จะเป็นตัวแปร ฟังก์ชัน หรือคลาสก็โอเค
 
-For instance, here all exports are valid:
+เช่น ตัวอย่างข้างล่างนี้ export ได้ทุกแบบเลย:
 
 ```js
-// export an array
+// export อาร์เรย์
 *!*export*/!* let months = ['Jan', 'Feb', 'Mar','Apr', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-// export a constant
+// export ค่าคงที่
 *!*export*/!* const MODULES_BECAME_STANDARD_YEAR = 2015;
 
-// export a class
+// export คลาส
 *!*export*/!* class User {
   constructor(name) {
     this.name = name;
@@ -25,26 +25,24 @@ For instance, here all exports are valid:
 }
 ```
 
-````smart header="No semicolons after export class/function"
-Please note that `export` before a class or a function does not make it a [function expression](info:function-expressions). It's still a function declaration, albeit exported.
+````smart header="ไม่ต้องใส่ semicolon หลัง export class/function"
+สังเกตว่า `export` ที่วางไว้หน้าคลาสหรือฟังก์ชัน ไม่ได้ทำให้มันกลายเป็น [function expression](info:function-expressions) นะ มันยังเป็น function declaration อยู่ แค่ export ออกไปด้วยเท่านั้น
 
-Most JavaScript style guides don't recommend semicolons after function and class declarations.
+style guide ของ JavaScript ส่วนใหญ่ไม่แนะนำให้ใส่ semicolon หลัง function หรือ class declaration
 
-That's why there's no need for a semicolon at the end of `export class` and `export function`:
+เพราะฉะนั้น `export class` และ `export function` ก็ไม่ต้องใส่ semicolon ท้ายบรรทัดเหมือนกัน:
 
 ```js
 export function sayHi(user) {
   alert(`Hello, ${user}!`);
-} *!* // no ; at the end */!*
+} *!* // ไม่มี ; ท้ายบรรทัด */!*
 ```
 
 ````
 
-## Export apart from declarations
+## Export แยกออกจาก declaration
 
-Also, we can put `export` separately.
-
-Here we first declare, and then export:
+อีกวิธีคือประกาศก่อน แล้วค่อย export ทีหลัง
 
 ```js
 // 📁 say.js
@@ -57,15 +55,15 @@ function sayBye(user) {
 }
 
 *!*
-export {sayHi, sayBye}; // a list of exported variables
+export {sayHi, sayBye}; // รายการฟังก์ชันที่จะ export
 */!*
 ```
 
-...Or, technically we could put `export` above functions as well.
+...หรือจะวาง `export` ไว้เหนือฟังก์ชันก็ได้เหมือนกัน
 
 ## Import *
 
-Usually, we put a list of what to import in curly braces `import {...}`, like this:
+ปกติเราจะระบุรายชื่อที่จะ import ใน curly braces แบบนี้:
 
 ```js
 // 📁 main.js
@@ -77,7 +75,7 @@ sayHi('John'); // Hello, John!
 sayBye('John'); // Bye, John!
 ```
 
-But if there's a lot to import, we can import everything as an object using `import * as <obj>`, for instance:
+แต่ถ้ามีของที่จะ import เยอะมาก จะ import ทุกอย่างเป็นออบเจ็กต์เดียวด้วย `import * as <obj>` ก็ได้:
 
 ```js
 // 📁 main.js
@@ -89,24 +87,24 @@ say.sayHi('John');
 say.sayBye('John');
 ```
 
-At first sight, "import everything" seems such a cool thing, short to write, why should we ever explicitly list what we need to import?
+มองผิวเผินก็ดูเจ๋งดีนะ — เขียนน้อย import ได้ทั้งหมด แล้วทำไมต้องระบุรายชื่อให้ยุ่งยากล่ะ?
 
-Well, there are few reasons.
+จริงๆ แล้วมีเหตุผลอยู่สองข้อ
 
-1. Explicitly listing what to import gives shorter names: `sayHi()` instead of `say.sayHi()`.
-2. Explicit list of imports gives better overview of the code structure: what is used and where. It makes code support and refactoring easier.
+1. ระบุชื่อที่ import ชัดๆ จะได้ชื่อสั้นกว่า: `sayHi()` แทน `say.sayHi()`
+2. มีรายชื่อ import ชัดเจน ทำให้เห็นภาพรวมของโค้ดได้ดีขึ้น — รู้ว่าใช้อะไรบ้าง ใช้ที่ไหน ช่วยให้แก้โค้ดและ refactor ง่ายขึ้นด้วย
 
-```smart header="Don't be afraid to import too much"
-Modern build tools, such as [webpack](https://webpack.js.org/) and others, bundle modules together and optimize them to speedup loading. They also remove unused imports.
+```smart header="ไม่ต้องกังวลว่า import เยอะเกินไป"
+build tool สมัยใหม่อย่าง [webpack](https://webpack.js.org/) จะ bundle โมดูลและ optimize ให้อัตโนมัติ รวมถึงตัด import ที่ไม่ได้ใช้ออกด้วย
 
-For instance, if you `import * as library` from a huge code library, and then use only few methods, then unused ones [will not be included](https://github.com/webpack/webpack/tree/main/examples/harmony-unused#examplejs) into the optimized bundle.
+เช่น ถ้าเรา `import * as library` จาก library ขนาดใหญ่ แล้วใช้แค่ไม่กี่เมธอด เมธอดที่ไม่ได้ใช้ [จะไม่รวม](https://github.com/webpack/webpack/tree/main/examples/harmony-unused#examplejs) เข้าไปใน bundle สุดท้าย
 ```
 
 ## Import "as"
 
-We can also use `as` to import under different names.
+ใช้ `as` เปลี่ยนชื่อตอน import ได้
 
-For instance, let's import `sayHi` into the local variable `hi` for brevity, and import `sayBye` as `bye`:
+เช่น import `sayHi` แล้วเก็บไว้ในตัวแปร `hi` เพื่อให้ชื่อสั้นลง และ import `sayBye` เป็น `bye`:
 
 ```js
 // 📁 main.js
@@ -120,9 +118,9 @@ bye('John'); // Bye, John!
 
 ## Export "as"
 
-The similar syntax exists for `export`.
+ฝั่ง `export` ก็มีวิธีเดียวกัน
 
-Let's export functions as `hi` and `bye`:
+export ฟังก์ชันออกไปในชื่อ `hi` และ `bye`:
 
 ```js
 // 📁 say.js
@@ -130,7 +128,7 @@ Let's export functions as `hi` and `bye`:
 export {sayHi as hi, sayBye as bye};
 ```
 
-Now `hi` and `bye` are official names for outsiders, to be used in imports:
+ทีนี้ `hi` และ `bye` กลายเป็นชื่อทางการที่ฝั่งผู้ใช้จะเห็นตอน import:
 
 ```js
 // 📁 main.js
@@ -142,95 +140,95 @@ say.*!*bye*/!*('John'); // Bye, John!
 
 ## Export default
 
-In practice, there are mainly two kinds of modules.
+ในทางปฏิบัติ โมดูลมักมีอยู่สองแบบ
 
-1. Modules that contain a library, pack of functions, like `say.js` above.
-2. Modules that declare a single entity, e.g. a module `user.js` exports only `class User`.
+1. โมดูลที่รวมฟังก์ชันหลายตัวเป็น library เดียว เช่น `say.js` ด้านบน
+2. โมดูลที่ export สิ่งเดียว เช่น `user.js` ที่ export แค่ `class User`
 
-Mostly, the second approach is preferred, so that every "thing" resides in its own module.
+แนวทางที่สองนิยมกันมากกว่า เพราะแต่ละ "สิ่ง" ก็อยู่ในโมดูลของตัวเอง
 
-Naturally, that requires a lot of files, as everything wants its own module, but that's not a problem at all. Actually, code navigation becomes easier if files are well-named and structured into folders.
+แน่นอนว่าต้องสร้างไฟล์เยอะหน่อย แต่ถ้าตั้งชื่อดีและจัดโครงสร้างโฟลเดอร์ชัดเจน การ navigate โค้ดจะง่ายกว่ามาก
 
-Modules provide a special `export default` ("the default export") syntax to make the "one thing per module" way look better.
+โมดูลมี syntax พิเศษชื่อ `export default` สำหรับรูปแบบ "หนึ่งโมดูล หนึ่งสิ่ง" โดยเฉพาะ
 
-Put `export default` before the entity to export:
+วาง `export default` ไว้หน้าสิ่งที่จะ export:
 
 ```js
 // 📁 user.js
-export *!*default*/!* class User { // just add "default"
+export *!*default*/!* class User { // แค่เพิ่ม "default"
   constructor(name) {
     this.name = name;
   }
 }
 ```
 
-There may be only one `export default` per file.
+ในแต่ละไฟล์มี `export default` ได้แค่ตัวเดียว
 
-...And then import it without curly braces:
+...แล้ว import มาใช้โดยไม่ต้องใส่ curly braces:
 
 ```js
 // 📁 main.js
-import *!*User*/!* from './user.js'; // not {User}, just User
+import *!*User*/!* from './user.js'; // ไม่ใช่ {User} แต่เป็น User
 
 new User('John');
 ```
 
-Imports without curly braces look nicer. A common mistake when starting to use modules is to forget curly braces at all. So, remember, `import` needs curly braces for named exports and doesn't need them for the default one.
+Import โดยไม่มี curly braces ดูสะอาดตากว่า ข้อผิดพลาดที่เจอบ่อยตอนเริ่มใช้โมดูลคือลืม curly braces ไปเลย จำไว้ว่า `import` ต้องมี curly braces สำหรับ named export แต่ default export ไม่ต้องใส่
 
 | Named export | Default export |
 |--------------|----------------|
 | `export class User {...}` | `export default class User {...}` |
 | `import {User} from ...` | `import User from ...`|
 
-Technically, we may have both default and named exports in a single module, but in practice people usually don't mix them. A module has either named exports or the default one.
+จริงๆ แล้วมีทั้ง default และ named export ในโมดูลเดียวกันได้ แต่ในทางปฏิบัติคนส่วนใหญ่ไม่ผสมกัน โมดูลจะเลือกใช้อย่างใดอย่างหนึ่ง
 
-As there may be at most one default export per file, the exported entity may have no name.
+เนื่องจากไฟล์นึงมี default export ได้แค่ตัวเดียว สิ่งที่ export ออกไปไม่จำเป็นต้องมีชื่อก็ได้
 
-For instance, these are all perfectly valid default exports:
+เช่น ตัวอย่างข้างล่างนี้เป็น default export ที่ถูกต้องทั้งหมด:
 
 ```js
-export default class { // no class name
+export default class { // ไม่มีชื่อคลาส
   constructor() { ... }
 }
 ```
 
 ```js
-export default function(user) { // no function name
+export default function(user) { // ไม่มีชื่อฟังก์ชัน
   alert(`Hello, ${user}!`);
 }
 ```
 
 ```js
-// export a single value, without making a variable
+// export ค่าเดียว โดยไม่ต้องสร้างตัวแปร
 export default ['Jan', 'Feb', 'Mar','Apr', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 ```
 
-Not giving a name is fine, because there is only one `export default` per file, so `import` without curly braces knows what to import.
+ไม่มีชื่อก็โอเค เพราะในไฟล์นึงมี `export default` ได้แค่ตัวเดียว `import` โดยไม่มี curly braces จึงรู้ว่าต้อง import อะไร
 
-Without `default`, such an export would give an error:
+แต่ถ้าไม่มี `default` จะ error ทันที:
 
 ```js
-export class { // Error! (non-default export needs a name)
+export class { // Error! (named export ต้องมีชื่อ)
   constructor() {}
 }
 ```
 
-### The "default" name
+### ชื่อ "default"
 
-In some situations the `default` keyword is used to reference the default export.
+บางสถานการณ์ใช้ keyword `default` อ้างอิงถึง default export ได้
 
-For example, to export a function separately from its definition:
+เช่น export ฟังก์ชันแยกออกจากนิยามฟังก์ชัน:
 
 ```js
 function sayHi(user) {
   alert(`Hello, ${user}!`);
 }
 
-// same as if we added "export default" before the function
+// เหมือนกับใส่ "export default" ไว้หน้าฟังก์ชัน
 export {sayHi as default};
 ```
 
-Or, another situation, let's say a module `user.js` exports one main "default" thing, and a few named ones (rarely the case, but it happens):
+หรืออีกกรณี สมมติโมดูล `user.js` export สิ่งหลักเป็น default แล้วยังมี named export เพิ่มด้วย (พบได้ไม่บ่อย แต่ก็มี):
 
 ```js
 // 📁 user.js
@@ -245,7 +243,7 @@ export function sayHi(user) {
 }
 ```
 
-Here's how to import the default export along with a named one:
+วิธี import default export พร้อมกับ named export:
 
 ```js
 // 📁 main.js
@@ -254,38 +252,38 @@ import {*!*default as User*/!*, sayHi} from './user.js';
 new User('John');
 ```
 
-And, finally, if importing everything `*` as an object, then the `default` property is exactly the default export:
+และถ้า import ทุกอย่างด้วย `*` เป็นออบเจ็กต์ พร็อพเพอร์ตี้ `default` จะเป็น default export นั้นเอง:
 
 ```js
 // 📁 main.js
 import * as user from './user.js';
 
-let User = user.default; // the default export
+let User = user.default; // default export
 new User('John');
 ```
 
-### A word against default exports
+### ข้อเสียของ default export
 
-Named exports are explicit. They exactly name what they import, so we have that information from them; that's a good thing.
+Named export บอกชัดว่า import อะไร เพราะชื่อมันตายตัว — ข้อดีชัดเจน
 
-Named exports force us to use exactly the right name to import:
+Named export บังคับให้ใช้ชื่อที่ถูกต้องตอน import:
 
 ```js
 import {User} from './user.js';
-// import {MyUser} won't work, the name must be {User}
+// import {MyUser} ไม่ได้ ต้องใช้ {User} เท่านั้น
 ```
 
-...While for a default export, we always choose the name when importing:
+...แต่ default export ตั้งชื่อเองได้ตอน import:
 
 ```js
-import User from './user.js'; // works
-import MyUser from './user.js'; // works too
-// could be import Anything... and it'll still work
+import User from './user.js'; // โอเค
+import MyUser from './user.js'; // โอเคเหมือนกัน
+// จะ import Anything... ก็ยังได้
 ```
 
-So team members may use different names to import the same thing, and that's not good.
+เพราะอย่างนี้ คนในทีมอาจใช้ชื่อต่างกันในการ import สิ่งเดียวกัน — ไม่ดีแน่
 
-Usually, to avoid that and keep the code consistent, there's a rule that imported variables should correspond to file names, e.g:
+วิธีที่ทีมส่วนใหญ่ใช้แก้ปัญหานี้คือกำหนดกฎว่าชื่อตัวแปรที่ import ต้องตรงกับชื่อไฟล์:
 
 ```js
 import User from './user.js';
@@ -294,13 +292,13 @@ import func from '/path/to/func.js';
 ...
 ```
 
-Still, some teams consider it a serious drawback of default exports. So they prefer to always use named exports. Even if only a single thing is exported, it's still exported under a name, without `default`.
+บางทีมถือว่านี่เป็นข้อเสียร้ายแรงของ default export จนเลือกใช้ named export ตลอด แม้จะ export สิ่งเดียวก็ยังใส่ชื่อไว้โดยไม่ใช้ `default`
 
-That also makes re-export (see below) a little bit easier.
+แนวทางนี้ยังทำให้การ re-export (ดูด้านล่าง) ง่ายขึ้นด้วย
 
 ## Re-export
 
-"Re-export" syntax `export ... from ...` allows to import things and immediately export them (possibly under another name), like this:
+syntax `export ... from ...` ช่วยให้ import มาแล้ว export ต่อได้ทันที (จะเปลี่ยนชื่อด้วยก็ได้):
 
 ```js
 export {sayHi} from './say.js'; // re-export sayHi
@@ -308,11 +306,11 @@ export {sayHi} from './say.js'; // re-export sayHi
 export {default as User} from './user.js'; // re-export default
 ```
 
-Why would that be needed? Let's see a practical use case.
+ใช้ทำอะไรล่ะ? ลองดูกรณีที่ใช้งานจริง
 
-Imagine, we're writing a "package": a folder with a lot of modules, with some of the functionality exported outside (tools like NPM allow us to publish and distribute such packages, but we don't have to use them), and many modules are just "helpers", for internal use in other package modules.
+สมมติเรากำลังเขียน "package" — โฟลเดอร์ที่มีโมดูลเยอะมาก บางโมดูล export ฟีเจอร์ออกไปให้คนอื่นใช้ (เหมือน NPM package แต่ไม่จำเป็นต้อง publish) และอีกหลายโมดูลเป็นแค่ "helper" ใช้งานภายใน package เท่านั้น
 
-The file structure could be like this:
+โครงสร้างไฟล์อาจหน้าตาแบบนี้:
 ```
 auth/
     index.js
@@ -326,56 +324,56 @@ auth/
         ...
 ```
 
-We'd like to expose the package functionality via a single entry point.
+เราต้องการให้คนอื่น import ผ่านจุดเดียว
 
-In other words, a person who would like to use our package, should import only from the "main file" `auth/index.js`.
+พูดง่ายๆ คือคนที่จะใช้ package นี้ ควร import จาก "ไฟล์หลัก" `auth/index.js` เท่านั้น
 
-Like this:
+แบบนี้:
 
 ```js
 import {login, logout} from 'auth/index.js'
 ```
 
-The "main file", `auth/index.js` exports all the functionality that we'd like to provide in our package.
+`auth/index.js` จะ export ทุกฟีเจอร์ที่ต้องการเปิดให้ใช้งาน
 
-The idea is that outsiders, other programmers who use our package, should not meddle with its internal structure, search for files inside our package folder. We export only what's necessary in `auth/index.js` and keep the rest hidden from prying eyes.
+ไอเดียคือคนภายนอกไม่ควรต้องไปยุ่งกับโครงสร้างภายใน ไปค้นหาไฟล์ใน package โดยตรง เรา export แค่ที่จำเป็นใน `auth/index.js` แล้วซ่อนส่วนที่เหลือไว้
 
-As the actual exported functionality is scattered among the package, we can import it into `auth/index.js` and export from it:
+เนื่องจากฟีเจอร์กระจายอยู่ตามโมดูลต่างๆ เราก็ import มาที่ `auth/index.js` แล้ว export ต่อ:
 
 ```js
 // 📁 auth/index.js
 
-// import login/logout and immediately export them
+// import login/logout แล้ว export ออกไปทันที
 import {login, logout} from './helpers.js';
 export {login, logout};
 
-// import default as User and export it
+// import default เป็น User แล้ว export
 import User from './user.js';
 export {User};
 ...
 ```
 
-Now users of our package can `import {login} from "auth/index.js"`.
+ตอนนี้คนใช้ package เรา `import {login} from "auth/index.js"` ได้เลย
 
-The syntax `export ... from ...` is just a shorter notation for such import-export:
+syntax `export ... from ...` เป็นแค่ shorthand ของ import-export แบบข้างบน:
 
 ```js
 // 📁 auth/index.js
 // re-export login/logout
 export {login, logout} from './helpers.js';
 
-// re-export the default export as User
+// re-export default export เป็น User
 export {default as User} from './user.js';
 ...
 ```
 
-The notable difference of `export ... from` compared to `import/export` is that re-exported modules aren't available in the current file. So inside the above example of `auth/index.js` we can't use re-exported `login/logout` functions.
+ข้อแตกต่างสำคัญของ `export ... from` เทียบกับ import/export ธรรมดาคือ โมดูลที่ re-export ออกไปจะ**ใช้งานในไฟล์ปัจจุบันไม่ได้** ใน `auth/index.js` ด้านบน เราเรียกฟังก์ชัน `login/logout` ที่ re-export ออกไปตรงนั้นไม่ได้
 
-### Re-exporting the default export
+### Re-export default export
 
-The default export needs separate handling when re-exporting.
+การ re-export default export ต้องจัดการแยกต่างหาก
 
-Let's say we have `user.js` with the `export default class User` and would like to re-export it:
+สมมติมี `user.js` ที่มี `export default class User` แล้วต้องการ re-export:
 
 ```js
 // 📁 user.js
@@ -384,71 +382,71 @@ export default class User {
 }
 ```
 
-We can come across two problems with it:
+มีปัญหาที่เจอได้สองข้อ:
 
-1. `export User from './user.js'` won't work. That would lead to a syntax error.
+1. `export User from './user.js'` ไม่ได้ — เป็น syntax error
 
-    To re-export the default export, we have to write `export {default as User}`, as in the example above.
+    ต้องเขียน `export {default as User}` ตามตัวอย่างด้านบน
 
-2. `export * from './user.js'` re-exports only named exports, but ignores the default one.
+2. `export * from './user.js'` re-export เฉพาะ named export แต่ข้าม default ไป
 
-    If we'd like to re-export both named and default exports, then two statements are needed:
+    ถ้าต้องการ re-export ทั้ง named และ default ต้องเขียนสองบรรทัด:
     ```js
-    export * from './user.js'; // to re-export named exports
-    export {default} from './user.js'; // to re-export the default export
+    export * from './user.js'; // re-export named exports
+    export {default} from './user.js'; // re-export default export
     ```
 
-Such oddities of re-exporting a default export are one of the reasons why some developers don't like default exports and prefer named ones.
+ความยุ่งยากพวกนี้คือหนึ่งในเหตุผลที่นักพัฒนาหลายคนไม่ชอบ default export และเลือกใช้ named export แทน
 
-## Summary
+## สรุป
 
-Here are all types of `export` that we covered in this and previous articles.
+นี่คือ `export` ทุกรูปแบบที่เราพูดถึงในบทนี้และบทก่อนหน้า
 
-You can check yourself by reading them and recalling what they mean:
+ลองอ่านดูแล้วนึกว่าแต่ละแบบทำงานยังไง:
 
-- Before declaration of a class/function/..:
+- วางไว้หน้า declaration ของ class/function/...:
   - `export [default] class/function/variable ...`
-- Standalone export:
+- export แบบแยกออกมา:
   - `export {x [as y], ...}`.
 - Re-export:
   - `export {x [as y], ...} from "module"`
-  - `export * from "module"` (doesn't re-export default).
-  - `export {default [as y]} from "module"` (re-export default).
+  - `export * from "module"` (ไม่ re-export default)
+  - `export {default [as y]} from "module"` (re-export default)
 
 Import:
 
-- Importing named exports:
+- Import named exports:
   - `import {x [as y], ...} from "module"`
-- Importing the default export:
+- Import default export:
   - `import x from "module"`
   - `import {default as x} from "module"`
-- Import all:
+- Import ทั้งหมด:
   - `import * as obj from "module"`
-- Import the module (its code runs), but do not assign any of its exports to variables:
+- Import โมดูล (รันโค้ด) แต่ไม่รับค่า export ใดๆ:
   - `import "module"`
 
-We can put `import/export` statements at the top or at the bottom of a script, that doesn't matter.
+วาง `import/export` ไว้บนสุดหรือล่างสุดของ script ก็ได้ ไม่มีผลต่างกัน
 
-So, technically this code is fine:
+เช่น โค้ดแบบนี้ก็โอเค:
 ```js
 sayHi();
 
 // ...
 
-import {sayHi} from './say.js'; // import at the end of the file
+import {sayHi} from './say.js'; // import ที่ท้ายไฟล์
 ```
 
-In practice imports are usually at the start of the file, but that's only for more convenience.
+ในทางปฏิบัตินิยมวาง import ไว้บนสุดเพื่อความสะดวก
 
-**Please note that import/export statements don't work if inside `{...}`.**
+**จุดสำคัญ: `import/export` ใช้ภายใน `{...}` ไม่ได้**
 
-A conditional import, like this, won't work:
+import แบบมีเงื่อนไขแบบนี้จะไม่ทำงาน:
 ```js
 if (something) {
-  import {sayHi} from "./say.js"; // Error: import must be at top level
+  import {sayHi} from "./say.js"; // Error: import ต้องอยู่ระดับบนสุด
 }
 ```
 
-...But what if we really need to import something conditionally? Or at the right time? Like, load a module upon request, when it's really needed?
+...แล้วถ้าต้องการ import ตามเงื่อนไขจริงๆ ล่ะ? หรือ import ตอนที่ต้องการเท่านั้น? เช่น โหลดโมดูลเมื่อมีคนร้องขอ?
 
-We'll see dynamic imports in the next article.
+เรื่อง dynamic import จะพูดถึงในบทถัดไป
