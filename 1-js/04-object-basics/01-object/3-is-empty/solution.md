@@ -1,1 +1,1 @@
-ทดสอบด้วยการวนลูป object แล้ว `return false` ทันทีที่พบ propperty อย่างน้อย 1 ตัว
+ลองวนลูป object ดู ถ้าเจอ property อย่างน้อย 1 ตัว ให้ `return false` ทันที

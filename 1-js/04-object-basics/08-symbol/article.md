@@ -5,7 +5,7 @@
 - string
 - symbol
 
-ถ้าใช้ชนิดข้อมูลอื่น เช่น number เป็น key จะถูกแปลงเป็น string โดยอัตโนมัติ ดังนั้น `obj[1]` จึงเท่ากับ `obj["1"]` และ `obj[true]` ก็เท่ากับ `obj["true"]`
+ถ้าใช้ชนิดอื่นเป็น key เช่น number จะถูกแปลงเป็น string อัตโนมัติ เลยทำให้ `obj[1]` เท่ากับ `obj["1"]` และ `obj[true]` เท่ากับ `obj["true"]`
 
 ที่ผ่านมา เราใช้แต่ string เป็น key มาตลอด
 
@@ -53,11 +53,11 @@ alert(id1 == id2); // false
 ```js run
 let id = Symbol("id");
 *!*
-alert(id); // TypeError: ไม่สามารถแปลง Symbol เป็น string ได้
+alert(id); // TypeError: แปลง Symbol เป็น string ไม่ได้
 */!*
 ```
 
-จะเกิด error ขึ้น เพราะภาษาต้องการป้องกันไม่ให้ string กับ symbol แปลงหากันโดยไม่ตั้งใจ — เนื่องจากเป็นคนละประเภทกันโดยสิ้นเชิง
+จะพ่น error ออกมา เพราะภาษาป้องกันไม่ให้ string กับ symbol แปลงหากันโดยไม่ตั้งใจ — เป็นคนละชนิดกันโดยสิ้นเชิง
 
 ถ้าต้องการแสดง symbol จริงๆ ต้องเรียกเมธอด `.toString()` ชัดเจนแบบนี้:
 
@@ -98,7 +98,7 @@ alert( user[id] ); // เข้าถึงข้อมูลได้โดย�
 
 แล้วทำไมถึงใช้ `Symbol("id")` แทน string `"id"` ธรรมดาล่ะ?
 
-เพราะออบเจ็กต์ `user` เป็นของโค้ดคนอื่น การเพิ่ม field ลงไปตรงๆ อาจไม่ปลอดภัย เพราะอาจไปขัดแย้งกับลอจิกที่เขาเขียนไว้ แต่ symbol นั้นโค้ดอื่นจะเข้าถึงโดยบังเอิญไม่ได้ เพราะไม่มี symbol ตัวนี้อยู่ในมือ ดังนั้นจึงเพิ่มลงในออบเจ็กต์ `user` ได้อย่างปลอดภัย
+เพราะออบเจ็กต์ `user` เป็นของโค้ดคนอื่น ถ้าเพิ่ม field ลงไปตรงๆ อาจไม่ปลอดภัย — เสี่ยงชนกับลอจิกที่เขาเขียนไว้ แต่ symbol โค้ดอื่นจะเข้าถึงโดยบังเอิญไม่ได้ เพราะไม่มี symbol ตัวนี้อยู่ในมือ เลยเพิ่มลงในออบเจ็กต์ `user` ได้อย่างปลอดภัย
 
 ลองนึกภาพว่า ถ้ามีอีกสคริปต์หนึ่งอยากเพิ่ม identifier ของตัวเองลงใน `user` ด้วย สคริปต์นั้นก็แค่สร้าง `Symbol("id")` ขึ้นมาเอง:
 
@@ -230,9 +230,9 @@ alert( Symbol.keyFor(sym) ); // name
 alert( Symbol.keyFor(sym2) ); // id
 ```
 
-`Symbol.keyFor` ค้นหา key จาก global symbol registry ดังนั้นจึงใช้กับ symbol ที่ไม่ใช่ global ไม่ได้ — ถ้าลองใส่ symbol ที่ไม่ใช่ global จะคืน `undefined`
+`Symbol.keyFor` ไปหา key ใน global symbol registry เลยใช้กับ symbol ที่ไม่ใช่ global ไม่ได้ — ถ้าลองใส่ symbol ปกติเข้าไป จะคืน `undefined`
 
-อย่างไรก็ตาม ทุก symbol มีพร็อพเพอร์ตี้ `description` อยู่
+แต่ทุก symbol จะมีพร็อพเพอร์ตี้ `description` ติดมาให้อยู่แล้ว
 
 เช่น:
 
@@ -278,8 +278,8 @@ Symbol มีประโยชน์หลักๆ สองอย่าง �
 
     พูดง่ายๆ ก็คือ เราสามารถ "แอบยัด" อะไรบางอย่างเข้าไปในออบเจ็กต์ โดยไม่ให้ใครอื่นรู้ ผ่าน symbol property นี้
 
-2. JavaScript มี system symbol หลายตัวที่ใช้ภายใน เข้าถึงได้ผ่าน `Symbol.*` เราใช้มันปรับแต่งพฤติกรรมบางอย่างของภาษาได้ เช่น ในบทต่อๆ ไป จะใช้ `Symbol.iterator` สำหรับ [iterables](info:iterable) และ `Symbol.toPrimitive` สำหรับ[แปลงออบเจ็กต์เป็นค่าพื้นฐาน](info:object-toprimitive) เป็นต้น
+2. JavaScript มี system symbol ให้ใช้หลายตัว เข้าถึงผ่าน `Symbol.*` เอาไว้ปรับพฤติกรรมของภาษาได้ เช่น ในบทถัดๆ ไปจะใช้ `Symbol.iterator` สำหรับ [iterables](info:iterable) และ `Symbol.toPrimitive` สำหรับ[แปลงออบเจ็กต์เป็นค่าพื้นฐาน](info:object-toprimitive) เป็นต้น
 
-จริงๆ แล้ว symbol ไม่ได้ถูกซ่อนไว้ 100% มีเมธอดอย่าง [Object.getOwnPropertySymbols(obj)](mdn:js/Object/getOwnPropertySymbols) ที่ดึง symbol ทั้งหมดออกมาได้ และ [Reflect.ownKeys(obj)](mdn:js/Reflect/ownKeys) ที่คืน*ทุก* key ของออบเจ็กต์ รวมถึง symbol ด้วย
+จริงๆ แล้ว symbol ไม่ได้ถูกซ่อน 100% มีเมธอดอย่าง [Object.getOwnPropertySymbols(obj)](mdn:js/Object/getOwnPropertySymbols) ที่ดึง symbol ทั้งหมดออกมาได้ และ [Reflect.ownKeys(obj)](mdn:js/Reflect/ownKeys) ที่คืน*ทุก* key ของออบเจ็กต์ รวม symbol ด้วย
 
-แต่ไลบรารี เมธอด และ syntax ในตัวส่วนใหญ่จะไม่ค่อยใช้เมธอดเหล่านี้ ทำให้ symbol property ยังคงเป็นส่วนตัวได้ในระดับหนึ่ง
+แต่ไลบรารี เมธอด และ syntax ของภาษาส่วนใหญ่ไม่ค่อยใช้เมธอดพวกนี้ เลยทำให้ symbol property ยังคงเป็นส่วนตัวได้ในระดับหนึ่ง

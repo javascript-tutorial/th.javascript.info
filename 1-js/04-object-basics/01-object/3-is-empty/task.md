@@ -2,18 +2,18 @@ importance: 5
 
 ---
 
-# ตรวจสอบ object ว่าง
+# เช็คว่า object ว่างไหม
 
-เขียน function `isEmpty(obj)` ที่จะตอบกลับ `true` เมื่อ object ไม่มี property ใดๆ เลย ตอบกลับ `false` หากเป็นอย่างอื่น
+เขียนฟังก์ชัน `isEmpty(obj)` ที่คืนค่า `true` เมื่อ object ไม่มี property อะไรเลย ถ้ามีอย่างน้อย 1 ตัวให้คืน `false`
 
-ควรทำงานได้ทำนองนี้:
+ควรใช้งานได้แบบนี้:
 
 ```js
 let schedule = {};
 
-alert( isEmpty(schedule) ); // ตอบ true
+alert( isEmpty(schedule) ); // true
 
 schedule["8:30"] = "get up";
 
-alert( isEmpty(schedule) ); // ตอบ false
+alert( isEmpty(schedule) ); // false
 ```
