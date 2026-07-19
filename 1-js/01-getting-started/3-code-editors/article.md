@@ -1,49 +1,47 @@
-# Code Editor
+# เลือก code editor ตัวไหนดี?
 
-Code editor เป็นเครื่องมือที่โปรแกรมเมอร์ใช้เวลาด้วยมากที่สุด
+เวลาเขียนโค้ด เราจะอยู่กับ code editor แทบตลอด เลือกตัวที่ใช้แล้วคล่องเลยสำคัญกว่าการตามหาว่าตัวไหน "ดีที่สุด"
 
-มีสองแบบหลักๆ คือ IDE กับ lightweight editor — dev หลายคนก็ใช้ทั้งสองแบบสลับกันไป
+ถ้าแบ่งแบบกว้างๆ จะมีอยู่สองกลุ่มคือ IDE กับ editor แบบเบา หลายคนใช้ทั้งคู่แล้วสลับตามงาน
 
 ## IDE
 
-[IDE](https://en.wikipedia.org/wiki/Integrated_development_environment) ย่อมาจาก Integrated Development Environment — ไม่ใช่แค่ editor ธรรมดา แต่เป็น "สภาพแวดล้อมพัฒนาครบวงจร" ที่ทำงานในระดับโปรเจ็กต์เลย
+[IDE](https://en.wikipedia.org/wiki/Integrated_development_environment) ย่อมาจาก Integrated Development Environment พูดง่ายๆ คือโปรแกรมที่รวมเครื่องมือสำหรับทำงานทั้งโปรเจกต์ไว้ในที่เดียว ไม่ได้มีแค่ช่องให้พิมพ์โค้ด
 
-IDE โหลดทั้งโปรเจ็กต์เข้ามา (อาจมีหลายไฟล์) ให้เราสลับไฟล์ได้สะดวก มี autocomplete ที่ฉลาดตามบริบทของโปรเจ็กต์ทั้งหมด (ไม่ใช่แค่ไฟล์ที่เปิดอยู่) เชื่อมกับ version control อย่าง [git](https://git-scm.com/) แล้วก็รันเทสต์ได้ด้วย
+พอเปิดโปรเจกต์ IDE จะอ่านไฟล์ทั้งหมดให้เราสลับไปมาได้ ช่วยเติมโค้ด (autocomplete) โดยดูบริบทจากทั้งโปรเจกต์ เชื่อมกับระบบ version control อย่าง [Git](https://git-scm.com/) และรัน test ได้จากในโปรแกรมเลย
 
-ยังไม่เคยใช้ IDE? ลองดูพวกนี้:
+ถ้ายังไม่มีตัวที่ใช้ประจำ ลองเริ่มจากสองตัวนี้:
 
-- [Visual Studio Code](https://code.visualstudio.com/) (รองรับหลายแพลตฟอร์ม, ฟรี) 
-- [WebStorm](https://www.jetbrains.com/webstorm/) (รองรับหลายแพลตฟอร์ม, มีค่าใช้จ่าย)
+- [Visual Studio Code](https://code.visualstudio.com/) ใช้ได้บน Windows, macOS และ Linux แถมฟรี
+- [WebStorm](https://www.jetbrains.com/webstorm/) ใช้ได้บน Windows, macOS และ Linux เช่นกัน งาน non-commercial ใช้ฟรี ส่วนงาน commercial ต้องซื้อไลเซนส์
 
-บน Windows ยังมี "Visual Studio" ด้วย — อย่าสับสนกับ "Visual Studio Code" นะ ตัวนี้เป็น IDE ที่แรงมากและเสียค่าใช้จ่าย มีแค่บน Windows เหมาะกับ .NET แต่ใช้กับ JavaScript ก็ดีเหมือนกัน มีเวอร์ชันฟรีชื่อ [Visual Studio Community](https://www.visualstudio.com/vs/community/)
+คนใช้ Windows อย่าสับสน "Visual Studio" กับ "Visual Studio Code" เพราะเป็นคนละโปรแกรม Visual Studio เป็น IDE เต็มตัวที่เด่นกับงาน .NET แต่เขียน JavaScript ได้เหมือนกัน และมีรุ่นฟรีชื่อ [Visual Studio Community](https://visualstudio.microsoft.com/vs/community/)
 
-IDE หลายตัวเสียเงิน แต่ก็มีทดลองใช้ฟรี เทียบกับเงินเดือน dev แล้วถือว่าไม่แพง — เลือกตัวที่ถูกใจที่สุดเลย
+IDE หลายตัวมีค่าใช้จ่าย แต่ส่วนมากให้ลองใช้ฟรีก่อน ยังไม่ต้องรีบซื้อ—ลองใช้แล้วค่อยเลือกตัวที่เข้ากับงานและวิธีทำงานของเราที่สุด
 
-## Lightweight Editor
+## Editor แบบเบา
 
-Lightweight editor อาจไม่แรงเท่า IDE แต่เปิดไว เบาสบาย ใช้ง่าย
+ถ้าต้องการเปิดไฟล์ขึ้นมาแก้เร็วๆ editor แบบเบาจะตอบโจทย์กว่า เพราะเปิดไว หน้าตาไม่ซับซ้อน และไม่ต้องโหลดข้อมูลทั้งโปรเจกต์ก่อน
 
-ส่วนใหญ่ใช้เปิดแก้ไฟล์แบบไวๆ
+ตรงนี้ต่างจาก IDE ชัดที่สุด: IDE ต้องอ่านและวิเคราะห์โครงสร้างโปรเจกต์ จึงใช้เวลาเปิดมากกว่า แต่แลกกับการเข้าใจความเชื่อมโยงของโค้ดหลายไฟล์
 
-ต่างจาก IDE ยังไงล่ะ? IDE ทำงานระดับโปรเจ็กต์ เลยโหลดนานกว่า ต้องวิเคราะห์โครงสร้างโปรเจ็กต์ก่อน แต่ lightweight editor เปิดไฟล์ปุ๊บใช้ได้ปั๊บ
+แต่เส้นแบ่งไม่ได้ชัดขนาดนั้นแล้วนะ editor แบบเบาหลายตัวลง plugin เพิ่มได้ ทั้งตัวช่วยเช็ค syntax และ autocomplete ระดับโฟลเดอร์ พอลงเพิ่มก็ทำงานคล้าย IDE ได้เหมือนกัน
 
-แต่จริงๆ แล้ว lightweight editor สมัยนี้ก็ลงปลั๊กอินเพิ่มได้เยอะ — ทั้ง syntax analysis และ autocomplete ระดับโฟลเดอร์ เลยแยกจาก IDE ได้ไม่ชัดเท่าไร
+ตัวเลือกที่คนใช้กันมีเช่น:
 
-มีตัวเลือกมากมาย เช่น:
+- [Sublime Text](https://www.sublimetext.com/) ใช้ได้หลายระบบและมีไลเซนส์แบบเสียเงิน
+- [Notepad++](https://notepad-plus-plus.org/) ใช้บน Windows และฟรี
+- [Vim](https://www.vim.org/) กับ [Emacs](https://www.gnu.org/software/emacs/) ก็เก่งมาก ถ้ายอมใช้เวลาฝึกให้คล่อง
 
-- [Sublime Text](https://www.sublimetext.com/) (รองรับหลายแพลตฟอร์ม, shareware)
-- [Notepad++](https://notepad-plus-plus.org/) (Windows, ฟรี)
-- [Vim](https://www.vim.org/) และ [Emacs](https://www.gnu.org/software/emacs/) ก็เจ๋งมากสำหรับคนที่เชี่ยวชาญ
+## สุดท้ายควรเลือกตัวไหน?
 
-## อย่าทะเลาะกันเรื่องนี้เลย
+รายชื่อข้างบนไม่ใช่อันดับตายตัว แค่เป็นเครื่องมือที่ผู้เขียนกับเพื่อนนักพัฒนาใช้มานานแล้วรู้สึกว่าเวิร์ก
 
-ที่ยกมาข้างบนเป็นตัวที่ผู้เขียนกับเพื่อนๆ dev ใช้มานานแล้วพอใจ
+ข้างนอกยังมีตัวเลือกดีๆ อีกเยอะ editor ที่เหมาะกับเราขึ้นอยู่กับโปรเจกต์ นิสัยการทำงาน และความชอบส่วนตัว
 
-แน่นอนว่ายังมีตัวเลือกอื่นอีกเพียบ เลือกตัวที่ถูกใจที่สุดเลย
+ถ้าอยากได้จุดเริ่มต้น ผู้เขียนแนะนำแบบนี้:
 
-การเลือก editor ก็เหมือนเลือกเครื่องมืออื่นๆ — เป็นเรื่องรสนิยม ขึ้นอยู่กับโปรเจ็กต์ นิสัยการทำงาน และความชอบของแต่ละคน
+- ถ้าทำงานหน้าเว็บ (frontend) เป็นหลัก ลอง [Visual Studio Code](https://code.visualstudio.com/)
+- ถ้าโปรเจกต์ใช้ภาษาอื่นเป็นหลักแล้วมี frontend แทรกอยู่บ้าง เลือก IDE ตามแพลตฟอร์มหรือภาษาหลักได้เลย เช่น Xcode บน macOS, Visual Studio บน Windows หรือโปรแกรมตระกูล JetBrains อย่าง WebStorm, PhpStorm และ RubyMine
 
-ความเห็นส่วนตัวของผู้เขียน:
-
-- ใช้ [Visual Studio Code](https://code.visualstudio.com/) ถ้าทำ frontend เป็นหลัก
-- แต่ถ้าใช้ภาษา/แพลตฟอร์มอื่นเป็นหลัก โดยมี frontend แค่บางส่วน ก็จะใช้ตัวอื่นแทน เช่น XCode (Mac), Visual Studio (Windows) หรือ IDE จาก Jetbrains (WebStorm สำหรับ JavaScript, PHPStorm สำหรับ PHP, RubyMine สำหรับ Ruby ฯลฯ) — แล้วแต่ภาษาหลักของโปรเจ็กต์
+เลือกตัวที่เปิดแล้วอยากเขียนโค้ดต่อก็พอ เรื่องนี้ไม่ต้องตั้งทีมเชียร์กันให้ปวดหัว
