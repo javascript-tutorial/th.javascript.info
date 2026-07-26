@@ -2,16 +2,16 @@ importance: 5
 
 ---
 
-# String quotes
+# เครื่องหมายคำพูดของสตริง
 
-จงเดาผลลัพธ์จากโค้ดด้านล่างนี้
+โค้ดนี้แสดงผลอะไรบ้าง?
 
 ```js
 let name = "Ilya";
 
-alert( `hello ${1}` ); // ?
+alert( `สวัสดี ${1}` ); // ?
 
-alert( `hello ${"name"}` ); // ?
+alert( `สวัสดี ${"name"}` ); // ?
 
-alert( `hello ${name}` ); // ?
+alert( `สวัสดี ${name}` ); // ?
 ```
