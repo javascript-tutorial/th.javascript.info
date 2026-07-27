@@ -1,6 +1,5 @@
 
 
 ```js
-let result = (a + b < 4) ? 'Below' : 'Over';
+let result = (a + b < 4) ? 'ต่ำกว่า' : 'ตั้งแต่ 4 ขึ้นไป';
 ```
-
