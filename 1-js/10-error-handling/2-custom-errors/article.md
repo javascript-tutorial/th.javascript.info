@@ -53,7 +53,7 @@ class ValidationError extends Error {
 }
 
 function test() {
-  throw new ValidationError("อุ๊ปส์!");
+  throw new ValidationError("Whoops!");
 }
 
 try {
@@ -84,10 +84,10 @@ function readUser(json) {
   let user = JSON.parse(json);
 
   if (!user.age) {
-    throw new ValidationError("ไม่มีฟิลด์: age");
+    throw new ValidationError("No field: age");
   }
   if (!user.name) {
-    throw new ValidationError("ไม่มีฟิลด์: name");
+    throw new ValidationError("No field: name");
   }
 
   return user;
@@ -100,7 +100,7 @@ try {
 } catch (err) {
   if (err instanceof ValidationError) {
 *!*
-    alert("ข้อมูลไม่ถูกต้อง: " + err.message); // ข้อมูลไม่ถูกต้อง: ไม่มีฟิลด์: name
+    alert("Invalid data: " + err.message); // Invalid data: No field: name
 */!*
   } else if (err instanceof SyntaxError) { // (*)
     alert("JSON Syntax Error: " + err.message);
@@ -172,7 +172,7 @@ try {
 } catch (err) {
   if (err instanceof ValidationError) {
 *!*
-    alert("ข้อมูลไม่ถูกต้อง: " + err.message); // ข้อมูลไม่ถูกต้อง: No property: name
+    alert("Invalid data: " + err.message); // Invalid data: No property: name
     alert(err.name); // PropertyRequiredError
     alert(err.property); // name
 */!*

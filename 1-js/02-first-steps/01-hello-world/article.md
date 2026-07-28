@@ -18,15 +18,15 @@
 
 <body>
 
-  <p>ก่อนสคริปต์...</p>
+  <p>Before the script...</p>
 
 *!*
   <script>
-    alert( 'สวัสดี ชาวโลก!' );
+    alert( 'Hello, world!' );
   </script>
 */!*
 
-  <p>...หลังสคริปต์</p>
+  <p>...After the script.</p>
 
 </body>
 

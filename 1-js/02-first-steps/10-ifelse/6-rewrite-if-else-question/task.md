@@ -12,11 +12,11 @@ importance: 5
 let message;
 
 if (login == 'Employee') {
-  message = 'สวัสดี';
+  message = 'Hello';
 } else if (login == 'Director') {
-  message = 'ยินดีต้อนรับ';
+  message = 'Greetings';
 } else if (login == '') {
-  message = 'ไม่ได้กรอกข้อมูลล็อกอิน';
+  message = 'No login';
 } else {
   message = '';
 }

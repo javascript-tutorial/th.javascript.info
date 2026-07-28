@@ -10,8 +10,8 @@ importance: 5
 let result;
 
 if (a + b < 4) {
-  result = 'ต่ำกว่า';
+  result = 'Below';
 } else {
-  result = 'ตั้งแต่ 4 ขึ้นไป';
+  result = 'Over';
 }
 ```

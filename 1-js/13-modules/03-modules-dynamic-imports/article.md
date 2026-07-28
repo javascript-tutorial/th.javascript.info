@@ -31,11 +31,11 @@ if(...) {
 ตัวอย่างการใช้แบบ dynamic:
 
 ```js
-let modulePath = prompt("จะโหลดโมดูลไหนดี?");
+let modulePath = prompt("Which module to load?");
 
 import(modulePath)
   .then(obj => <module object>)
-  .catch(err => <โหลดพัง เช่น ไม่พบโมดูลที่ระบุ>)
+  .catch(err => <loading error, e.g. if no such module>)
 ```
 
 หรือถ้าอยู่ใน async function ก็ใช้ `let module = await import(modulePath)` ได้เลย
@@ -45,11 +45,11 @@ import(modulePath)
 ```js
 // 📁 say.js
 export function hi() {
-  alert(`สวัสดี`);
+  alert(`Hello`);
 }
 
 export function bye() {
-  alert(`ลาก่อน`);
+  alert(`Bye`);
 }
 ```
 
@@ -67,7 +67,7 @@ bye();
 ```js
 // 📁 say.js
 export default function() {
-  alert("โหลดโมดูลแล้ว (export default)!");
+  alert("Module loaded (export default)!");
 }
 ```
 

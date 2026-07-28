@@ -13,8 +13,8 @@ alert(a + b); // 12
 ตัวอย่างนี้เติม `+` ไว้หน้า `prompt`:
 
 ```js run
-let a = +prompt("ตัวเลขตัวแรก?", 1);
-let b = +prompt("ตัวเลขตัวที่สอง?", 2);
+let a = +prompt("First number?", 1);
+let b = +prompt("Second number?", 2);
 
 alert(a + b); // 3
 ```
@@ -22,8 +22,8 @@ alert(a + b); // 3
 หรือจะแปลงค่าตอนเรียก `alert` ก็ได้:
 
 ```js run
-let a = prompt("ตัวเลขตัวแรก?", 1);
-let b = prompt("ตัวเลขตัวที่สอง?", 2);
+let a = prompt("First number?", 1);
+let b = prompt("Second number?", 2);
 
 alert(+a + +b); // 3
 ```

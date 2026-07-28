@@ -17,11 +17,11 @@ class Animal {
   }
   run(speed) {
     this.speed = speed;
-    alert(`${this.name} วิ่งด้วยความเร็ว ${this.speed}.`);
+    alert(`${this.name} runs with speed ${this.speed}.`);
   }
   stop() {
     this.speed = 0;
-    alert(`${this.name} หยุดนิ่ง.`);
+    alert(`${this.name} stands still.`);
   }
 }
 
@@ -45,7 +45,7 @@ let animal = new Animal("My animal");
 class Rabbit extends Animal {
 */!*
   hide() {
-    alert(`${this.name} ซ่อนตัว!`);
+    alert(`${this.name} hides!`);
   }
 }
 
@@ -125,19 +125,19 @@ class Animal {
 
   run(speed) {
     this.speed = speed;
-    alert(`${this.name} วิ่งด้วยความเร็ว ${this.speed}.`);
+    alert(`${this.name} runs with speed ${this.speed}.`);
   }
 
   stop() {
     this.speed = 0;
-    alert(`${this.name} หยุดนิ่ง.`);
+    alert(`${this.name} stands still.`);
   }
 
 }
 
 class Rabbit extends Animal {
   hide() {
-    alert(`${this.name} ซ่อนตัว!`);
+    alert(`${this.name} hides!`);
   }
 
 *!*
@@ -400,7 +400,7 @@ new Rabbit(); // rabbit
 let animal = {
   name: "Animal",
   eat() {
-    alert(`${this.name} กินอาหาร.`);
+    alert(`${this.name} eats.`);
   }
 };
 
@@ -428,7 +428,7 @@ rabbit.eat(); // Rabbit กินอาหาร.
 let animal = {
   name: "Animal",
   eat() {
-    alert(`${this.name} กินอาหาร.`);
+    alert(`${this.name} eats.`);
   }
 };
 
@@ -501,7 +501,7 @@ longEar.eat(); // Error: Maximum call stack size exceeded
 let animal = {
   name: "Animal",
   eat() {         // animal.eat.[[HomeObject]] == animal
-    alert(`${this.name} กินอาหาร.`);
+    alert(`${this.name} eats.`);
   }
 };
 
@@ -542,7 +542,7 @@ longEar.eat();  // Long Ear กินอาหาร.
 ```js run
 let animal = {
   sayHi() {
-    alert(`ฉันเป็นสัตว์`);
+    alert(`I'm an animal`);
   }
 };
 
@@ -556,7 +556,7 @@ let rabbit = {
 
 let plant = {
   sayHi() {
-    alert("ฉันเป็นพืช");
+    alert("I'm a plant");
   }
 };
 

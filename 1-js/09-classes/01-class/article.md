@@ -252,7 +252,7 @@ class User {
   set name(value) {
 */!*
     if (value.length < 4) {
-      alert("ชื่อสั้นเกินไป");
+      alert("Name is too short.");
       return;
     }
     this._name = value;

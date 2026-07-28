@@ -164,7 +164,7 @@ let user = {
 
   set name(value) {
     if (value.length < 4) {
-      alert("ชื่อสั้นเกินไป ต้องมีอย่างน้อย 4 ตัวอักษร");
+      alert("Name is too short, need at least 4 characters");
       return;
     }
     this._name = value;

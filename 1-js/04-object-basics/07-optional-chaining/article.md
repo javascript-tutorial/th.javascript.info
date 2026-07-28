@@ -158,7 +158,7 @@ Optional chaining `?.` ไม่ใช่ตัวดำเนินการ �
 ```js run
 let userAdmin = {
   admin() {
-    alert("ฉันคือ admin");
+    alert("I am admin");
   }
 };
 

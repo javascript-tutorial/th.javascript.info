@@ -112,9 +112,9 @@ new Promise((resolve, reject) => {
 
 }).catch(function(error) {
 
-  alert("จัดการ error เรียบร้อยแล้ว ทำงานต่อได้เลย");
+  alert("The error is handled, continue normally");
 
-}).then(() => alert("handler ถัดไปที่สำเร็จทำงาน"));
+}).then(() => alert("Next successful handler runs"));
 ```
 
 `.catch` ทำงานจบปกติ เลย `.then` ถัดไปก็ทำงานต่อ
@@ -132,7 +132,7 @@ new Promise((resolve, reject) => {
   if (error instanceof URIError) {
     // จัดการได้
   } else {
-    alert("จัดการ error แบบนี้ไม่ได้");
+    alert("Can't handle such error");
 
 *!*
     throw error; // โยน error นี้หรือ error อื่นต่อไปยัง catch ถัดไป
@@ -143,7 +143,7 @@ new Promise((resolve, reject) => {
   /* ไม่ทำงานตรงนี้ */
 }).catch(error => { // (**)
 
-  alert(`เกิด error ที่ไม่รู้จัก: ${error}`);
+  alert(`The unknown error has occurred: ${error}`);
   // ไม่ return อะไร => การทำงานเดินต่อตามปกติ
 
 });

@@ -3,18 +3,18 @@ function formatDate(date) {
   let diff = new Date() - date; // ความต่างในหน่วยมิลลิวินาที
 
   if (diff < 1000) { // น้อยกว่า 1 วินาที
-    return 'เมื่อกี้นี้';
+    return 'right now';
   }
 
   let sec = Math.floor(diff / 1000); // แปลงความต่างเป็นวินาที
 
   if (sec < 60) {
-    return sec + ' วินาทีที่แล้ว';
+    return sec + ' sec. ago';
   }
 
   let min = Math.floor(diff / 60000); // แปลงความต่างเป็นนาที
   if (min < 60) {
-    return min + ' นาทีที่แล้ว';
+    return min + ' min. ago';
   }
 
   // จัดรูปแบบวันที่

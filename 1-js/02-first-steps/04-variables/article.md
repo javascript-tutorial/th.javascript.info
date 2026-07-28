@@ -25,7 +25,7 @@ let message;
 let message;
 
 *!*
-message = 'สวัสดี'; // เก็บสตริง 'สวัสดี' ไว้ในตัวแปรชื่อ message
+message = 'Hello'; // store the string 'Hello' in the variable named message
 */!*
 ```
 
@@ -33,7 +33,7 @@ JavaScript จะเก็บสตริงไว้ในพื้นที่
 
 ```js run
 let message;
-message = 'สวัสดี!';
+message = 'Hello!';
 
 *!*
 alert(message); // แสดงค่าที่เก็บอยู่ในตัวแปร
@@ -43,7 +43,7 @@ alert(message); // แสดงค่าที่เก็บอยู่ใน�
 ถ้าอยากเขียนให้สั้นลง จะประกาศตัวแปรและกำหนดค่าในบรรทัดเดียวกันก็ได้:
 
 ```js run
-let message = 'สวัสดี!'; // ประกาศตัวแปรพร้อมกำหนดค่า
+let message = 'Hello!'; // define the variable and assign the value
 
 alert(message); // สวัสดี!
 ```
@@ -51,7 +51,7 @@ alert(message); // สวัสดี!
 จะประกาศหลายตัวแปรในบรรทัดเดียวก็ได้เหมือนกัน:
 
 ```js no-beautify
-let user = 'จอห์น', age = 25, message = 'สวัสดี';
+let user = 'John', age = 25, message = 'Hello';
 ```
 
 แบบนี้ดูสั้นดี แต่ไม่แนะนำ เพราะแยกตัวแปรละบรรทัดแล้วอ่านง่ายกว่า
@@ -59,25 +59,25 @@ let user = 'จอห์น', age = 25, message = 'สวัสดี';
 แม้จะยาวขึ้นนิดหน่อย แต่เห็นแต่ละตัวแปรชัดเจน:
 
 ```js
-let user = 'จอห์น';
+let user = 'John';
 let age = 25;
-let message = 'สวัสดี';
+let message = 'Hello';
 ```
 
 บางคนประกาศหลายตัวแปรโดยแยกบรรทัดแบบนี้:
 
 ```js no-beautify
-let user = 'จอห์น',
+let user = 'John',
   age = 25,
-  message = 'สวัสดี';
+  message = 'Hello';
 ```
 
 หรือเขียนแบบ "comma-first" ที่วางจุลภาคไว้ต้นบรรทัด:
 
 ```js no-beautify
-let user = 'จอห์น'
+let user = 'John'
   , age = 25
-  , message = 'สวัสดี';
+  , message = 'Hello';
 ```
 
 ทั้งหมดนี้ทำงานเหมือนกัน จะเลือกแบบไหนก็ขึ้นอยู่กับความชอบและรูปแบบการเขียนโค้ดของแต่ละคน
@@ -86,7 +86,7 @@ let user = 'จอห์น'
 ในสคริปต์เก่าๆ เราอาจเจอคีย์เวิร์ด `var` แทน `let`:
 
 ```js
-*!*var*/!* message = 'สวัสดี';
+*!*var*/!* message = 'Hello';
 ```
 
 `var` *เกือบจะ* เหมือน `let` เพราะใช้ประกาศตัวแปรเหมือนกัน แต่รายละเอียดการทำงานบางอย่างต่างกันตามรูปแบบ JavaScript ยุคเก่า
@@ -107,9 +107,9 @@ let user = 'จอห์น'
 ```js run
 let message;
 
-message = 'สวัสดี!';
+message = 'Hello!';
 
-message = 'ชาวโลก!'; // เปลี่ยนค่าแล้ว
+message = 'World!'; // value changed
 
 alert(message);
 ```
@@ -121,7 +121,7 @@ alert(message);
 เรายังประกาศตัวแปรสองตัว แล้วคัดลอกข้อมูลจากตัวหนึ่งไปไว้อีกตัวได้ด้วย:
 
 ```js run
-let hello = 'สวัสดีชาวโลก!';
+let hello = 'Hello world!';
 
 let message;
 
@@ -141,10 +141,10 @@ alert(message); // สวัสดีชาวโลก!
 ถ้าประกาศตัวแปรชื่อเดิมซ้ำ JavaScript จะพ่น error:
 
 ```js run
-let message = "นี่";
+let message = "This";
 
 // ใส่ 'let' ซ้ำจึงเกิด error
-let message = "นั่น"; // SyntaxError: 'message' has already been declared
+let message = "That"; // SyntaxError: 'message' has already been declared
 ```
 
 จำง่ายๆ ว่าประกาศด้วย `let` ครั้งเดียว หลังจากนั้นก็เรียกชื่อตัวแปรได้เลย

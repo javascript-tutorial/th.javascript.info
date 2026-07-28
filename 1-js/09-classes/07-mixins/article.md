@@ -185,7 +185,7 @@ let menu = new Menu();
 
 // เพิ่ม handler ที่จะทำงานเมื่อเลือกรายการ:
 *!*
-menu.on("select", value => alert(`เลือกค่า: ${value}`));
+menu.on("select", value => alert(`Value selected: ${value}`));
 */!*
 
 // trigger อีเวนต์ => handler ด้านบนทำงาน แสดงผลว่า:

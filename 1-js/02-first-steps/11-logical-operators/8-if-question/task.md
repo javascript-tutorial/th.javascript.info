@@ -9,8 +9,7 @@ importance: 5
 แล้วนิพจน์ภายใน `if(...)` แต่ละตัวให้ผลลัพธ์เป็นอะไร?
 
 ```js
-if (-1 || 0) alert( 'ตัวแรก' );
-if (-1 && 0) alert( 'ตัวที่สอง' );
-if (null || -1 && 1) alert( 'ตัวที่สาม' );
+if (-1 || 0) alert( 'first' );
+if (-1 && 0) alert( 'second' );
+if (null || -1 && 1) alert( 'third' );
 ```
-

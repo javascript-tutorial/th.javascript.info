@@ -304,9 +304,9 @@ for(let prop in rabbit) {
   let isOwn = rabbit.hasOwnProperty(prop);
 
   if (isOwn) {
-    alert(`ของเรา: ${prop}`); // ของเรา: jumps
+    alert(`Our: ${prop}`); // Our: jumps
   } else {
-    alert(`สืบทอดมา: ${prop}`); // สืบทอดมา: eats
+    alert(`Inherited: ${prop}`); // Inherited: eats
   }
 }
 ```

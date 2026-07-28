@@ -141,7 +141,7 @@ let user = {
   age: 30
 };
 
-let key = prompt("ต้องการทราบข้อมูลใดของ user?", "name");
+let key = prompt("What do you want to know about the user?", "name");
 
 // เข้าถึงข้อมูลด้วยตัวแปร
 alert( user[key] ); // John (กรณีที่ผู้ใช้งานป้อนค่า "name")
@@ -166,7 +166,7 @@ alert( user.key ) // undefined
 เช่น:
 
 ```js run
-let fruit = prompt("ซื้อผลไม้อะไรดี?", "apple");
+let fruit = prompt("Which fruit to buy?", "apple");
 
 let bag = {
 *!*

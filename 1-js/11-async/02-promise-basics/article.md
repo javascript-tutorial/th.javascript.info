@@ -238,10 +238,10 @@ new Promise((resolve, reject) => {
 })
 *!*
   // รันเมื่อ promise settled ไม่สนว่าสำเร็จหรือพัง
-  .finally(() => หยุด loading indicator)
+  .finally(() => stop loading indicator)
   // loading indicator จะหยุดก่อนเสมอ แล้วค่อยไปต่อ
 */!*
-  .then(result => แสดงผลลัพธ์, err => แสดง error)
+  .then(result => show result, err => show error)
 ```
 
 แต่ `finally(f)` ไม่ได้เหมือน `then(f,f)` ซะทีเดียว มีข้อแตกต่างสำคัญ:

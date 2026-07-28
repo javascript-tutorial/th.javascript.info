@@ -11,10 +11,10 @@ JavaScript มีคำสั่ง `if` และตัวดำเนินก
 เช่น:
 
 ```js run
-let year = prompt('มาตรฐาน ECMAScript-2015 เผยแพร่ในปีไหน?', '');
+let year = prompt('In which year was ECMAScript-2015 specification published?', '');
 
 *!*
-if (year == 2015) alert('ตอบถูก!');
+if (year == 2015) alert( 'You are right!' );
 */!*
 ```
 
@@ -24,8 +24,8 @@ if (year == 2015) alert('ตอบถูก!');
 
 ```js
 if (year == 2015) {
-  alert("ถูกต้อง!");
-  alert("เก่งมาก!");
+  alert( "That's correct!" );
+  alert( "You're so smart!" );
 }
 ```
 
@@ -72,12 +72,12 @@ if (cond) {
 
 เช่น:
 ```js run
-let year = prompt('มาตรฐาน ECMAScript-2015 เผยแพร่ในปีไหน?', '');
+let year = prompt('In which year was the ECMAScript-2015 specification published?', '');
 
 if (year == 2015) {
-  alert('ตอบถูกต้อง!');
+  alert( 'You guessed it right!' );
 } else {
-  alert('ยังไม่ถูกนะ'); // ค่าอื่นที่ไม่ใช่ 2015
+  alert( 'How can you be so wrong?' ); // any value except 2015
 }
 ```
 
@@ -88,14 +88,14 @@ if (year == 2015) {
 เช่น:
 
 ```js run
-let year = prompt('มาตรฐาน ECMAScript-2015 เผยแพร่ในปีไหน?', '');
+let year = prompt('In which year was the ECMAScript-2015 specification published?', '');
 
 if (year < 2015) {
-  alert('เร็วไป...');
+  alert( 'Too early...' );
 } else if (year > 2015) {
-  alert('ช้าไป');
+  alert( 'Too late' );
 } else {
-  alert('ถูกต้อง!');
+  alert( 'Exactly!' );
 }
 ```
 
@@ -111,7 +111,7 @@ JavaScript จะเช็ค `year < 2015` ก่อน ถ้าผลเป�
 
 ```js run no-beautify
 let accessAllowed;
-let age = prompt('อายุเท่าไหร่?', '');
+let age = prompt('How old are you?', '');
 
 *!*
 if (age > 18) {
@@ -168,12 +168,12 @@ let accessAllowed = age > 18;
 
 เช่น:
 ```js run
-let age = prompt('อายุเท่าไหร่?', 18);
+let age = prompt('age?', 18);
 
-let message = (age < 3) ? 'สวัสดีจ้าหนู!' :
-  (age < 18) ? 'สวัสดีจ้า!' :
-  (age < 100) ? 'สวัสดีครับ/ค่ะ!' :
-  'อายุแปลกๆ นะ!';
+let message = (age < 3) ? 'Hi, baby!' :
+  (age < 18) ? 'Hello!' :
+  (age < 100) ? 'Greetings!' :
+  'What an unusual age!';
 
 alert( message );
 ```
@@ -189,13 +189,13 @@ alert( message );
 
 ```js
 if (age < 3) {
-  message = 'สวัสดีจ้าหนู!';
+  message = 'Hi, baby!';
 } else if (age < 18) {
-  message = 'สวัสดีจ้า!';
+  message = 'Hello!';
 } else if (age < 100) {
-  message = 'สวัสดีครับ/ค่ะ!';
+  message = 'Greetings!';
 } else {
-  message = 'อายุแปลกๆ นะ!';
+  message = 'What an unusual age!';
 }
 ```
 
@@ -204,11 +204,11 @@ if (age < 3) {
 บางครั้งเราอาจเห็นการใช้ `?` แทน `if`:
 
 ```js run no-beautify
-let company = prompt('บริษัทไหนเป็นผู้สร้าง JavaScript?', '');
+let company = prompt('Which company created JavaScript?', '');
 
 *!*
 (company == 'Netscape') ?
-   alert('ถูกต้อง!') : alert('ผิดแล้ว');
+   alert('Right!') : alert('Wrong.');
 */!*
 ```
 
@@ -223,13 +223,13 @@ JavaScript จะเลือกประเมินนิพจน์หลั
 เทียบกับการใช้ `if` กับโค้ดเดียวกัน:
 
 ```js run no-beautify
-let company = prompt('บริษัทไหนเป็นผู้สร้าง JavaScript?', '');
+let company = prompt('Which company created JavaScript?', '');
 
 *!*
 if (company == 'Netscape') {
-  alert('ถูกต้อง!');
+  alert('Right!');
 } else {
-  alert('ผิดแล้ว');
+  alert('Wrong.');
 }
 */!*
 ```

@@ -122,7 +122,7 @@ function ask(question, ...handlers) {
 
 // ถ้าตอบ "ใช่" จะเรียก handler ทั้งสองตัว
 // ถ้าตอบ "ไม่ใช่" จะเรียกแค่ตัวที่สอง
-ask("คำถาม?", () => alert('คุณตอบใช่'), result => alert(result));
+ask("Question?", () => alert('You said yes'), result => alert(result));
 ```
 
 นี่คือตัวอย่างของ [polymorphism](https://en.wikipedia.org/wiki/Polymorphism_(computer_science)) -- ซึ่งก็คือการจัดการอาร์กิวเมนต์ต่างกันตามชนิดหรือในกรณีนี้คือตาม `length` แนวคิดนี้ถูกนำไปใช้จริงในไลบรารี JavaScript หลายตัว
@@ -147,7 +147,7 @@ sayHi.counter = 0; // ค่าเริ่มต้น
 sayHi(); // Hi
 sayHi(); // Hi
 
-alert( `เรียกไปทั้งหมด ${sayHi.counter} ครั้ง` ); // เรียกไปทั้งหมด 2 ครั้ง
+alert( `Called ${sayHi.counter} times` ); // Called 2 times
 ```
 
 ```warn header="พร็อพเพอร์ตี้ ≠ ตัวแปร"

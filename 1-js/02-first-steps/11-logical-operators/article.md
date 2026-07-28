@@ -35,7 +35,7 @@ alert( false || false ); // false
 
 ```js run
 if (1 || 0) { // ทำงานเหมือน if( true || false )
-  alert( 'เงื่อนไขเป็น truthy!' );
+  alert( 'truthy!' );
 }
 ```
 
@@ -49,7 +49,7 @@ let hour = 9;
 *!*
 if (hour < 10 || hour > 18) {
 */!*
-  alert( 'สำนักงานปิดอยู่' );
+  alert( 'The office is closed.' );
 }
 ```
 
@@ -60,7 +60,7 @@ let hour = 12;
 let isWeekend = true;
 
 if (hour < 10 || hour > 18 || isWeekend) {
-  alert( 'สำนักงานปิดอยู่' ); // วันนี้เป็นวันหยุดสุดสัปดาห์
+  alert( 'The office is closed.' ); // it is the weekend
 }
 ```
 
@@ -109,7 +109,7 @@ alert( undefined || null || 0 ); // 0 (ทุกค่าเป็น falsy จ�
     let nickName = "SuperCoder";
 
     *!*
-    alert( firstName || lastName || nickName || "ไม่ระบุชื่อ"); // SuperCoder
+    alert( firstName || lastName || nickName || "Anonymous"); // SuperCoder
     */!*
     ```
 
@@ -126,8 +126,8 @@ alert( undefined || null || 0 ); // 0 (ทุกค่าเป็น falsy จ�
     ตัวอย่างต่อไปนี้จะแสดงเฉพาะข้อความที่สอง:
 
     ```js run no-beautify
-    *!*true*/!* || alert("ไม่แสดงข้อความนี้");
-    *!*false*/!* || alert("แสดงข้อความนี้");
+    *!*true*/!* || alert("not printed");
+    *!*false*/!* || alert("printed");
     ```
 
     บรรทัดแรก OR `||` หยุดประเมินผลทันทีที่เจอ `true` จึงไม่เรียก `alert`
@@ -158,7 +158,7 @@ let hour = 12;
 let minute = 30;
 
 if (hour == 12 && minute == 30) {
-  alert( 'ตอนนี้เวลา 12:30 น.' );
+  alert( 'The time is 12:30' );
 }
 ```
 
@@ -166,7 +166,7 @@ if (hour == 12 && minute == 30) {
 
 ```js run
 if (1 && 0) { // ประเมินผลเหมือน true && false
-  alert( "ข้อความนี้ไม่แสดง เพราะผลลัพธ์เป็น falsy" );
+  alert( "won't work, because the result is falsy" );
 }
 ```
 
@@ -200,7 +200,7 @@ alert( 1 && 5 ); // 5
 // ถ้าตัวถูกดำเนินการตัวแรกเป็น falsy
 // AND จะคืนค่านั้นทันทีโดยไม่ประเมินตัวถูกดำเนินการตัวที่สอง
 alert( null && 5 ); // null
-alert( 0 && "ค่าอะไรก็ไม่สำคัญ" ); // 0
+alert( 0 && "no matter what" ); // 0
 ```
 
 เราจะต่อกันหลายค่าก็ได้ สังเกตว่า JavaScript คืนค่า falsy ตัวแรกที่พบ:
@@ -229,7 +229,7 @@ alert( 1 && 2 && 3 ); // 3 คือตัวสุดท้าย
 ```js run
 let x = 1;
 
-(x > 0) && alert( 'มากกว่าศูนย์!' );
+(x > 0) && alert( 'Greater than zero!' );
 ```
 
 คำสั่งทางขวาของ `&&` จะทำงานก็ต่อเมื่อการประเมินผลมาถึงฝั่งขวา ซึ่งจะเกิดขึ้นเมื่อ `(x > 0)` เป็น true เท่านั้น
@@ -239,7 +239,7 @@ let x = 1;
 ```js run
 let x = 1;
 
-if (x > 0) alert( 'มากกว่าศูนย์!' );
+if (x > 0) alert( 'Greater than zero!' );
 ```
 
 แม้แบบที่ใช้ `&&` จะสั้นกว่า แต่ `if` สื่อความหมายตรงกว่าและมักอ่านง่ายกว่า จึงควรใช้แต่ละอย่างให้ตรงหน้าที่ ถ้าต้องการเขียนเงื่อนไขก็ใช้ `if` ถ้าต้องการ AND ก็ใช้ `&&`
@@ -271,7 +271,7 @@ alert( !0 ); // true
 บางครั้งเราจะใช้ NOT สองตัวติดกัน `!!` เพื่อแปลงค่าเป็นบูลีน:
 
 ```js run
-alert( !!"สตริงที่ไม่ว่าง" ); // true
+alert( !!"non-empty string" ); // true
 alert( !!null ); // false
 ```
 
@@ -280,7 +280,7 @@ NOT ตัวแรกจะแปลงค่าเป็นบูลีนแ�
 อีกวิธีที่เขียนยาวขึ้นเล็กน้อยแต่ได้ผลเหมือนกัน คือใช้ฟังก์ชัน built-in `Boolean`:
 
 ```js run
-alert( Boolean("สตริงที่ไม่ว่าง") ); // true
+alert( Boolean("non-empty string") ); // true
 alert( Boolean(null) ); // false
 ```
 

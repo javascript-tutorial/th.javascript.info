@@ -221,7 +221,7 @@ arr.forEach(function(item, index, array) {
 
 ```js run
 ["Bilbo", "Gandalf", "Nazgul"].forEach((item, index, array) => {
-  alert(`${item} อยู่ที่ index ${index} ใน ${array}`);
+  alert(`${item} is at index ${index} in ${array}`);
 });
 ```
 
@@ -303,9 +303,9 @@ let result = arr.find(function(item, index, array) {
 
 ```js run
 let users = [
-  {id: 1, name: "สมชาย"},
-  {id: 2, name: "สมหญิง"},
-  {id: 3, name: "มาลี"}
+  {id: 1, name: "John"},
+  {id: 2, name: "Pete"},
+  {id: 3, name: "Mary"}
 ];
 
 let user = users.find(item => item.id == 1);
@@ -325,17 +325,17 @@ alert(user.name); // สมชาย
 
 ```js run
 let users = [
-  {id: 1, name: "สมชาย"},
-  {id: 2, name: "สมหญิง"},
-  {id: 3, name: "มาลี"},
-  {id: 4, name: "สมชาย"}
+  {id: 1, name: "John"},
+  {id: 2, name: "Pete"},
+  {id: 3, name: "Mary"},
+  {id: 4, name: "John"}
 ];
 
 // หา index ของสมชายคนแรก
-alert(users.findIndex(user => user.name == 'สมชาย')); // 0
+alert(users.findIndex(user => user.name == 'John')); // 0
 
 // หา index ของสมชายคนสุดท้าย
-alert(users.findLastIndex(user => user.name == 'สมชาย')); // 3
+alert(users.findLastIndex(user => user.name == 'John')); // 3
 ```
 
 ### filter
@@ -357,9 +357,9 @@ let results = arr.filter(function(item, index, array) {
 
 ```js run
 let users = [
-  {id: 1, name: "สมชาย"},
-  {id: 2, name: "สมหญิง"},
-  {id: 3, name: "มาลี"}
+  {id: 1, name: "John"},
+  {id: 2, name: "Pete"},
+  {id: 3, name: "Mary"}
 ];
 
 // คืนอาร์เรย์ของสองผู้ใช้แรก
@@ -532,7 +532,7 @@ let names = 'Bilbo, Gandalf, Nazgul';
 let arr = names.split(', ');
 
 for (let name of arr) {
-  alert( `ส่งข้อความถึง ${name}.` ); // ส่งข้อความถึง Bilbo  (และชื่ออื่นๆ)
+  alert( `A message to ${name}.` ); // A message to Bilbo  (and other names)
 }
 ```
 

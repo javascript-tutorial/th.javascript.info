@@ -1,3 +1,3 @@
 export function sayHi(user) {
-  return `สวัสดี, ${user}!`;
+  return `Hello, ${user}!`;
 }

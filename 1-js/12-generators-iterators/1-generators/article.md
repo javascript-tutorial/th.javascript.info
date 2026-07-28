@@ -407,7 +407,7 @@ function* gen() {
   try {
     let result = yield "2 + 2 = ?"; // (1)
 
-    alert("ไม่มีทางมาถึงบรรทัดนี้ได้ เพราะ exception ถูกโยนขึ้นมาก่อนแล้ว");
+    alert("The execution does not reach here, because the exception is thrown above");
   } catch(e) {
     alert(e); // แสดง error
   }
@@ -418,7 +418,7 @@ let generator = gen();
 let question = generator.next().value;
 
 *!*
-generator.throw(new Error("ไม่พบคำตอบในฐานข้อมูล")); // (2)
+generator.throw(new Error("The answer is not found in my database")); // (2)
 */!*
 ```
 
@@ -439,7 +439,7 @@ let question = generator.next().value;
 
 *!*
 try {
-  generator.throw(new Error("ไม่พบคำตอบในฐานข้อมูล"));
+  generator.throw(new Error("The answer is not found in my database"));
 } catch(e) {
   alert(e); // แสดง error
 }

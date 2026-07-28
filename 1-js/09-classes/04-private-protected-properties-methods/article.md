@@ -68,7 +68,7 @@ class CoffeeMachine {
 
   constructor(power) {
     this.power = power;
-    alert( `สร้างเครื่องชงกาแฟ กำลังไฟ: ${power}` );
+    alert( `Created a coffee-machine, power: ${power}` );
   }
 
 }
@@ -145,7 +145,7 @@ class CoffeeMachine {
 // สร้างเครื่องชงกาแฟ
 let coffeeMachine = new CoffeeMachine(100);
 
-alert(`กำลังไฟ: ${coffeeMachine.power}W`); // กำลังไฟ: 100W
+alert(`Power is: ${coffeeMachine.power}W`); // Power is: 100W
 
 coffeeMachine.power = 25; // Error (ไม่มี setter)
 ```

@@ -31,7 +31,7 @@
 ```js
 // 📁 sayHi.js
 export function sayHi(user) {
-  alert(`สวัสดี, ${user}!`);
+  alert(`Hello, ${user}!`);
 }
 ```
 
@@ -131,7 +131,7 @@ script ทุกตัวจะเห็นมัน ทั้งแบบ `type
 
 ```js
 // 📁 alert.js
-alert("โมดูล evaluate แล้ว!");
+alert("Module is evaluated!");
 ```
 
 ```js
@@ -198,7 +198,7 @@ alert(admin.name); // Pete
 export let config = { };
 
 export function sayHi() {
-  alert(`พร้อมรับใช้, ${config.user}!`);
+  alert(`Ready to serve, ${config.user}!`);
 }
 ```
 
@@ -282,7 +282,7 @@ Module script เป็น deferred *เสมอ* — เหมือนกั�
   // เพราะ module เป็น deferred script จึงรันหลังจาก page โหลดเสร็จ
 </script>
 
-เปรียบกับ script ธรรมดาด้านล่าง:
+Compare to regular script below:
 
 <script>
 *!*
@@ -362,12 +362,12 @@ import {sayHi} from 'sayHi'; // Error, "bare" module
 
 ```html run
 <script type="module">
-  alert("รันบนบราวเซอร์ modern");
+  alert("Runs in modern browsers");
 </script>
 
 <script nomodule>
-  alert("บราวเซอร์ modern รู้จักทั้ง type=module และ nomodule เลยข้ามอันนี้")
-  alert("บราวเซอร์เก่าไม่รู้จัก type=module เลยข้าม แต่มารันอันนี้แทน");
+  alert("Modern browsers know both type=module and nomodule, so skip this")
+  alert("Old browsers ignore script with unknown type=module, but execute this.");
 </script>
 ```
 

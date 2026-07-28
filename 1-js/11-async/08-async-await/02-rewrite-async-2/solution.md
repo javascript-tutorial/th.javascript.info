@@ -24,7 +24,7 @@ async function demoGithubUser() {
 
   let user;
   while(true) {
-    let name = prompt("ใส่ชื่อ?", "iliakan");
+    let name = prompt("Enter a name?", "iliakan");
 
     try {
       user = await loadJson(`https://api.github.com/users/${name}`);
@@ -32,7 +32,7 @@ async function demoGithubUser() {
     } catch(err) {
       if (err instanceof HttpError && err.response.status == 404) {
         // loop ทำงานต่อหลัง alert
-        alert("ไม่พบผู้ใช้นี้ กรุณาลองใหม่อีกครั้ง");
+        alert("No such user, please reenter.");
       } else {
         // error ที่ไม่รู้จัก โยนต่อออกไป
         throw err;
@@ -41,7 +41,7 @@ async function demoGithubUser() {
   }
 
 
-  alert(`ชื่อเต็ม: ${user.name}.`);
+  alert(`Full name: ${user.name}.`);
   return user;
 }
 

@@ -9,9 +9,9 @@ importance: 5
 ```js
 let name = "Ilya";
 
-alert( `สวัสดี ${1}` ); // ?
+alert( `hello ${1}` ); // ?
 
-alert( `สวัสดี ${"name"}` ); // ?
+alert( `hello ${"name"}` ); // ?
 
-alert( `สวัสดี ${name}` ); // ?
+alert( `hello ${name}` ); // ?
 ```

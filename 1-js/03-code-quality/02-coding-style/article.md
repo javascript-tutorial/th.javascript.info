@@ -25,8 +25,8 @@ let x = prompt("x?", "");
 let n = prompt("n?", "");
 
 if (n < 0) {
-  alert(`เลขยกกำลัง ${n} ไม่รองรับ,
-    กรุณาใส่จำนวนเต็มที่ไม่ติดลบ`);
+  alert(`Power ${n} is not supported,
+    please enter a non-negative integer number`);
 } else {
   alert( pow(x, n) );
 }
@@ -58,21 +58,21 @@ if (condition) {
 
 1. 😠 มือใหม่บางคนชอบทำแบบนี้ — ไม่ดีเลย! ไม่จำเป็นต้องมีวงเล็บปีกกา:
    ```js
-   if (n < 0) *!*{*/!*alert(`เลขยกกำลัง ${n} ไม่รองรับ`);*!*}*/!*
+    if (n < 0) *!*{*/!*alert(`Power ${n} is not supported`);*!*}*/!*
    ``` 
 2. 😠 แยกบรรทัดใหม่แต่ไม่ใส่วงเล็บปีกกา อย่าทำเลย เพราะพังง่ายมากเวลาเพิ่มบรรทัดใหม่:
    ```js
    if (n < 0)
-     alert(`เลขยกกำลัง ${n} ไม่รองรับ`);
+      alert(`Power ${n} is not supported`);
    ```
 3. 😏 เขียนบรรทัดเดียวไม่มีวงเล็บปีกกา — ยอมรับได้ถ้าสั้น:
    ```js
-   if (n < 0) alert(`เลขยกกำลัง ${n} ไม่รองรับ`);
+    if (n < 0) alert(`Power ${n} is not supported`);
    ```
 4. 😃 ตัวเลือกที่ดีที่สุด:
    ```js
    if (n < 0) {
-     alert(`เลขยกกำลัง ${n} ไม่รองรับ`); 
+      alert(`Power ${n} is not supported`);
    }
    ```
 
@@ -86,9 +86,9 @@ if (condition) {
 ```js
 // เครื่องหมาย backtick ` ทำให้แบ่งสตริงเป็นหลายบรรทัดได้
 let str = `
-  ECMA International's TC39 เป็นกลุ่มนักพัฒนา JavaScript,
-  ผู้ทำระบบ, นักวิชาการ และอีกมากมาย ที่ร่วมกันดูแลรักษากับชุมชน  
-  เพื่อปรับปรุงและพัฒนานิยามของ JavaScript
+  ECMA International's TC39 is a group of JavaScript developers,
+  implementers, academics, and more, collaborating with the community
+  to maintain and evolve the definition of JavaScript.
 `;
 ```
 
@@ -189,7 +189,7 @@ for (let i = 0; i < 10; i++) {
 ```js
 function pow(x, n) {
   if (n < 0) {
-    alert("ไม่รองรับ 'n' ติดลบ");
+    alert("Negative 'n' not supported");
   } else {
     let result = 1;
 
@@ -207,7 +207,7 @@ function pow(x, n) {
 ```js
 function pow(x, n) {
   if (n < 0) {
-    alert("ไม่รองรับ 'n' ติดลบ");
+    alert("Negative 'n' not supported");
     return;
   }
 

@@ -10,12 +10,12 @@ importance: 5
 
     ```js
     try {
-      ทำงาน ทำงาน
+      work work
     } catch (err) {
-      จัดการ error
+      handle errors
     } finally {
     *!*
-      เคลียร์งาน
+      cleanup the working space
     */!*
     }
     ```
@@ -23,13 +23,13 @@ importance: 5
 
     ```js
     try {
-      ทำงาน ทำงาน
+      work work
     } catch (err) {
-      จัดการ error
+      handle errors
     }
 
     *!*
-    เคลียร์งาน
+    cleanup the working space
     */!*
     ```
 

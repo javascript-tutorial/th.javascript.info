@@ -237,28 +237,28 @@ JavaScript engine อาจปรับแต่งการทำงาน เ�
 
 ![](lexical-environment-simple.svg)
 
-ระหว่างที่ฟังก์ชันทำงาน จะมี Lexical Environment 2 ตัว คือ ตัวชั้นใน (ของฟังก์ชัน) กับตัวชั้นนอก (global):
+During the function call we have two Lexical Environments: the inner one (for the function call) and the outer one (global):
 
-- Lexical Environment ชั้นในตรงกับการทำงานปัจจุบันของ `say` มีพร็อพเพอร์ตี้ตัวเดียวคือ `name` ซึ่งเป็นอาร์กิวเมนต์ของฟังก์ชัน เราเรียก `say("John")` ดังนั้นค่าของ `name` จึงเป็น `"John"`
-- Lexical Environment ชั้นนอกคือ Lexical Environment แบบ global ที่มีตัวแปร `phrase` และตัวฟังก์ชันเอง
+- The inner Lexical Environment corresponds to the current execution of `say`. It has a single property: `name`, the function argument. We called `say("John")`, so the value of the `name` is `"John"`.
+- The outer Lexical Environment is the global Lexical Environment. It has the `phrase` variable and the function itself.
 
-Lexical Environment ชั้นในมีการอ้างอิงไปยัง `outer` (ชั้นนอก)
+The inner Lexical Environment has a reference to the `outer` one.
 
-**เมื่อโค้ดต้องการเข้าถึงตัวแปร จะค้นหาจาก Lexical Environment ชั้นในก่อน จากนั้นชั้นนอก แล้วก็ชั้นนอกถัดไปเรื่อยๆ จนถึงระดับ global**
+**When the code wants to access a variable -- the inner Lexical Environment is searched first, then the outer one, then the more outer one and so on until the global one.**
 
-ถ้าหาตัวแปรไม่เจอเลย ในโหมด strict จะเกิด error (ถ้าไม่ได้ใช้ `use strict` การกำหนดค่าให้ตัวแปรที่ไม่มีอยู่จะสร้างตัวแปร global ขึ้นมาใหม่ เพื่อรองรับโค้ดเก่า)
+If a variable is not found anywhere, that's an error in strict mode (without `use strict`, an assignment to a non-existing variable creates a new global variable, for compatibility with old code).
 
-ในตัวอย่างนี้ การค้นหาเป็นดังนี้:
+In this example the search proceeds as follows:
 
-- ตัวแปร `name` -- `alert` ภายใน `say` พบได้ทันทีใน Lexical Environment ชั้นใน
-- ตัวแปร `phrase` -- ไม่มีอยู่ในชั้นใน จึงไล่ตามการอ้างอิงไปยัง Lexical Environment ชั้นนอก และพบที่นั่น
+- For the `name` variable, the `alert` inside `say` finds it immediately in the inner Lexical Environment.
+- When it wants to access `phrase`, then there is no `phrase` locally, so it follows the reference to the outer Lexical Environment and finds it there.
 
 ![lexical environment lookup](lexical-environment-simple-lookup.svg)
 
 
 ### ขั้นตอนที่ 4: การ return ฟังก์ชัน
 
-กลับมาที่ตัวอย่าง `makeCounter` กัน
+Let's return to the `makeCounter` example.
 
 ```js
 function makeCounter() {

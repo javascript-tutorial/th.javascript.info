@@ -1,7 +1,7 @@
 โค้ด JavaScript:
 
 ```js demo run
-let name = prompt("คุณชื่ออะไร?", "");
+let name = prompt("What is your name?", "");
 alert(name);
 ```
 
@@ -15,7 +15,7 @@ alert(name);
   <script>
     'use strict';
 
-    let name = prompt("คุณชื่ออะไร?", "");
+    let name = prompt("What is your name?", "");
     alert(name);
   </script>
 

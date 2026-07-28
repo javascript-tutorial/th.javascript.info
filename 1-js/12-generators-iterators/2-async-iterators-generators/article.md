@@ -176,7 +176,7 @@ let range = {
   to: 5,
 *!*
   [Symbol.iterator]() {
-    return <ออบเจ็กต์ที่มี next เพื่อให้ range iterate ได้>
+    return <object with next to make range iterable>
   }
 */!*
 }

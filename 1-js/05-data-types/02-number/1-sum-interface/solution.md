@@ -1,8 +1,8 @@
 
 
 ```js run demo
-let a = +prompt("ตัวเลขแรก?", "");
-let b = +prompt("ตัวเลขที่สอง?", "");
+let a = +prompt("The first number?", "");
+let b = +prompt("The second number?", "");
 
 alert( a + b );
 ```

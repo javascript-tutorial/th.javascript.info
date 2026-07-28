@@ -57,9 +57,9 @@ alert("some code");
 วิธีแรก กด `key:Shift+Enter` เพื่อพิมพ์โค้ดหลายบรรทัด แล้ววาง `use strict` ไว้บรรทัดแรก:
 
 ```js
-'use strict'; <Shift+Enter เพื่อขึ้นบรรทัดใหม่>
+'use strict'; <Shift+Enter for a newline>
 //  ...โค้ดของเรา
-<Enter เพื่อรันโค้ด>
+<Enter to run>
 ```
 
 วิธีนี้ใช้ได้กับเบราว์เซอร์ส่วนใหญ่ รวมถึง Firefox และ Chrome

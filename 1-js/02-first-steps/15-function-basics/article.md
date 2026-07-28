@@ -16,7 +16,7 @@
 
 ```js
 function showMessage() {
-  alert( 'สวัสดีทุกคน!' );
+  alert( 'Hello everyone!' );
 }
 ```
 
@@ -34,7 +34,7 @@ function name(parameter1, parameter2, ... parameterN) {
 
 ```js run
 function showMessage() {
-  alert( 'สวัสดีทุกคน!' );
+  alert( 'Hello everyone!' );
 }
 
 *!*
@@ -273,7 +273,7 @@ function showMessage(text) {
 
 *!*
   if (text === undefined) { // ถ้าไม่มีพารามิเตอร์ส่งมา
-    text = 'ข้อความว่าง';  
+    text = 'empty message';
   }
 */!*
 
@@ -333,17 +333,17 @@ function checkAge(age) {
 */!*
   } else {
 *!*
-    return confirm('คุณได้รับอนุญาตจากผู้ปกครองหรือไม่?');
+    return confirm('Do you have permission from your parents?');
 */!*
   }
 }
 
-let age = prompt('คุณอายุเท่าไหร่?', 18);
+let age = prompt('How old are you?', 18);
 
 if ( checkAge(age) ) {
-  alert('อนุญาตให้เข้าใช้งาน');
+  alert( 'Access granted' );
 } else {
-  alert('ไม่อนุญาตให้เข้าใช้งาน');
+  alert( 'Access denied' );
 }
 ```
 
@@ -359,7 +359,7 @@ function showMovie(age) {
 */!*
   }
 
-  alert("กำลังแสดงภาพยนตร์ให้ชม"); // (*)
+  alert( "Showing you the movie" ); // (*)
   // ...
 }
 ```

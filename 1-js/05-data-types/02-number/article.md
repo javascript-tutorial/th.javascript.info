@@ -334,7 +334,7 @@ JavaScript ไม่ฟ้อง error ในกรณีแบบนี้ แ�
 
 
 ```js run
-let num = +prompt("ป้อนตัวเลข", '');
+let num = +prompt("Enter a number", '');
 
 // จะเป็น true ยกเว้นป้อน Infinity, -Infinity หรือค่าที่ไม่ใช่ตัวเลข
 alert( isFinite(num) );

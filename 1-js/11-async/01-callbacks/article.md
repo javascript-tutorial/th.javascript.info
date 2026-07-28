@@ -102,7 +102,7 @@ function loadScript(src, callback) {
 
 *!*
 loadScript('https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js', script => {
-  alert(`เยี่ยม! script ${script.src} โหลดเสร็จแล้ว`);
+  alert(`Cool, the script ${script.src} is loaded`);
   alert( _ ); // _ คือฟังก์ชันที่ประกาศไว้ใน script ที่เพิ่งโหลดมา
 });
 */!*
@@ -121,11 +121,11 @@ loadScript('https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js', s
 ```js
 loadScript('/my/script.js', function(script) {
 
-  alert(`เยี่ยม! ${script.src} โหลดเสร็จแล้ว โหลดอีกตัวนึงเลย`);
+  alert(`Cool, the ${script.src} is loaded, let's load one more`);
 
 *!*
   loadScript('/my/script2.js', function(script) {
-    alert(`เยี่ยม! script ตัวที่สองโหลดเสร็จแล้ว`);
+    alert(`Cool, the second script is loaded`);
   });
 */!*
 

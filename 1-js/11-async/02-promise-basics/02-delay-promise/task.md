@@ -10,5 +10,5 @@ function delay(ms) {
   // โค้ดของเรา
 }
 
-delay(3000).then(() => alert('รันหลัง 3 วินาที'));
+delay(3000).then(() => alert('runs after 3 seconds'));
 ```

@@ -230,7 +230,7 @@ for (let i = 0; i < 100000; i++) {
 
 let end = new Date(); // หยุดจับเวลา
 
-alert( `ลูปใช้เวลา ${end - start} ms` );
+alert( `The loop took ${end - start} ms` );
 ```
 
 ## Date.now()
@@ -259,7 +259,7 @@ for (let i = 0; i < 100000; i++) {
 let end = Date.now(); // เสร็จแล้ว
 */!*
 
-alert( `ลูปใช้เวลา ${end - start} ms` ); // ลบตัวเลข ไม่ใช่วันที่
+alert( `The loop took ${end - start} ms` ); // subtract numbers, not dates
 ```
 
 ## Benchmarking
@@ -306,8 +306,8 @@ function bench(f) {
   return Date.now() - start;
 }
 
-alert( 'เวลาของ diffSubtract: ' + bench(diffSubtract) + 'ms' );
-alert( 'เวลาของ diffGetTime: ' + bench(diffGetTime) + 'ms' );
+alert( 'Time of diffSubtract: ' + bench(diffSubtract) + 'ms' );
+alert( 'Time of diffGetTime: ' + bench(diffGetTime) + 'ms' );
 ```
 
 ว้าว! `getTime()` เร็วกว่ามากเลย! เพราะไม่มีการแปลงประเภท engine จึง optimize ได้ง่ายกว่า
@@ -351,8 +351,8 @@ for (let i = 0; i < 10; i++) {
 }
 */!*
 
-alert( 'เวลารวมของ diffSubtract: ' + time1 );
-alert( 'เวลารวมของ diffGetTime: ' + time2 );
+alert( 'Total time for diffSubtract: ' + time1 );
+alert( 'Total time for diffGetTime: ' + time2 );
 ```
 
 JavaScript engine สมัยใหม่จะเริ่ม optimize ขั้นสูงเฉพาะกับ "hot code" ที่รันซ้ำหลายครั้ง ดังนั้นในตัวอย่างข้างต้น การรันครั้งแรกๆ ยังไม่ได้รับการ optimize จึงควรเพิ่มการ "อุ่นเครื่อง" ก่อน:
@@ -420,7 +420,7 @@ alert(date);
 บางครั้งต้องการวัดเวลาที่แม่นยำกว่านี้ JavaScript เองไม่มีวิธีวัดในระดับไมโครวินาที (1 ในล้านของวินาที) แต่สภาพแวดล้อมส่วนใหญ่มีให้ เช่น เบราว์เซอร์มี [performance.now()](mdn:api/Performance/now) ที่คืนค่าจำนวนมิลลิวินาทีตั้งแต่เริ่มโหลดหน้าเว็บ พร้อมความแม่นยำระดับไมโครวินาที (3 ตำแหน่งหลังจุดทศนิยม):
 
 ```js run
-alert(`โหลดเริ่มมาแล้ว ${performance.now()}ms`);
+alert(`Loading started ${performance.now()}ms ago`);
 // บางอย่างเช่น: "โหลดเริ่มมาแล้ว 34731.26000000001ms"
 // .26 คือไมโครวินาที (260 ไมโครวินาที)
 // ตัวเลขหลังจุดทศนิยมมากกว่า 3 ตำแหน่งคือความผิดพลาดของความแม่นยำ ถูกต้องแค่ 3 ตำแหน่งแรก

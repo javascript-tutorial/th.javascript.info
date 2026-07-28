@@ -8,7 +8,7 @@ function sumInput() {
 
   while (true) {
 
-    let value = prompt("กรุณาป้อนตัวเลข", 0);
+    let value = prompt("A number please?", 0);
 
     // ควรหยุดหรือเปล่า?
     if (value === "" || value === null || !isFinite(value)) break;

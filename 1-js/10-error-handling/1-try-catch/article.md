@@ -39,15 +39,15 @@ try {
     ```js run
     try {
 
-      alert('เริ่มรัน try');  // *!*(1) <--*/!*
+      alert('Start of try runs');  // *!*(1) <--*/!*
 
       // ...ไม่มี error
 
-      alert('รัน try จบ');   // *!*(2) <--*/!*
+      alert('End of try runs');   // *!*(2) <--*/!*
 
     } catch (err) {
 
-      alert('ข้าม catch ไป เพราะไม่มี error'); // (3)
+      alert('Catch is ignored, because there are no errors'); // (3)
 
     }
     ```
@@ -56,17 +56,17 @@ try {
     ```js run
     try {
 
-      alert('เริ่มรัน try');  // *!*(1) <--*/!*
+      alert('Start of try runs');  // *!*(1) <--*/!*
 
     *!*
       lalala; // เกิด error เพราะตัวแปรยังไม่ได้ประกาศ!
     */!*
 
-      alert('รัน try จบ (ไม่มีทางถึงบรรทัดนี้)');  // (2)
+      alert('End of try (never reached)');  // (2)
 
     } catch (err) {
 
-      alert(`เกิด error ขึ้น!`); // *!*(3) <--*/!*
+      alert(`Error has occurred!`); // *!*(3) <--*/!*
 
     }
     ```
@@ -81,7 +81,7 @@ try {
 try {
   {{{{{{{{{{{{
 } catch (err) {
-  alert("เอนจินอ่านโค้ดนี้ไม่รู้เรื่อง เพราะไวยากรณ์ผิด");
+  alert("The engine can't understand this code, it's invalid");
 }
 ```
 
@@ -100,7 +100,7 @@ try {
     noSuchVariable; // สคริปต์จะตายตรงนี้
   }, 1000);
 } catch (err) {
-  alert( "จับไม่ได้" );
+  alert( "won't work" );
 }
 ```
 
@@ -112,7 +112,7 @@ setTimeout(function() {
   try {
     noSuchVariable; // try...catch จับ error ได้!
   } catch {
-    alert( "จับ error ได้แล้ว!" );
+    alert( "error is caught here!" );
   }
 }, 1000);
 ```
@@ -216,7 +216,7 @@ try {
 } catch (err) {
 *!*
   // ...การทำงานจะกระโดดมาที่นี่
-  alert( "ขออภัย ข้อมูลมีปัญหา เราจะลองโหลดข้อมูลใหม่อีกครั้ง" );
+  alert( "Our apologies, the data has errors, we'll try to request it one more time." );
   alert( err.name );
   alert( err.message );
 */!*
@@ -242,7 +242,7 @@ try {
 */!*
 
 } catch (err) {
-  alert( "ไม่ทำงาน" );
+  alert( "doesn't execute" );
 }
 ```
 
@@ -429,7 +429,7 @@ try {
   readData();
 } catch (err) {
 *!*
-  alert( "catch ชั้นนอกจับได้: " + err ); // จับได้แล้ว!
+  alert( "External catch got: " + err ); // caught it!
 */!*
 }
 ```
@@ -449,11 +449,11 @@ try {
 
 ```js
 *!*try*/!* {
-   ... ลองรันโค้ด ...
+   ... try to execute the code ...
 } *!*catch*/!* (err) {
-   ... จัดการ error ...
+   ... handle errors ...
 } *!*finally*/!* {
-   ... รันเสมอไม่ว่ายังไง ...
+   ... execute always ...
 }
 ```
 
@@ -462,7 +462,7 @@ try {
 ```js run
 try {
   alert( 'try' );
-  if (confirm('จะให้เกิด error ไหม?')) BAD_CODE();
+  if (confirm('Make an error?')) BAD_CODE();
 } catch (err) {
   alert( 'catch' );
 } finally {
@@ -480,13 +480,13 @@ try {
 ตัวอย่าง — จับเวลาฟังก์ชันหา Fibonacci ถ้า `fib(n)` ได้ค่าติดลบหรือไม่ใช่จำนวนเต็มก็จะ throw error แต่เราก็ยังอยากรู้ว่าใช้เวลาเท่าไหร่อยู่ดีใช่ไหม? `finally` ช่วยได้เลย:
 
 ```js run
-let num = +prompt("ใส่จำนวนเต็มบวก", 35)
+let num = +prompt("Enter a positive integer number?", 35)
 
 let diff, result;
 
 function fib(n) {
   if (n < 0 || Math.trunc(n) != n) {
-    throw new Error("ต้องไม่ติดลบ และต้องเป็นจำนวนเต็ม");
+    throw new Error("Must not be negative, and also an integer.");
   }
   return n <= 1 ? n : fib(n - 1) + fib(n - 2);
 }
@@ -503,9 +503,9 @@ try {
 }
 */!*
 
-alert(result || "เกิด error");
+alert(result || "error occurred");
 
-alert( `ใช้เวลา ${diff}ms` );
+alert( `execution took ${diff}ms` );
 ```
 
 ลองรันดู — ใส่ `35` ก็รันปกติ `finally` ทำงานหลัง `try` ใส่ `-1` ก็ error ทันทีแต่จับเวลาได้ถูกต้องเหมือนกัน ทั้งสองเคสผ่าน `finally` หมด
@@ -596,7 +596,7 @@ window.onerror = function(message, url, line, col, error) {
 <script>
 *!*
   window.onerror = function(message, url, line, col, error) {
-    alert(`${message}\n ที่บรรทัด ${line}:${col} ของ ${url}`);
+    alert(`${message}\n At ${line}:${col} of ${url}`);
   };
 */!*
 

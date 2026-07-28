@@ -11,8 +11,8 @@ importance: 5
 เกิดจากอะไร? ลองแก้ให้ผลลัพธ์เป็น `3`
 
 ```js run
-let a = prompt("ตัวเลขตัวแรก?", 1);
-let b = prompt("ตัวเลขตัวที่สอง?", 2);
+let a = prompt("First number?", 1);
+let b = prompt("Second number?", 2);
 
 alert(a + b); // 12
 ```

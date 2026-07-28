@@ -39,18 +39,18 @@ let a = 2 + 2;
 
 switch (a) {
   case 3:
-    alert( 'เล็กไป' );
+    alert( 'Too small' );
     break;
 *!*
   case 4:
-    alert( 'ถูกต้อง!' );
+    alert( 'Exactly!' );
     break;
 */!*
   case 5:
-    alert( 'ใหญ่ไป' );
+    alert( 'Too big' );
     break;
   default:
-    alert( "ไม่รู้จักค่านี้" );
+    alert( "I don't know such values" );
 }
 ```
 
@@ -67,14 +67,14 @@ let a = 2 + 2;
 
 switch (a) {
   case 3:
-    alert( 'เล็กไป' );
+    alert( 'Too small' );
 *!*
   case 4:
-    alert( 'ถูกต้อง!' );
+    alert( 'Exactly!' );
   case 5:
-    alert( 'ใหญ่ไป' );
+    alert( 'Too big' );
   default:  
-    alert( "ไม่รู้จักค่านี้" );
+    alert( "I don't know such values" );
 */!*
 }
 ```
@@ -82,9 +82,9 @@ switch (a) {
 ตัวอย่างนี้จึงเรียก `alert` สามครั้งต่อกัน:
 
 ```js
-alert( 'ถูกต้อง!' );
-alert( 'ใหญ่ไป' );
-alert( "ไม่รู้จักค่านี้" );  
+alert( 'Exactly!' );
+alert( 'Too big' );
+alert( "I don't know such values" );
 ```
 
 ````smart header="ใช้นิพจน์อะไรก็ได้เป็นอาร์กิวเมนต์ของ `switch/case`"
@@ -99,12 +99,12 @@ let b = 0;
 switch (+a) {
 *!*
   case b + 1:
-    alert("ทำงาน เพราะ +a เป็น 1 ซึ่งเท่ากับ b+1");
+    alert("this runs, because +a is 1, exactly equals b+1");
     break;
 */!*
 
   default:
-    alert("ไม่ทำงาน");
+    alert("this doesn't run");
 }
 ```
 นิพจน์ `+a` ได้ค่า `1` ส่วน `b + 1` ใน `case` ก็ได้ค่า `1` เช่นกัน เมื่อสองค่านี้ตรงกัน โค้ดใน `case` นั้นจึงทำงาน
@@ -121,19 +121,19 @@ let a = 3;
 
 switch (a) {
   case 4:
-    alert('ถูกต้อง!');
+    alert('Right!');
     break;
 
 *!*
   case 3: // (*) จัดกลุ่มสอง case ไว้ด้วยกัน
   case 5:
-    alert('ผิด!');
-    alert("ลองไปเรียนคณิตหน่อยไหม");
+    alert('Wrong!');
+    alert("Why don't you take a math class?");
     break;
 */!*
 
   default:
-    alert('ผลลัพธ์แปลกมากเลย');
+    alert('The result is strange. Really.');
 }
 ```
 
@@ -148,22 +148,22 @@ switch (a) {
 ลองดูโค้ดนี้:
 
 ```js run
-let arg = prompt("ใส่ค่ามา");
+let arg = prompt("Enter a value?");
 switch (arg) {
   case '0':
   case '1':
-    alert( 'ศูนย์หรือหนึ่ง' );
+    alert( 'One or zero' );
     break;
 
   case '2':
-    alert( 'สอง' );
+    alert( 'Two' );
     break;
 
   case 3:
-    alert( 'จะไม่มีทางรันเลย!' );  
+    alert( 'Never executes!' );
     break;
   default:
-    alert( 'ค่าที่ไม่รู้จัก' );
+    alert( 'An unknown value' );
 }
 ```
 

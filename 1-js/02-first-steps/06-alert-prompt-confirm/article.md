@@ -9,7 +9,7 @@
 เช่น:
 
 ```js run
-alert("สวัสดี");
+alert("Hello");
 ```
 
 หน้าต่างเล็กๆ ที่แสดงข้อความนี้เรียกว่า *modal window* หรือหน้าต่างโมดัล ขณะที่หน้าต่างนี้เปิดอยู่ ผู้ใช้จะกดปุ่มหรือโต้ตอบกับส่วนอื่นของหน้าเว็บไม่ได้ ต้องจัดการหน้าต่างนี้ให้เสร็จก่อน ซึ่งในตัวอย่างนี้ก็คือกด "OK"
@@ -41,9 +41,9 @@ result = prompt(title, [default]);
 เช่น:
 
 ```js run
-let age = prompt('คุณอายุเท่าไร?', 100);
+let age = prompt('How old are you?', 100);
 
-alert(`คุณอายุ ${age} ปี!`); // คุณอายุ 100 ปี!
+alert(`You are ${age} years old!`); // You are 100 years old!
 ```
 
 ````warn header="ใน IE: ใส่ `default` ทุกครั้ง"
@@ -52,13 +52,13 @@ alert(`คุณอายุ ${age} ปี!`); // คุณอายุ 100 ป�
 ลองรันโค้ดนี้ใน Internet Explorer ดู:
 
 ```js run
-let test = prompt("ทดสอบ");
+let test = prompt("Test");
 ```
 
 ถ้าต้องการให้ prompt ใน IE แสดงผลเรียบร้อย ควรใส่อาร์กิวเมนต์ตัวที่สองเสมอ:
 
 ```js run
-let test = prompt("ทดสอบ", ''); // <-- สำหรับ IE
+let test = prompt("Test", ''); // <-- for IE
 ```
 ````
 
@@ -77,7 +77,7 @@ result = confirm(question);
 เช่น:
 
 ```js run
-let isBoss = confirm("คุณเป็นหัวหน้าหรือเปล่า?");
+let isBoss = confirm("Are you the boss?");
 
 alert( isBoss ); // true ถ้ากด OK
 ```

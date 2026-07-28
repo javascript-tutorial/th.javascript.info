@@ -257,19 +257,19 @@ function go() {
 // วิธีสร้าง IIFE
 
 *!*(*/!*function() {
-  alert("ครอบวงเล็บรอบฟังก์ชัน");
+  alert("Parentheses around the function");
 }*!*)*/!*();
 
 *!*(*/!*function() {
-  alert("ครอบวงเล็บรอบทั้งหมด");
+  alert("Parentheses around the whole thing");
 }()*!*)*/!*;
 
 *!*!*/!*function() {
-  alert("เริ่มนิพจน์ด้วย Bitwise NOT operator");
+  alert("Bitwise NOT operator starts the expression");
 }();
 
 *!*+*/!*function() {
-  alert("เริ่มนิพจน์ด้วย Unary plus");
+  alert("Unary plus starts the expression");
 }();
 ```
 

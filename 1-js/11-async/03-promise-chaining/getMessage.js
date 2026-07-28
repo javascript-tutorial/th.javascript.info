@@ -1,3 +1,3 @@
 function getMessage() {
-  return "สวัสดีชาวโลก!";
+  return "Hello, world!";
 }

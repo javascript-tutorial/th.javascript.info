@@ -58,7 +58,7 @@ alert(typeof num); // number
 ถ้าสตริงนั้นไม่ใช่ตัวเลขที่ถูกต้อง ผลลัพธ์จะเป็น `NaN` เช่น:
 
 ```js run
-let age = Number("ข้อความที่ไม่ใช่ตัวเลข");
+let age = Number("an arbitrary string instead of a number");
 
 alert(age); // NaN, แปลงเป็นตัวเลขไม่ได้
 ```
@@ -102,7 +102,7 @@ alert( Number(false) );       // 0
 alert( Boolean(1) ); // true
 alert( Boolean(0) ); // false
 
-alert( Boolean("สวัสดี") ); // true
+alert( Boolean("hello") ); // true
 alert( Boolean("") ); // false
 ```
 

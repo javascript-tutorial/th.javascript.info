@@ -27,16 +27,16 @@ function loadJson(url) {
 
 // ถามชื่อผู้ใช้ซ้ำจนกว่า github จะคืน user ที่ถูกต้อง
 function demoGithubUser() {
-  let name = prompt("ใส่ชื่อ?", "iliakan");
+  let name = prompt("Enter a name?", "iliakan");
 
   return loadJson(`https://api.github.com/users/${name}`)
     .then(user => {
-      alert(`ชื่อเต็ม: ${user.name}.`);
+      alert(`Full name: ${user.name}.`);
       return user;
     })
     .catch(err => {
       if (err instanceof HttpError && err.response.status == 404) {
-        alert("ไม่พบผู้ใช้นี้ กรุณาลองใหม่อีกครั้ง");
+        alert("No such user, please reenter.");
         return demoGithubUser();
       } else {
         throw err;

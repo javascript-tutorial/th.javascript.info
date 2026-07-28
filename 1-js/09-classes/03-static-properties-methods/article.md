@@ -157,7 +157,7 @@ class Animal {
 
   run(speed = 0) {
     this.speed += speed;
-    alert(`${this.name} วิ่งด้วยความเร็ว ${this.speed}.`);
+    alert(`${this.name} runs with speed ${this.speed}.`);
   }
 
 *!*
@@ -171,7 +171,7 @@ class Animal {
 // สืบทอดจาก Animal
 class Rabbit extends Animal {
   hide() {
-    alert(`${this.name} ซ่อนตัว!`);
+    alert(`${this.name} hides!`);
   }
 }
 

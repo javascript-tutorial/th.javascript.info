@@ -4,11 +4,11 @@
 let name = "Ilya";
 
 // นิพจน์คือเลข 1
-alert( `สวัสดี ${1}` ); // สวัสดี 1
+alert( `hello ${1}` ); // hello 1
 
 // นิพจน์คือสตริง "name"
-alert( `สวัสดี ${"name"}` ); // สวัสดี name
+alert( `hello ${"name"}` ); // hello name
 
 // นิพจน์คือตัวแปร จึงนำค่าของตัวแปรมาแทรก
-alert( `สวัสดี ${name}` ); // สวัสดี Ilya
+alert( `hello ${name}` ); // hello Ilya
 ```

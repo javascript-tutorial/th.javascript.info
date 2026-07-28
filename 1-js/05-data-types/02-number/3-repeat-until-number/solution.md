@@ -3,7 +3,7 @@ function readNumber() {
   let num;
 
   do {
-    num = prompt("กรุณาป้อนตัวเลข", 0);
+    num = prompt("Enter a number please?", 0);
   } while ( !isFinite(num) );
 
   if (num === null || num === '') return null;
@@ -11,7 +11,7 @@ function readNumber() {
   return +num;
 }
 
-alert(`อ่านค่า: ${readNumber()}`);
+alert(`Read: ${readNumber()}`);
 ```
 
 วิธีแก้ปัญหานี้ค่อนข้างซับซ้อนกว่าที่ควรจะเป็นเล็กน้อย เพราะเราต้องจัดการกับ `null` และบรรทัดว่าง

@@ -6,6 +6,6 @@
 
 ```js run
 if ("0") {
-  alert( 'สวัสดี' );
+  alert( 'Hello' );
 }
 ```
