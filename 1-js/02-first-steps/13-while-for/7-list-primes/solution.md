@@ -1,16 +1,16 @@
-สำหรับการบ้านนี้เราสามารถทำได้หลากหลายวิธี
+โจทย์ข้อนี้แก้ได้หลายวิธี
 
-ลองมาเริ่มจากใช้ลูบซ้อนลูบก่อน:
+วิธีหนึ่งคือใช้ลูปซ้อนกัน:
 
 ```js
 For each i in the interval {
-  check if i has a divisor from 1..i
+  check if i has a divisor from 2..i-1
   if yes => the value is not a prime
   if no => the value is a prime, show it
 }
 ```
 
-ลองใช้ label:
+เมื่อนำป้ายกำกับมาใช้ จะเขียนได้ดังนี้:
 
 ```js run
 let n = 10;
@@ -26,4 +26,4 @@ for (let i = 2; i <= n; i++) { // for each i...
 }
 ```
 
-มีวิธีมากมายที่ช่วยเพิ่มประสิทธิภาพให้กับโค้ดชุดนี้ เมื่อ `n` ใหญ่ขึ้น เช่น เราสามารถมองหาตัวหารจาก `2` ถึงรากที่สองของ `i` แต่อย่างไรก็ตามหาก `n` ของเราใหญ่มากๆ เราก็จำเป้นที่จะต้องใช้วิธีการที่ซับซ้อนมากขึ้น เพื่อให้โปรแกรมทำงานได้มีประสิทธิภาพสูงสุด โดยอาศัยหลักการทางคณิตศาสตร์และอัลกอรึทึ่มเข้าช่วยเช่น [Quadratic sieve](https://en.wikipedia.org/wiki/Quadratic_sieve), [General number field sieve](https://en.wikipedia.org/wiki/General_number_field_sieve) และอื่นๆ
+โค้ดนี้ยังปรับให้เร็วขึ้นได้อีกมาก เช่น ตรวจหาตัวหารตั้งแต่ `2` ถึงรากที่สองของ `i` ก็พอ แต่ถ้าต้องหาจำนวนเฉพาะในช่วงที่ใหญ่มากจริง ๆ จะต้องเปลี่ยนแนวทางไปใช้อัลกอริทึมทางคณิตศาสตร์ที่ซับซ้อนกว่า เช่น [Quadratic sieve](https://en.wikipedia.org/wiki/Quadratic_sieve) หรือ [General number field sieve](https://en.wikipedia.org/wiki/General_number_field_sieve)
