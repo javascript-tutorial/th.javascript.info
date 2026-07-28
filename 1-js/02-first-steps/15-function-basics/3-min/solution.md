@@ -1,4 +1,4 @@
-A solution using `if`:
+วิธีที่ใช้ `if`:
 
 ```js
 function min(a, b) {
@@ -10,7 +10,7 @@ function min(a, b) {
 }
 ```
 
-A solution with a question mark operator `'?'`:
+วิธีที่ใช้ตัวดำเนินการ `?`:
 
 ```js
 function min(a, b) {
@@ -18,4 +18,4 @@ function min(a, b) {
 }
 ```
 
-P.S. In the case of an equality `a == b` it does not matter what to return.
+ถ้า `a == b` จะคืนค่าตัวไหนก็ได้ เพราะทั้งสองค่ามีค่าเท่ากัน

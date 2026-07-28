@@ -1,4 +1,4 @@
-Using a question mark operator `'?'`:
+แบบที่ใช้ตัวดำเนินการ `?`:
 
 ```js
 function checkAge(age) {
@@ -6,7 +6,7 @@ function checkAge(age) {
 }
 ```
 
-Using OR `||` (the shortest variant):
+แบบที่ใช้ OR `||` ซึ่งสั้นที่สุด:
 
 ```js
 function checkAge(age) {
@@ -14,4 +14,4 @@ function checkAge(age) {
 }
 ```
 
-Note that the parentheses around `age > 18` are not required here. They exist for better readability.
+วงเล็บรอบ `age > 18` ไม่จำเป็นต่อการทำงาน ใส่ไว้เพื่อให้อ่านง่ายขึ้นเท่านั้น
