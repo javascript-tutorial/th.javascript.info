@@ -1,0 +1,67 @@
+code-style.svg:
+  "No space":
+    text: "ไม่เว้นวรรค"
+    x: -52.785
+  "between the function name and parentheses":
+    text: "ระหว่างชื่อฟังก์ชันกับวงเล็บ"
+    x: 9.993
+  "between the parentheses and the parameter":
+    text: "และระหว่างวงเล็บกับพารามิเตอร์"
+    x: 2.737
+  "Indentation":
+    text: "เยื้องบรรทัด"
+    x: -8.04
+  "2 spaces":
+    text: "2 ช่องว่าง"
+    x: -7.334
+  "A space ":
+    text: "เว้นวรรค"
+    x: -7.48
+  "after for/if/while…":
+    text: "หลัง for/if/while…"
+    x: -3.052
+  "} else { without a line break":
+    text: "} else { อยู่บรรทัดเดียวกัน"
+    x: 3.104
+  "Spaces around a nested call":
+    text: "เว้นวรรครอบการเรียกฟังก์ชันซ้อน"
+    x: -10.98
+  "An empty line":
+    text: "เว้นบรรทัดว่าง"
+    x: 5.535
+  "between logical blocks":
+    text: "ระหว่างกลุ่มคำสั่ง"
+    x: 19.948
+  "Lines are not very long":
+    text: "บรรทัดไม่ยาวเกินไป"
+    x: 7.899
+  "A semicolon ;":
+    text: "ต้องใส่ ;"
+    x: 13
+  "is mandatory":
+    text: "ท้ายคำสั่ง"
+    x: 7
+  "Spaces":
+    text: "เว้นวรรค"
+    x: 2.228
+  "around operators":
+    text: "รอบตัวดำเนินการ"
+    x: 5.027
+  "Curly brace {":
+    text: "วงเล็บปีกกา {"
+    x: -2.676
+  "on the same line, after a space":
+    text: "อยู่บรรทัดเดิมและมีเว้นวรรคคั่น"
+    x: 5.767
+  "A space":
+    text: "เว้นวรรค"
+    x: -2.48
+  "between":
+    text: "ระหว่าง"
+    x: 3.468
+  "arguments":
+    text: "อาร์กิวเมนต์"
+    x: -0.91
+  "A space between parameters":
+    text: "เว้นวรรคระหว่างพารามิเตอร์"
+    x: 5.031
