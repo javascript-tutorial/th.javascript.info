@@ -15,5 +15,5 @@ describe("pow", function() {
 
   });
 
-  // ... more tests to follow here, both describe and it can be added
+  // ... เขียนเทสต์ต่อจากตรงนี้ได้ จะเพิ่มทั้ง describe และ it ก็ได้
 });

@@ -1,10 +1,10 @@
 describe("test", function() {
   
-   // Mocha usually waits for the tests for 2 seconds before considering them wrong
+   // ปกติ Mocha จะรอเทสต์ 2 วินาทีก่อนตัดสินว่าเทสต์มีปัญหา
   
-  this.timeout(200000); // With this code we increase this - in this case to 200,000 milliseconds
+  this.timeout(200000); // บรรทัดนี้เพิ่มเวลารอเป็น 200,000 มิลลิวินาที
 
-  // This is because of the "alert" function, because if you delay pressing the "OK" button the tests will not pass!
+  // เราต้องเพิ่มเวลาเพราะใช้ฟังก์ชัน alert หากกดปุ่ม "OK" ช้า เทสต์จะไม่ผ่าน
   
   before(() => alert("Testing started – before all tests"));
   after(() => alert("Testing finished – after all tests"));

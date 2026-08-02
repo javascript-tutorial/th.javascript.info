@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# What's wrong in the test?
+# เทสต์นี้มีปัญหาตรงไหน?
 
-What's wrong in the test of `pow` below?
+ลองหาว่าเทสต์ของ `pow` ด้านล่างเขียนไม่ดีตรงไหน
 
 ```js
 it("Raises x to the power n", function() {
@@ -21,4 +21,4 @@ it("Raises x to the power n", function() {
 });
 ```
 
-P.S. Syntactically the test is correct and passes.
+ป.ล. เทสต์นี้เขียนถูกไวยากรณ์และรันผ่านตามปกติ

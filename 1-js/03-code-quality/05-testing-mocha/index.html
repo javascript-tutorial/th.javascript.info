@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!-- add mocha css, to show results -->
+  <!-- เพิ่ม CSS ของ Mocha เพื่อแสดงผลการทดสอบ -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.css">
-  <!-- add mocha framework code -->
+  <!-- เพิ่มโค้ดของเฟรมเวิร์ก Mocha -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.js"></script>
   <script>
-    mocha.setup('bdd'); // minimal setup
+    mocha.setup('bdd'); // ตั้งค่าขั้นต่ำ
   </script>
-  <!-- add chai -->
+  <!-- เพิ่ม Chai -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/3.5.0/chai.js"></script>
   <script>
-    // chai has a lot of stuff, let's make assert global
+    // Chai มีเครื่องมือให้ใช้เยอะ เราจึงนำ assert ออกมาเป็นตัวแปรส่วนกลาง
     let assert = chai.assert;
   </script>
 </head>
@@ -20,17 +20,17 @@
 
   <script>
     function pow(x, n) {
-      /* function code is to be written, empty now */
+      /* เราจะเขียนโค้ดของฟังก์ชันตรงนี้ ตอนนี้จึงยังว่างอยู่ */
     }
   </script>
 
-  <!-- the script with tests (describe, it...) -->
+  <!-- สคริปต์ที่มีเทสต์ (describe, it...) -->
   <script src="test.js"></script>
 
-  <!-- the element with id="mocha" will contain test results -->
+  <!-- element ที่มี id="mocha" จะแสดงผลการทดสอบ -->
   <div id="mocha"></div>
 
-  <!-- run tests! -->
+  <!-- รันเทสต์ -->
   <script>
     mocha.run();
   </script>

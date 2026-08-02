@@ -1,14 +1,14 @@
-The test demonstrates one of the temptations a developer meets when writing tests.
+ตัวอย่างนี้ชี้ให้เห็นกับดักที่เจอได้บ่อยเวลาเขียนเทสต์
 
-What we have here is actually 3 tests, but layed out as a single function with 3 asserts.
+จริง ๆ แล้วโค้ดกำลังทดสอบ 3 กรณี แต่จับมารวมไว้ในฟังก์ชันเดียวและเรียก `assert` 3 ครั้ง
 
-Sometimes it's easier to write this way, but if an error occurs, it's much less obvious what went wrong.
+แบบนี้อาจเขียนง่ายกว่า แต่เมื่อเกิด error เราจะมองไม่ออกทันทีว่ากรณีไหนเป็นต้นเหตุ
 
-If an error happens in the middle of a complex execution flow, then we'll have to figure out the data at that point. We'll actually have to *debug the test*.
+ยิ่งถ้า error โผล่ขึ้นมากลางลำดับการทำงานที่ซับซ้อน เราต้องย้อนหาว่าตอนนั้นข้อมูลมีค่าอะไรบ้าง กลายเป็นว่าต้อง *ดีบักตัวเทสต์* อีกที
 
-It would be much better to break the test into multiple `it` blocks with clearly written inputs and outputs.
+ทางที่ดีกว่าคือแยกแต่ละกรณีเป็นบล็อก `it` พร้อมเขียนอินพุตและผลลัพธ์ให้เห็นชัด
 
-Like this:
+เช่น:
 ```js
 describe("Raises x to power n", function() {
   it("5 in the power of 1 equals 5", function() {
@@ -25,9 +25,9 @@ describe("Raises x to power n", function() {
 });
 ```
 
-We replaced the single `it` with `describe` and a group of `it` blocks. Now if something fails we would see clearly what the data was.
+เราแทน `it` ตัวเดิมด้วย `describe` แล้วแยกแต่ละกรณีเป็น `it` ของตัวเอง ถ้าเทสต์พัง ชื่อเทสต์จะบอกชัดว่าใช้ค่าอะไรและคาดหวังผลลัพธ์เท่าไร
 
-Also we can isolate a single test and run it in standalone mode by writing `it.only` instead of `it`:
+ถ้าต้องการแยกรันเฉพาะเทสต์เดียว ให้เปลี่ยน `it` เป็น `it.only`:
 
 
 ```js
@@ -37,7 +37,7 @@ describe("Raises x to power n", function() {
   });
 
 *!*
-  // Mocha will run only this block
+  // Mocha จะรันบล็อกนี้เพียงบล็อกเดียว
   it.only("5 in the power of 2 equals 25", function() {
     assert.equal(pow(5, 2), 25);
   });
