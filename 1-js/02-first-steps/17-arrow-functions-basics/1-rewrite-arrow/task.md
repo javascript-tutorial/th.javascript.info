@@ -1,7 +1,7 @@
 
-# เขียนใหม่ด้วย arrow function
+# เขียนใหม่โดยใช้ arrow function
 
-แทน Function Expression ด้วย arrow function ในโค้ดข้างล่าง:
+เปลี่ยนนิพจน์ฟังก์ชันในโค้ดด้านล่างให้เป็น arrow function:
 
 ```js run
 function ask(question, yes, no) {

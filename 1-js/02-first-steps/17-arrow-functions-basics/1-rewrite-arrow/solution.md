@@ -14,4 +14,4 @@ ask(
 );
 ```
 
-Looks short and clean, right?
+โค้ดสั้นลงและยังอ่านง่ายอยู่
