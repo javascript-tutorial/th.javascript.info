@@ -7,7 +7,7 @@ let menu = {
 
 function multiplyNumeric(obj) {
   
-  /* your code */
+  /* เขียนโค้ดของคุณตรงนี้ */
 
 }
 
