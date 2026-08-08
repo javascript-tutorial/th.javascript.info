@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Using "this" in object literal
+# ใช้ `this` ใน object literal
 
-Here the function `makeUser` returns an object.
+ฟังก์ชัน `makeUser` ด้านล่างคืนค่าเป็นออบเจ็กต์
 
-What is the result of accessing its `ref`? Why?
+เมื่อรันบรรทัด `alert( user.ref.name )` จะเกิดอะไรขึ้น เพราะอะไร
 
 ```js
 function makeUser() {
@@ -18,6 +18,5 @@ function makeUser() {
 
 let user = makeUser();
 
-alert( user.ref.name ); // What's the result?
+alert( user.ref.name ); // ผลลัพธ์คืออะไร
 ```
-

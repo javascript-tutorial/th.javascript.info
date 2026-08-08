@@ -2,17 +2,17 @@ importance: 5
 
 ---
 
-# Create a calculator
+# สร้างเครื่องคิดเลข
 
-Create an object `calculator` with three methods:
+สร้างออบเจ็กต์ `calculator` ที่มีเมธอดสามตัว:
 
-- `read()` prompts for two values and saves them as object properties with names `a` and `b` respectively.
-- `sum()` returns the sum of saved values.
-- `mul()` multiplies saved values and returns the result.
+- `read()` ใช้ `prompt` รับค่าสองค่า แล้วเก็บไว้ในพร็อพเพอร์ตี้ `a` และ `b` ของออบเจ็กต์ตามลำดับ
+- `sum()` คืนผลบวกของค่าที่เก็บไว้
+- `mul()` คูณค่าที่เก็บไว้แล้วคืนผลลัพธ์
 
 ```js
 let calculator = {
-  // ... your code ...
+  // ... โค้ดของคุณ ...
 };
 
 calculator.read();

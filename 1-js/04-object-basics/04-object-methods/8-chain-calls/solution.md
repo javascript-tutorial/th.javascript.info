@@ -1,4 +1,4 @@
-The solution is to return the object itself from every call.
+วิธีทำคือให้ทุกเมธอดคืนค่าเป็นออบเจ็กต์ตัวเดิม
 
 ```js run demo
 let ladder = {
@@ -23,10 +23,10 @@ let ladder = {
   }
 };
 
-ladder.up().up().down().showStep().down().showStep(); // shows 1 then 0
+ladder.up().up().down().showStep().down().showStep(); // แสดง 1 แล้วตามด้วย 0
 ```
 
-We also can write a single call per line. For long chains it's more readable:
+ถ้าต้องเรียกต่อกันยาว ๆ เราแยกแต่ละเมธอดไว้คนละบรรทัดเพื่อให้อ่านง่ายขึ้นได้:
 
 ```js
 ladder
