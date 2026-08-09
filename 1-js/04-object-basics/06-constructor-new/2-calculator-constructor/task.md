@@ -2,15 +2,15 @@ importance: 5
 
 ---
 
-# Create new Calculator
+# สร้าง `Calculator` ด้วย `new`
 
-Create a constructor function `Calculator` that creates objects with 3 methods:
+สร้างฟังก์ชันคอนสตรักเตอร์ `Calculator` สำหรับสร้างออบเจ็กต์ที่มี 3 เมธอด:
 
-- `read()` prompts for two values and saves them as object properties with names `a` and `b` respectively.
-- `sum()` returns the sum of these properties.
-- `mul()` returns the multiplication product of these properties.
+- `read()` เรียก `prompt` เพื่อรับค่าสองค่าจากผู้ใช้ แล้วเก็บไว้ในพร็อพเพอร์ตี้ของออบเจ็กต์ชื่อ `a` และ `b` ตามลำดับ
+- `sum()` คืนผลบวกของพร็อพเพอร์ตี้ทั้งสอง
+- `mul()` คืนผลคูณของพร็อพเพอร์ตี้ทั้งสอง
 
-For instance:
+ตัวอย่างการใช้งาน:
 
 ```js
 let calculator = new Calculator();

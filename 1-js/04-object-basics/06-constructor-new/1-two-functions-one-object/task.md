@@ -2,9 +2,9 @@ importance: 2
 
 ---
 
-# Two functions – one object
+# สองฟังก์ชัน แต่ออบเจ็กต์เดียวกัน
 
-Is it possible to create functions `A` and `B` so that `new A() == new B()`?
+เราสร้างฟังก์ชัน `A` และ `B` ให้ `new A() == new B()` เป็นจริงได้ไหม
 
 ```js no-beautify
 function A() { ... }
@@ -16,4 +16,4 @@ let b = new B();
 alert( a == b ); // true
 ```
 
-If it is, then provide an example of their code.
+ถ้าทำได้ ลองเขียนโค้ดของทั้งสองฟังก์ชัน

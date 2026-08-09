@@ -1,8 +1,8 @@
-Yes, it's possible.
+ทำได้
 
-If a function returns an object then `new` returns it instead of `this`.
+ถ้าฟังก์ชันคืนออบเจ็กต์ การเรียกด้วย `new` จะคืนออบเจ็กต์นั้นแทน `this`
 
-So they can, for instance, return the same externally defined object `obj`:
+ตัวอย่างหนึ่งคือให้ทั้งสองฟังก์ชันคืนออบเจ็กต์ `obj` ตัวเดียวกัน ซึ่งประกาศไว้นอกฟังก์ชัน:
 
 ```js run no-beautify
 let obj = {};
