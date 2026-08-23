@@ -2,17 +2,17 @@ importance: 3
 
 ---
 
-# อาร์เรย์ถูกคัดลอกหรือเปล่า?
+# อาร์เรย์ถูกคัดลอกไหม?
 
 โค้ดนี้จะแสดงผลอะไร?
 
 ```js
 let fruits = ["Apples", "Pear", "Orange"];
 
-// push ค่าใหม่เข้าไปใน "สำเนา"
+// เพิ่มค่าใหม่เข้าไปใน "สำเนา"
 let shoppingCart = fruits;
 shoppingCart.push("Banana");
 
-// แล้ว fruits มีอะไรอยู่?
+// fruits มีอะไรอยู่บ้าง?
 alert( fruits.length ); // ?
 ```
