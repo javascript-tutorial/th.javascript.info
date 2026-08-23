@@ -1,5 +1,5 @@
 
-Try running it:
+ลองรันโค้ดดู:
 
 ```js run
 let str = "Hello";
@@ -9,16 +9,16 @@ str.test = 5; // (*)
 alert(str.test);
 ```
 
-Depending on whether you have `use strict` or not, the result may be:
-1. `undefined` (no strict mode)
-2. An error (strict mode).
+ผลลัพธ์ขึ้นอยู่กับว่าเปิดโหมดเข้มงวด (strict mode) ด้วย `"use strict"` หรือไม่:
+1. ได้ `undefined` ถ้าไม่ได้เปิดโหมดเข้มงวด
+2. เกิด `TypeError` ถ้าเปิดโหมดเข้มงวด
 
-Why? Let's replay what's happening at line `(*)`:
+เพราะอะไร? ลองไล่สิ่งที่เกิดขึ้นตรงบรรทัด `(*)`:
 
-1. When a property of `str` is accessed, a "wrapper object" is created.
-2. In strict mode, writing into it is an error.
-3. Otherwise, the operation with the property is carried on, the object gets the `test` property, but after that the "wrapper object" disappears, so in the last line `str` has no trace of the property.
+1. เมื่อโค้ดเข้าถึงพร็อพเพอร์ตี้ของ `str` ข้อกำหนดภาษาจะมองว่ามีออบเจ็กต์ wrapper ชั่วคราวมาช่วย
+2. ถ้าอยู่ในโหมดเข้มงวด การเขียนพร็อพเพอร์ตี้ลงค่า primitive จะไม่สำเร็จและเกิด `TypeError`
+3. ถ้าไม่ใช่โหมดเข้มงวด การเขียนที่ไม่สำเร็จจะถูกมองข้าม พออ่าน `str.test` ในบรรทัดสุดท้ายจึงได้ `undefined`
 
-**This example clearly shows that primitives are not objects.**
+**ตัวอย่างนี้ชี้ให้เห็นชัดเจนว่า ค่า primitive ไม่ใช่ออบเจ็กต์**
 
-They can't store additional data.
+ค่า primitive เก็บข้อมูลเพิ่มเติมไม่ได้
