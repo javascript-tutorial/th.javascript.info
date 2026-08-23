@@ -1,6 +1,6 @@
-The maximal length must be `maxlength`, so we need to cut it a little shorter, to give space for the ellipsis.
+เมื่อจำเป็นต้องตัด ผลลัพธ์ต้องยาวเท่ากับ `maxlength` เราจึงต้องตัดข้อความให้สั้นกว่าค่านี้หนึ่งอักขระ เพื่อเว้นที่ให้จุดไข่ปลา
 
-Note that there is actually a single Unicode character for an ellipsis. That's not three dots.
+สังเกตว่าจุดไข่ปลาเป็นอักขระ Unicode เพียงตัวเดียว ไม่ใช่จุดสามตัว
 
 ```js run demo
 function truncate(str, maxlength) {

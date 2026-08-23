@@ -2,15 +2,14 @@ importance: 4
 
 ---
 
-# Extract the money
+# ดึงตัวเลขจากราคา
 
-We have a cost in the form `"$120"`. That is: the dollar sign goes first, and then the number.
+เรามีราคาในรูปแบบ `"$120"` โดยเครื่องหมายดอลลาร์อยู่ข้างหน้าแล้วตามด้วยตัวเลข
 
-Create a function `extractCurrencyValue(str)` that would extract the numeric value from such string and return it. 
+สร้างฟังก์ชัน `extractCurrencyValue(str)` เพื่อดึงค่าตัวเลขออกจากสตริงรูปแบบนี้แล้วคืนค่านั้น
 
-The example:
+ตัวอย่าง:
 
 ```js
 alert( extractCurrencyValue('$120') === 120 ); // true
 ```
-

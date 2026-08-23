@@ -2,13 +2,13 @@ importance: 5
 
 ---
 
-# Truncate the text
+# ตัดข้อความให้สั้นลง
 
-Create a function `truncate(str, maxlength)` that checks the length of the `str` and, if it exceeds `maxlength` -- replaces the end of `str` with the ellipsis character `"…"`, to make its length equal to `maxlength`.
+สร้างฟังก์ชัน `truncate(str, maxlength)` เพื่อตรวจความยาวของ `str` ถ้ายาวเกิน `maxlength` ให้ตัดท้าย `str` แล้วใส่อักขระจุดไข่ปลา `"…"` แทน เพื่อให้สตริงมีความยาวเท่ากับ `maxlength`
 
-The result of the function should be the truncated (if needed) string.
+ฟังก์ชันต้องคืนสตริงที่ตัดแล้ว หรือคืนสตริงเดิมถ้าไม่ต้องตัด
 
-For instance:
+ตัวอย่างเช่น:
 
 ```js
 truncate("What I'd like to tell on this topic is:", 20) == "What I'd like to te…"
