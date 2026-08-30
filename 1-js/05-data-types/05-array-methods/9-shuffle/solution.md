@@ -1,4 +1,4 @@
-The simple solution could be:
+วิธีที่นึกออกได้ง่ายคือ:
 
 ```js run
 *!*
@@ -12,18 +12,18 @@ shuffle(arr);
 alert(arr);
 ```
 
-That somewhat works, because `Math.random() - 0.5` is a random number that may be positive or negative, so the sorting function reorders elements randomly.
+วิธีนี้ดูเหมือนจะใช้ได้ เพราะ `Math.random() - 0.5` สุ่มได้ทั้งจำนวนบวกและจำนวนลบ ค่าที่สุ่มได้จึงทำให้ `sort` จัดลำดับสมาชิกใหม่แบบสุ่ม
 
-But because the sorting function is not meant to be used this way, not all permutations have the same probability.
+แต่ฟังก์ชันเปรียบเทียบของ `sort` ไม่ได้ออกแบบมาให้ใช้แบบนี้ แต่ละลำดับจึงมีโอกาสเกิดขึ้นไม่เท่ากัน
 
-For instance, consider the code below. It runs `shuffle` 1000000 times and counts appearances of all possible results:
+ลองดูโค้ดต่อไปนี้ โค้ดจะเรียก `shuffle` 1,000,000 ครั้ง แล้วนับว่าแต่ละลำดับเกิดขึ้นกี่ครั้ง:
 
 ```js run
 function shuffle(array) {
   array.sort(() => Math.random() - 0.5);
 }
 
-// counts of appearances for all possible permutations
+// นับจำนวนครั้งที่แต่ละลำดับเกิดขึ้น
 let count = {
   '123': 0,
   '132': 0,
@@ -39,13 +39,13 @@ for (let i = 0; i < 1000000; i++) {
   count[array.join('')]++;
 }
 
-// show counts of all possible permutations
+// แสดงจำนวนครั้งที่แต่ละลำดับเกิดขึ้น
 for (let key in count) {
   alert(`${key}: ${count[key]}`);
 }
 ```
 
-An example result (depends on JS engine):
+ตัวอย่างผลลัพธ์ ซึ่งอาจต่างกันไปตาม JavaScript engine:
 
 ```js
 123: 250706
@@ -56,30 +56,30 @@ An example result (depends on JS engine):
 321: 125223
 ```
 
-We can see the bias clearly: `123` and `213` appear much more often than others.
+เห็นความลำเอียงได้ชัดว่า `123` และ `213` เกิดบ่อยกว่าลำดับอื่นมาก
 
-The result of the code may vary between JavaScript engines, but we can already see that the approach is unreliable.
+ผลลัพธ์อาจต่างกันระหว่าง JavaScript engine แต่ตัวอย่างนี้ก็พอชี้ให้เห็นแล้วว่าวิธีนี้เชื่อถือไม่ได้
 
-Why it doesn't work? Generally speaking, `sort` is a "black box": we throw an array and a comparison function into it and expect the array to be sorted. But due to the utter randomness of the comparison the black box goes mad, and how exactly it goes mad depends on the concrete implementation that differs between engines.
+สาเหตุคือเราไม่รู้ว่า `sort` จะเรียกฟังก์ชันเปรียบเทียบคู่ไหนและกี่ครั้ง แต่ฟังก์ชันที่สุ่มผลลัพธ์จะให้คำตอบไม่สม่ำเสมอ แม้เป็นสมาชิกคู่เดิม ลำดับสุดท้ายจึงขึ้นอยู่กับวิธีทำงานภายในของแต่ละ JavaScript engine
 
-There are other good ways to do the task. For instance, there's a great algorithm called [Fisher-Yates shuffle](https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle). The idea is to walk the array in the reverse order and swap each element with a random one before it:
+วิธีที่เหมาะกับโจทย์นี้คืออัลกอริทึม [Fisher-Yates shuffle](https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle) แนวคิดคือวนอาร์เรย์จากท้ายมาหาต้น แล้วสลับสมาชิกแต่ละตัวกับสมาชิกที่สุ่มมาจากช่วงที่ยังเหลือ:
 
 ```js
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
-    let j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
+    let j = Math.floor(Math.random() * (i + 1)); // สุ่ม index ตั้งแต่ 0 ถึง i
 
-    // swap elements array[i] and array[j]
-    // we use "destructuring assignment" syntax to achieve that
-    // you'll find more details about that syntax in later chapters
-    // same can be written as:
+    // สลับสมาชิก array[i] กับ array[j]
+    // ตรงนี้ใช้ไวยากรณ์ destructuring assignment
+    // จะมีรายละเอียดเพิ่มเติมเกี่ยวกับไวยากรณ์นี้ในบทต่อ ๆ ไป
+    // เขียนแบบนี้แทนก็ได้:
     // let t = array[i]; array[i] = array[j]; array[j] = t
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
 ```
 
-Let's test it the same way:
+ลองทดสอบด้วยวิธีเดิม:
 
 ```js run
 function shuffle(array) {
@@ -89,7 +89,7 @@ function shuffle(array) {
   }
 }
 
-// counts of appearances for all possible permutations
+// นับจำนวนครั้งที่แต่ละลำดับเกิดขึ้น
 let count = {
   '123': 0,
   '132': 0,
@@ -105,13 +105,13 @@ for (let i = 0; i < 1000000; i++) {
   count[array.join('')]++;
 }
 
-// show counts of all possible permutations
+// แสดงจำนวนครั้งที่แต่ละลำดับเกิดขึ้น
 for (let key in count) {
   alert(`${key}: ${count[key]}`);
 }
 ```
 
-The example output:
+ตัวอย่างผลลัพธ์:
 
 ```js
 123: 166693
@@ -122,6 +122,6 @@ The example output:
 321: 166316
 ```
 
-Looks good now: all permutations appear with the same probability.
+คราวนี้แต่ละลำดับมีความน่าจะเป็นเท่ากันตามที่ต้องการ
 
-Also, performance-wise the Fisher-Yates algorithm is much better, there's no "sorting" overhead.
+Fisher-Yates ยังทำงานได้เร็วกว่าวิธีแรก เพราะไม่เสียเวลากับขั้นตอนของการเรียงลำดับ

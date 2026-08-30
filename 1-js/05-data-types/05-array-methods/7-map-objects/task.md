@@ -2,13 +2,13 @@ importance: 5
 
 ---
 
-# Map to objects
+# แปลงเป็นอาร์เรย์ของออบเจ็กต์ด้วย map
 
-You have an array of `user` objects, each one has `name`, `surname` and `id`.
+เรามีอาร์เรย์ของออบเจ็กต์ผู้ใช้ แต่ละออบเจ็กต์มี `name`, `surname` และ `id`
 
-Write the code to create another array from it, of objects with `id` and `fullName`, where `fullName` is generated from `name` and `surname`.
+ให้เขียนโค้ดเพื่อสร้างอาร์เรย์ใหม่ที่มีออบเจ็กต์ซึ่งประกอบด้วย `id` และ `fullName` โดยนำ `name` กับ `surname` มารวมกันเป็น `fullName`
 
-For instance:
+ตัวอย่าง:
 
 ```js no-beautify
 let john = { name: "John", surname: "Smith", id: 1 };
@@ -18,7 +18,7 @@ let mary = { name: "Mary", surname: "Key", id: 3 };
 let users = [ john, pete, mary ];
 
 *!*
-let usersMapped = /* ... your code ... */
+let usersMapped = /* ... โค้ดของคุณ ... */
 */!*
 
 /*
@@ -33,4 +33,4 @@ alert( usersMapped[0].id ) // 1
 alert( usersMapped[0].fullName ) // John Smith
 ```
 
-So, actually you need to map one array of objects to another. Try using `=>` here. There's a small catch.
+สรุปคือเราต้องแปลงอาร์เรย์ของออบเจ็กต์ชุดหนึ่งเป็นอีกชุดหนึ่ง ลองใช้ `=>` ดู แต่มีจุดที่ต้องระวังนิดหน่อย

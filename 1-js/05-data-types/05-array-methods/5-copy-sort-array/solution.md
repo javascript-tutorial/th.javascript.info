@@ -1,4 +1,4 @@
-We can use `slice()` to make a copy and run the sort on it:
+ใช้ `slice()` สร้างสำเนาก่อน แล้วค่อยเรียงลำดับสำเนานั้น:
 
 ```js run
 function copySorted(arr) {
@@ -14,4 +14,3 @@ let sorted = copySorted(arr);
 alert( sorted );
 alert( arr );
 ```
-

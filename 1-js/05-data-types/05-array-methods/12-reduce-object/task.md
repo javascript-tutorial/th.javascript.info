@@ -2,13 +2,13 @@ importance: 4
 
 ---
 
-# Create keyed object from array
+# สร้างออบเจ็กต์ที่ใช้ id เป็นคีย์จากอาร์เรย์
 
-Let's say we received an array of users in the form `{id:..., name:..., age:... }`.
+สมมติว่าเราได้รับอาร์เรย์ของผู้ใช้ในรูปแบบ `{id:..., name:..., age:... }`
 
-Create a function `groupById(arr)` that creates an object from it, with `id` as the key, and array items as values.
+สร้างฟังก์ชัน `groupById(arr)` ซึ่งนำอาร์เรย์นี้มาสร้างเป็นออบเจ็กต์ โดยใช้ `id` เป็นคีย์ และใช้สมาชิกแต่ละตัวของอาร์เรย์เป็นค่า
 
-For example:
+ตัวอย่าง:
 
 ```js
 let users = [
@@ -20,7 +20,7 @@ let users = [
 let usersById = groupById(users);
 
 /*
-// after the call we should have:
+// หลังเรียกฟังก์ชัน เราควรได้ค่าแบบนี้:
 
 usersById = {
   john: {id: 'john', name: "John Smith", age: 20},
@@ -30,8 +30,8 @@ usersById = {
 */
 ```
 
-Such function is really handy when working with server data.
+ฟังก์ชันแบบนี้มีประโยชน์มากเวลาเราทำงานกับข้อมูลจากเซิร์ฟเวอร์
 
-In this task we assume that `id` is unique. There may be no two array items with the same `id`.
+โจทย์ข้อนี้กำหนดให้ `id` ไม่ซ้ำกัน จึงไม่มีสมาชิกสองตัวที่ใช้ `id` เดียวกัน
 
-Please use array `.reduce` method in the solution.
+ให้ใช้เมธอด `.reduce` ของอาร์เรย์ในคำตอบ

@@ -2,13 +2,13 @@ importance: 4
 
 ---
 
-# Get average age
+# หาอายุเฉลี่ย
 
-Write the function `getAverageAge(users)` that gets an array of objects with property `age` and returns the average age.
+เขียนฟังก์ชัน `getAverageAge(users)` ซึ่งรับอาร์เรย์ของออบเจ็กต์ที่มีพร็อพเพอร์ตี้ `age` แล้วคืนค่าอายุเฉลี่ย
 
-The formula for the average is `(age1 + age2 + ... + ageN) / N`.
+สูตรคำนวณค่าเฉลี่ยคือ `(age1 + age2 + ... + ageN) / N`
 
-For instance:
+ตัวอย่าง:
 
 ```js no-beautify
 let john = { name: "John", age: 25 };

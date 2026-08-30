@@ -1,3 +1,3 @@
 
-- Please note how methods are stored. They are simply added to `this.methods` property.
-- All tests and numeric conversions are done in the `calculate` method. In future it may be extended to support more complex expressions.
+- สังเกตวิธีเก็บเมธอด โค้ดจะเพิ่มแต่ละเมธอดลงในพร็อพเพอร์ตี้ `this.methods` โดยตรง
+- การตรวจสอบค่าและการแปลงเป็นตัวเลขทั้งหมดอยู่ในเมธอด `calculate` จึงต่อยอดให้รองรับนิพจน์ที่ซับซ้อนขึ้นได้ในภายหลัง

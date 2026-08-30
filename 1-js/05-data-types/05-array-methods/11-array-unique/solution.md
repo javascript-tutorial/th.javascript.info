@@ -1,6 +1,6 @@
-Let's walk the array items:
-- For each item we'll check if the resulting array already has that item.
-- If it is so, then ignore, otherwise add to results.
+ลองวนดูสมาชิกทีละตัว:
+- ตรวจว่าสมาชิกนั้นมีอยู่ในอาร์เรย์ผลลัพธ์แล้วหรือยัง
+- ถ้ามีแล้วก็ข้ามไป ถ้ายังไม่มีก็เพิ่มเข้าไป
 
 ```js run demo
 function unique(arr) {
@@ -22,18 +22,18 @@ let strings = ["Hare", "Krishna", "Hare", "Krishna",
 alert( unique(strings) ); // Hare, Krishna, :-O
 ```
 
-The code works, but there's a potential performance problem in it.
+โค้ดนี้ทำงานได้ แต่มีจุดที่อาจทำให้ช้าลงเมื่ออาร์เรย์มีขนาดใหญ่
 
-The method `result.includes(str)` internally walks the array `result` and compares each element against `str` to find the match.
+ภายในเมธอด `result.includes(str)` จะวนอาร์เรย์ `result` แล้วเปรียบเทียบสมาชิกแต่ละตัวกับ `str` เพื่อหาค่าที่ตรงกัน
 
-So if there are `100` elements in `result` and no one matches `str`, then it will walk the whole `result` and do exactly `100` comparisons. And if `result` is large, like `10000`, then there would be `10000` comparisons.
+ถ้า `result` มีสมาชิก `100` ตัวและไม่มีตัวไหนตรงกับ `str` เมธอดนี้จะวนจนครบและเปรียบเทียบทั้งหมด `100` ครั้ง ถ้า `result` มีสมาชิก `10000` ตัว ก็ต้องเปรียบเทียบ `10000` ครั้ง
 
-That's not a problem by itself, because JavaScript engines are very fast, so walk `10000` array is a matter of microseconds.
+การวนอาร์เรย์ `10000` ตัวเพียงครั้งเดียวไม่ใช่ปัญหาใหญ่ เพราะ JavaScript engine ทำงานได้เร็วและใช้เวลาเพียงไม่กี่ไมโครวินาที
 
-But we do such test for each element of `arr`, in the `for` loop.
+แต่ลูป `for` ต้องตรวจแบบนี้กับสมาชิกทุกตัวของ `arr`
 
-So if `arr.length` is `10000` we'll have something like `10000*10000` = 100 millions of comparisons. That's a lot.
+ถ้า `arr.length` เท่ากับ `10000` จำนวนครั้งที่เปรียบเทียบอาจสูงถึง `10000*10000` หรือ 100 ล้านครั้ง ซึ่งมากเกินไป
 
-So the solution is only good for small arrays.
+คำตอบนี้จึงเหมาะกับอาร์เรย์ขนาดเล็กเท่านั้น
 
-Further in the chapter <info:map-set> we'll see how to optimize it.
+ในบท <info:map-set> เราจะได้ดูวิธีทำให้เร็วขึ้น

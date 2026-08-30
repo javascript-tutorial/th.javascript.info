@@ -310,7 +310,7 @@ let users = [
 
 let user = users.find(item => item.id == 1);
 
-alert(user.name); // สมชาย
+alert(user.name); // John
 ```
 
 อาร์เรย์ของออบเจ็กต์เป็นสิ่งที่เจอบ่อยมากในงานจริง `find` จึงมีประโยชน์มาก
@@ -331,10 +331,10 @@ let users = [
   {id: 4, name: "John"}
 ];
 
-// หา index ของสมชายคนแรก
+// หา index ของ John คนแรก
 alert(users.findIndex(user => user.name == 'John')); // 0
 
-// หา index ของสมชายคนสุดท้าย
+// หา index ของ John คนสุดท้าย
 alert(users.findLastIndex(user => user.name == 'John')); // 3
 ```
 
@@ -490,7 +490,7 @@ arr.sort( (a, b) => a - b );
 ````
 
 ````smart header="ใช้ `localeCompare` สำหรับสตริง"
-จำได้ไหมว่าการเปรียบเทียบ[สตริง](info:string#correct-comparisons) โดยค่าเริ่มต้นจะเปรียบเทียบด้วยรหัสของตัวอักษร?
+จำได้ไหมว่าการเปรียบเทียบ [สตริง](info:string#correct-comparisons) โดยค่าเริ่มต้นจะเปรียบเทียบด้วยรหัสของตัวอักษร?
 
 สำหรับหลายภาษา ควรใช้ `str.localeCompare` เพื่อเรียงตัวอักษรให้ถูกต้อง เช่น ตัวอักษร `Ö` ในภาษาเยอรมัน
 
@@ -660,7 +660,7 @@ arr.reduce((sum, current) => sum + current);
 
 ## Array.isArray
 
-อาร์เรย์ไม่ได้เป็น type แยกต่างหากในภาษา แต่อิงจากออบเจ็กต์
+อาร์เรย์ไม่ได้เป็นชนิดข้อมูลแยกต่างหากในภาษา แต่อิงจากออบเจ็กต์
 
 เพราะฉะนั้น `typeof` จึงแยกออบเจ็กต์ธรรมดาจากอาร์เรย์ไม่ได้:
 

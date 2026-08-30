@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Map to names
+# แปลงเป็นอาร์เรย์ของชื่อด้วย map
 
-You have an array of `user` objects, each one has `user.name`. Write the code that converts it into an array of names.
+เรามีอาร์เรย์ของออบเจ็กต์ผู้ใช้ โดยอ่านชื่อของแต่ละคนได้จาก `user.name` ให้เขียนโค้ดที่แปลงอาร์เรย์นี้เป็นอาร์เรย์ของชื่อ
 
-For instance:
+ตัวอย่าง:
 
 ```js no-beautify
 let john = { name: "John", age: 25 };
@@ -15,8 +15,7 @@ let mary = { name: "Mary", age: 28 };
 
 let users = [ john, pete, mary ];
 
-let names = /* ... your code */
+let names = /* ... โค้ดของคุณ */
 
 alert( names ); // John, Pete, Mary
 ```
-

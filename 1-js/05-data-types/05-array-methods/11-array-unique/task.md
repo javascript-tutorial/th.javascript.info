@@ -2,17 +2,17 @@ importance: 4
 
 ---
 
-# Filter unique array members
+# กรองสมาชิกที่ไม่ซ้ำกัน
 
-Let `arr` be an array.
+กำหนดให้ `arr` เป็นอาร์เรย์
 
-Create a function `unique(arr)` that should return an array with unique items of `arr`.
+สร้างฟังก์ชัน `unique(arr)` ซึ่งคืนอาร์เรย์ที่มีเฉพาะสมาชิกของ `arr` ที่ไม่ซ้ำกัน
 
-For instance:
+ตัวอย่าง:
 
 ```js
 function unique(arr) {
-  /* your code */
+  /* โค้ดของคุณ */
 }
 
 let strings = ["Hare", "Krishna", "Hare", "Krishna",

@@ -2,24 +2,24 @@ importance: 5
 
 ---
 
-# Create an extendable calculator
+# สร้างเครื่องคิดเลขที่เพิ่มตัวดำเนินการได้
 
-Create a constructor function `Calculator` that creates "extendable" calculator objects.
+สร้างฟังก์ชันคอนสตรักเตอร์ `Calculator` สำหรับสร้างออบเจ็กต์เครื่องคิดเลขที่เพิ่มความสามารถได้
 
-The task consists of two parts.
+โจทย์แบ่งเป็นสองส่วน
 
-1. First, implement the method `calculate(str)` that takes a string like `"1 + 2"` in the format "NUMBER operator NUMBER" (space-delimited) and returns the result. Should understand plus `+` and minus `-`.
+1. เริ่มจากสร้างเมธอด `calculate(str)` ซึ่งรับสตริงอย่าง `"1 + 2"` ในรูปแบบ "ตัวเลข ตัวดำเนินการ ตัวเลข" โดยแต่ละส่วนคั่นด้วยเว้นวรรค แล้วคืนผลลัพธ์ เมธอดนี้ต้องรองรับการบวก `+` และการลบ `-`
 
-    Usage example:
+    ตัวอย่างการใช้งาน:
 
     ```js
     let calc = new Calculator;
 
     alert( calc.calculate("3 + 7") ); // 10
     ```
-2. Then add the method `addMethod(name, func)` that teaches the calculator a new operation. It takes the operator `name` and the two-argument function `func(a,b)` that implements it.
+2. จากนั้นเพิ่มเมธอด `addMethod(name, func)` เพื่อสอนการคำนวณแบบใหม่ให้เครื่องคิดเลข เมธอดนี้รับชื่อตัวดำเนินการ `name` และฟังก์ชัน `func(a,b)` ซึ่งรับสองอาร์กิวเมนต์และทำหน้าที่คำนวณ
 
-    For instance, let's add the multiplication `*`, division `/` and power `**`:
+    ตัวอย่างต่อไปนี้เพิ่มการคูณ `*` การหาร `/` และการยกกำลัง `**`:
 
     ```js
     let powerCalc = new Calculator;
@@ -31,6 +31,6 @@ The task consists of two parts.
     alert( result ); // 8
     ```
 
-- No parentheses or complex expressions in this task.
-- The numbers and the operator are delimited with exactly one space.
-- There may be error handling if you'd like to add it.
+- โจทย์ข้อนี้ไม่มีวงเล็บหรือนิพจน์ซับซ้อน
+- ตัวเลขและตัวดำเนินการคั่นด้วยเว้นวรรคหนึ่งช่องพอดี
+- จะเพิ่มการจัดการข้อผิดพลาดด้วยก็ได้

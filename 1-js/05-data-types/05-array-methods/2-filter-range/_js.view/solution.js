@@ -1,5 +1,5 @@
 
 function filterRange(arr, a, b) {
-  // added brackets around the expression for better readability
+  // ใส่วงเล็บครอบนิพจน์เพื่อให้อ่านง่ายขึ้น
   return arr.filter(item => (a <= item && item <= b));
 }

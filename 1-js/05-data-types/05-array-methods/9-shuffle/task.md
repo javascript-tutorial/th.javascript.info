@@ -2,11 +2,11 @@ importance: 3
 
 ---
 
-# Shuffle an array
+# สุ่มลำดับสมาชิกในอาร์เรย์
 
-Write the function `shuffle(array)` that shuffles (randomly reorders) elements of the array.
+เขียนฟังก์ชัน `shuffle(array)` สำหรับสุ่มลำดับสมาชิกในอาร์เรย์
 
-Multiple runs of `shuffle` may lead to different orders of elements. For instance:
+การเรียก `shuffle` แต่ละครั้งอาจได้ลำดับสมาชิกต่างกัน ตัวอย่าง:
 
 ```js
 let arr = [1, 2, 3];
@@ -22,4 +22,4 @@ shuffle(arr);
 // ...
 ```
 
-All element orders should have an equal probability. For instance, `[1,2,3]` can be reordered as `[1,2,3]` or `[1,3,2]` or `[3,1,2]` etc, with equal probability of each case.
+ทุกลำดับต้องมีโอกาสเกิดขึ้นเท่ากัน เช่น `[1,2,3]` อาจเรียงเป็น `[1,2,3]`, `[1,3,2]`, `[3,1,2]` หรือลำดับอื่นได้ โดยแต่ละแบบต้องมีความน่าจะเป็นเท่ากัน

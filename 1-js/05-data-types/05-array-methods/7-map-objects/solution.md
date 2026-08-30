@@ -25,9 +25,9 @@ alert( usersMapped[0].id ); // 1
 alert( usersMapped[0].fullName ); // John Smith
 ```
 
-Please note that in the arrow functions we need to use additional brackets. 
+สังเกตว่า arrow function ตรงนี้ต้องมีวงเล็บเพิ่มอีกชั้น
 
-We can't write like this:
+เขียนแบบนี้ไม่ได้:
 ```js
 let usersMapped = users.map(user => *!*{*/!*
   fullName: `${user.name} ${user.surname}`,
@@ -35,9 +35,9 @@ let usersMapped = users.map(user => *!*{*/!*
 });
 ```
 
-As we remember, there are two arrow functions: without body `value => expr` and with body `value => {...}`.
+arrow function เขียนได้สองแบบ คือแบบไม่มีบล็อกคำสั่ง `value => expr` และแบบมีบล็อกคำสั่ง `value => {...}`
 
-Here JavaScript would treat `{` as the start of function body, not the start of the object. The workaround is to wrap them in the "normal" brackets:
+ในโค้ดข้างบน JavaScript จะมอง `{` ว่าเป็นจุดเริ่มต้นของบล็อกคำสั่งในฟังก์ชัน ไม่ใช่จุดเริ่มต้นของออบเจ็กต์ วิธีแก้คือครอบออบเจ็กต์ด้วยวงเล็บกลม:
 
 ```js
 let usersMapped = users.map(user => *!*({*/!*
@@ -46,6 +46,4 @@ let usersMapped = users.map(user => *!*({*/!*
 }));
 ```
 
-Now fine.
-
-
+เท่านี้ JavaScript ก็รู้แล้วว่าเราต้องการคืนออบเจ็กต์

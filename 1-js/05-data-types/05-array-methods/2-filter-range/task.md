@@ -2,21 +2,20 @@ importance: 4
 
 ---
 
-# Filter range
+# กรองค่าตามช่วง
 
-Write a function `filterRange(arr, a, b)` that gets an array `arr`, looks for elements with values higher or equal to `a` and lower or equal to `b` and return a result as an array.
+เขียนฟังก์ชัน `filterRange(arr, a, b)` ซึ่งรับอาร์เรย์ `arr` แล้วเลือกสมาชิกที่มีค่าตั้งแต่ `a` ถึง `b` โดยรวมค่าที่เท่ากับขอบทั้งสองด้าน จากนั้นคืนผลลัพธ์เป็นอาร์เรย์
 
-The function should not modify the array. It should return the new array.
+ฟังก์ชันต้องไม่แก้ไขอาร์เรย์เดิม แต่ให้คืนอาร์เรย์ใหม่
 
-For instance:
+ตัวอย่าง:
 
 ```js
 let arr = [5, 3, 8, 1];
 
 let filtered = filterRange(arr, 1, 4); 
 
-alert( filtered ); // 3,1 (matching values)
+alert( filtered ); // 3,1 (ค่าที่ตรงตามเงื่อนไข)
 
-alert( arr ); // 5,3,8,1 (not modified)
+alert( arr ); // 5,3,8,1 (ไม่มีการแก้ไข)
 ```
-
