@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# คัดลอกและเรียงลำดับอาร์เรย์
+# คัดลอกและเรียงลำดับอาร์เรย์ (array)
 
-เรามีอาร์เรย์ของสตริงชื่อ `arr` และต้องการสำเนาที่เรียงลำดับแล้ว โดยไม่แก้ไข `arr`
+กำหนดให้ `arr` เป็นอาร์เรย์ของสตริง (string) เราต้องการสำเนาที่เรียงลำดับแล้ว โดยให้ `arr` คงเดิม
 
-สร้างฟังก์ชัน `copySorted(arr)` ซึ่งคืนสำเนาตามเงื่อนไขนี้
+เขียนฟังก์ชัน (function) `copySorted(arr)` ที่คืนค่าสำเนาดังกล่าว
 
 ```js
 let arr = ["HTML", "JavaScript", "CSS"];
@@ -14,5 +14,5 @@ let arr = ["HTML", "JavaScript", "CSS"];
 let sorted = copySorted(arr);
 
 alert( sorted ); // CSS, HTML, JavaScript
-alert( arr ); // HTML, JavaScript, CSS (ไม่เปลี่ยนแปลง)
+alert( arr ); // HTML, JavaScript, CSS (อาร์เรย์เดิมไม่เปลี่ยน)
 ```

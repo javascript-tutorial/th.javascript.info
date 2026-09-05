@@ -4,9 +4,9 @@ importance: 5
 
 # แปลง border-left-width เป็น borderLeftWidth
 
-เขียนฟังก์ชัน `camelize(str)` สำหรับแปลงสตริงที่มีคำคั่นด้วยขีดกลาง เช่น `"my-short-string"` ให้เป็น camel case เช่น `"myShortString"`
+เขียนฟังก์ชัน (function) `camelize(str)` ที่แปลงสตริง (string) ซึ่งคั่นคำด้วยขีดกลาง เช่น `"my-short-string"` ให้เป็นรูปแบบ camelCase อย่าง `"myShortString"`
 
-วิธีแปลงคือลบขีดกลางทั้งหมด แล้วเปลี่ยนอักษรตัวแรกของทุกคำที่ตามหลังขีดกลางให้เป็นตัวพิมพ์ใหญ่
+ให้ลบขีดกลางทั้งหมด แล้วเปลี่ยนตัวอักษรแรกของคำที่ตามหลังขีดกลางเป็นตัวพิมพ์ใหญ่
 
 ตัวอย่าง:
 
@@ -16,4 +16,4 @@ camelize("list-style-image") == 'listStyleImage';
 camelize("-webkit-transition") == 'WebkitTransition';
 ```
 
-คำใบ้: ใช้ `split` แยกสตริงเป็นอาร์เรย์ แปลงสมาชิก แล้วใช้ `join` รวมกลับเป็นสตริง
+คำใบ้: ใช้ `split` แยกสตริงเป็นอาร์เรย์ (array) ปรับแต่ละคำ แล้วใช้ `join` รวมกลับเป็นสตริง
