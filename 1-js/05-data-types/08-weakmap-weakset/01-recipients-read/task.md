@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# Store "unread" flags
+# เก็บสถานะข้อความที่ยังไม่ได้อ่าน
 
-There's an array of messages:
+เรามีอาร์เรย์ (array) ที่เก็บข้อความดังนี้:
 
 ```js
 let messages = [
@@ -14,10 +14,10 @@ let messages = [
 ];
 ```
 
-Your code can access it, but the messages are managed by someone else's code. New messages are added, old ones are removed regularly by that code, and you don't know the exact moments when it happens.
+โค้ดของเราเข้าถึงอาร์เรย์นี้ได้ แต่โค้ดส่วนอื่นเป็นผู้จัดการข้อความ โดยคอยเพิ่มข้อความใหม่และลบข้อความเก่าออกอยู่เรื่อย ๆ เราไม่รู้แน่ชัดว่าการเพิ่มหรือลบจะเกิดขึ้นเมื่อไร
 
-Now, which data structure could you use to store information about whether the message "has been read"? The structure must be well-suited to give the answer "was it read?" for the given message object.
+เราควรใช้โครงสร้างข้อมูล (data structure) แบบใดเก็บสถานะว่าแต่ละข้อความ "อ่านแล้วหรือยัง" โดยเมื่อมีออบเจ็กต์ (object) ของข้อความหนึ่ง เราต้องใช้โครงสร้างนั้นตรวจได้ว่าข้อความนี้อ่านแล้วหรือยัง
 
-P.S. When a message is removed from `messages`, it should disappear from your structure as well.
+เมื่อข้อความถูกลบออกจาก `messages` โครงสร้างที่เราเลือกใช้ก็ไม่ควรเก็บข้อความนั้นค้างไว้
 
-P.P.S. We shouldn't modify message objects, add our properties to them. As they are managed by someone else's code, that may lead to bad consequences.
+ไม่ควรแก้ไขออบเจ็กต์ข้อความหรือเพิ่มพร็อพเพอร์ตี้ (property) ของเราเข้าไป เพราะออบเจ็กต์เหล่านี้อยู่ภายใต้การจัดการของโค้ดส่วนอื่น การแก้ไขอาจทำให้โค้ดส่วนนั้นมีปัญหาได้

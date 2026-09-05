@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# Store read dates
+# เก็บวันที่อ่านข้อความ
 
-There's an array of messages as in the [previous task](info:task/recipients-read). The situation is similar.
+เรามีอาร์เรย์ (array) ที่เก็บข้อความเหมือนใน[โจทย์เรื่องสถานะการอ่านข้อความ](info:task/recipients-read) โดยมีเงื่อนไขการจัดการข้อความแบบเดียวกัน
 
 ```js
 let messages = [
@@ -14,8 +14,8 @@ let messages = [
 ];
 ```
 
-The question now is: which data structure you'd suggest to store the information: "when the message was read?".
+คราวนี้เราควรใช้โครงสร้างข้อมูล (data structure) แบบใดเก็บข้อมูลว่า "ข้อความนี้ถูกอ่านเมื่อไร"
 
-In the previous task we only needed to store the "yes/no" fact. Now we need to store the date, and it should only remain in memory until the message is garbage collected.
+โจทย์ก่อนหน้าเก็บเพียงสถานะว่าอ่านแล้วหรือยัง แต่คราวนี้ต้องเก็บวันที่อ่านด้วย ข้อมูลวันที่ควรอยู่ในหน่วยความจำตราบเท่าที่ยังมีข้อความนั้นอยู่ และถูกลบตามไปเมื่อระบบเก็บกวาดหน่วยความจำ (garbage collector) ลบข้อความนั้น
 
-P.S. Dates can be stored as objects of built-in `Date` class, that we'll cover later.
+เราสามารถเก็บวันที่เป็นออบเจ็กต์ (object) ของคลาส (class) `Date` ที่ JavaScript มีให้ได้ โดยจะเรียนเรื่องนี้กันภายหลัง

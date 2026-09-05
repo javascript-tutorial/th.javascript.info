@@ -1,4 +1,4 @@
-Let's store read messages in `WeakSet`:
+ใช้ `WeakSet` เก็บออบเจ็กต์ (object) ของข้อความที่อ่านแล้ว:
 
 ```js run
 let messages = [
@@ -9,35 +9,36 @@ let messages = [
 
 let readMessages = new WeakSet();
 
-// two messages have been read
+// อ่านข้อความสองข้อความแล้ว
 readMessages.add(messages[0]);
 readMessages.add(messages[1]);
-// readMessages has 2 elements
+// readMessages มีสมาชิก 2 ตัว
 
-// ...let's read the first message again!
+// อ่านข้อความแรกซ้ำอีกครั้ง
 readMessages.add(messages[0]);
-// readMessages still has 2 unique elements
+// readMessages ยังมีสมาชิก 2 ตัว เพราะไม่เก็บสมาชิกซ้ำ
 
-// answer: was the message[0] read?
-alert("Read message 0: " + readMessages.has(messages[0])); // true
+// ตรวจว่า messages[0] อ่านแล้วหรือยัง
+alert("Read message 0: " + readMessages.has(messages[0])); // Read message 0: true
 
 messages.shift();
-// now readMessages has 1 element (technically memory may be cleaned later)
+// ถ้าไม่มีที่อื่นอ้างอิงข้อความที่ลบ ระบบก็เก็บกวาดข้อความนั้นได้
+// หลังเก็บกวาดแล้ว readMessages จะเหลือสมาชิก 1 ตัว โดยไม่กำหนดว่าจะเกิดขึ้นเมื่อไร
 ```
 
-The `WeakSet` allows to store a set of messages and easily check for the existence of a message in it.
+`WeakSet` เก็บข้อความที่อ่านแล้วไว้ด้วยกัน เราจึงใช้เมธอด (method) `has()` ตรวจได้ว่าข้อความที่ต้องการอยู่ในนั้นหรือไม่
 
-It cleans up itself automatically. The tradeoff is that we can't iterate over it,  can't get "all read messages" from it directly. But we can do it by iterating over all messages and filtering those that are in the set.
+เมื่อข้อความไม่สามารถเข้าถึงได้จากที่อื่น ระบบเก็บกวาดหน่วยความจำ (garbage collector) ก็ลบข้อความนั้นออกจาก `WeakSet` ได้โดยอัตโนมัติ แต่เราไม่สามารถวนซ้ำ (iteration) เพื่อดึง "ข้อความที่อ่านแล้วทั้งหมด" ออกมาจาก `WeakSet` โดยตรงได้ หากต้องการข้อความเหล่านั้น ต้องวนดูข้อความทั้งหมดในอาร์เรย์ (array) `messages` แล้วเลือกเฉพาะข้อความที่อยู่ใน `WeakSet`
 
-Another, different solution could be to add a property like `message.isRead=true` to a message after it's read. As messages objects are managed by another code, that's generally discouraged, but we can use a symbolic property to avoid conflicts.
+อีกวิธีหนึ่งคือเพิ่มพร็อพเพอร์ตี้ (property) เช่น `message.isRead=true` ให้ข้อความหลังจากอ่านแล้ว แต่ไม่แนะนำวิธีนี้ เพราะโค้ดส่วนอื่นเป็นผู้จัดการออบเจ็กต์ข้อความ หากจะเพิ่มพร็อพเพอร์ตี้ เราอาจใช้ symbol เป็นชื่อพร็อพเพอร์ตี้เพื่อหลีกเลี่ยงการใช้ชื่อซ้ำกับโค้ดส่วนอื่นได้
 
-Like this:
+ตัวอย่างเช่น:
 ```js
-// the symbolic property is only known to our code
+// ใช้ symbol เป็นชื่อพร็อพเพอร์ตี้เพื่อไม่ให้ชนกับชื่อที่โค้ดส่วนอื่นใช้
 let isRead = Symbol("isRead");
 messages[0][isRead] = true;
 ```
 
-Now third-party code probably won't see our extra property.
+โค้ดส่วนอื่นจึงมีโอกาสเข้าถึงพร็อพเพอร์ตี้ที่เราเพิ่มโดยบังเอิญน้อยลง แต่ symbol ไม่ได้ทำให้พร็อพเพอร์ตี้เป็นข้อมูลส่วนตัว โค้ดที่เข้าถึงออบเจ็กต์ยังหาพร็อพเพอร์ตี้นี้ได้ด้วย `Object.getOwnPropertySymbols()`
 
-Although symbols allow to lower the probability of problems, using `WeakSet` is better from the architectural point of view.
+แม้ symbol จะช่วยลดโอกาสเกิดปัญหาจากชื่อพร็อพเพอร์ตี้ซ้ำกัน แต่การใช้ `WeakSet` เหมาะกับการจัดโครงสร้างโค้ดในกรณีนี้มากกว่า เพราะเก็บสถานะการอ่านแยกได้โดยไม่ต้องแก้ไขออบเจ็กต์ข้อความ
