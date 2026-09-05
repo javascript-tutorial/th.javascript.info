@@ -1,6 +1,6 @@
-To find all anagrams, let's split every word to letters and sort them. When letter-sorted, all anagrams are same.
+วิธีหาว่าคำใดเป็นแอนาแกรม (anagram) กันคือแยกแต่ละคำออกเป็นตัวอักษรแล้วเรียงลำดับ ถ้าเป็นแอนาแกรมกัน เมื่อเรียงตัวอักษรแล้วจะได้ข้อความเดียวกัน
 
-For instance:
+ตัวอย่าง:
 
 ```
 nap, pan -> anp
@@ -9,14 +9,14 @@ cheaters, hectares, teachers -> aceehrst
 ...
 ```
 
-We'll use the letter-sorted variants as map keys to store only one value per each key:
+เราจะใช้ข้อความที่เรียงตัวอักษรแล้วเป็นคีย์ (key) ของ `Map` และเก็บคำเดิมเป็นค่า แต่ละคีย์จึงเก็บคำไว้ได้เพียงคำเดียว:
 
 ```js run
 function aclean(arr) {
   let map = new Map();
 
   for (let word of arr) {
-    // split the word by letters, sort them and join back
+    // แยกคำเป็นตัวอักษร เรียงลำดับ แล้วนำมาต่อกัน
 *!*
     let sorted = word.toLowerCase().split('').sort().join(''); // (*)
 */!*
@@ -31,9 +31,9 @@ let arr = ["nap", "teachers", "cheaters", "PAN", "ear", "era", "hectares"];
 alert( aclean(arr) );
 ```
 
-Letter-sorting is done by the chain of calls in the line `(*)`.
+บรรทัด `(*)` เรียกเมธอด (method) ต่อกันเพื่อแปลงเป็นตัวพิมพ์เล็ก แยกเป็นตัวอักษร เรียงลำดับ แล้วนำมาต่อกัน
 
-For convenience let's split it into multiple lines:
+ลองแยกเป็นหลายบรรทัดเพื่อดูผลของแต่ละขั้น:
 
 ```js
 let sorted = word // PAN
@@ -43,21 +43,21 @@ let sorted = word // PAN
   .join(''); // anp
 ```
 
-Two different words `'PAN'` and `'nap'` receive the same letter-sorted form `'anp'`.
+คำว่า `'PAN'` และ `'nap'` จึงได้ข้อความหลังเรียงตัวอักษรเหมือนกันคือ `'anp'`
 
-The next line put the word into the map:
+บรรทัดถัดมาเก็บคำเดิมไว้ใน `Map` โดยใช้ข้อความที่เรียงตัวอักษรแล้วเป็นคีย์:
 
 ```js
 map.set(sorted, word);
 ```
 
-If we ever meet a word the same letter-sorted form again, then it would overwrite the previous value with the same key in the map. So we'll always have at maximum one word per letter-form.
+ถ้าเจอคำอื่นที่เรียงตัวอักษรแล้วได้ข้อความเดียวกัน คำที่พบทีหลังจะทับค่าของคีย์เดิมใน `Map` แต่ละกลุ่มแอนาแกรมจึงเหลือคำอยู่เพียงคำเดียว
 
-At the end `Array.from(map.values())` takes an iterable over map values (we don't need keys in the result) and returns an array of them.
+สุดท้าย `map.values()` คืนค่า iterable สำหรับวนอ่านค่าทั้งหมดใน `Map` แล้ว `Array.from` แปลงค่าเหล่านั้นเป็นอาร์เรย์ (array) ผลลัพธ์จึงมีเฉพาะคำที่เก็บไว้ โดยไม่รวมคีย์ที่ใช้จัดกลุ่ม
 
-Here we could also use a plain object instead of the `Map`, because keys are strings.
+ในข้อนี้คีย์เป็นสตริง (string) เราจึงใช้ออบเจ็กต์ (object) ธรรมดาแทน `Map` ได้เช่นกัน
 
-That's how the solution can look:
+โค้ดจะเป็นแบบนี้:
 
 ```js run demo
 function aclean(arr) {

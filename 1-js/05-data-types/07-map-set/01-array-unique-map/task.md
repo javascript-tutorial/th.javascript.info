@@ -2,17 +2,17 @@ importance: 5
 
 ---
 
-# Filter unique array members
+# กรองอาร์เรย์ (array) ให้เหลือค่าที่ไม่ซ้ำกัน
 
-Let `arr` be an array.
+กำหนดให้ `arr` เป็นอาร์เรย์
 
-Create a function `unique(arr)` that should return an array with unique items of `arr`.
+เขียนฟังก์ชัน (function) `unique(arr)` ที่คืนค่าอาร์เรย์ซึ่งมีค่าจาก `arr` โดยเก็บแต่ละค่าไว้เพียงครั้งเดียว
 
-For instance:
+ตัวอย่าง:
 
 ```js
 function unique(arr) {
-  /* your code */
+  /* เขียนโค้ดของคุณที่นี่ */
 }
 
 let values = ["Hare", "Krishna", "Hare", "Krishna",
@@ -22,6 +22,6 @@ let values = ["Hare", "Krishna", "Hare", "Krishna",
 alert( unique(values) ); // Hare, Krishna, :-O
 ```
 
-P.S. Here strings are used, but can be values of any type.
+ตัวอย่างนี้ใช้สตริง (string) แต่ฟังก์ชันต้องใช้กับค่าชนิดใดก็ได้
 
-P.P.S. Use `Set` to store unique values.
+ให้ใช้ `Set` เพื่อเก็บค่าที่ไม่ซ้ำกัน

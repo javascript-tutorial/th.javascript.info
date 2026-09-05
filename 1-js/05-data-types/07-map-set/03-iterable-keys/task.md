@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# Iterable keys
+# คีย์ (key) ที่ได้จาก map.keys()
 
-We'd like to get an array of `map.keys()` in a variable and then apply array-specific methods to it, e.g. `.push`.
+เราต้องการเก็บคีย์ที่ได้จาก `map.keys()` ไว้ในตัวแปร (variable) เป็นอาร์เรย์ (array) เพื่อใช้เมธอด (method) ของอาร์เรย์ เช่น `.push`
 
-But that doesn't work:
+แต่โค้ดนี้กลับทำงานไม่ได้:
 
 ```js run
 let map = new Map();
@@ -21,4 +21,4 @@ keys.push("more");
 */!*
 ```
 
-Why? How can we fix the code to make `keys.push` work?
+เพราะอะไร และต้องแก้โค้ดอย่างไรจึงจะเรียก `keys.push` ได้?

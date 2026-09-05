@@ -1,7 +1,7 @@
 
-That's because `map.keys()` returns an iterable, but not an array.
+สาเหตุคือ `map.keys()` คืนค่า iterable ที่นำไปวนซ้ำได้ แต่ค่านั้นไม่ใช่อาร์เรย์ (array) จึงไม่มีเมธอด (method) `.push`
 
-We can convert it into an array using `Array.from`:
+ให้ใช้ `Array.from` แปลงเป็นอาร์เรย์ก่อน แล้วจึงเรียก `.push` ได้:
 
 
 ```js run
