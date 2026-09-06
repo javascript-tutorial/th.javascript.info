@@ -1,15 +1,15 @@
-The `new Date` constructor uses the local time zone. So the only important thing to remember is that months start from zero.
+คอนสตรักเตอร์ (constructor) `new Date` ในรูปแบบนี้ใช้เขตเวลาท้องถิ่น (local time zone) อยู่แล้ว จุดที่ต้องระวังคือหมายเลขเดือนเริ่มนับจากศูนย์
 
-So February has number 1.
+เดือนกุมภาพันธ์จึงใช้หมายเลข `1`
 
-Here's an example with numbers as date components:
+ตัวอย่างนี้ระบุปี เดือน วัน และเวลาเป็นตัวเลข:
 
 ```js run
 //new Date(year, month, date, hour, minute, second, millisecond)
 let d1 = new Date(2012, 1, 20, 3, 12);
 alert( d1 );
 ```
-We could also create a date from a string, like this:
+หรือจะสร้างวันที่จากสตริง (string) ก็ได้:
 
 ```js run
 //new Date(datastring)

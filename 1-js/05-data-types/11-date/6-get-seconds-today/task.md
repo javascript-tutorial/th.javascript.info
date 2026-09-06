@@ -2,14 +2,14 @@ importance: 5
 
 ---
 
-# How many seconds have passed today?
+# วันนี้ผ่านมากี่วินาทีแล้ว
 
-Write a function `getSecondsToday()` that returns the number of seconds from the beginning of today.
+เขียนฟังก์ชัน (function) `getSecondsToday()` ที่คืนค่าจำนวนวินาทีที่ผ่านมานับจากเวลาเที่ยงคืนของวันนี้
 
-For instance, if now were `10:00 am`, and there was no daylight savings shift, then:
+เช่น ถ้าตอนนี้เป็นเวลา `10:00 am` หรือสิบโมงเช้า และไม่มีการเปลี่ยนเวลาตามเวลาออมแสง (daylight saving time) จะได้ว่า:
 
 ```js
 getSecondsToday() == 36000 // (3600 * 10)
 ```
 
-The function should work in any day. That is, it should not have a hard-coded value of "today".
+ฟังก์ชันต้องใช้ได้ทุกวัน โดยหาว่าวันนี้เป็นวันที่เท่าไรขณะทำงาน ไม่เขียนวันที่ของ "วันนี้" เป็นค่าตายตัวในโค้ด

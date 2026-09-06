@@ -2,8 +2,8 @@ importance: 5
 
 ---
 
-# Create a date
+# สร้างวันที่
 
-Create a `Date` object for the date: Feb 20, 2012, 3:12am. The time zone is local.
+สร้างออบเจ็กต์ (object) `Date` ที่เก็บวันที่ 20 กุมภาพันธ์ 2012 เวลา 03:12 น. ตามเขตเวลาท้องถิ่น (local time zone)
 
-Show it using `alert`.
+แสดงค่าที่ได้ด้วย `alert`

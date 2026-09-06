@@ -2,13 +2,13 @@ importance: 5
 
 ---
 
-# Last day of month?
+# วันสุดท้ายของเดือนคือวันที่เท่าไร
 
-Write a function `getLastDayOfMonth(year, month)` that returns the last day of month. Sometimes it is 30th, 31st or even 28/29th for Feb.
+เขียนฟังก์ชัน (function) `getLastDayOfMonth(year, month)` ที่คืนค่าวันที่วันสุดท้ายของเดือน อาจเป็นวันที่ 30 หรือ 31 ส่วนเดือนกุมภาพันธ์อาจเป็นวันที่ 28 หรือ 29
 
-Parameters:
+พารามิเตอร์ (parameter):
 
-- `year` -- four-digits year, for instance 2012.
-- `month` -- month, from 0 to 11.
+- `year` คือปีแบบ 4 หลัก เช่น 2012
+- `month` คือหมายเลขเดือน ตั้งแต่ 0 ถึง 11
 
-For instance, `getLastDayOfMonth(2012, 1) = 29` (leap year, Feb).
+ตัวอย่างเช่น `getLastDayOfMonth(2012, 1) = 29` เพราะเดือนกุมภาพันธ์ในปีอธิกสุรทิน (leap year) มี 29 วัน

@@ -2,16 +2,16 @@ importance: 4
 
 ---
 
-# Format the relative date
+# แสดงวันที่โดยเทียบกับเวลาปัจจุบัน
 
-Write a function `formatDate(date)` that should format `date` as follows:
+เขียนฟังก์ชัน (function) `formatDate(date)` ที่จัดรูปแบบ `date` ตามระยะเวลาที่ผ่านมาจนถึงตอนนี้ โดยใช้เงื่อนไขต่อไปนี้:
 
-- If since `date` passed less than 1 second, then `"right now"`.
-- Otherwise, if since `date` passed less than 1 minute, then `"n sec. ago"`.
-- Otherwise, if less than an hour, then `"m min. ago"`.
-- Otherwise, the full date in the format `"DD.MM.YY HH:mm"`. That is: `"day.month.year hours:minutes"`, all in 2-digit format, e.g. `31.12.16 10:00`.
+- ถ้าผ่านมาน้อยกว่า 1 วินาที ให้คืนค่า `"right now"` ซึ่งหมายถึง "เมื่อสักครู่"
+- ถ้าไม่เข้าเงื่อนไขแรก แต่ยังไม่ถึง 1 นาที ให้คืนค่า `"n sec. ago"` โดย `n` คือจำนวนวินาทีที่ผ่านมา
+- ถ้าไม่เข้าเงื่อนไขก่อนหน้า แต่ยังไม่ถึง 1 ชั่วโมง ให้คืนค่า `"m min. ago"` โดย `m` คือจำนวนนาทีที่ผ่านมา
+- กรณีอื่น ให้คืนค่าวันที่และเวลาในรูปแบบ `"DD.MM.YY HH:mm"` หรือ "วัน.เดือน.ปี ชั่วโมง:นาที" ทุกส่วนใช้เลข 2 หลัก เช่น `31.12.16 10:00`
 
-For instance:
+ตัวอย่าง:
 
 ```js
 alert( formatDate(new Date(new Date - 1)) ); // "right now"
@@ -20,6 +20,6 @@ alert( formatDate(new Date(new Date - 30 * 1000)) ); // "30 sec. ago"
 
 alert( formatDate(new Date(new Date - 5 * 60 * 1000)) ); // "5 min. ago"
 
-// yesterday's date like 31.12.16 20:00
+// วันที่และเวลาของเมื่อวาน เช่น 31.12.16 20:00
 alert( formatDate(new Date(new Date - 86400 * 1000)) );
 ```

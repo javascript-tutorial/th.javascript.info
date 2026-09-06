@@ -1,4 +1,4 @@
-The idea is simple: to substract given number of days from `date`:
+เริ่มจากนำวันที่ในเดือนของ `date` มาลบด้วยจำนวนวันที่ต้องการย้อนหลัง:
 
 ```js
 function getDateAgo(date, days) {
@@ -7,9 +7,9 @@ function getDateAgo(date, days) {
 }
 ```
 
-...But the function should not change `date`. That's an important thing, because the outer code which gives us the date does not expect it to change.
+แต่ฟังก์ชัน (function) นี้แก้ไข `date` ไปด้วย ซึ่งผิดเงื่อนไขของโจทย์ โค้ดที่เรียกใช้ฟังก์ชันไม่ได้คาดว่าวันที่ที่ส่งเข้ามาจะเปลี่ยนไป
 
-To implement it let's clone the date, like this:
+เราจึงสร้างสำเนาของวันที่ แล้วแก้ไขเฉพาะสำเนา:
 
 ```js run demo
 function getDateAgo(date, days) {
@@ -21,7 +21,7 @@ function getDateAgo(date, days) {
 
 let date = new Date(2015, 0, 2);
 
-alert( getDateAgo(date, 1) ); // 1, (1 Jan 2015)
-alert( getDateAgo(date, 2) ); // 31, (31 Dec 2014)
-alert( getDateAgo(date, 365) ); // 2, (2 Jan 2014)
+alert( getDateAgo(date, 1) ); // 1 (1 มกราคม 2015)
+alert( getDateAgo(date, 2) ); // 31 (31 ธันวาคม 2014)
+alert( getDateAgo(date, 365) ); // 2 (2 มกราคม 2014)
 ```

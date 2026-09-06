@@ -2,14 +2,14 @@ importance: 5
 
 ---
 
-# How many seconds till tomorrow?
+# อีกกี่วินาทีจะถึงวันพรุ่งนี้
 
-Create a function `getSecondsToTomorrow()` that returns the number of seconds till tomorrow.
+สร้างฟังก์ชัน (function) `getSecondsToTomorrow()` ที่คืนค่าจำนวนวินาทีที่เหลือก่อนจะถึงเวลาเที่ยงคืนของวันพรุ่งนี้
 
-For instance, if now is `23:00`, then:
+เช่น ถ้าตอนนี้เป็นเวลา `23:00` จะได้ว่า:
 
 ```js
 getSecondsToTomorrow() == 3600
 ```
 
-P.S. The function should work at any day, the "today" is not hardcoded.
+ฟังก์ชันต้องใช้ได้ทุกวัน โดยหาว่าวันนี้เป็นวันที่เท่าไรขณะทำงาน ไม่เขียนวันที่ของ "วันนี้" เป็นค่าตายตัวในโค้ด

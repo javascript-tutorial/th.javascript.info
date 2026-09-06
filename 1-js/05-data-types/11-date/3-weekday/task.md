@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# European weekday
+# นับวันในสัปดาห์แบบยุโรป
 
-European countries have days of week starting with Monday (number 1), then Tuesday (number 2) and till Sunday (number 7). Write a function `getLocalDay(date)` that returns the "European" day of week for `date`.
+การนับวันในสัปดาห์แบบยุโรปเริ่มจากวันจันทร์เป็นหมายเลข 1 วันอังคารเป็นหมายเลข 2 ไปจนถึงวันอาทิตย์เป็นหมายเลข 7 ให้เขียนฟังก์ชัน (function) `getLocalDay(date)` ที่คืนค่าหมายเลขวันในสัปดาห์ของ `date` ตามวิธีนับนี้
 
 ```js no-beautify
-let date = new Date(2012, 0, 3);  // 3 Jan 2012
-alert( getLocalDay(date) );       // tuesday, should show 2
+let date = new Date(2012, 0, 3);  // 3 มกราคม 2012
+alert( getLocalDay(date) );       // วันอังคาร ควรแสดง 2
 ```

@@ -2,13 +2,13 @@ importance: 5
 
 ---
 
-# Show a weekday
+# แสดงชื่อวันในสัปดาห์
 
-Write a function `getWeekDay(date)` to show the weekday in short format: 'MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU'.
+เขียนฟังก์ชัน (function) `getWeekDay(date)` เพื่อแสดงชื่อวันในสัปดาห์เป็นตัวย่อภาษาอังกฤษ ได้แก่ 'MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU' ซึ่งหมายถึงวันจันทร์ถึงวันอาทิตย์ตามลำดับ
 
-For instance:
+ตัวอย่าง:
 
 ```js no-beautify
-let date = new Date(2012, 0, 3);  // 3 Jan 2012
-alert( getWeekDay(date) );        // should output "TU"
+let date = new Date(2012, 0, 3);  // 3 มกราคม 2012
+alert( getWeekDay(date) );        // ควรแสดง "TU"
 ```

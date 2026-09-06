@@ -1,22 +1,22 @@
-To get the number of seconds, we can generate a date using the current day and time 00:00:00, then substract it from "now".
+เริ่มจากสร้างวันที่ของวันนี้ที่เวลา 00:00:00 แล้วนำเวลาปัจจุบันมาลบด้วยค่านั้น
 
-The difference is the number of milliseconds from the beginning of the day, that we should divide by 1000 to get seconds:
+ผลต่างที่ได้คือจำนวนมิลลิวินาทีที่ผ่านมานับจากเที่ยงคืน จากนั้นหารด้วย 1000 เพื่อแปลงเป็นวินาที:
 
 ```js run
 function getSecondsToday() {
   let now = new Date();
 
-  // create an object using the current day/month/year
+  // สร้างวันที่โดยใช้วัน เดือน และปีปัจจุบัน
   let today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
-  let diff = now - today; // ms difference
-  return Math.round(diff / 1000); // make seconds
+  let diff = now - today; // ผลต่างในหน่วยมิลลิวินาที
+  return Math.round(diff / 1000); // แปลงเป็นวินาที
 }
 
 alert( getSecondsToday() );
 ```
 
-An alternative solution would be to get hours/minutes/seconds and convert them to seconds:
+อีกวิธีคืออ่านชั่วโมง นาที และวินาทีตามนาฬิกา แล้วแปลงทั้งหมดเป็นวินาที วิธีนี้ใช้ได้เมื่อไม่มีการเปลี่ยนเวลาตามเวลาออมแสง (daylight saving time) ระหว่างวัน หากมีการเปลี่ยนเวลา ชั่วโมงตามนาฬิกาอาจไม่ตรงกับระยะเวลาที่ผ่านมาจริง:
 
 ```js run
 function getSecondsToday() {
@@ -26,3 +26,5 @@ function getSecondsToday() {
 
 alert( getSecondsToday() );
 ```
+
+วิธีแรกใช้ `Math.round` ปัดเศษวินาที ส่วนวิธีหลังไม่นับเศษมิลลิวินาที ผลจึงอาจต่างกัน 1 วินาทีแม้ไม่มีการเปลี่ยนเวลาออมแสง
