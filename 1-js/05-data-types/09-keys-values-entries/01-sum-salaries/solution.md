@@ -17,7 +17,7 @@ let salaries = {
 
 alert( sumSalaries(salaries) ); // 650
 ```
-หรืออีกทางหนึ่ง เราสามารถใช้ `Object.values` ร่วมกับ `reduce` เพื่อหาผลรวมได้เช่นกัน:
+อีกวิธีคือใช้ `Object.values` ร่วมกับ `reduce` เพื่อหาผลรวมของเงินเดือน:
 
 ```js
 // reduce วนซ้ำผ่านอาร์เรย์ของเงินเดือน
