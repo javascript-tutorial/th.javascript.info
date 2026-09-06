@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# Destructuring assignment
+# แยกค่าด้วย destructuring assignment
 
-We have an object:
+กำหนดออบเจ็กต์ (object) ให้ดังนี้:
 
 ```js
 let user = {
@@ -13,18 +13,18 @@ let user = {
 };
 ```
 
-Write the destructuring assignment that reads:
+เขียน destructuring assignment เพื่ออ่านค่าจากพร็อพเพอร์ตี้ (property) มาใส่ตัวแปร (variable) ตามเงื่อนไขต่อไปนี้:
 
-- `name` property into the variable `name`.
-- `years` property into the variable `age`.
-- `isAdmin` property into the variable `isAdmin` (false, if no such property)
+- นำค่าของ `name` มาใส่ตัวแปร `name`
+- นำค่าของ `years` มาใส่ตัวแปร `age`
+- นำค่าของ `isAdmin` มาใส่ตัวแปร `isAdmin` ถ้าไม่มีพร็อพเพอร์ตี้นี้ ให้ใช้ค่า `false`
 
-Here's an example of the values after your assignment:
+เมื่อกำหนดค่าแล้ว ตัวแปรควรมีค่าตามตัวอย่างนี้:
 
 ```js
 let user = { name: "John", years: 30 };
 
-// your code to the left side:
+// เขียนโค้ดของคุณทางซ้ายของเครื่องหมายเท่ากับ:
 // ... = user
 
 alert( name ); // John

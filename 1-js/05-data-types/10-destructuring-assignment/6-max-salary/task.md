@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# The maximal salary 
+# หาคนที่ได้เงินเดือนสูงสุด
 
-There is a `salaries` object:
+กำหนดออบเจ็กต์ (object) `salaries` ให้ดังนี้:
 
 ```js
 let salaries = {
@@ -14,9 +14,9 @@ let salaries = {
 };
 ```
 
-Create the function `topSalary(salaries)` that returns the name of the top-paid person.
+เขียนฟังก์ชัน (function) `topSalary(salaries)` ที่คืนค่า (return) เป็นชื่อของคนที่ได้เงินเดือนสูงสุด
 
-- If `salaries` is empty, it should return `null`.
-- If there are multiple top-paid persons, return any of them.
+- ถ้า `salaries` เป็นออบเจ็กต์ว่าง ให้คืนค่า `null`
+- ถ้ามีหลายคนได้เงินเดือนสูงสุดเท่ากัน ให้คืนชื่อคนใดคนหนึ่งในกลุ่มนั้น
 
-P.S. Use `Object.entries` and destructuring to iterate over key/value pairs.
+ให้ใช้ `Object.entries` ร่วมกับ destructuring เพื่อวนอ่านข้อมูลทีละคู่ โดยแต่ละคู่ประกอบด้วยคีย์ (key) และค่า
