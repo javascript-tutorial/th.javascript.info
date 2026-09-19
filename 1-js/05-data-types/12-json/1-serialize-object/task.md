@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# Turn the object into JSON and back
+# แปลงออบเจ็กต์ (object) เป็น JSON แล้วแปลงกลับ
 
-Turn the `user` into JSON and then read it back into another variable.
+แปลง `user` เป็น JSON แล้วอ่าน JSON นั้นกลับมาเป็นออบเจ็กต์ เก็บผลลัพธ์ไว้ในตัวแปร (variable) อีกตัวหนึ่ง
 
 ```js
 let user = {

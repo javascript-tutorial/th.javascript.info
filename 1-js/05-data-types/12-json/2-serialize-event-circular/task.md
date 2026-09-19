@@ -2,13 +2,13 @@ importance: 5
 
 ---
 
-# Exclude backreferences
+# ตัดการอ้างอิงที่วนกลับมา
 
-In simple cases of circular references, we can exclude an offending property from serialization by its name.
+ถ้ามีการอ้างอิงวนกลับ (circular reference) ที่ไม่ซับซ้อน เราอาจตรวจจากชื่อพร็อพเพอร์ตี้ (property) แล้วข้ามพร็อพเพอร์ตี้ที่ทำให้เกิดปัญหานั้นขณะแปลงเป็น JSON ได้
 
-But sometimes we can't just use the name, as it may be used both in circular references and normal properties. So we can check the property by its value.
+แต่บางครั้ง พร็อพเพอร์ตี้ที่ทำให้เกิดการอ้างอิงวนกลับอาจมีชื่อเดียวกับพร็อพเพอร์ตี้อื่นที่เราต้องการเก็บไว้ ถ้าตรวจจากชื่ออย่างเดียวก็จะแยกไม่ออก ในกรณีนี้เราเลือกตรวจจากค่าของพร็อพเพอร์ตี้แทนได้
 
-Write `replacer` function to stringify everything, but remove properties that reference `meetup`:
+เขียนฟังก์ชัน (function) `replacer` เพื่อแปลงข้อมูลทั้งหมดเป็น JSON โดยข้ามพร็อพเพอร์ตี้ที่อ้างอิงกลับมาที่ `meetup`:
 
 ```js run
 let room = {
@@ -22,16 +22,16 @@ let meetup = {
 };
 
 *!*
-// circular references
+// การอ้างอิงวนกลับ
 room.occupiedBy = meetup;
 meetup.self = meetup;
 */!*
 
 alert( JSON.stringify(meetup, function replacer(key, value) {
-  /* your code */
+  /* เติมโค้ดตรงนี้ */
 }));
 
-/* result should be:
+/* ผลลัพธ์ที่ควรได้:
 {
   "title":"Conference",
   "occupiedBy":[{"name":"John"},{"name":"Alice"}],
