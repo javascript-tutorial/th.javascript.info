@@ -1,4 +1,4 @@
-คำตอบ:
+เราใช้ wrapper ตั้งเวลาให้เรียกฟังก์ชัน (function) เดิมได้ดังนี้:
 
 ```js run demo
 function delay(f, ms) {
@@ -14,11 +14,11 @@ let f1000 = delay(alert, 1000);
 f1000("test"); // แสดง "test" หลังจาก 1000ms
 ```
 
-สังเกตว่าตรงนี้ใช้ arrow function เพราะอย่างที่เรารู้กัน arrow function ไม่มี `this` และ `arguments` เป็นของตัวเอง ดังนั้น `f.apply(this, arguments)` จะดึง `this` และ `arguments` มาจาก wrapper ภายนอก
+ฟังก์ชันที่ส่งให้ `setTimeout` เป็น arrow function ซึ่งไม่มี `this` และ `arguments` ของตัวเอง ดังนั้น `f.apply(this, arguments)` จึงใช้ `this` และอาร์กิวเมนต์ (argument) จาก wrapper ที่ครอบอยู่
 
-ถ้าเราส่งฟังก์ชันปกติเข้าไปแทน `setTimeout` จะเรียกฟังก์ชันนั้นโดยไม่มีอาร์กิวเมนต์ และ `this=window` (ในกรณีที่อยู่บนเบราว์เซอร์)
+ถ้าเปลี่ยน arrow function ตรงนี้เป็นฟังก์ชันปกติ `setTimeout` ในเบราว์เซอร์ (browser) จะเรียกฟังก์ชันนั้นโดยไม่มีอาร์กิวเมนต์และให้ `this` เป็น `window` จึงไม่ได้ค่าจากการเรียก wrapper ตามที่เราต้องการ
 
-เราก็ยังส่ง `this` ที่ถูกต้องได้โดยใช้ตัวแปรตัวกลาง แต่โค้ดจะยุ่งยากกว่าหน่อย:
+อีกวิธีคือเก็บ `this` ของ wrapper ไว้ในตัวแปร (variable) และใช้ rest parameters รับอาร์กิวเมนต์ไว้ก่อน แล้วนำทั้งสองอย่างไปใช้เมื่อถึงเวลาเรียก `f`:
 
 ```js
 function delay(f, ms) {
