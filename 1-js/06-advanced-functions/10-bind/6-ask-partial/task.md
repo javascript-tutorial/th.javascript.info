@@ -4,11 +4,11 @@ importance: 5
 
 # Partial application สำหรับ login
 
-โจทย์นี้เป็นเวอร์ชันที่ซับซ้อนขึ้นจาก <info:task/question-use-bind>
+โจทย์นี้ต่อยอดจาก <info:task/question-use-bind>
 
-ออบเจ็กต์ `user` ถูกแก้ไข ตอนนี้แทนที่จะมีสองฟังก์ชัน `loginOk/loginFail` กลับมีฟังก์ชันเดียวคือ `user.login(true/false)`
+คราวนี้ออบเจ็กต์ (object) `user` มีเมธอด (method) `login` เพียงตัวเดียวแทน `loginOk` และ `loginFail` โดยเรียกเป็น `user.login(true)` หรือ `user.login(false)` ตามผลการตรวจรหัสผ่าน
 
-เราควรส่งอะไรให้ `askPassword` ในโค้ดด้านล่าง เพื่อให้เรียก `user.login(true)` เมื่อรหัสถูก และ `user.login(false)` เมื่อรหัสผิด?
+เราควรส่งค่าอะไรให้ `askPassword` เพื่อให้คอลแบ็ก (callback) `ok` เรียก `user.login(true)` เมื่อรหัสผ่านถูกต้อง และคอลแบ็ก `fail` เรียก `user.login(false)` เมื่อไม่ถูกต้อง?
 
 ```js
 function askPassword(ok, fail) {
@@ -30,5 +30,5 @@ askPassword(?, ?); // ?
 */!*
 ```
 
-ให้แก้เฉพาะส่วนที่ไฮไลต์เท่านั้น
+ให้แก้เฉพาะส่วนที่เน้นไว้เท่านั้น
 
