@@ -1,7 +1,7 @@
 
-เมธอดนี้สามารถดึง key ที่เป็น enumerable ทั้งหมดด้วย `Object.keys` แล้วแสดงผลเป็นรายการ
+ภายในเมธอด (method) `toString` ใช้ `Object.keys(this)` เพื่อดึงชื่อพร็อพเพอร์ตี้ (property) ของออบเจ็กต์ (object) นี้เอง เฉพาะชื่อที่เป็นสตริง (string) และเปิดให้ไล่ชื่อได้ (enumerable) จากนั้น `join()` จะรวมชื่อเหล่านั้นเป็นสตริงเดียวโดยคั่นด้วยจุลภาค
 
-เพื่อให้ `toString` ไม่เป็น enumerable ก็กำหนดด้วย property descriptor ซึ่ง `Object.create` รับ descriptor เป็นอาร์กิวเมนต์ตัวที่สองได้เลย
+วิธีนี้กำหนด `toString` ตั้งแต่ตอนสร้าง `dictionary` อาร์กิวเมนต์ (argument) ตัวที่สองของ `Object.create` เป็นออบเจ็กต์ที่จับคู่ชื่อพร็อพเพอร์ตี้กับรายละเอียดของชื่อนั้น (property descriptor) สำหรับชื่อ `toString` ตัว descriptor คือออบเจ็กต์ชั้นในที่กำหนด `value` ให้เป็นฟังก์ชัน (function)
 
 ```js run
 *!*
@@ -26,6 +26,6 @@ for(let key in dictionary) {
 alert(dictionary); // "apple,__proto__"
 ```
 
-เมื่อสร้างพร็อพเพอร์ตี้ด้วย descriptor แฟล็กทั้งหมดจะเป็น `false` โดยปริยาย ดังนั้นในโค้ดด้านบน `dictionary.toString` จึงไม่เป็น enumerable
+เมื่อสร้างพร็อพเพอร์ตี้ด้วย descriptor แฟล็ก (flag) ที่ไม่ได้ระบุจะมีค่าเริ่มต้นเป็น `false` ในตัวอย่างนี้ `enumerable` ของ `toString` จึงเป็น `false` ทั้ง `for..in` และ `Object.keys` จึงข้ามชื่อนี้ไป
 
-ทบทวนเพิ่มเติมได้ในบท [](info:property-descriptors)
+ทบทวนเรื่องแฟล็กได้ในบท [](info:property-descriptors)

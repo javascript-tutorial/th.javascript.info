@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# เปลี่ยน "prototype"
+# เมื่อเปลี่ยนค่า prototype
 
-ในโค้ดด้านล่าง เราสร้าง `new Rabbit` แล้วลองเปลี่ยน prototype ของมัน
+เราจะสร้าง `rabbit` ด้วย `new Rabbit()` แล้วลองเปลี่ยน `Rabbit.prototype` หรือแก้หรือลบพร็อพเพอร์ตี้ (property) ชื่อ `eats` ดูว่าแต่ละกรณีส่งผลต่อค่าของ `rabbit.eats` อย่างไร
 
-เริ่มต้นเรามีโค้ดนี้:
+ทั้งสี่ข้อเริ่มจากโค้ดชุดเดียวกันนี้ ให้พิจารณาแต่ละข้อแยกกัน
 
 ```js run
 function Rabbit() {}
@@ -20,7 +20,7 @@ alert( rabbit.eats ); // true
 ```
 
 
-1. เราเพิ่มบรรทัดใหม่เข้าไป (ส่วนที่เน้นสี) คราวนี้ `alert` จะแสดงอะไร?
+1. ถ้าเพิ่มบรรทัดที่เน้นไว้หลังจากสร้าง `rabbit` แล้ว `alert` จะแสดงอะไร?
 
     ```js
     function Rabbit() {}
@@ -37,7 +37,7 @@ alert( rabbit.eats ); // true
     alert( rabbit.eats ); // ?
     ```
 
-2. ...แล้วถ้าโค้ดเป็นแบบนี้ล่ะ (เปลี่ยนบรรทัดเดียว)?
+2. ถ้าเปลี่ยนบรรทัดที่เน้นเป็น `Rabbit.prototype.eats = false` จะได้ผลอย่างไร?
 
     ```js
     function Rabbit() {}
@@ -54,7 +54,7 @@ alert( rabbit.eats ); // true
     alert( rabbit.eats ); // ?
     ```
 
-3. แล้วถ้าเป็นแบบนี้ (เปลี่ยนบรรทัดเดียว)?
+3. ถ้าบรรทัดที่เน้นคือ `delete rabbit.eats` ล่ะ?
 
     ```js
     function Rabbit() {}
@@ -71,7 +71,7 @@ alert( rabbit.eats ); // true
     alert( rabbit.eats ); // ?
     ```
 
-4. แบบสุดท้าย:
+4. ข้อสุดท้าย ถ้าใช้ `delete Rabbit.prototype.eats` แล้ว `alert` จะแสดงอะไร?
 
     ```js
     function Rabbit() {}

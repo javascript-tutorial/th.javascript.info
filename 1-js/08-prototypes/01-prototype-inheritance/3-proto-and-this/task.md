@@ -2,11 +2,11 @@ importance: 5
 
 ---
 
-# เขียนค่าลงที่ไหน?
+# เมธอด (method) เขียนค่าลงที่ไหน?
 
-เรามี `rabbit` สืบทอดจาก `animal`
+ในตัวอย่างนี้ ออบเจ็กต์ (object) ชื่อ `rabbit` สืบทอดจาก `animal`
 
-ถ้าเรียก `rabbit.eat()` ออบเจ็กต์ไหนจะได้รับพร็อพเพอร์ตี้ `full`: `animal` หรือ `rabbit`?
+เมื่อเรียก `rabbit.eat()` พร็อพเพอร์ตี้ (property) ชื่อ `full` จะไปอยู่ใน `animal` หรือ `rabbit`?
 
 ```js
 let animal = {

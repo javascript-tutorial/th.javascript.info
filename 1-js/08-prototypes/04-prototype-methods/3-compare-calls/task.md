@@ -2,9 +2,9 @@ importance: 5
 
 ---
 
-# ความแตกต่างระหว่างการเรียก
+# เรียก sayHi() สี่แบบ ได้ผลเหมือนกันไหม?
 
-สร้างออบเจ็กต์ `rabbit` ขึ้นมาใหม่:
+โค้ดนี้สร้างออบเจ็กต์ (object) ชื่อ `rabbit` ขึ้นมา
 
 ```js
 function Rabbit(name) {
@@ -17,7 +17,7 @@ Rabbit.prototype.sayHi = function() {
 let rabbit = new Rabbit("Rabbit");
 ```
 
-การเรียกเหล่านี้ให้ผลลัพธ์เหมือนกันหรือไม่?
+ถ้าเรียกเมธอด (method) `sayHi` ทั้งสี่แบบด้านล่าง แต่ละบรรทัดจะแสดงอะไร?
 
 ```js
 rabbit.sayHi();

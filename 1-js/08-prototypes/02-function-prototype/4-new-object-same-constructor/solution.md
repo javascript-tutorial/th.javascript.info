@@ -1,6 +1,6 @@
-วิธีนี้ใช้ได้ก็ต่อเมื่อเรามั่นใจว่าพร็อพเพอร์ตี้ `"constructor"` ชี้ไปยังค่าที่ถูกต้อง
+วิธีนี้ใช้ได้เมื่อพร็อพเพอร์ตี้ (property) ชื่อ `constructor` ที่อ่านจากออบเจ็กต์ (object) ยังชี้ไปที่คอนสตรักเตอร์ (constructor) ที่เราใช้สร้างออบเจ็กต์นั้น
 
-ยกตัวอย่าง ถ้าเราไม่ไปแตะ `"prototype"` เริ่มต้น โค้ดนี้ก็จะทำงานได้:
+ตัวอย่างเช่น ถ้าใช้ `User.prototype` ตามค่าเริ่มต้น เราก็ใช้ `user.constructor` สร้างออบเจ็กต์อีกตัวได้
 
 ```js run
 function User(name) {
@@ -13,11 +13,11 @@ let user2 = new user.constructor('Pete');
 alert( user2.name ); // Pete (ทำงานได้!)
 ```
 
-ทำงานได้เพราะ `User.prototype.constructor == User`
+เมื่ออ่าน `user.constructor` เราจะได้ `User.prototype.constructor` ซึ่งชี้ไปที่ `User` ดังนั้น `User` จึงทำงานอีกครั้งและกำหนด `name` ของ `user2` เป็น `"Pete"`
 
-..แต่ถ้ามีใครไปเขียนทับ `User.prototype` แล้วลืมกำหนด `constructor` ให้ชี้กลับไปที่ `User` โค้ดก็จะพังทันที
+แต่ถ้าเราแทนที่ `User.prototype` ด้วยออบเจ็กต์ใหม่ แล้วไม่ได้กำหนด `constructor` ให้ชี้กลับไปที่ `User` การอ่าน `user.constructor` จะได้ค่าอื่น
 
-ยกตัวอย่าง:
+ลองดูผลเมื่อกำหนด `User.prototype = {}` ก่อนสร้าง `user`
 
 ```js run
 function User(name) {
@@ -35,15 +35,15 @@ alert( user2.name ); // undefined
 
 ทำไม `user2.name` ถึงเป็น `undefined`?
 
-มาดูกันว่า `new user.constructor('Pete')` ทำงานอย่างไร:
+ลองไล่ดูว่า `new user.constructor('Pete')` หาคอนสตรักเตอร์จากที่ไหน
 
-1. แรกสุดจะหา `constructor` ใน `user` ก่อน -- ไม่เจอ
-2. จากนั้นก็ไล่ขึ้นไปตาม prototype chain โปรโตไทป์ของ `user` คือ `User.prototype` ซึ่งก็ไม่มี `constructor` เช่นกัน (เพราะเรา "ลืม" กำหนดไว้)
-3. ไล่ขึ้นไปอีก `User.prototype` เป็นออบเจ็กต์ธรรมดา ซึ่งโปรโตไทป์คือ `Object.prototype` ที่มีมาในตัว
-4. สุดท้ายก็ไปเจอ `Object.prototype.constructor == Object` จึงใช้ตัวนี้แทน
+1. JavaScript หา `constructor` บน `user` เองก่อน แต่ไม่พบ
+2. จากนั้นจึงหาบนโปรโตไทป์ (prototype) ของ `user` นั่นคือออบเจ็กต์ว่างที่เรากำหนดให้ `User.prototype` ออบเจ็กต์นี้ก็ไม่มี `constructor` ของตัวเอง
+3. ออบเจ็กต์ว่างนั้นมี `Object.prototype` เป็นโปรโตไทป์ จึงค้นหาต่อที่ `Object.prototype`
+4. ที่นี่มี `Object.prototype.constructor` ซึ่งชี้ไปที่ `Object` จึงได้ `Object` เป็นคอนสตรักเตอร์
 
-สรุปแล้วสิ่งที่เกิดขึ้นคือ `let user2 = new Object('Pete')`
+บรรทัดที่สร้าง `user2` จึงให้ผลเหมือนเขียน `let user2 = new Object('Pete')`
 
-ซึ่งไม่ใช่สิ่งที่เราต้องการ เราอยากสร้าง `new User` ไม่ใช่ `new Object` ทั้งหมดนี้เกิดจากการที่ `constructor` หายไป
+คอนสตรักเตอร์ `User` ไม่ได้ทำงาน จึงไม่มีการกำหนดพร็อพเพอร์ตี้ `name` ให้ `user2` เมื่ออ่าน `user2.name` จึงได้ `undefined`
 
-(เกร็ดเล็กๆ: `new Object(...)` จะแปลงอาร์กิวเมนต์ให้เป็นออบเจ็กต์ แต่เป็นแค่ความรู้ทางทฤษฎี ในทางปฏิบัติไม่มีใครเรียก `new Object` โดยส่งค่าเข้าไป และโดยทั่วไปเราก็ไม่ใช้ `new Object` ในการสร้างออบเจ็กต์อยู่แล้ว)
+ในตัวอย่างนี้ `new Object('Pete')` แปลงอาร์กิวเมนต์ (argument) `'Pete'` ให้เป็นออบเจ็กต์ ในการเขียนโปรแกรมทั่วไปเราแทบไม่ได้ใช้ `new Object` เพื่อแปลงค่าหรือสร้างออบเจ็กต์แบบนี้
